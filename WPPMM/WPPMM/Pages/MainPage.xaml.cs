@@ -1,7 +1,9 @@
 ﻿using Microsoft.Phone.Controls;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using WPPMM.Json;
+using WPPMM.Ssdp;
 
 namespace WPPMM
 {
@@ -15,9 +17,20 @@ namespace WPPMM
             // ApplicationBar をローカライズするためのサンプル コード
             //BuildLocalizedApplicationBar();
 
+            string req = Request.actTakePicture();
+            Debug.WriteLine(req);
+
+            req = Request.actZoom("in", "1shot");
+            Debug.WriteLine(req);
+
+            req = Request.setSelfTimer(1);
+            Debug.WriteLine(req);
+
             string json = "{\"result\": [[\"http://ip:port/postview/postview.jpg\"]],\"id\": 1}";
 
-            ResultHandler.ActTakePicture(json, new Action<int>(HandleError), new Action<string[]>(HandleActTakePictureResult));
+            ResultHandler.ActTakePicture(json, HandleError, HandleActTakePictureResult);
+
+            DeviceDiscovery.SearchScalarDevices(10, HandleDDLocation, HandleSsdpError);
         }
 
         private void HandleError(int code)
@@ -31,6 +44,26 @@ namespace WPPMM
             foreach (var url in urls)
             {
                 Debug.WriteLine("URL: " + url);
+            }
+        }
+
+        private void HandleDDLocation(string dd_url)
+        {
+            Debug.WriteLine("handle dd location: " + dd_url);
+            DeviceDiscovery.RetrieveEndpoints(dd_url, HandleEndpoints, HandleSsdpError);
+        }
+
+        private void HandleSsdpError()
+        {
+            Debug.WriteLine("handle ssdp error");
+        }
+
+        private void HandleEndpoints(Dictionary<string, string> endpoints)
+        {
+            Debug.WriteLine("handle endpoints");
+            foreach (var service in endpoints.Keys)
+            {
+                Debug.WriteLine("Endpoint of " + service + ": " + endpoints[service]);
             }
         }
 

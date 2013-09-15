@@ -96,6 +96,7 @@ namespace WPPMM
         {
             if (Debugger.IsAttached)
             {
+                Debug.WriteLine(e.ExceptionObject.StackTrace);
                 // ハンドルされない例外が発生しました。デバッガーで中断します。
                 Debugger.Break();
             }

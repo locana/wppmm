@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace WPPMM.Ssdp
 {
-    public class DevideDiscovery
+    public class DeviceDiscovery
     {
         private const string multicast_address = "239.255.255.250";
         private const int ssdp_port = 1900;
@@ -38,8 +38,11 @@ namespace WPPMM.Ssdp
                 .Append("MAN: ").Append("\"ssdp:discover\"").Append("\r\n")
                 .Append("MX: ").Append(MX.ToString()).Append("\r\n")
                 .Append("ST: urn:schemas-sony-com:service:ScalarWebAPI:1").Append("\r\n")
+                //.Append("ST: ssdp:all").Append("\r\n") // For debug
                 .Append("\r\n")
                 .ToString();
+
+            Debug.WriteLine(ssdp_data);
 
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             byte[] data_byte = Encoding.UTF8.GetBytes(ssdp_data);
@@ -52,7 +55,7 @@ namespace WPPMM.Ssdp
             SocketAsyncEventArgs rcv_event_args = new SocketAsyncEventArgs();
             rcv_event_args.SetBuffer(new byte[result_buffer], 0, result_buffer);
 
-            snd_event_args.Completed += new EventHandler<SocketAsyncEventArgs>((sender, e) =>
+            var snd_handler = new EventHandler<SocketAsyncEventArgs>((sender, e) =>
             {
                 if (e.SocketError == SocketError.Success && e.LastOperation == SocketAsyncOperation.SendTo)
                 {
@@ -60,13 +63,14 @@ namespace WPPMM.Ssdp
                     socket.ReceiveAsync(rcv_event_args);
                 }
             });
+            snd_event_args.Completed += snd_handler;
 
-            rcv_event_args.Completed += new EventHandler<SocketAsyncEventArgs>((sender, e) =>
+            var rcv_handler = new EventHandler<SocketAsyncEventArgs>((sender, e) =>
             {
                 if (e.SocketError == SocketError.Success && e.LastOperation == SocketAsyncOperation.Receive)
                 {
                     string result = Encoding.UTF8.GetString(e.Buffer, 0, e.BytesTransferred);
-                    Debug.WriteLine(result);
+                    //Debug.WriteLine(result);
 
                     var dd_location = ParseDDLocation(result);
                     if (dd_location != null)
@@ -77,10 +81,13 @@ namespace WPPMM.Ssdp
                     socket.ReceiveAsync(e);
                 }
             });
+            rcv_event_args.Completed += rcv_handler;
 
             TimerCallback cb = new TimerCallback((state) =>
             {
                 Debug.WriteLine("SSDP Timeout");
+                snd_event_args.Completed -= snd_handler;
+                rcv_event_args.Completed -= rcv_handler;
                 socket.Close();
                 OnTimeout.Invoke();
             });
@@ -131,7 +138,7 @@ namespace WPPMM.Ssdp
             {
                 var req = HttpWebRequest.Create(new Uri(dd_url)) as HttpWebRequest;
                 req.Method = "GET";
-                req.BeginGetResponse(new AsyncCallback(OnDDObtained), new DDRequestInfo { req = req, OnResult = OnResult, OnError = OnError });
+                req.BeginGetResponse(OnDDObtained, new DDRequestInfo { req = req, OnResult = OnResult, OnError = OnError });
             }
             catch (UriFormatException)
             {
@@ -141,7 +148,7 @@ namespace WPPMM.Ssdp
 
         private static void OnDDObtained(IAsyncResult ar)
         {
-            var info = ar as DDRequestInfo;
+            var info = ar.AsyncState as DDRequestInfo;
 
             try
             {
@@ -153,7 +160,7 @@ namespace WPPMM.Ssdp
                         var dic = GetEndpointsFromDD(reader.ReadToEnd());
                         info.OnResult.Invoke(dic);
                     }
-                    catch (MissingFieldException)
+                    catch (XmlException)
                     {
                         info.OnError.Invoke();
                     }
@@ -172,11 +179,11 @@ namespace WPPMM.Ssdp
             XDocument xml = XDocument.Parse(response);
             var info = xml.Element("av:X_ScalarWebAPI_DeviceInfo");
             if (info == null)
-                throw new MissingFieldException("av:X_ScalarWebAPI_DeviceInfo");
+                throw new XmlException("av:X_ScalarWebAPI_DeviceInfo");
 
             var list = info.Element("av:X_ScalarWebAPI_ServiceList");
             if (list == null)
-                throw new MissingFieldException("av:X_ScalarWebAPI_ServiceList");
+                throw new XmlException("av:X_ScalarWebAPI_ServiceList");
 
             foreach (var service in list.Elements())
             {

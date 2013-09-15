@@ -2,14 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-<<<<<<< HEAD
 using WPPMM.Json;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Tasks;
-=======
-using WPPMM.Json;
 using WPPMM.Ssdp;
->>>>>>> 3432a7b26e890158e28c4cc198722430d799d19e
 
 namespace WPPMM
 {
@@ -26,7 +22,6 @@ namespace WPPMM
             // ApplicationBar をローカライズするためのサンプル コード
             //BuildLocalizedApplicationBar();
 
-<<<<<<< HEAD
             string json = "{\"result\": [[\"http://ip:port/postview/postview.jpg\"]],\"id\": 1}";
 
             ResultHandler.ActTakePicture(json, new Action<int>(HandleError), new Action<string[]>(HandleActTakePictureResult));
@@ -74,10 +69,6 @@ namespace WPPMM
             connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
             connectionSettingsTask.Show();
         }
-=======
-        }
-
->>>>>>> 3432a7b26e890158e28c4cc198722430d799d19e
 
         // ローカライズされた ApplicationBar を作成するためのサンプル コード
         //private void BuildLocalizedApplicationBar()

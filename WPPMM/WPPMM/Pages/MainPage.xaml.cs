@@ -2,11 +2,16 @@
 using System;
 using System.Diagnostics;
 using WPPMM.Json;
+using Microsoft.Phone.Net.NetworkInformation;
+using Microsoft.Phone.Tasks;
 
 namespace WPPMM
 {
     public partial class MainPage : PhoneApplicationPage
     {
+
+        private bool isWiFiConnected;
+
         // コンストラクター
         public MainPage()
         {
@@ -18,6 +23,9 @@ namespace WPPMM
             string json = "{\"result\": [[\"http://ip:port/postview/postview.jpg\"]],\"id\": 1}";
 
             ResultHandler.ActTakePicture(json, new Action<int>(HandleError), new Action<string[]>(HandleActTakePictureResult));
+
+            // get current network status
+            UpdateNetworkStatus();
         }
 
         private void HandleError(int code)
@@ -32,6 +40,32 @@ namespace WPPMM
             {
                 Debug.WriteLine("URL: " + url);
             }
+        }
+
+        private void UpdateNetworkStatus()
+        {
+            isWiFiConnected = false;
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.Append("Network available:  ");
+            sb.AppendLine(DeviceNetworkInformation.IsNetworkAvailable.ToString());
+            sb.Append("Cellular enabled:  ");
+            sb.AppendLine(DeviceNetworkInformation.IsCellularDataEnabled.ToString());
+            sb.Append("Roaming enabled:  ");
+            sb.AppendLine(DeviceNetworkInformation.IsCellularDataRoamingEnabled.ToString());
+            sb.Append("Wi-Fi enabled:  ");
+            sb.AppendLine(DeviceNetworkInformation.IsWiFiEnabled.ToString());
+            NetworkStatus.Text = sb.ToString();
+
+            isWiFiConnected = DeviceNetworkInformation.IsWiFiEnabled;
+
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
+            connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
+            connectionSettingsTask.Show();
         }
 
         // ローカライズされた ApplicationBar を作成するためのサンプル コード

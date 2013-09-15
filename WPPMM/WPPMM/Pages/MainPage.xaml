@@ -41,13 +41,22 @@
 
         <!--TitlePanel は、アプリケーション名とページ タイトルを格納します-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="マイ アプリケーション" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
-            <TextBlock Text="ページ名" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+            <TextBlock Text="hoge" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="36"/>
         </StackPanel>
 
         <!--ContentPanel - 追加コンテンツをここに入力します-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Add splash screen here if the idiots request." VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="1" Name="NetworkStatus" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+            <Button Grid.Row="2" Content="{Binding Path=LocalizedResources.WifiSettingLauncherButtonText, Source={StaticResource LocalizedStrings}}" 
+                    HorizontalAlignment="Center" Margin="0,10,0,10" VerticalAlignment="Top" Click="Button_Click"/>
+            
         </Grid>
 
         <!--コメントを解除してアライメント グリッドを表示し、コントロールが共通の

@@ -78,12 +78,14 @@ namespace WPPMM
 
         private void SearchButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            cameraManager.RequestSearchDevices();
+            cameraManager.InitializeConnection();
+            ProgressBar.IsIndeterminate = true;
+
         }
 
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("Pages/LiveViewScreen.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
         // ローカライズされた ApplicationBar を作成するためのサンプル コード

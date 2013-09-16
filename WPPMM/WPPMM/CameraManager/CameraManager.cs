@@ -22,10 +22,13 @@ namespace WPPMM.CameraManager
         private static String liveViewUrl = null;
         private Liveview.LVProcessor lvProcessor = null;
 
-        private static Action<String> wifiStatusListener = null;
+        private static String friendlyName = "NEX-5R";
+
+        private static List<Action> UpdateListeners;
 
         private CameraManager()
         {
+            UpdateListeners = new List<Action>();
            
         }
 
@@ -39,33 +42,57 @@ namespace WPPMM.CameraManager
             requestSearchDevices();
         }
 
-        public void StartRecmodeAndStartLiveView()
+        public void StartLiveView()
+        {
+            if (friendlyName == "NEX-5R")
+            {
+                RequestStartRecmode();
+            }
+            else
+            {
+                RequestStartLiveView();
+            }
+        }
+
+
+
+
+        // request and callback
+        public void RequestStartRecmode()
         {
             if (endpoint == null)
             {
                 Debug.WriteLine("error: endpoint is null");
             }
 
+            // override endpoint
+            // endpoint = "http://192.168.122.1:8080/sony/index.html";
+
             Debug.WriteLine("endpoint: " + endpoint);
             String jsonReq = Json.Request.startRecMode();
             Debug.WriteLine("request json: " + jsonReq);
             
-            // for NEX-5R, change recmode before startLiveView
-            Json.XhrPost.Post(
-                endpoint,
-                jsonReq,
-                OnStartRecmode,
-                OnError);
+            Json.XhrPost.Post(endpoint, jsonReq, OnStartRecmode, OnError);
     
         }
 
         public void OnStartRecmode(String json)
         {
             Debug.WriteLine("OnStartRecmode: " + json);
+
+            Json.ResultHandler.StartRecMode(json, OnError, OnStartRecmodeResult);
+        }
+
+        public void OnStartRecmodeResult()
+        {
+            // finally, startrecMode is done.
+            // for NEX-5R, starting to request liveview
+
+            RequestStartLiveView();
         }
 
         // live view
-        public void StartLiveView()
+        public void RequestStartLiveView()
         {
             
 
@@ -81,10 +108,33 @@ namespace WPPMM.CameraManager
             Json.XhrPost.Post(endpoint, requestJson, OnStartLiveViewRetrieved, OnError);
         }
 
+
         public void OnStartLiveViewRetrieved(String json)
         {
             Debug.WriteLine("StartLiveView retrieved: " + json);
+            Json.ResultHandler.StartLiveview(json, OnError, OnStartLiveViewResult);
 
+        }
+
+        public void OnStartLiveViewResult(String result)
+        {
+            // finally, url for liveView has get
+            Debug.WriteLine("OnStartLiveViewResult: " + result);
+            liveViewUrl = result;
+            NoticeUpdate();
+        }
+
+        // connect 
+        public void ConnectLiveView()
+        {
+            lvProcessor = new LVProcessor();
+
+            if (lvProcessor == null || liveViewUrl == null)
+            {
+                Debug.WriteLine("error: liveProcessor or liveViewUrl is null");
+            }
+
+            lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
         }
 
         // callback methods (liveview)
@@ -110,10 +160,13 @@ namespace WPPMM.CameraManager
         {
             dd_location = location;
             Debug.WriteLine("found dd_location: " + location);
-            Deployment.Current.Dispatcher.BeginInvoke(() => { wifiStatusListener("found dd_location" + location); });
-            
+            NoticeUpdate();
+
+            // override dd_location for debug.
+            // dd_location = "http://192.168.122.1:8080/sony/index.html";
 
             // get endpoint
+            
             Ssdp.DeviceDiscovery.RetrieveEndpoints(dd_location, OnRetrieveEndpoints, OnError);
         }
 
@@ -138,9 +191,7 @@ namespace WPPMM.CameraManager
         public static void OnTimeout()
         {
             Debug.WriteLine("request timeout.");
-            Deployment.Current.Dispatcher.BeginInvoke(
-                () => { wifiStatusListener("hoge"); });
-            
+            NoticeUpdate();            
         }
 
         public static void OnError()
@@ -155,11 +206,30 @@ namespace WPPMM.CameraManager
 
 
 
-        // callback for UI
-        public void SetWiFiStatusListener(Action<String> listener)
+        // getter
+        public static String GetDDlocation()
         {
-            wifiStatusListener = listener;
-                
+            return dd_location;
+        }
+
+        public static String GetLiveviewUrl()
+        {
+            return liveViewUrl;
+        }
+
+        // register callback for UI
+        public void RegisterUpdateListener(Action listener)
+        {
+            UpdateListeners.Add(listener);                
+        }
+
+        // Notice update to UI classes
+        private static void NoticeUpdate()
+        {
+            foreach (Action action in UpdateListeners)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() => { action(); });
+            }           
         }
 
     }

@@ -15,13 +15,28 @@ namespace WPPMM.Pages
     {
 
         private CameraManager.CameraManager cameraManager = null;
+        private bool isRequestingLiveview = false;
 
         public LiveViewScreen()
         {
             InitializeComponent();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
-            cameraManager.StartRecmodeAndStartLiveView();
+            cameraManager.RegisterUpdateListener(UpdateListener);
+            cameraManager.StartLiveView();
+
+            isRequestingLiveview = true;
+            // cameraManager.StartLiveView();
+        }
+
+        public void UpdateListener()
+        {
+            if (isRequestingLiveview && CameraManager.CameraManager.GetLiveviewUrl() != null)
+            {
+                // starting liveview
+                cameraManager.ConnectLiveView();
+            }
+                
         }
     }
 }

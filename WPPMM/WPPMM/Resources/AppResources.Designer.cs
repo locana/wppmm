@@ -133,6 +133,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to スマートリモコン開始.
+        /// </summary>
+        public static string StartRemoteControllingButtonText {
+            get {
+                return ResourceManager.GetString("StartRemoteControllingButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wi-Fi設定.
         /// </summary>
         public static string WifiSettingLauncherButtonText {

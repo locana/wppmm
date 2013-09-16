@@ -65,6 +65,7 @@ namespace WPPMM
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = "";
+                SearchButton.IsEnabled = true;
             }
             else
             {
@@ -72,7 +73,7 @@ namespace WPPMM
             }
 
             // display initialize
-            cameraManager.SetWiFiStatusListener(changeMessageState);
+            cameraManager.RegisterUpdateListener(WifiUpdateListener);
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
 
         }
@@ -96,9 +97,15 @@ namespace WPPMM
             NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
-        public void changeMessageState(String message)
+        public void WifiUpdateListener()
         {
-            NetworkStatus.Text = message;
+            String ddLocation = CameraManager.CameraManager.GetDDlocation();
+            if (ddLocation != null)
+            {
+                NetworkStatus.Text = "DD location: " + CameraManager.CameraManager.GetDDlocation();
+                StartRemoteButton.IsEnabled = true;
+            }
+            
         }
 
 

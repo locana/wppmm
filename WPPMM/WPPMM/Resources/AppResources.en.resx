@@ -146,4 +146,7 @@
   <data name="SearchDevideButtonText" xml:space="preserve">
     <value>Search supported camera</value>
   </data>
+  <data name="StartRemoteControllingButtonText" xml:space="preserve">
+    <value>Start remote controlling</value>
+  </data>
 </root>

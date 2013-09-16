@@ -97,11 +97,29 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 機器に接続後、デバイス検索を押してください.
+        /// </summary>
+        public static string CautionMessage_NoDDLocation {
+            get {
+                return ResourceManager.GetString("CautionMessage_NoDDLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to デバイス一覧.
         /// </summary>
         public static string DeviceListTitle {
             get {
                 return ResourceManager.GetString("DeviceListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 機器の電源を入れ、リモコンを起動してください。.
+        /// </summary>
+        public static string GuideMessage_01 {
+            get {
+                return ResourceManager.GetString("GuideMessage_01", resourceCulture);
             }
         }
         

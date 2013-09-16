@@ -146,6 +146,12 @@
   <data name="SearchDevideButtonText" xml:space="preserve">
     <value>デバイス検索</value>
   </data>
+  <data name="CautionMessage_NoDDLocation" xml:space="preserve">
+    <value>機器に接続後、デバイス検索を押してください</value>
+  </data>
+  <data name="GuideMessage_01" xml:space="preserve">
+    <value>機器の電源を入れ、リモコンを起動してください。</value>
+  </data>
   <data name="StartRemoteControllingButtonText" xml:space="preserve">
     <value>スマートリモコン開始</value>
   </data>

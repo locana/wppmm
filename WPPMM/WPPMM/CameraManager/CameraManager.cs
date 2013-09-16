@@ -70,6 +70,7 @@ namespace WPPMM.CameraManager
 
             Debug.WriteLine("endpoint: " + endpoint);
             String jsonReq = Json.Request.startRecMode();
+
             Debug.WriteLine("request json: " + jsonReq);
             
             Json.XhrPost.Post(endpoint, jsonReq, OnStartRecmode, OnError);
@@ -140,7 +141,11 @@ namespace WPPMM.CameraManager
         // callback methods (liveview)
         public void OnJpegRetrieved(byte[] data)
         {
-            Debug.WriteLine("Jpeg retrived.");
+            int size = data.Length;
+            Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
+
+
+
         }
 
         public void OnLiveViewClosed()

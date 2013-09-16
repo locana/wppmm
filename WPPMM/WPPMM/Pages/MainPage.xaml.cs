@@ -7,6 +7,7 @@ using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Tasks;
 using WPPMM.Ssdp;
 using WPPMM.CameraManager;
+using Microsoft.Phone.Shell;
 
 
 namespace WPPMM
@@ -21,8 +22,6 @@ namespace WPPMM
         {
             InitializeComponent();
 
-            // ApplicationBar をローカライズするためのサンプル コード
-            //BuildLocalizedApplicationBar();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
             
@@ -49,18 +48,6 @@ namespace WPPMM
         private void UpdateNetworkStatus()
         {
           
-            /*
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            sb.Append("Network available:  ");
-            sb.AppendLine(DeviceNetworkInformation.IsNetworkAvailable.ToString());
-            sb.Append("Cellular enabled:  ");
-            sb.AppendLine(DeviceNetworkInformation.IsCellularDataEnabled.ToString());
-            sb.Append("Roaming enabled:  ");
-            sb.AppendLine(DeviceNetworkInformation.IsCellularDataRoamingEnabled.ToString());
-            sb.Append("Wi-Fi enabled:  ");
-            sb.AppendLine(DeviceNetworkInformation.IsWiFiEnabled.ToString());
-            NetworkStatus.Text = sb.ToString();
-             */
 
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
@@ -106,6 +93,16 @@ namespace WPPMM
                 StartRemoteButton.IsEnabled = true;
             }
             
+        }
+
+
+
+
+        // update disp
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
         }
 
 

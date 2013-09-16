@@ -82,7 +82,7 @@ namespace WPPMM.Liveview
                 }
                 finally
                 {
-                    Debug.WriteLine("DisConnected Jpeg stream");
+                    Debug.WriteLine("Disconnected Jpeg stream");
                     IsOpen = false;
                     OnClosed.Invoke();
                 }
@@ -108,14 +108,16 @@ namespace WPPMM.Liveview
             str.Read(CHeader, 0, CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
-                throw new IOException();
+                Debug.WriteLine("Unexpected common header");
+                throw new IOException("Unexpected common header");
             }
 
             byte[] PHeader = new byte[PHeaderLength];
             str.Read(PHeader, 0, PHeaderLength);
             if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
             {
-                throw new IOException();
+                Debug.WriteLine("Unexpected payload header");
+                throw new IOException("Unexpected payload header");
             }
             int data_size = ReadIntFromByteArray(PHeader, 4, 3);
             int padding_size = ReadIntFromByteArray(PHeader, 7, 1);
@@ -131,12 +133,12 @@ namespace WPPMM.Liveview
 
         private static int ReadIntFromByteArray(byte[] bytearray, int index, int length)
         {
-            int data = 0;
+            int int_data = 0;
             for (int i = 0; i < length; i++)
             {
-                data += (bytearray[index + i] & 0xff) << 8 * i;
+                int_data = (int_data << 8 * i) | (bytearray[index + i] & 0xff);
             }
-            return data;
+            return int_data;
         }
     }
 

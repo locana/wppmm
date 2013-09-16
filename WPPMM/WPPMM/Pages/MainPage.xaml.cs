@@ -14,8 +14,6 @@ namespace WPPMM
     public partial class MainPage : PhoneApplicationPage
     {
 
-        private bool isWiFiConnected;
-
         private CameraManager.CameraManager cameraManager;
 
         // コンストラクター
@@ -26,10 +24,12 @@ namespace WPPMM
             // ApplicationBar をローカライズするためのサンプル コード
             //BuildLocalizedApplicationBar();
 
+            cameraManager = CameraManager.CameraManager.GetInstance();
+            
             // get current network status
             UpdateNetworkStatus();
 
-            cameraManager = CameraManager.CameraManager.GetInstance();
+            
         }
 
         private void HandleError(int code)
@@ -48,8 +48,8 @@ namespace WPPMM
 
         private void UpdateNetworkStatus()
         {
-            isWiFiConnected = false;
-
+          
+            /*
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
             sb.Append("Network available:  ");
             sb.AppendLine(DeviceNetworkInformation.IsNetworkAvailable.ToString());
@@ -60,8 +60,20 @@ namespace WPPMM
             sb.Append("Wi-Fi enabled:  ");
             sb.AppendLine(DeviceNetworkInformation.IsWiFiEnabled.ToString());
             NetworkStatus.Text = sb.ToString();
+             */
 
-            isWiFiConnected = DeviceNetworkInformation.IsWiFiEnabled;
+            if (DeviceNetworkInformation.IsWiFiEnabled)
+            {
+                NetworkStatus.Text = "";
+            }
+            else
+            {
+                NetworkStatus.Text = "Currently, Wi-Fi is turned off.\nOpen Wi-Fi setting and connect to your devide.";
+            }
+
+            // display initialize
+            cameraManager.SetWiFiStatusListener(changeMessageState);
+            ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
 
         }
 
@@ -84,20 +96,11 @@ namespace WPPMM
             NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
-        // ローカライズされた ApplicationBar を作成するためのサンプル コード
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // ページの ApplicationBar を ApplicationBar の新しいインスタンスに設定します。
-        //    ApplicationBar = new ApplicationBar();
+        public void changeMessageState(String message)
+        {
+            NetworkStatus.Text = message;
+        }
 
-        //    // 新しいボタンを作成し、テキスト値を AppResources のローカライズされた文字列に設定します。
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
 
-        //    // AppResources のローカライズされた文字列で、新しいメニュー項目を作成します。
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
     }
 }

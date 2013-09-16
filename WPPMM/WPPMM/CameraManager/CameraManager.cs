@@ -155,9 +155,8 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
             MemoryStream ms = new MemoryStream(data, 0, data.Length);
 
-
-
             Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(ms); });
+
         }
 
         public void OnLiveViewClosed()

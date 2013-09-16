@@ -92,6 +92,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\SearchDevices.cs" />
     <Compile Include="Json\FixedParams.cs" />
     <Compile Include="Json\Request.cs" />

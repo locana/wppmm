@@ -10,12 +10,11 @@ namespace WPPMM.CameraManager
     class SearchDevices
     {
 
-        // Singleton
         public SearchDevices()
         {
         }
 
-        private static int TIMEOUT = 30;
+        private static int TIMEOUT = 5;
 
 
 
@@ -29,7 +28,7 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("found location: " + location);
         }
 
-        private static void OnTimeout()
+        public static void OnTimeout()
         {
             Debug.WriteLine("request timeout.");
         }

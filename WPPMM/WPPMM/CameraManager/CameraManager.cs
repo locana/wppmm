@@ -13,14 +13,19 @@ namespace WPPMM.CameraManager
 
         private CameraManager()
         {
+
         }
 
 
-        public static CameraManager GetCameraManager()
+        public static CameraManager GetInstance()
         {
             return cameraManager;
         }
 
+        public void RequestSearchDevices()
+        {
+            SearchDevices.RequestSearchDevices();
+        }
 
     }
 }

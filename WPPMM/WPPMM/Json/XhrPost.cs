@@ -19,7 +19,7 @@ namespace WPPMM.Json
         /// <param name="json">Reqeust body.</param>
         /// <param name="OnResponse">Result json string callback.</param>
         /// <param name="OnError">Connection error callback.</param>
-        public static void Post(string endpoint, string json, Action<string> OnResponse, Action OnError)
+        public static async void Post(string endpoint, string json, Action<string> OnResponse, Action OnError)
         {
             if (endpoint == null || json == null || OnResponse == null || OnError == null)
             {
@@ -29,7 +29,8 @@ namespace WPPMM.Json
             var request = HttpWebRequest.Create(new Uri(endpoint)) as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
-            request.AllowReadStreamBuffering = false;
+            request.AllowReadStreamBuffering = true;
+            request.AllowReadStreamBuffering = true;
             request.AllowAutoRedirect = false;
 
             var data = Encoding.UTF8.GetBytes(json);
@@ -79,16 +80,12 @@ namespace WPPMM.Json
                 }
             });
 
-            var RequestStreamHandler = new AsyncCallback((ar) =>
+            using (var stream = await Task.Factory.FromAsync<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream, null))
             {
-                var req = ar.AsyncState as HttpWebRequest;
-                var stream = req.EndGetRequestStream(ar) as Stream;
-                stream.Write(data, 0, data.Length);
-                stream.Close();
-                req.BeginGetResponse(PostRequestHandler, req);
-            });
+                await stream.WriteAsync(data, 0, data.Length);
+            }
 
-            request.BeginGetRequestStream(RequestStreamHandler, request);
+            request.BeginGetResponse(PostRequestHandler, request);
         }
     }
 }

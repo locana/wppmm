@@ -19,6 +19,22 @@ namespace WPPMM.Test
             Debug.WriteLine(req);
         }
 
+        public void testXhr()
+        {
+            XhrPost.Post("http://192.168.0.1/camera", Request.actTakePicture(), HandleXhrResult, HandleXhrError);
+        }
+
+        private void HandleXhrResult(string result)
+        {
+            Debug.WriteLine("Handle Xhr Result: " + result);
+            ResultHandler.ActTakePicture(result, HandleError, HandleActTakePictureResult);
+        }
+
+        private void HandleXhrError()
+        {
+            Debug.WriteLine("Handle Xhr Error");
+        }
+
         public void testResultHandler()
         {
             string json = "{\"result\": [[\"http://ip:port/postview/postview.jpg\"]],\"id\": 1}";

@@ -5,6 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WPPMM.Liveview;
+using System.IO;
+using System.IO.IsolatedStorage;
+using Microsoft.Phone;
+using Microsoft.Xna.Framework.Media;
+using System.Windows.Resources;
+using System.Windows.Media.Imaging;
 
 namespace WPPMM.CameraManager
 {
@@ -25,9 +31,13 @@ namespace WPPMM.CameraManager
         private static String friendlyName = "NEX-5R";
 
         private static List<Action> UpdateListeners;
+        private static Action<MemoryStream> LiveViewUpdateListener;
+
+        private static BitmapImage screen = null;
 
         private CameraManager()
         {
+            Debug.WriteLine("Constructor on CameraManager");
             UpdateListeners = new List<Action>();
            
         }
@@ -143,9 +153,11 @@ namespace WPPMM.CameraManager
         {
             int size = data.Length;
             Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
+            MemoryStream ms = new MemoryStream(data, 0, data.Length);
 
 
 
+            Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(ms); });
         }
 
         public void OnLiveViewClosed()
@@ -222,10 +234,30 @@ namespace WPPMM.CameraManager
             return liveViewUrl;
         }
 
+        public static BitmapImage GetLiveViewScreen()
+        {
+            return screen;
+        }
+
         // register callback for UI
         public void RegisterUpdateListener(Action listener)
         {
+            if (listener == null)
+            {
+                Debug.WriteLine("listener is null");
+            }
+            else if (UpdateListeners == null)
+            {
+                Debug.WriteLine("updateListener is null");
+            }
+
             UpdateListeners.Add(listener);                
+        }
+
+        // register EE screen update method
+        public void SetLiveViewUpdateListener(Action<MemoryStream> action)
+        {
+            LiveViewUpdateListener = action;
         }
 
         // Notice update to UI classes

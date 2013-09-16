@@ -27,8 +27,10 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Image Name="ScreenImage" HorizontalAlignment="Left" Height="388" Margin="20,10,0,0" VerticalAlignment="Top" Width="645"/>
 
         </Grid>
+
     </Grid>
 
 </phone:PhoneApplicationPage>

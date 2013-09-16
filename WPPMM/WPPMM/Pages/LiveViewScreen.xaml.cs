@@ -8,6 +8,14 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WPPMM.CameraManager;
+using System.Windows.Media.Imaging;
+using System.Diagnostics;
+using System.IO;
+using System.IO.IsolatedStorage;
+using Microsoft.Phone;
+using Microsoft.Xna.Framework.Media;
+using System.Windows.Resources;
+using System.Windows.Media.Imaging;
 
 namespace WPPMM.Pages
 {
@@ -24,9 +32,10 @@ namespace WPPMM.Pages
             cameraManager = CameraManager.CameraManager.GetInstance();
             cameraManager.RegisterUpdateListener(UpdateListener);
             cameraManager.StartLiveView();
+            cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
 
             isRequestingLiveview = true;
-            // cameraManager.StartLiveView();
+            
         }
 
         public void UpdateListener()
@@ -37,6 +46,15 @@ namespace WPPMM.Pages
                 cameraManager.ConnectLiveView();
             }
                 
+        }
+
+        public void LiveViewUpdateListener(MemoryStream ms)
+        {
+            Debug.WriteLine("Live view update listener");
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.CreateOptions = BitmapCreateOptions.None;
+            bitmap.SetSource(ms);
+            ScreenImage.Source = bitmap;
         }
     }
 }

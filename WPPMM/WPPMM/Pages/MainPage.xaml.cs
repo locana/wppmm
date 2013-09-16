@@ -60,9 +60,9 @@ namespace WPPMM
             }
 
             // display initialize
-            cameraManager.RegisterUpdateListener(WifiUpdateListener);
+            
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-
+            cameraManager.RegisterUpdateListener(WifiUpdateListener);
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)

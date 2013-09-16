@@ -72,7 +72,7 @@ namespace WPPMM
             }
 
             // display initialize
-            cameraManager.SetWiFiStatusListener(changeMessageState);
+            cameraManager.RegisterUpdateListener(WifiUpdateListener);
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
 
         }
@@ -96,9 +96,9 @@ namespace WPPMM
             NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
-        public void changeMessageState(String message)
+        public void WifiUpdateListener()
         {
-            NetworkStatus.Text = message;
+            NetworkStatus.Text = "DD location: " + CameraManager.CameraManager.GetDDlocation();
         }
 
 

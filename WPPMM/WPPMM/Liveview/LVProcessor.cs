@@ -7,8 +7,27 @@ namespace WPPMM.Liveview
 {
     public class LVProcessor
     {
-        private bool processing = false;
+        /// <summary>
+        /// Connection status of this LVProcessor.
+        /// </summary>
+        public bool IsOpen
+        {
+            get { return _IsOpen; }
+            private set { _IsOpen = value; }
+        }
 
+        private bool _IsOpen = false;
+
+        /// <summary>
+        /// Open stream connection for Liveview.
+        /// </summary>
+        /// <remarks>
+        /// <para>Success callback will be invoked for each retrieved jpeg data until Close callback is invoked.</para> 
+        /// <para>InvalidOperationException will be thrown when stream is already open.</para>
+        /// </remarks>
+        /// <param name="url">URL of the liveview. Get this via startLiveview API.</param>
+        /// <param name="OnJpegRetrieved">Success callback.</param>
+        /// <param name="OnClosed">Connection close callback.</param>
         public void OpenConnection(string url, Action<byte[]> OnJpegRetrieved, Action OnClosed)
         {
             if (url == null || OnJpegRetrieved == null | OnClosed == null)
@@ -16,12 +35,12 @@ namespace WPPMM.Liveview
                 throw new ArgumentNullException();
             }
 
-            if (processing)
+            if (IsOpen)
             {
                 throw new InvalidOperationException();
             }
 
-            processing = true;
+            IsOpen = true;
 
             var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             request.Method = "GET";
@@ -38,7 +57,7 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
-                                while (processing)
+                                while (IsOpen)
                                 {
                                     try
                                     {
@@ -50,7 +69,7 @@ namespace WPPMM.Liveview
                                     }
                                     catch (IOException)
                                     {
-                                        processing = false;
+                                        IsOpen = false;
                                     }
                                 }
                             }
@@ -64,7 +83,7 @@ namespace WPPMM.Liveview
                 finally
                 {
                     Debug.WriteLine("DisConnected Jpeg stream");
-                    processing = false;
+                    IsOpen = false;
                     OnClosed.Invoke();
                 }
             });
@@ -72,9 +91,12 @@ namespace WPPMM.Liveview
             request.BeginGetResponse(JpegStreamHandler, request);
         }
 
+        /// <summary>
+        /// Forcefully close this connection.
+        /// </summary>
         public void CloseConnection()
         {
-            processing = false;
+            IsOpen = false;
         }
 
         private const int CHeaderLength = 8;

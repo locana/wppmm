@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 namespace WPPMM.Json
 {
+    /// <summary>
+    /// This class provides function to parse response JSON string and invoke proper callback.
+    /// </summary>
+    /// <remarks>
+    /// Error callback include error code as an argument.
+    /// <see cref="WPPMM.Json.StatusCode"/>
+    /// </remarks>
+    ///
     public class ResultHandler
     {
         public static void SetShootMode(string jString, Action<int> error, Action result)

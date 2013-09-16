@@ -4,6 +4,10 @@ using System.Threading;
 
 namespace WPPMM.Json
 {
+    /// <summary>
+    /// This class provide function to generate JSON string to set as a body of API request.
+    /// You just have to set required argument for the APIs.
+    /// </summary>
     public class Request
     {
         private static int request_id = 0;

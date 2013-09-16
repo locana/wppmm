@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace WPPMM.Json
 {
+    /// <summary>
+    /// Status code definition.
+    /// </summary>
     public class StatusCode
     {
         public const int OK = 0;

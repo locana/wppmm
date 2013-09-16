@@ -18,6 +18,15 @@ namespace WPPMM.Ssdp
         private const int ssdp_port = 1900;
         private const int result_buffer = 8192;
 
+        /// <summary>
+        /// Send M-Search to Scalar devices and wait response from them.
+        /// </summary>
+        /// <remarks>
+        /// Success callback will be invoked for each devices until timeout callback is invoked.
+        /// </remarks>
+        /// <param name="timeoutSec">Seconds to wait invoking OnTimeout.</param>
+        /// <param name="OnDDLocationFound">Success callback includes the URL of dd.xml as an argument.</param>
+        /// <param name="OnTimeout">Timeout callback.</param>
         public static void SearchScalarDevices(int timeoutSec, Action<string> OnDDLocationFound, Action OnTimeout)
         {
             if (OnDDLocationFound == null || OnTimeout == null)
@@ -127,6 +136,16 @@ namespace WPPMM.Ssdp
             return null;
         }
 
+
+        /// <summary>
+        /// Download dd.xml and analyze endpoints of each service.
+        /// </summary>
+        /// <remarks>
+        /// Result is contained in a .
+        /// </remarks>
+        /// <param name="dd_url">URL of dd.xml.</param>
+        /// <param name="OnResult">Success callback contains a Dictionary consists of "service name" and "endpoint of the service"</param>
+        /// <param name="OnError">Error callback</param>
         public static void RetrieveEndpoints(string dd_url, Action<Dictionary<string, string>> OnResult, Action OnError)
         {
             if (dd_url == null || OnResult == null || OnError == null)
@@ -134,16 +153,9 @@ namespace WPPMM.Ssdp
                 throw new ArgumentNullException();
             }
 
-            try
-            {
-                var req = HttpWebRequest.Create(new Uri(dd_url)) as HttpWebRequest;
-                req.Method = "GET";
-                req.BeginGetResponse(OnDDObtained, new DDRequestInfo { req = req, OnResult = OnResult, OnError = OnError });
-            }
-            catch (UriFormatException)
-            {
-                OnError.Invoke();
-            }
+            var req = HttpWebRequest.Create(new Uri(dd_url)) as HttpWebRequest;
+            req.Method = "GET";
+            req.BeginGetResponse(OnDDObtained, new DDRequestInfo { req = req, OnResult = OnResult, OnError = OnError });
         }
 
         private static void OnDDObtained(IAsyncResult ar)

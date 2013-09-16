@@ -66,7 +66,15 @@ namespace WPPMM.Json
                 }
                 catch (WebException e)
                 {
-                    Debug.WriteLine("WebException: " + e.Status);
+                    var res = e.Response as HttpWebResponse;
+                    if (res != null)
+                    {
+                        Debug.WriteLine("Http Status Error: " + res.StatusCode);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("WebException: " + e.Status);
+                    }
                     OnError.Invoke();
                 }
             });
@@ -77,7 +85,7 @@ namespace WPPMM.Json
                 var stream = req.EndGetRequestStream(ar) as Stream;
                 stream.Write(data, 0, data.Length);
                 stream.Close();
-                request.BeginGetResponse(PostRequestHandler, req);
+                req.BeginGetResponse(PostRequestHandler, req);
             });
 
             request.BeginGetRequestStream(RequestStreamHandler, request);

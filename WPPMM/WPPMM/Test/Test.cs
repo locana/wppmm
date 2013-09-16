@@ -21,7 +21,7 @@ namespace WPPMM.Test
 
         public void testXhr()
         {
-            XhrPost.Post("http://192.168.0.1/camera", Request.actTakePicture(), HandleXhrResult, HandleXhrError);
+            XhrPost.Post("http://192.168.122.1:8080/sony/camera", Request.actTakePicture(), HandleXhrResult, HandleXhrError);
         }
 
         private void HandleXhrResult(string result)

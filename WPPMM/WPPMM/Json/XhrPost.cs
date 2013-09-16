@@ -29,32 +29,39 @@ namespace WPPMM.Json
             var request = HttpWebRequest.Create(new Uri(endpoint)) as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
+            request.AllowReadStreamBuffering = false;
+            request.AllowAutoRedirect = false;
 
             var data = Encoding.UTF8.GetBytes(json);
             request.ContentLength = data.Length;
 
             var PostRequestHandler = new AsyncCallback((ar) =>
             {
+                var req = ar.AsyncState as HttpWebRequest;
                 try
                 {
-                    var req = ar.AsyncState as HttpWebRequest;
-                    using (var res = req.EndGetResponse(ar) as HttpWebResponse)
+                    var res = req.EndGetResponse(ar) as HttpWebResponse;
+
+                    if (res.StatusCode == HttpStatusCode.OK)
                     {
-                        if (res.StatusCode == HttpStatusCode.OK)
+                        using (var reader = new StreamReader(res.GetResponseStream()))
                         {
-                            using (var reader = new StreamReader(res.GetResponseStream()))
+                            var response = reader.ReadToEnd();
+                            if (string.IsNullOrEmpty(response))
                             {
-                                var response = reader.ReadToEnd();
-                                if (string.IsNullOrEmpty(response))
-                                {
-                                    OnError.Invoke();
-                                }
-                                else
-                                {
-                                    OnResponse.Invoke(response);
-                                }
+                                Debug.WriteLine("Result json is null or empty");
+                                OnError.Invoke();
+                            }
+                            else
+                            {
+                                OnResponse.Invoke(response);
                             }
                         }
+                    }
+                    else
+                    {
+                        Debug.WriteLine("HTTP status code is not OK");
+                        OnError.Invoke();
                     }
                 }
                 catch (WebException e)
@@ -66,10 +73,11 @@ namespace WPPMM.Json
 
             var RequestStreamHandler = new AsyncCallback((ar) =>
             {
-                var stream = request.EndGetRequestStream(ar) as Stream;
+                var req = ar.AsyncState as HttpWebRequest;
+                var stream = req.EndGetRequestStream(ar) as Stream;
                 stream.Write(data, 0, data.Length);
                 stream.Close();
-                request.BeginGetResponse(PostRequestHandler, request);
+                request.BeginGetResponse(PostRequestHandler, req);
             });
 
             request.BeginGetRequestStream(RequestStreamHandler, request);

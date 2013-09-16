@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Xml;
-using System.Linq;
 using System.Xml.Linq;
 
 namespace WPPMM.Ssdp
@@ -176,6 +175,10 @@ namespace WPPMM.Ssdp
                     {
                         info.OnError.Invoke();
                     }
+                    catch (AccessViolationException)
+                    {
+                        info.OnError.Invoke();
+                    }
                 }
             }
             catch (WebException)
@@ -184,23 +187,23 @@ namespace WPPMM.Ssdp
             }
         }
 
+        private const string upnp_ns = "{urn:schemas-upnp-org:device-1-0}";
+        private const string sony_ns = "{urn:schemas-sony-com:av}";
+
         private static Dictionary<string, string> GetEndpointsFromDD(string response)
         {
+            //Debug.WriteLine(response);
             var endpoints = new Dictionary<string, string>();
 
-            XDocument xml = XDocument.Parse(response);
-            var info = xml.Element("av:X_ScalarWebAPI_DeviceInfo");
-            if (info == null)
-                throw new XmlException("av:X_ScalarWebAPI_DeviceInfo");
-
-            var list = info.Element("av:X_ScalarWebAPI_ServiceList");
-            if (list == null)
-                throw new XmlException("av:X_ScalarWebAPI_ServiceList");
+            var xml = XDocument.Parse(response);
+            var device = xml.Root.Element(upnp_ns + "device");
+            var info = device.Element(sony_ns + "X_ScalarWebAPI_DeviceInfo");
+            var list = info.Element(sony_ns + "X_ScalarWebAPI_ServiceList");
 
             foreach (var service in list.Elements())
             {
-                var name = service.Element("av:X_ScalarWebAPI_ServiceType").Value;
-                var url = service.Element("av:X_ScalarWebAPI_ActionList_URL").Value;
+                var name = service.Element(sony_ns + "X_ScalarWebAPI_ServiceType").Value;
+                var url = service.Element(sony_ns + "X_ScalarWebAPI_ActionList_URL").Value;
                 if (name == null || url == null)
                     continue;
 
@@ -217,7 +220,7 @@ namespace WPPMM.Ssdp
         }
     }
 
-    class DDRequestInfo
+    internal class DDRequestInfo
     {
         public HttpWebRequest req;
         public Action<Dictionary<string, string>> OnResult;

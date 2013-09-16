@@ -26,10 +26,6 @@ namespace WPPMM
             // ApplicationBar をローカライズするためのサンプル コード
             //BuildLocalizedApplicationBar();
 
-            string json = "{\"result\": [[\"http://ip:port/postview/postview.jpg\"]],\"id\": 1}";
-
-            ResultHandler.ActTakePicture(json, new Action<int>(HandleError), new Action<string[]>(HandleActTakePictureResult));
-
             // get current network status
             UpdateNetworkStatus();
 

@@ -101,6 +101,7 @@
     <Compile Include="Json\Objects.cs" />
     <Compile Include="Json\ResultHandler.cs" />
     <Compile Include="Json\StatusCode.cs" />
+    <Compile Include="Liveview\LVProcessor.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

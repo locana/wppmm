@@ -36,7 +36,7 @@ namespace WPPMM.Json
                 new JProperty("id", GetID()),
                 new JProperty("params", param));
 
-            return json.ToString();
+            return json.ToString().Replace(" ", "").Replace("\n", "").Replace("\r", "");
         }
 
         private static string CreateJson10(string name, params object[] prms)

@@ -14,8 +14,8 @@ namespace WPPMM.CameraManager
         {
         }
 
-        private static int TIMEOUT = 5;
-
+        private static int TIMEOUT = 10;
+        private static String dd_location = null;
 
 
         public static void RequestSearchDevices()
@@ -25,6 +25,7 @@ namespace WPPMM.CameraManager
 
         public static void OnDDLocationFound(String location)
         {
+            dd_location = location;
             Debug.WriteLine("found location: " + location);
         }
 

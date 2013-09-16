@@ -103,6 +103,9 @@
     <Compile Include="Json\StatusCode.cs" />
     <Compile Include="Liveview\LVProcessor.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Pages\LiveViewScreen.xaml.cs">
+      <DependentUpon>LiveViewScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Pages\LiveViewScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

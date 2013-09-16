@@ -146,4 +146,7 @@
   <data name="SearchDevideButtonText" xml:space="preserve">
     <value>デバイス検索</value>
   </data>
+  <data name="StartRemoteControllingButtonText" xml:space="preserve">
+    <value>スマートリモコン開始</value>
+  </data>
 </root>

@@ -65,6 +65,7 @@ namespace WPPMM
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = "";
+                SearchButton.IsEnabled = true;
             }
             else
             {
@@ -98,7 +99,13 @@ namespace WPPMM
 
         public void WifiUpdateListener()
         {
-            NetworkStatus.Text = "DD location: " + CameraManager.CameraManager.GetDDlocation();
+            String ddLocation = CameraManager.CameraManager.GetDDlocation();
+            if (ddLocation != null)
+            {
+                NetworkStatus.Text = "DD location: " + CameraManager.CameraManager.GetDDlocation();
+                StartRemoteButton.IsEnabled = true;
+            }
+            
         }
 
 

@@ -6,6 +6,8 @@ using WPPMM.Json;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Tasks;
 using WPPMM.Ssdp;
+using WPPMM.CameraManager;
+
 
 namespace WPPMM
 {
@@ -13,6 +15,8 @@ namespace WPPMM
     {
 
         private bool isWiFiConnected;
+
+        private CameraManager.CameraManager cameraManager;
 
         // コンストラクター
         public MainPage()
@@ -28,6 +32,8 @@ namespace WPPMM
 
             // get current network status
             UpdateNetworkStatus();
+
+            cameraManager = CameraManager.CameraManager.GetInstance();
         }
 
         private void HandleError(int code)
@@ -68,6 +74,11 @@ namespace WPPMM
             ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
             connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
             connectionSettingsTask.Show();
+        }
+
+        private void SearchButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            cameraManager.RequestSearchDevices();
         }
 
         // ローカライズされた ApplicationBar を作成するためのサンプル コード

@@ -124,6 +124,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to デバイス検索.
+        /// </summary>
+        public static string SearchDevideButtonText {
+            get {
+                return ResourceManager.GetString("SearchDevideButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wi-Fi設定.
         /// </summary>
         public static string WifiSettingLauncherButtonText {

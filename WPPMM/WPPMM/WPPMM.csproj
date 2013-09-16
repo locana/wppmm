@@ -100,6 +100,7 @@
     <Compile Include="Json\Objects.cs" />
     <Compile Include="Json\ResultHandler.cs" />
     <Compile Include="Json\StatusCode.cs" />
+    <Compile Include="Json\XhrPost.cs" />
     <Compile Include="Liveview\LVProcessor.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Pages\LiveViewScreen.xaml.cs">

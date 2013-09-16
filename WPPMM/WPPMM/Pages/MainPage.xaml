@@ -60,7 +60,7 @@
                     HorizontalAlignment="Center" Margin="0,10,0,10" VerticalAlignment="Top" Click="Button_Click"/>
             <Button Name="SearchButton" Content="{Binding Path=LocalizedResources.SearchDevideButtonText, Source={StaticResource LocalizedStrings}}"
                     HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Top" Click="SearchButton_Click"/>
-            <Button Content="Button" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top"/>
+            <Button Content="Start Remote controlling" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click_1"/>
 
         </Grid>
 

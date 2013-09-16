@@ -81,6 +81,11 @@ namespace WPPMM
             cameraManager.RequestSearchDevices();
         }
 
+        private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("Pages/LiveViewScreen.xaml", UriKind.Relative));
+        }
+
         // ローカライズされた ApplicationBar を作成するためのサンプル コード
         //private void BuildLocalizedApplicationBar()
         //{

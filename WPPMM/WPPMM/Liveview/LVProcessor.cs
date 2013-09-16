@@ -112,7 +112,7 @@ namespace WPPMM.Liveview
             int data = 0;
             for (int i = 0; i < length; i++)
             {
-                data += (bytearray[index + i] & 0xff) << 8 * length;
+                data += (bytearray[index + i] & 0xff) << 8 * i;
             }
             return data;
         }

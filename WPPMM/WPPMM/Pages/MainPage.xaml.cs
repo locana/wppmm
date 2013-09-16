@@ -14,6 +14,7 @@ namespace WPPMM
 
         private bool isWiFiConnected;
 
+
         // コンストラクター
         public MainPage()
         {
@@ -28,6 +29,8 @@ namespace WPPMM
 
             // get current network status
             UpdateNetworkStatus();
+
+
         }
 
         private void HandleError(int code)
@@ -68,6 +71,11 @@ namespace WPPMM
             ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
             connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
             connectionSettingsTask.Show();
+        }
+
+        private void SearchButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
         }
 
         // ローカライズされた ApplicationBar を作成するためのサンプル コード

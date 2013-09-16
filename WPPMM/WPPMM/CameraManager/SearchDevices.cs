@@ -11,19 +11,12 @@ namespace WPPMM.CameraManager
     {
 
         // Singleton
-        private static SearchDevices searchDevices = new SearchDevices();
+        public SearchDevices()
+        {
+        }
 
         private static int TIMEOUT = 30;
 
-        private SearchDevices()
-        {
-            RequestSearchDevices();
-        }
-
-        public static SearchDevices GetInstance()
-        {
-            return searchDevices;
-        }
 
 
         public static void RequestSearchDevices()

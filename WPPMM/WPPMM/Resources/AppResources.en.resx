@@ -143,4 +143,7 @@
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi settings</value>
   </data>
+  <data name="SearchDevideButtonText" xml:space="preserve">
+    <value>Search supported camera</value>
+  </data>
 </root>

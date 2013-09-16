@@ -21,7 +21,7 @@ namespace WPPMM.Pages
             InitializeComponent();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
-            cameraManager.StartLiveView();
+            cameraManager.StartRecmodeAndStartLiveView();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace WPPMM.CameraManager
         private static int TIMEOUT = 10;
         private static String dd_location = null;
 
-        private static String cameraUrl = null;
+        private static String endpoint = null;
         private static String liveViewUrl = null;
         private Liveview.LVProcessor lvProcessor = null;
 
@@ -39,13 +39,51 @@ namespace WPPMM.CameraManager
             requestSearchDevices();
         }
 
+        public void StartRecmodeAndStartLiveView()
+        {
+            if (endpoint == null)
+            {
+                Debug.WriteLine("error: endpoint is null");
+            }
+
+            Debug.WriteLine("endpoint: " + endpoint);
+            String jsonReq = Json.Request.startRecMode();
+            Debug.WriteLine("request json: " + jsonReq);
+            
+            // for NEX-5R, change recmode before startLiveView
+            Json.XhrPost.Post(
+                endpoint,
+                jsonReq,
+                OnStartRecmode,
+                OnError);
+    
+        }
+
+        public void OnStartRecmode(String json)
+        {
+            Debug.WriteLine("OnStartRecmode: " + json);
+        }
 
         // live view
         public void StartLiveView()
         {
+            
+
+            if (endpoint == null)
+            {
+                Debug.WriteLine("error: endpoint is null");
+                return;
+            }
+
             String requestJson = Json.Request.startLiveview();
             Debug.WriteLine("requestJson: " + requestJson);
 
+            Json.XhrPost.Post(endpoint, requestJson, OnStartLiveViewRetrieved, OnError);
+        }
+
+        public void OnStartLiveViewRetrieved(String json)
+        {
+            Debug.WriteLine("StartLiveView retrieved: " + json);
 
         }
 
@@ -79,12 +117,6 @@ namespace WPPMM.CameraManager
             Ssdp.DeviceDiscovery.RetrieveEndpoints(dd_location, OnRetrieveEndpoints, OnError);
         }
 
-        public static void OnRetrieveUrl(String url)
-        {
-            liveViewUrl = url;
-            Debug.WriteLine("retrived url: " + url);
-
-        }
 
         public static void OnRetrieveEndpoints(Dictionary <String, String> result)
         {
@@ -92,8 +124,8 @@ namespace WPPMM.CameraManager
 
             if (result.ContainsKey("camera"))
             {
-                cameraUrl = result["camera"];
-                Debug.WriteLine("camera url found: " + cameraUrl);
+                endpoint = result["camera"];
+                Debug.WriteLine("camera url found: " + endpoint);
             }
             else
             {

@@ -136,7 +136,7 @@ namespace WPPMM.Liveview
             int int_data = 0;
             for (int i = 0; i < length; i++)
             {
-                int_data = (int_data << 8 * i) | (bytearray[index + i] & 0xff);
+                int_data = (int_data << 8) | (bytearray[index + i] & 0xff);
             }
             return int_data;
         }

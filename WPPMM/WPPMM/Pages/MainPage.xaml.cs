@@ -86,10 +86,10 @@ namespace WPPMM
 
         public void WifiUpdateListener()
         {
-            String ddLocation = CameraManager.CameraManager.GetDDlocation();
-            if (ddLocation != null)
+            String modelName = CameraManager.CameraManager.GetModelName();
+            if (modelName != null)
             {
-                NetworkStatus.Text = "DD location: " + CameraManager.CameraManager.GetDDlocation();
+                NetworkStatus.Text = "Found model name: " + modelName;
                 StartRemoteButton.IsEnabled = true;
             }
             

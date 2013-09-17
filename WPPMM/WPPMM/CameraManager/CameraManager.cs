@@ -22,9 +22,10 @@ namespace WPPMM.CameraManager
 
 
         private static int TIMEOUT = 10;
-        private static String dd_location = null;
+        // private static String dd_location = null;
+        private static Ssdp.DeviceInfo deviceInfo;
 
-        private static String endpoint = null;
+        // private static String endpoint = null;
         private static String liveViewUrl = null;
         private Liveview.LVProcessor lvProcessor = null;
 
@@ -70,13 +71,12 @@ namespace WPPMM.CameraManager
         // request and callback
         public void RequestStartRecmode()
         {
-            if (endpoint == null)
+            if (!deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 Debug.WriteLine("error: endpoint is null");
             }
 
-            // override endpoint
-            // endpoint = "http://192.168.122.1:8080/sony/index.html";
+            String endpoint = deviceInfo.Endpoints["camera"];
 
             Debug.WriteLine("endpoint: " + endpoint);
             String jsonReq = Json.Request.startRecMode();
@@ -105,13 +105,12 @@ namespace WPPMM.CameraManager
         // live view
         public void RequestStartLiveView()
         {
-            
-
-            if (endpoint == null)
+            if (!deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 Debug.WriteLine("error: endpoint is null");
-                return;
             }
+
+            String endpoint = deviceInfo.Endpoints["camera"];
 
             String requestJson = Json.Request.startLiveview();
             Debug.WriteLine("requestJson: " + requestJson);
@@ -167,11 +166,13 @@ namespace WPPMM.CameraManager
 
         private static void requestSearchDevices()
         {
-            WPPMM.Ssdp.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
+            // WPPMM.Ssdp.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
+            WPPMM.Ssdp.DeviceDiscovery.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
         }
 
 
         // callback methods (search)
+       /*
         public static void OnDDLocationFound(String location)
         {
             dd_location = location;
@@ -185,8 +186,16 @@ namespace WPPMM.CameraManager
             
             Ssdp.DeviceDiscovery.RetrieveEndpoints(dd_location, OnRetrieveEndpoints, OnError);
         }
+        */
 
+        public static void OnServerFound(Ssdp.DeviceInfo di)
+        {
+            deviceInfo = di;
+            Debug.WriteLine("found device: " + deviceInfo.ModelName);
+            NoticeUpdate();
+        }
 
+        /*
         public static void OnRetrieveEndpoints(Dictionary <String, String> result)
         {
             Debug.WriteLine("retrived endpoint");
@@ -200,9 +209,9 @@ namespace WPPMM.CameraManager
             {
                 Debug.WriteLine("camera url not found from retrived dictionary");
             }
-
             
         }
+         */
 
         public static void OnTimeout()
         {
@@ -223,9 +232,9 @@ namespace WPPMM.CameraManager
 
 
         // getter
-        public static String GetDDlocation()
+        public static String GetModelName()
         {
-            return dd_location;
+            return deviceInfo.ModelName;
         }
 
         public static String GetLiveviewUrl()

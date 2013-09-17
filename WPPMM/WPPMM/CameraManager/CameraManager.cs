@@ -163,17 +163,12 @@ namespace WPPMM.CameraManager
 
             int size = data.Length;
             stringBuilder.Clear();
-            stringBuilder.Append("[CameraManager] Jpeg retrived");
-            for (int i = 1000; i < 1010; i++)
-            {
-                stringBuilder.Append(data[i].ToString());
-                stringBuilder.Append(" ");
-            }
-            stringBuilder.Append(size.ToString());
-            Debug.WriteLine(stringBuilder.ToString()  + "bytes.");
+            stringBuilder.Append("[CameraManager] Jpeg retrived ");
+            stringBuilder.Append(size);
+            Debug.WriteLine(stringBuilder.ToString());
 
             screenCounter += 1;
-            if (screenCounter % 10 == 0)
+            if (screenCounter % 8 == 0)
             {
                 Debug.WriteLine("[CameraManager] call listener");
                 jpegData = data;

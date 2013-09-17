@@ -32,15 +32,20 @@ namespace WPPMM.CameraManager
         private static String friendlyName = "NEX-5R";
 
         private static List<Action> UpdateListeners;
-        private static Action<MemoryStream> LiveViewUpdateListener;
+        private static Action<byte[]> LiveViewUpdateListener;
+        private static System.Text.StringBuilder stringBuilder;
 
-        private static BitmapImage screen = null;
+
+        private static byte[] jpegData;
+        private static int screenCounter;
 
         private CameraManager()
         {
             Debug.WriteLine("Constructor on CameraManager");
             UpdateListeners = new List<Action>();
-           
+            screenCounter = 0;
+            stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Capacity = 64;
         }
 
         public static CameraManager GetInstance()
@@ -150,11 +155,30 @@ namespace WPPMM.CameraManager
         // callback methods (liveview)
         public void OnJpegRetrieved(byte[] data)
         {
+            /*
             int size = data.Length;
             Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
             MemoryStream ms = new MemoryStream(data, 0, data.Length);
+             */
 
-            Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(ms); });
+            int size = data.Length;
+            stringBuilder.Clear();
+            stringBuilder.Append("[CameraManager] Jpeg retrived");
+            for (int i = 1000; i < 1010; i++)
+            {
+                stringBuilder.Append(data[i].ToString());
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append(size.ToString());
+            Debug.WriteLine(stringBuilder.ToString()  + "bytes.");
+
+            screenCounter += 1;
+            if (screenCounter % 10 == 0)
+            {
+                Debug.WriteLine("[CameraManager] call listener");
+                jpegData = data;
+                Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(jpegData); });
+            }
 
         }
 
@@ -242,11 +266,6 @@ namespace WPPMM.CameraManager
             return liveViewUrl;
         }
 
-        public static BitmapImage GetLiveViewScreen()
-        {
-            return screen;
-        }
-
         // register callback for UI
         public void RegisterUpdateListener(Action listener)
         {
@@ -263,7 +282,7 @@ namespace WPPMM.CameraManager
         }
 
         // register EE screen update method
-        public void SetLiveViewUpdateListener(Action<MemoryStream> action)
+        public void SetLiveViewUpdateListener(Action<byte[]> action)
         {
             LiveViewUpdateListener = action;
         }

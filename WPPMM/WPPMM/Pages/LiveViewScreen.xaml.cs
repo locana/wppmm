@@ -24,6 +24,7 @@ namespace WPPMM.Pages
 
         private CameraManager.CameraManager cameraManager = null;
         private bool isRequestingLiveview = false;
+        private BitmapImage screenBitmapImage;
 
         public LiveViewScreen()
         {
@@ -35,6 +36,8 @@ namespace WPPMM.Pages
             cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
 
             isRequestingLiveview = true;
+
+            screenBitmapImage = new BitmapImage();
             
         }
 
@@ -52,9 +55,21 @@ namespace WPPMM.Pages
         {
             Debug.WriteLine("Live view update listener");
             BitmapImage bitmap = new BitmapImage();
-            bitmap.CreateOptions = BitmapCreateOptions.None;
+            bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
             bitmap.SetSource(ms);
             ScreenImage.Source = bitmap;
+        }
+
+        public void LiveViewUpdateListener(byte[] data)
+        {
+            int size = data.Length;
+            Debug.WriteLine("[LiveViewScreen] Jpeg retrived. " + size + "bytes.");
+            
+            MemoryStream ms = new MemoryStream(data, 0, data.Length);
+            screenBitmapImage.CreateOptions = BitmapCreateOptions.DelayCreation;
+            screenBitmapImage.SetSource(ms);
+            ScreenImage.Source = screenBitmapImage;
+            ms.Close();
         }
     }
 }

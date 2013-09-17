@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WPPMM")]
-[assembly: AssemblyCopyright("Copyright opelzz  2013")]
+[assembly: AssemblyCopyright("Copyright opelzz 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,9 +21,9 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
-[assembly: Guid("4ce2a01e-6f96-4cff-9e4d-cb3e1cb7e3e2")]
+[assembly: Guid("a4e5a164-16db-4263-94ce-bc98bef138c7")]
 
-// アセンブリのバージョン情報は、以下の 4 つの値で構成されます。
+// アセンブリのバージョン情報は、以下の 4 つの値で構成されます。:
 //
 //      メジャー バージョン
 //      マイナー バージョン
@@ -31,7 +31,7 @@ using System.Resources;
 //      リビジョン
 //
 // すべての値を指定するか、次のように '*' を使ってリビジョンおよびビルド番号を 
-// 既定値にすることができます。
+// 既定値にすることができます。:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("ja-JP")]

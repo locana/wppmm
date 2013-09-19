@@ -15,7 +15,8 @@ using System.IO.IsolatedStorage;
 using Microsoft.Phone;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Resources;
-using System.Windows.Media.Imaging;
+using WPPMMComp;
+
 
 namespace WPPMM.Pages
 {
@@ -26,6 +27,11 @@ namespace WPPMM.Pages
         private bool isRequestingLiveview = false;
         private BitmapImage screenBitmapImage;
         private MemoryStream screenMemoryStream;
+
+        private byte[] screenData;
+        private int screenDataLen;
+
+        private Direct3DInterop m_d3dInterop = null;
 
         public LiveViewScreen()
         {
@@ -40,6 +46,9 @@ namespace WPPMM.Pages
 
             screenBitmapImage = new BitmapImage();
             screenBitmapImage.CreateOptions = BitmapCreateOptions.DelayCreation;
+
+            screenData = new byte[1];
+            screenDataLen = screenData.Length;
         }
 
         public void UpdateListener()
@@ -66,12 +75,53 @@ namespace WPPMM.Pages
             int size = data.Length;
             Debug.WriteLine("[LiveViewScreen] Jpeg retrived. " + size + "bytes.");
 
+            screenData = data;
+            screenDataLen = data.Length;
+
+            return;
 
             screenMemoryStream = new MemoryStream(data, 0, data.Length);
 
             screenBitmapImage.SetSource(screenMemoryStream);
             ScreenImage.Source = screenBitmapImage;
             screenMemoryStream.Close();
+        }
+
+        private void DrawingSurface_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            if (m_d3dInterop == null)
+            {
+                m_d3dInterop = new Direct3DInterop();
+
+                
+
+                // Set window bounds in dips
+                m_d3dInterop.WindowBounds = new Windows.Foundation.Size(
+                    (float)ScreenSurface.ActualWidth,
+                    (float)ScreenSurface.ActualHeight
+                    );
+
+                // Set native resolution in pixels
+                m_d3dInterop.NativeResolution = new Windows.Foundation.Size(
+                    (float)Math.Floor(ScreenSurface.ActualWidth * Application.Current.Host.Content.ScaleFactor / 100.0f + 0.5f),
+                    (float)Math.Floor(ScreenSurface.ActualHeight * Application.Current.Host.Content.ScaleFactor / 100.0f + 0.5f)
+                    );
+
+                // Set render resolution to the full native resolution
+                m_d3dInterop.RenderResolution = m_d3dInterop.NativeResolution;
+
+                // m_d3dInterop.SetTestNum(101);
+
+
+               
+                // m_d3dInterop.SetDataPtr(out screenData[0], out screenDataLen);
+
+                // Hook-up native component to DrawingSurface
+                ScreenSurface.SetContentProvider(m_d3dInterop.CreateContentProvider());
+                ScreenSurface.SetManipulationHandler(m_d3dInterop);
+
+            }
         }
     }
 }

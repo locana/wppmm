@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include "Direct3DBase.h"
+#include "SpriteBatch.h"
+#include "SpriteFont.h"
 
 struct ModelViewProjectionConstantBuffer
 {
@@ -28,9 +30,21 @@ public:
 	
 	// 時間に依存するオブジェクトを更新するメソッドです。
 	void Update(float timeTotal, float timeDelta);
+	void setScreenInformation(byte *data, int *size);
+
 
 private:
 	bool m_loadingComplete;
+
+	ID3D11ShaderResourceView* texture;
+	std::unique_ptr<DirectX::SpriteBatch> spriteBatch;
+	std::unique_ptr<DirectX::SpriteFont> m_font;
+
+	static const int SCREEN_BUF_SIZE = 1000000; // 1MB
+	byte screen_buf[SCREEN_BUF_SIZE];
+
+	byte *screen_data;
+	int *screen_data_size;
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;

@@ -14,6 +14,8 @@ namespace WPPMMComp
 Direct3DInterop::Direct3DInterop() :
 	m_timer(ref new BasicTimer())
 {
+	// init buffer
+	
 }
 
 IDrawingSurfaceContentProvider^ Direct3DInterop::CreateContentProvider()
@@ -54,6 +56,7 @@ void Direct3DInterop::RenderResolution::set(Windows::Foundation::Size renderReso
 void Direct3DInterop::OnPointerPressed(DrawingSurfaceManipulationHost^ sender, PointerEventArgs^ args)
 {
 	// ここにコードを挿入します。
+	
 }
 
 void Direct3DInterop::OnPointerMoved(DrawingSurfaceManipulationHost^ sender, PointerEventArgs^ args)
@@ -85,6 +88,18 @@ void Direct3DInterop::Disconnect()
 	m_renderer = nullptr;
 }
 
+void Direct3DInterop::SetDataPtr(byte *data , int *size)
+{
+	// m_renderer->setScreenInformation(data, size);
+}
+
+void Direct3DInterop::SetTestNum(int num)
+{
+	printf ("SetTextNum: %d\n", num);
+	
+}
+
+
 HRESULT Direct3DInterop::PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Out_ BOOL* contentDirty)
 {
 	*contentDirty = true;
@@ -107,5 +122,7 @@ ID3D11Texture2D* Direct3DInterop::GetTexture()
 {
 	return m_renderer->GetTexture();
 }
+
+
 
 }

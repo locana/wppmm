@@ -36,7 +36,7 @@ namespace WPPMM.CameraManager
         private static System.Text.StringBuilder stringBuilder;
 
 
-        private static byte[] jpegData;
+        private static byte[] screenData;
         private static int screenCounter;
 
         private CameraManager()
@@ -167,13 +167,7 @@ namespace WPPMM.CameraManager
             stringBuilder.Append(size);
             Debug.WriteLine(stringBuilder.ToString());
 
-            screenCounter += 1;
-            if (screenCounter % 8 == 0)
-            {
-                Debug.WriteLine("[CameraManager] call listener");
-                jpegData = data;
-                Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(jpegData); });
-            }
+            screenData = data;
 
         }
 
@@ -260,6 +254,8 @@ namespace WPPMM.CameraManager
         {
             return liveViewUrl;
         }
+
+
 
         // register callback for UI
         public void RegisterUpdateListener(Action listener)

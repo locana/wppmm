@@ -33,6 +33,9 @@ public:
 		void set(Windows::Foundation::Size renderResolution);
 	}
 
+	void SetDataPtr (byte *data, int *size);
+	void SetTestNum (int num);
+
 protected:
 	// イベント ハンドラー
 	void OnPointerPressed(Windows::Phone::Input::Interop::DrawingSurfaceManipulationHost^ sender, Windows::UI::Core::PointerEventArgs^ args);
@@ -50,6 +53,7 @@ private:
 	CubeRenderer^ m_renderer;
 	BasicTimer^ m_timer;
 	Windows::Foundation::Size m_renderResolution;
+
 };
 
 }

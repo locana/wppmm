@@ -34,7 +34,9 @@ public:
 	}
 
 	void SetDataPtr (byte *data, int *size);
+	void SetScreenData (const Platform::Array<byte>^ data);
 	void SetTestNum (int num);
+	int GetDebugValue();
 
 protected:
 	// イベント ハンドラー
@@ -53,6 +55,8 @@ private:
 	CubeRenderer^ m_renderer;
 	BasicTimer^ m_timer;
 	Windows::Foundation::Size m_renderResolution;
+
+
 
 };
 

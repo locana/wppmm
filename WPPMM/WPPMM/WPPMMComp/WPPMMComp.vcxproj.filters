@@ -26,8 +26,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="..\..\..\..\DirectXTK_Sample\Assets\italic.spritefont">
+    <Image Include="Assets\windowslogo.dds">
       <Filter>Assets</Filter>
-    </Font>
+    </Image>
+    <Image Include="Assets\seafloor.dds">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\Tiny_skin.dds">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\italic.spritefont">
+      <Filter>Assets</Filter>
+    </None>
+    <None Include="Assets\tiny.sdkmesh">
+      <Filter>Assets</Filter>
+    </None>
   </ItemGroup>
 </Project>

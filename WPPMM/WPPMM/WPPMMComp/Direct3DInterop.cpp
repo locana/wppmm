@@ -93,6 +93,15 @@ void Direct3DInterop::SetDataPtr(byte *data , int *size)
 	// m_renderer->setScreenInformation(data, size);
 }
 
+void Direct3DInterop::SetScreenData(const Platform::Array<byte>^ data){
+	m_renderer->setScreenData(data);
+}
+
+int Direct3DInterop::GetDebugValue(){
+	return m_renderer->GetDebugValue();
+}
+
+
 void Direct3DInterop::SetTestNum(int num)
 {
 	printf ("SetTextNum: %d\n", num);

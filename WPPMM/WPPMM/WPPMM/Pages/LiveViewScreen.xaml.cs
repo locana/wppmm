@@ -77,6 +77,9 @@ namespace WPPMM.Pages
 
             screenData = data;
             screenDataLen = data.Length;
+            m_d3dInterop.SetScreenData(screenData);
+
+            Debug.WriteLine("debug value: " + m_d3dInterop.GetDebugValue());
 
             return;
 
@@ -114,8 +117,8 @@ namespace WPPMM.Pages
                 // m_d3dInterop.SetTestNum(101);
 
 
-               
-                // m_d3dInterop.SetDataPtr(out screenData[0], out screenDataLen);
+
+                // m_d3dInterop.SetScreenData(screenData);
 
                 // Hook-up native component to DrawingSurface
                 ScreenSurface.SetContentProvider(m_d3dInterop.CreateContentProvider());

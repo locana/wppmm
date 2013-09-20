@@ -182,9 +182,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="..\..\..\..\DirectXTK_Sample\Assets\italic.spritefont">
-      <FileType>Document</FileType>
-    </Font>
+    <Image Include="Assets\seafloor.dds" />
+    <Image Include="Assets\Tiny_skin.dds" />
+    <Image Include="Assets\windowslogo.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\italic.spritefont" />
+    <None Include="Assets\tiny.sdkmesh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsPhone\v$(TargetPlatformVersion)\Microsoft.Cpp.WindowsPhone.$(TargetPlatformVersion).targets" />

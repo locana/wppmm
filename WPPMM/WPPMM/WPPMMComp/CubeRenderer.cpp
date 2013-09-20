@@ -9,15 +9,28 @@ using namespace Windows::UI::Core;
 
 CubeRenderer::CubeRenderer()
 {
-
+	
 }
 
 void CubeRenderer::CreateDeviceResources()
 {
 	Direct3DBase::CreateDeviceResources();
-	
-	spriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(m_d3dContext.Get()));
 
+	    // Create DirectXTK objects
+    auto device = m_d3dDevice.Get();
+	auto context = m_d3dContext.Get();
+
+	spriteBatch.reset( new SpriteBatch( context ) );
+	
+	// spriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(m_d3dContext.Get()));
+
+	
+	DX::ThrowIfFailed(
+        CreateDDSTextureFromFile( device, L"Assets\\windowslogo.dds", nullptr, m_texture1.ReleaseAndGetAddressOf() )
+		);
+	
+	screen_buf_size = 0;
+	hResult = 0;
 }
 
 void CubeRenderer::CreateWindowSizeDependentResources()
@@ -55,14 +68,33 @@ void CubeRenderer::Render()
 
 
 	spriteBatch->Begin();
+	HRESULT result = 0;
+	hResult = result;
+	result = CreateDDSTextureFromMemory(m_d3dDevice.Get(), screen_buf, screen_buf_size, nullptr, m_texture1.ReleaseAndGetAddressOf());
 
-
+	if(SUCCEEDED(result))
+	{
+		spriteBatch->Draw( m_texture1.Get(), XMFLOAT2(10,75), nullptr, Colors::White );
+	}
+	
 	spriteBatch->End();
 }
 
-void CubeRenderer::setScreenInformation(byte *data, int *size){
-	this->screen_data = data;
-	this->screen_data_size = size;
+void CubeRenderer::setScreenData(const Platform::Array<byte>^ data){
+	
+	screen_buf_size = static_cast<int>( data->Length);
+	
+	if (SCREEN_BUF_MAX < screen_buf_size){
+		return;
+	}
 
-	memcpy_s(screen_buf, SCREEN_BUF_SIZE, data, *size);
+    for(int i = 0 ; i < screen_buf_size; i++)
+    {
+		screen_buf[i] = data[i];
+    }
 }
+
+int CubeRenderer::GetDebugValue(){
+	return screen_buf_size;
+}
+

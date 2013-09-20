@@ -166,8 +166,10 @@ namespace WPPMM.CameraManager
             stringBuilder.Append("[CameraManager] Jpeg retrived ");
             stringBuilder.Append(size);
             Debug.WriteLine(stringBuilder.ToString());
-
             screenData = data;
+
+            Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(screenData); });
+            
 
         }
 

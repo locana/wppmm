@@ -30,21 +30,25 @@ public:
 	
 	// 時間に依存するオブジェクトを更新するメソッドです。
 	void Update(float timeTotal, float timeDelta);
-	void setScreenInformation(byte *data, int *size);
 
+
+	void setScreenData(const Platform::Array<byte>^ data);
+
+	int GetDebugValue();
 
 private:
 	bool m_loadingComplete;
+	long hResult;
 
 	ID3D11ShaderResourceView* texture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture1;
 	std::unique_ptr<DirectX::SpriteBatch> spriteBatch;
 	std::unique_ptr<DirectX::SpriteFont> m_font;
-
-	static const int SCREEN_BUF_SIZE = 1000000; // 1MB
-	byte screen_buf[SCREEN_BUF_SIZE];
-
-	byte *screen_data;
-	int *screen_data_size;
+	
+	static const int SCREEN_BUF_MAX = 1000000; // 1MB
+	// Platform::Array<byte>^ screen_buf;
+	uint8_t screen_buf[SCREEN_BUF_MAX];
+	int screen_buf_size;
 
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;

@@ -20,14 +20,15 @@ void CubeRenderer::CreateDeviceResources()
     auto device = m_d3dDevice.Get();
 	auto context = m_d3dContext.Get();
 
+	m_font.reset( new SpriteFont( device, L"Assets\\italic.spritefont" ) );
+	
 	spriteBatch.reset( new SpriteBatch( context ) );
-	
-	// spriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(m_d3dContext.Get()));
-
-	
+		
 	DX::ThrowIfFailed(
         CreateDDSTextureFromFile( device, L"Assets\\windowslogo.dds", nullptr, m_texture1.ReleaseAndGetAddressOf() )
 		);
+
+	
 	
 	screen_buf_size = 0;
 	hResult = 0;
@@ -71,11 +72,24 @@ void CubeRenderer::Render()
 	HRESULT result = 0;
 	hResult = result;
 	result = CreateDDSTextureFromMemory(m_d3dDevice.Get(), screen_buf, screen_buf_size, nullptr, m_texture1.ReleaseAndGetAddressOf());
+	
+
 
 	if(SUCCEEDED(result))
 	{
 		spriteBatch->Draw( m_texture1.Get(), XMFLOAT2(10,75), nullptr, Colors::White );
+	}else{
+		CreateDDSTextureFromFile( m_d3dDevice.Get(), L"Assets\\windowslogo.dds", nullptr, m_texture1.ReleaseAndGetAddressOf() );
+		spriteBatch->Draw( m_texture1.Get(), XMFLOAT2(10,75), nullptr, Colors::White );
 	}
+
+
+	wchar_t wStr[30];
+	_ltow_s(result, wStr, 20);
+	m_font->DrawString( spriteBatch.get(), wStr , XMFLOAT2( 10, 10 ), Colors::Yellow );
+	
+	_itow_s(screen_buf_size, wStr, 10);
+	m_font->DrawString( spriteBatch.get(), wStr , XMFLOAT2( 310, 200 ), Colors::Yellow );
 	
 	spriteBatch->End();
 }

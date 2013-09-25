@@ -37,6 +37,7 @@ public:
 	void SetScreenData (const Platform::Array<byte>^ data);
 	void SetTestNum (int num);
 	int GetDebugValue();
+	void setTexture(int *image, int width, int height);
 
 protected:
 	// イベント ハンドラー

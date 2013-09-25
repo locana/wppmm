@@ -39,6 +39,10 @@ namespace WPPMM.CameraManager
         private static byte[] screenData;
         private static int screenCounter;
 
+        private object lockObject;
+        private bool isRendering;
+        private Stopwatch watch;
+
         private CameraManager()
         {
             Debug.WriteLine("Constructor on CameraManager");
@@ -46,6 +50,10 @@ namespace WPPMM.CameraManager
             screenCounter = 0;
             stringBuilder = new System.Text.StringBuilder();
             stringBuilder.Capacity = 64;
+            lockObject = new Object();
+            isRendering = false;
+            watch = new Stopwatch();
+            watch.Start();
         }
 
         public static CameraManager GetInstance()
@@ -155,6 +163,8 @@ namespace WPPMM.CameraManager
         // callback methods (liveview)
         public void OnJpegRetrieved(byte[] data)
         {
+
+
             /*
             int size = data.Length;
             Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
@@ -162,13 +172,28 @@ namespace WPPMM.CameraManager
              */
 
             int size = data.Length;
-            stringBuilder.Clear();
-            stringBuilder.Append("[CameraManager] Jpeg retrived ");
-            stringBuilder.Append(size);
-            Debug.WriteLine(stringBuilder.ToString());
+            Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
+            
+            
+
+            if (isRendering)
+            {
+                return;
+            }
+            
             screenData = data;
 
-            Deployment.Current.Dispatcher.BeginInvoke(() => { LiveViewUpdateListener(screenData); });
+            Deployment.Current.Dispatcher.BeginInvoke(() => {
+                lock (this.lockObject)
+                {
+
+                    Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
+                    isRendering = true;
+                    LiveViewUpdateListener(screenData);
+                    // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
+                    isRendering = false;
+                }
+            });
             
 
         }

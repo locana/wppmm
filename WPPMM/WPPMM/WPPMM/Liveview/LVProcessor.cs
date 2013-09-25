@@ -60,7 +60,6 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
-                                str.ReadTimeout = ReadTimeout;
                                 while (IsOpen)
                                 {
                                     try

@@ -7,6 +7,8 @@ namespace WPPMM.Liveview
 {
     public class LVProcessor
     {
+        private const int ReadTimeout = 10000; //msec
+
         /// <summary>
         /// Connection status of this LVProcessor.
         /// </summary>
@@ -57,6 +59,7 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
+                                str.ReadTimeout = ReadTimeout;
                                 while (IsOpen)
                                 {
                                     try

@@ -164,6 +164,7 @@ namespace WPPMM.CameraManager
         public void OnJpegRetrieved(byte[] data)
         {
 
+            return;
 
             /*
             int size = data.Length;

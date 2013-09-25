@@ -47,7 +47,7 @@ namespace WPPMM.Pages
             isRequestingLiveview = true;
 
             screenBitmapImage = new BitmapImage();
-            screenBitmapImage.CreateOptions = BitmapCreateOptions.None;
+            screenBitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
 
             screenData = new byte[1];
             screenDataLen = screenData.Length;
@@ -80,6 +80,7 @@ namespace WPPMM.Pages
 
         public void LiveViewUpdateListener(byte[] data)
         {
+
             Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
 
             int size = data.Length;

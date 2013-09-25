@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace WPPMM.Liveview
 {
@@ -59,22 +60,7 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
-                                str.ReadTimeout = ReadTimeout;
-                                while (IsOpen)
-                                {
-                                    try
-                                    {
-                                        var data = Next(str);
-                                        if (data != null)
-                                        {
-                                            OnJpegRetrieved.Invoke(data);
-                                        }
-                                    }
-                                    catch (IOException)
-                                    {
-                                        IsOpen = false;
-                                    }
-                                }
+                                ReadFramesAsync(str, OnJpegRetrieved, OnClosed);
                             }
                         }
                     }
@@ -82,9 +68,6 @@ namespace WPPMM.Liveview
                 catch (WebException)
                 {
                     Debug.WriteLine("WebException");
-                }
-                finally
-                {
                     Debug.WriteLine("Disconnected Jpeg stream");
                     IsOpen = false;
                     OnClosed.Invoke();
@@ -105,10 +88,34 @@ namespace WPPMM.Liveview
         private const int CHeaderLength = 8;
         private const int PHeaderLength = 128;
 
-        private static byte[] Next(Stream str)
+        private async void ReadFramesAsync(Stream str, Action<byte[]> OnJpegRetrieved, Action OnClosed)
+        {
+            while (IsOpen)
+            {
+                try
+                {
+                    OnJpegRetrieved(await Next(str));
+                }
+                catch (IOException)
+                {
+                }
+                catch (ObjectDisposedException)
+                {
+                }
+                finally
+                {
+                    IsOpen = false;
+                    str.Close();
+                }
+            }
+            Debug.WriteLine("Disconnected Jpeg stream");
+            OnClosed.Invoke();
+        }
+
+        private async Task<byte[]> Next(Stream str)
         {
             byte[] CHeader = new byte[CHeaderLength];
-            str.Read(CHeader, 0, CHeaderLength);
+            await str.ReadAsync(CHeader, 0, CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
                 Debug.WriteLine("Unexpected common header");
@@ -130,6 +137,11 @@ namespace WPPMM.Liveview
 
             str.Read(data, 0, data_size);
             str.Read(padding, 0, padding_size); // discard padding from stream
+
+            if (!IsOpen)
+            {
+                throw new IOException("Connection is closed");
+            }
 
             return data;
         }

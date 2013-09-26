@@ -48,7 +48,7 @@ namespace WPPMM.Liveview
             var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             request.Method = "GET";
 
-            var JpegStreamHandler = new AsyncCallback(async (ar) =>
+            var JpegStreamHandler = new AsyncCallback((ar) =>
             {
                 try
                 {
@@ -64,11 +64,7 @@ namespace WPPMM.Liveview
                                 {
                                     try
                                     {
-                                        var data = await Next(str);
-                                        if (data != null)
-                                        {
-                                            OnJpegRetrieved.Invoke(data);
-                                        }
+                                        OnJpegRetrieved(Next(str));
                                     }
                                     catch (IOException)
                                     {
@@ -105,18 +101,16 @@ namespace WPPMM.Liveview
         private const int CHeaderLength = 8;
         private const int PHeaderLength = 128;
 
-        private async static Task<byte[]> Next(Stream str)
+        private byte[] Next(Stream str)
         {
-            byte[] CHeader = new byte[CHeaderLength];
-            await str.ReadAsync(CHeader, 0, CHeaderLength);
+            var CHeader = BlockingRead(str, CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
                 Debug.WriteLine("Unexpected common header");
                 throw new IOException("Unexpected common header");
             }
 
-            byte[] PHeader = new byte[PHeaderLength];
-            str.Read(PHeader, 0, PHeaderLength);
+            var PHeader = BlockingRead(str, PHeaderLength);
             if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
             {
                 Debug.WriteLine("Unexpected payload header");
@@ -125,13 +119,35 @@ namespace WPPMM.Liveview
             int data_size = ReadIntFromByteArray(PHeader, 4, 3);
             int padding_size = ReadIntFromByteArray(PHeader, 7, 1);
 
-            byte[] data = new byte[data_size];
-            byte[] padding = new byte[padding_size];
-
-            str.Read(data, 0, data_size);
-            str.Read(padding, 0, padding_size); // discard padding from stream
+            var data = BlockingRead(str, data_size);
+            BlockingRead(str, padding_size); // discard padding from stream
 
             return data;
+        }
+
+        private byte[] ReadBuffer = new byte[8192];
+
+        private byte[] BlockingRead(Stream str, int numBytes)
+        {
+            lock (this)
+            {
+                var remainBytes = numBytes;
+                int read;
+                using (var output = new MemoryStream())
+                {
+                    while (remainBytes > 0)
+                    {
+                        if (!IsOpen)
+                        {
+                            throw new IOException("Force finish reading");
+                        }
+                        read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
+                        remainBytes -= read;
+                        output.Write(ReadBuffer, 0, read);
+                    }
+                    return output.ToArray();
+                }
+            }
         }
 
         private static int ReadIntFromByteArray(byte[] bytearray, int index, int length)

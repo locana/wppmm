@@ -16,6 +16,7 @@ using Microsoft.Phone;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Resources;
 using WPPMMComp;
+using System.Text;
 
 
 namespace WPPMM.Pages
@@ -35,6 +36,9 @@ namespace WPPMM.Pages
         private Direct3DInterop m_d3dInterop = null;
         private Stopwatch watch;
 
+        private System.Text.StringBuilder stringBuilder;
+
+
         public LiveViewScreen()
         {
             InitializeComponent();
@@ -49,6 +53,7 @@ namespace WPPMM.Pages
             screenBitmapImage = new BitmapImage();
             screenBitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
 
+
             screenData = new byte[1];
             screenDataLen = screenData.Length;
 
@@ -57,7 +62,10 @@ namespace WPPMM.Pages
             screenMemoryStream = new MemoryStream();
             watch = new Stopwatch();
             watch.Start();
+            stringBuilder = new System.Text.StringBuilder();
+
         }
+
 
         public void UpdateListener()
         {
@@ -81,16 +89,27 @@ namespace WPPMM.Pages
         public void LiveViewUpdateListener(byte[] data)
         {
 
+
             Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
 
             int size = data.Length;
             // Debug.WriteLine("debug value: " + m_d3dInterop.GetDebugValue());
+            stringBuilder.Clear();
+            stringBuilder.Append("data: ");
+            for (int i = 1000; i < 1050; i++)
+            {
+                stringBuilder.Append(" ");
+                stringBuilder.Append(data[i].ToString());
+            }
+            Debug.WriteLine(stringBuilder.ToString());
 
+            ScreenImage.Source = null;
             
             screenMemoryStream = new MemoryStream(data, 0, data.Length);
 
+            
             screenBitmapImage.SetSource(screenMemoryStream);
-
+            
             
             WriteableBitmap bmp = new WriteableBitmap(screenBitmapImage);
             // screenWritableBitmap.SetSource(screenMemoryStream);
@@ -101,6 +120,7 @@ namespace WPPMM.Pages
             // m_d3dInterop.setTexture(out screenWritableBitmap.Pixels[0], screenWritableBitmap.PixelWidth, screenWritableBitmap.PixelHeight);
             
             ScreenImage.Source = screenBitmapImage;
+            
 
 
             screenMemoryStream.Close();

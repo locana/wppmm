@@ -48,7 +48,7 @@ namespace WPPMM.Liveview
             var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             request.Method = "GET";
 
-            var JpegStreamHandler = new AsyncCallback((ar) =>
+            var JpegStreamHandler = new AsyncCallback(async (ar) =>
             {
                 try
                 {
@@ -64,7 +64,7 @@ namespace WPPMM.Liveview
                                 {
                                     try
                                     {
-                                        OnJpegRetrieved(Next(str));
+                                        OnJpegRetrieved(await Next(str));
                                     }
                                     catch (IOException)
                                     {
@@ -101,16 +101,16 @@ namespace WPPMM.Liveview
         private const int CHeaderLength = 8;
         private const int PHeaderLength = 128;
 
-        private byte[] Next(Stream str)
+        private async Task<byte[]> Next(Stream str)
         {
-            var CHeader = BlockingRead(str, CHeaderLength);
+            var CHeader = await AsyncRead(str, CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
                 Debug.WriteLine("Unexpected common header");
                 throw new IOException("Unexpected common header");
             }
 
-            var PHeader = BlockingRead(str, PHeaderLength);
+            var PHeader = await AsyncRead(str, PHeaderLength);
             if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
             {
                 Debug.WriteLine("Unexpected payload header");
@@ -119,48 +119,45 @@ namespace WPPMM.Liveview
             int data_size = ReadIntFromByteArray(PHeader, 4, 3);
             int padding_size = ReadIntFromByteArray(PHeader, 7, 1);
 
-            var data = BlockingRead(str, data_size);
-            BlockingRead(str, padding_size); // discard padding from stream
+            var data = await AsyncRead(str, data_size);
+            await AsyncRead(str, padding_size); // discard padding from stream
 
             return data;
         }
 
         private byte[] ReadBuffer = new byte[8192];
 
-        private byte[] BlockingRead(Stream str, int numBytes)
+        private async Task<byte[]> AsyncRead(Stream str, int numBytes)
         {
-            lock (this)
+            var failed = false;
+            var remainBytes = numBytes;
+            int read;
+            using (var output = new MemoryStream())
             {
-                var failed = false;
-                var remainBytes = numBytes;
-                int read;
-                using (var output = new MemoryStream())
+                while (remainBytes > 0)
                 {
-                    while (remainBytes > 0)
+                    if (!IsOpen)
                     {
-                        if (!IsOpen)
-                        {
-                            throw new IOException("Force finish reading");
-                        }
-                        read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
-                        if (read > 0)
-                        {
-                            remainBytes -= read;
-                            output.Write(ReadBuffer, 0, read);
-                        }
-                        else
-                        {
-                            if (!failed)
-                            {
-                                Debug.WriteLine("No data has been read by this trial...");
-                                Debug.WriteLine("Stream.CanRead: " + str.CanRead);
-                                failed = true;
-                            }
-                            continue;
-                        }
+                        throw new IOException("Force finish reading");
                     }
-                    return output.ToArray();
+                    read = await str.ReadAsync(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
+                    if (read > 0)
+                    {
+                        remainBytes -= read;
+                        output.Write(ReadBuffer, 0, read);
+                    }
+                    else
+                    {
+                        if (!failed)
+                        {
+                            Debug.WriteLine("No data has been read by this trial...");
+                            Debug.WriteLine("Stream.CanRead: " + str.CanRead);
+                            failed = true;
+                        }
+                        continue;
+                    }
                 }
+                return output.ToArray();
             }
         }
 

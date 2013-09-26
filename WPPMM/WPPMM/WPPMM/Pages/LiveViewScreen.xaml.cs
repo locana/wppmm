@@ -51,7 +51,7 @@ namespace WPPMM.Pages
             isRequestingLiveview = true;
 
             screenBitmapImage = new BitmapImage();
-            screenBitmapImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            screenBitmapImage.CreateOptions = BitmapCreateOptions.None;
 
 
             screenData = new byte[1];
@@ -64,6 +64,18 @@ namespace WPPMM.Pages
             watch.Start();
             stringBuilder = new System.Text.StringBuilder();
 
+            ScreenImage.ImageOpened += ScreenImage_ImageOpened;
+            ScreenImage.ImageFailed += ScreenImage_ImageFailed;
+        }
+
+        void ScreenImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            Debug.WriteLine("image failed");
+        }
+
+        void ScreenImage_ImageOpened(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("image opened");
         }
 
 
@@ -88,7 +100,7 @@ namespace WPPMM.Pages
 
         public void LiveViewUpdateListener(byte[] data)
         {
-
+     
 
             Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
 
@@ -110,8 +122,7 @@ namespace WPPMM.Pages
             
             screenBitmapImage.SetSource(screenMemoryStream);
             
-            
-            WriteableBitmap bmp = new WriteableBitmap(screenBitmapImage);
+           //  WriteableBitmap bmp = new WriteableBitmap(screenBitmapImage);
             // screenWritableBitmap.SetSource(screenMemoryStream);
 
             Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] set source to WritableBitmap. " + size + "bytes. ");

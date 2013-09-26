@@ -108,6 +108,10 @@ void Direct3DInterop::SetTestNum(int num)
 	
 }
 
+void Direct3DInterop::setTexture(int* image, int width, int height){
+	m_renderer->setTexture(image, width, height);
+}
+
 
 HRESULT Direct3DInterop::PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Out_ BOOL* contentDirty)
 {

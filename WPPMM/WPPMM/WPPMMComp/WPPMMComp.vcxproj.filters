@@ -40,10 +40,8 @@
     <None Include="Assets\tiny.sdkmesh">
       <Filter>Assets</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="Assets\italic.spritefont">
+    <None Include="Assets\italic.spritefont">
       <Filter>Assets</Filter>
-    </Font>
+    </None>
   </ItemGroup>
 </Project>

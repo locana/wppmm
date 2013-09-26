@@ -131,6 +131,7 @@ namespace WPPMM.Liveview
         {
             lock (this)
             {
+                var failed = false;
                 var remainBytes = numBytes;
                 int read;
                 using (var output = new MemoryStream())
@@ -142,8 +143,21 @@ namespace WPPMM.Liveview
                             throw new IOException("Force finish reading");
                         }
                         read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
-                        remainBytes -= read;
-                        output.Write(ReadBuffer, 0, read);
+                        if (read > 0)
+                        {
+                            remainBytes -= read;
+                            output.Write(ReadBuffer, 0, read);
+                        }
+                        else
+                        {
+                            if (!failed)
+                            {
+                                Debug.WriteLine("No data has been read by this trial...");
+                                Debug.WriteLine("Stream.CanRead: " + str.CanRead);
+                                failed = true;
+                            }
+                            continue;
+                        }
                     }
                     return output.ToArray();
                 }

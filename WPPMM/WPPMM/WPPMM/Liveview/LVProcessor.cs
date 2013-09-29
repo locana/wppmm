@@ -2,13 +2,15 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace WPPMM.Liveview
 {
     public class LVProcessor
     {
-        private const int ReadTimeout = 10000; //msec
+        Timer timer = null;
+        private const int fps_interval = 5000;
+        private int packet_counter = 0;
 
         /// <summary>
         /// Connection status of this LVProcessor.
@@ -20,6 +22,10 @@ namespace WPPMM.Liveview
         }
 
         private bool _IsOpen = false;
+
+        public LVProcessor()
+        {
+        }
 
         /// <summary>
         /// Open stream connection for Liveview.
@@ -40,7 +46,7 @@ namespace WPPMM.Liveview
 
             if (IsOpen)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Liveview stream is already open");
             }
 
             IsOpen = true;
@@ -60,6 +66,13 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
+                                timer = new Timer(new TimerCallback((target) =>
+                                {
+                                    var fps = packet_counter * 1000 / fps_interval;
+                                    packet_counter = 0;
+                                    Debug.WriteLine("- - - - " + fps + " FPS - - - -");
+                                }), null, 0, fps_interval);
+
                                 while (IsOpen)
                                 {
                                     try
@@ -83,6 +96,10 @@ namespace WPPMM.Liveview
                 {
                     Debug.WriteLine("Disconnected Jpeg stream");
                     IsOpen = false;
+                    if (timer != null)
+                    {
+                        timer.Dispose();
+                    }
                     OnClosed.Invoke();
                 }
             });
@@ -121,6 +138,8 @@ namespace WPPMM.Liveview
 
             var data = BlockingRead(str, data_size);
             BlockingRead(str, padding_size); // discard padding from stream
+
+            packet_counter++;
 
             return data;
         }

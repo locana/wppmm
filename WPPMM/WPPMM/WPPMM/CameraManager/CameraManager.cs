@@ -29,8 +29,6 @@ namespace WPPMM.CameraManager
         private static String liveViewUrl = null;
         private Liveview.LVProcessor lvProcessor = null;
 
-        private static String friendlyName = "NEX-5R";
-
         private static List<Action> UpdateListeners;
         private static Action<byte[]> LiveViewUpdateListener;
         private static System.Text.StringBuilder stringBuilder;
@@ -68,7 +66,7 @@ namespace WPPMM.CameraManager
 
         public void StartLiveView()
         {
-            if (deviceInfo.FriendlyName == "NEX-5R" || deviceInfo.FriendlyName == "NEX-5T")
+            if (deviceInfo.FriendlyName == "NEX-5R" || deviceInfo.FriendlyName == "NEX-5T" || deviceInfo.FriendlyName == "NEX-6")
             {
                 Debug.WriteLine("it looks E-mount device. calling startRecmode.");
                 RequestStartRecmode();

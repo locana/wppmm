@@ -64,20 +64,7 @@ namespace WPPMM.Pages
             watch.Start();
             stringBuilder = new System.Text.StringBuilder();
 
-            ScreenImage.ImageOpened += ScreenImage_ImageOpened;
-            ScreenImage.ImageFailed += ScreenImage_ImageFailed;
         }
-
-        void ScreenImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            Debug.WriteLine("image failed");
-        }
-
-        void ScreenImage_ImageOpened(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("image opened");
-        }
-
 
         public void UpdateListener()
         {
@@ -89,14 +76,6 @@ namespace WPPMM.Pages
                 
         }
 
-        public void LiveViewUpdateListener(MemoryStream ms)
-        {
-            Debug.WriteLine("Live view update listener");
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.CreateOptions = BitmapCreateOptions.DelayCreation;
-            bitmap.SetSource(ms);
-            ScreenImage.Source = bitmap;
-        }
 
         public void LiveViewUpdateListener(byte[] data)
         {
@@ -138,41 +117,6 @@ namespace WPPMM.Pages
 
         }
 
-        private void DrawingSurface_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            if (m_d3dInterop == null)
-            {
-                m_d3dInterop = new Direct3DInterop();
 
-                
-
-                // Set window bounds in dips
-                m_d3dInterop.WindowBounds = new Windows.Foundation.Size(
-                    (float)ScreenSurface.ActualWidth,
-                    (float)ScreenSurface.ActualHeight
-                    );
-
-                // Set native resolution in pixels
-                m_d3dInterop.NativeResolution = new Windows.Foundation.Size(
-                    (float)Math.Floor(ScreenSurface.ActualWidth * Application.Current.Host.Content.ScaleFactor / 100.0f + 0.5f),
-                    (float)Math.Floor(ScreenSurface.ActualHeight * Application.Current.Host.Content.ScaleFactor / 100.0f + 0.5f)
-                    );
-
-                // Set render resolution to the full native resolution
-                m_d3dInterop.RenderResolution = m_d3dInterop.NativeResolution;
-
-                // m_d3dInterop.SetTestNum(101);
-
-
-
-                // m_d3dInterop.SetScreenData(screenData);
-
-                // Hook-up native component to DrawingSurface
-                ScreenSurface.SetContentProvider(m_d3dInterop.CreateContentProvider());
-                ScreenSurface.SetManipulationHandler(m_d3dInterop);
-
-            }
-        }
     }
 }

@@ -30,8 +30,6 @@ namespace WPPMM.Pages
         private MemoryStream screenMemoryStream;
 
         private byte[] screenData;
-        private int screenDataLen;
-
         private Stopwatch watch;
 
         public LiveViewScreen()

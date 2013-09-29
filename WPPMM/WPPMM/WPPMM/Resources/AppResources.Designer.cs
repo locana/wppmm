@@ -115,6 +115,33 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure the connected SSID is same as your device&apos;s one..
+        /// </summary>
+        public static string Guide_CantFindDevice {
+            get {
+                return ResourceManager.GetString("Guide_CantFindDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect to your device..
+        /// </summary>
+        public static string Guide_WiFiNotConnected {
+            get {
+                return ResourceManager.GetString("Guide_WiFiNotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn on Wi-Fi and connect to your device..
+        /// </summary>
+        public static string Guide_WiFiNotEnabled {
+            get {
+                return ResourceManager.GetString("Guide_WiFiNotEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 機器の電源を入れ、リモコンを起動してください。.
         /// </summary>
         public static string GuideMessage_01 {

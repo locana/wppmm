@@ -8,6 +8,7 @@ using Microsoft.Phone.Tasks;
 using WPPMM.Ssdp;
 using WPPMM.CameraManager;
 using Microsoft.Phone.Shell;
+using WPPMM.Resources;
 
 
 namespace WPPMM
@@ -16,6 +17,7 @@ namespace WPPMM
     {
 
         private CameraManager.CameraManager cameraManager;
+        
 
         // コンストラクター
         public MainPage()
@@ -24,11 +26,11 @@ namespace WPPMM
 
 
             cameraManager = CameraManager.CameraManager.GetInstance();
-            
+
             // get current network status
             UpdateNetworkStatus();
 
-            
+
         }
 
         private void HandleError(int code)
@@ -47,25 +49,28 @@ namespace WPPMM
 
         private void UpdateNetworkStatus()
         {
-          
-
+            Debug.WriteLine("SSID: " + this.GetSSIDName());
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
-                NetworkStatus.Text = "";
+                NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
                 SearchButton.IsEnabled = true;
+            }
+            else if (this.GetSSIDName().StartsWith("DIRECT-"))
+            {
+                NetworkStatus.Text = AppResources.Guide_CantFindDevice;
             }
             else
             {
-                NetworkStatus.Text = "Currently, Wi-Fi is turned off.\nOpen Wi-Fi setting and connect to your devide.";
+                NetworkStatus.Text = AppResources.Guide_WiFiNotConnected;
             }
 
             // display initialize
-            
+
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
             cameraManager.RegisterUpdateListener(WifiUpdateListener);
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void OnWiFiSettingButtonClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
             connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
@@ -86,13 +91,13 @@ namespace WPPMM
 
         public void WifiUpdateListener()
         {
-            String modelName = CameraManager.CameraManager.GetModelName();
+            String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;
             if (modelName != null)
             {
-                NetworkStatus.Text = "Found model name: " + modelName;
+                NetworkStatus.Text = "Connected device: " + modelName;
                 StartRemoteButton.IsEnabled = true;
             }
-            
+
         }
 
 
@@ -103,6 +108,28 @@ namespace WPPMM
         {
             base.OnNavigatedTo(e);
 
+            if (PhoneApplicationService.Current.StartupMode == StartupMode.Activate)
+            {
+
+            }
+
+            UpdateNetworkStatus();
+        }
+
+
+        private string GetSSIDName()
+        {
+            foreach (var network in new NetworkInterfaceList())
+            {
+                if (
+                    (network.InterfaceType == NetworkInterfaceType.Wireless80211) &&
+                    (network.InterfaceState == ConnectState.Connected)
+                    )
+                {
+                    return network.InterfaceName;
+                }
+            }
+            return "<Not connected>";
         }
 
 

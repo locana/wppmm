@@ -149,4 +149,13 @@
   <data name="StartRemoteControllingButtonText" xml:space="preserve">
     <value>Start remote controlling</value>
   </data>
+  <data name="Guide_CantFindDevice" xml:space="preserve">
+    <value>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</value>
+  </data>
+  <data name="Guide_WiFiNotConnected" xml:space="preserve">
+    <value>Connect to your device.</value>
+  </data>
+  <data name="Guide_WiFiNotEnabled" xml:space="preserve">
+    <value>Turn on Wi-Fi and connect to your device.</value>
+  </data>
 </root>

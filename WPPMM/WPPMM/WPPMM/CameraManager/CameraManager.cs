@@ -68,8 +68,9 @@ namespace WPPMM.CameraManager
 
         public void StartLiveView()
         {
-            if (friendlyName == "NEX-5R")
+            if (deviceInfo.FriendlyName == "NEX-5R" || deviceInfo.FriendlyName == "NEX-5T")
             {
+                Debug.WriteLine("it looks E-mount device. calling startRecmode.");
                 RequestStartRecmode();
             }
             else
@@ -281,6 +282,10 @@ namespace WPPMM.CameraManager
             return liveViewUrl;
         }
 
+        public static Ssdp.DeviceInfo GetDeviceInfo()
+        {
+            return deviceInfo;
+        }
 
 
         // register callback for UI

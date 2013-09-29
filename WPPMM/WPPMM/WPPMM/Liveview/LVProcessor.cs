@@ -53,6 +53,8 @@ namespace WPPMM.Liveview
 
             var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             request.Method = "GET";
+            request.AllowReadStreamBuffering = false;
+            request.AllowWriteStreamBuffering = false;
 
             var JpegStreamHandler = new AsyncCallback((ar) =>
             {

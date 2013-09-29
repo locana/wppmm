@@ -28,16 +28,11 @@ namespace WPPMM.Pages
         private bool isRequestingLiveview = false;
         private BitmapImage screenBitmapImage;
         private MemoryStream screenMemoryStream;
-        private WriteableBitmap screenWritableBitmap;
 
         private byte[] screenData;
         private int screenDataLen;
 
-        private Direct3DInterop m_d3dInterop = null;
         private Stopwatch watch;
-
-        private System.Text.StringBuilder stringBuilder;
-
 
         public LiveViewScreen()
         {
@@ -55,14 +50,9 @@ namespace WPPMM.Pages
 
 
             screenData = new byte[1];
-            screenDataLen = screenData.Length;
 
-            screenWritableBitmap = new WriteableBitmap(640, 480);
-
-            screenMemoryStream = new MemoryStream();
             watch = new Stopwatch();
             watch.Start();
-            stringBuilder = new System.Text.StringBuilder();
 
         }
 
@@ -80,39 +70,14 @@ namespace WPPMM.Pages
         public void LiveViewUpdateListener(byte[] data)
         {
      
-
             Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
 
             int size = data.Length;
-            // Debug.WriteLine("debug value: " + m_d3dInterop.GetDebugValue());
-            stringBuilder.Clear();
-            stringBuilder.Append("data: ");
-            for (int i = 1000; i < 1050; i++)
-            {
-                stringBuilder.Append(" ");
-                stringBuilder.Append(data[i].ToString());
-            }
-            Debug.WriteLine(stringBuilder.ToString());
-
             ScreenImage.Source = null;
             
-            screenMemoryStream = new MemoryStream(data, 0, data.Length);
-
-            
+            screenMemoryStream = new MemoryStream(data, 0, size);
             screenBitmapImage.SetSource(screenMemoryStream);
-            
-           //  WriteableBitmap bmp = new WriteableBitmap(screenBitmapImage);
-            // screenWritableBitmap.SetSource(screenMemoryStream);
-
-            Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] set source to WritableBitmap. " + size + "bytes. ");
-            
-
-            // m_d3dInterop.setTexture(out screenWritableBitmap.Pixels[0], screenWritableBitmap.PixelWidth, screenWritableBitmap.PixelHeight);
-            
             ScreenImage.Source = screenBitmapImage;
-            
-
-
             screenMemoryStream.Close();
 
         }

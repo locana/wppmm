@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace WPPMM.CameraManager
 {
-    class CameraManager
+    public class CameraManager
     {
 
         // singleton instance
@@ -231,7 +231,7 @@ namespace WPPMM.CameraManager
         public void OnLiveViewClosed()
         {
             Debug.WriteLine("liveView connection closed.");
-            init();
+            // init();
             NoticeUpdate();
         }
 
@@ -256,6 +256,10 @@ namespace WPPMM.CameraManager
 
         public void RequestActTakePicture()
         {
+            if (!deviceInfo.Endpoints.ContainsKey("camera"))
+            {
+                Debug.WriteLine("error: endpoint is null");
+            }
             String json = Json.Request.actTakePicture();
             String endpoint = deviceInfo.Endpoints["camera"];
             Json.XhrPost.Post(endpoint, json, OnActTakePictureRespond, OnError);
@@ -271,6 +275,8 @@ namespace WPPMM.CameraManager
 
         public static void OnResultActTakePicture(String[] res)
         {
+            CameraManager.GetInstance().isTakingPicture = false;
+            CameraManager.NoticeUpdate();
         }
 
         public static void OnActTakePictureError(int err)
@@ -282,6 +288,8 @@ namespace WPPMM.CameraManager
             }
 
             Debug.WriteLine("Error during taking picture: " + err);
+            CameraManager.GetInstance().isTakingPicture = false;
+            CameraManager.NoticeUpdate();
         }
 
 

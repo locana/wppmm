@@ -151,7 +151,6 @@ namespace WPPMM.Liveview
 
         private async Task<byte[]> AsyncRead(Stream str, int numBytes)
         {
-            var failed = false;
             var remainBytes = numBytes;
             int read;
             using (var output = new MemoryStream())
@@ -170,13 +169,7 @@ namespace WPPMM.Liveview
                     }
                     else
                     {
-                        if (!failed)
-                        {
-                            Debug.WriteLine("No data has been read by this trial...");
-                            Debug.WriteLine("Stream.CanRead: " + str.CanRead);
-                            failed = true;
-                        }
-                        continue;
+                        throw new IOException("End of stream");
                     }
                 }
                 return output.ToArray();

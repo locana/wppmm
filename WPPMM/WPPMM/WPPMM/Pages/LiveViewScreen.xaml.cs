@@ -80,6 +80,8 @@ namespace WPPMM.Pages
             {
                 ShootButton.IsEnabled = true;
             }
+
+
                 
         }
 
@@ -101,6 +103,7 @@ namespace WPPMM.Pages
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
+            ShootButton.IsEnabled = false;
             cameraManager.RequestActTakePicture();
         }
 

@@ -162,15 +162,12 @@ namespace WPPMM.Liveview
                         throw new IOException("Force finish reading");
                     }
                     read = await str.ReadAsync(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
-                    if (read > 0)
-                    {
-                        remainBytes -= read;
-                        output.Write(ReadBuffer, 0, read);
-                    }
-                    else
+                    if (read < 0)
                     {
                         throw new IOException("End of stream");
                     }
+                    remainBytes -= read;
+                    output.Write(ReadBuffer, 0, read);
                 }
                 return output.ToArray();
             }

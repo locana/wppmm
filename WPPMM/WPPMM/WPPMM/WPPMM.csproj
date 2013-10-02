@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="CameraManager\CameraHandler.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
+    <Compile Include="CameraManager\CameraServiceClient10.cs" />
     <Compile Include="Json\Delegates.cs" />
     <Compile Include="Json\FixedParams.cs" />
     <Compile Include="Json\Objects.cs" />

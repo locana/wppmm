@@ -64,7 +64,9 @@ namespace WPPMM.Pages
 
         public void UpdateListener()
         {
-            if (isRequestingLiveview && CameraManager.CameraManager.GetLiveviewUrl() != null)
+            if (isRequestingLiveview && 
+                CameraManager.CameraManager.GetLiveviewUrl() != null　&&
+                !cameraManager.isAvailableShooting)
             {
                 // starting liveview
                 cameraManager.ConnectLiveView();

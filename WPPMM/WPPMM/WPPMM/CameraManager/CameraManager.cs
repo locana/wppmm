@@ -11,6 +11,8 @@ using Microsoft.Phone;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Resources;
 using System.Windows.Media.Imaging;
+using WPPMM.Ssdp;
+using WPPMM.Json;
 
 namespace WPPMM.CameraManager
 {
@@ -27,7 +29,7 @@ namespace WPPMM.CameraManager
 
         // private static String endpoint = null;
         private static String liveViewUrl = null;
-        private Liveview.LVProcessor lvProcessor = null;
+        private static Liveview.LVProcessor lvProcessor = null;
 
         private static List<Action> UpdateListeners;
         private static Action<byte[]> LiveViewUpdateListener;
@@ -141,29 +143,23 @@ namespace WPPMM.CameraManager
             RequestStartLiveView();
         }
 
+ 
+
         // live view
         public void RequestStartLiveView()
         {
-            if (!deviceInfo.Endpoints.ContainsKey("camera"))
-            {
-                Debug.WriteLine("error: endpoint is null");
-            }
-
-            String endpoint = deviceInfo.Endpoints["camera"];
-
-            String requestJson = Json.Request.startLiveview();
-            Debug.WriteLine("requestJson: " + requestJson);
-
-            Json.XhrPost.Post(endpoint, requestJson, OnStartLiveViewRetrieved, OnError);
+            startLiveview(OnError, OnStartLiveViewResult);
         }
 
-
-        public void OnStartLiveViewRetrieved(String json)
+        public void startLiveview(Action<int> error, Action<string> result)
         {
-            Debug.WriteLine("StartLiveView retrieved: " + json);
-            Json.ResultHandler.StartLiveview(json, OnError, OnStartLiveViewResult);
-
+            String endpoint = deviceInfo.Endpoints["camera"];
+            XhrPost.Post(endpoint, Request.startLiveview(),
+                (res) => { ResultHandler.StartLiveview(res, error, result); },
+                () => { error.Invoke(StatusCode.Any); });
         }
+
+
 
         public void OnStartLiveViewResult(String result)
         {
@@ -188,25 +184,19 @@ namespace WPPMM.CameraManager
         }
 
         // callback methods (liveview)
-        public void OnJpegRetrieved(byte[] data)
+        public static void OnJpegRetrieved(byte[] data)
         {
 
-            if (!isAvailableShooting)
+            if (!CameraManager.GetInstance().isAvailableShooting)
             {
-                isAvailableShooting = true;
+                CameraManager.GetInstance().isAvailableShooting = true;
                 NoticeUpdate();
             }
 
-            /*
-            int size = data.Length;
-            Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
-            MemoryStream ms = new MemoryStream(data, 0, data.Length);
-             */
-
             int size = data.Length;
             Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
-            
-            if (isRendering)
+
+            if (CameraManager.GetInstance().isRendering)
             {
                 return;
             }
@@ -214,24 +204,25 @@ namespace WPPMM.CameraManager
             screenData = data;
 
             Deployment.Current.Dispatcher.BeginInvoke(() => {
-                lock (this.lockObject)
+                lock (CameraManager.GetInstance().lockObject)
                 {
 
                     // Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    isRendering = true;
+                    CameraManager.GetInstance().isRendering = true;
                     LiveViewUpdateListener(screenData);
                     // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    isRendering = false;
+                    CameraManager.GetInstance().isRendering = false;
                 }
             });
             
 
         }
 
-        public void OnLiveViewClosed()
+        public static void OnLiveViewClosed()
         {
             Debug.WriteLine("liveView connection closed.");
             // init();
+            CameraManager.GetInstance().isAvailableShooting = false;
             NoticeUpdate();
         }
 
@@ -256,21 +247,17 @@ namespace WPPMM.CameraManager
 
         public void RequestActTakePicture()
         {
-            if (!deviceInfo.Endpoints.ContainsKey("camera"))
-            {
-                Debug.WriteLine("error: endpoint is null");
-            }
-            String json = Json.Request.actTakePicture();
-            String endpoint = deviceInfo.Endpoints["camera"];
-            Json.XhrPost.Post(endpoint, json, OnActTakePictureRespond, OnError);
-            isTakingPicture = true;
-            NoticeUpdate();
+            actTakePicture(OnActTakePictureError, OnResultActTakePicture);
         }
 
-        public static void OnActTakePictureRespond(String json)
+        public void actTakePicture(Action<int> error, Action<string[]> result)
         {
-            Debug.WriteLine("onrequestActtakePicture: " + json);
-            Json.ResultHandler.ActTakePicture(json, OnActTakePictureError, OnResultActTakePicture);
+            String endpoint = deviceInfo.Endpoints["camera"];
+            XhrPost.Post(endpoint, Request.actTakePicture(),
+                (res) => { ResultHandler.ActTakePicture(res, error, result); },
+                () => { error.Invoke(StatusCode.Any); });
+            isTakingPicture = true;
+            NoticeUpdate();
         }
 
         public static void OnResultActTakePicture(String[] res)

@@ -28,7 +28,8 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Image Name="ScreenImage" HorizontalAlignment="Left" Height="388" Margin="0,0,0,0" VerticalAlignment="Top" Width="645"/>
-         </Grid>
+            <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Left" Margin="574,316,0,0" VerticalAlignment="Top" Click="takeImageButton_Click"/>
+        </Grid>
 
     </Grid>
 

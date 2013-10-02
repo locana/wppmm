@@ -37,10 +37,17 @@ namespace WPPMM.Pages
             InitializeComponent();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
+
             cameraManager.RegisterUpdateListener(UpdateListener);
             cameraManager.StartLiveView();
             cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
 
+            Init();
+
+        }
+
+        private void Init()
+        {
             isRequestingLiveview = true;
 
             screenBitmapImage = new BitmapImage();
@@ -52,6 +59,7 @@ namespace WPPMM.Pages
             watch = new Stopwatch();
             watch.Start();
 
+            ShootButton.IsEnabled = false;
         }
 
         public void UpdateListener()
@@ -61,6 +69,17 @@ namespace WPPMM.Pages
                 // starting liveview
                 cameraManager.ConnectLiveView();
             }
+
+            if (!cameraManager.isConnected)
+            {
+                Init();
+                NavigationService.Navigate(new Uri("/Pages/MainPage.xaml", UriKind.Relative));
+            }
+
+            if (cameraManager.isAvailableShooting)
+            {
+                ShootButton.IsEnabled = true;
+            }
                 
         }
 
@@ -68,7 +87,7 @@ namespace WPPMM.Pages
         public void LiveViewUpdateListener(byte[] data)
         {
      
-            Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
+            // Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
 
             int size = data.Length;
             ScreenImage.Source = null;
@@ -78,6 +97,11 @@ namespace WPPMM.Pages
             ScreenImage.Source = screenBitmapImage;
             screenMemoryStream.Close();
 
+        }
+
+        private void takeImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            cameraManager.RequestActTakePicture();
         }
 
 

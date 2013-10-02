@@ -33,25 +33,52 @@ namespace WPPMM.CameraManager
         private static Action<byte[]> LiveViewUpdateListener;
         private static System.Text.StringBuilder stringBuilder;
 
-
         private static byte[] screenData;
-        private static int screenCounter;
 
         private object lockObject;
         private bool isRendering;
         private Stopwatch watch;
 
-        private CameraManager()
+        public bool isConnected
+        {
+            get;
+            set;
+        }
+
+        public bool isAvailableShooting
+        {
+            get;
+            set;
+        }
+
+        public bool isTakingPicture
+        {
+            get;
+            set;
+        }
+        
+
+        private CameraManager() 
         {
             Debug.WriteLine("Constructor on CameraManager");
+            init();
+        }
+
+        private void init()
+        {
             UpdateListeners = new List<Action>();
-            screenCounter = 0;
             stringBuilder = new System.Text.StringBuilder();
+            liveViewUrl = null;
+            lvProcessor = null;
             stringBuilder.Capacity = 64;
             lockObject = new Object();
             isRendering = false;
             watch = new Stopwatch();
             watch.Start();
+            deviceInfo = null;
+            isConnected = false;
+            isAvailableShooting = false;
+            isTakingPicture = false;
         }
 
         public static CameraManager GetInstance()
@@ -143,6 +170,7 @@ namespace WPPMM.CameraManager
             // finally, url for liveView has get
             Debug.WriteLine("OnStartLiveViewResult: " + result);
             liveViewUrl = result;
+            isConnected = true;
             NoticeUpdate();
         }
 
@@ -163,6 +191,12 @@ namespace WPPMM.CameraManager
         public void OnJpegRetrieved(byte[] data)
         {
 
+            if (!isAvailableShooting)
+            {
+                isAvailableShooting = true;
+                NoticeUpdate();
+            }
+
             /*
             int size = data.Length;
             Debug.WriteLine("Jpeg retrived. " + size + "bytes.");
@@ -172,8 +206,6 @@ namespace WPPMM.CameraManager
             int size = data.Length;
             Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
             
-            
-
             if (isRendering)
             {
                 return;
@@ -185,7 +217,7 @@ namespace WPPMM.CameraManager
                 lock (this.lockObject)
                 {
 
-                    Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
+                    // Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
                     isRendering = true;
                     LiveViewUpdateListener(screenData);
                     // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
@@ -199,6 +231,8 @@ namespace WPPMM.CameraManager
         public void OnLiveViewClosed()
         {
             Debug.WriteLine("liveView connection closed.");
+            init();
+            NoticeUpdate();
         }
 
 
@@ -209,23 +243,6 @@ namespace WPPMM.CameraManager
         }
 
 
-        // callback methods (search)
-       /*
-        public static void OnDDLocationFound(String location)
-        {
-            dd_location = location;
-            Debug.WriteLine("found dd_location: " + location);
-            NoticeUpdate();
-
-            // override dd_location for debug.
-            // dd_location = "http://192.168.122.1:8080/sony/index.html";
-
-            // get endpoint
-            
-            Ssdp.DeviceDiscovery.RetrieveEndpoints(dd_location, OnRetrieveEndpoints, OnError);
-        }
-        */
-
         public static void OnServerFound(Ssdp.DeviceInfo di)
         {
             deviceInfo = di;
@@ -233,23 +250,43 @@ namespace WPPMM.CameraManager
             NoticeUpdate();
         }
 
-        /*
-        public static void OnRetrieveEndpoints(Dictionary <String, String> result)
-        {
-            Debug.WriteLine("retrived endpoint");
 
-            if (result.ContainsKey("camera"))
-            {
-                endpoint = result["camera"];
-                Debug.WriteLine("camera url found: " + endpoint);
-            }
-            else
-            {
-                Debug.WriteLine("camera url not found from retrived dictionary");
-            }
-            
+        // -------- take picture
+
+
+        public void RequestActTakePicture()
+        {
+            String json = Json.Request.actTakePicture();
+            String endpoint = deviceInfo.Endpoints["camera"];
+            Json.XhrPost.Post(endpoint, json, OnActTakePictureRespond, OnError);
+            isTakingPicture = true;
+            NoticeUpdate();
         }
-         */
+
+        public static void OnActTakePictureRespond(String json)
+        {
+            Debug.WriteLine("onrequestActtakePicture: " + json);
+            Json.ResultHandler.ActTakePicture(json, OnActTakePictureError, OnResultActTakePicture);
+        }
+
+        public static void OnResultActTakePicture(String[] res)
+        {
+        }
+
+        public static void OnActTakePictureError(int err)
+        {
+            if (err == Json.StatusCode.StillCapturingNotFinished)
+            {
+                Debug.WriteLine("capturing...");
+                return;
+            }
+
+            Debug.WriteLine("Error during taking picture: " + err);
+        }
+
+
+
+        // -------
 
         public static void OnTimeout()
         {

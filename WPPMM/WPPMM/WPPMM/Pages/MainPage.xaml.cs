@@ -16,7 +16,7 @@ namespace WPPMM
     public partial class MainPage : PhoneApplicationPage
     {
 
-        private CameraManager.CameraManager cameraManager;
+        private static CameraManager.CameraManager cameraManager;
         
 
         // コンストラクター
@@ -62,6 +62,19 @@ namespace WPPMM
             else
             {
                 NetworkStatus.Text = AppResources.Guide_WiFiNotConnected;
+            }
+
+            if (cameraManager != null)
+            {
+                if (CameraManager.CameraManager.GetDeviceInfo() != null)
+                {
+                    String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;
+                    if (modelName != null)
+                    {
+                        NetworkStatus.Text = "Connected device: " + modelName;
+                        StartRemoteButton.IsEnabled = true;
+                    }
+                }
             }
 
             // display initialize

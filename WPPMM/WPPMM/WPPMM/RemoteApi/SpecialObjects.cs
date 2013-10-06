@@ -1,5 +1,5 @@
 ﻿
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
     public class ZoomInfo
     {
@@ -19,5 +19,13 @@ namespace WPPMM.Json
     {
         public int current { set; get; }
         public int[] candidates { set; get; }
+    }
+
+    public class MethodType
+    {
+        public string name { set; get; }
+        public string[] reqtypes { set; get; }
+        public string[] restypes { set; get; }
+        public string version { set; get; }
     }
 }

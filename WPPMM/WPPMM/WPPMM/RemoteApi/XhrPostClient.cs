@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
-    public class XhrPost
+    public class XhrPostClient
     {
         /// <summary>
         /// Asynchronously POST a request to the endpoint.
@@ -19,7 +19,7 @@ namespace WPPMM.Json
         /// <param name="json">Reqeust body.</param>
         /// <param name="OnResponse">Result json string callback.</param>
         /// <param name="OnError">Connection error callback.</param>
-        public static async void Post(string endpoint, string json, Action<string> OnResponse, Action OnError)
+        protected static async void Post(string endpoint, string json, Action<string> OnResponse, Action OnError)
         {
             if (endpoint == null || json == null || OnResponse == null || OnError == null)
             {

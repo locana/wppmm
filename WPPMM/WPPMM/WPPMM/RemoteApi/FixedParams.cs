@@ -1,5 +1,5 @@
 ﻿
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
     public class FixedParams
     {

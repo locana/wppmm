@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WPPMM.Liveview
 {
-    public class LVProcessor
+    public class LVStreamProcessor
     {
         Timer timer = null;
         private const int fps_interval = 5000;
@@ -23,10 +23,6 @@ namespace WPPMM.Liveview
         }
 
         private bool _IsOpen = false;
-
-        public LVProcessor()
-        {
-        }
 
         /// <summary>
         /// Open stream connection for Liveview.
@@ -183,5 +179,4 @@ namespace WPPMM.Liveview
             return int_data;
         }
     }
-
 }

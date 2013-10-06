@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
     internal class BasicResultHandler
     {

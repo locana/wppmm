@@ -9,9 +9,9 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace WPPMM.Ssdp
+namespace WPPMM.DeviceDiscovery
 {
-    public class DeviceDiscovery
+    public class DeviceFinder
     {
         private const string multicast_address = "239.255.255.250";
         private const int ssdp_port = 1900;
@@ -23,7 +23,7 @@ namespace WPPMM.Ssdp
         /// <param name="timeoutSec">Seconds to wait before invokation of OnTimeout.</param>
         /// <param name="OnServerFound">Success callback. This will be invoked for each devices until OnTimeout is invoked.</param>
         /// <param name="OnTimeout">Timeout callback.</param>
-        public static void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
+        public void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
         {
             if (OnServerFound == null || OnTimeout == null)
             {
@@ -47,7 +47,7 @@ namespace WPPMM.Ssdp
                 .Append("\r\n")
                 .ToString();
 
-            Debug.WriteLine(ssdp_data);
+            //Debug.WriteLine(ssdp_data);
 
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             byte[] data_byte = Encoding.UTF8.GetBytes(ssdp_data);
@@ -147,94 +147,6 @@ namespace WPPMM.Ssdp
             socket.SendToAsync(snd_event_args);
         }
 
-        /// <summary>
-        /// Send M-Search to Scalar devices and wait response from them.
-        /// </summary>
-        /// <remarks>
-        /// Success callback will be invoked for each devices until timeout callback is invoked.
-        /// </remarks>
-        /// <param name="timeoutSec">Seconds to wait invoking OnTimeout.</param>
-        /// <param name="OnDDLocationFound">Success callback includes the URL of dd.xml as an argument.</param>
-        /// <param name="OnTimeout">Timeout callback.</param>
-        [System.Obsolete("use SearchDevices instead", false)]
-        public static void SearchScalarDevices(int timeoutSec, Action<string> OnDDLocationFound, Action OnTimeout)
-        {
-            if (OnDDLocationFound == null || OnTimeout == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (timeoutSec < 2)
-            {
-                timeoutSec = 2;
-            }
-
-            const int MX = 1;
-
-            var ssdp_data = new StringBuilder()
-                .Append("M-SEARCH * HTTP/1.1").Append("\r\n")
-                .Append("HOST: ").Append(multicast_address).Append(":").Append(ssdp_port.ToString()).Append("\r\n")
-                .Append("MAN: ").Append("\"ssdp:discover\"").Append("\r\n")
-                .Append("MX: ").Append(MX.ToString()).Append("\r\n")
-                .Append("ST: urn:schemas-sony-com:service:ScalarWebAPI:1").Append("\r\n")
-                //.Append("ST: ssdp:all").Append("\r\n") // For debug
-                .Append("\r\n")
-                .ToString();
-
-            Debug.WriteLine(ssdp_data);
-
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            byte[] data_byte = Encoding.UTF8.GetBytes(ssdp_data);
-            socket.SendBufferSize = data_byte.Length;
-
-            SocketAsyncEventArgs snd_event_args = new SocketAsyncEventArgs();
-            snd_event_args.RemoteEndPoint = new IPEndPoint(IPAddress.Parse(multicast_address), ssdp_port);
-            snd_event_args.SetBuffer(data_byte, 0, data_byte.Length);
-
-            SocketAsyncEventArgs rcv_event_args = new SocketAsyncEventArgs();
-            rcv_event_args.SetBuffer(new byte[result_buffer], 0, result_buffer);
-
-            var snd_handler = new EventHandler<SocketAsyncEventArgs>((sender, e) =>
-            {
-                if (e.SocketError == SocketError.Success && e.LastOperation == SocketAsyncOperation.SendTo)
-                {
-                    socket.ReceiveBufferSize = result_buffer;
-                    socket.ReceiveAsync(rcv_event_args);
-                }
-            });
-            snd_event_args.Completed += snd_handler;
-
-            var rcv_handler = new EventHandler<SocketAsyncEventArgs>((sender, e) =>
-            {
-                if (e.SocketError == SocketError.Success && e.LastOperation == SocketAsyncOperation.Receive)
-                {
-                    string result = Encoding.UTF8.GetString(e.Buffer, 0, e.BytesTransferred);
-                    //Debug.WriteLine(result);
-
-                    var dd_location = ParseDDLocation(result);
-                    if (dd_location != null)
-                    {
-                        OnDDLocationFound(dd_location);
-                    }
-
-                    socket.ReceiveAsync(e);
-                }
-            });
-            rcv_event_args.Completed += rcv_handler;
-
-            TimerCallback cb = new TimerCallback((state) =>
-            {
-                Debug.WriteLine("SSDP Timeout");
-                snd_event_args.Completed -= snd_handler;
-                rcv_event_args.Completed -= rcv_handler;
-                socket.Close();
-                OnTimeout.Invoke();
-            });
-            Timer timer = new Timer(cb, null, TimeSpan.FromSeconds(timeoutSec), new TimeSpan(-1));
-
-            socket.SendToAsync(snd_event_args);
-        }
-
         private static string ParseDDLocation(string response)
         {
             var reader = new StringReader(response);
@@ -266,90 +178,8 @@ namespace WPPMM.Ssdp
             return null;
         }
 
-
-        /// <summary>
-        /// Download dd.xml and analyze endpoints of each service.
-        /// </summary>
-        /// <remarks>
-        /// Result is contained in a .
-        /// </remarks>
-        /// <param name="dd_url">URL of dd.xml.</param>
-        /// <param name="OnResult">Success callback contains a Dictionary consists of "service name" and "endpoint of the service"</param>
-        /// <param name="OnError">Error callback</param>
-        [System.Obsolete("use SearchDevices instead", false)]
-        public static void RetrieveEndpoints(string dd_url, Action<Dictionary<string, string>> OnResult, Action OnError)
-        {
-            if (dd_url == null || OnResult == null || OnError == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            var req = HttpWebRequest.Create(new Uri(dd_url)) as HttpWebRequest;
-            req.Method = "GET";
-            req.BeginGetResponse(OnDDObtained, new DDRequestInfo { req = req, OnResult = OnResult, OnError = OnError });
-        }
-
-        private static void OnDDObtained(IAsyncResult ar)
-        {
-            var info = ar.AsyncState as DDRequestInfo;
-
-            try
-            {
-                var res = info.req.EndGetResponse(ar) as HttpWebResponse;
-                using (var reader = new StreamReader(res.GetResponseStream(), Encoding.UTF8))
-                {
-                    try
-                    {
-                        var dic = GetEndpointsFromDD(reader.ReadToEnd());
-                        info.OnResult.Invoke(dic);
-                    }
-                    catch (XmlException)
-                    {
-                        info.OnError.Invoke();
-                    }
-                    catch (AccessViolationException)
-                    {
-                        info.OnError.Invoke();
-                    }
-                }
-            }
-            catch (WebException)
-            {
-                info.OnError.Invoke();
-            }
-        }
-
         private const string upnp_ns = "{urn:schemas-upnp-org:device-1-0}";
         private const string sony_ns = "{urn:schemas-sony-com:av}";
-
-        private static Dictionary<string, string> GetEndpointsFromDD(string response)
-        {
-            //Debug.WriteLine(response);
-            var endpoints = new Dictionary<string, string>();
-
-            var xml = XDocument.Parse(response);
-            var device = xml.Root.Element(upnp_ns + "device");
-            var info = device.Element(sony_ns + "X_ScalarWebAPI_DeviceInfo");
-            var list = info.Element(sony_ns + "X_ScalarWebAPI_ServiceList");
-
-            foreach (var service in list.Elements())
-            {
-                var name = service.Element(sony_ns + "X_ScalarWebAPI_ServiceType").Value;
-                var url = service.Element(sony_ns + "X_ScalarWebAPI_ActionList_URL").Value;
-                if (name == null || url == null)
-                    continue;
-
-                string endpoint;
-                if (url.EndsWith("/"))
-                    endpoint = url + name;
-                else
-                    endpoint = url + "/" + name;
-
-                endpoints.Add(name, endpoint);
-            }
-
-            return endpoints;
-        }
 
         private static DeviceInfo AnalyzeDD(string response)
         {
@@ -387,12 +217,5 @@ namespace WPPMM.Ssdp
 
             return new DeviceInfo(udn, m_name, f_name, endpoints);
         }
-    }
-
-    internal class DDRequestInfo
-    {
-        public HttpWebRequest req;
-        public Action<Dictionary<string, string>> OnResult;
-        public Action OnError;
     }
 }

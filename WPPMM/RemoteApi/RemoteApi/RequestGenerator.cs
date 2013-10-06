@@ -2,13 +2,13 @@
 using System.Reflection;
 using System.Threading;
 
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
     /// <summary>
     /// This class provide function to generate JSON string to set as a body of API request.
     /// You just have to set required argument for the APIs.
     /// </summary>
-    public class Request
+    internal class RequestGenerator
     {
         private static int request_id = 0;
 
@@ -44,132 +44,132 @@ namespace WPPMM.Json
             return CreateJson(name, "1.0", prms);
         }
 
-        public static string setShootMode(string mode)
+        internal static string setShootMode(string mode)
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name, mode);
         }
 
-        public static string getShootMode()
+        internal static string getShootMode()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getSupportedShootMode()
+        internal static string getSupportedShootMode()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getAvailableShootMode()
+        internal static string getAvailableShootMode()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string actTakePicture()
+        internal static string actTakePicture()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string awaitTakePicture()
+        internal static string awaitTakePicture()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string startMovieRec()
+        internal static string startMovieRec()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string stopMovieRec()
+        internal static string stopMovieRec()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string startLiveview()
+        internal static string startLiveview()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string stopLiveview()
+        internal static string stopLiveview()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string actZoom(string direction, string movement)
+        internal static string actZoom(string direction, string movement)
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name, direction, movement);
         }
 
-        public static string setSelfTimer(int second)
+        internal static string setSelfTimer(int second)
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name, second);
         }
 
-        public static string getSelfTimer()
+        internal static string getSelfTimer()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getSupportedSelfTimer()
+        internal static string getSupportedSelfTimer()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getAvailableSelfTimer()
+        internal static string getAvailableSelfTimer()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string setPostviewImageSize(string size)
+        internal static string setPostviewImageSize(string size)
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name, size);
         }
 
-        public static string getPostviewImageSize()
+        internal static string getPostviewImageSize()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getSupportedPostviewImageSize()
+        internal static string getSupportedPostviewImageSize()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getAvailablePostviewImageSize()
+        internal static string getAvailablePostviewImageSize()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getEvent(bool longpolling)
+        internal static string getEvent(bool longpolling)
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name, longpolling);
         }
 
-        public static string startRecMode()
+        internal static string startRecMode()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string stopRecMode()
+        internal static string stopRecMode()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getAvailableApiList()
+        internal static string getAvailableApiList()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getApplicationInfo()
+        internal static string getApplicationInfo()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getVersions()
+        internal static string getVersions()
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name);
         }
 
-        public static string getMethodTypes(string version)
+        internal static string getMethodTypes(string version)
         {
             return CreateJson10(MethodBase.GetCurrentMethod().Name, version);
         }

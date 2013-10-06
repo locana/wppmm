@@ -11,8 +11,8 @@ using Microsoft.Phone;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Resources;
 using System.Windows.Media.Imaging;
-using WPPMM.Ssdp;
-using WPPMM.Json;
+using WPPMM.DeviceDiscovery;
+using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
 {
@@ -25,11 +25,14 @@ namespace WPPMM.CameraManager
 
         private static int TIMEOUT = 10;
         // private static String dd_location = null;
-        private static Ssdp.DeviceInfo deviceInfo;
+        private static DeviceInfo deviceInfo;
+        private static DeviceFinder deviceFinder = new DeviceFinder();
 
         // private static String endpoint = null;
         private static String liveViewUrl = null;
-        private static Liveview.LVProcessor lvProcessor = null;
+        private static Liveview.LVStreamProcessor lvProcessor = null;
+
+        private static CameraServiceClient10 client;
 
         private static List<Action> UpdateListeners;
         private static Action<byte[]> LiveViewUpdateListener;
@@ -58,9 +61,9 @@ namespace WPPMM.CameraManager
             get;
             set;
         }
-        
 
-        private CameraManager() 
+
+        private CameraManager()
         {
             Debug.WriteLine("Constructor on CameraManager");
             init();
@@ -112,6 +115,7 @@ namespace WPPMM.CameraManager
         // request and callback
         public void RequestStartRecmode()
         {
+            /*
             if (!deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 Debug.WriteLine("error: endpoint is null");
@@ -125,15 +129,22 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("request json: " + jsonReq);
             
             Json.XhrPost.Post(endpoint, jsonReq, OnStartRecmode, OnError);
-    
+             * */
+
+            if (client != null)
+            {
+                client.StartRecMode(OnError, OnStartRecmodeResult);
+            }
         }
 
+        /*
         public void OnStartRecmode(String json)
         {
             Debug.WriteLine("OnStartRecmode: " + json);
 
             Json.ResultHandler.StartRecMode(json, OnError, OnStartRecmodeResult);
         }
+         * */
 
         public void OnStartRecmodeResult()
         {
@@ -143,7 +154,7 @@ namespace WPPMM.CameraManager
             RequestStartLiveView();
         }
 
- 
+
 
         // live view
         public void RequestStartLiveView()
@@ -153,10 +164,16 @@ namespace WPPMM.CameraManager
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
+            /*
             String endpoint = deviceInfo.Endpoints["camera"];
             XhrPost.Post(endpoint, Request.startLiveview(),
                 (res) => { ResultHandler.StartLiveview(res, error, result); },
                 () => { error.Invoke(StatusCode.Any); });
+             * */
+            if (client != null)
+            {
+                client.StartLiveview(error, result);
+            }
         }
 
 
@@ -173,7 +190,7 @@ namespace WPPMM.CameraManager
         // connect 
         public void ConnectLiveView()
         {
-            lvProcessor = new LVProcessor();
+            lvProcessor = new LVStreamProcessor();
 
             if (lvProcessor == null || liveViewUrl == null)
             {
@@ -200,10 +217,11 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
-            
+
             screenData = data;
 
-            Deployment.Current.Dispatcher.BeginInvoke(() => {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
                 lock (CameraManager.GetInstance().lockObject)
                 {
 
@@ -214,7 +232,7 @@ namespace WPPMM.CameraManager
                     CameraManager.GetInstance().isRendering = false;
                 }
             });
-            
+
 
         }
 
@@ -229,15 +247,23 @@ namespace WPPMM.CameraManager
 
         private static void requestSearchDevices()
         {
-            // WPPMM.Ssdp.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
-            WPPMM.Ssdp.DeviceDiscovery.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
+            // WPPMM.DeviceDiscovery.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
+            deviceFinder.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
         }
 
 
-        public static void OnServerFound(Ssdp.DeviceInfo di)
+        public static void OnServerFound(DeviceDiscovery.DeviceInfo di)
         {
             deviceInfo = di;
             Debug.WriteLine("found device: " + deviceInfo.ModelName);
+
+
+            if (deviceInfo.Endpoints.ContainsKey("camera"))
+            {
+                client = new CameraServiceClient10(di.Endpoints["camera"]);
+            }
+            // TODO be careful, device info is updated to the latest found device.
+
             NoticeUpdate();
         }
 
@@ -254,10 +280,18 @@ namespace WPPMM.CameraManager
 
         public void actTakePicture(Action<int> error, Action<string[]> result)
         {
+            /*
             String endpoint = deviceInfo.Endpoints["camera"];
-            XhrPost.Post(endpoint, Request.actTakePicture(),
+            XhrPost.Post(endpoint, RequestGenerator.actTakePicture(),
                 (res) => { ResultHandler.ActTakePicture(res, error, result); },
                 () => { error.Invoke(StatusCode.Any); });
+            */
+
+            if (client != null)
+            {
+                client.ActTakePicture(error, result);
+            }
+
             isTakingPicture = true;
             NoticeUpdate();
         }
@@ -275,7 +309,7 @@ namespace WPPMM.CameraManager
 
         public static void OnActTakePictureError(int err)
         {
-            if (err == Json.StatusCode.StillCapturingNotFinished)
+            if (err == RemoteApi.StatusCode.StillCapturingNotFinished)
             {
                 Debug.WriteLine("capturing...");
                 return;
@@ -293,7 +327,7 @@ namespace WPPMM.CameraManager
         public static void OnTimeout()
         {
             Debug.WriteLine("request timeout.");
-            NoticeUpdate();            
+            NoticeUpdate();
         }
 
         public static void OnError()
@@ -319,7 +353,7 @@ namespace WPPMM.CameraManager
             return liveViewUrl;
         }
 
-        public static Ssdp.DeviceInfo GetDeviceInfo()
+        public static DeviceDiscovery.DeviceInfo GetDeviceInfo()
         {
             return deviceInfo;
         }
@@ -337,7 +371,7 @@ namespace WPPMM.CameraManager
                 Debug.WriteLine("updateListener is null");
             }
 
-            UpdateListeners.Add(listener);                
+            UpdateListeners.Add(listener);
         }
 
         // register EE screen update method
@@ -352,7 +386,7 @@ namespace WPPMM.CameraManager
             foreach (Action action in UpdateListeners)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() => { action(); });
-            }           
+            }
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WPPMM.Ssdp
+namespace WPPMM.DeviceDiscovery
 {
     public class DeviceInfo
     {

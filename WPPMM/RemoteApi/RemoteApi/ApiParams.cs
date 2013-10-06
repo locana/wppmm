@@ -1,7 +1,7 @@
 ﻿
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
-    public class FixedParams
+    public class ApiParams
     {
         public const string ShootModeStill = "still";
         public const string ShootModeMovie = "movie";

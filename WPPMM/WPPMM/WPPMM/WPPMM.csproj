@@ -94,16 +94,6 @@
     </Compile>
     <Compile Include="CameraManager\CameraHandler.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
-    <Compile Include="CameraManager\CameraServiceClient10.cs" />
-    <Compile Include="Json\Delegates.cs" />
-    <Compile Include="Json\FixedParams.cs" />
-    <Compile Include="Json\Objects.cs" />
-    <Compile Include="Json\Request.cs" />
-    <Compile Include="Json\ResultHandler.cs" />
-    <Compile Include="Json\ResultHandlerCommon.cs" />
-    <Compile Include="Json\StatusCode.cs" />
-    <Compile Include="Json\XhrPost.cs" />
-    <Compile Include="Liveview\LVProcessor.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Pages\SamplePage.xaml.cs">
       <DependentUpon>SamplePage.xaml</DependentUpon>
@@ -120,9 +110,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Ssdp\DeviceDiscovery.cs" />
-    <Compile Include="Ssdp\DeviceInfo.cs" />
-    <Compile Include="Test\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -172,6 +159,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DeviceDiscovery\DeviceDiscovery.csproj">
+      <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
+      <Name>DeviceDiscovery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Liveview\Liveview.csproj">
+      <Project>{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}</Project>
+      <Name>Liveview</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RemoteApi\RemoteApi.csproj">
+      <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
+      <Name>RemoteApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WPPMMComp\WPPMMComp.vcxproj">
       <Name>WPPMMComp</Name>
     </ProjectReference>
@@ -183,11 +182,7 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

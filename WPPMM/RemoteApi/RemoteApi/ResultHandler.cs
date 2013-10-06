@@ -2,139 +2,139 @@
 using System;
 using System.Collections.Generic;
 
-namespace WPPMM.Json
+namespace WPPMM.RemoteApi
 {
     /// <summary>
     /// This class provides function to parse response JSON string and invoke proper callback.
     /// </summary>
     /// <remarks>
     /// Error callback include error code as an argument.
-    /// <see cref="WPPMM.Json.StatusCode"/>
+    /// <see cref="WPPMM.RemoteApi.StatusCode"/>
     /// </remarks>
     ///
-    public class ResultHandler
+    internal class ResultHandler
     {
-        public static void SetShootMode(string jString, Action<int> error, Action result)
+        internal static void SetShootMode(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void GetShootMode(string jString, Action<int> error, Action<string> result)
+        internal static void GetShootMode(string jString, Action<int> error, Action<string> result)
         {
             BasicResultHandler.StringAction(jString, error, result);
         }
 
-        public static void GetSupportedShootMode(string jString, Action<int> error, Action<string[]> result)
+        internal static void GetSupportedShootMode(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void GetAvailableShootMode(string jString, Action<int> error, Action<string, string[]> result)
+        internal static void GetAvailableShootMode(string jString, Action<int> error, Action<string, string[]> result)
         {
             BasicResultHandler.String_StringArrayAction(jString, error, result);
         }
 
-        public static void ActTakePicture(string jString, Action<int> error, Action<string[]> result)
+        internal static void ActTakePicture(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void AwaitTakePicture(string jString, Action<int> error, Action<string[]> result)
+        internal static void AwaitTakePicture(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void StartMovieRec(string jString, Action<int> error, Action result)
+        internal static void StartMovieRec(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void StopMovieRec(string jString, Action<int> error, Action<string[]> result)
+        internal static void StopMovieRec(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void StartLiveview(string jString, Action<int> error, Action<string> result)
+        internal static void StartLiveview(string jString, Action<int> error, Action<string> result)
         {
             BasicResultHandler.StringAction(jString, error, result);
         }
 
-        public static void StopLiveview(string jString, Action<int> error, Action result)
+        internal static void StopLiveview(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void ActZoom(string jString, Action<int> error, Action result)
+        internal static void ActZoom(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void SetSelfTimer(string jString, Action<int> error, Action result)
+        internal static void SetSelfTimer(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void GetSelfTimer(string jString, Action<int> error, Action<int> result)
+        internal static void GetSelfTimer(string jString, Action<int> error, Action<int> result)
         {
             BasicResultHandler.IntegerAction(jString, error, result);
         }
 
-        public static void GetSupportedSelfTimer(string jString, Action<int> error, Action<int[]> result)
+        internal static void GetSupportedSelfTimer(string jString, Action<int> error, Action<int[]> result)
         {
             BasicResultHandler.IntegerArrayAction(jString, error, result);
         }
 
-        public static void GetAvailableSelfTimer(string jString, Action<int> error, Action<int, int[]> result)
+        internal static void GetAvailableSelfTimer(string jString, Action<int> error, Action<int, int[]> result)
         {
             BasicResultHandler.Int_IntArrayAction(jString, error, result);
         }
 
-        public static void SetPostviewImageSize(string jString, Action<int> error, Action result)
+        internal static void SetPostviewImageSize(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void GetPostviewImageSize(string jString, Action<int> error, Action<string> result)
+        internal static void GetPostviewImageSize(string jString, Action<int> error, Action<string> result)
         {
             BasicResultHandler.StringAction(jString, error, result);
         }
 
-        public static void GetSupportedPostviewImageSize(string jString, Action<int> error, Action<string[]> result)
+        internal static void GetSupportedPostviewImageSize(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void GetAvailablePostviewImageSize(string jString, Action<int> error, Action<string, string[]> result)
+        internal static void GetAvailablePostviewImageSize(string jString, Action<int> error, Action<string, string[]> result)
         {
             BasicResultHandler.String_StringArrayAction(jString, error, result);
         }
 
-        public static void StartRecMode(string jString, Action<int> error, Action result)
+        internal static void StartRecMode(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void StopRecMode(string jString, Action<int> error, Action result)
+        internal static void StopRecMode(string jString, Action<int> error, Action result)
         {
             BasicResultHandler.NoValueAction(jString, error, result);
         }
 
-        public static void GetAvailableApiList(string jString, Action<int> error, Action<string[]> result)
+        internal static void GetAvailableApiList(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void GetApplicationInfo(string jString, Action<int> error, Action<string, string> result)
+        internal static void GetApplicationInfo(string jString, Action<int> error, Action<string, string> result)
         {
             BasicResultHandler.String_StringAction(jString, error, result);
         }
 
-        public static void GetVersions(string jString, Action<int> error, Action<string[]> result)
+        internal static void GetVersions(string jString, Action<int> error, Action<string[]> result)
         {
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
-        public static void GetMethodTypes(string jString, Action<int> error, MethodTypesHandler result)
+        internal static void GetMethodTypes(string jString, Action<int> error, MethodTypesHandler result)
         {
             var json = JObject.Parse(jString);
             if (BasicResultHandler.HandleError(json, error))
@@ -142,6 +142,7 @@ namespace WPPMM.Json
                 return;
             }
 
+            List<MethodType> method_types = new List<MethodType>();
             foreach (var token in json["results"])
             {
                 var req = new List<string>();
@@ -154,11 +155,18 @@ namespace WPPMM.Json
                 {
                     res.Add(type);
                 }
-                result.Invoke(token.Value<string>(0), req.ToArray(), res.ToArray(), token.Value<string>(3));
+                method_types.Add(new MethodType()
+                {
+                    name = token.Value<string>(0),
+                    reqtypes = req.ToArray(),
+                    restypes = res.ToArray(),
+                    version = token.Value<string>(3)
+                });
             }
+            result.Invoke(method_types.ToArray());
         }
 
-        public static void GetEvent(string jString, Action<int> error, GetEventHandler result)
+        internal static void GetEvent(string jString, Action<int> error, GetEventHandler result)
         {
             var json = JObject.Parse(jString);
             if (BasicResultHandler.HandleError(json, error))

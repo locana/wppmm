@@ -1,12 +1,8 @@
 ﻿using Microsoft.Phone.Controls;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using WPPMM.Json;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Tasks;
-using WPPMM.Ssdp;
-using WPPMM.CameraManager;
 using Microsoft.Phone.Shell;
 using WPPMM.Resources;
 
@@ -17,7 +13,7 @@ namespace WPPMM
     {
 
         private static CameraManager.CameraManager cameraManager;
-        
+
 
         // コンストラクター
         public MainPage()

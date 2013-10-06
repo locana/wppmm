@@ -115,36 +115,12 @@ namespace WPPMM.CameraManager
         // request and callback
         public void RequestStartRecmode()
         {
-            /*
-            if (!deviceInfo.Endpoints.ContainsKey("camera"))
-            {
-                Debug.WriteLine("error: endpoint is null");
-            }
-
-            String endpoint = deviceInfo.Endpoints["camera"];
-
-            Debug.WriteLine("endpoint: " + endpoint);
-            String jsonReq = Json.Request.startRecMode();
-
-            Debug.WriteLine("request json: " + jsonReq);
-            
-            Json.XhrPost.Post(endpoint, jsonReq, OnStartRecmode, OnError);
-             * */
 
             if (client != null)
             {
                 client.StartRecMode(OnError, OnStartRecmodeResult);
             }
         }
-
-        /*
-        public void OnStartRecmode(String json)
-        {
-            Debug.WriteLine("OnStartRecmode: " + json);
-
-            Json.ResultHandler.StartRecMode(json, OnError, OnStartRecmodeResult);
-        }
-         * */
 
         public void OnStartRecmodeResult()
         {
@@ -164,12 +140,7 @@ namespace WPPMM.CameraManager
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
-            /*
-            String endpoint = deviceInfo.Endpoints["camera"];
-            XhrPost.Post(endpoint, Request.startLiveview(),
-                (res) => { ResultHandler.StartLiveview(res, error, result); },
-                () => { error.Invoke(StatusCode.Any); });
-             * */
+ 
             if (client != null)
             {
                 client.StartLiveview(error, result);
@@ -280,12 +251,6 @@ namespace WPPMM.CameraManager
 
         public void actTakePicture(Action<int> error, Action<string[]> result)
         {
-            /*
-            String endpoint = deviceInfo.Endpoints["camera"];
-            XhrPost.Post(endpoint, RequestGenerator.actTakePicture(),
-                (res) => { ResultHandler.ActTakePicture(res, error, result); },
-                () => { error.Invoke(StatusCode.Any); });
-            */
 
             if (client != null)
             {
@@ -299,11 +264,6 @@ namespace WPPMM.CameraManager
         public static void OnResultActTakePicture(String[] res)
         {
             CameraManager.GetInstance().isTakingPicture = false;
-
-            // request to restart liveView
-            // CameraManager.GetInstance().isAvailableShooting = false;
-            
-
             CameraManager.NoticeUpdate();
         }
 

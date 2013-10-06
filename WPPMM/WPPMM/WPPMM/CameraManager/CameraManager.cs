@@ -273,7 +273,7 @@ namespace WPPMM.CameraManager
 
         public void RequestActTakePicture()
         {
-            lvProcessor.CloseConnection();
+            // lvProcessor.CloseConnection();
             actTakePicture(OnActTakePictureError, OnResultActTakePicture);
             
         }
@@ -301,7 +301,7 @@ namespace WPPMM.CameraManager
             CameraManager.GetInstance().isTakingPicture = false;
 
             // request to restart liveView
-            CameraManager.GetInstance().isAvailableShooting = false;
+            // CameraManager.GetInstance().isAvailableShooting = false;
             
 
             CameraManager.NoticeUpdate();

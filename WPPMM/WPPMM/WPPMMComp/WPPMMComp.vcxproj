@@ -71,7 +71,7 @@
     <ReferencePath>D:\VisualStudio_Projects\DirectXTK\Bin\WindowsPhone8\ARM;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <IncludePath>D:\VisualStudio_Projects\DirectXTK\Inc;$(WP80ToolSetPath)include;$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>E:\workspace\GitHub\DirectXTK\Inc;D:\VisualStudio_Projects\DirectXTK\Inc;$(WP80ToolSetPath)include;$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

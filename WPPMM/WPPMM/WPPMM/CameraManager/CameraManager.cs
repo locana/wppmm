@@ -247,7 +247,9 @@ namespace WPPMM.CameraManager
 
         public void RequestActTakePicture()
         {
+            lvProcessor.CloseConnection();
             actTakePicture(OnActTakePictureError, OnResultActTakePicture);
+            
         }
 
         public void actTakePicture(Action<int> error, Action<string[]> result)
@@ -263,6 +265,11 @@ namespace WPPMM.CameraManager
         public static void OnResultActTakePicture(String[] res)
         {
             CameraManager.GetInstance().isTakingPicture = false;
+
+            // request to restart liveView
+            CameraManager.GetInstance().isAvailableShooting = false;
+            
+
             CameraManager.NoticeUpdate();
         }
 
@@ -272,7 +279,7 @@ namespace WPPMM.CameraManager
             {
                 Debug.WriteLine("capturing...");
                 return;
-            }
+            }   
 
             Debug.WriteLine("Error during taking picture: " + err);
             CameraManager.GetInstance().isTakingPicture = false;

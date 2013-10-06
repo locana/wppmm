@@ -127,14 +127,14 @@ namespace WPPMM.RemoteApi
                 () => { error.Invoke(StatusCode.Any); });
         }
 
-        public void PostviewImageSize(string size, Action<int> error, Action result)
+        public void SetPostviewImageSize(string size, Action<int> error, Action result)
         {
             XhrPostClient.Post(endpoint, RequestGenerator.setPostviewImageSize(size),
                 (res) => { ResultHandler.SetPostviewImageSize(res, error, result); },
                 () => { error.Invoke(StatusCode.Any); });
         }
 
-        public void PostviewImageSize(Action<int> error, Action<string> result)
+        public void GetPostviewImageSize(Action<int> error, Action<string> result)
         {
             XhrPostClient.Post(endpoint, RequestGenerator.getPostviewImageSize(),
                 (res) => { ResultHandler.GetPostviewImageSize(res, error, result); },

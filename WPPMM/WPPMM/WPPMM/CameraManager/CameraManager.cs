@@ -11,7 +11,7 @@ using Microsoft.Phone;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Resources;
 using System.Windows.Media.Imaging;
-using WPPMM.Ssdp;
+using WPPMM.DeviceDiscovery;
 using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
@@ -25,11 +25,12 @@ namespace WPPMM.CameraManager
 
         private static int TIMEOUT = 10;
         // private static String dd_location = null;
-        private static Ssdp.DeviceInfo deviceInfo;
+        private static DeviceInfo deviceInfo;
+        private static DeviceFinder deviceFinder = new DeviceFinder();
 
         // private static String endpoint = null;
         private static String liveViewUrl = null;
-        private static Liveview.LVProcessor lvProcessor = null;
+        private static Liveview.LVStreamProcessor lvProcessor = null;
 
         private static CameraServiceClient10 client;
 
@@ -189,7 +190,7 @@ namespace WPPMM.CameraManager
         // connect 
         public void ConnectLiveView()
         {
-            lvProcessor = new LVProcessor();
+            lvProcessor = new LVStreamProcessor();
 
             if (lvProcessor == null || liveViewUrl == null)
             {
@@ -246,12 +247,12 @@ namespace WPPMM.CameraManager
 
         private static void requestSearchDevices()
         {
-            // WPPMM.Ssdp.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
-            WPPMM.Ssdp.DeviceDiscovery.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
+            // WPPMM.DeviceDiscovery.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
+            deviceFinder.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
         }
 
 
-        public static void OnServerFound(Ssdp.DeviceInfo di)
+        public static void OnServerFound(DeviceDiscovery.DeviceInfo di)
         {
             deviceInfo = di;
             Debug.WriteLine("found device: " + deviceInfo.ModelName);
@@ -345,7 +346,7 @@ namespace WPPMM.CameraManager
             return liveViewUrl;
         }
 
-        public static Ssdp.DeviceInfo GetDeviceInfo()
+        public static DeviceDiscovery.DeviceInfo GetDeviceInfo()
         {
             return deviceInfo;
         }

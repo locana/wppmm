@@ -9,9 +9,9 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace WPPMM.Ssdp
+namespace WPPMM.DeviceDiscovery
 {
-    public class DeviceDiscovery
+    public class DeviceFinder
     {
         private const string multicast_address = "239.255.255.250";
         private const int ssdp_port = 1900;
@@ -23,7 +23,7 @@ namespace WPPMM.Ssdp
         /// <param name="timeoutSec">Seconds to wait before invokation of OnTimeout.</param>
         /// <param name="OnServerFound">Success callback. This will be invoked for each devices until OnTimeout is invoked.</param>
         /// <param name="OnTimeout">Timeout callback.</param>
-        public static void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
+        public void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
         {
             if (OnServerFound == null || OnTimeout == null)
             {

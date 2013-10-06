@@ -6,7 +6,7 @@ namespace WPPMM.RemoteApi
 {
     internal class BasicResultHandler
     {
-        protected static bool HandleError(JObject json, Action<int> error)
+        internal static bool HandleError(JObject json, Action<int> error)
         {
             if (json == null)
             {
@@ -22,7 +22,7 @@ namespace WPPMM.RemoteApi
             return false;
         }
 
-        protected static void NoValueAction(string jString, Action<int> error, Action result)
+        internal static void NoValueAction(string jString, Action<int> error, Action result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -33,7 +33,7 @@ namespace WPPMM.RemoteApi
             result.Invoke();
         }
 
-        protected static void StringAction(string jString, Action<int> error, Action<string> result)
+        internal static void StringAction(string jString, Action<int> error, Action<string> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -44,7 +44,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(json["result"][0].ToString());
         }
 
-        protected static void StringsArrayAction(string jString, Action<int> error, Action<string[]> result)
+        internal static void StringsArrayAction(string jString, Action<int> error, Action<string[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -61,7 +61,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(strings.ToArray());
         }
 
-        protected static void IntegerAction(string jString, Action<int> error, Action<int> result)
+        internal static void IntegerAction(string jString, Action<int> error, Action<int> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -72,7 +72,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(json["result"].Value<int>(0));
         }
 
-        protected static void IntegerArrayAction(string jString, Action<int> error, Action<int[]> result)
+        internal static void IntegerArrayAction(string jString, Action<int> error, Action<int[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -89,7 +89,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(integers.ToArray());
         }
 
-        protected static void String_StringArrayAction(string jString, Action<int> error, Action<string, string[]> result)
+        internal static void String_StringArrayAction(string jString, Action<int> error, Action<string, string[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -106,7 +106,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(json["result"].Value<string>(0), strings.ToArray());
         }
 
-        protected static void Int_IntArrayAction(string jString, Action<int> error, Action<int, int[]> result)
+        internal static void Int_IntArrayAction(string jString, Action<int> error, Action<int, int[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -123,7 +123,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(json["result"].Value<int>(0), integers.ToArray());
         }
 
-        protected static void String_StringAction(string jString, Action<int> error, Action<string, string> result)
+        internal static void String_StringAction(string jString, Action<int> error, Action<string, string> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))

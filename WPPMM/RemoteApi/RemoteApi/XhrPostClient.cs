@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace WPPMM.RemoteApi
 {
-    public class XhrPostClient
+    internal class XhrPostClient
     {
         /// <summary>
         /// Asynchronously POST a request to the endpoint.
@@ -19,7 +16,7 @@ namespace WPPMM.RemoteApi
         /// <param name="json">Reqeust body.</param>
         /// <param name="OnResponse">Result json string callback.</param>
         /// <param name="OnError">Connection error callback.</param>
-        protected static async void Post(string endpoint, string json, Action<string> OnResponse, Action OnError)
+        internal static async void Post(string endpoint, string json, Action<string> OnResponse, Action OnError)
         {
             if (endpoint == null || json == null || OnResponse == null || OnError == null)
             {

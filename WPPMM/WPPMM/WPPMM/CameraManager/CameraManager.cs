@@ -44,6 +44,8 @@ namespace WPPMM.CameraManager
         private bool isRendering;
         private Stopwatch watch;
 
+        private Downloader downloader;
+
         public bool isConnected
         {
             get;
@@ -84,6 +86,7 @@ namespace WPPMM.CameraManager
             isConnected = false;
             isAvailableShooting = false;
             isTakingPicture = false;
+            downloader = new Downloader();
         }
 
         public static CameraManager GetInstance()
@@ -249,7 +252,7 @@ namespace WPPMM.CameraManager
             
         }
 
-        public void actTakePicture(Action<int> error, Action<string[]> result)
+        private void actTakePicture(Action<int> error, Action<string[]> result)
         {
 
             if (client != null)
@@ -263,6 +266,13 @@ namespace WPPMM.CameraManager
 
         public static void OnResultActTakePicture(String[] res)
         {
+
+            foreach (String s in res)
+            {
+                CameraManager.GetInstance().downloader.AddDownloadRequest(s);
+            }
+        
+
             CameraManager.GetInstance().isTakingPicture = false;
             CameraManager.NoticeUpdate();
         }

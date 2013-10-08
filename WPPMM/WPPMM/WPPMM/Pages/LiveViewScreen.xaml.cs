@@ -64,23 +64,23 @@ namespace WPPMM.Pages
             ShootButton.IsEnabled = false;
         }
 
-        public void UpdateListener()
+        internal void UpdateListener(WPPMM.CameraManager.Status cameraStatus)
         {
             if (isRequestingLiveview && 
                 CameraManager.CameraManager.GetLiveviewUrl() != null　&&
-                !cameraManager.isAvailableShooting)
+                !cameraStatus.isAvailableShooting)
             {
                 // starting liveview
                 cameraManager.ConnectLiveView();
             }
 
-            if (!cameraManager.isConnected)
+            if (!cameraStatus.isConnected)
             {
                 Init();
                 NavigationService.Navigate(new Uri("/Pages/MainPage.xaml", UriKind.Relative));
             }
 
-            if (cameraManager.isAvailableShooting)
+            if (cameraStatus.isAvailableShooting)
             {
                 ShootButton.IsEnabled = true;
             }

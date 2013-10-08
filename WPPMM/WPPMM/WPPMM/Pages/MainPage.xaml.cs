@@ -98,7 +98,7 @@ namespace WPPMM
             NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
-        public void WifiUpdateListener()
+        internal void WifiUpdateListener(WPPMM.CameraManager.Status cameraStatus)
         {
             String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;
             if (modelName != null)

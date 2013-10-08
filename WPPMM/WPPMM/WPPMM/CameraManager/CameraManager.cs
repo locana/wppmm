@@ -34,7 +34,7 @@ namespace WPPMM.CameraManager
 
         private static CameraServiceClient10 client;
 
-        private static List<Action> UpdateListeners;
+        private static List<Action<Status>> UpdateListeners;
 
         private static Action<byte[]> LiveViewUpdateListener;
         private static System.Text.StringBuilder stringBuilder;
@@ -42,28 +42,12 @@ namespace WPPMM.CameraManager
         private static byte[] screenData;
 
         private object lockObject;
-        private bool isRendering;
+        
         private Stopwatch watch;
 
         private Downloader downloader;
 
-        public bool isConnected
-        {
-            get;
-            set;
-        }
-
-        public bool isAvailableShooting
-        {
-            get;
-            set;
-        }
-
-        public bool isTakingPicture
-        {
-            get;
-            set;
-        }
+        private Status cameraStatus;
 
 
         private CameraManager()
@@ -74,20 +58,18 @@ namespace WPPMM.CameraManager
 
         private void init()
         {
-            UpdateListeners = new List<Action>();
+            UpdateListeners = new List<Action<Status>>();
             stringBuilder = new System.Text.StringBuilder();
             liveViewUrl = null;
             lvProcessor = null;
             stringBuilder.Capacity = 64;
             lockObject = new Object();
-            isRendering = false;
             watch = new Stopwatch();
             watch.Start();
             deviceInfo = null;
-            isConnected = false;
-            isAvailableShooting = false;
-            isTakingPicture = false;
             downloader = new Downloader();
+
+            cameraStatus = new Status();
         }
 
         public static CameraManager GetInstance()
@@ -158,7 +140,7 @@ namespace WPPMM.CameraManager
             // finally, url for liveView has get
             Debug.WriteLine("OnStartLiveViewResult: " + result);
             liveViewUrl = result;
-            isConnected = true;
+            cameraStatus.isConnected = true;
             NoticeUpdate();
         }
 
@@ -179,9 +161,9 @@ namespace WPPMM.CameraManager
         public static void OnJpegRetrieved(byte[] data)
         {
 
-            if (!CameraManager.GetInstance().isAvailableShooting)
+            if (!CameraManager.GetInstance().cameraStatus.isAvailableShooting)
             {
-                CameraManager.GetInstance().isAvailableShooting = true;
+                CameraManager.GetInstance().cameraStatus.isAvailableShooting = true;
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     NoticeUpdate();
@@ -191,7 +173,7 @@ namespace WPPMM.CameraManager
             int size = data.Length;
             Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
 
-            if (CameraManager.GetInstance().isRendering)
+            if (CameraManager.GetInstance().cameraStatus.isRendering)
             {
                 return;
             }
@@ -204,10 +186,10 @@ namespace WPPMM.CameraManager
                 {
 
                     // Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    CameraManager.GetInstance().isRendering = true;
+                    CameraManager.GetInstance().cameraStatus.isRendering = true;
                     LiveViewUpdateListener(screenData);
                     // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    CameraManager.GetInstance().isRendering = false;
+                    CameraManager.GetInstance().cameraStatus.isRendering = false;
                 }
             });
 
@@ -218,7 +200,7 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("liveView connection closed.");
             // init();
-            CameraManager.GetInstance().isAvailableShooting = false;
+            CameraManager.GetInstance().cameraStatus.isAvailableShooting = false;
             NoticeUpdate();
         }
 
@@ -264,7 +246,7 @@ namespace WPPMM.CameraManager
                 client.ActTakePicture(error, result);
             }
 
-            isTakingPicture = true;
+            cameraStatus.isTakingPicture = true;
             NoticeUpdate();
         }
 
@@ -288,7 +270,7 @@ namespace WPPMM.CameraManager
             }
 
 
-            CameraManager.GetInstance().isTakingPicture = false;
+            CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
             CameraManager.NoticeUpdate();
         }
 
@@ -301,7 +283,7 @@ namespace WPPMM.CameraManager
             }
 
             Debug.WriteLine("Error during taking picture: " + err);
-            CameraManager.GetInstance().isTakingPicture = false;
+            CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
             CameraManager.NoticeUpdate();
         }
 
@@ -345,7 +327,7 @@ namespace WPPMM.CameraManager
 
 
         // register callback for UI
-        public void RegisterUpdateListener(Action listener)
+        internal void RegisterUpdateListener(Action<Status> listener)
         {
             if (listener == null)
             {
@@ -368,9 +350,9 @@ namespace WPPMM.CameraManager
         // Notice update to UI classes
         private static void NoticeUpdate()
         {
-            foreach (Action action in UpdateListeners)
+            foreach (Action<Status> action in UpdateListeners)
             {
-                action();
+                action(CameraManager.GetInstance().cameraStatus);
             }
 
         }

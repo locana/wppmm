@@ -4,7 +4,7 @@
   <Languages xmlns="">
     <Language code="en" />
   </Languages>
-  <App xmlns="" ProductID="{8e9f3bbf-db1d-478f-8341-db0d1767fd8d}" Title="PlayNightmare Mobile" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="opelzz" Description="Remote controlling application for Sony's devices." Publisher="opelzz" PublisherID="{c4b36e6b-5c04-4e1f-93a4-ac06dce252b1}">
+  <App xmlns="" ProductID="{8e9f3bbf-db1d-478f-8341-db0d1767fd8d}" Title="PlayNightmare Mobile" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="opelzz" Description="Remote controlling application for Sony devices." Publisher="opelzz" PublisherID="{c4b36e6b-5c04-4e1f-93a4-ac06dce252b1}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -26,10 +26,13 @@
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileLarge.png</LargeBackgroundImageURI>
+          <LargeBackContent />
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackBackgroundImageURI>
           <DeviceLockImageURI>
           </DeviceLockImageURI>
-          <HasLarge>
-          </HasLarge>
+          <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>

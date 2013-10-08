@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -78,7 +79,8 @@ namespace WPPMM.DeviceDiscovery
                     {
                         try
                         {
-                            OnServerFound.Invoke(AnalyzeDD(reader.ReadToEnd()));
+                            var info = AnalyzeDD(reader.ReadToEnd());
+                            Deployment.Current.Dispatcher.BeginInvoke(() => OnServerFound.Invoke(info));
                         }
                         catch (XmlException)
                         {
@@ -140,7 +142,7 @@ namespace WPPMM.DeviceDiscovery
                 snd_event_args.Completed -= SND_Handler;
                 rcv_event_args.Completed -= RCV_Handler;
                 socket.Close();
-                OnTimeout.Invoke();
+                Deployment.Current.Dispatcher.BeginInvoke(OnTimeout);
             });
             Timer timer = new Timer(cb, null, TimeSpan.FromSeconds(timeoutSec), new TimeSpan(-1));
 

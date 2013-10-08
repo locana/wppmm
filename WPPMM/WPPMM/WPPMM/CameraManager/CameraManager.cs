@@ -269,7 +269,18 @@ namespace WPPMM.CameraManager
 
             foreach (String s in res)
             {
-                CameraManager.GetInstance().downloader.AddDownloadRequest(s);
+                CameraManager.GetInstance().downloader.DownloadImageFile(
+                    new Uri(s),
+                    delegate(Picture p)
+                    {
+                        Debug.WriteLine("download succeed");
+                    },
+                    delegate() {
+                        Debug.WriteLine("error");
+                    }
+                );
+
+                
             }
         
 

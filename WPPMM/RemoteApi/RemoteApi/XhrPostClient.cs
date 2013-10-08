@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Phone.Reactive;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -33,56 +34,51 @@ namespace WPPMM.RemoteApi
             var data = Encoding.UTF8.GetBytes(json);
             request.ContentLength = data.Length;
 
-            var PostRequestHandler = new AsyncCallback((ar) =>
-            {
-                var req = ar.AsyncState as HttpWebRequest;
-                try
-                {
-                    var res = req.EndGetResponse(ar) as HttpWebResponse;
-
-                    if (res.StatusCode == HttpStatusCode.OK)
-                    {
-                        using (var reader = new StreamReader(res.GetResponseStream()))
-                        {
-                            var response = reader.ReadToEnd();
-                            if (string.IsNullOrEmpty(response))
-                            {
-                                Debug.WriteLine("Result json is null or empty");
-                                OnError.Invoke();
-                            }
-                            else
-                            {
-                                OnResponse.Invoke(response);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.WriteLine("HTTP status code is not OK");
-                        OnError.Invoke();
-                    }
-                }
-                catch (WebException e)
-                {
-                    var res = e.Response as HttpWebResponse;
-                    if (res != null)
-                    {
-                        Debug.WriteLine("Http Status Error: " + res.StatusCode);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("WebException: " + e.Status);
-                    }
-                    OnError.Invoke();
-                }
-            });
-
             using (var stream = await Task.Factory.FromAsync<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream, null))
             {
                 await stream.WriteAsync(data, 0, data.Length);
             }
 
-            request.BeginGetResponse(PostRequestHandler, request);
+            Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
+                .Select(webres =>
+                {
+                    try
+                    {
+                        var res = webres as HttpWebResponse;
+                        if (res.StatusCode == HttpStatusCode.OK)
+                        {
+                            using (var reader = new StreamReader(res.GetResponseStream()))
+                            {
+                                return reader.ReadToEnd();
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("HTTP status code is not OK");
+                        }
+                    }
+                    catch (WebException e)
+                    {
+                        var res = e.Response as HttpWebResponse;
+                        if (res != null)
+                            Debug.WriteLine("Http Status Error: " + res.StatusCode);
+                        else
+                            Debug.WriteLine("WebException: " + e.Status);
+                    }
+                    return null;
+                })
+                .ObserveOnDispatcher()
+                .Subscribe(res =>
+                {
+                    if (string.IsNullOrEmpty(res))
+                        OnError.Invoke();
+                    else
+                        OnResponse.Invoke(res);
+                },
+                err =>
+                {
+                    OnError.Invoke();
+                });
         }
     }
 }

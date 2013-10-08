@@ -97,9 +97,6 @@ namespace WPPMM.CameraManager
             }
         }
 
-
-
-
         // request and callback
         public void RequestStartRecmode()
         {
@@ -118,8 +115,6 @@ namespace WPPMM.CameraManager
             RequestStartLiveView();
         }
 
-
-
         // live view
         public void RequestStartLiveView()
         {
@@ -134,8 +129,6 @@ namespace WPPMM.CameraManager
                 client.StartLiveview(error, result);
             }
         }
-
-
 
         public void OnStartLiveViewResult(String result)
         {

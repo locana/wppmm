@@ -101,9 +101,14 @@ namespace WPPMM
         internal void WifiUpdateListener(WPPMM.CameraManager.Status cameraStatus)
         {
             String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;
-            if (modelName != null && cameraStatus.MethodTypes != null)
+            
+            if (modelName != null)
             {
                 NetworkStatus.Text = "Connected device: " + modelName;
+            }
+
+            if (modelName != null && cameraStatus.MethodTypes != null)
+            {
                 StartRemoteButton.IsEnabled = true;
             }
 

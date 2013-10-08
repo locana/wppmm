@@ -35,6 +35,7 @@ namespace WPPMM.CameraManager
         private static CameraServiceClient10 client;
 
         private static List<Action> UpdateListeners;
+
         private static Action<byte[]> LiveViewUpdateListener;
         private static System.Text.StringBuilder stringBuilder;
 
@@ -143,7 +144,7 @@ namespace WPPMM.CameraManager
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
- 
+
             if (client != null)
             {
                 client.StartLiveview(error, result);
@@ -181,7 +182,10 @@ namespace WPPMM.CameraManager
             if (!CameraManager.GetInstance().isAvailableShooting)
             {
                 CameraManager.GetInstance().isAvailableShooting = true;
-                NoticeUpdate();
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    NoticeUpdate();
+                });
             }
 
             int size = data.Length;
@@ -249,7 +253,7 @@ namespace WPPMM.CameraManager
         {
             // lvProcessor.CloseConnection();
             actTakePicture(OnActTakePictureError, OnResultActTakePicture);
-            
+
         }
 
         private void actTakePicture(Action<int> error, Action<string[]> result)
@@ -275,14 +279,14 @@ namespace WPPMM.CameraManager
                     {
                         Debug.WriteLine("download succeed");
                     },
-                    delegate() {
+                    delegate()
+                    {
                         Debug.WriteLine("error");
                     }
                 );
 
-                
             }
-        
+
 
             CameraManager.GetInstance().isTakingPicture = false;
             CameraManager.NoticeUpdate();
@@ -294,7 +298,7 @@ namespace WPPMM.CameraManager
             {
                 Debug.WriteLine("capturing...");
                 return;
-            }   
+            }
 
             Debug.WriteLine("Error during taking picture: " + err);
             CameraManager.GetInstance().isTakingPicture = false;
@@ -366,8 +370,9 @@ namespace WPPMM.CameraManager
         {
             foreach (Action action in UpdateListeners)
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() => { action(); });
+                action();
             }
+
         }
 
     }

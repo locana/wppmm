@@ -39,6 +39,8 @@ namespace WPPMM.Pages
             cameraManager = CameraManager.CameraManager.GetInstance();
 
             cameraManager.RegisterUpdateListener(UpdateListener);
+            
+
             cameraManager.StartLiveView();
             cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
 

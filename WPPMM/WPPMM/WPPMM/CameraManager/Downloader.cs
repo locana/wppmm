@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Phone.BackgroundTransfer;
-using System.IO.IsolatedStorage;
-using System.Windows;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Windows.Media.Imaging;
-using System.Net;
-using System.Windows.Resources;
+﻿using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
+using System;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Net;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace WPPMM.CameraManager
 {
@@ -65,5 +59,27 @@ namespace WPPMM.CameraManager
 
         }
 
+        internal void DownloadImageFile(Uri uri, Action<Picture> OnCompleted, Action OnError)
+        {
+            var request = HttpWebRequest.Create(uri);
+            Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
+            .Select(res => res.GetResponseStream())
+            .ObserveOnDispatcher()
+            .Subscribe(src =>
+            {
+                var mediaLibrary = new MediaLibrary();
+                var pic = mediaLibrary.SavePicture(string.Format("SavedPicture{0}.jpg", DateTime.Now), src);
+                src.Close();
+                if (pic == null)
+                {
+                    OnError.Invoke();
+                }
+                OnCompleted.Invoke(pic);
+            }
+            , e =>
+            {
+                OnError.Invoke();
+            });
+        }
     }
 }

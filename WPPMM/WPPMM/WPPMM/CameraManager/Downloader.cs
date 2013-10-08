@@ -1,6 +1,7 @@
 ﻿using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Net;
@@ -64,17 +65,19 @@ namespace WPPMM.CameraManager
             var request = HttpWebRequest.Create(uri);
             Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
             .Select(res => res.GetResponseStream())
+            .Select(strm => new MediaLibrary().SavePicture(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm))
             .ObserveOnDispatcher()
-            .Subscribe(src =>
+            .Subscribe(pic =>
             {
-                var mediaLibrary = new MediaLibrary();
-                var pic = mediaLibrary.SavePicture(string.Format("SavedPicture{0}.jpg", DateTime.Now), src);
-                src.Close();
                 if (pic == null)
                 {
-                    OnError.Invoke();
+                    Debug.WriteLine("Saved Picture is null");
+                    OnError();
                 }
-                OnCompleted.Invoke(pic);
+                else
+                {
+                    OnCompleted(pic);
+                }
             }
             , e =>
             {

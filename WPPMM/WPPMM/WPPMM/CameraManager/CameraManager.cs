@@ -42,12 +42,14 @@ namespace WPPMM.CameraManager
         private static byte[] screenData;
 
         private object lockObject;
-        
+
         private Stopwatch watch;
 
         private Downloader downloader;
 
         private Status cameraStatus;
+
+        public const String apiVersion = "1.0";
 
 
         private CameraManager()
@@ -84,7 +86,7 @@ namespace WPPMM.CameraManager
 
         public void StartLiveView()
         {
-            if (deviceInfo.FriendlyName == "NEX-5R" || deviceInfo.FriendlyName == "NEX-5T" || deviceInfo.FriendlyName == "NEX-6")
+            if (cameraStatus.MethodTypes.Contains("startRecMode"))
             {
                 Debug.WriteLine("it looks E-mount device. calling startRecmode.");
                 RequestStartRecmode();
@@ -142,6 +144,7 @@ namespace WPPMM.CameraManager
             liveViewUrl = result;
             cameraStatus.isConnected = true;
             NoticeUpdate();
+
         }
 
         // connect 
@@ -220,13 +223,25 @@ namespace WPPMM.CameraManager
 
             if (deviceInfo.Endpoints.ContainsKey("camera"))
             {
-                client = new CameraServiceClient10(di.Endpoints["camera"]);
+                client = new CameraServiceClient10(di.Endpoints["camera"]); 
+                client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
             }
             // TODO be careful, device info is updated to the latest found device.
 
             NoticeUpdate();
+
         }
 
+        internal static void OnGetMethodTypes(MethodType[] methodTypes){
+            List<String> list = new List<string>();
+            foreach (MethodType t in methodTypes)
+            {
+                Debug.WriteLine("method: " + t.name);
+                list.Add(t.name);
+            }
+            CameraManager.GetInstance().cameraStatus.MethodTypes = list;
+            NoticeUpdate();
+        }
 
         // -------- take picture
 

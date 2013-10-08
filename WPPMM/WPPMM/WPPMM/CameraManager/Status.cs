@@ -45,6 +45,12 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        public List<String> MethodTypes
+        {
+            get;
+            set;
+        }
+
         public Status()
         {
             _init();

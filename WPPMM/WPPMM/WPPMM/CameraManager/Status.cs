@@ -62,6 +62,11 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        public void Init()
+        {
+            _init();
+        }
+
         public Status()
         {
             _init();

@@ -75,10 +75,21 @@ namespace WPPMM.Pages
                 cameraManager.ConnectLiveView();
             }
 
-            if (!cameraStatus.isConnected)
+            if (!cameraStatus.isAvailableConnecting)
             {
                 Init();
                 NavigationService.Navigate(new Uri("/Pages/MainPage.xaml", UriKind.Relative));
+            }
+
+            if (cameraStatus.isTakingPicture)
+            {
+                ShootingProgressBar.Visibility = System.Windows.Visibility.Visible;
+            }
+            else if (
+               ShootingProgressBar.Visibility == System.Windows.Visibility.Visible &&
+               !cameraStatus.isTakingPicture)
+            {
+                ShootingProgressBar.Visibility = System.Windows.Visibility.Collapsed;
             }
 
             if (cameraStatus.isAvailableShooting)

@@ -22,13 +22,17 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-           
+
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Image Name="ScreenImage" HorizontalAlignment="Left" Height="388" Margin="0,0,0,0" VerticalAlignment="Top" Width="645"/>
             <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Left" Margin="574,316,0,0" VerticalAlignment="Top" Click="takeImageButton_Click"/>
+            <ProgressBar HorizontalAlignment="Left" Height="39" Width="700"
+                         VerticalAlignment="Top" IsIndeterminate="True" 
+                         Background="{StaticResource PhoneAccentBrush}"
+                         Visibility="Visible" Name="ShootingProgressBar" Opacity="80" Margin="-6,-44,0,0"/>
         </Grid>
 
     </Grid>

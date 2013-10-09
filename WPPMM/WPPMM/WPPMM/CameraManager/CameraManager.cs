@@ -269,18 +269,23 @@ namespace WPPMM.CameraManager
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
+                        MessageBox.Show("Your picture has saved to the album successfully!");
+                        CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
+                        CameraManager.NoticeUpdate();
                     },
                     delegate()
                     {
                         Debug.WriteLine("error");
+                        MessageBox.Show("Error occures during downloading the picture..");
+                        CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
+                        CameraManager.NoticeUpdate();
                     }
                 );
 
             }
 
 
-            CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-            CameraManager.NoticeUpdate();
+            
         }
 
         public static void OnActTakePictureError(int err)

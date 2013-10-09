@@ -23,48 +23,34 @@ namespace WPPMM.CameraManager
         private static CameraManager cameraManager = new CameraManager();
 
 
-        private static int TIMEOUT = 10;
-        // private static String dd_location = null;
+        private const int TIMEOUT = 10;
+        public const String apiVersion = "1.0";
+
         private static DeviceInfo deviceInfo;
         private static DeviceFinder deviceFinder = new DeviceFinder();
-
-        // private static String endpoint = null;
-        private static String liveViewUrl = null;
+        private static CameraServiceClient10 client;
         private static Liveview.LVStreamProcessor lvProcessor = null;
 
-        private static CameraServiceClient10 client;
-
-        private static List<Action<Status>> UpdateListeners;
-
-        private static Action<byte[]> LiveViewUpdateListener;
-        private static System.Text.StringBuilder stringBuilder;
-
+        private static String liveViewUrl = null;
+        private object lockObject;
+        private Downloader downloader;
+        private Status cameraStatus;
         private static byte[] screenData;
 
-        private object lockObject;
+        private static Action<byte[]> LiveViewUpdateListener;
+        internal event Action<WPPMM.CameraManager.Status> UpdateEvent;
 
         private Stopwatch watch;
 
-        private Downloader downloader;
-
-        private Status cameraStatus;
-
-        public const String apiVersion = "1.0";
-
-
         private CameraManager()
         {
-            Debug.WriteLine("Constructor on CameraManager");
             init();
         }
 
         private void init()
         {
-            UpdateListeners = new List<Action<Status>>();
-            stringBuilder = new System.Text.StringBuilder();
             liveViewUrl = null;
             lvProcessor = null;
-            stringBuilder.Capacity = 64;
             lockObject = new Object();
             watch = new Stopwatch();
             watch.Start();
@@ -88,7 +74,6 @@ namespace WPPMM.CameraManager
         {
             if (cameraStatus.MethodTypes.Contains("startRecMode"))
             {
-                Debug.WriteLine("it looks E-mount device. calling startRecmode.");
                 RequestStartRecmode();
             }
             else
@@ -100,7 +85,6 @@ namespace WPPMM.CameraManager
         // request and callback
         public void RequestStartRecmode()
         {
-
             if (client != null)
             {
                 client.StartRecMode(OnError, OnStartRecmodeResult);
@@ -196,10 +180,16 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("liveView connection closed.");
             // init();
-            CameraManager.GetInstance().cameraStatus.isAvailableShooting = false;
+            CameraManager.GetInstance().cameraStatus.Init();
             NoticeUpdate();
         }
 
+        public void RequestCloseLiveView()
+        {
+            lvProcessor.CloseConnection();
+        }
+
+        // --------- prepare
 
         private static void requestSearchDevices()
         {
@@ -216,17 +206,18 @@ namespace WPPMM.CameraManager
 
             if (deviceInfo.Endpoints.ContainsKey("camera"))
             {
-                client = new CameraServiceClient10(di.Endpoints["camera"]); 
+                client = new CameraServiceClient10(di.Endpoints["camera"]);
                 client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
                 GetInstance().cameraStatus.isAvailableConnecting = true;
             }
             // TODO be careful, device info is updated to the latest found device.
-            
+
             NoticeUpdate();
 
         }
 
-        internal static void OnGetMethodTypes(MethodType[] methodTypes){
+        internal static void OnGetMethodTypes(MethodType[] methodTypes)
+        {
             List<String> list = new List<string>();
             foreach (MethodType t in methodTypes)
             {
@@ -276,16 +267,12 @@ namespace WPPMM.CameraManager
                     delegate()
                     {
                         Debug.WriteLine("error");
-                        MessageBox.Show("Error occures during downloading the picture..");
+                        MessageBox.Show("Error occured during downloading the picture..");
                         CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
                         CameraManager.NoticeUpdate();
                     }
                 );
-
             }
-
-
-            
         }
 
         public static void OnActTakePictureError(int err)
@@ -300,7 +287,6 @@ namespace WPPMM.CameraManager
             CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
             CameraManager.NoticeUpdate();
         }
-
 
 
         // -------
@@ -320,39 +306,10 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("Error: " + errno.ToString());
         }
-
-
-
-        // getter
-        public static String GetModelName()
-        {
-            return deviceInfo.ModelName;
-        }
-
-        public static String GetLiveviewUrl()
-        {
-            return liveViewUrl;
-        }
-
+ 
         public static DeviceDiscovery.DeviceInfo GetDeviceInfo()
         {
             return deviceInfo;
-        }
-
-
-        // register callback for UI
-        internal void RegisterUpdateListener(Action<Status> listener)
-        {
-            if (listener == null)
-            {
-                Debug.WriteLine("listener is null");
-            }
-            else if (UpdateListeners == null)
-            {
-                Debug.WriteLine("updateListener is null");
-            }
-
-            UpdateListeners.Add(listener);
         }
 
         // register EE screen update method
@@ -364,10 +321,7 @@ namespace WPPMM.CameraManager
         // Notice update to UI classes
         private static void NoticeUpdate()
         {
-            foreach (Action<Status> action in UpdateListeners)
-            {
-                action(CameraManager.GetInstance().cameraStatus);
-            }
+            GetInstance().UpdateEvent(GetInstance().cameraStatus);
 
         }
 

@@ -39,7 +39,8 @@ namespace WPPMM.Pages
 
             cameraManager = CameraManager.CameraManager.GetInstance();
 
-            cameraManager.RegisterUpdateListener(UpdateListener);
+            // cameraManager.RegisterUpdateListener(UpdateListener);
+            cameraManager.UpdateEvent += UpdateListener;
             
 
             cameraManager.StartLiveView();
@@ -68,17 +69,11 @@ namespace WPPMM.Pages
         internal void UpdateListener(WPPMM.CameraManager.Status cameraStatus)
         {
             if (isRequestingLiveview && 
-                CameraManager.CameraManager.GetLiveviewUrl() != null　&&
+                cameraStatus.isConnected　&&
                 !cameraStatus.isAvailableShooting)
             {
                 // starting liveview
                 cameraManager.ConnectLiveView();
-            }
-
-            if (!cameraStatus.isAvailableConnecting)
-            {
-                Init();
-                NavigationService.Navigate(new Uri("/Pages/MainPage.xaml", UriKind.Relative));
             }
 
             if (cameraStatus.isTakingPicture)
@@ -126,7 +121,9 @@ namespace WPPMM.Pages
 
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
-            // TODO: close liveView
+            cameraManager.UpdateEvent -= UpdateListener;
+            Init();
+            cameraManager.RequestCloseLiveView();
         }
 
 

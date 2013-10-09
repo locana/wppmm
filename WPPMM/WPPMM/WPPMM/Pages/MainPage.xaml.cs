@@ -76,7 +76,7 @@ namespace WPPMM
             // display initialize
 
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-            cameraManager.RegisterUpdateListener(WifiUpdateListener);
+            cameraManager.UpdateEvent += WifiUpdateListener;
         }
 
         private void OnWiFiSettingButtonClicked(object sender, System.Windows.RoutedEventArgs e)

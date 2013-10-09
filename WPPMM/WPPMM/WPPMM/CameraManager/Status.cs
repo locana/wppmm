@@ -9,6 +9,17 @@ namespace WPPMM.CameraManager
 
     class Status
     {
+
+        /// <summary>
+        /// returnes true if it's possible to connect.
+        /// (device info has got correctly)
+        /// </summary>
+        public bool isAvailableConnecting
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Is this phone connected to target device (after getting URL of liveview)
         /// </summary>
@@ -58,6 +69,12 @@ namespace WPPMM.CameraManager
 
         private void _init()
         {
+            isAvailableConnecting = false;
+            isAvailableShooting = false;
+            isConnected = false;
+            isTakingPicture = false;
+            isRendering = false;
+            MethodTypes = new List<string>();
         }
     }
 }

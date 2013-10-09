@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Windows.Resources;
 using WPPMMComp;
 using System.Text;
+using System.ComponentModel;
 
 
 namespace WPPMM.Pages
@@ -101,6 +102,7 @@ namespace WPPMM.Pages
             screenMemoryStream = new MemoryStream(data, 0, size);
             screenBitmapImage.SetSource(screenMemoryStream);
             ScreenImage.Source = screenBitmapImage;
+            // Debug.WriteLine("jpeg size: " + screenBitmapImage.PixelWidth + " x " + screenBitmapImage.PixelHeight);
             screenMemoryStream.Close();
 
         }
@@ -109,6 +111,11 @@ namespace WPPMM.Pages
         {
             ShootButton.IsEnabled = false;
             cameraManager.RequestActTakePicture();
+        }
+
+        protected override void OnBackKeyPress(CancelEventArgs e)
+        {
+            // TODO: close liveView
         }
 
 

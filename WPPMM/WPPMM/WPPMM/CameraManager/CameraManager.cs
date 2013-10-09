@@ -218,9 +218,10 @@ namespace WPPMM.CameraManager
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]); 
                 client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
+                GetInstance().cameraStatus.isAvailableConnecting = true;
             }
             // TODO be careful, device info is updated to the latest found device.
-
+            
             NoticeUpdate();
 
         }

@@ -24,11 +24,11 @@
             <Image Name="ScreenImage" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
             <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
-                    Background="Black" Opacity="70"/>
+                    Background="Black" Opacity="0.7"/>
             <ProgressBar Height="39" HorizontalAlignment="Stretch"
                          VerticalAlignment="Top" IsIndeterminate="True" 
                          Background="{StaticResource PhoneAccentBrush}"
-                         Visibility="Visible" Name="ShootingProgressBar" Opacity="80"/>
+                         Visibility="Visible" Name="ShootingProgressBar"/>
         </Grid>
 
     </Grid>

@@ -33,6 +33,9 @@ namespace WPPMM.Pages
         private byte[] screenData;
         private Stopwatch watch;
 
+        private double screenWidth;
+        private double screenHeight;
+
         public LiveViewScreen()
         {
             InitializeComponent();
@@ -64,6 +67,10 @@ namespace WPPMM.Pages
             watch.Start();
 
             ShootButton.IsEnabled = false;
+
+            screenWidth = ScreenImage.ActualWidth;
+            screenHeight = LayoutRoot.ActualHeight;
+            
         }
 
         internal void UpdateListener(WPPMM.CameraManager.Status cameraStatus)
@@ -108,7 +115,6 @@ namespace WPPMM.Pages
             screenMemoryStream = new MemoryStream(data, 0, size);
             screenBitmapImage.SetSource(screenMemoryStream);
             ScreenImage.Source = screenBitmapImage;
-            // Debug.WriteLine("jpeg size: " + screenBitmapImage.PixelWidth + " x " + screenBitmapImage.PixelHeight);
             screenMemoryStream.Close();
 
         }

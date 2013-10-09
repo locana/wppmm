@@ -62,6 +62,12 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        public List<String> SupportedFNumbers
+        {
+            get;
+            set;
+        }
+
         public void Init()
         {
             _init();
@@ -80,6 +86,7 @@ namespace WPPMM.CameraManager
             isTakingPicture = false;
             isRendering = false;
             MethodTypes = new List<string>();
+            SupportedFNumbers = new List<string>();
         }
     }
 }

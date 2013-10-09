@@ -16,23 +16,19 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-
-        </StackPanel>
-
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Image Name="ScreenImage" HorizontalAlignment="Left" Height="388" Margin="0,0,0,0" VerticalAlignment="Top" Width="645"/>
-            <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Left" Margin="574,316,0,0" VerticalAlignment="Top" Click="takeImageButton_Click"/>
-            <ProgressBar HorizontalAlignment="Left" Height="39" Width="700"
+        <Grid x:Name="ContentPanel" Margin="0,0,0,0" >
+            <Image Name="ScreenImage" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+            <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
+                    Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
+                    Background="Black" Opacity="70"/>
+            <ProgressBar Height="39" HorizontalAlignment="Stretch"
                          VerticalAlignment="Top" IsIndeterminate="True" 
                          Background="{StaticResource PhoneAccentBrush}"
-                         Visibility="Visible" Name="ShootingProgressBar" Opacity="80" Margin="-6,-44,0,0"/>
+                         Visibility="Visible" Name="ShootingProgressBar" Opacity="80"/>
         </Grid>
 
     </Grid>

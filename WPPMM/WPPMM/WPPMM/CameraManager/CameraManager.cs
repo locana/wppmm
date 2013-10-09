@@ -103,6 +103,14 @@ namespace WPPMM.CameraManager
         public void RequestStartLiveView()
         {
             startLiveview(OnError, OnStartLiveViewResult);
+
+            // get image size
+            client.GetPostviewImageSize(OnError, OnGetPostviewImageSize);
+        }
+
+        public void OnGetPostviewImageSize(String size)
+        {
+            Debug.WriteLine("Postview Image size: " + size);
         }
 
         public void startLiveview(Action<int> error, Action<string> result)

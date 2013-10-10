@@ -24,11 +24,26 @@
             <Image Name="ScreenImage" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
             <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
-                    Background="Black" Opacity="0.7"/>
+                    Background="Black" Opacity="0.8" Padding="10,10,10,10"/>
+            <Grid HorizontalAlignment="Right" Height="auto" Margin="0,30,50,0" VerticalAlignment="Top" Width="200"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="-" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8"
+                        VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,10"/>
+                <Button Content="+" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8"
+                        VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,10"/>
+            </Grid>
+            
+            
+            <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
+                       Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" />
             <ProgressBar Height="39" HorizontalAlignment="Stretch"
-                         VerticalAlignment="Top" IsIndeterminate="True" 
+                         VerticalAlignment="Center" IsIndeterminate="True" 
                          Background="{StaticResource PhoneAccentBrush}"
                          Visibility="Visible" Name="ShootingProgressBar"/>
+
         </Grid>
 
     </Grid>

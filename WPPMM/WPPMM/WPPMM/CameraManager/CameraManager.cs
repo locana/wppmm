@@ -25,6 +25,12 @@ namespace WPPMM.CameraManager
 
         private const int TIMEOUT = 10;
         public const String apiVersion = "1.0";
+        public const String ZoomIn = "in";
+        public const String ZoomOut = "out";
+        public const String OneShot = "1shot";
+        public const String ZoomStart = "start";
+        public const String ZoomStop = "stop";
+
 
         private static DeviceInfo deviceInfo;
         private static DeviceFinder deviceFinder = new DeviceFinder();
@@ -297,6 +303,29 @@ namespace WPPMM.CameraManager
         }
 
 
+        // ------- zoom
+
+        internal void RequestActZoom(String direction, String movement)
+        {
+
+            if (!cameraManager.cameraStatus.MethodTypes.Contains("actZoom"))
+            {
+                // if zoom is not supported, display warning.　Yes, just warning.
+                Debug.WriteLine("It seems this device does not support zoom");
+            }
+
+            if (client != null)
+            {
+                client.ActZoom(direction, movement, OnError, OnActZoomResult);
+            }
+        }
+
+        internal static void OnActZoomResult()
+        {
+            Debug.WriteLine("Zoom operated.");
+        }
+        
+       
         // -------
 
         public static void OnTimeout()
@@ -332,6 +361,7 @@ namespace WPPMM.CameraManager
             GetInstance().UpdateEvent(GetInstance().cameraStatus);
 
         }
+
 
     }
 }

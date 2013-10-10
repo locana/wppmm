@@ -36,13 +36,14 @@ namespace WPPMM.Pages
         private double screenWidth;
         private double screenHeight;
 
+        private bool InProgress;
+
         public LiveViewScreen()
         {
             InitializeComponent();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
 
-            // cameraManager.RegisterUpdateListener(UpdateListener);
             cameraManager.UpdateEvent += UpdateListener;
             
 
@@ -67,6 +68,7 @@ namespace WPPMM.Pages
             watch.Start();
 
             ShootButton.IsEnabled = false;
+            InProgress = true;
 
             screenWidth = ScreenImage.ActualWidth;
             screenHeight = LayoutRoot.ActualHeight;
@@ -85,13 +87,11 @@ namespace WPPMM.Pages
 
             if (cameraStatus.isTakingPicture)
             {
-                ShootingProgressBar.Visibility = System.Windows.Visibility.Visible;
+                SetInProgress(true);
             }
-            else if (
-               ShootingProgressBar.Visibility == System.Windows.Visibility.Visible &&
-               !cameraStatus.isTakingPicture)
+            else if (InProgress && !cameraStatus.isTakingPicture)
             {
-                ShootingProgressBar.Visibility = System.Windows.Visibility.Collapsed;
+                SetInProgress(false);
             }
 
             if (cameraStatus.isAvailableShooting)
@@ -132,6 +132,33 @@ namespace WPPMM.Pages
             cameraManager.RequestCloseLiveView();
         }
 
+        private void SetInProgress(bool progress)
+        {
+            InProgress = progress;
 
+            if (InProgress)
+            {
+                ShootingProgressBar.Visibility = System.Windows.Visibility.Visible;
+                ProgressScreen.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                ShootingProgressBar.Visibility = System.Windows.Visibility.Collapsed;
+                ProgressScreen.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
+        private void OnZoomInClick(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("zoom in");
+            cameraManager.RequestActZoom(CameraManager.CameraManager.ZoomIn, CameraManager.CameraManager.OneShot);
+
+        }
+
+        private void OnZoomOutClick(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("zoom out");
+            cameraManager.RequestActZoom(CameraManager.CameraManager.ZoomOut, CameraManager.CameraManager.OneShot);
+        }
     }
 }

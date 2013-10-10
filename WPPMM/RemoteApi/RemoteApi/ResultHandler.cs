@@ -229,7 +229,16 @@ namespace WPPMM.RemoteApi
                 candidates = pvcandidates.ToArray()
             };
 
-            result.Invoke(apilist.ToArray(), status, zoom, liveview_status, postview, selftimer, shootmode);
+            result.Invoke(new Event()
+            {
+                AvailableApis = apilist.ToArray(),
+                CameraStatus = status,
+                ZoomInfo = zoom,
+                LiveviewAvailable = liveview_status,
+                PostviewSizeInfo = postview,
+                SelfTimerInfo = selftimer,
+                ShootModeInfo = shootmode
+            });
         }
     }
 }

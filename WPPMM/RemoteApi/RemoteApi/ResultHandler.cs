@@ -174,64 +174,96 @@ namespace WPPMM.RemoteApi
                 return;
             }
 
-            var apilist = new List<string>();
-            foreach (var str in json["result"][0]["names"].Values<string>())
+            var jApi = json["result"][0];
+            string[] apis = null;
+            if (jApi.HasValues)
             {
-                apilist.Add(str);
+                var apilist = new List<string>();
+                foreach (var str in jApi["names"].Values<string>())
+                {
+                    apilist.Add(str);
+                }
+                apis = apilist.ToArray();
             }
 
-            var status = json["result"].Value<string>(1);
+            var jStatus = json["result"][1];
+            string status = null;
+            if (jStatus.HasValues)
+            {
+                status = jStatus.Value<string>("cameraStatus");
+            }
 
             var jZoom = json["result"][2];
-            var zoom = new ZoomInfo
+            ZoomInfo zoom = null;
+            if (jZoom.HasValues)
             {
-                position = jZoom.Value<int>("zoomPosition"),
-                number_of_boxes = jZoom.Value<int>("zoomNumberBox"),
-                current_box_index = jZoom.Value<int>("zoomIndexCurrentBox"),
-                position_in_current_box = jZoom.Value<int>("zoomPositionCurrentBox")
-            };
+                zoom = new ZoomInfo
+                {
+                    position = jZoom.Value<int>("zoomPosition"),
+                    number_of_boxes = jZoom.Value<int>("zoomNumberBox"),
+                    current_box_index = jZoom.Value<int>("zoomIndexCurrentBox"),
+                    position_in_current_box = jZoom.Value<int>("zoomPositionCurrentBox")
+                };
+            }
 
-            var liveview_status = json["result"].Value<bool>(3);
+            var jLiveview = json["result"][3];
+            bool liveview_status = false;
+            if (jLiveview.HasValues)
+            {
+                jLiveview.Value<bool>("liveviewStatus");
+            }
 
             var jPostView = json["result"][19];
-            var pvcandidates = new List<string>();
-            foreach (var str in jPostView["postviewImageSizeCandidates"].Values<string>())
+            StrStrArray postview = null;
+            if (jPostView.HasValues)
             {
-                pvcandidates.Add(str);
+                var pvcandidates = new List<string>();
+                foreach (var str in jPostView["postviewImageSizeCandidates"].Values<string>())
+                {
+                    pvcandidates.Add(str);
+                }
+                postview = new StrStrArray
+                {
+                    current = jPostView.Value<string>("currentPostviewImageSize"),
+                    candidates = pvcandidates.ToArray()
+                };
             }
-            var postview = new StrStrArray
-            {
-                current = jPostView.Value<string>("currentPostviewImageSize"),
-                candidates = pvcandidates.ToArray()
-            };
 
             var jSelfTimer = json["result"][20];
-            var stcandidates = new List<int>();
-            foreach (var str in jSelfTimer["selfTimerCandidates"].Values<int>())
+            IntIntArray selftimer = null;
+            if (jSelfTimer.HasValues)
             {
-                stcandidates.Add(str);
+                var stcandidates = new List<int>();
+                foreach (var str in jSelfTimer["selfTimerCandidates"].Values<int>())
+                {
+                    stcandidates.Add(str);
+                }
+                selftimer = new IntIntArray
+                {
+                    current = jSelfTimer.Value<int>("currentSelfTimer"),
+                    candidates = stcandidates.ToArray()
+                };
             }
-            var selftimer = new IntIntArray
-            {
-                current = jSelfTimer.Value<int>("currentSelfTimer"),
-                candidates = stcandidates.ToArray()
-            };
 
             var jShootMode = json["result"][21];
-            var smcandidates = new List<string>();
-            foreach (var str in jShootMode["shootModeCandidates"].Values<string>())
+            StrStrArray shootmode = null;
+            if (jShootMode.HasValues)
             {
-                smcandidates.Add(str);
+                var smcandidates = new List<string>();
+                foreach (var str in jShootMode["shootModeCandidates"].Values<string>())
+                {
+                    smcandidates.Add(str);
+                }
+                shootmode = new StrStrArray
+                {
+                    current = jShootMode.Value<string>("currentShootMode"),
+                    candidates = smcandidates.ToArray()
+                };
             }
-            var shootmode = new StrStrArray
-            {
-                current = jShootMode.Value<string>("currentShootMode"),
-                candidates = pvcandidates.ToArray()
-            };
 
             result.Invoke(new Event()
             {
-                AvailableApis = apilist.ToArray(),
+                AvailableApis = apis,
                 CameraStatus = status,
                 ZoomInfo = zoom,
                 LiveviewAvailable = liveview_status,

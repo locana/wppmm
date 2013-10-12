@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
+using System.Windows;
 using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
@@ -14,11 +16,19 @@ namespace WPPMM.CameraManager
 
         private const int RETRY_LIMIT = 3;
 
-        private const int RETRY_INTERVAL_SEC = 2;
+        private const int RETRY_INTERVAL_SEC = 3;
 
-        private Action OnDetectDifference = null;
+        private Status status;
+
+        private Action<EventMember> OnDetectDifference = null;
 
         private Action OnStop = null;
+
+        private BackgroundWorker worker = new BackgroundWorker()
+        {
+            WorkerReportsProgress = false,
+            WorkerSupportsCancellation = true
+        };
 
         public EventObserver(CameraServiceClient10 client)
         {
@@ -28,14 +38,22 @@ namespace WPPMM.CameraManager
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="OnDetectDifference">Called when any of parameter has been changed.</param>
-        /// <param name="OnStop">Called when event observation is finished with error.</param>
-        public void Start(Action OnDetectDifference, Action OnStop)
+        /// <param name="status">Status object to update</param>
+        /// <param name="OnDetectDifference">Called when the parameter has been changed</param>
+        /// <param name="OnStop">Called when event observation is finished with error</param>
+        ///
+        public void Start(Status status, Action<EventMember> OnDetectDifference, Action OnStop)
         {
+            if (status == null | OnDetectDifference == null || OnStop == null)
+            {
+                throw new ArgumentNullException();
+            }
+            this.status = status;
             this.OnDetectDifference = OnDetectDifference;
             this.OnStop = OnStop;
             ongoing = true;
             failure_count = RETRY_LIMIT;
+            worker.DoWork += AnalyzeEventData;
             client.GetEvent(false, OnError, OnSuccess);
         }
 
@@ -57,35 +75,63 @@ namespace WPPMM.CameraManager
                 case StatusCode.ServiceUnavailable:
                 case StatusCode.Timeout:
                 case StatusCode.Any:
+                    if (++failure_count < RETRY_LIMIT)
+                    {
+                        Timer timer = new Timer((state) =>
+                        {
+                            Call();
+                        }, null, TimeSpan.FromSeconds(RETRY_INTERVAL_SEC), new TimeSpan(-1));
+                        return;
+                    }
                     break;
                 default:
-                    return;
+                    break;
             }
 
-            if (++failure_count < RETRY_LIMIT)
+            if (OnStop != null)
             {
-                Timer timer = new Timer((state) =>
-                {
-                    Call();
-                }, null, TimeSpan.FromSeconds(RETRY_INTERVAL_SEC), new TimeSpan(-1));
+                OnStop.Invoke();
             }
-            else
-            {
-                if (OnStop != null)
-                {
-                    OnStop.Invoke();
-                }
-                Deactivate();
-            }
+            Deactivate();
         }
 
-        private void OnSuccess(Event @event)
+        private void OnSuccess(Event data)
         {
             failure_count = 0;
-            //TODO go to the background thread and start analization.
-            //TODO check differences between the latest and the previous.
-            //TODO update to the latest information.
-            //TODO notify the differences
+            worker.RunWorkerAsync(data);
+        }
+
+        private void AnalyzeEventData(object sender, DoWorkEventArgs e)
+        {
+            var data = e.Argument as Event;
+            if (StatusComparator.IsAvailableApisModified(status, data.AvailableApis))
+            {
+                CallbackDetection(EventMember.AvailableApis);
+            }
+            if (StatusComparator.IsCameraStatusModified(status, data.CameraStatus))
+            {
+                CallbackDetection(EventMember.CameraStatus);
+            }
+            if (StatusComparator.IsLiveviewAvailableModified(status, data.LiveviewAvailable))
+            {
+                CallbackDetection(EventMember.LiveviewAvailable);
+            }
+            if (StatusComparator.IsPostviewSizeInfoModified(status, data.PostviewSizeInfo))
+            {
+                CallbackDetection(EventMember.PostviewSizeInfo);
+            }
+            if (StatusComparator.IsSelftimerInfoModified(status, data.SelfTimerInfo))
+            {
+                CallbackDetection(EventMember.SelfTimerInfo);
+            }
+            if (StatusComparator.IsShootModeInfoModified(status, data.ShootModeInfo))
+            {
+                CallbackDetection(EventMember.ShootModeInfo);
+            }
+            if (StatusComparator.IsZoomInfoModified(status, data.ZoomInfo))
+            {
+                CallbackDetection(EventMember.ZoomInfo);
+            }
             Call();
         }
 
@@ -97,11 +143,33 @@ namespace WPPMM.CameraManager
             }
         }
 
+        private void CallbackDetection(EventMember target)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                if (OnDetectDifference != null)
+                { OnDetectDifference.Invoke(target); }
+            });
+        }
+
         private void Deactivate()
         {
             ongoing = false;
+            status = null;
             OnStop = null;
             OnDetectDifference = null;
+            worker.DoWork -= AnalyzeEventData;
         }
+    }
+
+    public enum EventMember
+    {
+        AvailableApis,
+        CameraStatus,
+        ZoomInfo,
+        LiveviewAvailable,
+        PostviewSizeInfo,
+        SelfTimerInfo,
+        ShootModeInfo
     }
 }

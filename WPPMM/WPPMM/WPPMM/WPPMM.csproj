@@ -97,6 +97,7 @@
     <Compile Include="CameraManager\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\Status.cs" />
+    <Compile Include="CameraManager\StatusComparator.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Pages\SamplePage.xaml.cs">
       <DependentUpon>SamplePage.xaml</DependentUpon>

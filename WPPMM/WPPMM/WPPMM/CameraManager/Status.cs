@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
 {
 
-    class Status
+    public class Status
     {
 
         /// <summary>
@@ -88,5 +89,13 @@ namespace WPPMM.CameraManager
             MethodTypes = new List<string>();
             SupportedFNumbers = new List<string>();
         }
+
+        public string[] AvailableApis { internal set; get; }
+        public string CameraStatus { internal set; get; }
+        public ZoomInfo ZoomInfo { internal set; get; }
+        public bool LiveviewAvailable { internal set; get; }
+        public StrStrArray PostviewSizeInfo { internal set; get; }
+        public IntIntArray SelfTimerInfo { internal set; get; }
+        public StrStrArray ShootModeInfo { internal set; get; }
     }
 }

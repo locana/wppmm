@@ -37,6 +37,7 @@ namespace WPPMM.Pages
         private double screenHeight;
 
         private bool InProgress;
+        private bool OnZooming;
 
         public LiveViewScreen()
         {
@@ -72,7 +73,8 @@ namespace WPPMM.Pages
 
             screenWidth = ScreenImage.ActualWidth;
             screenHeight = LayoutRoot.ActualHeight;
-            
+
+            OnZooming = false;
         }
 
         internal void UpdateListener(WPPMM.CameraManager.Status cameraStatus)
@@ -150,15 +152,47 @@ namespace WPPMM.Pages
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("zoom in");
-            cameraManager.RequestActZoom(CameraManager.CameraManager.ZoomIn, CameraManager.CameraManager.OneShot);
+            Debug.WriteLine("Stop Zoom In (if started)");
+            if (OnZooming)
+            {
+                cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirIn, RemoteApi.ApiParams.ZoomActStop);
+            }
 
         }
 
         private void OnZoomOutClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("zoom out");
-            cameraManager.RequestActZoom(CameraManager.CameraManager.ZoomOut, CameraManager.CameraManager.OneShot);
+            Debug.WriteLine("Stop zoom out (if started)");
+            if (OnZooming)
+            {
+                cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirOut, RemoteApi.ApiParams.ZoomActStop);
+            }
+        }
+
+        private void OnZoomInHold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom In: Start");
+            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirIn, RemoteApi.ApiParams.ZoomActStart);
+            OnZooming = true;
+        }
+
+        private void OnZoomOutHold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom Out: Start");
+            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirOut, RemoteApi.ApiParams.ZoomActStart);
+            OnZooming = true;
+        }
+
+        private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom In: OneShot");
+            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirIn, RemoteApi.ApiParams.ZoomAct1Shot);
+        }
+
+        private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom In: OneShot");
+            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirOut, RemoteApi.ApiParams.ZoomAct1Shot);
         }
     }
 }

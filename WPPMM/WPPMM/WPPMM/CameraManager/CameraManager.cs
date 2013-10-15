@@ -25,12 +25,6 @@ namespace WPPMM.CameraManager
 
         private const int TIMEOUT = 10;
         public const String apiVersion = "1.0";
-        public const String ZoomIn = "in";
-        public const String ZoomOut = "out";
-        public const String OneShot = "1shot";
-        public const String ZoomStart = "start";
-        public const String ZoomStop = "stop";
-
 
         private static DeviceInfo deviceInfo;
         private static DeviceFinder deviceFinder = new DeviceFinder();

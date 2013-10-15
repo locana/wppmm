@@ -42,6 +42,8 @@ namespace WPPMM.CameraManager
 
         private Stopwatch watch;
 
+        private EventObserver observer;
+
         private CameraManager()
         {
             init();
@@ -215,8 +217,11 @@ namespace WPPMM.CameraManager
             if (deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
+                
                 client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
                 GetInstance().cameraStatus.isAvailableConnecting = true;
+                
+                GetInstance().InitEventObserver();
             }
             // TODO be careful, device info is updated to the latest found device.
 
@@ -317,6 +322,32 @@ namespace WPPMM.CameraManager
         internal static void OnActZoomResult()
         {
             Debug.WriteLine("Zoom operated.");
+        }
+
+        // ------- Event Observer
+
+        private void InitEventObserver()
+        {
+            observer = new EventObserver(client);
+            observer.Start(cameraStatus, OnDetectDifference, OnStop);
+        }
+
+        public static void OnDetectDifference(EventMember member)
+        {
+            switch (member)
+            {
+                case EventMember.ZoomInfo:
+                    Debug.WriteLine("Difference detected: zoom");
+                    break;
+                default:
+                    Debug.WriteLine("Difference detected: default");
+                    break;
+            }
+            NoticeUpdate();
+        }
+
+        public  static void OnStop()
+        {
         }
         
        

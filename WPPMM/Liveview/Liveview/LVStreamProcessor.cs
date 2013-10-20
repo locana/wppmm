@@ -53,7 +53,7 @@ namespace WPPMM.Liveview
             request.AllowReadStreamBuffering = false;
             request.AllowWriteStreamBuffering = false;
 
-            var JpegStreamHandler = new AsyncCallback(async (ar) =>
+            var JpegStreamHandler = new AsyncCallback((ar) =>
             {
                 try
                 {
@@ -76,7 +76,7 @@ namespace WPPMM.Liveview
                                 {
                                     try
                                     {
-                                        OnJpegRetrieved(await Next(str));
+                                        OnJpegRetrieved(Next(str));
                                     }
                                     catch (IOException)
                                     {
@@ -117,16 +117,16 @@ namespace WPPMM.Liveview
         private const int CHeaderLength = 8;
         private const int PHeaderLength = 128;
 
-        private async Task<byte[]> Next(Stream str)
+        private byte[] Next(Stream str)
         {
-            var CHeader = await AsyncRead(str, CHeaderLength);
+            var CHeader = BlockingRead(str, CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
                 Debug.WriteLine("Unexpected common header");
                 throw new IOException("Unexpected common header");
             }
 
-            var PHeader = await AsyncRead(str, PHeaderLength);
+            var PHeader = BlockingRead(str, PHeaderLength);
             if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
             {
                 Debug.WriteLine("Unexpected payload header");
@@ -135,8 +135,8 @@ namespace WPPMM.Liveview
             int data_size = ReadIntFromByteArray(PHeader, 4, 3);
             int padding_size = ReadIntFromByteArray(PHeader, 7, 1);
 
-            var data = await AsyncRead(str, data_size);
-            await AsyncRead(str, padding_size); // discard padding from stream
+            var data = BlockingRead(str, data_size);
+            BlockingRead(str, padding_size); // discard padding from stream
 
             packet_counter++;
 
@@ -145,7 +145,7 @@ namespace WPPMM.Liveview
 
         private byte[] ReadBuffer = new byte[8192];
 
-        private async Task<byte[]> AsyncRead(Stream str, int numBytes)
+        private byte[] BlockingRead(Stream str, int numBytes)
         {
             var remainBytes = numBytes;
             int read;
@@ -157,7 +157,7 @@ namespace WPPMM.Liveview
                     {
                         throw new IOException("Force finish reading");
                     }
-                    read = await str.ReadAsync(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
+                    read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
                     if (read < 0)
                     {
                         throw new IOException("End of stream");

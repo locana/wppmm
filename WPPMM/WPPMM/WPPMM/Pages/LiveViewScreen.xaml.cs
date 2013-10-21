@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using WPPMM.CameraManager;
-using System.Windows.Media.Imaging;
+﻿using Microsoft.Phone.Controls;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.IO.IsolatedStorage;
-using Microsoft.Phone;
-using Microsoft.Xna.Framework.Media;
-using System.Windows.Resources;
-using WPPMMComp;
-using System.Text;
-using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using WPPMM.CameraManager;
+using WPPMM.RemoteApi;
 
 
 namespace WPPMM.Pages
@@ -48,7 +36,7 @@ namespace WPPMM.Pages
             cameraManager = CameraManager.CameraManager.GetInstance();
 
             cameraManager.UpdateEvent += UpdateListener;
-            
+
 
             cameraManager.StartLiveView();
             cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
@@ -81,10 +69,10 @@ namespace WPPMM.Pages
             counter = 0;
         }
 
-        internal void UpdateListener(WPPMM.CameraManager.Status cameraStatus)
+        internal void UpdateListener(Status cameraStatus)
         {
-            if (isRequestingLiveview && 
-                cameraStatus.isConnected　&&
+            if (isRequestingLiveview &&
+                cameraStatus.isConnected &&
                 !cameraStatus.isAvailableShooting)
             {
                 // starting liveview
@@ -113,7 +101,7 @@ namespace WPPMM.Pages
             }
             else
             {
-                            
+
                 counter++;
 
                 double margin_left = counter;
@@ -121,18 +109,18 @@ namespace WPPMM.Pages
                 ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
                 Debug.WriteLine("zoom bar display update: " + margin_left);
             }
-                
+
         }
 
 
         public void LiveViewUpdateListener(byte[] data)
         {
-     
+
             // Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
 
             int size = data.Length;
             ScreenImage.Source = null;
-            
+
             screenMemoryStream = new MemoryStream(data, 0, size);
             screenBitmapImage.SetSource(screenMemoryStream);
             ScreenImage.Source = screenBitmapImage;
@@ -159,13 +147,13 @@ namespace WPPMM.Pages
 
             if (InProgress)
             {
-                ShootingProgressBar.Visibility = System.Windows.Visibility.Visible;
-                ProgressScreen.Visibility = System.Windows.Visibility.Visible;
+                ShootingProgressBar.Visibility = Visibility.Visible;
+                ProgressScreen.Visibility = Visibility.Visible;
             }
             else
             {
-                ShootingProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-                ProgressScreen.Visibility = System.Windows.Visibility.Collapsed;
+                ShootingProgressBar.Visibility = Visibility.Collapsed;
+                ProgressScreen.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -174,7 +162,7 @@ namespace WPPMM.Pages
             Debug.WriteLine("Stop Zoom In (if started)");
             if (OnZooming)
             {
-                cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirIn, RemoteApi.ApiParams.ZoomActStop);
+                cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStop);
             }
 
         }
@@ -184,34 +172,34 @@ namespace WPPMM.Pages
             Debug.WriteLine("Stop zoom out (if started)");
             if (OnZooming)
             {
-                cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirOut, RemoteApi.ApiParams.ZoomActStop);
+                cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomActStop);
             }
         }
 
         private void OnZoomInHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom In: Start");
-            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirIn, RemoteApi.ApiParams.ZoomActStart);
+            cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStart);
             OnZooming = true;
         }
 
         private void OnZoomOutHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom Out: Start");
-            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirOut, RemoteApi.ApiParams.ZoomActStart);
+            cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomActStart);
             OnZooming = true;
         }
 
         private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom In: OneShot");
-            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirIn, RemoteApi.ApiParams.ZoomAct1Shot);
+            cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomAct1Shot);
         }
 
         private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom In: OneShot");
-            cameraManager.RequestActZoom(RemoteApi.ApiParams.ZoomDirOut, RemoteApi.ApiParams.ZoomAct1Shot);
+            cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomAct1Shot);
         }
     }
 }

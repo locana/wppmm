@@ -99,9 +99,6 @@
     <Compile Include="CameraManager\Status.cs" />
     <Compile Include="CameraManager\StatusComparator.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="Pages\SamplePage.xaml.cs">
-      <DependentUpon>SamplePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\LiveViewScreen.xaml.cs">
       <DependentUpon>LiveViewScreen.xaml</DependentUpon>
     </Compile>
@@ -120,10 +117,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="Pages\SamplePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\LiveViewScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -174,9 +167,6 @@
     <ProjectReference Include="..\..\RemoteApi\RemoteApi.csproj">
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>RemoteApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WPPMMComp\WPPMMComp.vcxproj">
-      <Name>WPPMMComp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

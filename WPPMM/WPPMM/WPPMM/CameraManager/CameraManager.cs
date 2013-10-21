@@ -1,17 +1,10 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using WPPMM.Liveview;
-using System.IO;
-using System.IO.IsolatedStorage;
-using Microsoft.Phone;
-using Microsoft.Xna.Framework.Media;
-using System.Windows.Resources;
-using System.Windows.Media.Imaging;
 using WPPMM.DeviceDiscovery;
+using WPPMM.Liveview;
 using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
@@ -29,7 +22,7 @@ namespace WPPMM.CameraManager
         private static DeviceInfo deviceInfo;
         private static DeviceFinder deviceFinder = new DeviceFinder();
         private static CameraServiceClient10 client;
-        private static Liveview.LVStreamProcessor lvProcessor = null;
+        private static LVStreamProcessor lvProcessor = null;
 
         private static String liveViewUrl = null;
         private object lockObject;
@@ -38,7 +31,7 @@ namespace WPPMM.CameraManager
         private static byte[] screenData;
 
         private static Action<byte[]> LiveViewUpdateListener;
-        internal event Action<WPPMM.CameraManager.Status> UpdateEvent;
+        internal event Action<Status> UpdateEvent;
 
         private Stopwatch watch;
 
@@ -208,7 +201,7 @@ namespace WPPMM.CameraManager
         }
 
 
-        public static void OnServerFound(DeviceDiscovery.DeviceInfo di)
+        public static void OnServerFound(DeviceInfo di)
         {
             deviceInfo = di;
             Debug.WriteLine("found device: " + deviceInfo.ModelName);
@@ -217,10 +210,10 @@ namespace WPPMM.CameraManager
             if (deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
-                
+
                 client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
                 GetInstance().cameraStatus.isAvailableConnecting = true;
-                
+
                 GetInstance().InitEventObserver();
             }
             // TODO be careful, device info is updated to the latest found device.
@@ -290,7 +283,7 @@ namespace WPPMM.CameraManager
 
         public static void OnActTakePictureError(int err)
         {
-            if (err == RemoteApi.StatusCode.StillCapturingNotFinished)
+            if (err == StatusCode.StillCapturingNotFinished)
             {
                 Debug.WriteLine("capturing...");
                 return;
@@ -346,11 +339,11 @@ namespace WPPMM.CameraManager
             NoticeUpdate();
         }
 
-        public  static void OnStop()
+        public static void OnStop()
         {
         }
-        
-       
+
+
         // -------
 
         public static void OnTimeout()
@@ -368,8 +361,8 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("Error: " + errno.ToString());
         }
- 
-        public static DeviceDiscovery.DeviceInfo GetDeviceInfo()
+
+        public static DeviceInfo GetDeviceInfo()
         {
             return deviceInfo;
         }

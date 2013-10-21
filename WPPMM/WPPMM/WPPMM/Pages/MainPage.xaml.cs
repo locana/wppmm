@@ -1,9 +1,10 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Net.NetworkInformation;
+using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
 using System;
 using System.Diagnostics;
-using Microsoft.Phone.Net.NetworkInformation;
-using Microsoft.Phone.Tasks;
-using Microsoft.Phone.Shell;
+using WPPMM.CameraManager;
 using WPPMM.Resources;
 
 
@@ -98,9 +99,9 @@ namespace WPPMM
             NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
-        internal void WifiUpdateListener(WPPMM.CameraManager.Status cameraStatus)
+        internal void WifiUpdateListener(Status cameraStatus)
         {
-                        
+
             if (cameraStatus.isAvailableConnecting)
             {
                 String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;

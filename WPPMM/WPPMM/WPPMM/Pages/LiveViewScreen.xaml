@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Landscape" Orientation="Landscape"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.Resources>
@@ -27,7 +27,7 @@
             <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
                     Background="Black" Opacity="0.8" Padding="10,10,10,10"/>
-            <Grid HorizontalAlignment="Right" Height="auto" Margin="0,30,50,0" VerticalAlignment="Top" Width="200"  >
+            <Grid HorizontalAlignment="Left" Height="auto" Margin="30,30,50,30" VerticalAlignment="Bottom" Width="200"  >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -48,7 +48,7 @@
 
 
             <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
-                       Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" />
+                       Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Center" Height="100" />
             <ProgressBar Height="39" HorizontalAlignment="Stretch"
                          VerticalAlignment="Center" IsIndeterminate="True" 
                          Background="{StaticResource PhoneAccentBrush}"

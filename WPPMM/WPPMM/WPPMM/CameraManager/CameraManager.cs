@@ -184,7 +184,11 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("liveView connection closed.");
             // init();
             CameraManager.GetInstance().cameraStatus.Init();
-            NoticeUpdate();
+
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                NoticeUpdate();
+            });
         }
 
         public void RequestCloseLiveView()

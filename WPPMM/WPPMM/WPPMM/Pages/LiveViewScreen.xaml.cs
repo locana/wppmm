@@ -201,6 +201,7 @@ namespace WPPMM.Pages
 
         private void SetZoomDisp(bool disp)
         {
+
             if (disp)
             {
                 if (ZoomBar.Visibility == System.Windows.Visibility.Collapsed)

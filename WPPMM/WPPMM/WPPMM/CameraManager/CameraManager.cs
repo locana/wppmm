@@ -144,9 +144,9 @@ namespace WPPMM.CameraManager
         public void OnJpegRetrieved(byte[] data)
         {
 
-            if (!CameraManager.GetInstance().cameraStatus.isAvailableShooting)
+            if (!cameraStatus.isAvailableShooting)
             {
-                CameraManager.GetInstance().cameraStatus.isAvailableShooting = true;
+                cameraStatus.isAvailableShooting = true;
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     NoticeUpdate();
@@ -156,7 +156,7 @@ namespace WPPMM.CameraManager
             int size = data.Length;
             Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
 
-            if (CameraManager.GetInstance().cameraStatus.isRendering)
+            if (cameraStatus.isRendering)
             {
                 return;
             }
@@ -165,14 +165,14 @@ namespace WPPMM.CameraManager
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                lock (CameraManager.GetInstance().lockObject)
+                lock (lockObject)
                 {
 
                     // Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    CameraManager.GetInstance().cameraStatus.isRendering = true;
+                    cameraStatus.isRendering = true;
                     LiveViewUpdateListener(screenData);
                     // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    CameraManager.GetInstance().cameraStatus.isRendering = false;
+                    cameraStatus.isRendering = false;
                 }
             });
 
@@ -183,7 +183,7 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("liveView connection closed.");
             // init();
-            CameraManager.GetInstance().cameraStatus.Init();
+            cameraStatus.Init();
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
@@ -200,7 +200,6 @@ namespace WPPMM.CameraManager
 
         private void requestSearchDevices()
         {
-            // WPPMM.DeviceDiscovery.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
             deviceFinder.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
         }
 
@@ -216,9 +215,9 @@ namespace WPPMM.CameraManager
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
 
                 client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
-                GetInstance().cameraStatus.isAvailableConnecting = true;
+                cameraStatus.isAvailableConnecting = true;
 
-                GetInstance().InitEventObserver();
+                InitEventObserver();
             }
             // TODO be careful, device info is updated to the latest found device.
 
@@ -234,7 +233,7 @@ namespace WPPMM.CameraManager
                 Debug.WriteLine("method: " + t.name);
                 list.Add(t.name);
             }
-            CameraManager.GetInstance().cameraStatus.MethodTypes = list;
+            cameraStatus.MethodTypes = list;
             NoticeUpdate();
         }
 
@@ -265,21 +264,21 @@ namespace WPPMM.CameraManager
 
             foreach (String s in res)
             {
-                CameraManager.GetInstance().downloader.DownloadImageFile(
+                downloader.DownloadImageFile(
                     new Uri(s),
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
                         MessageBox.Show("Your picture has been saved to the album successfully!");
-                        CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-                        CameraManager.GetInstance().NoticeUpdate();
+                        cameraStatus.isTakingPicture = false;
+                        NoticeUpdate();
                     },
                     delegate()
                     {
                         Debug.WriteLine("error");
                         MessageBox.Show("Error occured during downloading the picture..");
-                        CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-                        CameraManager.GetInstance().NoticeUpdate();
+                        cameraStatus.isTakingPicture = false;
+                        NoticeUpdate();
                     }
                 );
             }
@@ -294,8 +293,8 @@ namespace WPPMM.CameraManager
             }
 
             Debug.WriteLine("Error during taking picture: " + err);
-            CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-            CameraManager.GetInstance().NoticeUpdate();
+            cameraStatus.isTakingPicture = false;
+            NoticeUpdate();
         }
 
 
@@ -304,7 +303,7 @@ namespace WPPMM.CameraManager
         internal void RequestActZoom(String direction, String movement)
         {
 
-            if (!cameraManager.cameraStatus.MethodTypes.Contains("actZoom"))
+            if (!cameraStatus.MethodTypes.Contains("actZoom"))
             {
                 // if zoom is not supported, display warning.　Yes, just warning.
                 Debug.WriteLine("It seems this device does not support zoom");
@@ -343,8 +342,9 @@ namespace WPPMM.CameraManager
             NoticeUpdate();
         }
 
-        public void OnStop(){
-        
+        public void OnStop()
+        {
+
         }
 
 
@@ -380,7 +380,7 @@ namespace WPPMM.CameraManager
         // Notice update to UI classes
         internal void NoticeUpdate()
         {
-            UpdateEvent(GetInstance().cameraStatus);
+            UpdateEvent(cameraStatus);
         }
 
 

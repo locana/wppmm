@@ -27,8 +27,6 @@ namespace WPPMM.Pages
         private bool InProgress;
         private bool OnZooming;
 
-        private int counter;
-
         public LiveViewScreen()
         {
             InitializeComponent();
@@ -65,8 +63,6 @@ namespace WPPMM.Pages
             screenHeight = LayoutRoot.ActualHeight;
 
             OnZooming = false;
-
-            counter = 0;
         }
 
         internal void UpdateListener(Status cameraStatus)
@@ -93,21 +89,22 @@ namespace WPPMM.Pages
                 ShootButton.IsEnabled = true;
             }
 
-            if (cameraStatus.ZoomInfo != null)
+
+            // change visibility of items for zoom
+            if (cameraStatus.MethodTypes.Contains("actZoom"))
             {
-                double margin_left = cameraStatus.ZoomInfo.position_in_current_box / 100 * 158;
-                ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
-                Debug.WriteLine("zoom bar display update: " + margin_left);
+                SetZoomDisp(true);
+
+                if (cameraStatus.ZoomInfo != null)
+                {
+                    double margin_left = cameraStatus.ZoomInfo.position_in_current_box / 100 * 158;
+                    ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
+                    Debug.WriteLine("zoom bar display update: " + margin_left);
+                }
             }
             else
             {
-
-                counter++;
-
-                double margin_left = counter;
-
-                ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
-                Debug.WriteLine("zoom bar display update: " + margin_left);
+                SetZoomDisp(false);
             }
 
         }
@@ -200,6 +197,30 @@ namespace WPPMM.Pages
         {
             Debug.WriteLine("Zoom In: OneShot");
             cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomAct1Shot);
+        }
+
+        private void SetZoomDisp(bool disp)
+        {
+            if (disp)
+            {
+                if (ZoomBar.Visibility == System.Windows.Visibility.Collapsed)
+                {
+                    ZoomBar.Visibility = System.Windows.Visibility.Visible;
+                    ZoomCursor.Visibility = System.Windows.Visibility.Visible;
+                    ZoomInButton.Visibility = System.Windows.Visibility.Visible;
+                    ZoomOutButton.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (ZoomBar.Visibility == System.Windows.Visibility.Visible)
+                {
+                    ZoomBar.Visibility = System.Windows.Visibility.Collapsed;
+                    ZoomCursor.Visibility = System.Windows.Visibility.Collapsed;
+                    ZoomInButton.Visibility = System.Windows.Visibility.Collapsed;
+                    ZoomOutButton.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
         }
     }
 }

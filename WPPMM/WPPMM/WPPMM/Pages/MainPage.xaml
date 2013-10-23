@@ -39,9 +39,10 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Visibility="Collapsed" Name="OperationGuide" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Add splash screen here if it's requested." VerticalAlignment="Top"/>
-            <TextBlock Grid.Row="1" Name="NetworkStatus" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="1" Name="NetworkStatus" HorizontalAlignment="Center"
+                       Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
             <Button Grid.Row="2" Content="{Binding Path=LocalizedResources.WifiSettingLauncherButtonText, Source={StaticResource LocalizedStrings}}" 
-                    HorizontalAlignment="Center" Margin="0,10,0,10" VerticalAlignment="Top" Click="OnWiFiSettingButtonClicked"/>
+                    HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Click="OnWiFiSettingButtonClicked"/>
             <Button Name="SearchButton" Content="{Binding Path=LocalizedResources.SearchDevideButtonText, Source={StaticResource LocalizedStrings}}"
                     IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Top" Click="SearchButton_Click"/>
            

@@ -201,25 +201,18 @@ namespace WPPMM.Pages
 
         private void SetZoomDisp(bool disp)
         {
-
             if (disp)
             {
-                if (ZoomBar.Visibility == System.Windows.Visibility.Collapsed)
+                if (ZoomElements.Visibility == System.Windows.Visibility.Collapsed)
                 {
-                    ZoomBar.Visibility = System.Windows.Visibility.Visible;
-                    ZoomCursor.Visibility = System.Windows.Visibility.Visible;
-                    ZoomInButton.Visibility = System.Windows.Visibility.Visible;
-                    ZoomOutButton.Visibility = System.Windows.Visibility.Visible;
+                    ZoomElements.Visibility = System.Windows.Visibility.Visible;
                 }
             }
             else
             {
-                if (ZoomBar.Visibility == System.Windows.Visibility.Visible)
+                if (ZoomElements.Visibility == System.Windows.Visibility.Visible)
                 {
-                    ZoomBar.Visibility = System.Windows.Visibility.Collapsed;
-                    ZoomCursor.Visibility = System.Windows.Visibility.Collapsed;
-                    ZoomInButton.Visibility = System.Windows.Visibility.Collapsed;
-                    ZoomOutButton.Visibility = System.Windows.Visibility.Collapsed;
+                    ZoomElements.Visibility = System.Windows.Visibility.Collapsed;
                 }
             }
         }

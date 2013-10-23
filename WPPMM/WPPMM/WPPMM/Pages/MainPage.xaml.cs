@@ -63,9 +63,9 @@ namespace WPPMM
 
             if (cameraManager != null)
             {
-                if (CameraManager.CameraManager.GetDeviceInfo() != null)
+                if (cameraManager.GetDeviceInfo() != null)
                 {
-                    String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;
+                    String modelName = cameraManager.GetDeviceInfo().FriendlyName;
                     if (modelName != null)
                     {
                         NetworkStatus.Text = "Connected device: " + modelName;
@@ -104,7 +104,7 @@ namespace WPPMM
 
             if (cameraStatus.isAvailableConnecting)
             {
-                String modelName = CameraManager.CameraManager.GetDeviceInfo().FriendlyName;
+                String modelName = cameraManager.GetDeviceInfo().FriendlyName;
                 NetworkStatus.Text = "Connected device: " + modelName;
             }
 

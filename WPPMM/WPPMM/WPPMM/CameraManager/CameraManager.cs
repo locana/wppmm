@@ -19,18 +19,18 @@ namespace WPPMM.CameraManager
         private const int TIMEOUT = 10;
         public const String apiVersion = "1.0";
 
-        private static DeviceInfo deviceInfo;
-        private static DeviceFinder deviceFinder = new DeviceFinder();
-        private static CameraServiceClient10 client;
-        private static LVStreamProcessor lvProcessor = null;
+        private DeviceInfo deviceInfo;
+        private DeviceFinder deviceFinder = new DeviceFinder();
+        private CameraServiceClient10 client;
+        private LVStreamProcessor lvProcessor = null;
 
-        private static String liveViewUrl = null;
+        private String liveViewUrl = null;
         private object lockObject;
         private Downloader downloader;
         private Status cameraStatus;
-        private static byte[] screenData;
+        private byte[] screenData;
 
-        private static Action<byte[]> LiveViewUpdateListener;
+        private Action<byte[]> LiveViewUpdateListener;
         internal event Action<Status> UpdateEvent;
 
         private Stopwatch watch;
@@ -141,7 +141,7 @@ namespace WPPMM.CameraManager
         }
 
         // callback methods (liveview)
-        public static void OnJpegRetrieved(byte[] data)
+        public void OnJpegRetrieved(byte[] data)
         {
 
             if (!CameraManager.GetInstance().cameraStatus.isAvailableShooting)
@@ -179,7 +179,7 @@ namespace WPPMM.CameraManager
 
         }
 
-        public static void OnLiveViewClosed()
+        public void OnLiveViewClosed()
         {
             Debug.WriteLine("liveView connection closed.");
             // init();
@@ -194,14 +194,14 @@ namespace WPPMM.CameraManager
 
         // --------- prepare
 
-        private static void requestSearchDevices()
+        private void requestSearchDevices()
         {
             // WPPMM.DeviceDiscovery.DeviceDiscovery.SearchScalarDevices(TIMEOUT, OnDDLocationFound, OnTimeout);
             deviceFinder.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
         }
 
 
-        public static void OnServerFound(DeviceInfo di)
+        public void OnServerFound(DeviceInfo di)
         {
             deviceInfo = di;
             Debug.WriteLine("found device: " + deviceInfo.ModelName);
@@ -222,7 +222,7 @@ namespace WPPMM.CameraManager
 
         }
 
-        internal static void OnGetMethodTypes(MethodType[] methodTypes)
+        internal void OnGetMethodTypes(MethodType[] methodTypes)
         {
             List<String> list = new List<string>();
             foreach (MethodType t in methodTypes)
@@ -256,7 +256,7 @@ namespace WPPMM.CameraManager
             NoticeUpdate();
         }
 
-        public static void OnResultActTakePicture(String[] res)
+        public void OnResultActTakePicture(String[] res)
         {
 
             foreach (String s in res)
@@ -266,22 +266,22 @@ namespace WPPMM.CameraManager
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
-                        MessageBox.Show("Your picture has saved to the album successfully!");
+                        MessageBox.Show("Your picture has been saved to the album successfully!");
                         CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-                        CameraManager.NoticeUpdate();
+                        CameraManager.GetInstance().NoticeUpdate();
                     },
                     delegate()
                     {
                         Debug.WriteLine("error");
                         MessageBox.Show("Error occured during downloading the picture..");
                         CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-                        CameraManager.NoticeUpdate();
+                        CameraManager.GetInstance().NoticeUpdate();
                     }
                 );
             }
         }
 
-        public static void OnActTakePictureError(int err)
+        public void OnActTakePictureError(int err)
         {
             if (err == StatusCode.StillCapturingNotFinished)
             {
@@ -291,7 +291,7 @@ namespace WPPMM.CameraManager
 
             Debug.WriteLine("Error during taking picture: " + err);
             CameraManager.GetInstance().cameraStatus.isTakingPicture = false;
-            CameraManager.NoticeUpdate();
+            CameraManager.GetInstance().NoticeUpdate();
         }
 
 
@@ -312,7 +312,7 @@ namespace WPPMM.CameraManager
             }
         }
 
-        internal static void OnActZoomResult()
+        internal void OnActZoomResult()
         {
             Debug.WriteLine("Zoom operated.");
         }
@@ -325,7 +325,7 @@ namespace WPPMM.CameraManager
             observer.Start(cameraStatus, OnDetectDifference, OnStop);
         }
 
-        public static void OnDetectDifference(EventMember member)
+        public void OnDetectDifference(EventMember member)
         {
             switch (member)
             {
@@ -339,30 +339,30 @@ namespace WPPMM.CameraManager
             NoticeUpdate();
         }
 
-        public static void OnStop()
-        {
+        public void OnStop(){
+        
         }
 
 
         // -------
 
-        public static void OnTimeout()
+        public void OnTimeout()
         {
             Debug.WriteLine("request timeout.");
             NoticeUpdate();
         }
 
-        public static void OnError()
+        public void OnError()
         {
             Debug.WriteLine("Error, something wrong.");
         }
 
-        public static void OnError(int errno)
+        public void OnError(int errno)
         {
             Debug.WriteLine("Error: " + errno.ToString());
         }
 
-        public static DeviceInfo GetDeviceInfo()
+        public DeviceInfo GetDeviceInfo()
         {
             return deviceInfo;
         }
@@ -374,10 +374,9 @@ namespace WPPMM.CameraManager
         }
 
         // Notice update to UI classes
-        private static void NoticeUpdate()
+        internal void NoticeUpdate()
         {
-            GetInstance().UpdateEvent(GetInstance().cameraStatus);
-
+            UpdateEvent(GetInstance().cameraStatus);
         }
 
 

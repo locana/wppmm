@@ -4,6 +4,7 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using System;
 using System.Diagnostics;
+using System.Windows.Navigation;
 using WPPMM.CameraManager;
 using WPPMM.Resources;
 
@@ -14,7 +15,6 @@ namespace WPPMM
     {
 
         private static CameraManager.CameraManager cameraManager;
-
 
         // コンストラクター
         public MainPage()
@@ -29,6 +29,19 @@ namespace WPPMM
             UpdateNetworkStatus();
 
 
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            UpdateNetworkStatus();
+            if (GetSSIDName().StartsWith("DIRECT-"))
+            {
+                CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
+                {
+                    GoToShootingPage();
+                }, () => { });
+            }
         }
 
         private void HandleError(int code)
@@ -47,13 +60,13 @@ namespace WPPMM
 
         private void UpdateNetworkStatus()
         {
-            Debug.WriteLine("SSID: " + this.GetSSIDName());
+            Debug.WriteLine("SSID: " + GetSSIDName());
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
                 SearchButton.IsEnabled = true;
             }
-            else if (this.GetSSIDName().StartsWith("DIRECT-"))
+            else if (GetSSIDName().StartsWith("DIRECT-"))
             {
                 NetworkStatus.Text = AppResources.Guide_CantFindDevice;
             }
@@ -97,6 +110,11 @@ namespace WPPMM
 
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
+            GoToShootingPage();
+        }
+
+        private void GoToShootingPage()
+        {
             NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
         }
 
@@ -115,23 +133,6 @@ namespace WPPMM
             }
 
         }
-
-
-
-
-        // update disp
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            if (PhoneApplicationService.Current.StartupMode == StartupMode.Activate)
-            {
-
-            }
-
-            UpdateNetworkStatus();
-        }
-
 
         private string GetSSIDName()
         {

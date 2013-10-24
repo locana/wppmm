@@ -21,6 +21,7 @@ namespace WPPMM
         {
             InitializeComponent();
 
+            BuildLocalizedApplicationBar();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
 
@@ -147,6 +148,20 @@ namespace WPPMM
             return "<Not connected>";
         }
 
+        private void OSS_Menu_Click(object sender, System.EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/LicensePage.xaml", UriKind.Relative));
+        }
 
+        private void BuildLocalizedApplicationBar()
+        {
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Minimized;
+            ApplicationBar.Opacity = 0.5;
+
+            var OssMenuItem = new ApplicationBarMenuItem(AppResources.OSSText);
+            OssMenuItem.Click += OSS_Menu_Click;
+            ApplicationBar.MenuItems.Add(OssMenuItem);
+        }
     }
 }

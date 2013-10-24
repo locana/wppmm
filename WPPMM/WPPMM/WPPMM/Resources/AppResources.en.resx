@@ -158,4 +158,7 @@
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
     <value>Turn on Wi-Fi and connect to your device.</value>
   </data>
+  <data name="OSSText" xml:space="preserve">
+    <value>Open source licenses</value>
+  </data>
 </root>

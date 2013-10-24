@@ -13,6 +13,10 @@
     SupportedOrientations="Portrait" Orientation="Landscape"
     shell:SystemTray.IsVisible="True">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="True" Text="Preparing connection..." />
+    </shell:SystemTray.ProgressIndicator>
+
     <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -45,10 +49,10 @@
                     HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Click="OnWiFiSettingButtonClicked"/>
             <Button Name="SearchButton" Content="{Binding Path=LocalizedResources.SearchDevideButtonText, Source={StaticResource LocalizedStrings}}"
                     IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Top" Click="SearchButton_Click"/>
-           
+
             <Button Name="StartRemoteButton" Content="{Binding Path=LocalizedResources.StartRemoteControllingButtonText, Source={StaticResource LocalizedStrings}}" 
                     IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click_1"/>
-           
+
 
         </Grid>
     </Grid>

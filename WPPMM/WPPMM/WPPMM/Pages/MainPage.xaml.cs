@@ -34,13 +34,18 @@ namespace WPPMM
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            progress.IsVisible = false;
             UpdateNetworkStatus();
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
+                progress.IsVisible = true;
                 CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
                 {
                     GoToShootingPage();
-                }, () => { });
+                }, () =>
+                {
+                    progress.IsVisible = false;
+                });
             }
         }
 

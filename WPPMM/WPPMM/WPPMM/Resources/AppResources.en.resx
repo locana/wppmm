@@ -161,4 +161,7 @@
   <data name="OSSText" xml:space="preserve">
     <value>Open source licenses</value>
   </data>
+  <data name="ContainsLicense" xml:space="preserve">
+    <value>This application contains the following open source softwares.</value>
+  </data>
 </root>

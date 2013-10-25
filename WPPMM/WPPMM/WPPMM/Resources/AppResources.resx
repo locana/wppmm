@@ -167,4 +167,7 @@
   <data name="OSSText" xml:space="preserve">
     <value>オープンソースライセンス</value>
   </data>
+  <data name="ContainsLicense" xml:space="preserve">
+    <value>このアプリケーションは、下記のオープンソースソフトウェアを使用しています。</value>
+  </data>
 </root>

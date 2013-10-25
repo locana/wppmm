@@ -50,6 +50,11 @@ namespace WPPMM.CameraManager
             watch.Start();
             deviceInfo = null;
             cameraStatus = new Status();
+            if (observer != null)
+            {
+                observer.Stop();
+                observer = null;
+            }
         }
 
         public static CameraManager GetInstance()
@@ -143,7 +148,7 @@ namespace WPPMM.CameraManager
             }
 
             int size = data.Length;
-            Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
+            //Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
 
             if (cameraStatus.isRendering)
             {

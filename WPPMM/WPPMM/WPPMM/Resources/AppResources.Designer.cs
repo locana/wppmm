@@ -106,6 +106,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   このアプリケーションは、下記のオープンソースソフトウェアを使用しています。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ContainsLicense {
+            get {
+                return ResourceManager.GetString("ContainsLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   デバイス一覧 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DeviceListTitle {

@@ -24,11 +24,6 @@ namespace WPPMM
             BuildLocalizedApplicationBar();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
-
-            // get current network status
-            UpdateNetworkStatus();
-
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -36,23 +31,32 @@ namespace WPPMM
             base.OnNavigatedTo(e);
             Debug.WriteLine(e.Uri);
             progress.IsVisible = false;
+            cameraManager.Refresh();
             UpdateNetworkStatus();
-            if (NavigationMode.New == e.NavigationMode && GetSSIDName().StartsWith("DIRECT-"))
+            IsReadyToControl = false;
+            if (GetSSIDName().StartsWith("DIRECT-"))
             {
-                StartConnectionSequence();
-            }
-            else if (NavigationMode.Back == e.NavigationMode)
-            {
-                cameraManager.Refresh();
+                StartConnectionSequence(NavigationMode.New == e.NavigationMode);
             }
         }
 
-        private void StartConnectionSequence()
+        private bool SupressPageMove = false;
+
+        private bool IsReadyToControl = false;
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            progress.IsVisible = true;
+            SupressPageMove = true;
+        }
+
+        private void StartConnectionSequence(bool connect)
+        {
+            progress.IsVisible = connect;
+            SupressPageMove = false;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
-                GoToShootingPage();
+                IsReadyToControl = true;
+                if (connect && !SupressPageMove) GoToShootingPage();
             }, () =>
             {
                 progress.IsVisible = false;
@@ -75,13 +79,14 @@ namespace WPPMM
 
         private void UpdateNetworkStatus()
         {
-            Debug.WriteLine("SSID: " + GetSSIDName());
+            var ssid = GetSSIDName();
+            Debug.WriteLine("SSID: " + ssid);
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
                 StartRemoteButton.IsEnabled = true;
             }
-            else if (GetSSIDName().StartsWith("DIRECT-"))
+            else if (ssid.StartsWith("DIRECT-"))
             {
                 NetworkStatus.Text = AppResources.Guide_CantFindDevice;
             }
@@ -114,8 +119,15 @@ namespace WPPMM
 
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
-            StartConnectionSequence();
-            ProgressBar.IsIndeterminate = true;
+            if (IsReadyToControl)
+            {
+                GoToShootingPage();
+            }
+            else
+            {
+                StartConnectionSequence(true);
+                ProgressBar.IsIndeterminate = true;
+            }
         }
 
         private void GoToShootingPage()

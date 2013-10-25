@@ -9,25 +9,27 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="{Binding Path=LocalizedResources.OSSText, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+        <StackPanel Grid.Row="0" Margin="12,17,0,12">
+            <TextBlock Text="{Binding Path=LocalizedResources.OSSText, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
         </StackPanel>
-        <ScrollViewer Margin="10" Grid.Row="1">
-        	<RichTextBox x:Name="LicenseBox" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <TextBlock Text="{Binding Path=LocalizedResources.ContainsLicense, Source={StaticResource LocalizedStrings}}" Grid.Row="1" TextWrapping="Wrap" Margin="9,0" />
+        <ScrollViewer Margin="10" Grid.Row="2">
+            <RichTextBox x:Name="LicenseBox" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <Paragraph x:Name="Contents" />
-        	</RichTextBox>
+            </RichTextBox>
         </ScrollViewer>
-        
+
     </Grid>
 
 </phone:PhoneApplicationPage>

@@ -1,6 +1,4 @@
-﻿This software contains the following open source softwares.
-
-----------
+﻿----------
 Json.NET
 http://james.newtonking.com/json
 

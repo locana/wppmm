@@ -34,19 +34,29 @@ namespace WPPMM
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Debug.WriteLine(e.Uri);
             progress.IsVisible = false;
             UpdateNetworkStatus();
-            if (GetSSIDName().StartsWith("DIRECT-"))
+            if (NavigationMode.New == e.NavigationMode && GetSSIDName().StartsWith("DIRECT-"))
             {
-                progress.IsVisible = true;
-                CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
-                {
-                    GoToShootingPage();
-                }, () =>
-                {
-                    progress.IsVisible = false;
-                });
+                StartConnectionSequence();
             }
+            else if (NavigationMode.Back == e.NavigationMode)
+            {
+                cameraManager.Refresh();
+            }
+        }
+
+        private void StartConnectionSequence()
+        {
+            progress.IsVisible = true;
+            CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
+            {
+                GoToShootingPage();
+            }, () =>
+            {
+                progress.IsVisible = false;
+            });
         }
 
         private void HandleError(int code)
@@ -69,7 +79,7 @@ namespace WPPMM
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
-                SearchButton.IsEnabled = true;
+                StartRemoteButton.IsEnabled = true;
             }
             else if (GetSSIDName().StartsWith("DIRECT-"))
             {
@@ -80,16 +90,12 @@ namespace WPPMM
                 NetworkStatus.Text = AppResources.Guide_WiFiNotConnected;
             }
 
-            if (cameraManager != null)
+            if (cameraManager.GetDeviceInfo() != null)
             {
-                if (cameraManager.GetDeviceInfo() != null)
+                String modelName = cameraManager.GetDeviceInfo().FriendlyName;
+                if (modelName != null)
                 {
-                    String modelName = cameraManager.GetDeviceInfo().FriendlyName;
-                    if (modelName != null)
-                    {
-                        NetworkStatus.Text = "Connected device: " + modelName;
-                        StartRemoteButton.IsEnabled = true;
-                    }
+                    NetworkStatus.Text = "Connected device: " + modelName;
                 }
             }
 
@@ -106,16 +112,10 @@ namespace WPPMM
             connectionSettingsTask.Show();
         }
 
-        private void SearchButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            cameraManager.InitializeConnection();
-            ProgressBar.IsIndeterminate = true;
-
-        }
-
         private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
-            GoToShootingPage();
+            StartConnectionSequence();
+            ProgressBar.IsIndeterminate = true;
         }
 
         private void GoToShootingPage()

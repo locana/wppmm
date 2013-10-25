@@ -20,13 +20,13 @@ namespace WPPMM.CameraManager
         public const String apiVersion = "1.0";
 
         private DeviceInfo deviceInfo;
-        private DeviceFinder deviceFinder = new DeviceFinder();
+        private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraServiceClient10 client;
-        private LVStreamProcessor lvProcessor = null;
+        private readonly LVStreamProcessor lvProcessor = new LVStreamProcessor();
 
         private String liveViewUrl = null;
-        private object lockObject;
-        private Downloader downloader;
+        private readonly object lockObject = new Object();
+        private readonly Downloader downloader = new Downloader();
         private Status cameraStatus;
         private byte[] screenData;
 
@@ -39,30 +39,22 @@ namespace WPPMM.CameraManager
 
         private CameraManager()
         {
-            init();
+            Refresh();
         }
 
-        private void init()
+        public void Refresh()
         {
+            lvProcessor.CloseConnection();
             liveViewUrl = null;
-            lvProcessor = null;
-            lockObject = new Object();
             watch = new Stopwatch();
             watch.Start();
             deviceInfo = null;
-            downloader = new Downloader();
-
             cameraStatus = new Status();
         }
 
         public static CameraManager GetInstance()
         {
             return cameraManager;
-        }
-
-        public void InitializeConnection()
-        {
-            requestSearchDevices();
         }
 
         public void StartLiveView()
@@ -110,7 +102,6 @@ namespace WPPMM.CameraManager
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
-
             if (client != null)
             {
                 client.StartLiveview(error, result);
@@ -130,9 +121,7 @@ namespace WPPMM.CameraManager
         // connect 
         public void ConnectLiveView()
         {
-            lvProcessor = new LVStreamProcessor();
-
-            if (lvProcessor == null || liveViewUrl == null)
+            if (liveViewUrl == null)
             {
                 Debug.WriteLine("error: liveProcessor or liveViewUrl is null");
             }
@@ -198,17 +187,12 @@ namespace WPPMM.CameraManager
 
         // --------- prepare
 
-        private void requestSearchDevices()
-        {
-            deviceFinder.SearchDevices(TIMEOUT, OnServerFound, OnTimeout);
-        }
-
         public void RequestSearchDevices(Action Found, Action Timeout)
         {
-            deviceFinder.SearchDevices(TIMEOUT, (info) => { OnServerFound(info); Found.Invoke(); }, () => { OnTimeout(); Timeout.Invoke(); });
+            deviceFinder.SearchDevices(TIMEOUT, (info) => { OnServerFound(info, Found); }, () => { OnTimeout(); Timeout.Invoke(); });
         }
 
-        public void OnServerFound(DeviceInfo di)
+        private void OnServerFound(DeviceInfo di, Action Found)
         {
             deviceInfo = di;
             Debug.WriteLine("found device: " + deviceInfo.ModelName);
@@ -218,7 +202,18 @@ namespace WPPMM.CameraManager
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
 
-                client.GetMethodTypes(apiVersion, OnError, new MethodTypesHandler(OnGetMethodTypes));
+                client.GetMethodTypes(apiVersion, OnError, (methodTypes) =>
+                {
+                    List<String> list = new List<string>();
+                    foreach (MethodType t in methodTypes)
+                    {
+                        Debug.WriteLine("method: " + t.name);
+                        list.Add(t.name);
+                    }
+                    cameraStatus.MethodTypes = list;
+                    NoticeUpdate();
+                    Found.Invoke();
+                });
                 cameraStatus.isAvailableConnecting = true;
 
                 InitEventObserver();
@@ -227,18 +222,6 @@ namespace WPPMM.CameraManager
 
             NoticeUpdate();
 
-        }
-
-        internal void OnGetMethodTypes(MethodType[] methodTypes)
-        {
-            List<String> list = new List<string>();
-            foreach (MethodType t in methodTypes)
-            {
-                Debug.WriteLine("method: " + t.name);
-                list.Add(t.name);
-            }
-            cameraStatus.MethodTypes = list;
-            NoticeUpdate();
         }
 
         // -------- take picture
@@ -386,7 +369,5 @@ namespace WPPMM.CameraManager
         {
             UpdateEvent(cameraStatus);
         }
-
-
     }
 }

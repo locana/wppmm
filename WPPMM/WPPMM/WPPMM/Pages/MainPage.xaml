@@ -47,8 +47,6 @@
                        Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
             <Button Grid.Row="2" Content="{Binding Path=LocalizedResources.WifiSettingLauncherButtonText, Source={StaticResource LocalizedStrings}}" 
                     HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Click="OnWiFiSettingButtonClicked"/>
-            <Button Name="SearchButton" Content="{Binding Path=LocalizedResources.SearchDevideButtonText, Source={StaticResource LocalizedStrings}}"
-                    IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Top" Click="SearchButton_Click"/>
 
             <Button Name="StartRemoteButton" Content="{Binding Path=LocalizedResources.StartRemoteControllingButtonText, Source={StaticResource LocalizedStrings}}" 
                     IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click_1"/>

@@ -9,16 +9,14 @@ namespace WPPMM.RemoteApi
         public int position_in_current_box { set; get; }
     }
 
-    public class StrStrArray
+    /// <summary>
+    /// Set of current value and its candidates.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class BasicInfo<T>
     {
-        public string current { set; get; }
-        public string[] candidates { set; get; }
-    }
-
-    public class IntIntArray
-    {
-        public int current { set; get; }
-        public int[] candidates { set; get; }
+        public T current { set; get; }
+        public T[] candidates { set; get; }
     }
 
     public class MethodType
@@ -38,8 +36,22 @@ namespace WPPMM.RemoteApi
         public string CameraStatus { internal set; get; }
         public ZoomInfo ZoomInfo { internal set; get; }
         public bool LiveviewAvailable { internal set; get; }
-        public StrStrArray PostviewSizeInfo { internal set; get; }
-        public IntIntArray SelfTimerInfo { internal set; get; }
-        public StrStrArray ShootModeInfo { internal set; get; }
+        public BasicInfo<string> PostviewSizeInfo { internal set; get; }
+        public BasicInfo<int> SelfTimerInfo { internal set; get; }
+        public BasicInfo<string> ShootModeInfo { internal set; get; }
+        public BasicInfo<string> ExposureMode { internal set; get; }
+        public BasicInfo<string> ShutterSpeed { internal set; get; }
+        public BasicInfo<string> ISOSpeedRate { internal set; get; }
+        public BasicInfo<string> FNumber { internal set; get; }
+        public EvInfo EvInfo { internal set; get; }
+        public bool? ProgramShiftActivated { internal set; get; }
+    }
+
+    public class EvInfo
+    {
+        public int CurrentIndex { internal set; get; }
+        public int MaxIndex { internal set; get; }
+        public int MinIndex { internal set; get; }
+        public int StepDefinition { internal set; get; }
     }
 }

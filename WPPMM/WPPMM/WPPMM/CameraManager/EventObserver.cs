@@ -105,33 +105,44 @@ namespace WPPMM.CameraManager
         {
             var data = e.Argument as Event;
             if (StatusComparator.IsAvailableApisModified(status, data.AvailableApis))
-            {
-                CallbackDetection(EventMember.AvailableApis);
-            }
+                NotifyChangeDetected(EventMember.AvailableApis);
+
             if (StatusComparator.IsCameraStatusModified(status, data.CameraStatus))
-            {
-                CallbackDetection(EventMember.CameraStatus);
-            }
+                NotifyChangeDetected(EventMember.CameraStatus);
+
             if (StatusComparator.IsLiveviewAvailableModified(status, data.LiveviewAvailable))
-            {
-                CallbackDetection(EventMember.LiveviewAvailable);
-            }
+                NotifyChangeDetected(EventMember.LiveviewAvailable);
+
             if (StatusComparator.IsPostviewSizeInfoModified(status, data.PostviewSizeInfo))
-            {
-                CallbackDetection(EventMember.PostviewSizeInfo);
-            }
+                NotifyChangeDetected(EventMember.PostviewSizeInfo);
+
             if (StatusComparator.IsSelftimerInfoModified(status, data.SelfTimerInfo))
-            {
-                CallbackDetection(EventMember.SelfTimerInfo);
-            }
+                NotifyChangeDetected(EventMember.SelfTimerInfo);
+
             if (StatusComparator.IsShootModeInfoModified(status, data.ShootModeInfo))
-            {
-                CallbackDetection(EventMember.ShootModeInfo);
-            }
+                NotifyChangeDetected(EventMember.ShootModeInfo);
+
             if (StatusComparator.IsZoomInfoModified(status, data.ZoomInfo))
-            {
-                CallbackDetection(EventMember.ZoomInfo);
-            }
+                NotifyChangeDetected(EventMember.ZoomInfo);
+
+            if (StatusComparator.IsExposureModeInfoModified(status, data.ExposureMode))
+                NotifyChangeDetected(EventMember.ExposureMode);
+
+            if (StatusComparator.IsFNumberModified(status, data.FNumber))
+                NotifyChangeDetected(EventMember.FNumber);
+
+            if (StatusComparator.IsShutterSpeedModified(status, data.ShutterSpeed))
+                NotifyChangeDetected(EventMember.ShutterSpeed);
+
+            if (StatusComparator.IsISOModified(status, data.ISOSpeedRate))
+                NotifyChangeDetected(EventMember.ISOSpeedRate);
+
+            if (StatusComparator.IsEvInfoModified(status, data.EvInfo))
+                NotifyChangeDetected(EventMember.EVInfo);
+
+            if (StatusComparator.IsProgramShiftModified(status, data.ProgramShiftActivated))
+                NotifyChangeDetected(EventMember.ProgramShift);
+
             Call();
         }
 
@@ -143,7 +154,7 @@ namespace WPPMM.CameraManager
             }
         }
 
-        private void CallbackDetection(EventMember target)
+        private void NotifyChangeDetected(EventMember target)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
@@ -170,6 +181,12 @@ namespace WPPMM.CameraManager
         LiveviewAvailable,
         PostviewSizeInfo,
         SelfTimerInfo,
-        ShootModeInfo
+        ShootModeInfo,
+        ExposureMode,
+        ShutterSpeed,
+        FNumber,
+        ISOSpeedRate,
+        EVInfo,
+        ProgramShift
     }
 }

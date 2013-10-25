@@ -60,7 +60,7 @@ namespace WPPMM.CameraManager
             return previous != latest;
         }
 
-        internal static bool IsPostviewSizeInfoModified(Status status, StrStrArray latest)
+        internal static bool IsPostviewSizeInfoModified(Status status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -71,7 +71,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsSelftimerInfoModified(Status status, IntIntArray latest)
+        internal static bool IsSelftimerInfoModified(Status status, BasicInfo<int> latest)
         {
             if (latest == null)
             {
@@ -82,7 +82,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsShootModeInfoModified(Status status, StrStrArray latest)
+        internal static bool IsShootModeInfoModified(Status status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -93,7 +93,77 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        private static bool IsModified(StrStrArray previous, StrStrArray latest)
+        internal static bool IsExposureModeInfoModified(Status status, BasicInfo<string> latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            var previous = status.ExposureMode;
+            status.ExposureMode = latest;
+            return IsModified(previous, latest);
+        }
+
+        internal static bool IsShutterSpeedModified(Status status, BasicInfo<string> latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            var previous = status.ShutterSpeed;
+            status.ShutterSpeed = latest;
+            return IsModified(previous, latest);
+        }
+
+        internal static bool IsISOModified(Status status, BasicInfo<string> latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            var previous = status.ISOSpeedRate;
+            status.ISOSpeedRate = latest;
+            return IsModified(previous, latest);
+        }
+
+        internal static bool IsFNumberModified(Status status, BasicInfo<string> latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            var previous = status.FNumber;
+            status.FNumber = latest;
+            return IsModified(previous, latest);
+        }
+
+        internal static bool IsEvInfoModified(Status status, EvInfo latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            var previous = status.EvInfo;
+            status.EvInfo = latest;
+            return previous == null ||
+                previous.CurrentIndex != latest.CurrentIndex ||
+                previous.MaxIndex != latest.MaxIndex ||
+                previous.MinIndex != latest.MinIndex ||
+                previous.StepDefinition != latest.StepDefinition;
+        }
+
+        internal static bool IsProgramShiftModified(Status status, bool? latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            var previous = status.ProgramShiftActivated;
+            status.ProgramShiftActivated = (bool)latest;
+            return previous == null || previous != latest;
+        }
+
+        private static bool IsModified(BasicInfo<string> previous, BasicInfo<string> latest)
         {
             if (previous == null ||
                 previous.current != latest.current ||
@@ -111,7 +181,7 @@ namespace WPPMM.CameraManager
             return false;
         }
 
-        private static bool IsModified(IntIntArray previous, IntIntArray latest)
+        private static bool IsModified(BasicInfo<int> previous, BasicInfo<int> latest)
         {
             if (previous == null ||
                 previous.current != latest.current ||

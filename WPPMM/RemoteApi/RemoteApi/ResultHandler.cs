@@ -174,7 +174,9 @@ namespace WPPMM.RemoteApi
                 return;
             }
 
-            var jApi = json["result"][0];
+            var jResult = json["result"];
+
+            var jApi = jResult[0];
             string[] apis = null;
             if (jApi.HasValues)
             {
@@ -186,14 +188,14 @@ namespace WPPMM.RemoteApi
                 apis = apilist.ToArray();
             }
 
-            var jStatus = json["result"][1];
+            var jStatus = jResult[1];
             string status = null;
             if (jStatus.HasValues)
             {
                 status = jStatus.Value<string>("cameraStatus");
             }
 
-            var jZoom = json["result"][2];
+            var jZoom = jResult[2];
             ZoomInfo zoom = null;
             if (jZoom.HasValues)
             {
@@ -206,15 +208,31 @@ namespace WPPMM.RemoteApi
                 };
             }
 
-            var jLiveview = json["result"][3];
+            var jLiveview = jResult[3];
             bool liveview_status = false;
             if (jLiveview.HasValues)
             {
                 jLiveview.Value<bool>("liveviewStatus");
             }
 
-            var jPostView = json["result"][19];
-            StrStrArray postview = null;
+            var jExposureMode = jResult[18];
+            BasicInfo<string> exposure = null;
+            if (jExposureMode.HasValues)
+            {
+                var modecandidates = new List<string>();
+                foreach (var str in jExposureMode["exposureModeCandidates"].Values<string>())
+                {
+                    modecandidates.Add(str);
+                }
+                exposure = new BasicInfo<string>
+                {
+                    current = jExposureMode.Value<string>("currentExposureMode"),
+                    candidates = modecandidates.ToArray()
+                };
+            }
+
+            var jPostView = jResult[19];
+            BasicInfo<string> postview = null;
             if (jPostView.HasValues)
             {
                 var pvcandidates = new List<string>();
@@ -222,15 +240,15 @@ namespace WPPMM.RemoteApi
                 {
                     pvcandidates.Add(str);
                 }
-                postview = new StrStrArray
+                postview = new BasicInfo<string>
                 {
                     current = jPostView.Value<string>("currentPostviewImageSize"),
                     candidates = pvcandidates.ToArray()
                 };
             }
 
-            var jSelfTimer = json["result"][20];
-            IntIntArray selftimer = null;
+            var jSelfTimer = jResult[20];
+            BasicInfo<int> selftimer = null;
             if (jSelfTimer.HasValues)
             {
                 var stcandidates = new List<int>();
@@ -238,15 +256,15 @@ namespace WPPMM.RemoteApi
                 {
                     stcandidates.Add(str);
                 }
-                selftimer = new IntIntArray
+                selftimer = new BasicInfo<int>
                 {
                     current = jSelfTimer.Value<int>("currentSelfTimer"),
                     candidates = stcandidates.ToArray()
                 };
             }
 
-            var jShootMode = json["result"][21];
-            StrStrArray shootmode = null;
+            var jShootMode = jResult[21];
+            BasicInfo<string> shootmode = null;
             if (jShootMode.HasValues)
             {
                 var smcandidates = new List<string>();
@@ -254,10 +272,78 @@ namespace WPPMM.RemoteApi
                 {
                     smcandidates.Add(str);
                 }
-                shootmode = new StrStrArray
+                shootmode = new BasicInfo<string>
                 {
                     current = jShootMode.Value<string>("currentShootMode"),
                     candidates = smcandidates.ToArray()
+                };
+            }
+
+            var jEV = jResult[25];
+            EvInfo ev = null;
+            if (jEV.HasValues)
+            {
+                ev = new EvInfo
+                {
+                    MaxIndex = jEV.Value<int>("maxExposureCompensation"),
+                    MinIndex = jEV.Value<int>("minExposureCompensation"),
+                    CurrentIndex = jEV.Value<int>("currentExposureCompensation"),
+                    StepDefinition = jEV.Value<int>("stepIndexOfExposureCompensation")
+                };
+            }
+
+            var jFN = jResult[27];
+            BasicInfo<string> fn = null;
+            if (jFN.HasValues)
+            {
+                var fncandidates = new List<string>();
+                foreach (var str in jFN["fNumberCandidates"].Values<string>())
+                {
+                    fncandidates.Add(str);
+                }
+                fn = new BasicInfo<string>
+                {
+                    current = jFN.Value<string>("currentFNumber"),
+                    candidates = fncandidates.ToArray()
+                };
+            }
+
+            var jIso = jResult[29];
+            BasicInfo<string> iso = null;
+            if (jIso.HasValues)
+            {
+                var isocandidates = new List<string>();
+                foreach (var str in jIso["isoSpeedRateCandidates"].Values<string>())
+                {
+                    isocandidates.Add(str);
+                }
+                iso = new BasicInfo<string>
+                {
+                    current = jIso.Value<string>("currentIsoSpeedRate"),
+                    candidates = isocandidates.ToArray()
+                };
+            }
+
+            var jPS = jResult[31];
+            bool? ps = null;
+            if (jPS.HasValues)
+            {
+                ps = jPS.Value<bool>("isShifted");
+            }
+
+            var jSS = jResult[32];
+            BasicInfo<string> ss = null;
+            if (jSS.HasValues)
+            {
+                var sscandidates = new List<string>();
+                foreach (var str in jSS["shutterSpeedCandidates"].Values<string>())
+                {
+                    sscandidates.Add(str);
+                }
+                ss = new BasicInfo<string>
+                {
+                    current = jSS.Value<string>("currentShutterSpeed"),
+                    candidates = sscandidates.ToArray()
                 };
             }
 
@@ -269,7 +355,13 @@ namespace WPPMM.RemoteApi
                 LiveviewAvailable = liveview_status,
                 PostviewSizeInfo = postview,
                 SelfTimerInfo = selftimer,
-                ShootModeInfo = shootmode
+                ShootModeInfo = shootmode,
+                FNumber = fn,
+                ISOSpeedRate = iso,
+                ShutterSpeed = ss,
+                EvInfo = ev,
+                ExposureMode = exposure,
+                ProgramShiftActivated = ps
             });
         }
     }

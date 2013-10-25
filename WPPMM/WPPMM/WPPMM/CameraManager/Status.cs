@@ -60,12 +60,6 @@ namespace WPPMM.CameraManager
             set;
         }
 
-        public List<String> SupportedFNumbers
-        {
-            get;
-            set;
-        }
-
         public void Init()
         {
             _init();
@@ -84,15 +78,20 @@ namespace WPPMM.CameraManager
             isTakingPicture = false;
             isRendering = false;
             MethodTypes = new List<string>();
-            SupportedFNumbers = new List<string>();
         }
 
-        public string[] AvailableApis { internal set; get; }
-        public string CameraStatus { internal set; get; }
-        public ZoomInfo ZoomInfo { internal set; get; }
-        public bool LiveviewAvailable { internal set; get; }
-        public StrStrArray PostviewSizeInfo { internal set; get; }
-        public IntIntArray SelfTimerInfo { internal set; get; }
-        public StrStrArray ShootModeInfo { internal set; get; }
+        public string[] AvailableApis { set; get; }
+        public string CameraStatus { set; get; }
+        public ZoomInfo ZoomInfo { set; get; }
+        public bool LiveviewAvailable { set; get; }
+        public BasicInfo<string> PostviewSizeInfo { set; get; }
+        public BasicInfo<int> SelfTimerInfo { set; get; }
+        public BasicInfo<string> ShootModeInfo { set; get; }
+        public BasicInfo<string> ExposureMode { set; get; }
+        public BasicInfo<string> ShutterSpeed { set; get; }
+        public BasicInfo<string> ISOSpeedRate { set; get; }
+        public BasicInfo<string> FNumber { set; get; }
+        public EvInfo EvInfo { set; get; }
+        public bool ProgramShiftActivated { set; get; }
     }
 }

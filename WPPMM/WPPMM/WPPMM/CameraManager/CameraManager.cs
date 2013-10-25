@@ -159,7 +159,10 @@ namespace WPPMM.CameraManager
 
                     // Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
                     cameraStatus.isRendering = true;
-                    LiveViewUpdateListener(screenData);
+                    if (LiveViewUpdateListener != null)
+                    {
+                        LiveViewUpdateListener(screenData);
+                    }
                     // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
                     cameraStatus.isRendering = false;
                 }

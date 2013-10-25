@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using WPPMM.CameraManager;
 using WPPMM.RemoteApi;
 
@@ -33,14 +34,27 @@ namespace WPPMM.Pages
 
             cameraManager = CameraManager.CameraManager.GetInstance();
 
+
+
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            Init();
             cameraManager.UpdateEvent += UpdateListener;
-
-
             cameraManager.StartLiveView();
             cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
+        }
 
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            cameraManager.SetLiveViewUpdateListener(null);
+            cameraManager.RequestCloseLiveView();
+            cameraManager.UpdateEvent -= UpdateListener;
             Init();
-
+            base.OnNavigatedFrom(e);
         }
 
         private void Init()
@@ -132,14 +146,6 @@ namespace WPPMM.Pages
             cameraManager.RequestActTakePicture();
         }
 
-        protected override void OnBackKeyPress(CancelEventArgs e)
-        {
-            
-            cameraManager.UpdateEvent -= UpdateListener;
-            Init();
-            cameraManager.RequestCloseLiveView();
-        }
-
         private void SetInProgress(bool progress)
         {
             InProgress = progress;
@@ -224,7 +230,7 @@ namespace WPPMM.Pages
             Debug.WriteLine("boxes: " + info.current_box_index + " / " + info.number_of_boxes);
             Debug.WriteLine("position: " + info.position);
             Debug.WriteLine("position in current box: " + info.position_in_current_box);
-            
+
 
         }
 

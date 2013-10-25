@@ -97,7 +97,8 @@ namespace WPPMM.Pages
 
                 if (cameraStatus.ZoomInfo != null)
                 {
-                    double margin_left = cameraStatus.ZoomInfo.position_in_current_box / 100 * 158;
+                    // dumpZoomInfo(cameraStatus.ZoomInfo);
+                    double margin_left = cameraStatus.ZoomInfo.position_in_current_box * 156 / 100;
                     ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
                     Debug.WriteLine("zoom bar display update: " + margin_left);
                 }
@@ -133,6 +134,7 @@ namespace WPPMM.Pages
 
         protected override void OnBackKeyPress(CancelEventArgs e)
         {
+            
             cameraManager.UpdateEvent -= UpdateListener;
             Init();
             cameraManager.RequestCloseLiveView();
@@ -216,5 +218,15 @@ namespace WPPMM.Pages
                 }
             }
         }
+
+        private void dumpZoomInfo(ZoomInfo info)
+        {
+            Debug.WriteLine("boxes: " + info.current_box_index + " / " + info.number_of_boxes);
+            Debug.WriteLine("position: " + info.position);
+            Debug.WriteLine("position in current box: " + info.position_in_current_box);
+            
+
+        }
+
     }
 }

@@ -210,7 +210,7 @@ namespace WPPMM.CameraManager
             if (deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
-
+                Debug.WriteLine(di.Endpoints["camera"]);
                 client.GetMethodTypes(apiVersion, OnError, (methodTypes) =>
                 {
                     List<String> list = new List<string>();

@@ -1,20 +1,21 @@
 ﻿using MetroApp.Data;
-
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Imaging;
+using WPPMM.DeviceDiscovery;
+using WPPMM.Liveview;
+using WPPMM.RemoteApi;
+using WRTPMM;
 
 // 分割ページのアイテム テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234234 を参照してください
 
@@ -51,7 +52,6 @@ namespace MetroApp
 
             if (pageState == null)
             {
-                this.itemListView.SelectedItem = null;
                 // 新しいページの場合、論理ページ ナビゲーションが使用されている場合を除き、自動的に
                 // 最初のアイテムを選択します (以下の論理ページ ナビゲーションの #region を参照)。
                 if (!this.UsingLogicalPageNavigation() && this.itemsViewSource.View != null)
@@ -136,20 +136,7 @@ namespace MetroApp
         /// <param name="e">[戻る] がどのようにクリックされたかを説明するイベント データ。</param>
         protected override void GoBack(object sender, RoutedEventArgs e)
         {
-            if (this.UsingLogicalPageNavigation() && itemListView.SelectedItem != null)
-            {
-                // 論理ページ ナビゲーションが有効で、アイテムが選択され、そのアイテムの
-                // 詳細情報が現在表示されています。選択をクリアすると、アイテム リストに
-                // 戻ります。ユーザーの立場から見ると、これは、論理的には前に戻る
-                // 動作です。
-                this.itemListView.SelectedItem = null;
-            }
-            else
-            {
-                // 論理ページ ナビゲーションが有効でないか、アイテムが選択されていない場合は
-                // 既定の [戻る] の動作を使用します。
-                base.GoBack(sender, e);
-            }
+            base.GoBack(sender, e);
         }
 
         /// <summary>
@@ -163,7 +150,7 @@ namespace MetroApp
         protected override string DetermineVisualState(ApplicationViewState viewState)
         {
             // ビューステートが変更されたときに [戻る] が有効にされている状態を更新します
-            var logicalPageBack = this.UsingLogicalPageNavigation(viewState) && this.itemListView.SelectedItem != null;
+            var logicalPageBack = this.UsingLogicalPageNavigation(viewState);
             var physicalPageBack = this.Frame != null && this.Frame.CanGoBack;
             this.DefaultViewModel["CanGoBack"] = logicalPageBack || physicalPageBack;
 
@@ -186,5 +173,129 @@ namespace MetroApp
         }
 
         #endregion
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            finder.SearchDevices(10,
+                (info) =>
+                {
+                    Debug.WriteLine("DeviceFound: " + info.UDN);
+                    if (info.Endpoints.Keys.Contains("camera"))
+                    {
+                        client = new CameraServiceClient10(info.Endpoints["camera"]);
+                    }
+                    data.add("DeviceFound: " + info.UDN);
+                },
+                () =>
+                {
+                    Debug.WriteLine("Search Timeout");
+                    data.add("SSDP timeout");
+                });
+        }
+
+        private void RecModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (client != null)
+            {
+                client.StartRecMode((code) =>
+                {
+                    Debug.WriteLine("StartRecMode onFailure: " + code);
+                    data.add("StartRecMode onFailure: " + code);
+                },
+                () =>
+                {
+                    Debug.WriteLine("StartRecMode onSuccess");
+                    data.add("StartRecMode onSuccess");
+                });
+            }
+        }
+
+        private void LiveviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (client != null)
+            {
+                client.StartLiveview((code) =>
+                {
+                    Debug.WriteLine("StartLiveview onFailure: " + code);
+                    data.add("StartLiveview onFailure: " + code);
+                },
+                (url) =>
+                {
+                    Debug.WriteLine("StartLiveview onSuccess: " + url);
+                    data.add("StartLiveview onSuccess");
+                    lvp.OpenConnection(url, OnJpeg, () =>
+                    {
+                        Debug.WriteLine("LiveviewStream closed");
+                        data.add("LiveviewStream closed");
+                    });
+                });
+            }
+        }
+
+        BitmapImage ImageSource = new BitmapImage()
+        {
+            CreateOptions = BitmapCreateOptions.None
+        };
+
+        private bool IsRendering = false;
+
+        private async void OnJpeg(byte[] data)
+        {
+            if (IsRendering)
+            {
+                return;
+            }
+
+            IsRendering = true;
+            int size = data.Length;
+            using (var stream = new InMemoryRandomAccessStream())
+            {
+                await stream.WriteAsync(data.AsBuffer());
+                stream.Seek(0);
+                await LvScreen.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    ImageSource.SetSource(stream);
+                    imagedata.image = ImageSource;
+                });
+            }
+            IsRendering = false;
+        }
+
+        private static async Task<InMemoryRandomAccessStream> ConvertTo(byte[] arr)
+        {
+            InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream();
+            await randomAccessStream.WriteAsync(arr.AsBuffer());
+            return randomAccessStream;
+        }
+
+        private void pageRoot_Loaded(object sender, RoutedEventArgs e)
+        {
+            ResultContainer.DataContext = data;
+        }
+
+        ResultData data = new ResultData();
+
+        ImageData imagedata = new ImageData();
+
+        //CameraServiceClient10 client = null;
+        CameraServiceClient10 client = new CameraServiceClient10("http://192.168.122.1:8080/sony/camera");
+
+        DeviceFinder finder = new DeviceFinder();
+
+        LvStreamProcessor lvp = new LvStreamProcessor();
+
+        private void LvScreen_Loaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("LvScreen Loaded");
+            lvp.CloseConnection();
+            LvScreen.DataContext = imagedata;
+        }
+
+        private void LvScreen_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("LvScreen UnLoaded");
+            lvp.CloseConnection();
+            LvScreen.DataContext = null;
+        }
     }
 }

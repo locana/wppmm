@@ -32,17 +32,17 @@ namespace WPPMM.RemoteApi
             var request = HttpWebRequest.Create(new Uri(endpoint)) as HttpWebRequest;
             request.Method = "POST";
             request.ContentType = "application/json";
-            request.AllowReadStreamBuffering = true;
+            //request.AllowReadStreamBuffering = true;
+            Debug.WriteLine(json);
             var data = Encoding.UTF8.GetBytes(json);
 
-            using (var stream = await Task.Factory.FromAsync<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream, null))
-            {
-                await stream.WriteAsync(data, 0, data.Length);
-            }
-
-            var webres = await Task.Factory.FromAsync<WebResponse>(request.BeginGetResponse, request.EndGetResponse, null);
             try
             {
+                using (var stream = await Task.Factory.FromAsync<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream, null))
+                {
+                    await stream.WriteAsync(data, 0, data.Length);
+                }
+                var webres = await Task.Factory.FromAsync<WebResponse>(request.BeginGetResponse, request.EndGetResponse, null);
                 var res = webres as HttpWebResponse;
                 if (res.StatusCode == HttpStatusCode.OK)
                 {

@@ -2,19 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-#if WINDOWS_PHONE
-using System.Windows;
-using System.Windows.Threading;
-#elif NETFX_CORE
-using Windows.UI.Xaml;
-using Windows.UI.Core;
-#endif
+using System.Threading.Tasks;
 
 namespace WPPMM.Liveview
 {
     public class LvStreamProcessor
     {
-        DispatcherTimer timer = null;
         private const int fps_interval = 5000;
         private int packet_counter = 0;
 
@@ -56,9 +49,8 @@ namespace WPPMM.Liveview
             var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             request.Method = "GET";
             request.AllowReadStreamBuffering = false;
-            //request.AllowWriteStreamBuffering = false;
 
-            var JpegStreamHandler = new AsyncCallback(async (ar) =>
+            var JpegStreamHandler = new AsyncCallback((ar) =>
             {
                 try
                 {
@@ -70,22 +62,7 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
-#if WINDOWS_PHONE
-                                Deployment.Current.Dispatcher.BeginInvoke(() =>
-#else
-                                await CoreWindow.GetForCurrentThread().Dispatcher.RunIdleAsync((e) =>
-#endif
-                                {
-                                    timer = new DispatcherTimer();
-                                    timer.Interval = TimeSpan.FromMilliseconds(fps_interval);
-                                    timer.Tick += (sender, args) =>
-                                    {
-                                        var fps = packet_counter * 1000 / fps_interval;
-                                        packet_counter = 0;
-                                        Debug.WriteLine("- - - - " + fps + " FPS - - - -");
-                                    };
-                                    timer.Start();
-                                });
+                                RunFpsDetector();
 
                                 while (IsOpen)
                                 {
@@ -110,15 +87,23 @@ namespace WPPMM.Liveview
                 {
                     Debug.WriteLine("Disconnected Jpeg stream");
                     IsOpen = false;
-                    if (timer != null)
-                    {
-                        timer.Stop();
-                    }
                     OnClosed.Invoke();
                 }
             });
 
             request.BeginGetResponse(JpegStreamHandler, request);
+        }
+
+        private async void RunFpsDetector()
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(fps_interval));
+            var fps = packet_counter * 1000 / fps_interval;
+            packet_counter = 0;
+            Debug.WriteLine("- - - - " + fps + " FPS - - - -");
+            if (IsOpen)
+            {
+                RunFpsDetector();
+            }
         }
 
         /// <summary>
@@ -127,11 +112,6 @@ namespace WPPMM.Liveview
         public void CloseConnection()
         {
             IsOpen = false;
-            if (timer != null)
-            {
-                timer.Stop();
-                timer = null;
-            }
         }
 
         private const int CHeaderLength = 8;

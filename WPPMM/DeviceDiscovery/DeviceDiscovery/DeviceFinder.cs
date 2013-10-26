@@ -127,20 +127,7 @@ namespace WPPMM.DeviceDiscovery
                     string result = Encoding.UTF8.GetString(e.Buffer, 0, e.BytesTransferred);
                     //Debug.WriteLine(result);
 
-                    var dd_location = ParseDDLocation(result);
-                    if (dd_location != null)
-                    {
-                        try
-                        {
-                            var req = HttpWebRequest.Create(new Uri(dd_location)) as HttpWebRequest;
-                            req.Method = "GET";
-                            req.BeginGetResponse(DD_Handler, req);
-                        }
-                        catch (UriFormatException)
-                        {
-                            //Invalid DD location.
-                        }
-                    }
+                    GetDDAsync(DD_Handler, result);
 
                     socket.ReceiveAsync(e);
                 }
@@ -148,27 +135,31 @@ namespace WPPMM.DeviceDiscovery
             rcv_event_args.Completed += RCV_Handler;
 #else
             var sock = new DatagramSocket();
-            sock.JoinMulticastGroup(new HostName(multicast_address));
-            await sock.OutputStream.WriteAsync(data_byte.AsBuffer());
             sock.MessageReceived += (sender, args) =>
             {
-                var reader = args.GetDataReader();
-                var data = reader.ReadString(reader.UnconsumedBufferLength);
-                var dd_location = ParseDDLocation(data);
-                if (dd_location != null)
+                if (timeout_called || args == null)
                 {
-                    try
-                    {
-                        var req = HttpWebRequest.Create(new Uri(dd_location)) as HttpWebRequest;
-                        req.Method = "GET";
-                        req.BeginGetResponse(DD_Handler, req);
-                    }
-                    catch (Exception)
-                    {
-                        //Invalid DD location.
-                    }
+                    return;
                 }
+                var reader = args.GetDataReader();
+                string data = reader.ReadString(reader.UnconsumedBufferLength);
+                Debug.WriteLine(data);
+
+                GetDDAsync(DD_Handler, data);
             };
+            try
+            {
+                await sock.BindServiceNameAsync(ssdp_port.ToString());
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Duplicate search is not supported");
+                return;
+            }
+            var host = new HostName(multicast_address);
+            sock.JoinMulticastGroup(host);
+            var output = await sock.GetOutputStreamAsync(host, ssdp_port.ToString());
+            await output.WriteAsync(data_byte.AsBuffer());
 #endif
 
 
@@ -190,7 +181,7 @@ namespace WPPMM.DeviceDiscovery
                     rcv_event_args.Completed -= RCV_Handler;
                     socket.Close();
 #else
-
+                    sock.Dispose();
 #endif
                     OnTimeout.Invoke();
                 };
@@ -202,6 +193,24 @@ namespace WPPMM.DeviceDiscovery
 #else
             await sock.OutputStream.FlushAsync();
 #endif
+        }
+
+        private static void GetDDAsync(AsyncCallback ac, string data)
+        {
+            var dd_location = ParseDDLocation(data);
+            if (dd_location != null)
+            {
+                try
+                {
+                    var req = HttpWebRequest.Create(new Uri(dd_location)) as HttpWebRequest;
+                    req.Method = "GET";
+                    req.BeginGetResponse(ac, req);
+                }
+                catch (Exception)
+                {
+                    //Invalid DD location.
+                }
+            }
         }
 
         private static string ParseDDLocation(string response)

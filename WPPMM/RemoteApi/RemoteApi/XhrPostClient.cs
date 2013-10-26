@@ -12,6 +12,7 @@ namespace WPPMM.RemoteApi
     {
         /// <summary>
         /// Asynchronously POST a request to the endpoint.
+        /// Callback delegates are invoked on the UI thread.
         /// </summary>
         /// <param name="endpoint">URL of the endpoint.</param>
         /// <param name="json">Reqeust body.</param>

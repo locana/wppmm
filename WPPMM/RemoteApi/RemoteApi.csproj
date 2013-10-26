@@ -87,12 +87,13 @@
     <Compile Include="RemoteApi\BasicResultHandler.cs" />
     <Compile Include="RemoteApi\CameraServiceClient10.cs" />
     <Compile Include="RemoteApi\Delegates.cs" />
-    <Compile Include="RemoteApi\ApiParams.cs" />
+    <Compile Include="Util\ApiParams.cs" />
     <Compile Include="RemoteApi\RequestGenerator.cs" />
     <Compile Include="RemoteApi\ResultHandler.cs" />
     <Compile Include="RemoteApi\SpecialObjects.cs" />
-    <Compile Include="RemoteApi\StatusCode.cs" />
+    <Compile Include="Util\StatusCode.cs" />
     <Compile Include="RemoteApi\XhrPostClient.cs" />
+    <Compile Include="Util\EvConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

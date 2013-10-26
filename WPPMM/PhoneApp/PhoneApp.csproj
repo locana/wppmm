@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\Downloader.cs" />
+    <Compile Include="CameraManager\EvConverter.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\Status.cs" />
     <Compile Include="CameraManager\StatusComparator.cs" />

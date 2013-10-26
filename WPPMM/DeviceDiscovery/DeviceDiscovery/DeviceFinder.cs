@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
+#if WINDOWS_PHONE
+using System.Net.Sockets;
+using System.Windows;
+using System.Windows.Threading;
+#elif NETFX_CORE
+using Windows.Networking.Sockets;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.UI.Xaml;
+using System.Threading;
+using Windows.Networking;
+using Windows.UI.Core;
+#endif
 
 namespace WPPMM.DeviceDiscovery
 {
@@ -24,12 +33,14 @@ namespace WPPMM.DeviceDiscovery
         /// <param name="timeoutSec">Seconds to wait before invokation of OnTimeout.</param>
         /// <param name="OnServerFound">Success callback. This will be invoked for each devices until OnTimeout is invoked.</param>
         /// <param name="OnTimeout">Timeout callback.</param>
-        public void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
+        public async void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
         {
             if (OnServerFound == null || OnTimeout == null)
             {
                 throw new ArgumentNullException();
             }
+
+            Debug.WriteLine("DeviceFinder.SearchDevices");
 
             if (timeoutSec < 2)
             {
@@ -47,23 +58,12 @@ namespace WPPMM.DeviceDiscovery
                 //.Append("ST: ssdp:all").Append("\r\n") // For debug
                 .Append("\r\n")
                 .ToString();
-
-            //Debug.WriteLine(ssdp_data);
-
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             byte[] data_byte = Encoding.UTF8.GetBytes(ssdp_data);
-            socket.SendBufferSize = data_byte.Length;
-
-            SocketAsyncEventArgs snd_event_args = new SocketAsyncEventArgs();
-            snd_event_args.RemoteEndPoint = new IPEndPoint(IPAddress.Parse(multicast_address), ssdp_port);
-            snd_event_args.SetBuffer(data_byte, 0, data_byte.Length);
-
-            SocketAsyncEventArgs rcv_event_args = new SocketAsyncEventArgs();
-            rcv_event_args.SetBuffer(new byte[result_buffer], 0, result_buffer);
+            //Debug.WriteLine(ssdp_data);
 
             bool timeout_called = false;
 
-            var DD_Handler = new AsyncCallback(ar =>
+            var DD_Handler = new AsyncCallback(async ar =>
             {
                 if (timeout_called)
                 {
@@ -80,13 +80,14 @@ namespace WPPMM.DeviceDiscovery
                         try
                         {
                             var info = AnalyzeDD(reader.ReadToEnd());
-                            Deployment.Current.Dispatcher.BeginInvoke(() => OnServerFound.Invoke(info));
+#if WINDOWS_PHONE
+                            Deployment.Current.Dispatcher.BeginInvoke(() =>
+#else
+                            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+#endif
+                            { OnServerFound.Invoke(info); });
                         }
-                        catch (XmlException)
-                        {
-                            //Invalid XML.
-                        }
-                        catch (AccessViolationException)
+                        catch (Exception)
                         {
                             //Invalid XML.
                         }
@@ -97,6 +98,17 @@ namespace WPPMM.DeviceDiscovery
                     //Invalid DD location or network error.
                 }
             });
+
+#if WINDOWS_PHONE
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socket.SendBufferSize = data_byte.Length;
+
+            SocketAsyncEventArgs snd_event_args = new SocketAsyncEventArgs();
+            snd_event_args.RemoteEndPoint = new IPEndPoint(IPAddress.Parse(multicast_address), ssdp_port);
+            snd_event_args.SetBuffer(data_byte, 0, data_byte.Length);
+
+            SocketAsyncEventArgs rcv_event_args = new SocketAsyncEventArgs();
+            rcv_event_args.SetBuffer(new byte[result_buffer], 0, result_buffer);
 
             var SND_Handler = new EventHandler<SocketAsyncEventArgs>((sender, e) =>
             {
@@ -134,19 +146,62 @@ namespace WPPMM.DeviceDiscovery
                 }
             });
             rcv_event_args.Completed += RCV_Handler;
-
-            TimerCallback cb = new TimerCallback((state) =>
+#else
+            var sock = new DatagramSocket();
+            sock.JoinMulticastGroup(new HostName(multicast_address));
+            await sock.OutputStream.WriteAsync(data_byte.AsBuffer());
+            sock.MessageReceived += (sender, args) =>
             {
-                Debug.WriteLine("SSDP Timeout");
-                timeout_called = true;
-                snd_event_args.Completed -= SND_Handler;
-                rcv_event_args.Completed -= RCV_Handler;
-                socket.Close();
-                Deployment.Current.Dispatcher.BeginInvoke(OnTimeout);
-            });
-            Timer timer = new Timer(cb, null, TimeSpan.FromSeconds(timeoutSec), new TimeSpan(-1));
+                var reader = args.GetDataReader();
+                var data = reader.ReadString(reader.UnconsumedBufferLength);
+                var dd_location = ParseDDLocation(data);
+                if (dd_location != null)
+                {
+                    try
+                    {
+                        var req = HttpWebRequest.Create(new Uri(dd_location)) as HttpWebRequest;
+                        req.Method = "GET";
+                        req.BeginGetResponse(DD_Handler, req);
+                    }
+                    catch (Exception)
+                    {
+                        //Invalid DD location.
+                    }
+                }
+            };
+#endif
 
+
+#if WINDOWS_PHONE
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+#else
+            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+#endif
+            {
+                var timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(timeoutSec);
+                timer.Tick += (sender, args) =>
+                {
+                    Debug.WriteLine("SSDP Timeout");
+                    timeout_called = true;
+                    timer.Stop();
+#if WINDOWS_PHONE
+                    snd_event_args.Completed -= SND_Handler;
+                    rcv_event_args.Completed -= RCV_Handler;
+                    socket.Close();
+#else
+
+#endif
+                    OnTimeout.Invoke();
+                };
+                timer.Start();
+            });
+
+#if WINDOWS_PHONE
             socket.SendToAsync(snd_event_args);
+#else
+            await sock.OutputStream.FlushAsync();
+#endif
         }
 
         private static string ParseDDLocation(string response)

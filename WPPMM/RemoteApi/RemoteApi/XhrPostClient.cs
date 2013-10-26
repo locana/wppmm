@@ -1,10 +1,14 @@
-﻿using Microsoft.Phone.Reactive;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+#if NETFX_CORE
+using Windows.UI.Core;
+#elif WINDOWS_PHONE
+using System.Windows;
+#endif
 
 namespace WPPMM.RemoteApi
 {
@@ -29,54 +33,55 @@ namespace WPPMM.RemoteApi
             request.Method = "POST";
             request.ContentType = "application/json";
             request.AllowReadStreamBuffering = true;
-            request.AllowReadStreamBuffering = true;
-            request.AllowAutoRedirect = false;
-
             var data = Encoding.UTF8.GetBytes(json);
-            request.ContentLength = data.Length;
 
             using (var stream = await Task.Factory.FromAsync<Stream>(request.BeginGetRequestStream, request.EndGetRequestStream, null))
             {
                 await stream.WriteAsync(data, 0, data.Length);
             }
 
-            Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
-                .Select(webres =>
+            var webres = await Task.Factory.FromAsync<WebResponse>(request.BeginGetResponse, request.EndGetResponse, null);
+            try
+            {
+                var res = webres as HttpWebResponse;
+                if (res.StatusCode == HttpStatusCode.OK)
                 {
-                    try
+                    using (var reader = new StreamReader(res.GetResponseStream()))
                     {
-                        var res = webres as HttpWebResponse;
-                        if (res.StatusCode == HttpStatusCode.OK)
-                        {
-                            using (var reader = new StreamReader(res.GetResponseStream()))
+                        var body = reader.ReadToEnd();
+#if WINDOWS_PHONE
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+#else
+                        await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+#endif
                             {
-                                return reader.ReadToEnd();
-                            }
-                        }
-                        else
-                        {
-                            Debug.WriteLine("HTTP status code is not OK");
-                        }
+                                if (string.IsNullOrEmpty(body))
+                                    OnError.Invoke();
+                                else
+                                    OnResponse.Invoke(body);
+                            });
+                        return;
                     }
-                    catch (WebException e)
-                    {
-                        var res = e.Response as HttpWebResponse;
-                        if (res != null)
-                            Debug.WriteLine("Http Status Error: " + res.StatusCode);
-                        else
-                            Debug.WriteLine("WebException: " + e.Status);
-                    }
-                    return null;
-                })
-                .ObserveOnDispatcher()
-                .Subscribe(res =>
+                }
+                else
                 {
-                    if (string.IsNullOrEmpty(res))
-                        OnError.Invoke();
-                    else
-                        OnResponse.Invoke(res);
-                },
-                err =>
+                    Debug.WriteLine("HTTP status code is not OK");
+                }
+            }
+            catch (WebException e)
+            {
+                var res = e.Response as HttpWebResponse;
+                if (res != null)
+                    Debug.WriteLine("Http Status Error: " + res.StatusCode);
+                else
+                    Debug.WriteLine("WebException: " + e.Status);
+            }
+
+#if WINDOWS_PHONE
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+#else
+            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+#endif
                 {
                     OnError.Invoke();
                 });

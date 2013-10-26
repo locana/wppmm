@@ -2,13 +2,19 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Threading;
+#if WINDOWS_PHONE
+using System.Windows;
+using System.Windows.Threading;
+#elif NETFX_CORE
+using Windows.UI.Xaml;
+using Windows.UI.Core;
+#endif
 
 namespace WPPMM.Liveview
 {
     public class LvStreamProcessor
     {
-        Timer timer = null;
+        DispatcherTimer timer = null;
         private const int fps_interval = 5000;
         private int packet_counter = 0;
 
@@ -50,9 +56,9 @@ namespace WPPMM.Liveview
             var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             request.Method = "GET";
             request.AllowReadStreamBuffering = false;
-            request.AllowWriteStreamBuffering = false;
+            //request.AllowWriteStreamBuffering = false;
 
-            var JpegStreamHandler = new AsyncCallback((ar) =>
+            var JpegStreamHandler = new AsyncCallback(async (ar) =>
             {
                 try
                 {
@@ -64,12 +70,22 @@ namespace WPPMM.Liveview
                             Debug.WriteLine("Connected Jpeg stream");
                             using (var str = res.GetResponseStream())
                             {
-                                timer = new Timer(new TimerCallback((target) =>
+#if WINDOWS_PHONE
+                                Deployment.Current.Dispatcher.BeginInvoke(() =>
+#else
+                                await CoreWindow.GetForCurrentThread().Dispatcher.RunIdleAsync((e) =>
+#endif
                                 {
-                                    var fps = packet_counter * 1000 / fps_interval;
-                                    packet_counter = 0;
-                                    Debug.WriteLine("- - - - " + fps + " FPS - - - -");
-                                }), null, 0, fps_interval);
+                                    timer = new DispatcherTimer();
+                                    timer.Interval = TimeSpan.FromMilliseconds(fps_interval);
+                                    timer.Tick += (sender, args) =>
+                                    {
+                                        var fps = packet_counter * 1000 / fps_interval;
+                                        packet_counter = 0;
+                                        Debug.WriteLine("- - - - " + fps + " FPS - - - -");
+                                    };
+                                    timer.Start();
+                                });
 
                                 while (IsOpen)
                                 {
@@ -96,7 +112,7 @@ namespace WPPMM.Liveview
                     IsOpen = false;
                     if (timer != null)
                     {
-                        timer.Dispose();
+                        timer.Stop();
                     }
                     OnClosed.Invoke();
                 }
@@ -111,6 +127,11 @@ namespace WPPMM.Liveview
         public void CloseConnection()
         {
             IsOpen = false;
+            if (timer != null)
+            {
+                timer.Stop();
+                timer = null;
+            }
         }
 
         private const int CHeaderLength = 8;

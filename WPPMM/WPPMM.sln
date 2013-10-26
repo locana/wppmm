@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPPMM", "WPPMM\WPPMM\WPPMM.csproj", "{8E9F3BBF-DB1D-478F-8341-DB0D1767FD8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneApp", "PhoneApp\PhoneApp.csproj", "{8E9F3BBF-DB1D-478F-8341-DB0D1767FD8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteApi", "RemoteApi\RemoteApi.csproj", "{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}"
 EndProject

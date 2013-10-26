@@ -1,0 +1,58 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WPPMM.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="True" Text="Preparing connection..." />
+    </shell:SystemTray.ProgressIndicator>
+
+    <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+
+        <!--TitlePanel は、アプリケーション名とページ タイトルを格納します-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextTitle2Style}" Margin="9,0,0,0" FontWeight="Bold"/>
+            <ProgressBar Name="ProgressBar" Height="10"/>
+        </StackPanel>
+
+        <!--ContentPanel - 追加コンテンツをここに入力します-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Visibility="Collapsed" Name="OperationGuide" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Add splash screen here if it's requested." VerticalAlignment="Top"/>
+            <TextBlock Grid.Row="1" Name="NetworkStatus" HorizontalAlignment="Center"
+                       Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+            <Button Grid.Row="2" Content="{Binding Path=LocalizedResources.WifiSettingLauncherButtonText, Source={StaticResource LocalizedStrings}}" 
+                    HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Click="OnWiFiSettingButtonClicked"/>
+
+            <Button Name="StartRemoteButton" Content="{Binding Path=LocalizedResources.StartRemoteControllingButtonText, Source={StaticResource LocalizedStrings}}" 
+                    IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click_1"/>
+
+
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

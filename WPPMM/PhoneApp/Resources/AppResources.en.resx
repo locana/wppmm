@@ -128,12 +128,6 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>PlayNightmare Mobile</value>
   </data>
-  <data name="AppBarButtonText" xml:space="preserve">
-    <value>追加</value>
-  </data>
-  <data name="AppBarMenuItemText" xml:space="preserve">
-    <value>メニュー項目</value>
-  </data>
   <data name="ButtonToDeviceListText" xml:space="preserve">
     <value>Device List</value>
   </data>
@@ -142,9 +136,6 @@
   </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi settings</value>
-  </data>
-  <data name="SearchDevideButtonText" xml:space="preserve">
-    <value>Search supported camera</value>
   </data>
   <data name="StartRemoteControllingButtonText" xml:space="preserve">
     <value>Start remote controlling</value>
@@ -156,12 +147,27 @@
     <value>Connect to your device.</value>
   </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
-    <value>Turn on Wi-Fi and connect to your device.</value>
+    <value>Go to Wi-Fi settings and connect to your camera device.</value>
   </data>
   <data name="OSSText" xml:space="preserve">
     <value>Open source licenses</value>
   </data>
   <data name="ContainsLicense" xml:space="preserve">
     <value>This application contains the following open source softwares.</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="CopyRight" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="RepoURL" xml:space="preserve">
+    <value>https://dummy.com/</value>
+  </data>
+  <data name="SourceCode" xml:space="preserve">
+    <value>Source code</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
   </data>
 </root>

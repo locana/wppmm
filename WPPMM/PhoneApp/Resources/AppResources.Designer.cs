@@ -61,20 +61,11 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   追加 に類似しているローカライズされた文字列を検索します。
+        ///   about に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string AppBarButtonText {
+        public static string About {
             get {
-                return ResourceManager.GetString("AppBarButtonText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   メニュー項目 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string AppBarMenuItemText {
-            get {
-                return ResourceManager.GetString("AppBarMenuItemText", resourceCulture);
+                return ResourceManager.GetString("About", resourceCulture);
             }
         }
         
@@ -97,20 +88,20 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   機器に接続後、デバイス検索を押してください に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CautionMessage_NoDDLocation {
-            get {
-                return ResourceManager.GetString("CautionMessage_NoDDLocation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   このアプリケーションは、下記のオープンソースソフトウェアを使用しています。 に類似しているローカライズされた文字列を検索します。
+        ///   このアプリケーションは下記のオープンソースソフトウェアを使用しています。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContainsLicense {
             get {
                 return ResourceManager.GetString("ContainsLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copyright に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyRight {
+            get {
+                return ResourceManager.GetString("CopyRight", resourceCulture);
             }
         }
         
@@ -142,20 +133,11 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Turn on Wi-Fi and connect to your device. に類似しているローカライズされた文字列を検索します。
+        ///   Wi-Fi設定から、対応したカメラ機器に接続してください に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_WiFiNotEnabled {
             get {
                 return ResourceManager.GetString("Guide_WiFiNotEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   機器の電源を入れ、リモコンを起動してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string GuideMessage_01 {
-            get {
-                return ResourceManager.GetString("GuideMessage_01", resourceCulture);
             }
         }
         
@@ -165,6 +147,15 @@ namespace WPPMM.Resources {
         public static string OSSText {
             get {
                 return ResourceManager.GetString("OSSText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   https://dummy.com/ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RepoURL {
+            get {
+                return ResourceManager.GetString("RepoURL", resourceCulture);
             }
         }
         
@@ -187,11 +178,11 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   デバイス検索 に類似しているローカライズされた文字列を検索します。
+        ///   ソースコード に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SearchDevideButtonText {
+        public static string SourceCode {
             get {
-                return ResourceManager.GetString("SearchDevideButtonText", resourceCulture);
+                return ResourceManager.GetString("SourceCode", resourceCulture);
             }
         }
         
@@ -201,6 +192,15 @@ namespace WPPMM.Resources {
         public static string StartRemoteControllingButtonText {
             get {
                 return ResourceManager.GetString("StartRemoteControllingButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   バージョン に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
         

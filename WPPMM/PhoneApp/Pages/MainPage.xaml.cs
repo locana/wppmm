@@ -40,23 +40,24 @@ namespace WPPMM
             }
         }
 
-        private bool SupressPageMove = false;
+        private bool SuppressPageMove = false;
 
         private bool IsReadyToControl = false;
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            SupressPageMove = true;
+            SuppressPageMove = true;
         }
 
         private void StartConnectionSequence(bool connect)
         {
             progress.IsVisible = connect;
-            SupressPageMove = false;
+            SuppressPageMove = false;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
+                progress.IsVisible = false;
                 IsReadyToControl = true;
-                if (connect && !SupressPageMove) GoToShootingPage();
+                if (connect && !SuppressPageMove) GoToShootingPage();
             }, () =>
             {
                 progress.IsVisible = false;
@@ -168,7 +169,7 @@ namespace WPPMM
 
         private void OSS_Menu_Click(object sender, System.EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Pages/LicensePage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative));
         }
 
         private void BuildLocalizedApplicationBar()
@@ -177,9 +178,16 @@ namespace WPPMM
             ApplicationBar.Mode = ApplicationBarMode.Minimized;
             ApplicationBar.Opacity = 0.5;
 
-            var OssMenuItem = new ApplicationBarMenuItem(AppResources.OSSText);
+            var OssMenuItem = new ApplicationBarMenuItem(AppResources.About);
             OssMenuItem.Click += OSS_Menu_Click;
             ApplicationBar.MenuItems.Add(OssMenuItem);
+
+            ApplicationBar.StateChanged += ApplicationBar_StateChanged;
+        }
+
+        void ApplicationBar_StateChanged(object sender, ApplicationBarStateChangedEventArgs e)
+        {
+            SuppressPageMove = true;
         }
     }
 }

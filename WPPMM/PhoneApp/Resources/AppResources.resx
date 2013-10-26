@@ -128,12 +128,6 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>PlayNightmare Mobile</value>
   </data>
-  <data name="AppBarButtonText" xml:space="preserve">
-    <value>追加</value>
-  </data>
-  <data name="AppBarMenuItemText" xml:space="preserve">
-    <value>メニュー項目</value>
-  </data>
   <data name="ButtonToDeviceListText" xml:space="preserve">
     <value>デバイス一覧</value>
   </data>
@@ -142,15 +136,6 @@
   </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi設定</value>
-  </data>
-  <data name="SearchDevideButtonText" xml:space="preserve">
-    <value>デバイス検索</value>
-  </data>
-  <data name="CautionMessage_NoDDLocation" xml:space="preserve">
-    <value>機器に接続後、デバイス検索を押してください</value>
-  </data>
-  <data name="GuideMessage_01" xml:space="preserve">
-    <value>機器の電源を入れ、リモコンを起動してください。</value>
   </data>
   <data name="StartRemoteControllingButtonText" xml:space="preserve">
     <value>スマートリモコン開始</value>
@@ -162,12 +147,27 @@
     <value>Connect to your device.</value>
   </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
-    <value>Turn on Wi-Fi and connect to your device.</value>
+    <value>Wi-Fi設定から、対応したカメラ機器に接続してください</value>
   </data>
   <data name="OSSText" xml:space="preserve">
     <value>オープンソースライセンス</value>
   </data>
   <data name="ContainsLicense" xml:space="preserve">
-    <value>このアプリケーションは、下記のオープンソースソフトウェアを使用しています。</value>
+    <value>このアプリケーションは下記のオープンソースソフトウェアを使用しています。</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="CopyRight" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="RepoURL" xml:space="preserve">
+    <value>https://dummy.com/</value>
+  </data>
+  <data name="SourceCode" xml:space="preserve">
+    <value>ソースコード</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>バージョン</value>
   </data>
 </root>

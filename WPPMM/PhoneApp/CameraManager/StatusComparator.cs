@@ -160,7 +160,7 @@ namespace WPPMM.CameraManager
             }
             var previous = status.ProgramShiftActivated;
             status.ProgramShiftActivated = (bool)latest;
-            return previous == null || previous != latest;
+            return previous != latest;
         }
 
         private static bool IsModified(BasicInfo<string> previous, BasicInfo<string> latest)

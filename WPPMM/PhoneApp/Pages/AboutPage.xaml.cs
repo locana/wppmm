@@ -1,34 +1,55 @@
 ﻿using Microsoft.Phone.Controls;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Xml.Linq;
 using Windows.ApplicationModel;
+using WPPMM.Resources;
 
 namespace WPPMM.Pages
 {
-    public partial class LicensePage : PhoneApplicationPage
+    public partial class AboutPage : PhoneApplicationPage
     {
-        public LicensePage()
+        private static string version = "";
+        private static string license = "";
+        private static string copyright = "";
+        public AboutPage()
         {
             InitializeComponent();
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(version))
+            {
+                version = XDocument.Load("WMAppManifest.xml").Root.Element("App").Attribute("Version").Value;
+            }
+            VERSION_STR.Text = version;
+            FormatRichText(Repository, AppResources.RepoURL);
+            if (string.IsNullOrEmpty(copyright))
+            {
+                var attr = (AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute));
+                copyright = attr.Copyright;
+            }
+            COPYRIGHT.Text = copyright;
             LoadLicenseFile();
         }
 
         private async void LoadLicenseFile()
         {
-            var installedFolder = Package.Current.InstalledLocation;
-            var folder = await installedFolder.GetFolderAsync("Assets");
-            var file = await folder.GetFileAsync("License.txt");
-            var stream = await file.OpenReadAsync();
-            var reader = new StreamReader(stream.AsStreamForRead());
-            var text = reader.ReadToEnd();
-            Dispatcher.BeginInvoke(() => { FormatRichText(Contents, text); });
+            if (string.IsNullOrEmpty(license))
+            {
+                var installedFolder = Package.Current.InstalledLocation;
+                var folder = await installedFolder.GetFolderAsync("Assets");
+                var file = await folder.GetFileAsync("License.txt");
+                var stream = await file.OpenReadAsync();
+                var reader = new StreamReader(stream.AsStreamForRead());
+                license = reader.ReadToEnd();
+            }
+            Dispatcher.BeginInvoke(() => { FormatRichText(Contents, license); });
         }
 
         private static void FormatRichText(Paragraph place, string text)

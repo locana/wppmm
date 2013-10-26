@@ -22,7 +22,7 @@ namespace WPPMM.CameraManager
         private DeviceInfo deviceInfo;
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraServiceClient10 client;
-        private readonly LVStreamProcessor lvProcessor = new LVStreamProcessor();
+        private readonly LvStreamProcessor lvProcessor = new LvStreamProcessor();
 
         private String liveViewUrl = null;
         private readonly object lockObject = new Object();

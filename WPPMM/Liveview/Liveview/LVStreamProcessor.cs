@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace WPPMM.Liveview
 {
-    public class LVStreamProcessor
+    public class LvStreamProcessor
     {
         Timer timer = null;
         private const int fps_interval = 5000;

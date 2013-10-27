@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using System.Net.Sockets;
 using System.Windows;
@@ -63,7 +64,7 @@ namespace WPPMM.DeviceDiscovery
 
             bool timeout_called = false;
 
-            var DD_Handler = new AsyncCallback(async ar =>
+            var DD_Handler = new AsyncCallback(ar =>
             {
                 if (timeout_called)
                 {
@@ -80,12 +81,7 @@ namespace WPPMM.DeviceDiscovery
                         try
                         {
                             var info = AnalyzeDD(reader.ReadToEnd());
-#if WINDOWS_PHONE
-                            Deployment.Current.Dispatcher.BeginInvoke(() =>
-#else
-                            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-#endif
-                            { OnServerFound.Invoke(info); });
+                            NotifyFoundAsync(info, OnServerFound);
                         }
                         catch (Exception)
                         {
@@ -133,6 +129,7 @@ namespace WPPMM.DeviceDiscovery
                 }
             });
             rcv_event_args.Completed += RCV_Handler;
+            socket.SendToAsync(snd_event_args);
 #else
             var sock = new DatagramSocket();
             sock.MessageReceived += (sender, args) =>
@@ -160,39 +157,45 @@ namespace WPPMM.DeviceDiscovery
             sock.JoinMulticastGroup(host);
             var output = await sock.GetOutputStreamAsync(host, ssdp_port.ToString());
             await output.WriteAsync(data_byte.AsBuffer());
+            await sock.OutputStream.FlushAsync();
 #endif
 
+            await RunTimeoutInvokerAsync(timeoutSec, () =>
+            {
+                Debug.WriteLine("SSDP Timeout");
+                timeout_called = true;
+#if WINDOWS_PHONE
+                snd_event_args.Completed -= SND_Handler;
+                rcv_event_args.Completed -= RCV_Handler;
+                socket.Close();
+#else
+                sock.Dispose();
+#endif
+                OnTimeout.Invoke();
+            });
+        }
+
+        private async Task RunTimeoutInvokerAsync(int TimeoutSec, Action OnTimeout)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(TimeoutSec));
 
 #if WINDOWS_PHONE
             Deployment.Current.Dispatcher.BeginInvoke(() =>
 #else
             await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
-            {
-                var timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromSeconds(timeoutSec);
-                timer.Tick += (sender, args) =>
-                {
-                    Debug.WriteLine("SSDP Timeout");
-                    timeout_called = true;
-                    timer.Stop();
-#if WINDOWS_PHONE
-                    snd_event_args.Completed -= SND_Handler;
-                    rcv_event_args.Completed -= RCV_Handler;
-                    socket.Close();
-#else
-                    sock.Dispose();
-#endif
-                    OnTimeout.Invoke();
-                };
-                timer.Start();
-            });
+            { OnTimeout.Invoke(); });
+        }
 
+        private async void NotifyFoundAsync(DeviceInfo info, Action<DeviceInfo> OnServerFound)
+        {
 #if WINDOWS_PHONE
-            socket.SendToAsync(snd_event_args);
+            await Task.Run(() => { }); // avoid warning for async directive.
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
 #else
-            await sock.OutputStream.FlushAsync();
+            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
+            { OnServerFound.Invoke(info); });
         }
 
         private static void GetDDAsync(AsyncCallback ac, string data)

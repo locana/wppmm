@@ -26,7 +26,8 @@ namespace WPPMM.Liveview
         /// Open stream connection for Liveview.
         /// </summary>
         /// <remarks>
-        /// <para>Success callback will be invoked for each retrieved jpeg data until Close callback is invoked.</para> 
+        /// <para>Success callbacks are invoked for each retrieved jpeg data until Close callback is invoked.</para>
+        /// <para>All of callbacks are invoked on the worker thread.</para>
         /// <para>InvalidOperationException will be thrown when stream is already open.</para>
         /// </remarks>
         /// <param name="url">URL of the liveview. Get this via startLiveview API.</param>

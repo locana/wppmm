@@ -127,7 +127,7 @@ namespace WPPMM.DeviceDiscovery
             });
             rcv_event_args.Completed += RCV_Handler;
             socket.SendToAsync(snd_event_args);
-#else
+#elif NETFX_CORE
             var sock = new DatagramSocket();
             sock.MessageReceived += (sender, args) =>
             {
@@ -165,7 +165,7 @@ namespace WPPMM.DeviceDiscovery
                 snd_event_args.Completed -= SND_Handler;
                 rcv_event_args.Completed -= RCV_Handler;
                 socket.Close();
-#else
+#elif NETFX_CORE
                 sock.Dispose();
 #endif
                 OnTimeout.Invoke();

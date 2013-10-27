@@ -1,0 +1,62 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WPPMM.Pages.ViewerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress" Unloaded="PhoneApplicationPage_Unloaded">
+
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="ItemTemplate">
+            <StackPanel Height="108" Width="108" Margin="6,6">
+                <Image x:Name="ThumbnailImage" Width="108" Height="108"
+                       Stretch="UniformToFill"
+                       Source="{Binding RowImage, Mode=OneWay}" Tap="ThumbnailImage_Tap" />
+            </StackPanel>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel は、アプリケーション名とページ タイトルを格納します-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,14">
+            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}"/>
+            <TextBlock Text="Camera Roll" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - 追加コンテンツをここに入力します-->
+        <Grid Grid.Row="1">
+            <phone:LongListSelector
+                Name="ImageGrid"
+                Margin="0"
+                IsGroupingEnabled="False"
+                LayoutMode="Grid"
+                GridCellSize="108,108"
+                ItemsSource="{Binding Group, Mode=OneWay}"
+                ItemTemplate="{StaticResource ItemTemplate}" >
+            </phone:LongListSelector>
+        </Grid>
+        <Border x:Name="TouchBlocker" Margin="0" Grid.RowSpan="2" Visibility="Collapsed">
+            <Border.BorderBrush>
+                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+            </Border.BorderBrush>
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+            </Border.Background>
+        </Border>
+        <Image x:Name="DetailImage" Margin="20" Grid.RowSpan="2" Visibility="Collapsed"></Image>
+    </Grid>
+
+</phone:PhoneApplicationPage>

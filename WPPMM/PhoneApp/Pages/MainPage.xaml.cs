@@ -348,8 +348,7 @@ namespace WPPMM
         {
             if (pvd.postview != null)
             {
-                var task = new PhotoChooserTask();
-                task.Show();
+                NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative));
             }
         }
 

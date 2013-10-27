@@ -15,7 +15,10 @@ namespace WPPMM.DataModel
             internal set
             {
                 _postview = value;
-                OnPropertyChanged("postview");
+                _postview.Dispatcher.BeginInvoke(() =>
+                {
+                    OnPropertyChanged("postview");
+                });
             }
             get { return _postview; }
         }

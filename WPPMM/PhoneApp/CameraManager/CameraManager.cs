@@ -115,14 +115,27 @@ namespace WPPMM.CameraManager
         {
             startLiveview(OnError, OnStartLiveViewResult);
 
-            // get image size
-            client.GetPostviewImageSize(OnError, OnGetPostviewImageSize);
+            // get available image size
+            GetAvailablePostViewImageSize();
         }
 
-        public void OnGetPostviewImageSize(String size)
+        private void GetAvailablePostViewImageSize()
         {
-            Debug.WriteLine("Postview Image size: " + size);
+            client.GetAvailablePostviewImageSize(OnError, (currentSize, availableSize) =>
+            {
+                Debug.WriteLine("get available postview image size: " + currentSize);
+                List<String> list = new List<string>();
+                foreach (String s in availableSize)
+                {
+                    Debug.WriteLine("available: " + s);
+                    list.Add(s);
+                }
+                _cameraStatus.AvailablePostViewSize = list;
+                NoticeUpdate();
+            });
         }
+
+  
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
@@ -182,6 +195,7 @@ namespace WPPMM.CameraManager
             {
                 cameraStatus.isAvailableShooting = true;
                 GetMethodTypes(null);
+                GetAvailablePostViewImageSize();
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     NoticeUpdate();

@@ -8,7 +8,7 @@
     xmlns:Primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone"
     x:Class="WPPMM.MainPage"
     mc:Ignorable="d"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
     <phone:PhoneApplicationPage.Resources>
@@ -120,14 +120,16 @@
                         VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,10"
                         Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton" />
                         </Grid>
-                    </Grid>
-                    <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Source="{Binding postview, Mode=TwoWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
-                    <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
-                       Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Center" Height="100" />
-                    <ProgressBar Height="39" HorizontalAlignment="Stretch"
+                        <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
+                       Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Center" Height="100" 
+                               Visibility="Visible"/>
+                        <ProgressBar Height="39" HorizontalAlignment="Stretch"
                          VerticalAlignment="Center" IsIndeterminate="True" 
                          Background="{StaticResource PhoneAccentBrush}"
                          Visibility="Visible" Name="ShootingProgressBar"/>
+                    </Grid>
+                    <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Source="{Binding postview, Mode=TwoWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
+
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

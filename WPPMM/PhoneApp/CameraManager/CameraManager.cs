@@ -142,43 +142,19 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("Connect liveview");
             if (liveViewUrl == null)
             {
-                Debug.WriteLine("error: liveProcessor or liveViewUrl is null");
+                Debug.WriteLine("error: liveViewUrl is null");
                 return false;
             }
-            if (lvProcessor.IsOpen)
-            {
-                return false;
-            }
-            try
-            {
-                lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
-            }
-            catch (InvalidOperationException)
-            {
-                return false;
-            }
-            return true;
-        }
 
-        public async Task<bool> ClosePrevisousAndConnectLiveView()
-        {
-            Debug.WriteLine("Close previsous and connect liveview");
-            if (lvProcessor.IsOpen)
-            {
-                lvProcessor.CloseConnection();
-                await Task.Delay(TimeSpan.FromSeconds(5));
-            }
-            return ConnectLiveView();
-        }
-
-        public void RenewLiveviewProcessor()
-        {
-            Debug.WriteLine("******** RenewLiveviewProcessor ********");
             if (lvProcessor != null && lvProcessor.IsOpen)
             {
+                Debug.WriteLine("Close previous LVProcessor");
                 lvProcessor.CloseConnection();
             }
+
             lvProcessor = new LvStreamProcessor();
+            lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            return true;
         }
 
         BitmapImage ImageSource = new BitmapImage()

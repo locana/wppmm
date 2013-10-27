@@ -189,25 +189,17 @@ namespace WPPMM
 
         }
 
-        internal async void LiveViewUpdateListener(Status cameraStatus)
+        internal void LiveViewUpdateListener(Status cameraStatus)
         {
             if (isRequestingLiveview &&
                 cameraStatus.isConnected &&
                 !cameraStatus.isAvailableShooting)
             {
                 // starting liveview
-                bool started = await cameraManager.ClosePrevisousAndConnectLiveView();
+                bool started = cameraManager.ConnectLiveView();
                 if (!started)
                 {
-                    cameraManager.RenewLiveviewProcessor();
-                    started = cameraManager.ConnectLiveView();
-                }
-                if (!started)
-                {
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        GoToMainPage();
-                    });
+                    GoToMainPage();
                     return;
                 }
             }

@@ -318,10 +318,27 @@ namespace WPPMM.CameraManager
 
         // ------- Event Observer
 
+        public void RunEventObserver()
+        {
+            if (observer == null)
+            {
+                return;
+            }
+            observer.Start(cameraStatus, OnDetectDifference, OnStop);
+        }
+
+        public void StopEventObserver()
+        {
+            if (observer == null)
+            {
+                return;
+            }
+            observer.Stop();
+        }
+
         private void InitEventObserver()
         {
             observer = new EventObserver(client);
-            observer.Start(cameraStatus, OnDetectDifference, OnStop);
         }
 
         public void OnDetectDifference(EventMember member)

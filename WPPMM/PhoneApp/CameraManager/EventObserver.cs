@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using WPPMM.RemoteApi;
@@ -165,6 +166,7 @@ namespace WPPMM.CameraManager
 
         private void Deactivate()
         {
+            Debug.WriteLine("EventObserver deactivated");
             ongoing = false;
             status = null;
             OnStop = null;

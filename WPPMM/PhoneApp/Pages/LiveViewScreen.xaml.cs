@@ -43,11 +43,13 @@ namespace WPPMM.Pages
             cameraManager.UpdateEvent += UpdateListener;
             cameraManager.StartLiveView();
             cameraManager.SetLiveViewUpdateListener(LiveViewUpdateListener);
+            cameraManager.RunEventObserver();
         }
 
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= UpdateListener;
             Init();

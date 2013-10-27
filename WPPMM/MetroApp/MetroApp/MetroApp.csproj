@@ -145,8 +145,8 @@
     <Compile Include="ItemsPage.xaml.cs">
       <DependentUpon>ItemsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageData.cs" />
-    <Compile Include="ResultData.cs" />
+    <Compile Include="DataModel\ImageData.cs" />
+    <Compile Include="DataModel\ResultData.cs" />
     <Compile Include="SplitPage.xaml.cs">
       <DependentUpon>SplitPage.xaml</DependentUpon>
     </Compile>

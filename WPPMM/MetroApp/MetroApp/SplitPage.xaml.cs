@@ -223,13 +223,21 @@ namespace MetroApp
                 {
                     Debug.WriteLine("StartLiveview onSuccess: " + url);
                     data.add("StartLiveview onSuccess");
-                    lvp.OpenConnection(url, OnJpeg, () =>
+                    if (!lvp.IsOpen)
                     {
-                        Debug.WriteLine("LiveviewStream closed");
-                        data.add("LiveviewStream closed");
-                    });
+                        OpenLiveviewConnection(url);
+                    }
                 });
             }
+        }
+
+        private void OpenLiveviewConnection(string url)
+        {
+            lvp.OpenConnection(url, OnJpeg, () =>
+            {
+                Debug.WriteLine("LiveviewStream closed");
+                data.add("LiveviewStream closed");
+            });
         }
 
         BitmapImage ImageSource = new BitmapImage()

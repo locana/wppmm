@@ -152,9 +152,17 @@ namespace WPPMM.DeviceDiscovery
             }
             var host = new HostName(multicast_address);
             sock.JoinMulticastGroup(host);
-            var output = await sock.GetOutputStreamAsync(host, ssdp_port.ToString());
-            await output.WriteAsync(data_byte.AsBuffer());
-            await sock.OutputStream.FlushAsync();
+            try
+            {
+                var output = await sock.GetOutputStreamAsync(host, ssdp_port.ToString());
+                await output.WriteAsync(data_byte.AsBuffer());
+                await sock.OutputStream.FlushAsync();
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("Failed to send multicast");
+                return;
+            }
 #endif
 
             await RunTimeoutInvokerAsync(timeoutSec, () =>

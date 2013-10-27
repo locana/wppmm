@@ -29,9 +29,16 @@ namespace WPPMM.DataModel
         {
             set
             {
-                var stream = value.GetImage();
-                tmp.SetSource(stream);
-                postview = tmp;
+                if (value == null)
+                {
+                    postview = null;
+                }
+                else
+                {
+                    var stream = value.GetImage();
+                    tmp.SetSource(stream);
+                    postview = tmp;
+                }
             }
         }
 

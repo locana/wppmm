@@ -18,7 +18,7 @@ namespace WPPMM.CameraManager
             var request = HttpWebRequest.Create(uri);
             Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
             .Select(res => res.GetResponseStream())
-            .Select(strm => new MediaLibrary().SavePicture(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm))
+            .Select(strm => new MediaLibrary().SavePictureToCameraRoll(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm))
             .ObserveOnDispatcher()
             .Subscribe(pic =>
             {

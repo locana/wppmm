@@ -1,4 +1,5 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.ComponentModel;
@@ -261,6 +262,15 @@ namespace WPPMM.Pages
         private void OnPictureSaved(Picture pic)
         {
             pvd.PictureData = pic;
+        }
+
+        private void PostViewWindow_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (pvd.postview != null)
+            {
+                var task = new PhotoChooserTask();
+                task.Show();
+            }
         }
     }
 }

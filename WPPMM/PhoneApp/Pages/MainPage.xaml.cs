@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -207,7 +208,14 @@ namespace WPPMM
                 }
             }
 
-            Debug.WriteLine("LiveViewUpdateListener is called");
+            Debug.WriteLine("LiveViewUpdateListener is called:");
+            StringBuilder sb = new StringBuilder("method: ");
+            foreach (String s in cameraStatus.MethodTypes)
+            {
+                sb.Append(" ");
+                sb.Append(s);
+            }
+            Debug.WriteLine(sb.ToString());
 
             if (cameraStatus.isTakingPicture)
             {

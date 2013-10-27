@@ -151,7 +151,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   https://dummy.com/ に類似しているローカライズされた文字列を検索します。
+        ///   https://github.com/kazyx/WPPMM に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string RepoURL {
             get {

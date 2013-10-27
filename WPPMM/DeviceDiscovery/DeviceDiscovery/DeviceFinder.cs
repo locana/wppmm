@@ -10,12 +10,9 @@ using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using System.Net.Sockets;
 using System.Windows;
-using System.Windows.Threading;
 #elif NETFX_CORE
-using Windows.Networking.Sockets;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.UI.Xaml;
-using System.Threading;
+using Windows.Networking.Sockets;
 using Windows.Networking;
 using Windows.UI.Core;
 #endif

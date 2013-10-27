@@ -99,6 +99,25 @@
                         <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
                     Background="Black" Opacity="0.8" Padding="10,10,10,10"/>
+                        <Grid HorizontalAlignment="Left" Height="auto" Margin="30,30,50,30" 
+                  VerticalAlignment="Bottom" Width="200" Name="ZoomElements" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="21" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
+                            <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="17" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
+                            <Button Grid.Row="1" Content="W" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8"
+                        VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,10"
+                        Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton"/>
+                            <Button Grid.Row="1" Content="T" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8"
+                        VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,10"
+                        Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton" />
+                        </Grid>
                     </Grid>
                     <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
                        Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Center" Height="100" />

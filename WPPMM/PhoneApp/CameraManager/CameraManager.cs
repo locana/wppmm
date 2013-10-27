@@ -132,7 +132,10 @@ namespace WPPMM.CameraManager
                 return;
             }
 
-            lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            if (!lvProcessor.IsOpen)
+            {
+                lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            }
         }
 
         // callback methods (liveview)

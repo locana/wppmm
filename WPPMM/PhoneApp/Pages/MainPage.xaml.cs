@@ -214,7 +214,6 @@ namespace WPPMM
 
 
             // change visibility of items for zoom
-            /*
             if (cameraStatus.MethodTypes.Contains("actZoom"))
             {
                 SetZoomDisp(true);
@@ -231,7 +230,6 @@ namespace WPPMM
             {
                 SetZoomDisp(false);
             }
-             * */
 
         }
 
@@ -331,6 +329,70 @@ namespace WPPMM
             {
                 ShootingProgressBar.Visibility = Visibility.Collapsed;
                 ProgressScreen.Visibility = Visibility.Collapsed;
+            }
+        }
+
+
+        private void OnZoomInClick(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Stop Zoom In (if started)");
+            if (OnZooming)
+            {
+                cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStop);
+            }
+
+        }
+
+        private void OnZoomOutClick(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Stop zoom out (if started)");
+            if (OnZooming)
+            {
+                cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomActStop);
+            }
+        }
+
+        private void OnZoomInHold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom In: Start");
+            cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStart);
+            OnZooming = true;
+        }
+
+        private void OnZoomOutHold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom Out: Start");
+            cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomActStart);
+            OnZooming = true;
+        }
+
+        private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom In: OneShot");
+            cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomAct1Shot);
+        }
+
+        private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("Zoom In: OneShot");
+            cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomAct1Shot);
+        }
+
+        private void SetZoomDisp(bool disp)
+        {
+            if (disp)
+            {
+                if (ZoomElements.Visibility == System.Windows.Visibility.Collapsed)
+                {
+                    ZoomElements.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
+            else
+            {
+                if (ZoomElements.Visibility == System.Windows.Visibility.Visible)
+                {
+                    ZoomElements.Visibility = System.Windows.Visibility.Collapsed;
+                }
             }
         }
     }

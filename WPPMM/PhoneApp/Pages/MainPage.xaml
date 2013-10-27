@@ -68,7 +68,7 @@
         </Grid.ColumnDefinitions>
 
         <phone:Pivot Name="MyPivot" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0" 
-			Title="PlayNightmare Mobile" VerticalAlignment="Stretch" Style="{StaticResource PivotStyle1}" >
+			Title="PlayNightmare Mobile" VerticalAlignment="Stretch" Style="{StaticResource PivotStyle1}" SelectionChanged="MyPivot_SelectionChanged" >
             <phone:PivotItem CacheMode="{x:Null}" Header="">
                 <!--ContentPanel - 追加コンテンツをここに入力します-->
                 <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
@@ -100,6 +100,7 @@
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
                     Background="Black" Opacity="0.8" Padding="10,10,10,10"/>
                     </Grid>
+                    <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Source="{Binding postview, Mode=TwoWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
                     <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
                        Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Center" Height="100" />
                     <ProgressBar Height="39" HorizontalAlignment="Stretch"

@@ -35,6 +35,7 @@ namespace WPPMM.Liveview
         /// <param name="OnClosed">Connection close callback.</param>
         public void OpenConnection(string url, Action<byte[]> OnJpegRetrieved, Action OnClosed)
         {
+            Debug.WriteLine("LiveviewStreamProcessor.OpenConnection");
             if (url == null || OnJpegRetrieved == null | OnClosed == null)
             {
                 throw new ArgumentNullException();

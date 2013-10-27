@@ -2,17 +2,15 @@
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using Microsoft.Xna.Framework.Media;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using WPPMM.RemoteApi;
-using System.Windows.Navigation;
 using WPPMM.CameraManager;
+using WPPMM.DataModel;
 using WPPMM.Resources;
 
 
@@ -56,28 +54,25 @@ namespace WPPMM
             IsReadyToControl = false;
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
-                StartConnectionSequence(NavigationMode.New == e.NavigationMode);
+                StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
         }
-
-        private bool SuppressPageMove = false;
 
         private bool IsReadyToControl = false;
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            SuppressPageMove = true;
+            LiveviewPageUnloaded();
         }
 
         private void StartConnectionSequence(bool connect)
         {
             progress.IsVisible = connect;
-            SuppressPageMove = false;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
                 progress.IsVisible = false;
                 IsReadyToControl = true;
-                if (connect && !SuppressPageMove) GoToShootingPage();
+                if (connect) GoToShootingPage();
             }, () =>
             {
                 progress.IsVisible = false;
@@ -153,14 +148,20 @@ namespace WPPMM
 
         private void GoToShootingPage()
         {
-            // NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
-            MyPivot.SelectedIndex = 1;
-            LiveViewInit();
-            cameraManager.UpdateEvent += LiveViewUpdateListener;
-            cameraManager.StartLiveView();
-            cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
-            cameraManager.RunEventObserver();
+            if (MyPivot.SelectedIndex == 1)
+            {
+                LiveviewPageLoaded();
+            }
+            else
+            {
+                // NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
+                MyPivot.SelectedIndex = 1;
+            }
+        }
 
+        private void GoToMainPage()
+        {
+            MyPivot.SelectedIndex = 0;
         }
 
         internal void WifiUpdateListener(Status cameraStatus)
@@ -193,7 +194,7 @@ namespace WPPMM
                 catch (InvalidOperationException)
                 {
                     Debug.WriteLine("Failed starting liveview because of duplicate liveview connection");
-                    NavigationService.GoBack();
+                    GoToMainPage();
                     return;
                 }
             }
@@ -264,13 +265,6 @@ namespace WPPMM
             var OssMenuItem = new ApplicationBarMenuItem(AppResources.About);
             OssMenuItem.Click += OSS_Menu_Click;
             ApplicationBar.MenuItems.Add(OssMenuItem);
-
-            ApplicationBar.StateChanged += ApplicationBar_StateChanged;
-        }
-
-        void ApplicationBar_StateChanged(object sender, ApplicationBarStateChangedEventArgs e)
-        {
-            SuppressPageMove = true;
         }
 
         private void LiveViewInit()
@@ -332,6 +326,65 @@ namespace WPPMM
                 ShootingProgressBar.Visibility = Visibility.Collapsed;
                 ProgressScreen.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private readonly PostViewData pvd = new PostViewData();
+
+        private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            cameraManager.PictureNotifier = OnPictureSaved;
+            PostViewWindow.DataContext = pvd;
+        }
+
+        private void PostViewWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            PostViewWindow.DataContext = null;
+            cameraManager.PictureNotifier = null;
+        }
+
+        private void OnPictureSaved(Picture pic)
+        {
+            pvd.PictureData = pic;
+        }
+
+        private void PostViewWindow_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (pvd.postview != null)
+            {
+                var task = new PhotoChooserTask();
+                task.Show();
+            }
+        }
+
+        private void MyPivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var pivot = sender as Pivot;
+            switch (pivot.SelectedIndex)
+            {
+                case 0:
+                    LiveviewPageUnloaded();
+                    break;
+                case 1:
+                    LiveviewPageLoaded();
+                    break;
+            }
+        }
+
+        private void LiveviewPageLoaded()
+        {
+            LiveViewInit();
+            cameraManager.UpdateEvent += LiveViewUpdateListener;
+            cameraManager.StartLiveView();
+            cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
+            cameraManager.RunEventObserver();
+        }
+
+        private void LiveviewPageUnloaded()
+        {
+            cameraManager.StopEventObserver();
+            cameraManager.SetLiveViewUpdateListener(null);
+            cameraManager.UpdateEvent -= LiveViewUpdateListener;
+            LiveViewInit();
         }
     }
 }

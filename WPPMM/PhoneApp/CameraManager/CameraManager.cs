@@ -27,7 +27,7 @@ namespace WPPMM.CameraManager
         private String liveViewUrl = null;
         private readonly object lockObject = new Object();
         private readonly Downloader downloader = new Downloader();
-        private Status cameraStatus;
+        private readonly Status cameraStatus = new Status();
         private byte[] screenData;
 
         private Action<byte[]> LiveViewUpdateListener;
@@ -49,7 +49,6 @@ namespace WPPMM.CameraManager
             watch = new Stopwatch();
             watch.Start();
             deviceInfo = null;
-            cameraStatus = new Status();
             if (observer != null)
             {
                 observer.Stop();
@@ -132,7 +131,15 @@ namespace WPPMM.CameraManager
                 return;
             }
 
-            lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            try
+            {
+                lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("Catch exception caused by duplication opening connection");
+                return;
+            }
         }
 
         // callback methods (liveview)

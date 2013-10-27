@@ -173,4 +173,7 @@
   <data name="DevelopedBy" xml:space="preserve">
     <value>Developed by</value>
   </data>
+  <data name="PostViewSizeMenuItem" xml:space="preserve">
+    <value>保存画像サイズ設定</value>
+  </data>
 </root>

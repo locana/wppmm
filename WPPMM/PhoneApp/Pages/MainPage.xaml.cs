@@ -48,6 +48,8 @@ namespace WPPMM
             cameraManager = CameraManager.CameraManager.GetInstance();
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
+
+            SetInProgress(true);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -164,12 +166,14 @@ namespace WPPMM
             {
                 // NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
                 MyPivot.SelectedIndex = 1;
+                BuildLocalizedApplicationBar();
             }
         }
 
         private void GoToMainPage()
         {
             MyPivot.SelectedIndex = 0;
+            BuildLocalizedApplicationBar();
         }
 
         internal void WifiUpdateListener(Status cameraStatus)
@@ -197,6 +201,7 @@ namespace WPPMM
                 !cameraStatus.isAvailableShooting)
             {
                 // starting liveview
+                SetInProgress(true);
                 bool started = cameraManager.ConnectLiveView();
                 if (!started)
                 {
@@ -205,29 +210,21 @@ namespace WPPMM
                 }
             }
 
-            Debug.WriteLine("LiveViewUpdateListener is called:");
-            StringBuilder sb = new StringBuilder("method: ");
-            foreach (String s in cameraStatus.MethodTypes)
-            {
-                sb.Append(" ");
-                sb.Append(s);
-            }
-            Debug.WriteLine(sb.ToString());
-
             if (cameraStatus.isTakingPicture)
             {
                 SetInProgress(true);
+                ShootButton.IsEnabled = false;
             }
-            else if (InProgress && !cameraStatus.isTakingPicture)
+            else if (cameraStatus.isAvailableShooting)
             {
                 SetInProgress(false);
-            }
-
-            if (cameraStatus.isAvailableShooting)
-            {
                 ShootButton.IsEnabled = true;
             }
-
+            else
+            {
+                SetInProgress(true);
+                ShootButton.IsEnabled = false;
+            }
 
             // change visibility of items for zoom
             if (cameraStatus.MethodTypes.Contains("actZoom"))
@@ -278,6 +275,31 @@ namespace WPPMM
             var OssMenuItem = new ApplicationBarMenuItem(AppResources.About);
             OssMenuItem.Click += OSS_Menu_Click;
             ApplicationBar.MenuItems.Add(OssMenuItem);
+
+
+            var PostViewMenuItem = new ApplicationBarMenuItem(AppResources.PostViewSizeMenuItem);
+            PostViewMenuItem.Click += PostViewMenuItem_Click;
+            ApplicationBar.MenuItems.Add(PostViewMenuItem);
+
+        }
+
+        private void PostViewMenuItem_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("PostViewMenuItem clicked");
+            if (cameraManager.cameraStatus.AvailablePostViewSize.Count != 0)
+            {
+                OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;
+                OptionSelector.Visibility = System.Windows.Visibility.Visible;
+                OptionSelector.SelectionChanged += OptionSelector_SelectionChanged;
+            }
+        }
+
+        private void OptionSelector_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            String size = ((LongListSelector)sender).SelectedItem.ToString();
+            Debug.WriteLine("selected option: " + size);
+            cameraManager.SetPostViewImageSize(size);
+            OptionSelector.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void LiveViewInit()
@@ -306,12 +328,14 @@ namespace WPPMM
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
             ShootButton.IsEnabled = false;
+            SetInProgress(true);
             cameraManager.RequestActTakePicture();
         }
 
         private void SetInProgress(bool progress)
         {
             InProgress = progress;
+            Debug.WriteLine("setInProgress: " + progress);
 
             if (InProgress)
             {

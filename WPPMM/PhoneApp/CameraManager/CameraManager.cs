@@ -98,31 +98,54 @@ namespace WPPMM.CameraManager
         {
             if (client != null)
             {
-                client.StartRecMode(OnError, OnStartRecmodeResult);
+                client.StartRecMode(OnError, () =>
+                    {
+                        RequestStartLiveView();
+                    });
             }
-        }
-
-        public void OnStartRecmodeResult()
-        {
-            // finally, startrecMode is done.
-            // for NEX-5R, starting to request liveview
-
-            RequestStartLiveView();
         }
 
         // live view
         public void RequestStartLiveView()
         {
-            startLiveview(OnError, OnStartLiveViewResult);
-
-            // get image size
-            client.GetPostviewImageSize(OnError, OnGetPostviewImageSize);
+            startLiveview(OnError, (res) => {
+                // finally, url for liveView has get
+                Debug.WriteLine("OnStartLiveViewResult: " + res);
+                liveViewUrl = res;
+                cameraStatus.isConnected = true;
+                NoticeUpdate();
+            });
+            // get available image size
+            GetAvailablePostViewImageSize();
         }
 
-        public void OnGetPostviewImageSize(String size)
+
+        private void GetAvailablePostViewImageSize()
         {
-            Debug.WriteLine("Postview Image size: " + size);
+            client.GetAvailablePostviewImageSize(OnError, (currentSize, availableSize) =>
+            {
+                Debug.WriteLine("get available postview image size: " + currentSize);
+                List<String> list = new List<string>();
+                foreach (String s in availableSize)
+                {
+                    Debug.WriteLine("available: " + s);
+                    list.Add(s);
+                }
+                _cameraStatus.AvailablePostViewSize = list;
+                NoticeUpdate();
+            });
         }
+
+        public void SetPostViewImageSize(String size)
+        {
+            client.SetPostviewImageSize(size, OnError, () =>
+            {
+                Debug.WriteLine("SetPostViewimageSize done");
+            }
+            );
+        }
+
+  
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
@@ -132,15 +155,7 @@ namespace WPPMM.CameraManager
             }
         }
 
-        public void OnStartLiveViewResult(String result)
-        {
-            // finally, url for liveView has get
-            Debug.WriteLine("OnStartLiveViewResult: " + result);
-            liveViewUrl = result;
-            cameraStatus.isConnected = true;
-            NoticeUpdate();
 
-        }
 
         public bool ConnectLiveView()
         {
@@ -182,6 +197,7 @@ namespace WPPMM.CameraManager
             {
                 cameraStatus.isAvailableShooting = true;
                 GetMethodTypes(null);
+                GetAvailablePostViewImageSize();
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     NoticeUpdate();
@@ -348,13 +364,10 @@ namespace WPPMM.CameraManager
 
             if (client != null)
             {
-                client.ActZoom(direction, movement, OnError, OnActZoomResult);
+                client.ActZoom(direction, movement, OnError, () =>
+                    {
+                    });
             }
-        }
-
-        internal void OnActZoomResult()
-        {
-            Debug.WriteLine("Zoom operated.");
         }
 
         // ------- Event Observer

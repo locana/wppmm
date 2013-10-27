@@ -51,6 +51,12 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        public List<String> AvailablePostViewSize
+        {
+            get;
+            set;
+        }
+
         public void Init()
         {
             _init();
@@ -68,6 +74,7 @@ namespace WPPMM.CameraManager
             isConnected = false;
             isTakingPicture = false;
             MethodTypes = new List<string>();
+            AvailablePostViewSize = new List<String>();
         }
 
         public string[] AvailableApis { set; get; }

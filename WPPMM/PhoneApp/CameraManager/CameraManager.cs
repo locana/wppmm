@@ -131,14 +131,9 @@ namespace WPPMM.CameraManager
                 return;
             }
 
-            try
+            if (!lvProcessor.IsOpen)
             {
                 lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
-            }
-            catch (InvalidOperationException)
-            {
-                Debug.WriteLine("Catch exception caused by duplication opening connection");
-                return;
             }
         }
 

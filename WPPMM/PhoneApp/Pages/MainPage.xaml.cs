@@ -4,6 +4,13 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using WPPMM.RemoteApi;
 using System.Windows.Navigation;
 using WPPMM.CameraManager;
 using WPPMM.Resources;
@@ -15,6 +22,19 @@ namespace WPPMM
     {
 
         private static CameraManager.CameraManager cameraManager;
+
+        private bool isRequestingLiveview = false;
+        private BitmapImage screenBitmapImage;
+        private MemoryStream screenMemoryStream;
+
+        private byte[] screenData;
+        private Stopwatch watch;
+
+        private double screenWidth;
+        private double screenHeight;
+
+        private bool InProgress;
+        private bool OnZooming;
 
         // コンストラクター
         public MainPage()
@@ -133,7 +153,14 @@ namespace WPPMM
 
         private void GoToShootingPage()
         {
-            NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
+            // NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
+            MyPivot.SelectedIndex = 1;
+            LiveViewInit();
+            cameraManager.UpdateEvent += LiveViewUpdateListener;
+            cameraManager.StartLiveView();
+            cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
+            cameraManager.RunEventObserver();
+
         }
 
         internal void WifiUpdateListener(Status cameraStatus)
@@ -149,6 +176,62 @@ namespace WPPMM
             {
                 StartRemoteButton.IsEnabled = true;
             }
+
+        }
+
+        internal void LiveViewUpdateListener(Status cameraStatus)
+        {
+            if (isRequestingLiveview &&
+                cameraStatus.isConnected &&
+                !cameraStatus.isAvailableShooting)
+            {
+                // starting liveview
+                try
+                {
+                    cameraManager.ConnectLiveView();
+                }
+                catch (InvalidOperationException)
+                {
+                    Debug.WriteLine("Failed starting liveview because of duplicate liveview connection");
+                    NavigationService.GoBack();
+                    return;
+                }
+            }
+
+            if (cameraStatus.isTakingPicture)
+            {
+                SetInProgress(true);
+            }
+            else if (InProgress && !cameraStatus.isTakingPicture)
+            {
+                SetInProgress(false);
+            }
+
+            if (cameraStatus.isAvailableShooting)
+            {
+                ShootButton.IsEnabled = true;
+            }
+
+
+            // change visibility of items for zoom
+            /*
+            if (cameraStatus.MethodTypes.Contains("actZoom"))
+            {
+                SetZoomDisp(true);
+
+                if (cameraStatus.ZoomInfo != null)
+                {
+                    // dumpZoomInfo(cameraStatus.ZoomInfo);
+                    double margin_left = cameraStatus.ZoomInfo.position_in_current_box * 156 / 100;
+                    ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
+                    Debug.WriteLine("zoom bar display update: " + margin_left);
+                }
+            }
+            else
+            {
+                SetZoomDisp(false);
+            }
+             * */
 
         }
 
@@ -188,6 +271,67 @@ namespace WPPMM
         void ApplicationBar_StateChanged(object sender, ApplicationBarStateChangedEventArgs e)
         {
             SuppressPageMove = true;
+        }
+
+        private void LiveViewInit()
+        {
+            isRequestingLiveview = true;
+
+            screenBitmapImage = new BitmapImage();
+            screenBitmapImage.CreateOptions = BitmapCreateOptions.None;
+
+
+            screenData = new byte[1];
+
+            watch = new Stopwatch();
+            watch.Start();
+
+            ShootButton.IsEnabled = false;
+            InProgress = true;
+
+            screenWidth = ScreenImage.ActualWidth;
+            screenHeight = LayoutRoot.ActualHeight;
+
+            cameraManager.RequestCloseLiveView();
+
+            OnZooming = false;
+        }
+
+        public void EEScreenUpdateListener(byte[] data)
+        {
+
+            // Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
+
+            int size = data.Length;
+            ScreenImage.Source = null;
+
+            screenMemoryStream = new MemoryStream(data, 0, size);
+            screenBitmapImage.SetSource(screenMemoryStream);
+            ScreenImage.Source = screenBitmapImage;
+            screenMemoryStream.Close();
+
+        }
+
+        private void takeImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShootButton.IsEnabled = false;
+            cameraManager.RequestActTakePicture();
+        }
+
+        private void SetInProgress(bool progress)
+        {
+            InProgress = progress;
+
+            if (InProgress)
+            {
+                ShootingProgressBar.Visibility = Visibility.Visible;
+                ProgressScreen.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ShootingProgressBar.Visibility = Visibility.Collapsed;
+                ProgressScreen.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

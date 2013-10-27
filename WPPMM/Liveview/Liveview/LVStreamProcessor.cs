@@ -17,10 +17,19 @@ namespace WPPMM.Liveview
         public bool IsOpen
         {
             get { return _IsOpen; }
-            private set { _IsOpen = value; }
+            private set
+            {
+                _IsOpen = value;
+                if (!value)
+                {
+                    ConnectedStream = null;
+                }
+            }
         }
 
         private bool _IsOpen = false;
+
+        private Stream ConnectedStream = null;
 
         /// <summary>
         /// Open stream connection for Liveview.
@@ -68,6 +77,7 @@ namespace WPPMM.Liveview
 
                                 while (IsOpen)
                                 {
+                                    ConnectedStream = str;
                                     try
                                     {
                                         OnJpegRetrieved(Next(str));
@@ -113,6 +123,11 @@ namespace WPPMM.Liveview
         /// </summary>
         public void CloseConnection()
         {
+            if (ConnectedStream != null)
+            {
+                ConnectedStream.Close();
+                ConnectedStream.Dispose();
+            }
             IsOpen = false;
         }
 
@@ -159,7 +174,14 @@ namespace WPPMM.Liveview
                     {
                         throw new IOException("Force finish reading");
                     }
-                    read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
+                    try
+                    {
+                        read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        throw new IOException("Stream forcefully disposed");
+                    }
                     if (read < 0)
                     {
                         throw new IOException("End of stream");

@@ -11,8 +11,6 @@ namespace WPPMM.CameraManager
     {
         private readonly CameraServiceClient10 client;
 
-        private bool ongoing = false;
-
         private int failure_count = 0;
 
         private const int RETRY_LIMIT = 3;
@@ -45,6 +43,7 @@ namespace WPPMM.CameraManager
         ///
         public void Start(Status status, Action<EventMember> OnDetectDifference, Action OnStop)
         {
+            Debug.WriteLine("EventObserver.Start");
             if (status == null | OnDetectDifference == null || OnStop == null)
             {
                 throw new ArgumentNullException();
@@ -52,7 +51,6 @@ namespace WPPMM.CameraManager
             this.status = status;
             this.OnDetectDifference = OnDetectDifference;
             this.OnStop = OnStop;
-            ongoing = true;
             failure_count = RETRY_LIMIT;
             worker.DoWork += AnalyzeEventData;
             client.GetEvent(false, OnError, OnSuccess);
@@ -63,6 +61,7 @@ namespace WPPMM.CameraManager
         /// </summary>
         public void Stop()
         {
+            Debug.WriteLine("EventObserver.Stop");
             Deactivate();
         }
 
@@ -78,6 +77,7 @@ namespace WPPMM.CameraManager
                 case StatusCode.Any:
                     if (++failure_count < RETRY_LIMIT)
                     {
+                        Debug.WriteLine("GetEvent failed: retry " + failure_count);
                         Timer timer = new Timer((state) =>
                         {
                             Call();
@@ -93,55 +93,69 @@ namespace WPPMM.CameraManager
             {
                 OnStop.Invoke();
             }
+            Debug.WriteLine("GetEvent Error limit: deactivate now");
             Deactivate();
         }
 
         private void OnSuccess(Event data)
         {
             failure_count = 0;
-            worker.RunWorkerAsync(data);
+            try
+            {
+                worker.RunWorkerAsync(data);
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
         }
 
         private void AnalyzeEventData(object sender, DoWorkEventArgs e)
         {
+            if (status == null)
+            {
+                return;
+            }
+            Status target = status;
+
             var data = e.Argument as Event;
-            if (StatusComparator.IsAvailableApisModified(status, data.AvailableApis))
+            if (StatusComparator.IsAvailableApisModified(target, data.AvailableApis))
                 NotifyChangeDetected(EventMember.AvailableApis);
 
-            if (StatusComparator.IsCameraStatusModified(status, data.CameraStatus))
+            if (StatusComparator.IsCameraStatusModified(target, data.CameraStatus))
                 NotifyChangeDetected(EventMember.CameraStatus);
 
-            if (StatusComparator.IsLiveviewAvailableModified(status, data.LiveviewAvailable))
+            if (StatusComparator.IsLiveviewAvailableModified(target, data.LiveviewAvailable))
                 NotifyChangeDetected(EventMember.LiveviewAvailable);
 
-            if (StatusComparator.IsPostviewSizeInfoModified(status, data.PostviewSizeInfo))
+            if (StatusComparator.IsPostviewSizeInfoModified(target, data.PostviewSizeInfo))
                 NotifyChangeDetected(EventMember.PostviewSizeInfo);
 
-            if (StatusComparator.IsSelftimerInfoModified(status, data.SelfTimerInfo))
+            if (StatusComparator.IsSelftimerInfoModified(target, data.SelfTimerInfo))
                 NotifyChangeDetected(EventMember.SelfTimerInfo);
 
-            if (StatusComparator.IsShootModeInfoModified(status, data.ShootModeInfo))
+            if (StatusComparator.IsShootModeInfoModified(target, data.ShootModeInfo))
                 NotifyChangeDetected(EventMember.ShootModeInfo);
 
-            if (StatusComparator.IsZoomInfoModified(status, data.ZoomInfo))
+            if (StatusComparator.IsZoomInfoModified(target, data.ZoomInfo))
                 NotifyChangeDetected(EventMember.ZoomInfo);
 
-            if (StatusComparator.IsExposureModeInfoModified(status, data.ExposureMode))
+            if (StatusComparator.IsExposureModeInfoModified(target, data.ExposureMode))
                 NotifyChangeDetected(EventMember.ExposureMode);
 
-            if (StatusComparator.IsFNumberModified(status, data.FNumber))
+            if (StatusComparator.IsFNumberModified(target, data.FNumber))
                 NotifyChangeDetected(EventMember.FNumber);
 
-            if (StatusComparator.IsShutterSpeedModified(status, data.ShutterSpeed))
+            if (StatusComparator.IsShutterSpeedModified(target, data.ShutterSpeed))
                 NotifyChangeDetected(EventMember.ShutterSpeed);
 
-            if (StatusComparator.IsISOModified(status, data.ISOSpeedRate))
+            if (StatusComparator.IsISOModified(target, data.ISOSpeedRate))
                 NotifyChangeDetected(EventMember.ISOSpeedRate);
 
-            if (StatusComparator.IsEvInfoModified(status, data.EvInfo))
+            if (StatusComparator.IsEvInfoModified(target, data.EvInfo))
                 NotifyChangeDetected(EventMember.EVInfo);
 
-            if (StatusComparator.IsProgramShiftModified(status, data.ProgramShiftActivated))
+            if (StatusComparator.IsProgramShiftModified(target, data.ProgramShiftActivated))
                 NotifyChangeDetected(EventMember.ProgramShift);
 
             Call();
@@ -149,7 +163,7 @@ namespace WPPMM.CameraManager
 
         private void Call()
         {
-            if (ongoing)
+            if (status != null)
             {
                 client.GetEvent(true, OnError, OnSuccess);
             }
@@ -157,6 +171,7 @@ namespace WPPMM.CameraManager
 
         private void NotifyChangeDetected(EventMember target)
         {
+            Debug.WriteLine("NotifyChangeDetected: " + target);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 if (OnDetectDifference != null)
@@ -167,7 +182,6 @@ namespace WPPMM.CameraManager
         private void Deactivate()
         {
             Debug.WriteLine("EventObserver deactivated");
-            ongoing = false;
             status = null;
             OnStop = null;
             OnDetectDifference = null;

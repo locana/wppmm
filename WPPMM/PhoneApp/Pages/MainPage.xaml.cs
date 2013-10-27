@@ -363,10 +363,21 @@ namespace WPPMM
             }
         }
 
+        private int PreviousSelectedPivotIndex = -1;
+
         private void MyPivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             var pivot = sender as Pivot;
-            switch (pivot.SelectedIndex)
+            if (pivot == null)
+            {
+                return;
+            }
+            if (PreviousSelectedPivotIndex == pivot.SelectedIndex)
+            {
+                return;
+            }
+            PreviousSelectedPivotIndex = pivot.SelectedIndex;
+            switch (PreviousSelectedPivotIndex)
             {
                 case 0:
                     LiveviewPageUnloaded();

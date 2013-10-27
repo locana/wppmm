@@ -45,15 +45,6 @@ namespace WPPMM.CameraManager
             set;
         }
 
-        /// <summary>
-        /// returnes true during rendering jpeg image on live view screen
-        /// </summary>
-        public bool isRendering
-        {
-            get;
-            set;
-        }
-
         public List<String> MethodTypes
         {
             get;
@@ -76,7 +67,6 @@ namespace WPPMM.CameraManager
             isAvailableShooting = false;
             isConnected = false;
             isTakingPicture = false;
-            isRendering = false;
             MethodTypes = new List<string>();
         }
 

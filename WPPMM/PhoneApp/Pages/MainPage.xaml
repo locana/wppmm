@@ -97,7 +97,7 @@
             <phone:PivotItem CacheMode="{x:Null}" Header="">
                 <Grid>
                     <Grid x:Name="LiveViewScreen" Margin="0,0,0,0" >
-                        <Image Name="ScreenImage" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+                        <Image Name="ScreenImage" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Source="{Binding image, Mode=TwoWay}" Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
                         <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
                     Background="Black" Opacity="0.8" Padding="10,10,10,10"/>

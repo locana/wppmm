@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using WPPMM.DataModel;
 using WPPMM.DeviceDiscovery;
 using WPPMM.Liveview;
 using WPPMM.RemoteApi;
@@ -28,7 +31,6 @@ namespace WPPMM.CameraManager
         private readonly object lockObject = new Object();
         private readonly Downloader downloader = new Downloader();
         private readonly Status cameraStatus = new Status();
-        private byte[] screenData;
 
         private Action<byte[]> LiveViewUpdateListener;
         internal event Action<Status> UpdateEvent;
@@ -36,6 +38,17 @@ namespace WPPMM.CameraManager
         private Stopwatch watch;
 
         private EventObserver observer;
+
+        private LiveviewData _LiveviewImage = new LiveviewData();
+        public LiveviewData LiveviewImage
+        {
+            get { return _LiveviewImage; }
+            private set
+            {
+                _LiveviewImage = value;
+            }
+        }
+        private bool IsRendering = false;
 
         private CameraManager()
         {
@@ -137,6 +150,11 @@ namespace WPPMM.CameraManager
             }
         }
 
+        BitmapImage ImageSource = new BitmapImage()
+        {
+            CreateOptions = BitmapCreateOptions.None
+        };
+
         // callback methods (liveview)
         public void OnJpegRetrieved(byte[] data)
         {
@@ -150,33 +168,24 @@ namespace WPPMM.CameraManager
                 });
             }
 
-            int size = data.Length;
             //Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
 
-            if (cameraStatus.isRendering)
+            if (IsRendering)
             {
                 return;
             }
-
-            screenData = data;
-
+            IsRendering = true;
+            var size = data.Length;
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                lock (lockObject)
+                using (var stream = new MemoryStream(data, 0, size))
                 {
-
-                    // Debug.WriteLine("[Start] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    cameraStatus.isRendering = true;
-                    if (LiveViewUpdateListener != null)
-                    {
-                        LiveViewUpdateListener(screenData);
-                    }
-                    // Debug.WriteLine("[End  ] BeginInvoke!" + watch.ElapsedMilliseconds + "ms");
-                    cameraStatus.isRendering = false;
+                    LiveviewImage.image = null;
+                    ImageSource.SetSource(stream);
+                    LiveviewImage.image = ImageSource;
+                    IsRendering = false;
                 }
             });
-
-
         }
 
         public void OnLiveViewClosed()

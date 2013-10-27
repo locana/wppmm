@@ -58,7 +58,6 @@ namespace WPPMM
             cameraManager.Refresh();
             UpdateNetworkStatus();
             IsReadyToControl = false;
-            LiveviewPageUnloaded();
             LiveViewInit();
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
@@ -70,7 +69,6 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            LiveviewPageUnloaded();
             LiveViewInit();
         }
 
@@ -292,7 +290,6 @@ namespace WPPMM
             screenBitmapImage = new BitmapImage();
             screenBitmapImage.CreateOptions = BitmapCreateOptions.None;
 
-
             screenData = new byte[1];
 
             watch = new Stopwatch();
@@ -307,21 +304,6 @@ namespace WPPMM
             cameraManager.RequestCloseLiveView();
 
             OnZooming = false;
-        }
-
-        public void EEScreenUpdateListener(byte[] data)
-        {
-
-            // Debug.WriteLine("[" + watch.ElapsedMilliseconds + "ms" + "][LiveViewScreen] from last calling. ");
-
-            int size = data.Length;
-            ScreenImage.Source = null;
-
-            screenMemoryStream = new MemoryStream(data, 0, size);
-            screenBitmapImage.SetSource(screenMemoryStream);
-            ScreenImage.Source = screenBitmapImage;
-            screenMemoryStream.Close();
-
         }
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
@@ -403,7 +385,6 @@ namespace WPPMM
         {
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             cameraManager.StartLiveView();
-            cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
             cameraManager.RunEventObserver();
         }
 
@@ -475,6 +456,20 @@ namespace WPPMM
                     ZoomElements.Visibility = System.Windows.Visibility.Collapsed;
                 }
             }
+        }
+
+        private void ScreenImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("ScreenImage_Loaded");
+            LiveviewPageUnloaded();
+            ScreenImage.DataContext = cameraManager.LiveviewImage;
+        }
+
+        private void ScreenImage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("ScreenImage_UnLoaded");
+            LiveviewPageUnloaded();
+            ScreenImage.DataContext = null;
         }
     }
 }

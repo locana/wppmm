@@ -181,6 +181,7 @@ namespace WPPMM.CameraManager
             if (!cameraStatus.isAvailableShooting)
             {
                 cameraStatus.isAvailableShooting = true;
+                GetMethodTypes(null);
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     NoticeUpdate();
@@ -240,18 +241,7 @@ namespace WPPMM.CameraManager
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
                 Debug.WriteLine(di.Endpoints["camera"]);
-                client.GetMethodTypes(apiVersion, OnError, (methodTypes) =>
-                {
-                    List<String> list = new List<string>();
-                    foreach (MethodType t in methodTypes)
-                    {
-                        Debug.WriteLine("method: " + t.name);
-                        list.Add(t.name);
-                    }
-                    cameraStatus.MethodTypes = list;
-                    NoticeUpdate();
-                    Found.Invoke();
-                });
+                GetMethodTypes(Found);
                 cameraStatus.isAvailableConnecting = true;
 
                 InitEventObserver();
@@ -260,6 +250,24 @@ namespace WPPMM.CameraManager
 
             NoticeUpdate();
 
+        }
+
+        private void GetMethodTypes(Action found)
+        {
+            client.GetMethodTypes(apiVersion, OnError, (methodTypes) =>
+            {
+                List<String> list = new List<string>();
+                foreach (MethodType t in methodTypes)
+                {
+                    list.Add(t.name);
+                }
+                cameraStatus.MethodTypes = list;
+                if (found != null)
+                {
+                    found.Invoke();
+                }
+                NoticeUpdate();
+            });
         }
 
         // -------- take picture

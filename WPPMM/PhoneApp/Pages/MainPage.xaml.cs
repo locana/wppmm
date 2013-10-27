@@ -284,10 +284,17 @@ namespace WPPMM
         private void PostViewMenuItem_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("PostViewMenuItem clicked");
-            foreach (String s in cameraManager.cameraStatus.AvailablePostViewSize)
-            {
-                Debug.WriteLine("available: " + s);
-            }
+            OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;
+            OptionSelector.Visibility = System.Windows.Visibility.Visible;
+            OptionSelector.SelectionChanged += OptionSelector_SelectionChanged;
+        }
+
+        private void OptionSelector_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            String size = ((LongListSelector)sender).SelectedItem.ToString();
+            Debug.WriteLine("selected option: " + size);
+            cameraManager.SetPostViewImageSize(size);
+            OptionSelector.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void LiveViewInit()

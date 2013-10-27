@@ -135,6 +135,15 @@ namespace WPPMM.CameraManager
             });
         }
 
+        public void SetPostViewImageSize(String size)
+        {
+            client.SetPostviewImageSize(size, OnError, () =>
+            {
+                Debug.WriteLine("SetPostViewimageSize done");
+            }
+            );
+        }
+
   
 
         public void startLiveview(Action<int> error, Action<string> result)

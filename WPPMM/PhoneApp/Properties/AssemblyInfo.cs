@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WPPMM")]
-[assembly: AssemblyCopyright("Copyright kazyx 2013")]
+[assembly: AssemblyCopyright("Copyright (c) 2013 kazyx")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

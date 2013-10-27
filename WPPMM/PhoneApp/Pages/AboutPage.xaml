@@ -42,14 +42,18 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="{Binding Path=LocalizedResources.OSSText, Source={StaticResource LocalizedStrings}}" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PivotItem.Header>
-                <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     <TextBlock Text="{Binding Path=LocalizedResources.ContainsLicense, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" Margin="9,0" />
-                    <ScrollViewer Margin="10">
+                    <ScrollViewer Margin="10" Grid.Row="1">
                         <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Left">
                             <Paragraph x:Name="Contents" />
                         </RichTextBox>
                     </ScrollViewer>
-                </StackPanel>
+                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

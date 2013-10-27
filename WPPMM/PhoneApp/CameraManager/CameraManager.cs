@@ -268,6 +268,10 @@ namespace WPPMM.CameraManager
                         MessageBox.Show("Your picture has been saved to the album successfully!");
                         cameraStatus.isTakingPicture = false;
                         NoticeUpdate();
+                        if (PictureNotifier != null)
+                        {
+                            PictureNotifier.Invoke(p);
+                        }
                     },
                     delegate()
                     {
@@ -395,5 +399,7 @@ namespace WPPMM.CameraManager
         {
             UpdateEvent(cameraStatus);
         }
+
+        public Action<Picture> PictureNotifier;
     }
 }

@@ -98,26 +98,27 @@ namespace WPPMM.CameraManager
         {
             if (client != null)
             {
-                client.StartRecMode(OnError, OnStartRecmodeResult);
+                client.StartRecMode(OnError, () =>
+                    {
+                        RequestStartLiveView();
+                    });
             }
-        }
-
-        public void OnStartRecmodeResult()
-        {
-            // finally, startrecMode is done.
-            // for NEX-5R, starting to request liveview
-
-            RequestStartLiveView();
         }
 
         // live view
         public void RequestStartLiveView()
         {
-            startLiveview(OnError, OnStartLiveViewResult);
-
+            startLiveview(OnError, (res) => {
+                // finally, url for liveView has get
+                Debug.WriteLine("OnStartLiveViewResult: " + res);
+                liveViewUrl = res;
+                cameraStatus.isConnected = true;
+                NoticeUpdate();
+            });
             // get available image size
             GetAvailablePostViewImageSize();
         }
+
 
         private void GetAvailablePostViewImageSize()
         {
@@ -154,15 +155,7 @@ namespace WPPMM.CameraManager
             }
         }
 
-        public void OnStartLiveViewResult(String result)
-        {
-            // finally, url for liveView has get
-            Debug.WriteLine("OnStartLiveViewResult: " + result);
-            liveViewUrl = result;
-            cameraStatus.isConnected = true;
-            NoticeUpdate();
 
-        }
 
         public bool ConnectLiveView()
         {
@@ -371,13 +364,10 @@ namespace WPPMM.CameraManager
 
             if (client != null)
             {
-                client.ActZoom(direction, movement, OnError, OnActZoomResult);
+                client.ActZoom(direction, movement, OnError, () =>
+                    {
+                    });
             }
-        }
-
-        internal void OnActZoomResult()
-        {
-            Debug.WriteLine("Zoom operated.");
         }
 
         // ------- Event Observer

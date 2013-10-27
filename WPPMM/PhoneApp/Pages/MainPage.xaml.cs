@@ -28,7 +28,6 @@ namespace WPPMM
 
         private bool isRequestingLiveview = false;
         private BitmapImage screenBitmapImage;
-        private MemoryStream screenMemoryStream;
 
         private byte[] screenData;
         private Stopwatch watch;
@@ -496,6 +495,20 @@ namespace WPPMM
             Debug.WriteLine("ScreenImage_UnLoaded");
             LiveviewPageUnloaded();
             ScreenImage.DataContext = null;
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            Debug.WriteLine("onbackkey");
+            if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
+            {
+                GoToMainPage();
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
         }
     }
 }

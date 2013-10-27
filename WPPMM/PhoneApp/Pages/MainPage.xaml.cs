@@ -49,29 +49,6 @@ namespace WPPMM
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
         }
 
-        void MyPivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            switch (((Pivot)sender).SelectedIndex)
-            {
-                case PIVOTINDEX_MAIN:
-                    cameraManager.StopEventObserver();
-                    cameraManager.SetLiveViewUpdateListener(null);
-                    cameraManager.UpdateEvent -= LiveViewUpdateListener;
-                    LiveViewInit();
-                    break;
-                case PIVOTINDEX_LIVEVIEW:
-                    LiveViewInit();
-                    cameraManager.UpdateEvent += LiveViewUpdateListener;
-                    cameraManager.StartLiveView();
-                    cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
-                    cameraManager.RunEventObserver();
-                    // Todo: wait completion of closing live view 
-                    break;
-                default:
-                    break;
-            }
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

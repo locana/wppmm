@@ -1,4 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,6 +9,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using WPPMM.CameraManager;
+using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 
 
@@ -240,9 +243,34 @@ namespace WPPMM.Pages
             Debug.WriteLine("boxes: " + info.current_box_index + " / " + info.number_of_boxes);
             Debug.WriteLine("position: " + info.position);
             Debug.WriteLine("position in current box: " + info.position_in_current_box);
-
-
         }
 
+        private readonly PostViewData pvd = new PostViewData();
+
+        private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            cameraManager.PictureNotifier = OnPictureSaved;
+            PostViewWindow.DataContext = pvd;
+        }
+
+        private void PostViewWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            PostViewWindow.DataContext = null;
+            cameraManager.PictureNotifier = null;
+        }
+
+        private void OnPictureSaved(Picture pic)
+        {
+            pvd.PictureData = pic;
+        }
+
+        private void PostViewWindow_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (pvd.postview != null)
+            {
+                var task = new PhotoChooserTask();
+                task.Show();
+            }
+        }
     }
 }

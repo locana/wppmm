@@ -27,7 +27,7 @@ namespace WPPMM.CameraManager
         private String liveViewUrl = null;
         private readonly object lockObject = new Object();
         private readonly Downloader downloader = new Downloader();
-        private Status cameraStatus;
+        private readonly Status cameraStatus = new Status();
         private byte[] screenData;
 
         private Action<byte[]> LiveViewUpdateListener;
@@ -49,7 +49,6 @@ namespace WPPMM.CameraManager
             watch = new Stopwatch();
             watch.Start();
             deviceInfo = null;
-            cameraStatus = new Status();
             if (observer != null)
             {
                 observer.Stop();
@@ -271,6 +270,10 @@ namespace WPPMM.CameraManager
                         MessageBox.Show("Your picture has been saved to the album successfully!");
                         cameraStatus.isTakingPicture = false;
                         NoticeUpdate();
+                        if (PictureNotifier != null)
+                        {
+                            PictureNotifier.Invoke(p);
+                        }
                     },
                     delegate()
                     {
@@ -398,5 +401,7 @@ namespace WPPMM.CameraManager
         {
             UpdateEvent(cameraStatus);
         }
+
+        public Action<Picture> PictureNotifier;
     }
 }

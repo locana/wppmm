@@ -85,7 +85,11 @@ namespace WPPMM.CameraManager
                         return;
                     }
                     break;
+                case StatusCode.DuplicatePolling:
+                    Debug.WriteLine("GetEvent failed duplicate polling");
+                    return;
                 default:
+                    Debug.WriteLine("GetEvent failed with code: " + code);
                     break;
             }
 

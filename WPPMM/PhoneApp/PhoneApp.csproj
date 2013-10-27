@@ -106,9 +106,6 @@
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\LiveViewScreen.xaml.cs">
-      <DependentUpon>LiveViewScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -130,9 +127,6 @@
     <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\LiveViewScreen.xaml">
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MainPage.xaml">
       <SubType>Designer</SubType>

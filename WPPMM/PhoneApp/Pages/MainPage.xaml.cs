@@ -275,6 +275,8 @@ namespace WPPMM
             var OssMenuItem = new ApplicationBarMenuItem(AppResources.About);
             OssMenuItem.Click += OSS_Menu_Click;
             ApplicationBar.MenuItems.Add(OssMenuItem);
+
+
             var PostViewMenuItem = new ApplicationBarMenuItem(AppResources.PostViewSizeMenuItem);
             PostViewMenuItem.Click += PostViewMenuItem_Click;
             ApplicationBar.MenuItems.Add(PostViewMenuItem);
@@ -284,9 +286,12 @@ namespace WPPMM
         private void PostViewMenuItem_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("PostViewMenuItem clicked");
-            OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;
-            OptionSelector.Visibility = System.Windows.Visibility.Visible;
-            OptionSelector.SelectionChanged += OptionSelector_SelectionChanged;
+            if (cameraManager.cameraStatus.AvailablePostViewSize.Count != 0)
+            {
+                OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;
+                OptionSelector.Visibility = System.Windows.Visibility.Visible;
+                OptionSelector.SelectionChanged += OptionSelector_SelectionChanged;
+            }
         }
 
         private void OptionSelector_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

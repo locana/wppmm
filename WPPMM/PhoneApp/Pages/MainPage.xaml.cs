@@ -58,6 +58,7 @@ namespace WPPMM
             cameraManager.Refresh();
             UpdateNetworkStatus();
             IsReadyToControl = false;
+            LiveviewPageUnloaded();
             LiveViewInit();
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
@@ -69,6 +70,7 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            LiveviewPageUnloaded();
             LiveViewInit();
         }
 

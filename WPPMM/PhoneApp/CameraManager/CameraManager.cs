@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.DataModel;
@@ -18,19 +19,20 @@ namespace WPPMM.CameraManager
         // singleton instance
         private static CameraManager cameraManager = new CameraManager();
 
-
         private const int TIMEOUT = 10;
         public const String apiVersion = "1.0";
 
         private DeviceInfo deviceInfo;
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraServiceClient10 client;
-        private readonly LvStreamProcessor lvProcessor = new LvStreamProcessor();
+        private LvStreamProcessor lvProcessor = new LvStreamProcessor();
 
         private String liveViewUrl = null;
         private readonly object lockObject = new Object();
         private readonly Downloader downloader = new Downloader();
-        private readonly Status cameraStatus = new Status();
+
+        private readonly Status _cameraStatus = new Status();
+        public Status cameraStatus { get { return _cameraStatus; } }
 
         private Action<byte[]> LiveViewUpdateListener;
         internal event Action<Status> UpdateEvent;
@@ -135,19 +137,48 @@ namespace WPPMM.CameraManager
 
         }
 
-        // connect 
-        public void ConnectLiveView()
+        public bool ConnectLiveView()
         {
+            Debug.WriteLine("Connect liveview");
             if (liveViewUrl == null)
             {
                 Debug.WriteLine("error: liveProcessor or liveViewUrl is null");
-                return;
+                return false;
             }
-
-            if (!lvProcessor.IsOpen)
+            if (lvProcessor.IsOpen)
+            {
+                return false;
+            }
+            try
             {
                 lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
             }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> ClosePrevisousAndConnectLiveView()
+        {
+            Debug.WriteLine("Close previsous and connect liveview");
+            if (lvProcessor.IsOpen)
+            {
+                lvProcessor.CloseConnection();
+                await Task.Delay(TimeSpan.FromSeconds(5));
+            }
+            return ConnectLiveView();
+        }
+
+        public void RenewLiveviewProcessor()
+        {
+            Debug.WriteLine("******** RenewLiveviewProcessor ********");
+            if (lvProcessor != null && lvProcessor.IsOpen)
+            {
+                lvProcessor.CloseConnection();
+            }
+            lvProcessor = new LvStreamProcessor();
         }
 
         BitmapImage ImageSource = new BitmapImage()
@@ -192,8 +223,7 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("liveView connection closed.");
             // init();
-            //cameraStatus.Init();
-
+            cameraStatus.Init();
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 NoticeUpdate();
@@ -365,7 +395,7 @@ namespace WPPMM.CameraManager
                     NoticeUpdate();
                     break;
                 default:
-                    Debug.WriteLine("Difference detected: default");
+                    //Debug.WriteLine("Difference detected: default");
                     break;
             }
         }

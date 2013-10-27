@@ -175,7 +175,7 @@ namespace WPPMM.CameraManager
 
         private void NotifyChangeDetected(EventMember target)
         {
-            Debug.WriteLine("NotifyChangeDetected: " + target);
+            //Debug.WriteLine("NotifyChangeDetected: " + target);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 if (OnDetectDifference != null)

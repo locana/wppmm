@@ -223,16 +223,18 @@ namespace MetroApp
                 {
                     Debug.WriteLine("StartLiveview onSuccess: " + url);
                     data.add("StartLiveview onSuccess");
-                    if (!lvp.IsOpen)
-                    {
-                        OpenLiveviewConnection(url);
-                    }
+                    OpenLiveviewConnection(url);
                 });
             }
         }
 
         private void OpenLiveviewConnection(string url)
         {
+            if (lvp != null && lvp.IsOpen)
+            {
+                lvp.CloseConnection();
+            }
+            lvp = new LvStreamProcessor();
             lvp.OpenConnection(url, OnJpeg, () =>
             {
                 Debug.WriteLine("LiveviewStream closed");
@@ -290,19 +292,21 @@ namespace MetroApp
 
         DeviceFinder finder = new DeviceFinder();
 
-        LvStreamProcessor lvp = new LvStreamProcessor();
+        LvStreamProcessor lvp;
 
         private void LvScreen_Loaded(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("LvScreen Loaded");
-            lvp.CloseConnection();
             LvScreen.DataContext = imagedata;
         }
 
         private void LvScreen_Unloaded(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("LvScreen UnLoaded");
-            lvp.CloseConnection();
+            if (lvp != null)
+            {
+                lvp.CloseConnection();
+            }
             LvScreen.DataContext = null;
         }
     }

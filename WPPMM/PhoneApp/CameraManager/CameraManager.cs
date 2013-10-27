@@ -57,6 +57,11 @@ namespace WPPMM.CameraManager
             Refresh();
         }
 
+        public bool IsClientReady()
+        {
+            return client != null;
+        }
+
         public void Refresh()
         {
             lvProcessor.CloseConnection();
@@ -153,7 +158,14 @@ namespace WPPMM.CameraManager
             }
 
             lvProcessor = new LvStreamProcessor();
-            lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            try
+            {
+                lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
             return true;
         }
 

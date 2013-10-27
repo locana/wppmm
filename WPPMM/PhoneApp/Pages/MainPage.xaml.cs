@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -69,7 +70,8 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            LiveViewInit();
+            cameraManager.RequestCloseLiveView();
+            //LiveViewInit();
         }
 
         private void StartConnectionSequence(bool connect)
@@ -377,11 +379,39 @@ namespace WPPMM
             }
         }
 
-        private void LiveviewPageLoaded()
+        private async void LiveviewPageLoaded()
         {
             cameraManager.UpdateEvent += LiveViewUpdateListener;
-            cameraManager.StartLiveView();
-            cameraManager.RunEventObserver();
+            if (cameraManager.IsClientReady())
+            {
+                cameraManager.StartLiveView();
+                cameraManager.RunEventObserver();
+            }
+            else
+            {
+                Debug.WriteLine("Await for async device discovery");
+                var found = await PrepareConnectionAsync();
+                Debug.WriteLine("Async device discovery result: " + found);
+                if (found)
+                {
+                    cameraManager.StartLiveView();
+                    cameraManager.RunEventObserver();
+                }
+            }
+        }
+
+        private Task<bool> PrepareConnectionAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            bool done = false;
+            cameraManager.RequestSearchDevices(() =>
+            {
+                if (!done) { done = true; tcs.SetResult(true); }
+            }, () =>
+            {
+                if (!done) { done = true; tcs.SetResult(false); }
+            });
+            return tcs.Task;
         }
 
         private void LiveviewPageUnloaded()

@@ -29,6 +29,12 @@ namespace WPPMM.Liveview
 
         private bool _IsOpen = false;
 
+        private bool IsDisposed = false;
+
+        private HttpWebRequest Request = null;
+
+        private HttpWebResponse Response = null;
+
         private Stream ConnectedStream = null;
 
         /// <summary>
@@ -37,7 +43,8 @@ namespace WPPMM.Liveview
         /// <remarks>
         /// <para>Success callbacks are invoked for each retrieved jpeg data until Close callback is invoked.</para>
         /// <para>All of callbacks are invoked on the worker thread.</para>
-        /// <para>InvalidOperationException will be thrown when stream is already open.</para>
+        /// <para>InvalidOperationException is thrown if stream is already open.</para>
+        /// <para>If you've called CloseConnection or OnClose is already invoked, ObjectDisposedException is thrown.</para>
         /// </remarks>
         /// <param name="url">URL of the liveview. Get this via startLiveview API.</param>
         /// <param name="OnJpegRetrieved">Success callback.</param>
@@ -45,6 +52,10 @@ namespace WPPMM.Liveview
         public void OpenConnection(string url, Action<byte[]> OnJpegRetrieved, Action OnClosed)
         {
             Debug.WriteLine("LiveviewStreamProcessor.OpenConnection");
+            if (IsDisposed)
+            {
+                throw new ObjectDisposedException("This LvStreamProcessor is already disposed");
+            }
             if (url == null || OnJpegRetrieved == null | OnClosed == null)
             {
                 throw new ArgumentNullException();
@@ -57,21 +68,21 @@ namespace WPPMM.Liveview
 
             IsOpen = true;
 
-            var request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
-            request.Method = "GET";
-            request.AllowReadStreamBuffering = false;
+            Request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
+            Request.Method = "GET";
+            Request.AllowReadStreamBuffering = false;
 
             var JpegStreamHandler = new AsyncCallback((ar) =>
             {
                 try
                 {
                     var req = ar.AsyncState as HttpWebRequest;
-                    using (var res = req.EndGetResponse(ar) as HttpWebResponse)
+                    using (Response = req.EndGetResponse(ar) as HttpWebResponse)
                     {
-                        if (res.StatusCode == HttpStatusCode.OK)
+                        if (Response.StatusCode == HttpStatusCode.OK)
                         {
                             Debug.WriteLine("Connected Jpeg stream");
-                            using (var str = res.GetResponseStream())
+                            using (var str = Response.GetResponseStream())
                             {
                                 RunFpsDetector();
 
@@ -98,12 +109,12 @@ namespace WPPMM.Liveview
                 finally
                 {
                     Debug.WriteLine("Disconnected Jpeg stream");
-                    IsOpen = false;
+                    CloseConnection();
                     OnClosed.Invoke();
                 }
             });
 
-            request.BeginGetResponse(JpegStreamHandler, request);
+            Request.BeginGetResponse(JpegStreamHandler, Request);
         }
 
         private async void RunFpsDetector()
@@ -123,10 +134,18 @@ namespace WPPMM.Liveview
         /// </summary>
         public void CloseConnection()
         {
+            IsDisposed = true;
             if (ConnectedStream != null)
             {
-                ConnectedStream.Close();
                 ConnectedStream.Dispose();
+            }
+            if (Response != null)
+            {
+                Response.Dispose();
+            }
+            if (Request != null)
+            {
+                Request.Abort();
             }
             IsOpen = false;
         }

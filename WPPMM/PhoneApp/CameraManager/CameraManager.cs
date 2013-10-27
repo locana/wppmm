@@ -353,12 +353,12 @@ namespace WPPMM.CameraManager
             {
                 case EventMember.ZoomInfo:
                     Debug.WriteLine("Difference detected: zoom");
+                    NoticeUpdate();
                     break;
                 default:
                     Debug.WriteLine("Difference detected: default");
                     break;
             }
-            NoticeUpdate();
         }
 
         public void OnStop()

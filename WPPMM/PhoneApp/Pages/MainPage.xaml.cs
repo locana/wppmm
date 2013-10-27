@@ -57,6 +57,7 @@ namespace WPPMM
             cameraManager.Refresh();
             UpdateNetworkStatus();
             IsReadyToControl = false;
+            LiveViewInit();
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
@@ -67,7 +68,7 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            LiveviewPageUnloaded();
+            LiveViewInit();
         }
 
         private void StartConnectionSequence(bool connect)
@@ -390,7 +391,6 @@ namespace WPPMM
 
         private void LiveviewPageLoaded()
         {
-            LiveViewInit();
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             cameraManager.StartLiveView();
             cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
@@ -402,7 +402,6 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
-            LiveViewInit();
         }
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)

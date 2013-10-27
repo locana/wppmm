@@ -5,13 +5,10 @@ using Microsoft.Phone.Tasks;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using WPPMM.RemoteApi;
-using System.Windows.Navigation;
 using WPPMM.CameraManager;
 using WPPMM.Resources;
 
@@ -20,6 +17,8 @@ namespace WPPMM
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private const int PIVOTINDEX_MAIN = 0;
+        private const int PIVOTINDEX_LIVEVIEW = 1;
 
         private static CameraManager.CameraManager cameraManager;
 
@@ -44,6 +43,31 @@ namespace WPPMM
             BuildLocalizedApplicationBar();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
+
+            MyPivot.SelectionChanged += MyPivot_SelectionChanged;
+        }
+
+        void MyPivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            switch (((Pivot)sender).SelectedIndex)
+            {
+                case PIVOTINDEX_MAIN:
+                    cameraManager.StopEventObserver();
+                    cameraManager.SetLiveViewUpdateListener(null);
+                    cameraManager.UpdateEvent -= LiveViewUpdateListener;
+                    LiveViewInit();
+                    break;
+                case PIVOTINDEX_LIVEVIEW:
+                    LiveViewInit();
+                    cameraManager.UpdateEvent += LiveViewUpdateListener;
+                    cameraManager.StartLiveView();
+                    cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
+                    cameraManager.RunEventObserver();
+                    // Todo: wait completion of closing live view 
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -154,17 +178,15 @@ namespace WPPMM
         private void GoToShootingPage()
         {
             // NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
-            MyPivot.SelectedIndex = 1;
-            LiveViewInit();
-            cameraManager.UpdateEvent += LiveViewUpdateListener;
-            cameraManager.StartLiveView();
-            cameraManager.SetLiveViewUpdateListener(EEScreenUpdateListener);
-            cameraManager.RunEventObserver();
+            MyPivot.SelectedIndex = PIVOTINDEX_LIVEVIEW;
+
 
         }
 
         internal void WifiUpdateListener(Status cameraStatus)
         {
+
+            Debug.WriteLine("WifiUpdateLIstener called");
 
             if (cameraStatus.isAvailableConnecting)
             {
@@ -193,10 +215,13 @@ namespace WPPMM
                 catch (InvalidOperationException)
                 {
                     Debug.WriteLine("Failed starting liveview because of duplicate liveview connection");
-                    NavigationService.GoBack();
+                    // NavigationService.GoBack();
+                    MyPivot.SelectedIndex = 0;
                     return;
                 }
             }
+
+            Debug.WriteLine("LiveViewUpdateListener is called");
 
             if (cameraStatus.isTakingPicture)
             {

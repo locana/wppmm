@@ -13,9 +13,11 @@ namespace WPPMM.Pages
 {
     public partial class AboutPage : PhoneApplicationPage
     {
+        private static bool IsManifestLoaded = false;
         private static string version = "";
         private static string license = "";
         private static string copyright = "";
+        private static string developer = "";
         public AboutPage()
         {
             InitializeComponent();
@@ -23,19 +25,31 @@ namespace WPPMM.Pages
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(version))
+            if (!IsManifestLoaded)
             {
-                version = XDocument.Load("WMAppManifest.xml").Root.Element("App").Attribute("Version").Value;
+                LoadManifestXmlValues();
             }
             VERSION_STR.Text = version;
+
             FormatRichText(Repository, AppResources.RepoURL);
+
             if (string.IsNullOrEmpty(copyright))
             {
                 var attr = (AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(Assembly.GetExecutingAssembly(), typeof(AssemblyCopyrightAttribute));
                 copyright = attr.Copyright;
             }
             COPYRIGHT.Text = copyright;
+
+            DEV_BY.Text = developer;
+
             LoadLicenseFile();
+        }
+
+        private static void LoadManifestXmlValues()
+        {
+            var element = XDocument.Load("WMAppManifest.xml").Root.Element("App");
+            version = element.Attribute("Version").Value;
+            developer = element.Attribute("Author").Value;
         }
 
         private async void LoadLicenseFile()

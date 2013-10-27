@@ -106,6 +106,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Developed by に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DevelopedBy {
+            get {
+                return ResourceManager.GetString("DevelopedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   デバイス一覧 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DeviceListTitle {

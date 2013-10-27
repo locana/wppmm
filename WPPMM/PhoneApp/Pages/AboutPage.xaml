@@ -31,6 +31,8 @@
                     </StackPanel>
                     <TextBlock Text="{Binding Path=LocalizedResources.CopyRight, Source={StaticResource LocalizedStrings}}" Grid.Row="0" TextWrapping="Wrap" Margin="9,20,9,0" Style="{StaticResource PhoneTextSubtleStyle}" />
                     <TextBlock x:Name="COPYRIGHT" Margin="20,0,0,0" />
+                    <TextBlock Text="{Binding Path=LocalizedResources.DevelopedBy, Source={StaticResource LocalizedStrings}}" Grid.Row="0" TextWrapping="Wrap" Margin="9,20,9,0" Style="{StaticResource PhoneTextSubtleStyle}" />
+                    <TextBlock x:Name="DEV_BY" Margin="20,0,0,0" />
                     <TextBlock Text="{Binding Path=LocalizedResources.SourceCode, Source={StaticResource LocalizedStrings}}" Grid.Row="0" TextWrapping="Wrap" Margin="9,20,9,0" Style="{StaticResource PhoneTextSubtleStyle}" />
                     <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" HorizontalContentAlignment="Left">
                         <Paragraph x:Name="Repository" />

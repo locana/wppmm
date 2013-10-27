@@ -19,6 +19,8 @@ namespace WPPMM
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private const int PIVOTINDEX_MAIN = 0;
+        private const int PIVOTINDEX_LIVEVIEW = 1;
 
         private static CameraManager.CameraManager cameraManager;
 
@@ -43,6 +45,8 @@ namespace WPPMM
             BuildLocalizedApplicationBar();
 
             cameraManager = CameraManager.CameraManager.GetInstance();
+
+            MyPivot.SelectionChanged += MyPivot_SelectionChanged;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -168,6 +172,8 @@ namespace WPPMM
         internal void WifiUpdateListener(Status cameraStatus)
         {
 
+            Debug.WriteLine("WifiUpdateLIstener called");
+
             if (cameraStatus.isAvailableConnecting)
             {
                 String modelName = cameraManager.GetDeviceInfo().FriendlyName;
@@ -199,6 +205,8 @@ namespace WPPMM
                     return;
                 }
             }
+
+            Debug.WriteLine("LiveViewUpdateListener is called");
 
             if (cameraStatus.isTakingPicture)
             {

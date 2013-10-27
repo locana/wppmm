@@ -1,9 +1,7 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,7 +94,10 @@ namespace WPPMM.Pages
             var thumb = img.DataContext as ThumbnailData;
             var bmp = new BitmapImage();
             bmp.CreateOptions = BitmapCreateOptions.None;
-            bmp.SetSource(thumb.picture.GetImage());
+            using (var strm = thumb.picture.GetImage())
+            {
+                bmp.SetSource(strm);
+            }
             DetailImage.Source = bmp;
             SetVisibility(true);
         }

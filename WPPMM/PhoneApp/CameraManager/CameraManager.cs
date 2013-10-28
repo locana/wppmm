@@ -329,7 +329,7 @@ namespace WPPMM.CameraManager
                     delegate()
                     {
                         Debug.WriteLine("error");
-                        MessageBox.Show("Error occured during downloading the picture..");
+                        MessageBox.Show("Error occured during downloading the picture. Please try again with smaller postview image size.");
                         cameraStatus.isTakingPicture = false;
                         NoticeUpdate();
                     }

@@ -18,19 +18,29 @@ namespace WPPMM.CameraManager
         {
             WebRequest request;
             try { request = HttpWebRequest.Create(uri); }
-            catch (Exception) { Deployment.Current.Dispatcher.BeginInvoke(OnError); return; }
+            catch (Exception e) {
+                Debug.WriteLine("Exception: HttpWebRequest.create(uri): " + e.Message);
+                Deployment.Current.Dispatcher.BeginInvoke(OnError); 
+                return; }
 
             Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
             .Select(res =>
             {
                 try { return res.GetResponseStream(); }
-                catch (Exception) { return null; }
+                catch (Exception e) {
+                    Debug.WriteLine("Exception: GetResponseStream: " + e.Message); 
+                    return null;
+                }
             })
             .Select(strm =>
             {
                 if (strm == null) { return null; }
-                try { return new MediaLibrary().SavePictureToCameraRoll(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm); }
-                catch (Exception e) { return null; }
+                try { 
+                    
+                    return new MediaLibrary().SavePictureToCameraRoll(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm); }
+                catch (Exception e) {
+                    Debug.WriteLine("exception: savePicture: " + e.Message);
+                    return null; }
             })
             .ObserveOnDispatcher()
             .Subscribe(pic =>

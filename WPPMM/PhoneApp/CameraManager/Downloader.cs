@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
 using System.Net;
+using System.Windows;
 
 namespace WPPMM.CameraManager
 {
@@ -15,10 +16,22 @@ namespace WPPMM.CameraManager
 
         internal void DownloadImageFile(Uri uri, Action<Picture> OnCompleted, Action OnError)
         {
-            var request = HttpWebRequest.Create(uri);
+            WebRequest request;
+            try { request = HttpWebRequest.Create(uri); }
+            catch (Exception) { Deployment.Current.Dispatcher.BeginInvoke(OnError); return; }
+
             Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
-            .Select(res => res.GetResponseStream())
-            .Select(strm => new MediaLibrary().SavePictureToCameraRoll(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm))
+            .Select(res =>
+            {
+                try { return res.GetResponseStream(); }
+                catch (Exception) { return null; }
+            })
+            .Select(strm =>
+            {
+                if (strm == null) { return null; }
+                try { return new MediaLibrary().SavePictureToCameraRoll(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm); }
+                catch (Exception e) { return null; }
+            })
             .ObserveOnDispatcher()
             .Subscribe(pic =>
             {

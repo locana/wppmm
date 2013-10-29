@@ -21,7 +21,7 @@ namespace WPPMM.CameraManager
             catch (Exception e)
             {
                 Debug.WriteLine("Exception: HttpWebRequest.create(uri): " + e.Message);
-                Deployment.Current.Dispatcher.BeginInvoke(OnError);
+                Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Argument));
                 return;
             }
 
@@ -32,20 +32,20 @@ namespace WPPMM.CameraManager
                 {
                     if (res == null)
                     {
-                        Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Network);
+                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
                         return null;
                     }
                     var strm = res.GetResponseStream();
                     if (strm == null)
                     {
-                        Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Network);
+                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
                     }
                     return strm;
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine("Caught exception at getting stream: " + e.Message);
-                    Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Network);
+                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
                     return null;
                 }
             })
@@ -57,7 +57,7 @@ namespace WPPMM.CameraManager
                     var pic = new MediaLibrary().SavePictureToCameraRoll(string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
                     if (pic == null)
                     {
-                        Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Saving);
+                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));
                     }
                     return pic;
                 }
@@ -66,7 +66,7 @@ namespace WPPMM.CameraManager
                     // Some devices throws exception while saving picture to camera roll.
                     // e.g.) HTC 8S
                     Debug.WriteLine("Caught exception at saving picture: " + e.Message);
-                    Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Unknown);
+                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));
                     return null;
                 }
             })
@@ -89,6 +89,7 @@ namespace WPPMM.CameraManager
     {
         Network,
         Saving,
+        Argument,
         Unknown
     }
 }

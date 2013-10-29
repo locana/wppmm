@@ -124,6 +124,33 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ダウンロードに失敗しました.
+        /// </summary>
+        public static string ErrorMessage_ImageDL_Network {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_Network", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 予期せぬエラーが発生しました。PostView Image sizeを小さくして再度お試しください。.
+        /// </summary>
+        public static string ErrorMessage_ImageDL_Other {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 保存に失敗しました.
+        /// </summary>
+        public static string ErrorMessage_ImageDL_Saving {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure the connected SSID is same as your device&apos;s one..
         /// </summary>
         public static string Guide_CantFindDevice {

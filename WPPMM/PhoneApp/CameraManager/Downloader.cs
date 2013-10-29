@@ -14,51 +14,81 @@ namespace WPPMM.CameraManager
         {
         }
 
-        internal void DownloadImageFile(Uri uri, Action<Picture> OnCompleted, Action OnError)
+        internal void DownloadImageFile(Uri uri, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
         {
             WebRequest request;
             try { request = HttpWebRequest.Create(uri); }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Debug.WriteLine("Exception: HttpWebRequest.create(uri): " + e.Message);
-                Deployment.Current.Dispatcher.BeginInvoke(OnError); 
-                return; }
+                Deployment.Current.Dispatcher.BeginInvoke(OnError);
+                return;
+            }
 
             Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
             .Select(res =>
             {
-                try { return res.GetResponseStream(); }
-                catch (Exception e) {
-                    Debug.WriteLine("Exception: GetResponseStream: " + e.Message); 
+                try
+                {
+                    if (res == null)
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Network);
+                        return null;
+                    }
+                    var strm = res.GetResponseStream();
+                    if (strm == null)
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Network);
+                    }
+                    return strm;
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Caught exception at getting stream: " + e.Message);
+                    Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Network);
                     return null;
                 }
             })
             .Select(strm =>
             {
                 if (strm == null) { return null; }
-                try { 
-                    
-                    return new MediaLibrary().SavePictureToCameraRoll(string.Format("SavedPicture{0}.jpg", DateTime.Now), strm); }
-                catch (Exception e) {
-                    Debug.WriteLine("exception: savePicture: " + e.Message);
-                    return null; }
+                try
+                {
+                    var pic = new MediaLibrary().SavePictureToCameraRoll(string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
+                    if (pic == null)
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Saving);
+                    }
+                    return pic;
+                }
+                catch (Exception e)
+                {
+                    // Some devices throws exception while saving picture to camera roll.
+                    // e.g.) HTC 8S
+                    Debug.WriteLine("Caught exception at saving picture: " + e.Message);
+                    Deployment.Current.Dispatcher.BeginInvoke(OnError, e);
+                    return null;
+                }
             })
             .ObserveOnDispatcher()
             .Subscribe(pic =>
             {
-                if (pic == null)
-                {
-                    Debug.WriteLine("Saved Picture is null");
-                    OnError();
-                }
-                else
+                if (pic != null)
                 {
                     OnCompleted(pic);
                 }
             }
             , e =>
             {
-                OnError.Invoke();
+                OnError.Invoke(ImageDLError.Unknown);
             });
         }
+    }
+
+    public enum ImageDLError
+    {
+        Network,
+        Saving,
+        Unknown
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.DataModel;
@@ -108,7 +107,8 @@ namespace WPPMM.CameraManager
         // live view
         public void RequestStartLiveView()
         {
-            startLiveview(OnError, (res) => {
+            startLiveview(OnError, (res) =>
+            {
                 // finally, url for liveView has get
                 Debug.WriteLine("OnStartLiveViewResult: " + res);
                 liveViewUrl = res;
@@ -145,7 +145,7 @@ namespace WPPMM.CameraManager
             );
         }
 
-  
+
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
@@ -326,7 +326,7 @@ namespace WPPMM.CameraManager
                             PictureNotifier.Invoke(p);
                         }
                     },
-                    delegate()
+                    delegate(ImageDLError e)
                     {
                         Debug.WriteLine("error");
                         MessageBox.Show("Error occured during downloading the picture. Please try again with smaller postview image size.");

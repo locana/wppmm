@@ -329,8 +329,7 @@ namespace WPPMM.CameraManager
                     },
                     delegate(ImageDLError e)
                     {
-                        String error = "hoge: " + e;
-                        Debug.WriteLine(error);
+                        String error = "";
                         switch (e)
                         {
                             case ImageDLError.Network:

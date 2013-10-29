@@ -176,6 +176,14 @@ namespace WPPMM
             BuildLocalizedApplicationBar();
         }
 
+        private void HideOptionSelector()
+        {
+            if (OptionSelector.Visibility == System.Windows.Visibility.Visible)
+            {
+                OptionSelector.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
         internal void WifiUpdateListener(Status cameraStatus)
         {
 
@@ -441,6 +449,7 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
+            HideOptionSelector();
         }
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)

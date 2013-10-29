@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress" Unloaded="PhoneApplicationPage_Unloaded">
 
@@ -43,20 +43,28 @@
                 Margin="0"
                 IsGroupingEnabled="False"
                 LayoutMode="Grid"
-                GridCellSize="108,108"
+                GridCellSize="112,112"
                 ItemsSource="{Binding Group, Mode=OneWay}"
                 ItemTemplate="{StaticResource ItemTemplate}" >
             </phone:LongListSelector>
         </Grid>
         <Border x:Name="TouchBlocker" Margin="0" Grid.RowSpan="2" Visibility="Collapsed">
-            <Border.BorderBrush>
-                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
-            </Border.BorderBrush>
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
             </Border.Background>
         </Border>
-        <Image x:Name="DetailImage" Margin="20" Grid.RowSpan="2" Visibility="Collapsed"></Image>
+        <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
+            <Canvas x:Name="canvas" >
+                <Image x:Name="DetailImage" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
+                    <Image.RenderTransform>
+                        <ScaleTransform x:Name="xform" />
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+        </ViewportControl>
     </Grid>
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="False" />
+    </shell:SystemTray.ProgressIndicator>
 </phone:PhoneApplicationPage>

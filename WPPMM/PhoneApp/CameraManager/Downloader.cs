@@ -66,7 +66,7 @@ namespace WPPMM.CameraManager
                     // Some devices throws exception while saving picture to camera roll.
                     // e.g.) HTC 8S
                     Debug.WriteLine("Caught exception at saving picture: " + e.Message);
-                    Deployment.Current.Dispatcher.BeginInvoke(OnError, e);
+                    Deployment.Current.Dispatcher.BeginInvoke(OnError, ImageDLError.Unknown);
                     return null;
                 }
             })

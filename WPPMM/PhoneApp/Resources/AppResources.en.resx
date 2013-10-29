@@ -176,4 +176,13 @@
   <data name="PostViewSizeMenuItem" xml:space="preserve">
     <value>Select size of postview image</value>
   </data>
+  <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
+    <value>Failed downloading your picture.</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_Other" xml:space="preserve">
+    <value>Unexpected error has occured. Please try again with smaller postview image size.</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
+    <value>Failed saving your picture.</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@ using WPPMM.DataModel;
 using WPPMM.DeviceDiscovery;
 using WPPMM.Liveview;
 using WPPMM.RemoteApi;
+using WPPMM.Resources;
 
 namespace WPPMM.CameraManager
 {
@@ -318,7 +319,7 @@ namespace WPPMM.CameraManager
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
-                        MessageBox.Show("Your picture has been saved to the album successfully!");
+                        MessageBox.Show("Your picture has been saved to the camera roll successfully!");
                         cameraStatus.isTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)
@@ -328,8 +329,22 @@ namespace WPPMM.CameraManager
                     },
                     delegate(ImageDLError e)
                     {
-                        Debug.WriteLine("error");
-                        MessageBox.Show("Error occured during downloading the picture. Please try again with smaller postview image size.");
+                        String error = "";
+                        switch (e)
+                        {
+                            case ImageDLError.Network:
+                                error = AppResources.ErrorMessage_ImageDL_Network;
+                                break;
+                            case ImageDLError.Saving:
+                                error = AppResources.ErrorMessage_ImageDL_Saving;
+                                break;
+                            case ImageDLError.Unknown:
+                            default:
+                                error = AppResources.ErrorMessage_ImageDL_Other;
+                                break;
+                        }
+                        MessageBox.Show(error);
+                        Debug.WriteLine(error);
                         cameraStatus.isTakingPicture = false;
                         NoticeUpdate();
                     }

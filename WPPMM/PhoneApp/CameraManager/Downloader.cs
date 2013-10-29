@@ -28,33 +28,36 @@ namespace WPPMM.CameraManager
             Observable.FromAsyncPattern<WebResponse>(request.BeginGetResponse, request.EndGetResponse)()
             .Select(res =>
             {
+                if (res == null)
+                {
+                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
+                    return null;
+                }
                 try
                 {
-                    if (res == null)
-                    {
-                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
-                        return null;
-                    }
-                    var strm = res.GetResponseStream();
-                    if (strm == null)
-                    {
-                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
-                    }
-                    return strm;
+                    return res.GetResponseStream();
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine("Caught exception at getting stream: " + e.Message);
-                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
                     return null;
                 }
             })
             .Select(strm =>
             {
-                if (strm == null) { return null; }
+                if (strm == null)
+                {
+                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Network));
+                }
+                return strm;
+            })
+            .Where(strm => strm != null)
+            .Select(strm =>
+            {
                 try
                 {
-                    var pic = new MediaLibrary().SavePictureToCameraRoll(string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
+                    var pic = new MediaLibrary().SavePictureToCameraRoll(//
+                        string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
                     if (pic == null)
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));
@@ -66,22 +69,13 @@ namespace WPPMM.CameraManager
                     // Some devices throws exception while saving picture to camera roll.
                     // e.g.) HTC 8S
                     Debug.WriteLine("Caught exception at saving picture: " + e.Message);
-                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));
+                    Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.DeviceInternal));
                     return null;
                 }
             })
+            .Where(pic => pic != null)
             .ObserveOnDispatcher()
-            .Subscribe(pic =>
-            {
-                if (pic != null)
-                {
-                    OnCompleted(pic);
-                }
-            }
-            , e =>
-            {
-                OnError.Invoke(ImageDLError.Unknown);
-            });
+            .Subscribe(pic => { OnCompleted(pic); }, e => { OnError.Invoke(ImageDLError.Unknown); });
         }
     }
 
@@ -90,6 +84,7 @@ namespace WPPMM.CameraManager
         Network,
         Saving,
         Argument,
+        DeviceInternal,
         Unknown
     }
 }

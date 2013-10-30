@@ -139,9 +139,11 @@ namespace WPPMM.CameraManager
 
         public void SetPostViewImageSize(String size)
         {
+            _cameraStatus.PostViewImageSize = size;
             client.SetPostviewImageSize(size, OnError, () =>
             {
-                Debug.WriteLine("SetPostViewimageSize done");
+                Debug.WriteLine(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
+                // MessageBox.Show(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
             }
             );
         }
@@ -324,7 +326,7 @@ namespace WPPMM.CameraManager
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
-                        MessageBox.Show("Your picture has been saved to the camera roll successfully!");
+                        MessageBox.Show(AppResources.Message_ImageDL_Succeed);
                         cameraStatus.isTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)
@@ -347,6 +349,7 @@ namespace WPPMM.CameraManager
                                 error = AppResources.ErrorMessage_ImageDL_Network;
                                 break;
                             case ImageDLError.Saving:
+                            case ImageDLError.DeviceInternal:
                                 if (isOriginal)
                                 {
                                     error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
@@ -358,7 +361,6 @@ namespace WPPMM.CameraManager
                                 break;
                             case ImageDLError.Unknown:
                             case ImageDLError.Argument:
-                            case ImageDLError.DeviceInternal:
                             default:
                                 if (isOriginal)
                                 {

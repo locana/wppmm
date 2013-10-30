@@ -169,7 +169,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure the connected SSID is same as your device&apos;s one..
+        ///   Looks up a localized string similar to デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。.
         /// </summary>
         public static string Guide_CantFindDevice {
             get {
@@ -178,7 +178,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect to your device..
+        ///   Looks up a localized string similar to カメラに接続してください.
         /// </summary>
         public static string Guide_WiFiNotConnected {
             get {
@@ -196,20 +196,29 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to カメラロールに写真を保存しました！.
+        /// </summary>
+        public static string Message_ImageDL_Succeed {
+            get {
+                return ResourceManager.GetString("Message_ImageDL_Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 転送画像サイズを設定しました: .
+        /// </summary>
+        public static string Message_Setting_SetPostviewImageSize {
+            get {
+                return ResourceManager.GetString("Message_Setting_SetPostviewImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to オープンソースライセンス.
         /// </summary>
         public static string OSSText {
             get {
                 return ResourceManager.GetString("OSSText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 保存画像サイズ設定.
-        /// </summary>
-        public static string PostViewSizeMenuItem {
-            get {
-                return ResourceManager.GetString("PostViewSizeMenuItem", resourceCulture);
             }
         }
         
@@ -237,6 +246,15 @@ namespace WPPMM.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 転送画像サイズ設定.
+        /// </summary>
+        public static string Setting_PostViewImageSize {
+            get {
+                return ResourceManager.GetString("Setting_PostViewImageSize", resourceCulture);
             }
         }
         

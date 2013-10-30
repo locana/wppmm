@@ -141,10 +141,11 @@
     <value>スマートリモコン開始</value>
   </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
-    <value>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</value>
+    <value>デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。</value>
+    <comment>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</comment>
   </data>
   <data name="Guide_WiFiNotConnected" xml:space="preserve">
-    <value>Connect to your device.</value>
+    <value>カメラに接続してください</value>
   </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
     <value>Wi-Fi設定から、対応したカメラ機器に接続してください</value>
@@ -173,9 +174,6 @@
   <data name="DevelopedBy" xml:space="preserve">
     <value>Developed by</value>
   </data>
-  <data name="PostViewSizeMenuItem" xml:space="preserve">
-    <value>保存画像サイズ設定</value>
-  </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
     <value>ネットワークエラーが発生しました</value>
   </data>
@@ -193,5 +191,14 @@
   </data>
   <data name="String1" xml:space="preserve">
     <value />
+  </data>
+  <data name="Message_ImageDL_Succeed" xml:space="preserve">
+    <value>カメラロールに写真を保存しました！</value>
+  </data>
+  <data name="Message_Setting_SetPostviewImageSize" xml:space="preserve">
+    <value>転送画像サイズを設定しました: </value>
+  </data>
+  <data name="Setting_PostViewImageSize" xml:space="preserve">
+    <value>転送画像サイズ設定</value>
   </data>
 </root>

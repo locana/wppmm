@@ -177,12 +177,21 @@
     <value>保存画像サイズ設定</value>
   </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
-    <value>ダウンロードに失敗しました</value>
+    <value>ネットワークエラーが発生しました</value>
   </data>
   <data name="ErrorMessage_ImageDL_Other" xml:space="preserve">
-    <value>予期せぬエラーが発生しました。PostView Image sizeを小さくして再度お試しください。</value>
+    <value>予期せぬエラーが発生しました。</value>
   </data>
   <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
-    <value>保存に失敗しました</value>
+    <value>カメラロールへの保存に失敗しました</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_OtherOriginal" xml:space="preserve">
+    <value>予期せぬエラーが発生しました。画像サイズを小さくして再度お試しください。</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
+    <value>画像の保存に失敗しました。画像サイズを小さくして再度お試しください。</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

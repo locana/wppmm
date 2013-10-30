@@ -303,6 +303,11 @@ namespace WPPMM.CameraManager
             if (client != null)
             {
                 client.ActTakePicture(error, result);
+                client.GetPostviewImageSize(OnError, (res) =>
+                {
+                    Debug.WriteLine("postview image size: " + res);
+                    _cameraStatus.PostViewImageSize = res;
+                });
             }
 
             cameraStatus.isTakingPicture = true;
@@ -330,17 +335,39 @@ namespace WPPMM.CameraManager
                     delegate(ImageDLError e)
                     {
                         String error = "";
+                        bool isOriginal = false;
+                        if (_cameraStatus.PostViewImageSize == "Original")
+                        {
+                            isOriginal = true;
+                        }
+
                         switch (e)
                         {
                             case ImageDLError.Network:
                                 error = AppResources.ErrorMessage_ImageDL_Network;
                                 break;
                             case ImageDLError.Saving:
-                                error = AppResources.ErrorMessage_ImageDL_Saving;
+                                if (isOriginal)
+                                {
+                                    error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
+                                }
+                                else
+                                {
+                                    error = AppResources.ErrorMessage_ImageDL_Saving;
+                                }
                                 break;
                             case ImageDLError.Unknown:
+                            case ImageDLError.Argument:
+                            case ImageDLError.DeviceInternal:
                             default:
-                                error = AppResources.ErrorMessage_ImageDL_Other;
+                                if (isOriginal)
+                                {
+                                    error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
+                                }
+                                else
+                                {
+                                    error = AppResources.ErrorMessage_ImageDL_Other;
+                                }
                                 break;
                         }
                         MessageBox.Show(error);

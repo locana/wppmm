@@ -177,12 +177,18 @@
     <value>Select size of postview image</value>
   </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
-    <value>Failed downloading your picture.</value>
+    <value>Network error has occured downloading your picture.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Other" xml:space="preserve">
-    <value>Unexpected error has occured. Please try again with smaller postview image size.</value>
+    <value>Unexpected error has occured.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
-    <value>Failed saving your picture.</value>
+    <value>Failed saving your picture to the camera roll.</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_OtherOriginal" xml:space="preserve">
+    <value>Unexpected error has occured. Please try again with smaller postview image size.</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
+    <value>Failed saving image. Please try again with smaller image size.</value>
   </data>
 </root>

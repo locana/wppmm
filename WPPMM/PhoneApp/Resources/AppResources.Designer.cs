@@ -124,7 +124,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ダウンロードに失敗しました.
+        ///   Looks up a localized string similar to ネットワークエラーが発生しました.
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {
             get {
@@ -133,7 +133,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 予期せぬエラーが発生しました。PostView Image sizeを小さくして再度お試しください。.
+        ///   Looks up a localized string similar to 予期せぬエラーが発生しました。.
         /// </summary>
         public static string ErrorMessage_ImageDL_Other {
             get {
@@ -142,11 +142,29 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 保存に失敗しました.
+        ///   Looks up a localized string similar to 予期せぬエラーが発生しました。画像サイズを小さくして再度お試しください。.
+        /// </summary>
+        public static string ErrorMessage_ImageDL_OtherOriginal {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_OtherOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to カメラロールへの保存に失敗しました.
         /// </summary>
         public static string ErrorMessage_ImageDL_Saving {
             get {
                 return ResourceManager.GetString("ErrorMessage_ImageDL_Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 画像の保存に失敗しました。画像サイズを小さくして再度お試しください。.
+        /// </summary>
+        public static string ErrorMessage_ImageDL_SavingOriginal {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_SavingOriginal", resourceCulture);
             }
         }
         
@@ -237,6 +255,15 @@ namespace WPPMM.Resources {
         public static string StartRemoteControllingButtonText {
             get {
                 return ResourceManager.GetString("StartRemoteControllingButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

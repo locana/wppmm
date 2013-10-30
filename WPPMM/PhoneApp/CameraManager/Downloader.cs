@@ -58,6 +58,7 @@ namespace WPPMM.CameraManager
                 {
                     var pic = new MediaLibrary().SavePictureToCameraRoll(//
                         string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
+                    strm.Dispose();
                     if (pic == null)
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));

@@ -169,7 +169,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure the connected SSID is same as your device&apos;s one..
+        ///   Looks up a localized string similar to デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。.
         /// </summary>
         public static string Guide_CantFindDevice {
             get {
@@ -178,7 +178,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connect to your device..
+        ///   Looks up a localized string similar to カメラに接続してください.
         /// </summary>
         public static string Guide_WiFiNotConnected {
             get {

@@ -141,10 +141,11 @@
     <value>スマートリモコン開始</value>
   </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
-    <value>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</value>
+    <value>デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。</value>
+    <comment>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</comment>
   </data>
   <data name="Guide_WiFiNotConnected" xml:space="preserve">
-    <value>Connect to your device.</value>
+    <value>カメラに接続してください</value>
   </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
     <value>Wi-Fi設定から、対応したカメラ機器に接続してください</value>

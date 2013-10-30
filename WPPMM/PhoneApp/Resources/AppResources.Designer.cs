@@ -196,20 +196,29 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to カメラロールに写真を保存しました！.
+        /// </summary>
+        public static string Message_ImageDL_Succeed {
+            get {
+                return ResourceManager.GetString("Message_ImageDL_Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 転送画像サイズを設定しました: .
+        /// </summary>
+        public static string Message_Setting_SetPostviewImageSize {
+            get {
+                return ResourceManager.GetString("Message_Setting_SetPostviewImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to オープンソースライセンス.
         /// </summary>
         public static string OSSText {
             get {
                 return ResourceManager.GetString("OSSText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 保存画像サイズ設定.
-        /// </summary>
-        public static string PostViewSizeMenuItem {
-            get {
-                return ResourceManager.GetString("PostViewSizeMenuItem", resourceCulture);
             }
         }
         
@@ -237,6 +246,15 @@ namespace WPPMM.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 転送画像サイズ設定.
+        /// </summary>
+        public static string Setting_PostViewImageSize {
+            get {
+                return ResourceManager.GetString("Setting_PostViewImageSize", resourceCulture);
             }
         }
         

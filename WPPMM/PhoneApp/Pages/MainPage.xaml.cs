@@ -4,6 +4,7 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -285,7 +286,7 @@ namespace WPPMM
             ApplicationBar.MenuItems.Add(OssMenuItem);
 
 
-            var PostViewMenuItem = new ApplicationBarMenuItem(AppResources.PostViewSizeMenuItem);
+            var PostViewMenuItem = new ApplicationBarMenuItem(AppResources.Setting_PostViewImageSize);
             PostViewMenuItem.Click += PostViewMenuItem_Click;
             ApplicationBar.MenuItems.Add(PostViewMenuItem);
 
@@ -294,6 +295,8 @@ namespace WPPMM
         private void PostViewMenuItem_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("PostViewMenuItem clicked");
+
+ 
             if (cameraManager.cameraStatus.AvailablePostViewSize.Count != 0)
             {
                 OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;

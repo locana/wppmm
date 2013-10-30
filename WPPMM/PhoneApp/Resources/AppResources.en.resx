@@ -173,9 +173,6 @@
   <data name="DevelopedBy" xml:space="preserve">
     <value>Developed by</value>
   </data>
-  <data name="PostViewSizeMenuItem" xml:space="preserve">
-    <value>Select size of postview image</value>
-  </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
     <value>Network error has occured downloading your picture.</value>
   </data>
@@ -190,5 +187,14 @@
   </data>
   <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
     <value>Failed saving image. Please try again with smaller image size.</value>
+  </data>
+  <data name="Message_ImageDL_Succeed" xml:space="preserve">
+    <value>Your picture has been saved to the camera roll successfully!</value>
+  </data>
+  <data name="Message_Setting_SetPostviewImageSize" xml:space="preserve">
+    <value>Postview image size has been set: </value>
+  </data>
+  <data name="Setting_PostViewImageSize" xml:space="preserve">
+    <value>Select size of postview image</value>
   </data>
 </root>

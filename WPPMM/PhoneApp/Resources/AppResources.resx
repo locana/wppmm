@@ -174,9 +174,6 @@
   <data name="DevelopedBy" xml:space="preserve">
     <value>Developed by</value>
   </data>
-  <data name="PostViewSizeMenuItem" xml:space="preserve">
-    <value>保存画像サイズ設定</value>
-  </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
     <value>ネットワークエラーが発生しました</value>
   </data>
@@ -194,5 +191,14 @@
   </data>
   <data name="String1" xml:space="preserve">
     <value />
+  </data>
+  <data name="Message_ImageDL_Succeed" xml:space="preserve">
+    <value>カメラロールに写真を保存しました！</value>
+  </data>
+  <data name="Message_Setting_SetPostviewImageSize" xml:space="preserve">
+    <value>転送画像サイズを設定しました: </value>
+  </data>
+  <data name="Setting_PostViewImageSize" xml:space="preserve">
+    <value>転送画像サイズ設定</value>
   </data>
 </root>

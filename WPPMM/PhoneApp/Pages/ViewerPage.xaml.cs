@@ -114,9 +114,9 @@ namespace WPPMM.Pages
                     InitBitmapBeforeOpen();
                     DetailImage.Source = _bitmap;
                     SetVisibility(true);
+                    strm.Dispose();
                 });
             });
-            strm.Dispose();
         }
 
         void InitBitmapBeforeOpen()

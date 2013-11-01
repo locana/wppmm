@@ -111,7 +111,7 @@ namespace WPPMM
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
-                StartRemoteButton.IsEnabled = true;
+                // StartRemoteButton.IsEnabled = true;
             }
             else if (ssid.StartsWith("DIRECT-"))
             {
@@ -128,6 +128,7 @@ namespace WPPMM
                 if (modelName != null)
                 {
                     NetworkStatus.Text = "Connected device: " + modelName;
+                    GuideMessage.Visibility = System.Windows.Visibility.Visible;
                 }
             }
 
@@ -142,19 +143,6 @@ namespace WPPMM
             ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
             connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
             connectionSettingsTask.Show();
-        }
-
-        private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (IsReadyToControl)
-            {
-                GoToShootingPage();
-            }
-            else
-            {
-                StartConnectionSequence(true);
-                ProgressBar.IsIndeterminate = true;
-            }
         }
 
         private void GoToShootingPage()
@@ -194,11 +182,12 @@ namespace WPPMM
             {
                 String modelName = cameraManager.GetDeviceInfo().FriendlyName;
                 NetworkStatus.Text = "Connected device: " + modelName;
+                GuideMessage.Visibility = System.Windows.Visibility.Visible;
             }
 
             if (cameraStatus.isAvailableConnecting && cameraStatus.MethodTypes != null)
             {
-                StartRemoteButton.IsEnabled = true;
+
             }
 
         }

@@ -82,21 +82,19 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="{Binding LocalizedResources.ApplicationTitle,
                         Source={StaticResource LocalizedStrings}}" 
                                HorizontalAlignment="Left" FontSize="30"/>
-                    <TextBlock Grid.Row="1" Visibility="Collapsed" x:Name="OperationGuide" HorizontalAlignment="Center" Margin="0,0,0,0" TextWrapping="Wrap" Text="Add splash screen here if it's requested." VerticalAlignment="Top"/>
-                    <TextBlock Grid.Row="2" x:Name="NetworkStatus" HorizontalAlignment="Center"
-						Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-                    <Button Grid.Row="3" Content="{Binding LocalizedResources.WifiSettingLauncherButtonText, Source={StaticResource LocalizedStrings}}" 
-						HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" Click="OnWiFiSettingButtonClicked"/>
-
-                    <Button x:Name="StartRemoteButton" Content="{Binding LocalizedResources.StartRemoteControllingButtonText,
-                        Source={StaticResource LocalizedStrings}}" 
-						IsEnabled="False" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="4" VerticalAlignment="Top" Click="Button_Click_1"/>
+                    <Button Grid.Row="1" Content="{Binding LocalizedResources.WifiSettingLauncherButtonText, Source={StaticResource LocalizedStrings}}" 
+                            HorizontalAlignment="Center" Margin="20,40,20,20" VerticalAlignment="Top"
+                            Click="OnWiFiSettingButtonClicked" MinWidth ="250"/>
+                    <TextBlock Grid.Row="2" x:Name="NetworkStatus" HorizontalAlignment="Center" 
+                               Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Row="3" x:Name="GuideMessage" HorizontalAlignment="Center" 
+                               Margin="30,10,30,30" TextWrapping="Wrap" Visibility="Collapsed"
+                               Text="{Binding LocalizedResources.Guide_StartLiveView, Source={StaticResource LocalizedStrings}}"
+                               VerticalAlignment="Top"/>
 
 
                 </Grid>

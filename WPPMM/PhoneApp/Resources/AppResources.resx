@@ -201,4 +201,7 @@
   <data name="Setting_PostViewImageSize" xml:space="preserve">
     <value>転送画像サイズ設定</value>
   </data>
+  <data name="Guide_StartLiveView" xml:space="preserve">
+    <value>右にスワイプするとライブビューを開始できます</value>
+  </data>
 </root>

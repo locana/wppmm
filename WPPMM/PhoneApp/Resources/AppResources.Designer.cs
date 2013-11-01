@@ -178,6 +178,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 右にスワイプするとライブビューを開始できます.
+        /// </summary>
+        public static string Guide_StartLiveView {
+            get {
+                return ResourceManager.GetString("Guide_StartLiveView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to カメラに接続してください.
         /// </summary>
         public static string Guide_WiFiNotConnected {

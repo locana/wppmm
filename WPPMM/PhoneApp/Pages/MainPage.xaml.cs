@@ -21,16 +21,9 @@ namespace WPPMM
         private const int PIVOTINDEX_MAIN = 0;
         private const int PIVOTINDEX_LIVEVIEW = 1;
 
-        private static CameraManager.CameraManager cameraManager = CameraManager.CameraManager.GetInstance();
+        private CameraManager.CameraManager cameraManager = CameraManager.CameraManager.GetInstance();
 
         private bool isRequestingLiveview = false;
-        private BitmapImage screenBitmapImage;
-
-        private byte[] screenData;
-        private Stopwatch watch;
-
-        private double screenWidth;
-        private double screenHeight;
 
         private bool OnZooming;
 
@@ -214,11 +207,6 @@ namespace WPPMM
             return "<Not connected>";
         }
 
-        private void OSS_Menu_Click(object sender, System.EventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative));
-        }
-
         private void BuildLocalizedApplicationBar()
         {
             ApplicationBar = new ApplicationBar();
@@ -226,14 +214,13 @@ namespace WPPMM
             ApplicationBar.Opacity = 0.5;
 
             var OssMenuItem = new ApplicationBarMenuItem(AppResources.About);
-            OssMenuItem.Click += OSS_Menu_Click;
+            OssMenuItem.Click += (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); };
             ApplicationBar.MenuItems.Add(OssMenuItem);
 
 
             var PostViewMenuItem = new ApplicationBarMenuItem(AppResources.Setting_PostViewImageSize);
             PostViewMenuItem.Click += PostViewMenuItem_Click;
             ApplicationBar.MenuItems.Add(PostViewMenuItem);
-
         }
 
         private void PostViewMenuItem_Click(object sender, EventArgs e)
@@ -260,17 +247,6 @@ namespace WPPMM
         private void LiveViewInit()
         {
             isRequestingLiveview = true;
-
-            screenBitmapImage = new BitmapImage();
-            screenBitmapImage.CreateOptions = BitmapCreateOptions.None;
-
-            screenData = new byte[1];
-
-            watch = new Stopwatch();
-            watch.Start();
-
-            screenWidth = ScreenImage.ActualWidth;
-            screenHeight = LayoutRoot.ActualHeight;
 
             cameraManager.RequestCloseLiveView();
 

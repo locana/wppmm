@@ -1,18 +1,17 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
-using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using WPPMM.CameraManager;
 using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 using WPPMM.Resources;
+using WPPMM.Utils;
 
 namespace WPPMM
 {
@@ -27,13 +26,16 @@ namespace WPPMM
 
         private bool OnZooming;
 
+        private AppBarManager abm = new AppBarManager();
+
         public MainPage()
         {
             InitializeComponent();
 
-            BuildLocalizedApplicationBar();
-
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
+
+            abm.SetEvent(Menu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
+            abm.SetEvent(Menu.ImageSize, PostViewMenuItem_Click);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -132,14 +134,13 @@ namespace WPPMM
             else
             {
                 MyPivot.SelectedIndex = 1;
-                BuildLocalizedApplicationBar();
             }
         }
 
         private void GoToMainPage()
         {
             MyPivot.SelectedIndex = 0;
-            BuildLocalizedApplicationBar();
+            ApplicationBar = abm.Disable(Menu.ImageSize);
         }
 
         private void HideOptionSelector()
@@ -207,26 +208,9 @@ namespace WPPMM
             return "<Not connected>";
         }
 
-        private void BuildLocalizedApplicationBar()
-        {
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Minimized;
-            ApplicationBar.Opacity = 0.5;
-
-            var OssMenuItem = new ApplicationBarMenuItem(AppResources.About);
-            OssMenuItem.Click += (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); };
-            ApplicationBar.MenuItems.Add(OssMenuItem);
-
-
-            var PostViewMenuItem = new ApplicationBarMenuItem(AppResources.Setting_PostViewImageSize);
-            PostViewMenuItem.Click += PostViewMenuItem_Click;
-            ApplicationBar.MenuItems.Add(PostViewMenuItem);
-        }
-
         private void PostViewMenuItem_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("PostViewMenuItem clicked");
-
 
             if (cameraManager.cameraStatus.AvailablePostViewSize.Count != 0)
             {
@@ -329,6 +313,13 @@ namespace WPPMM
                     cameraManager.RunEventObserver();
                 }
             }
+            if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
+            {
+                if (cameraManager.cameraStatus.MethodTypes.Contains("setPostviewImageSize"))
+                {
+                    ApplicationBar = abm.Enable(Menu.ImageSize);
+                }
+            }
         }
 
         private Task<bool> PrepareConnectionAsync()
@@ -360,7 +351,6 @@ namespace WPPMM
             {
                 cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStop);
             }
-
         }
 
         private void OnZoomOutClick(object sender, RoutedEventArgs e)
@@ -431,6 +421,8 @@ namespace WPPMM
             ShootButton.DataContext = cameraManager.cameraStatus;
             ShootingProgress.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
+            abm.JustClear();
+            ApplicationBar = abm.Enable(Menu.About);
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)

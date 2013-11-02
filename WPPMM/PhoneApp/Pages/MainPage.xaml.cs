@@ -32,7 +32,6 @@ namespace WPPMM
         private double screenWidth;
         private double screenHeight;
 
-        private bool InProgress;
         private bool OnZooming;
 
         // コンストラクター
@@ -276,8 +275,6 @@ namespace WPPMM
 
             watch = new Stopwatch();
             watch.Start();
-
-            InProgress = true;
 
             screenWidth = ScreenImage.ActualWidth;
             screenHeight = LayoutRoot.ActualHeight;

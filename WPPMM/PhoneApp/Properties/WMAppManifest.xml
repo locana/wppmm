@@ -5,7 +5,7 @@
     <Language code="en" />
     <Language code="af" />
   </Languages>
-  <App xmlns="" ProductID="{8e9f3bbf-db1d-478f-8341-db0d1767fd8d}" Title="PlayNightmare Mobile" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="kazyx and naotaco" Description="Remote shooting application powered by Sony Camera Remote API." Publisher="kazyx" PublisherID="{c4b36e6b-5c04-4e1f-93a4-ac06dce252b1}">
+  <App xmlns="" ProductID="{8e9f3bbf-db1d-478f-8341-db0d1767fd8d}" Title="SCRAP" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="kazyx and naotaco" Description="Remote shooting application powered by Sony Camera Remote API." Publisher="kazyx" PublisherID="{c4b36e6b-5c04-4e1f-93a4-ac06dce252b1}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -20,14 +20,19 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
-          <Title>PlayNightmare Mobile</Title>
-          <BackContent></BackContent>
-          <BackBackgroundImageURI></BackBackgroundImageURI>
-          <BackTitle></BackTitle>
+          <Title>SCRAP</Title>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
           <LargeBackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileLarge.png</LargeBackgroundImageURI>
           <LargeBackContent />
-          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false"></LargeBackBackgroundImageURI>
-          <DeviceLockImageURI></DeviceLockImageURI>
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
+          </LargeBackBackgroundImageURI>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
           <HasLarge>True</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
@@ -37,8 +42,8 @@
       <ScreenResolution Name="ID_RESOLUTION_WXGA" />
       <ScreenResolution Name="ID_RESOLUTION_HD720P" />
     </ScreenResolutions>
-  <FunctionalCapabilities>
-    <FunctionalCapability Name="ID_FUNCCAP_EXTEND_MEM"/>
-  </FunctionalCapabilities>
+    <FunctionalCapabilities>
+      <FunctionalCapability Name="ID_FUNCCAP_EXTEND_MEM" />
+    </FunctionalCapabilities>
   </App>
 </Deployment>

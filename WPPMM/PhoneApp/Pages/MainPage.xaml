@@ -107,7 +107,7 @@
                                Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
                         <Button Name="ShootButton" Content="Shoot" HorizontalAlignment="Right"
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
-                    Background="Black" Opacity="0.8" Padding="10,10,10,10"/>
+                    Background="Black" Opacity="0.8" Padding="10,10,10,10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}"/>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,30,50,30" 
                   VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
                             <Grid.ColumnDefinitions>

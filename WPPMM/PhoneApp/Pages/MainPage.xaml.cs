@@ -501,11 +501,13 @@ namespace WPPMM
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            ShootButton.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
         {
+            ShootButton.DataContext = null;
             ZoomElements.DataContext = null;
         }
     }

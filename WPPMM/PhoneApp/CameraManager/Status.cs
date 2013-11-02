@@ -55,6 +55,7 @@ namespace WPPMM.CameraManager
             set
             {
                 _MethodTypes = value;
+                OnPropertyChanged("ShootFunctionVisibility");
                 OnPropertyChanged("ZoomElementVisibility");
             }
         }
@@ -105,6 +106,11 @@ namespace WPPMM.CameraManager
         public BasicInfo<string> FNumber { set; get; }
         public EvInfo EvInfo { set; get; }
         public bool ProgramShiftActivated { set; get; }
+
+        public Visibility ShootFunctionVisibility
+        {
+            get { return (MethodTypes.Contains("actTakePicture")) ? Visibility.Visible : Visibility.Collapsed; }
+        }
 
         public Visibility ZoomElementVisibility
         {

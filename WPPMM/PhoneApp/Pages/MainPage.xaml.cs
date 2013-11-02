@@ -36,6 +36,7 @@ namespace WPPMM
 
             abm.SetEvent(Menu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(Menu.ImageSize, PostViewMenuItem_Click);
+            abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -118,13 +119,6 @@ namespace WPPMM
             cameraManager.UpdateEvent += WifiUpdateListener;
         }
 
-        private void OnWiFiSettingButtonClicked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
-            connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
-            connectionSettingsTask.Show();
-        }
-
         private void GoToShootingPage()
         {
             if (MyPivot.SelectedIndex == 1)
@@ -140,7 +134,7 @@ namespace WPPMM
         private void GoToMainPage()
         {
             MyPivot.SelectedIndex = 0;
-            ApplicationBar = abm.Disable(Menu.ImageSize);
+            ApplicationBar = abm.Disable(Menu.ImageSize).Enable(IconMenu.WiFi).CreateNew();
         }
 
         private void HideOptionSelector()
@@ -296,6 +290,7 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
+            ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(Menu.About).CreateNew();
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             if (cameraManager.IsClientReady())
             {
@@ -313,11 +308,12 @@ namespace WPPMM
                     cameraManager.RunEventObserver();
                 }
             }
+
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
                 if (cameraManager.cameraStatus.MethodTypes.Contains("setPostviewImageSize"))
                 {
-                    ApplicationBar = abm.Enable(Menu.ImageSize);
+                    Dispatcher.BeginInvoke(() => { ApplicationBar = abm.Enable(Menu.ImageSize).CreateNew(); });
                 }
             }
         }
@@ -341,6 +337,7 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
+            ApplicationBar = abm.Enable(Menu.About).Enable(IconMenu.WiFi).Disable(Menu.ImageSize).CreateNew();
             HideOptionSelector();
         }
 
@@ -421,8 +418,6 @@ namespace WPPMM
             ShootButton.DataContext = cameraManager.cameraStatus;
             ShootingProgress.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
-            abm.JustClear();
-            ApplicationBar = abm.Enable(Menu.About);
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)

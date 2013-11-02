@@ -10,6 +10,12 @@ namespace WPPMM.Utils
         readonly ApplicationBarMenuItem AboutMenuItem = new ApplicationBarMenuItem(AppResources.About);
         readonly ApplicationBarMenuItem PostViewMenuItem = new ApplicationBarMenuItem(AppResources.Setting_PostViewImageSize);
 
+        readonly ApplicationBarIconButton WifiMenuItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.WifiSettingLauncherButtonText,
+            IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -20,28 +26,26 @@ namespace WPPMM.Utils
         {
             MenuItems.Add(Menu.About, AboutMenuItem);
             MenuItems.Add(Menu.ImageSize, PostViewMenuItem);
+            IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
         }
 
-        public void SetEvent(Menu type, EventHandler handler)
+        public AppBarManager SetEvent(Menu type, EventHandler handler)
         {
             MenuItems[type].Click += handler;
+            return this;
         }
 
-        public void SetEvent(IconMenu type, EventHandler handler)
+        public AppBarManager SetEvent(IconMenu type, EventHandler handler)
         {
             IconMenuItems[type].Click += handler;
+            return this;
         }
 
-        public void JustClear()
+        public AppBarManager Clear()
         {
             EnabledItems.Clear();
             EnabledIconItems.Clear();
-        }
-
-        public IApplicationBar Clear()
-        {
-            JustClear();
-            return SetEnabledItems();
+            return this;
         }
 
         public bool IsEnabled(Menu type)
@@ -49,22 +53,22 @@ namespace WPPMM.Utils
             return EnabledItems.Contains(type);
         }
 
-        public IApplicationBar Enable(Menu type)
+        public AppBarManager Enable(Menu type)
         {
             if (!EnabledItems.Contains(type))
             {
                 EnabledItems.Add(type);
             }
-            return SetEnabledItems();
+            return this;
         }
 
-        public IApplicationBar Disable(Menu type)
+        public AppBarManager Disable(Menu type)
         {
             if (EnabledItems.Contains(type))
             {
                 EnabledItems.Remove(type);
             }
-            return SetEnabledItems();
+            return this;
         }
 
         public bool IsEnabled(IconMenu type)
@@ -72,28 +76,33 @@ namespace WPPMM.Utils
             return EnabledIconItems.Contains(type);
         }
 
-        public IApplicationBar Enable(IconMenu type)
+        public AppBarManager Enable(IconMenu type)
         {
             if (!EnabledIconItems.Contains(type))
             {
                 EnabledIconItems.Add(type);
             }
-            return SetEnabledItems();
+            return this;
         }
 
-        public IApplicationBar Disable(IconMenu type)
+        public AppBarManager Disable(IconMenu type)
         {
             if (EnabledIconItems.Contains(type))
             {
                 EnabledIconItems.Remove(type);
             }
-            return SetEnabledItems();
+            return this;
         }
 
-        private IApplicationBar SetEnabledItems()
+        public IApplicationBar CreateNew()
         {
             var bar = new ApplicationBar();
-            bar.Mode = ApplicationBarMode.Minimized;
+
+            if (EnabledIconItems.Count == 0)
+                bar.Mode = ApplicationBarMode.Minimized;
+            else
+                bar.Mode = ApplicationBarMode.Default;
+
             bar.Opacity = 0.5;
 
             foreach (Menu menu in EnabledItems)
@@ -116,6 +125,6 @@ namespace WPPMM.Utils
 
     public enum IconMenu
     {
-
+        WiFi
     }
 }

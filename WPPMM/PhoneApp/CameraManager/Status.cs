@@ -30,22 +30,38 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        private bool _IsAvailableShooting = false;
         /// <summary>
         /// Is available shooting (liveview running)
         /// </summary>
-        public bool isAvailableShooting
+        public bool IsAvailableShooting
         {
-            get;
-            set;
+            get { return _IsAvailableShooting; }
+            set
+            {
+                if (_IsAvailableShooting != value)
+                {
+                    _IsAvailableShooting = value;
+                    OnPropertyChanged("ShootButtonStatus");
+                }
+            }
         }
 
+        private bool _IsTakingPicture = false;
         /// <summary>
         /// true during taking picture
         /// </summary>
-        public bool isTakingPicture
+        public bool IsTakingPicture
         {
-            get;
-            set;
+            get { return _IsTakingPicture; }
+            set
+            {
+                if (_IsTakingPicture != value)
+                {
+                    _IsTakingPicture = value;
+                    OnPropertyChanged("ShootButtonStatus");
+                }
+            }
         }
 
         private List<string> _MethodTypes = null;
@@ -85,9 +101,9 @@ namespace WPPMM.CameraManager
         private void _init()
         {
             isAvailableConnecting = false;
-            isAvailableShooting = false;
+            IsAvailableShooting = false;
             isConnected = false;
-            isTakingPicture = false;
+            IsTakingPicture = false;
             MethodTypes = new List<string>();
             AvailablePostViewSize = new List<String>();
             PostViewImageSize = "";
@@ -110,6 +126,11 @@ namespace WPPMM.CameraManager
         public Visibility ShootFunctionVisibility
         {
             get { return (MethodTypes.Contains("actTakePicture")) ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        public bool ShootButtonStatus
+        {
+            get { return !IsTakingPicture && IsAvailableShooting; }
         }
 
         public Visibility ZoomElementVisibility

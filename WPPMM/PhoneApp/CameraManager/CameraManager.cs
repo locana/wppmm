@@ -196,9 +196,9 @@ namespace WPPMM.CameraManager
         public void OnJpegRetrieved(byte[] data)
         {
 
-            if (!cameraStatus.isAvailableShooting)
+            if (!cameraStatus.IsAvailableShooting)
             {
-                cameraStatus.isAvailableShooting = true;
+                cameraStatus.IsAvailableShooting = true;
                 GetMethodTypes(null);
                 GetAvailablePostViewImageSize();
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -312,7 +312,7 @@ namespace WPPMM.CameraManager
                 });
             }
 
-            cameraStatus.isTakingPicture = true;
+            cameraStatus.IsTakingPicture = true;
             NoticeUpdate();
         }
 
@@ -327,7 +327,7 @@ namespace WPPMM.CameraManager
                     {
                         Debug.WriteLine("download succeed");
                         MessageBox.Show(AppResources.Message_ImageDL_Succeed);
-                        cameraStatus.isTakingPicture = false;
+                        cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)
                         {
@@ -374,7 +374,7 @@ namespace WPPMM.CameraManager
                         }
                         MessageBox.Show(error);
                         Debug.WriteLine(error);
-                        cameraStatus.isTakingPicture = false;
+                        cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();
                     }
                 );
@@ -390,7 +390,7 @@ namespace WPPMM.CameraManager
             }
 
             Debug.WriteLine("Error during taking picture: " + err);
-            cameraStatus.isTakingPicture = false;
+            cameraStatus.IsTakingPicture = false;
             NoticeUpdate();
         }
 

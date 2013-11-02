@@ -189,7 +189,7 @@ namespace WPPMM
         {
             if (isRequestingLiveview &&
                 cameraStatus.isConnected &&
-                !cameraStatus.isAvailableShooting)
+                !cameraStatus.IsAvailableShooting)
             {
                 // starting liveview
                 SetInProgress(true);
@@ -201,20 +201,17 @@ namespace WPPMM
                 }
             }
 
-            if (cameraStatus.isTakingPicture)
+            if (cameraStatus.IsTakingPicture)
             {
                 SetInProgress(true);
-                ShootButton.IsEnabled = false;
             }
-            else if (cameraStatus.isAvailableShooting)
+            else if (cameraStatus.IsAvailableShooting)
             {
                 SetInProgress(false);
-                ShootButton.IsEnabled = true;
             }
             else
             {
                 SetInProgress(true);
-                ShootButton.IsEnabled = false;
             }
 
             if (cameraStatus.ZoomInfo != null)
@@ -296,7 +293,6 @@ namespace WPPMM
             watch = new Stopwatch();
             watch.Start();
 
-            ShootButton.IsEnabled = false;
             InProgress = true;
 
             screenWidth = ScreenImage.ActualWidth;
@@ -309,7 +305,6 @@ namespace WPPMM
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
-            ShootButton.IsEnabled = false;
             SetInProgress(true);
             cameraManager.RequestActTakePicture();
         }

@@ -7,13 +7,18 @@ namespace WPPMM.Utils
 {
     public class AppBarManager
     {
-        readonly ApplicationBarMenuItem AboutMenuItem = new ApplicationBarMenuItem(AppResources.About);
         readonly ApplicationBarMenuItem PostViewMenuItem = new ApplicationBarMenuItem(AppResources.Setting_PostViewImageSize);
 
         readonly ApplicationBarIconButton WifiMenuItem = new ApplicationBarIconButton
         {
             Text = AppResources.WifiSettingLauncherButtonText,
             IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
+        };
+
+        readonly ApplicationBarIconButton AboutMenuItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.About,
+            IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
@@ -24,9 +29,9 @@ namespace WPPMM.Utils
 
         public AppBarManager()
         {
-            MenuItems.Add(Menu.About, AboutMenuItem);
             MenuItems.Add(Menu.ImageSize, PostViewMenuItem);
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
+            IconMenuItems.Add(IconMenu.About, AboutMenuItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -119,12 +124,12 @@ namespace WPPMM.Utils
 
     public enum Menu
     {
-        About,
         ImageSize
     }
 
     public enum IconMenu
     {
-        WiFi
+        WiFi,
+        About
     }
 }

@@ -34,8 +34,8 @@ namespace WPPMM
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
 
-            abm.SetEvent(Menu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(Menu.ImageSize, PostViewMenuItem_Click);
+            abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
         }
 
@@ -290,7 +290,7 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
-            ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(Menu.About).CreateNew();
+            ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(IconMenu.About).CreateNew();
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             if (cameraManager.IsClientReady())
             {
@@ -337,7 +337,7 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
-            ApplicationBar = abm.Enable(Menu.About).Enable(IconMenu.WiFi).Disable(Menu.ImageSize).CreateNew();
+            ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi).Disable(Menu.ImageSize).CreateNew();
             HideOptionSelector();
         }
 

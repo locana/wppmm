@@ -34,7 +34,6 @@ namespace WPPMM
 
         private bool OnZooming;
 
-        // コンストラクター
         public MainPage()
         {
             InitializeComponent();
@@ -51,15 +50,12 @@ namespace WPPMM
             progress.IsVisible = false;
             cameraManager.Refresh();
             UpdateNetworkStatus();
-            IsReadyToControl = false;
             LiveViewInit();
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
         }
-
-        private bool IsReadyToControl = false;
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -73,7 +69,6 @@ namespace WPPMM
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
                 progress.IsVisible = false;
-                IsReadyToControl = true;
                 if (connect) GoToShootingPage();
             }, () =>
             {
@@ -102,7 +97,6 @@ namespace WPPMM
             if (DeviceNetworkInformation.IsWiFiEnabled)
             {
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
-                // StartRemoteButton.IsEnabled = true;
             }
             else if (ssid.StartsWith("DIRECT-"))
             {
@@ -144,7 +138,6 @@ namespace WPPMM
             }
             else
             {
-                // NavigationService.Navigate(new Uri("/Pages/LiveViewScreen.xaml", UriKind.Relative));
                 MyPivot.SelectedIndex = 1;
                 BuildLocalizedApplicationBar();
             }

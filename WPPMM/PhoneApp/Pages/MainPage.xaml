@@ -9,7 +9,7 @@
     x:Class="WPPMM.MainPage"
     mc:Ignorable="d"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded" Unloaded="PhoneApplicationPage_Unloaded">
 
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="PivotStyle1" TargetType="phone:Pivot">
@@ -109,7 +109,7 @@
                     Margin="0,0,50,30" VerticalAlignment="Bottom" Click="takeImageButton_Click"
                     Background="Black" Opacity="0.8" Padding="10,10,10,10"/>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,30,50,30" 
-                  VerticalAlignment="Bottom" Width="200" Name="ZoomElements" >
+                  VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />

@@ -4,10 +4,7 @@ using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -17,7 +14,6 @@ using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 using WPPMM.Resources;
 
-
 namespace WPPMM
 {
     public partial class MainPage : PhoneApplicationPage
@@ -25,7 +21,7 @@ namespace WPPMM
         private const int PIVOTINDEX_MAIN = 0;
         private const int PIVOTINDEX_LIVEVIEW = 1;
 
-        private static CameraManager.CameraManager cameraManager;
+        private static CameraManager.CameraManager cameraManager = CameraManager.CameraManager.GetInstance();
 
         private bool isRequestingLiveview = false;
         private BitmapImage screenBitmapImage;
@@ -45,8 +41,6 @@ namespace WPPMM
             InitializeComponent();
 
             BuildLocalizedApplicationBar();
-
-            cameraManager = CameraManager.CameraManager.GetInstance();
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
 
@@ -189,7 +183,6 @@ namespace WPPMM
             {
 
             }
-
         }
 
         internal void LiveViewUpdateListener(Status cameraStatus)
@@ -224,24 +217,13 @@ namespace WPPMM
                 ShootButton.IsEnabled = false;
             }
 
-            // change visibility of items for zoom
-            if (cameraStatus.MethodTypes.Contains("actZoom"))
+            if (cameraStatus.ZoomInfo != null)
             {
-                SetZoomDisp(true);
-
-                if (cameraStatus.ZoomInfo != null)
-                {
-                    // dumpZoomInfo(cameraStatus.ZoomInfo);
-                    double margin_left = cameraStatus.ZoomInfo.position_in_current_box * 156 / 100;
-                    ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
-                    Debug.WriteLine("zoom bar display update: " + margin_left);
-                }
+                // dumpZoomInfo(cameraStatus.ZoomInfo);
+                double margin_left = cameraStatus.ZoomInfo.position_in_current_box * 156 / 100;
+                ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
+                Debug.WriteLine("zoom bar display update: " + margin_left);
             }
-            else
-            {
-                SetZoomDisp(false);
-            }
-
         }
 
         private string GetSSIDName()
@@ -285,7 +267,7 @@ namespace WPPMM
         {
             Debug.WriteLine("PostViewMenuItem clicked");
 
- 
+
             if (cameraManager.cameraStatus.AvailablePostViewSize.Count != 0)
             {
                 OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;
@@ -489,24 +471,6 @@ namespace WPPMM
             cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomAct1Shot);
         }
 
-        private void SetZoomDisp(bool disp)
-        {
-            if (disp)
-            {
-                if (ZoomElements.Visibility == System.Windows.Visibility.Collapsed)
-                {
-                    ZoomElements.Visibility = System.Windows.Visibility.Visible;
-                }
-            }
-            else
-            {
-                if (ZoomElements.Visibility == System.Windows.Visibility.Visible)
-                {
-                    ZoomElements.Visibility = System.Windows.Visibility.Collapsed;
-                }
-            }
-        }
-
         private void ScreenImage_Loaded(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("ScreenImage_Loaded");
@@ -533,6 +497,16 @@ namespace WPPMM
             {
                 e.Cancel = false;
             }
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            ZoomElements.DataContext = cameraManager.cameraStatus;
+        }
+
+        private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ZoomElements.DataContext = null;
         }
     }
 }

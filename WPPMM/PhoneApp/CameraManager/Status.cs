@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Windows;
 using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
 {
 
-    public class Status
+    public class Status : INotifyPropertyChanged
     {
 
         /// <summary>
@@ -45,10 +48,15 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        private List<string> _MethodTypes = null;
         public List<String> MethodTypes
         {
-            get;
-            set;
+            get { return (_MethodTypes == null) ? new List<string>() : _MethodTypes; }
+            set
+            {
+                _MethodTypes = value;
+                OnPropertyChanged("ZoomElementVisibility");
+            }
         }
 
         public List<String> AvailablePostViewSize
@@ -97,5 +105,26 @@ namespace WPPMM.CameraManager
         public BasicInfo<string> FNumber { set; get; }
         public EvInfo EvInfo { set; get; }
         public bool ProgramShiftActivated { set; get; }
+
+        public Visibility ZoomElementVisibility
+        {
+            get { return (MethodTypes.Contains("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string name)
+        {
+            //Debug.WriteLine("OnPropertyChanged: " + name);
+            if (PropertyChanged != null)
+            {
+                try
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(name));
+                }
+                catch (COMException)
+                {
+                }
+            }
+        }
     }
 }

@@ -43,8 +43,6 @@ namespace WPPMM
             BuildLocalizedApplicationBar();
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
-
-            SetInProgress(true);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -192,26 +190,12 @@ namespace WPPMM
                 !cameraStatus.IsAvailableShooting)
             {
                 // starting liveview
-                SetInProgress(true);
                 bool started = cameraManager.ConnectLiveView();
                 if (!started)
                 {
                     GoToMainPage();
                     return;
                 }
-            }
-
-            if (cameraStatus.IsTakingPicture)
-            {
-                SetInProgress(true);
-            }
-            else if (cameraStatus.IsAvailableShooting)
-            {
-                SetInProgress(false);
-            }
-            else
-            {
-                SetInProgress(true);
             }
 
             if (cameraStatus.ZoomInfo != null)
@@ -305,25 +289,7 @@ namespace WPPMM
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
-            SetInProgress(true);
             cameraManager.RequestActTakePicture();
-        }
-
-        private void SetInProgress(bool progress)
-        {
-            InProgress = progress;
-            Debug.WriteLine("setInProgress: " + progress);
-
-            if (InProgress)
-            {
-                ShootingProgressBar.Visibility = Visibility.Visible;
-                ProgressScreen.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ShootingProgressBar.Visibility = Visibility.Collapsed;
-                ProgressScreen.Visibility = Visibility.Collapsed;
-            }
         }
 
         private readonly PostViewData pvd = new PostViewData();
@@ -497,12 +463,14 @@ namespace WPPMM
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             ShootButton.DataContext = cameraManager.cameraStatus;
+            ShootingProgress.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
         {
             ShootButton.DataContext = null;
+            ShootingProgress.DataContext = null;
             ZoomElements.DataContext = null;
         }
     }

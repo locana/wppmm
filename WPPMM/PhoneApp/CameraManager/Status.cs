@@ -42,6 +42,7 @@ namespace WPPMM.CameraManager
                 if (_IsAvailableShooting != value)
                 {
                     _IsAvailableShooting = value;
+                    OnPropertyChanged("ShootingProgressVisibility");
                     OnPropertyChanged("ShootButtonStatus");
                 }
             }
@@ -59,6 +60,7 @@ namespace WPPMM.CameraManager
                 if (_IsTakingPicture != value)
                 {
                     _IsTakingPicture = value;
+                    OnPropertyChanged("ShootingProgressVisibility");
                     OnPropertyChanged("ShootButtonStatus");
                 }
             }
@@ -126,6 +128,11 @@ namespace WPPMM.CameraManager
         public Visibility ShootFunctionVisibility
         {
             get { return (MethodTypes.Contains("actTakePicture")) ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        public Visibility ShootingProgressVisibility
+        {
+            get { return (IsTakingPicture || !IsAvailableShooting) ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         public bool ShootButtonStatus

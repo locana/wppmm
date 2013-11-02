@@ -127,13 +127,10 @@
                         VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,10"
                         Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton" />
                         </Grid>
-                        <Rectangle Fill="#888888" HorizontalAlignment="Stretch" Opacity="0.6" Name="ProgressScreen"
-                       Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Center" Height="100" 
-                               Visibility="Visible"/>
-                        <ProgressBar Height="39" HorizontalAlignment="Stretch"
-                         VerticalAlignment="Center" IsIndeterminate="True" 
-                         Background="{StaticResource PhoneAccentBrush}"
-                         Visibility="Visible" Name="ShootingProgressBar"/>
+                        <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay}">
+                            <Rectangle Fill="#888888" Opacity="0.6" Stroke="Black"/>
+                            <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
+                        </Grid>
                         <phone:LongListSelector HorizontalAlignment="Stretch" Name="OptionSelector" Background="Black"
                                                 Height="Auto" Margin="0,0,0,0" VerticalAlignment="Center" 
                                                 Visibility="Collapsed" FontSize="40" Opacity="0.7" Padding="20,20,20,20"/>

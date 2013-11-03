@@ -225,7 +225,7 @@ namespace WPPMM.CameraManager
             {
                 try
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(name));
+                    Deployment.Current.Dispatcher.BeginInvoke(() => { PropertyChanged(this, new PropertyChangedEventArgs(name)); });
                 }
                 catch (COMException)
                 {

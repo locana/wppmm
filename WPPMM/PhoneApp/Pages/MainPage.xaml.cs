@@ -367,7 +367,7 @@ namespace WPPMM
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi)//
                 .Disable(Menu.ImageSize).Disable(IconMenu.SwitchShootMode).Disable(IconMenu.SelfTimer)//
-                .CreateNew(APPBAR_OPACITY);
+                .CreateNew(0.0);
             HideOptionSelector();
         }
 

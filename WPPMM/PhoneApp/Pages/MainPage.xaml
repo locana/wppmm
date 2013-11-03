@@ -115,7 +115,7 @@
                             </Button>
                         </Grid>
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay}">
-                            <Rectangle Fill="#888888" Opacity="0.6" Stroke="Black"/>
+                            <Rectangle Fill="#888888" Opacity="0.6" Stroke="Black" Margin="-15,0"/>
                             <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
                         </Grid>
                         <phone:LongListSelector HorizontalAlignment="Stretch" Name="OptionSelector" Background="Black" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" FontSize="40" Opacity="0.7" Padding="20,20,20,20"/>

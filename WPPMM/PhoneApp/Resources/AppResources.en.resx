@@ -200,4 +200,7 @@
   <data name="Guide_StartLiveView" xml:space="preserve">
     <value>Swipe right to start remote controlling.</value>
   </data>
+  <data name="Switch" xml:space="preserve">
+    <value>Switch</value>
+  </data>
 </root>

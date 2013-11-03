@@ -21,6 +21,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton SwitchShootModeItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.Switch,
+            IconUri = new Uri("/Assets/AppBar/still_movie.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -32,6 +38,7 @@ namespace WPPMM.Utils
             MenuItems.Add(Menu.ImageSize, PostViewMenuItem);
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
             IconMenuItems.Add(IconMenu.About, AboutMenuItem);
+            IconMenuItems.Add(IconMenu.SwitchShootMode, SwitchShootModeItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -130,6 +137,7 @@ namespace WPPMM.Utils
     public enum IconMenu
     {
         WiFi,
-        About
+        About,
+        SwitchShootMode
     }
 }

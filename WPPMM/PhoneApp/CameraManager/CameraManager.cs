@@ -495,5 +495,14 @@ namespace WPPMM.CameraManager
         }
 
         public Action<Picture> PictureNotifier;
+
+        public void SetShootMode(string mode)
+        {
+            if (!cameraStatus.MethodTypes.Contains("setShootMode"))
+            {
+                return;
+            }
+            client.SetShootMode(mode, OnError, () => { NoticeUpdate(); });
+        }
     }
 }

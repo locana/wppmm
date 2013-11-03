@@ -37,6 +37,7 @@ namespace WPPMM
             abm.SetEvent(Menu.ImageSize, PostViewMenuItem_Click);
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
+            abm.SetEvent(IconMenu.SwitchShootMode, SwitchShootMode_Clicked);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -236,6 +237,19 @@ namespace WPPMM
             cameraManager.RequestActTakePicture();
         }
 
+        private void SwitchShootMode_Clicked(object sender, EventArgs e)
+        {
+            switch (cameraManager.cameraStatus.ShootModeInfo.current)
+            {
+                case ApiParams.ShootModeStill:
+                    cameraManager.SetShootMode(ApiParams.ShootModeMovie);
+                    break;
+                case ApiParams.ShootModeMovie:
+                    cameraManager.SetShootMode(ApiParams.ShootModeStill);
+                    break;
+            }
+        }
+
         private readonly PostViewData pvd = new PostViewData();
 
         private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
@@ -312,9 +326,11 @@ namespace WPPMM
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
                 if (cameraManager.cameraStatus.MethodTypes.Contains("setPostviewImageSize"))
-                {
-                    Dispatcher.BeginInvoke(() => { ApplicationBar = abm.Enable(Menu.ImageSize).CreateNew(); });
-                }
+                    abm.Enable(Menu.ImageSize);
+                if (cameraManager.cameraStatus.MethodTypes.Contains("setShootMode"))
+                    abm.Enable(IconMenu.SwitchShootMode);
+
+                Dispatcher.BeginInvoke(() => { ApplicationBar = abm.CreateNew(); });
             }
         }
 
@@ -337,7 +353,7 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
-            ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi).Disable(Menu.ImageSize).CreateNew();
+            ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi).Disable(Menu.ImageSize).Disable(IconMenu.SwitchShootMode).CreateNew();
             HideOptionSelector();
         }
 

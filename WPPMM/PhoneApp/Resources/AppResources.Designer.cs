@@ -286,11 +286,11 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///    に類似しているローカライズされた文字列を検索します。
+        ///   切り替え に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string String1 {
+        public static string Switch {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("Switch", resourceCulture);
             }
         }
         

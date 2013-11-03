@@ -189,9 +189,6 @@
   <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
     <value>画像の保存に失敗しました。画像サイズを小さくして再度お試しください。</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="Message_ImageDL_Succeed" xml:space="preserve">
     <value>カメラロールに写真を保存しました！</value>
   </data>
@@ -203,5 +200,8 @@
   </data>
   <data name="Guide_StartLiveView" xml:space="preserve">
     <value>右にスワイプするとライブビューを開始できます</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>切り替え</value>
   </data>
 </root>

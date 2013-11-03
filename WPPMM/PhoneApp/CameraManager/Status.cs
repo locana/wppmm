@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
@@ -117,7 +118,22 @@ namespace WPPMM.CameraManager
         public bool LiveviewAvailable { set; get; }
         public BasicInfo<string> PostviewSizeInfo { set; get; }
         public BasicInfo<int> SelfTimerInfo { set; get; }
-        public BasicInfo<string> ShootModeInfo { set; get; }
+
+        private BasicInfo<string> _ShootModeInfo = new BasicInfo<string>();
+        public BasicInfo<string> ShootModeInfo
+        {
+            set
+            {
+                bool changed = false;
+                if (value != null && _ShootModeInfo != null)
+                    changed = _ShootModeInfo.current != value.current;
+                _ShootModeInfo = value;
+                if (changed)
+                    OnPropertyChanged("ShootButtonImage");
+            }
+            get { return _ShootModeInfo; }
+        }
+
         public BasicInfo<string> ExposureMode { set; get; }
         public BasicInfo<string> ShutterSpeed { set; get; }
         public BasicInfo<string> ISOSpeedRate { set; get; }
@@ -138,6 +154,29 @@ namespace WPPMM.CameraManager
         public bool ShootButtonStatus
         {
             get { return !IsTakingPicture && IsAvailableShooting; }
+        }
+
+        private static readonly BitmapImage StillImage = new BitmapImage(new Uri("/Assets/Camera.png", UriKind.Relative));
+        private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Camcorder.png", UriKind.Relative));
+
+        public BitmapImage ShootButtonImage
+        {
+            get
+            {
+                if (ShootModeInfo == null || ShootModeInfo.current == null)
+                {
+                    return null;
+                }
+                switch (ShootModeInfo.current)
+                {
+                    case ApiParams.ShootModeStill:
+                        return StillImage;
+                    case ApiParams.ShootModeMovie:
+                        return CamImage;
+                    default:
+                        return null;
+                }
+            }
         }
 
         public Visibility ZoomElementVisibility

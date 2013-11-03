@@ -78,15 +78,6 @@ namespace WPPMM
             Debug.WriteLine("Error: " + code);
         }
 
-        private void HandleActTakePictureResult(string[] urls)
-        {
-            Debug.WriteLine("HandleActTakePictureResult");
-            foreach (var url in urls)
-            {
-                Debug.WriteLine("URL: " + url);
-            }
-        }
-
         private void UpdateNetworkStatus()
         {
             var ssid = GetSSIDName();
@@ -234,7 +225,24 @@ namespace WPPMM
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
-            cameraManager.RequestActTakePicture();
+            var status = cameraManager.cameraStatus;
+            switch (status.CameraStatus)
+            {
+                case ApiParams.EventIdle:
+                    switch (status.ShootModeInfo.current)
+                    {
+                        case ApiParams.ShootModeStill:
+                            cameraManager.RequestActTakePicture();
+                            break;
+                        case ApiParams.ShootModeMovie:
+                            cameraManager.StartMovieRec();
+                            break;
+                    }
+                    break;
+                case ApiParams.EventMvRecording:
+                    cameraManager.StopMovieRec();
+                    break;
+            }
         }
 
         private void SwitchShootMode_Clicked(object sender, EventArgs e)

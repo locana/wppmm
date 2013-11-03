@@ -113,7 +113,25 @@ namespace WPPMM.CameraManager
         }
 
         public string[] AvailableApis { set; get; }
-        public string CameraStatus { set; get; }
+
+        private string _CameraStatus = ApiParams.EventNotReady;
+        public string CameraStatus
+        {
+            set
+            {
+                if (value != _CameraStatus)
+                {
+                    if (value == null)
+                        _CameraStatus = ApiParams.EventNotReady;
+                    else
+                        _CameraStatus = value;
+                    OnPropertyChanged("ShootButtonImage");
+                    OnPropertyChanged("ShootButtonStatus");
+                }
+            }
+            get { return _CameraStatus; }
+        }
+
         public ZoomInfo ZoomInfo { set; get; }
         public bool LiveviewAvailable { set; get; }
         public BasicInfo<string> PostviewSizeInfo { set; get; }
@@ -153,11 +171,23 @@ namespace WPPMM.CameraManager
 
         public bool ShootButtonStatus
         {
-            get { return !IsTakingPicture && IsAvailableShooting; }
+            //get { return !IsTakingPicture && IsAvailableShooting; }
+            get
+            {
+                switch (CameraStatus)
+                {
+                    case ApiParams.EventIdle:
+                    case ApiParams.EventMvRecording:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
         }
 
         private static readonly BitmapImage StillImage = new BitmapImage(new Uri("/Assets/Button/Camera.png", UriKind.Relative));
         private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Button/Camcorder.png", UriKind.Relative));
+        private static readonly BitmapImage StopImage = new BitmapImage(new Uri("/Assets/Button/Stop.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {
@@ -172,7 +202,10 @@ namespace WPPMM.CameraManager
                     case ApiParams.ShootModeStill:
                         return StillImage;
                     case ApiParams.ShootModeMovie:
-                        return CamImage;
+                        if (CameraStatus == ApiParams.EventMvRecording)
+                            return StopImage;
+                        else
+                            return CamImage;
                     default:
                         return null;
                 }

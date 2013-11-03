@@ -394,6 +394,22 @@ namespace WPPMM.CameraManager
             NoticeUpdate();
         }
 
+        public void StartMovieRec()
+        {
+            if (client == null)
+                return;
+
+            client.StartMovieRec(OnError, () => { NoticeUpdate(); });
+        }
+
+        public void StopMovieRec()
+        {
+            if (client == null)
+                return;
+
+            client.StopMovieRec(OnError, (urls) => { NoticeUpdate(); });
+        }
+
 
         // ------- zoom
 

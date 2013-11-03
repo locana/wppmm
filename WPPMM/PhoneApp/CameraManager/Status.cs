@@ -156,8 +156,8 @@ namespace WPPMM.CameraManager
             get { return !IsTakingPicture && IsAvailableShooting; }
         }
 
-        private static readonly BitmapImage StillImage = new BitmapImage(new Uri("/Assets/Camera.png", UriKind.Relative));
-        private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Camcorder.png", UriKind.Relative));
+        private static readonly BitmapImage StillImage = new BitmapImage(new Uri("/Assets/Button/Camera.png", UriKind.Relative));
+        private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Button/Camcorder.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {

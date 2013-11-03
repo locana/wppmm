@@ -91,7 +91,7 @@
                     <Grid x:Name="LiveViewScreen" Margin="0,0,0,0" >
                         <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}" Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
                         <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
-                            <Image Source="{Binding ShootButtonImage, Mode=OneWay}" Stretch="Fill" />
+                            <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,30,50,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
                             <Grid.ColumnDefinitions>
@@ -104,8 +104,12 @@
                             </Grid.RowDefinitions>
                             <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="21" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
                             <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="17" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
-                            <Button Grid.Row="1" Content="W" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,10" Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton"/>
-                            <Button Grid.Row="1" Content="T" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,10" Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton" />
+                            <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,10" Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton">
+                                <Image Source="/Assets/Button/ZoomOut.png" Margin="0,-10" />
+                            </Button>
+                            <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,10" Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton">
+                                <Image Source="/Assets/Button/ZoomIn.png" Margin="0,-10" />
+                            </Button>
                         </Grid>
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay}">
                             <Rectangle Fill="#888888" Opacity="0.6" Stroke="Black"/>

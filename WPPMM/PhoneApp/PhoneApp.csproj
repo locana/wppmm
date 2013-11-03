@@ -147,13 +147,7 @@
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\AppBar\ControlPanel.png" />
-    <Content Include="Assets\AppBar\feature.camera.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\AppBar\feature.settings.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\AppBar\feature.video.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\AppBar\questionmark.png">
@@ -163,8 +157,8 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Camcorder.png" />
-    <Content Include="Assets\Camera.png" />
+    <Content Include="Assets\Button\Camcorder.png" />
+    <Content Include="Assets\Button\Camera.png" />
     <Content Include="Assets\License.txt" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -181,6 +175,8 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Button\ZoomIn.png" />
+    <Content Include="Assets\Button\ZoomOut.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeviceDiscovery\DeviceDiscovery.csproj">

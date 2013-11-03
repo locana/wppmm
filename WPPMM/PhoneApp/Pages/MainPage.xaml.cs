@@ -454,5 +454,22 @@ namespace WPPMM
             ShootingProgress.DataContext = null;
             ZoomElements.DataContext = null;
         }
+
+        private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            Debug.WriteLine("OrientationChagned: " + e.Orientation);
+            switch (e.Orientation)
+            {
+                case PageOrientation.LandscapeLeft:
+                    AppTitle.Margin = new Thickness(30, 0, 0, 0);
+                    break;
+                case PageOrientation.LandscapeRight:
+                    AppTitle.Margin = new Thickness(60, 0, 0, 0);
+                    break;
+                case PageOrientation.PortraitUp:
+                    AppTitle.Margin = new Thickness(0, 0, 0, 0);
+                    break;
+            }
+        }
     }
 }

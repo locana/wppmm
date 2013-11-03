@@ -9,7 +9,10 @@
     x:Class="WPPMM.MainPage"
     mc:Ignorable="d"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded" Unloaded="PhoneApplicationPage_Unloaded">
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.Opacity="0.0"
+    Loaded="PhoneApplicationPage_Loaded"
+    Unloaded="PhoneApplicationPage_Unloaded" OrientationChanged="PhoneApplicationPage_OrientationChanged">
 
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="PivotStyle1" TargetType="phone:Pivot">
@@ -59,7 +62,7 @@
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="True" Text="Preparing connection..." />
     </shell:SystemTray.ProgressIndicator>
-
+    
     <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
@@ -81,7 +84,7 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Style="{StaticResource PanoramaItemHeaderTextStyle}" FontWeight="Bold"/>
+                    <TextBlock x:Name="AppTitle" Grid.Row="0" Text="{Binding LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Style="{StaticResource PanoramaItemHeaderTextStyle}" FontWeight="Bold" />
                     <TextBlock Grid.Row="1" x:Name="NetworkStatus" HorizontalAlignment="Center" Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                     <TextBlock Grid.Row="2" x:Name="GuideMessage" HorizontalAlignment="Center" Margin="30,10,30,30" TextWrapping="Wrap" Visibility="Collapsed" Text="{Binding LocalizedResources.Guide_StartLiveView, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top"/>
                 </Grid>

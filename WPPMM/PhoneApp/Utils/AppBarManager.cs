@@ -113,7 +113,7 @@ namespace WPPMM.Utils
             return this;
         }
 
-        public IApplicationBar CreateNew()
+        public IApplicationBar CreateNew(double opacity)
         {
             var bar = new ApplicationBar();
 
@@ -122,7 +122,7 @@ namespace WPPMM.Utils
             else
                 bar.Mode = ApplicationBarMode.Default;
 
-            bar.Opacity = 0.5;
+            bar.Opacity = opacity;
 
             foreach (Menu menu in EnabledItems)
             {

@@ -26,6 +26,8 @@ namespace WPPMM
 
         private bool OnZooming;
 
+        private const double APPBAR_OPACITY = 1.0;
+
         private AppBarManager abm = new AppBarManager();
 
         public MainPage()
@@ -126,7 +128,7 @@ namespace WPPMM
         private void GoToMainPage()
         {
             MyPivot.SelectedIndex = 0;
-            ApplicationBar = abm.Disable(Menu.ImageSize).Enable(IconMenu.WiFi).CreateNew();
+            ApplicationBar = abm.Disable(Menu.ImageSize).Enable(IconMenu.WiFi).CreateNew(APPBAR_OPACITY);
         }
 
         private void HideOptionSelector()
@@ -312,7 +314,7 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
-            ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(IconMenu.About).CreateNew();
+            ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(IconMenu.About).CreateNew(APPBAR_OPACITY);
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             if (cameraManager.IsClientReady())
             {
@@ -340,7 +342,7 @@ namespace WPPMM
                 if (cameraManager.cameraStatus.MethodTypes.Contains("setSelfTimer"))
                     abm.Enable(IconMenu.SelfTimer);
 
-                Dispatcher.BeginInvoke(() => { ApplicationBar = abm.CreateNew(); });
+                Dispatcher.BeginInvoke(() => { ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
             }
         }
 
@@ -365,7 +367,7 @@ namespace WPPMM
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi)//
                 .Disable(Menu.ImageSize).Disable(IconMenu.SwitchShootMode).Disable(IconMenu.SelfTimer)//
-                .CreateNew();
+                .CreateNew(APPBAR_OPACITY);
             HideOptionSelector();
         }
 

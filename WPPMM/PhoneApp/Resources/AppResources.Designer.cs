@@ -259,6 +259,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   タイマー に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SelfTimer {
+            get {
+                return ResourceManager.GetString("SelfTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   転送画像サイズ設定 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_PostViewImageSize {

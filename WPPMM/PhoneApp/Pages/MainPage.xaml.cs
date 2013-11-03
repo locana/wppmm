@@ -337,6 +337,8 @@ namespace WPPMM
                     abm.Enable(Menu.ImageSize);
                 if (cameraManager.cameraStatus.MethodTypes.Contains("setShootMode"))
                     abm.Enable(IconMenu.SwitchShootMode);
+                if (cameraManager.cameraStatus.MethodTypes.Contains("setSelfTimer"))
+                    abm.Enable(IconMenu.SelfTimer);
 
                 Dispatcher.BeginInvoke(() => { ApplicationBar = abm.CreateNew(); });
             }
@@ -361,7 +363,9 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
-            ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi).Disable(Menu.ImageSize).Disable(IconMenu.SwitchShootMode).CreateNew();
+            ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi)//
+                .Disable(Menu.ImageSize).Disable(IconMenu.SwitchShootMode).Disable(IconMenu.SelfTimer)//
+                .CreateNew();
             HideOptionSelector();
         }
 

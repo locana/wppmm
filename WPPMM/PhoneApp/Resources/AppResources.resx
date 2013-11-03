@@ -204,4 +204,7 @@
   <data name="Switch" xml:space="preserve">
     <value>切り替え</value>
   </data>
+  <data name="SelfTimer" xml:space="preserve">
+    <value>タイマー</value>
+  </data>
 </root>

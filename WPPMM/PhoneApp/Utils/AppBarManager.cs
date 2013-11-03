@@ -118,7 +118,10 @@ namespace WPPMM.Utils
             var bar = new ApplicationBar();
 
             if (EnabledIconItems.Count == 0)
-                bar.Mode = ApplicationBarMode.Minimized;
+                if (EnabledItems.Count == 0)
+                    return null;
+                else
+                    bar.Mode = ApplicationBarMode.Minimized;
             else
                 bar.Mode = ApplicationBarMode.Default;
 

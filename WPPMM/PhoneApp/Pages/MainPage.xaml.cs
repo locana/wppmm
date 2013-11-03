@@ -128,7 +128,6 @@ namespace WPPMM
         private void GoToMainPage()
         {
             MyPivot.SelectedIndex = 0;
-            ApplicationBar = abm.Disable(Menu.ImageSize).Enable(IconMenu.WiFi).CreateNew(APPBAR_OPACITY);
         }
 
         private void HideOptionSelector()

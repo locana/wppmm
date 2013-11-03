@@ -161,7 +161,11 @@ namespace WPPMM.CameraManager
 
         public Visibility ShootFunctionVisibility
         {
-            get { return (MethodTypes.Contains("actTakePicture")) ? Visibility.Visible : Visibility.Collapsed; }
+            get
+            {
+                return (MethodTypes.Contains("actTakePicture") || MethodTypes.Contains("startMovieRec"))
+                    ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         public Visibility ShootingProgressVisibility

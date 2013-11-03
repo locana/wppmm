@@ -314,8 +314,9 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
-            //ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(IconMenu.About).CreateNew(APPBAR_OPACITY);
             ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
+            //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
+
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             if (cameraManager.IsClientReady())
             {
@@ -331,6 +332,11 @@ namespace WPPMM
                 {
                     cameraManager.StartLiveView();
                     cameraManager.RunEventObserver();
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(() => { GoToMainPage(); });
+                    return;
                 }
             }
 

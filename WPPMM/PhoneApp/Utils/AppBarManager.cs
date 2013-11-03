@@ -27,6 +27,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/still_movie.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton SelfTimerItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.SelfTimer,
+            IconUri = new Uri("/Assets/AppBar/feature.alarm.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -39,6 +45,7 @@ namespace WPPMM.Utils
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
             IconMenuItems.Add(IconMenu.About, AboutMenuItem);
             IconMenuItems.Add(IconMenu.SwitchShootMode, SwitchShootModeItem);
+            IconMenuItems.Add(IconMenu.SelfTimer, SelfTimerItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -138,6 +145,7 @@ namespace WPPMM.Utils
     {
         WiFi,
         About,
-        SwitchShootMode
+        SwitchShootMode,
+        SelfTimer
     }
 }

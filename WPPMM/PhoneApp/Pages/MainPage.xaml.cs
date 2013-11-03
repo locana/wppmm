@@ -26,9 +26,10 @@ namespace WPPMM
 
         private bool OnZooming;
 
-        private const double APPBAR_OPACITY = 1.0;
+        private const double APPBAR_OPACITY = 0.0;
 
         private AppBarManager abm = new AppBarManager();
+        private ControlPanelManager cpm;
 
         public MainPage()
         {
@@ -36,10 +37,10 @@ namespace WPPMM
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
 
-            abm.SetEvent(Menu.ImageSize, PostViewMenuItem_Click);
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.SwitchShootMode, SwitchShootMode_Clicked);
+            abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { if (cpm != null) { ApplicationBar.IsVisible = false; cpm.Show(); } });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -313,7 +314,8 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
-            ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(IconMenu.About).CreateNew(APPBAR_OPACITY);
+            //ApplicationBar = abm.Disable(IconMenu.WiFi).Disable(IconMenu.About).CreateNew(APPBAR_OPACITY);
+            ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             if (cameraManager.IsClientReady())
             {
@@ -334,14 +336,13 @@ namespace WPPMM
 
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
-                if (cameraManager.cameraStatus.MethodTypes.Contains("setPostviewImageSize"))
-                    abm.Enable(Menu.ImageSize);
-                if (cameraManager.cameraStatus.MethodTypes.Contains("setShootMode"))
+                var methods = cameraManager.cameraStatus.MethodTypes;
+                if (methods.Contains("setShootMode"))
                     abm.Enable(IconMenu.SwitchShootMode);
-                if (cameraManager.cameraStatus.MethodTypes.Contains("setSelfTimer"))
-                    abm.Enable(IconMenu.SelfTimer);
+                if (methods.Contains("setPostviewImageSize") || methods.Contains("setSelfTimer"))
+                    abm.Enable(IconMenu.ControlPanel);
 
-                Dispatcher.BeginInvoke(() => { ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
+                Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
             }
         }
 
@@ -365,9 +366,13 @@ namespace WPPMM
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi)//
-                .Disable(Menu.ImageSize).Disable(IconMenu.SwitchShootMode).Disable(IconMenu.SelfTimer)//
+                .Disable(IconMenu.SwitchShootMode).Disable(IconMenu.ControlPanel)//
                 .CreateNew(0.0);
             HideOptionSelector();
+            if (cpm != null)
+            {
+                cpm.Hide();
+            }
         }
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)
@@ -433,7 +438,13 @@ namespace WPPMM
             Debug.WriteLine("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
-                GoToMainPage();
+                if (cpm.IsShowing())
+                {
+                    cpm.Hide();
+                    ApplicationBar.IsVisible = true;
+                }
+                else
+                    GoToMainPage();
                 e.Cancel = true;
             }
             else
@@ -447,6 +458,7 @@ namespace WPPMM
             ShootButton.DataContext = cameraManager.cameraStatus;
             ShootingProgress.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
+            cpm = new ControlPanelManager(ControlPanel);
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
@@ -454,6 +466,7 @@ namespace WPPMM
             ShootButton.DataContext = null;
             ShootingProgress.DataContext = null;
             ZoomElements.DataContext = null;
+            cpm = null;
         }
 
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)

@@ -33,6 +33,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/feature.alarm.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.ControlPanel,
+            IconUri = new Uri("/Assets/AppBar/ControlPanel.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -41,11 +47,10 @@ namespace WPPMM.Utils
 
         public AppBarManager()
         {
-            MenuItems.Add(Menu.ImageSize, PostViewMenuItem);
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
             IconMenuItems.Add(IconMenu.About, AboutMenuItem);
             IconMenuItems.Add(IconMenu.SwitchShootMode, SwitchShootModeItem);
-            IconMenuItems.Add(IconMenu.SelfTimer, SelfTimerItem);
+            IconMenuItems.Add(IconMenu.ControlPanel, ControlPanelItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -141,7 +146,6 @@ namespace WPPMM.Utils
 
     public enum Menu
     {
-        ImageSize
     }
 
     public enum IconMenu
@@ -149,6 +153,6 @@ namespace WPPMM.Utils
         WiFi,
         About,
         SwitchShootMode,
-        SelfTimer
+        ControlPanel
     }
 }

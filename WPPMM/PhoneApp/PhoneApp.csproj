@@ -94,6 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CameraManager\CameraManager.cs" />
+    <Compile Include="CameraManager\ControlPanelManager.cs" />
     <Compile Include="CameraManager\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\Status.cs" />
@@ -204,6 +205,9 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

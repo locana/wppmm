@@ -62,7 +62,7 @@
     <shell:SystemTray.ProgressIndicator>
         <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="True" Text="Preparing connection..." />
     </shell:SystemTray.ProgressIndicator>
-    
+
     <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
@@ -121,6 +121,12 @@
                         <phone:LongListSelector HorizontalAlignment="Stretch" Name="OptionSelector" Background="Black" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" FontSize="40" Opacity="0.7" Padding="20,20,20,20"/>
                     </Grid>
                     <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Source="{Binding postview, Mode=OneWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
+                    <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
+                        <ScrollViewer.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
+                        </ScrollViewer.Background>
+                        <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
+                    </ScrollViewer>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

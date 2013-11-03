@@ -97,6 +97,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   設定パネル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPanel {
+            get {
+                return ResourceManager.GetString("ControlPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Copyright に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CopyRight {

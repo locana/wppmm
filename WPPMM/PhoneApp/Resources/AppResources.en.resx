@@ -206,4 +206,7 @@
   <data name="SelfTimer" xml:space="preserve">
     <value>self timer</value>
   </data>
+  <data name="ControlPanel" xml:space="preserve">
+    <value>Control Panel</value>
+  </data>
 </root>

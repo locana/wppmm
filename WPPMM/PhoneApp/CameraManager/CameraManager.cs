@@ -148,7 +148,12 @@ namespace WPPMM.CameraManager
             );
         }
 
-
+        public void SetSelfTimer(int timer)
+        {
+            client.SetSelfTimer(timer, OnError, () =>
+            {
+            });
+        }
 
         public void startLiveview(Action<int> error, Action<string> result)
         {

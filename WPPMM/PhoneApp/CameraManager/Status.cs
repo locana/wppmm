@@ -193,7 +193,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (ShootModeInfo == null || ShootModeInfo.current == null)
+                if (ShootModeInfo == null || ShootModeInfo.current == null || StillImage == null || CamImage == null)
                 {
                     return null;
                 }

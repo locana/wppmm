@@ -37,7 +37,7 @@ namespace WPPMM.CameraManager
 
             if (status.MethodTypes.Contains("setSelfTimer"))
             {
-                panel.Children.Add(CreatePanel("Self Timer", status.SelfTimerInfo, (sender, arg) =>
+                panel.Children.Add(CreatePanel(Resources.AppResources.SelfTimer, status.SelfTimerInfo, (sender, arg) =>
                 {
                     var selected = (sender as ListPicker).SelectedIndex;
                     manager.SetSelfTimer(status.SelfTimerInfo.candidates[selected]);
@@ -45,7 +45,7 @@ namespace WPPMM.CameraManager
             }
             if (status.MethodTypes.Contains("setPostviewImageSize"))
             {
-                panel.Children.Add(CreatePanel("Transfer size", status.PostviewSizeInfo, (sender, arg) =>
+                panel.Children.Add(CreatePanel(Resources.AppResources.Setting_PostViewImageSize, status.PostviewSizeInfo, (sender, arg) =>
                 {
                     var selected = (sender as ListPicker).SelectedIndex;
                     manager.SetPostViewImageSize(status.PostviewSizeInfo.candidates[selected]);
@@ -53,6 +53,7 @@ namespace WPPMM.CameraManager
             }
 
             // Test code
+            /*
             var info = new BasicInfo<string>
             {
                 current = "test2",
@@ -72,7 +73,7 @@ namespace WPPMM.CameraManager
             panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
             panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
             panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-
+            */
             // end test code
 
             panel.Width = double.NaN;

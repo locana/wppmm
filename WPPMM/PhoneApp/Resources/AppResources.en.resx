@@ -128,20 +128,11 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>SCRAP</value>
   </data>
-  <data name="ButtonToDeviceListText" xml:space="preserve">
-    <value>Device List</value>
-  </data>
-  <data name="DeviceListTitle" xml:space="preserve">
-    <value>Device List</value>
-  </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi settings</value>
   </data>
-  <data name="StartRemoteControllingButtonText" xml:space="preserve">
-    <value>Start remote controlling</value>
-  </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
-    <value>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</value>
+    <value>Couldn't find the devide. Make sure the SSID of connected access point is same as your device's one.</value>
   </data>
   <data name="Guide_WiFiNotConnected" xml:space="preserve">
     <value>Connect to your device.</value>
@@ -174,37 +165,34 @@
     <value>Developed by</value>
   </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
-    <value>Network error has occured downloading your picture.</value>
+    <value>Network error has occured while downloading your picture.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Other" xml:space="preserve">
     <value>Unexpected error has occured.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
-    <value>Failed saving your picture to the camera roll.</value>
+    <value>Failed to save the picture.</value>
   </data>
   <data name="ErrorMessage_ImageDL_OtherOriginal" xml:space="preserve">
-    <value>Unexpected error has occured. Please try again with smaller postview image size.</value>
+    <value>Unexpected error has occured. Please try again with smaller image size to transfer.</value>
   </data>
   <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
-    <value>Failed saving image. Please try again with smaller image size.</value>
+    <value>Failed to save the picture. Please try again with smaller image size to transfer.</value>
   </data>
   <data name="Message_ImageDL_Succeed" xml:space="preserve">
-    <value>Your picture has been saved to the camera roll successfully!</value>
-  </data>
-  <data name="Message_Setting_SetPostviewImageSize" xml:space="preserve">
-    <value>Postview image size has been set: </value>
+    <value>The picture has been saved successfully!</value>
   </data>
   <data name="Setting_PostViewImageSize" xml:space="preserve">
-    <value>Select size of postview image</value>
+    <value>Image size to transfer</value>
   </data>
   <data name="Guide_StartLiveView" xml:space="preserve">
-    <value>Swipe right to start remote controlling.</value>
+    <value>Swipe to start remote control.</value>
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Switch</value>
   </data>
   <data name="SelfTimer" xml:space="preserve">
-    <value>self timer</value>
+    <value>Self timer</value>
   </data>
   <data name="ControlPanel" xml:space="preserve">
     <value>Settings</value>

@@ -79,15 +79,6 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   デバイス一覧 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ButtonToDeviceListText {
-            get {
-                return ResourceManager.GetString("ButtonToDeviceListText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   このアプリケーションは下記のオープンソースソフトウェアを使用しています。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContainsLicense {
@@ -124,15 +115,6 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   デバイス一覧 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string DeviceListTitle {
-            get {
-                return ResourceManager.GetString("DeviceListTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   ネットワークエラーが発生しました に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {
@@ -151,7 +133,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   予期せぬエラーが発生しました。画像サイズを小さくして再度お試しください。 に類似しているローカライズされた文字列を検索します。
+        ///   予期せぬエラーが発生しました。転送画像サイズを小さくして再度お試しください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_OtherOriginal {
             get {
@@ -160,7 +142,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   カメラロールへの保存に失敗しました に類似しているローカライズされた文字列を検索します。
+        ///   画像の保存に失敗しました に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_Saving {
             get {
@@ -169,7 +151,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   画像の保存に失敗しました。画像サイズを小さくして再度お試しください。 に類似しているローカライズされた文字列を検索します。
+        ///   画像の保存に失敗しました。転送画像サイズを小さくして再度お試しください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_SavingOriginal {
             get {
@@ -219,15 +201,6 @@ namespace WPPMM.Resources {
         public static string Message_ImageDL_Succeed {
             get {
                 return ResourceManager.GetString("Message_ImageDL_Succeed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   転送画像サイズを設定しました:  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Message_Setting_SetPostviewImageSize {
-            get {
-                return ResourceManager.GetString("Message_Setting_SetPostviewImageSize", resourceCulture);
             }
         }
         

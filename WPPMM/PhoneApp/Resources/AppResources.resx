@@ -128,12 +128,6 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>SCRAP</value>
   </data>
-  <data name="ButtonToDeviceListText" xml:space="preserve">
-    <value>デバイス一覧</value>
-  </data>
-  <data name="DeviceListTitle" xml:space="preserve">
-    <value>デバイス一覧</value>
-  </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi設定</value>
   </data>
@@ -178,19 +172,16 @@
     <value>予期せぬエラーが発生しました。</value>
   </data>
   <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
-    <value>カメラロールへの保存に失敗しました</value>
+    <value>画像の保存に失敗しました</value>
   </data>
   <data name="ErrorMessage_ImageDL_OtherOriginal" xml:space="preserve">
-    <value>予期せぬエラーが発生しました。画像サイズを小さくして再度お試しください。</value>
+    <value>予期せぬエラーが発生しました。転送画像サイズを小さくして再度お試しください。</value>
   </data>
   <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
-    <value>画像の保存に失敗しました。画像サイズを小さくして再度お試しください。</value>
+    <value>画像の保存に失敗しました。転送画像サイズを小さくして再度お試しください。</value>
   </data>
   <data name="Message_ImageDL_Succeed" xml:space="preserve">
     <value>カメラロールに写真を保存しました！</value>
-  </data>
-  <data name="Message_Setting_SetPostviewImageSize" xml:space="preserve">
-    <value>転送画像サイズを設定しました: </value>
   </data>
   <data name="Setting_PostViewImageSize" xml:space="preserve">
     <value>転送画像サイズ</value>

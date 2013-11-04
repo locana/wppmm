@@ -142,7 +142,7 @@ namespace WPPMM.CameraManager
             _cameraStatus.PostViewImageSize = size;
             client.SetPostviewImageSize(size, OnError, () =>
             {
-                Debug.WriteLine(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
+                //Debug.WriteLine(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
                 // MessageBox.Show(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
             }
             );

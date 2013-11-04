@@ -468,6 +468,10 @@ namespace WPPMM.CameraManager
                     Debug.WriteLine("Difference detected: zoom");
                     NoticeUpdate();
                     break;
+                case EventMember.CameraStatus:
+                    Debug.WriteLine("CameraStatus has changed: " + _cameraStatus.CameraStatus);
+                    break;
+
                 default:
                     //Debug.WriteLine("Difference detected: default");
                     break;

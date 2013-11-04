@@ -139,7 +139,11 @@ namespace WPPMM
 
             if (cameraStatus.isAvailableConnecting)
             {
-                String modelName = cameraManager.GetDeviceInfo().FriendlyName;
+                String modelName = "";
+                if (cameraManager.GetDeviceInfo().FriendlyName != null)
+                {
+                    modelName = cameraManager.GetDeviceInfo().FriendlyName;
+                }
                 NetworkStatus.Text = "Connected device: " + modelName;
                 GuideMessage.Visibility = System.Windows.Visibility.Visible;
             }
@@ -448,21 +452,21 @@ namespace WPPMM
             switch (e.Orientation)
             {
                 case PageOrientation.LandscapeLeft:
-                    AppTitle.Margin = new Thickness(30, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 50, 30);
+                    AppTitle.Margin = new Thickness(60, 0, 0, 0);
+                    ShootButton.Margin = new Thickness(0, 0, 80, 30);
                     ZoomElements.Margin = new Thickness(30, 0, 0, 30);
                     PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 30, 30);
-                    ZoomElements.Margin = new Thickness(60, 0, 0, 30);
-                    PostViewWindow.Margin = new Thickness(50, 20, 0, 0);
+                    ShootButton.Margin = new Thickness(0, 0, 80, 30);
+                    ZoomElements.Margin = new Thickness(30, 0, 0, 30);
+                    PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 30, 50);
-                    ZoomElements.Margin = new Thickness(30, 0, 0, 50);
+                    ShootButton.Margin = new Thickness(0, 0, 30, 80);
+                    ZoomElements.Margin = new Thickness(30, 0, 0, 80);
                     PostViewWindow.Margin = new Thickness(20, 20, 0, 0);
                     break;
             }

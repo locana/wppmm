@@ -187,7 +187,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   右にスワイプするとライブビューを開始できます に類似しているローカライズされた文字列を検索します。
+        ///   左右にスワイプしてリモコンを開始できます に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_StartLiveView {
             get {
@@ -268,7 +268,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   タイマー に類似しているローカライズされた文字列を検索します。
+        ///   セルフタイマー に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelfTimer {
             get {
@@ -277,7 +277,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   転送画像サイズ設定 に類似しているローカライズされた文字列を検索します。
+        ///   転送画像サイズ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_PostViewImageSize {
             get {
@@ -291,15 +291,6 @@ namespace WPPMM.Resources {
         public static string SourceCode {
             get {
                 return ResourceManager.GetString("SourceCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   スマートリモコン開始 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string StartRemoteControllingButtonText {
-            get {
-                return ResourceManager.GetString("StartRemoteControllingButtonText", resourceCulture);
             }
         }
         

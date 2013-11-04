@@ -137,9 +137,6 @@
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi settings</value>
   </data>
-  <data name="StartRemoteControllingButtonText" xml:space="preserve">
-    <value>Start remote controlling</value>
-  </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
     <value>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</value>
   </data>
@@ -195,16 +192,16 @@
     <value>Postview image size has been set: </value>
   </data>
   <data name="Setting_PostViewImageSize" xml:space="preserve">
-    <value>Select size of postview image</value>
+    <value>Image size to transfer</value>
   </data>
   <data name="Guide_StartLiveView" xml:space="preserve">
-    <value>Swipe right to start remote controlling.</value>
+    <value>Swipe to start remote control.</value>
   </data>
   <data name="Switch" xml:space="preserve">
     <value>Switch</value>
   </data>
   <data name="SelfTimer" xml:space="preserve">
-    <value>self timer</value>
+    <value>Self timer</value>
   </data>
   <data name="ControlPanel" xml:space="preserve">
     <value>Settings</value>

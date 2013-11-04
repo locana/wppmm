@@ -28,6 +28,7 @@ namespace WPPMM
 
         private const double APPBAR_OPACITY = 0.0;
 
+        private readonly PostViewData pvd = new PostViewData();
         private AppBarManager abm = new AppBarManager();
         private ControlPanelManager cpm;
 
@@ -131,14 +132,6 @@ namespace WPPMM
             MyPivot.SelectedIndex = 0;
         }
 
-        private void HideOptionSelector()
-        {
-            if (OptionSelector.Visibility == System.Windows.Visibility.Visible)
-            {
-                OptionSelector.Visibility = System.Windows.Visibility.Collapsed;
-            }
-        }
-
         internal void WifiUpdateListener(Status cameraStatus)
         {
 
@@ -196,26 +189,6 @@ namespace WPPMM
             return "<Not connected>";
         }
 
-        private void PostViewMenuItem_Click(object sender, EventArgs e)
-        {
-            Debug.WriteLine("PostViewMenuItem clicked");
-
-            if (cameraManager.cameraStatus.AvailablePostViewSize.Count != 0)
-            {
-                OptionSelector.ItemsSource = cameraManager.cameraStatus.AvailablePostViewSize;
-                OptionSelector.Visibility = System.Windows.Visibility.Visible;
-                OptionSelector.SelectionChanged += OptionSelector_SelectionChanged;
-            }
-        }
-
-        private void OptionSelector_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            String size = ((LongListSelector)sender).SelectedItem.ToString();
-            Debug.WriteLine("selected option: " + size);
-            cameraManager.SetPostViewImageSize(size);
-            OptionSelector.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
         private void LiveViewInit()
         {
             isRequestingLiveview = true;
@@ -259,8 +232,6 @@ namespace WPPMM
                     break;
             }
         }
-
-        private readonly PostViewData pvd = new PostViewData();
 
         private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -374,11 +345,7 @@ namespace WPPMM
             ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi)//
                 .Disable(IconMenu.SwitchShootMode).Disable(IconMenu.ControlPanel)//
                 .CreateNew(0.0);
-            HideOptionSelector();
-            if (cpm != null)
-            {
-                cpm.Hide();
-            }
+            if (cpm != null) { cpm.Hide(); }
         }
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)
@@ -484,7 +451,7 @@ namespace WPPMM
                     AppTitle.Margin = new Thickness(30, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 50, 30);
                     ZoomElements.Margin = new Thickness(30, 0, 0, 30);
-                    PostViewWindow.Margin = new Thickness(20, 20, 0, 0);
+                    PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);

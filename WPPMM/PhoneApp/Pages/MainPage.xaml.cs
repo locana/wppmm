@@ -291,6 +291,7 @@ namespace WPPMM
         {
             ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
             //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
+            SetLayoutByOrientation(this.Orientation);
 
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             if (cameraManager.IsClientReady())
@@ -449,7 +450,12 @@ namespace WPPMM
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
         {
             Debug.WriteLine("OrientationChagned: " + e.Orientation);
-            switch (e.Orientation)
+            SetLayoutByOrientation(e.Orientation);
+        }
+
+        private void SetLayoutByOrientation(PageOrientation orientation)
+        {
+            switch (orientation)
             {
                 case PageOrientation.LandscapeLeft:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);

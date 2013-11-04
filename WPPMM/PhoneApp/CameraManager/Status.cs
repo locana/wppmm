@@ -121,10 +121,7 @@ namespace WPPMM.CameraManager
             {
                 if (value != _CameraStatus)
                 {
-                    if (value == null)
-                        _CameraStatus = ApiParams.EventNotReady;
-                    else
-                        _CameraStatus = value;
+                    _CameraStatus = value;
                     OnPropertyChanged("ShootButtonImage");
                     OnPropertyChanged("ShootButtonStatus");
                 }

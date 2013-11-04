@@ -30,6 +30,10 @@ namespace WPPMM.CameraManager
 
         internal static bool IsCameraStatusModified(Status status, string latest)
         {
+            if (latest == null)
+            {
+                return false;
+            }
             var previous = status.CameraStatus;
             status.CameraStatus = latest;
 

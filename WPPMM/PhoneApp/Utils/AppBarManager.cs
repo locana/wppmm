@@ -21,18 +21,6 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton SwitchShootModeItem = new ApplicationBarIconButton
-        {
-            Text = AppResources.Switch,
-            IconUri = new Uri("/Assets/AppBar/still_movie.png", UriKind.Relative)
-        };
-
-        readonly ApplicationBarIconButton SelfTimerItem = new ApplicationBarIconButton
-        {
-            Text = AppResources.SelfTimer,
-            IconUri = new Uri("/Assets/AppBar/feature.alarm.png", UriKind.Relative)
-        };
-
         readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
         {
             Text = AppResources.ControlPanel,
@@ -49,7 +37,6 @@ namespace WPPMM.Utils
         {
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
             IconMenuItems.Add(IconMenu.About, AboutMenuItem);
-            IconMenuItems.Add(IconMenu.SwitchShootMode, SwitchShootModeItem);
             IconMenuItems.Add(IconMenu.ControlPanel, ControlPanelItem);
         }
 
@@ -152,7 +139,6 @@ namespace WPPMM.Utils
     {
         WiFi,
         About,
-        SwitchShootMode,
         ControlPanel
     }
 }

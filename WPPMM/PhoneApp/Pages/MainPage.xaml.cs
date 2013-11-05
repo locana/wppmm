@@ -40,7 +40,6 @@ namespace WPPMM
 
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
-            abm.SetEvent(IconMenu.SwitchShootMode, SwitchShootMode_Clicked);
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { if (cpm != null) { ApplicationBar.IsVisible = false; cpm.Show(); } });
         }
 
@@ -349,9 +348,7 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
-            ApplicationBar = abm.Enable(IconMenu.About).Enable(IconMenu.WiFi)//
-                .Disable(IconMenu.SwitchShootMode).Disable(IconMenu.ControlPanel)//
-                .CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
             if (cpm != null) { cpm.Hide(); }
         }
 

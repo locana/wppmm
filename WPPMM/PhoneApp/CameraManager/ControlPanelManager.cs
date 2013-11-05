@@ -64,6 +64,11 @@ namespace WPPMM.CameraManager
         {
             panel.Children.Clear();
 
+            if (status == null)
+            {
+                return;
+            }
+
             var title = new TextBlock
             {
                 Text = Resources.AppResources.ControlPanel,
@@ -73,7 +78,7 @@ namespace WPPMM.CameraManager
             };
             panel.Children.Add(title);
 
-            if (status.IsSupported("setShootMode"))
+            if (status.ShootModeInfo != null && status.IsSupported("setShootMode"))
             {
                 panel.Children.Add(CreatePanel("ShootMode", Resources.AppResources.ShootMode,
                     SettingsValueConverter.FromShootMode(status.ShootModeInfo), (sender, arg) =>
@@ -82,7 +87,7 @@ namespace WPPMM.CameraManager
                         manager.SetShootMode(status.ShootModeInfo.candidates[selected]);
                     }));
             }
-            if (status.IsSupported("setSelfTimer"))
+            if (status.SelfTimerInfo != null && status.IsSupported("setSelfTimer"))
             {
                 panel.Children.Add(CreatePanel("SelfTimer", Resources.AppResources.SelfTimer,
                     SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo), (sender, arg) =>
@@ -91,7 +96,7 @@ namespace WPPMM.CameraManager
                     manager.SetSelfTimer(status.SelfTimerInfo.candidates[selected]);
                 }));
             }
-            if (status.IsSupported("setPostviewImageSize"))
+            if (status.PostviewSizeInfo != null && status.IsSupported("setPostviewImageSize"))
             {
                 panel.Children.Add(CreatePanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
                     SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo), (sender, arg) =>

@@ -78,6 +78,11 @@ namespace WPPMM.Utils
 
         public static BasicInfo<string> FromShootMode(BasicInfo<string> info)
         {
+            
+            if (info == null)
+            {
+                return null;
+            }
             var mCandidates = new string[info.candidates.Length];
             for (int i = 0; i < info.candidates.Length; i++)
             {

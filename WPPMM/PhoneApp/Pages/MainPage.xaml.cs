@@ -457,15 +457,10 @@ namespace WPPMM
             switch (orientation)
             {
                 case PageOrientation.LandscapeLeft:
-                    AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 80, 30);
-                    ZoomElements.Margin = new Thickness(30, 0, 0, 30);
-                    PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
-                    break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 80, 30);
-                    ZoomElements.Margin = new Thickness(30, 0, 0, 30);
+                    ShootButton.Margin = new Thickness(0, 0, 70, 30);
+                    ZoomElements.Margin = new Thickness(70, 0, 0, 30);
                     PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:

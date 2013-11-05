@@ -79,6 +79,11 @@ namespace WPPMM.CameraManager
             }
         }
 
+        public bool IsSupported(string apiName)
+        {
+            return MethodTypes.Contains(apiName);
+        }
+
         public List<String> AvailablePostViewSize
         {
             get;
@@ -112,7 +117,26 @@ namespace WPPMM.CameraManager
             PostViewImageSize = "";
         }
 
-        public string[] AvailableApis { set; get; }
+        private string[] _AvailableApis;
+        public string[] AvailableApis
+        {
+            set
+            {
+                _AvailableApis = value;
+                if (value != null)
+                    AvailableApiList = new List<string>(value);
+                else
+                    AvailableApiList = new List<string>();
+            }
+            get { return _AvailableApis; }
+        }
+
+        private List<string> AvailableApiList = new List<string>();
+
+        public bool IsAvailable(string apiName)
+        {
+            return AvailableApiList.Contains(apiName);
+        }
 
         private string _CameraStatus = ApiParams.EventNotReady;
         public string CameraStatus

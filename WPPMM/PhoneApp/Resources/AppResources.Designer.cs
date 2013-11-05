@@ -205,6 +205,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   オフ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Off {
+            get {
+                return ResourceManager.GetString("Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   オープンソースライセンス に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OSSText {
@@ -241,6 +250,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   秒 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Seconds {
+            get {
+                return ResourceManager.GetString("Seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   セルフタイマー に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelfTimer {
@@ -255,6 +273,51 @@ namespace WPPMM.Resources {
         public static string Setting_PostViewImageSize {
             get {
                 return ResourceManager.GetString("Setting_PostViewImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   動作モード に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShootMode {
+            get {
+                return ResourceManager.GetString("ShootMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   動画記録 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShootModeMovie {
+            get {
+                return ResourceManager.GetString("ShootModeMovie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   静止画記録 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShootModeStill {
+            get {
+                return ResourceManager.GetString("ShootModeStill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   2Mピクセル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Size2M {
+            get {
+                return ResourceManager.GetString("Size2M", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   オリジナル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SizeOriginal {
+            get {
+                return ResourceManager.GetString("SizeOriginal", resourceCulture);
             }
         }
         

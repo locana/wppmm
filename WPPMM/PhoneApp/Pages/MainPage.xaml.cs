@@ -318,11 +318,13 @@ namespace WPPMM
 
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
-                var methods = cameraManager.cameraStatus.MethodTypes;
-                if (methods.Contains("setShootMode"))
-                    abm.Enable(IconMenu.SwitchShootMode);
-                if (methods.Contains("setPostviewImageSize") || methods.Contains("setSelfTimer"))
+                var status = cameraManager.cameraStatus;
+                if (status.IsSupported("setPostviewImageSize")
+                    || status.IsSupported("setSelfTimer")
+                    || status.IsSupported("setShootMode"))
+                {
                     abm.Enable(IconMenu.ControlPanel);
+                }
 
                 Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
             }

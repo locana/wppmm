@@ -197,4 +197,25 @@
   <data name="ControlPanel" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Off" xml:space="preserve">
+    <value>OFF</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value> seconds</value>
+  </data>
+  <data name="ShootMode" xml:space="preserve">
+    <value>Operation mode</value>
+  </data>
+  <data name="ShootModeMovie" xml:space="preserve">
+    <value>Movie rec</value>
+  </data>
+  <data name="ShootModeStill" xml:space="preserve">
+    <value>Still image rec</value>
+  </data>
+  <data name="Size2M" xml:space="preserve">
+    <value>2 MPx</value>
+  </data>
+  <data name="SizeOriginal" xml:space="preserve">
+    <value>Original</value>
+  </data>
 </root>

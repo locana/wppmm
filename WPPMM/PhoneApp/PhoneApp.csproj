@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
+    <Compile Include="Utils\SettingsValueConverter.cs" />
     <Compile Include="CameraManager\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\Status.cs" />
@@ -147,16 +148,12 @@
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\AppBar\ControlPanel.png" />
-    <Content Include="Assets\AppBar\feature.alarm.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\AppBar\feature.settings.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\AppBar\questionmark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\AppBar\still_movie.png" />
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

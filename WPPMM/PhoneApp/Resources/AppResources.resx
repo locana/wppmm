@@ -198,4 +198,25 @@
   <data name="ControlPanel" xml:space="preserve">
     <value>設定パネル</value>
   </data>
+  <data name="Off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="ShootMode" xml:space="preserve">
+    <value>動作モード</value>
+  </data>
+  <data name="ShootModeMovie" xml:space="preserve">
+    <value>動画記録</value>
+  </data>
+  <data name="ShootModeStill" xml:space="preserve">
+    <value>静止画記録</value>
+  </data>
+  <data name="Size2M" xml:space="preserve">
+    <value>2Mピクセル</value>
+  </data>
+  <data name="SizeOriginal" xml:space="preserve">
+    <value>オリジナル</value>
+  </data>
 </root>

@@ -40,7 +40,7 @@ namespace WPPMM
 
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
-            abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { if (cpm != null) { ApplicationBar.IsVisible = false; cpm.Show(); } });
+            abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { ApplicationBar.IsVisible = false; cpm.Show(); });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -318,9 +318,7 @@ namespace WPPMM
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
                 var status = cameraManager.cameraStatus;
-                if (status.IsSupported("setPostviewImageSize")
-                    || status.IsSupported("setSelfTimer")
-                    || status.IsSupported("setShootMode"))
+                if (cpm.ItemCount > 0)
                 {
                     abm.Enable(IconMenu.ControlPanel);
                 }

@@ -218,4 +218,7 @@
   <data name="SizeOriginal" xml:space="preserve">
     <value>Original</value>
   </data>
+  <data name="Disabled" xml:space="preserve">
+    <value> - - -</value>
+  </data>
 </root>

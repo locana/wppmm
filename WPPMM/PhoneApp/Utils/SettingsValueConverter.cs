@@ -4,6 +4,30 @@ namespace WPPMM.Utils
 {
     public class SettingsValueConverter
     {
+        public static int GetSelectedIndex(BasicInfo<int> info)
+        {
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                if (info.candidates[i] == info.current)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        public static int GetSelectedIndex(BasicInfo<string> info)
+        {
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                if (info.candidates[i] == info.current)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
         public static BasicInfo<string> FromSelfTimer(BasicInfo<int> info)
         {
             var mCandidates = new string[info.candidates.Length];

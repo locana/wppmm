@@ -115,6 +115,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///    - - - に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ネットワークエラーが発生しました に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {

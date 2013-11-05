@@ -1,7 +1,7 @@
 ﻿using Microsoft.Phone.Controls;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using WPPMM.RemoteApi;
 using WPPMM.Utils;
 
@@ -18,6 +18,7 @@ namespace WPPMM.CameraManager
             this.manager = CameraManager.GetInstance();
             this.status = manager.cameraStatus;
             this.panel = panel;
+            manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
 
         public bool IsShowing()
@@ -25,45 +26,13 @@ namespace WPPMM.CameraManager
             return panel.Visibility == Visibility.Visible;
         }
 
+        public int ItemCount
+        {
+            get { return panel.Children.Count - 1; }
+        }
+
         public void Show()
         {
-            panel.Children.Clear();
-            panel.Children.Add(new TextBlock
-            {
-                Text = Resources.AppResources.ControlPanel,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Style = Application.Current.Resources["PhoneTextLargeStyle"] as Style,
-                Margin = new Thickness(-5, 15, 0, -10)
-            });
-
-            if (status.MethodTypes.Contains("setShootMode"))
-            {
-                panel.Children.Add(CreatePanel(Resources.AppResources.ShootMode, status.IsAvailable("setShootMode"),
-                    SettingsValueConverter.FromShootMode(status.ShootModeInfo), (sender, arg) =>
-                    {
-                        var selected = (sender as ListPicker).SelectedIndex;
-                        manager.SetShootMode(status.ShootModeInfo.candidates[selected]);
-                    }));
-            }
-            if (status.MethodTypes.Contains("setSelfTimer"))
-            {
-                panel.Children.Add(CreatePanel(Resources.AppResources.SelfTimer, status.IsAvailable("setSelfTimer"),
-                    SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo), (sender, arg) =>
-                {
-                    var selected = (sender as ListPicker).SelectedIndex;
-                    manager.SetSelfTimer(status.SelfTimerInfo.candidates[selected]);
-                }));
-            }
-            if (status.MethodTypes.Contains("setPostviewImageSize"))
-            {
-                panel.Children.Add(CreatePanel(Resources.AppResources.Setting_PostViewImageSize, status.IsAvailable("setPostviewImageSize"),
-                    SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo), (sender, arg) =>
-                {
-                    var selected = (sender as ListPicker).SelectedIndex;
-                    manager.SetPostViewImageSize(status.PostviewSizeInfo.candidates[selected]);
-                }));
-            }
-
             // Test code
             /*
             var info = new BasicInfo<string>
@@ -88,9 +57,50 @@ namespace WPPMM.CameraManager
             */
             // end test code
 
-            panel.Width = double.NaN;
-
             panel.Visibility = Visibility.Visible;
+        }
+
+        private void Initialize()
+        {
+            panel.Children.Clear();
+
+            var title = new TextBlock
+            {
+                Text = Resources.AppResources.ControlPanel,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Style = Application.Current.Resources["PhoneTextLargeStyle"] as Style,
+                Margin = new Thickness(-5, 15, 0, -10)
+            };
+            panel.Children.Add(title);
+
+            if (status.IsSupported("setShootMode"))
+            {
+                panel.Children.Add(CreatePanel("ShootMode", Resources.AppResources.ShootMode,
+                    SettingsValueConverter.FromShootMode(status.ShootModeInfo), (sender, arg) =>
+                    {
+                        var selected = (sender as ListPicker).SelectedIndex;
+                        manager.SetShootMode(status.ShootModeInfo.candidates[selected]);
+                    }));
+            }
+            if (status.IsSupported("setSelfTimer"))
+            {
+                panel.Children.Add(CreatePanel("SelfTimer", Resources.AppResources.SelfTimer,
+                    SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo), (sender, arg) =>
+                {
+                    var selected = (sender as ListPicker).SelectedIndex;
+                    manager.SetSelfTimer(status.SelfTimerInfo.candidates[selected]);
+                }));
+            }
+            if (status.IsSupported("setPostviewImageSize"))
+            {
+                panel.Children.Add(CreatePanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
+                    SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo), (sender, arg) =>
+                {
+                    var selected = (sender as ListPicker).SelectedIndex;
+                    manager.SetPostViewImageSize(status.PostviewSizeInfo.candidates[selected]);
+                }));
+            }
+            panel.Width = double.NaN;
         }
 
         public void Hide()
@@ -98,19 +108,38 @@ namespace WPPMM.CameraManager
             panel.Visibility = Visibility.Collapsed;
         }
 
-        private static StackPanel CreatePanel(string title, bool isEnabled, BasicInfo<string> info, SelectionChangedEventHandler handler)
+        private StackPanel CreatePanel(string id, string title, BasicInfo<string> info, SelectionChangedEventHandler handler)
         {
             var child = new StackPanel
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch
             };
             child.Children.Add(CreateTitle(title));
-            var picker = CreateListPicker(info);
-            picker.IsEnabled = isEnabled;
-            if (isEnabled)
+
+            var picker = CreateListPicker(info, status);
+            var statusbind = new Binding()
             {
-                picker.SelectionChanged += handler;
-            }
+                Source = status,
+                Path = new PropertyPath("CpIsAvailable" + id),
+                Mode = BindingMode.OneWay
+            };
+            var selectedbind = new Binding()
+            {
+                Source = status,
+                Path = new PropertyPath("CpSelectedIndex" + id),
+                Mode = BindingMode.TwoWay
+            };
+            var candidatesbind = new Binding()
+            {
+                Source = status,
+                Path = new PropertyPath("CpCandidates" + id),
+                Mode = BindingMode.OneWay
+            };
+            picker.SelectionChanged += handler;
+            picker.SetBinding(ListPicker.IsEnabledProperty, statusbind);
+            picker.SetBinding(ListPicker.ItemsSourceProperty, candidatesbind);
+            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
+
             child.Children.Add(picker);
             //child.Width = double.NaN;
             child.Width = 240;
@@ -128,7 +157,7 @@ namespace WPPMM.CameraManager
             };
         }
 
-        private static ListPicker CreateListPicker(BasicInfo<string> info)
+        private static ListPicker CreateListPicker(BasicInfo<string> info, Status status)
         {
             var currentindex = 0;
             for (int i = 0; i < info.candidates.Length; i++)
@@ -141,9 +170,7 @@ namespace WPPMM.CameraManager
             }
             return new ListPicker
             {
-                ItemsSource = info.candidates,
                 SelectionMode = SelectionMode.Single,
-                SelectedIndex = currentindex,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(10, -5, 10, 0)
             };

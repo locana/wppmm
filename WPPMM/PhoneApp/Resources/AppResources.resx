@@ -219,4 +219,7 @@
   <data name="SizeOriginal" xml:space="preserve">
     <value>オリジナル</value>
   </data>
+  <data name="Disabled" xml:space="preserve">
+    <value> - - -</value>
+  </data>
 </root>

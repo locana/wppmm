@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.RemoteApi;
+using WPPMM.Utils;
 
 namespace WPPMM.CameraManager
 {
@@ -84,18 +85,6 @@ namespace WPPMM.CameraManager
             return MethodTypes.Contains(apiName);
         }
 
-        public List<String> AvailablePostViewSize
-        {
-            get;
-            set;
-        }
-
-        public String PostViewImageSize
-        {
-            get;
-            set;
-        }
-
         public void Init()
         {
             _init();
@@ -113,8 +102,6 @@ namespace WPPMM.CameraManager
             isConnected = false;
             IsTakingPicture = false;
             MethodTypes = new List<string>();
-            AvailablePostViewSize = new List<String>();
-            PostViewImageSize = "";
         }
 
         private string[] _AvailableApis;
@@ -127,6 +114,10 @@ namespace WPPMM.CameraManager
                     AvailableApiList = new List<string>(value);
                 else
                     AvailableApiList = new List<string>();
+
+                OnPropertyChanged("CpIsAvailableSelfTime");
+                OnPropertyChanged("CpIsAvailableShootMode");
+                OnPropertyChanged("CpIsAvailablePostviewSize");
             }
             get { return _AvailableApis; }
         }
@@ -155,10 +146,32 @@ namespace WPPMM.CameraManager
 
         public ZoomInfo ZoomInfo { set; get; }
         public bool LiveviewAvailable { set; get; }
-        public BasicInfo<string> PostviewSizeInfo { set; get; }
-        public BasicInfo<int> SelfTimerInfo { set; get; }
 
-        private BasicInfo<string> _ShootModeInfo = new BasicInfo<string>();
+        private BasicInfo<string> _PostviewSizeInfo;
+        public BasicInfo<string> PostviewSizeInfo
+        {
+            set
+            {
+                _PostviewSizeInfo = value;
+                OnPropertyChanged("CpCandidatesPostviewSize");
+                OnPropertyChanged("CpSelectedIndexPostviewSize");
+            }
+            get { return _PostviewSizeInfo; }
+        }
+
+        private BasicInfo<int> _SelfTimerInfo;
+        public BasicInfo<int> SelfTimerInfo
+        {
+            set
+            {
+                _SelfTimerInfo = value;
+                OnPropertyChanged("CpCandidatesSelfTimer");
+                OnPropertyChanged("CpSelectedIndexSelfTimer");
+            }
+            get { return _SelfTimerInfo; }
+        }
+
+        private BasicInfo<string> _ShootModeInfo;
         public BasicInfo<string> ShootModeInfo
         {
             set
@@ -169,6 +182,9 @@ namespace WPPMM.CameraManager
                 _ShootModeInfo = value;
                 if (changed)
                     OnPropertyChanged("ShootButtonImage");
+
+                OnPropertyChanged("CpCandidatesShootMode");
+                OnPropertyChanged("CpSelectedIndexShootMode");
             }
             get { return _ShootModeInfo; }
         }
@@ -184,7 +200,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                return (MethodTypes.Contains("actTakePicture") || MethodTypes.Contains("startMovieRec"))
+                return (IsSupported("actTakePicture") || IsSupported("startMovieRec"))
                     ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -239,7 +255,7 @@ namespace WPPMM.CameraManager
 
         public Visibility ZoomElementVisibility
         {
-            get { return (MethodTypes.Contains("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
+            get { return (IsSupported("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -256,6 +272,91 @@ namespace WPPMM.CameraManager
                 {
                 }
             }
+        }
+
+
+        public int CpSelectedIndexSelfTimer
+        {
+            get
+            {
+                if (SelfTimerInfo == null) return 1;
+                else return SettingsValueConverter.GetSelectedIndex(SelfTimerInfo);
+            }
+            set
+            {
+                if (SelfTimerInfo != null)
+                    SelfTimerInfo.current = SelfTimerInfo.candidates[value];
+            }
+        }
+
+        public string[] CpCandidatesSelfTimer
+        {
+            get
+            {
+                if (SelfTimerInfo == null) return new string[] { Resources.AppResources.Disabled };
+                else return SettingsValueConverter.FromSelfTimer(SelfTimerInfo).candidates;
+            }
+        }
+
+        public bool CpIsAvailableSelfTimer
+        {
+            get { return IsAvailable("setSelfTimer") && SelfTimerInfo != null; }
+        }
+
+        public int CpSelectedIndexPostviewSize
+        {
+            get
+            {
+                if (PostviewSizeInfo == null) return 1;
+                else return SettingsValueConverter.GetSelectedIndex(PostviewSizeInfo);
+            }
+            set
+            {
+                if (PostviewSizeInfo != null)
+                    PostviewSizeInfo.current = PostviewSizeInfo.candidates[value];
+            }
+        }
+
+        public string[] CpCandidatesPostviewSize
+        {
+            get
+            {
+                if (PostviewSizeInfo == null) return new string[] { Resources.AppResources.Disabled };
+                else return SettingsValueConverter.FromPostViewSize(PostviewSizeInfo).candidates;
+            }
+        }
+
+        public bool CpIsAvailablePostviewSize
+        {
+            get { return IsAvailable("setPostviewImageSize") && PostviewSizeInfo != null; }
+        }
+
+        public int CpSelectedIndexShootMode
+        {
+            get
+            {
+                if (ShootModeInfo == null) return 1;
+                else return SettingsValueConverter.GetSelectedIndex(ShootModeInfo);
+            }
+            set
+            {
+                if (ShootModeInfo != null)
+                    ShootModeInfo.current = ShootModeInfo.candidates[value];
+            }
+        }
+
+        public string[] CpCandidatesShootMode
+        {
+            get
+            {
+                if (ShootModeInfo == null) return new string[] { Resources.AppResources.Disabled };
+                else return SettingsValueConverter.FromShootMode(ShootModeInfo).candidates;
+            }
+        }
+
+        public bool CpIsAvailableShootMode
+        {
+            get { return IsAvailable("setShootMode") && ShootModeInfo != null; }
         }
     }
 }

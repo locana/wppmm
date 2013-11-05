@@ -59,7 +59,7 @@ namespace WPPMM.CameraManager
 
         public bool IsClientReady()
         {
-            return client != null;
+            return client != null && cameraStatus.MethodTypes.Count != 0;
         }
 
         public void Refresh()
@@ -96,13 +96,10 @@ namespace WPPMM.CameraManager
         // request and callback
         public void RequestStartRecmode()
         {
-            if (client != null)
-            {
-                client.StartRecMode(OnError, () =>
-                    {
-                        RequestStartLiveView();
-                    });
-            }
+            if (client == null)
+                return;
+
+            client.StartRecMode(OnError, () => { RequestStartLiveView(); });
         }
 
         // live view
@@ -116,54 +113,31 @@ namespace WPPMM.CameraManager
                 cameraStatus.isConnected = true;
                 NoticeUpdate();
             });
-            // get available image size
-            GetAvailablePostViewImageSize();
-        }
-
-
-        private void GetAvailablePostViewImageSize()
-        {
-            client.GetAvailablePostviewImageSize(OnError, (currentSize, availableSize) =>
-            {
-                Debug.WriteLine("get available postview image size: " + currentSize);
-                List<String> list = new List<string>();
-                foreach (String s in availableSize)
-                {
-                    Debug.WriteLine("available: " + s);
-                    list.Add(s);
-                }
-                _cameraStatus.AvailablePostViewSize = list;
-                NoticeUpdate();
-            });
         }
 
         public void SetPostViewImageSize(String size)
         {
-            _cameraStatus.PostViewImageSize = size;
-            client.SetPostviewImageSize(size, OnError, () =>
-            {
-                //Debug.WriteLine(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
-                // MessageBox.Show(AppResources.Message_Setting_SetPostviewImageSize + _cameraStatus.PostViewImageSize);
-            }
-            );
+            if (client == null)
+                return;
+
+            client.SetPostviewImageSize(size, OnError, () => { });
         }
 
         public void SetSelfTimer(int timer)
         {
-            client.SetSelfTimer(timer, OnError, () =>
-            {
-            });
+            if (client == null)
+                return;
+
+            client.SetSelfTimer(timer, OnError, () => { });
         }
 
         public void startLiveview(Action<int> error, Action<string> result)
         {
-            if (client != null)
-            {
-                client.StartLiveview(error, result);
-            }
+            if (client == null)
+                return;
+
+            client.StartLiveview(error, result);
         }
-
-
 
         public bool ConnectLiveView()
         {
@@ -204,8 +178,8 @@ namespace WPPMM.CameraManager
             if (!cameraStatus.IsAvailableShooting)
             {
                 cameraStatus.IsAvailableShooting = true;
-                GetMethodTypes(null);
-                GetAvailablePostViewImageSize();
+
+                //GetMethodTypes(null); // Why call here?
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     NoticeUpdate();
@@ -260,7 +234,6 @@ namespace WPPMM.CameraManager
             deviceInfo = di;
             Debug.WriteLine("found device: " + deviceInfo.ModelName);
 
-
             if (deviceInfo.Endpoints.ContainsKey("camera"))
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
@@ -268,16 +241,18 @@ namespace WPPMM.CameraManager
                 GetMethodTypes(Found);
                 cameraStatus.isAvailableConnecting = true;
 
-                InitEventObserver();
+                observer = new EventObserver(client);
             }
             // TODO be careful, device info is updated to the latest found device.
 
             NoticeUpdate();
-
         }
 
         private void GetMethodTypes(Action found)
         {
+            if (client == null)
+                return;
+
             client.GetMethodTypes(apiVersion, OnError, (methodTypes) =>
             {
                 List<String> list = new List<string>();
@@ -286,6 +261,10 @@ namespace WPPMM.CameraManager
                     list.Add(t.name);
                 }
                 cameraStatus.MethodTypes = list;
+                if (MethodTypesUpdateNotifer != null)
+                {
+                    MethodTypesUpdateNotifer.Invoke(); // Notify before call OnFound to update contents of control panel.
+                }
                 if (found != null)
                 {
                     found.Invoke();
@@ -301,21 +280,14 @@ namespace WPPMM.CameraManager
         {
             // lvProcessor.CloseConnection();
             actTakePicture(OnActTakePictureError, OnResultActTakePicture);
-
         }
 
         private void actTakePicture(Action<int> error, Action<string[]> result)
         {
+            if (client == null)
+                return;
 
-            if (client != null)
-            {
-                client.ActTakePicture(error, result);
-                client.GetPostviewImageSize(OnError, (res) =>
-                {
-                    Debug.WriteLine("postview image size: " + res);
-                    _cameraStatus.PostViewImageSize = res;
-                });
-            }
+            client.ActTakePicture(error, result);
 
             cameraStatus.IsTakingPicture = true;
             NoticeUpdate();
@@ -343,7 +315,8 @@ namespace WPPMM.CameraManager
                     {
                         String error = "";
                         bool isOriginal = false;
-                        if (_cameraStatus.PostViewImageSize == "Original")
+                        if (cameraStatus.PostviewSizeInfo != null
+                            && cameraStatus.PostviewSizeInfo.current == "Original")
                         {
                             isOriginal = true;
                         }
@@ -420,19 +393,10 @@ namespace WPPMM.CameraManager
 
         internal void RequestActZoom(String direction, String movement)
         {
-
-            if (!cameraStatus.MethodTypes.Contains("actZoom"))
-            {
-                // if zoom is not supported, display warning.　Yes, just warning.
-                Debug.WriteLine("It seems this device does not support zoom");
-            }
-
             if (client != null)
-            {
-                client.ActZoom(direction, movement, OnError, () =>
-                    {
-                    });
-            }
+                return;
+
+            client.ActZoom(direction, movement, OnError, () => { });
         }
 
         // ------- Event Observer
@@ -453,11 +417,6 @@ namespace WPPMM.CameraManager
                 return;
             }
             observer.Stop();
-        }
-
-        private void InitEventObserver()
-        {
-            observer = new EventObserver(client);
         }
 
         public void OnDetectDifference(EventMember member)
@@ -521,12 +480,12 @@ namespace WPPMM.CameraManager
 
         public Action<Picture> PictureNotifier;
 
+        public Action MethodTypesUpdateNotifer;
+
         public void SetShootMode(string mode)
         {
-            if (!cameraStatus.MethodTypes.Contains("setShootMode"))
-            {
+            if (client == null)
                 return;
-            }
             client.SetShootMode(mode, OnError, () => { NoticeUpdate(); });
         }
     }

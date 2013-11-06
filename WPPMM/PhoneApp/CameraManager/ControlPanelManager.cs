@@ -76,6 +76,8 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(CreatePanel("ShootMode", Resources.AppResources.ShootMode,
                      (sender, arg) =>
                      {
+                         if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null)
+                             return;
                          var selected = (sender as ListPicker).SelectedIndex;
                          manager.SetShootMode(status.ShootModeInfo.candidates[selected]);
                      }));
@@ -85,6 +87,8 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(CreatePanel("SelfTimer", Resources.AppResources.SelfTimer,
                      (sender, arg) =>
                      {
+                         if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null)
+                             return;
                          var selected = (sender as ListPicker).SelectedIndex;
                          manager.SetSelfTimer(status.SelfTimerInfo.candidates[selected]);
                      }));
@@ -94,6 +98,8 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(CreatePanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
                     (sender, arg) =>
                     {
+                        if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null)
+                            return;
                         var selected = (sender as ListPicker).SelectedIndex;
                         manager.SetPostViewImageSize(status.PostviewSizeInfo.candidates[selected]);
                     }));

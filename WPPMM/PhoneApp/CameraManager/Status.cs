@@ -279,8 +279,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (SelfTimerInfo == null) return 1;
-                else return SettingsValueConverter.GetSelectedIndex(SelfTimerInfo);
+                return SettingsValueConverter.GetSelectedIndex(SelfTimerInfo);
             }
             set
             {
@@ -293,8 +292,10 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (SelfTimerInfo == null) return new string[] { Resources.AppResources.Disabled };
-                else return SettingsValueConverter.FromSelfTimer(SelfTimerInfo).candidates;
+                if (SelfTimerInfo == null || SelfTimerInfo.candidates == null || SelfTimerInfo.candidates.Length == 0)
+                    return new string[] { Resources.AppResources.Disabled };
+                else
+                    return SettingsValueConverter.FromSelfTimer(SelfTimerInfo).candidates;
             }
         }
 
@@ -307,8 +308,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (PostviewSizeInfo == null) return 1;
-                else return SettingsValueConverter.GetSelectedIndex(PostviewSizeInfo);
+                return SettingsValueConverter.GetSelectedIndex(PostviewSizeInfo);
             }
             set
             {
@@ -321,8 +321,10 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (PostviewSizeInfo == null) return new string[] { Resources.AppResources.Disabled };
-                else return SettingsValueConverter.FromPostViewSize(PostviewSizeInfo).candidates;
+                if (PostviewSizeInfo == null || PostviewSizeInfo.candidates == null || PostviewSizeInfo.candidates.Length == 0)
+                    return new string[] { Resources.AppResources.Disabled };
+                else
+                    return SettingsValueConverter.FromPostViewSize(PostviewSizeInfo).candidates;
             }
         }
 
@@ -335,8 +337,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (ShootModeInfo == null) return 1;
-                else return SettingsValueConverter.GetSelectedIndex(ShootModeInfo);
+                return SettingsValueConverter.GetSelectedIndex(ShootModeInfo);
             }
             set
             {
@@ -349,8 +350,10 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (ShootModeInfo == null) return new string[] { Resources.AppResources.Disabled };
-                else return SettingsValueConverter.FromShootMode(ShootModeInfo).candidates;
+                if (ShootModeInfo == null || ShootModeInfo.candidates == null || ShootModeInfo.candidates.Length == 0)
+                    return new string[] { Resources.AppResources.Disabled };
+                else
+                    return SettingsValueConverter.FromShootMode(ShootModeInfo).candidates;
             }
         }
 

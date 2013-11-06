@@ -6,6 +6,10 @@ namespace WPPMM.Utils
     {
         public static int GetSelectedIndex(BasicInfo<int> info)
         {
+            if (info == null || info.candidates.Length == 0)
+            {
+                return 0;
+            }
             for (int i = 0; i < info.candidates.Length; i++)
             {
                 if (info.candidates[i] == info.current)
@@ -18,6 +22,10 @@ namespace WPPMM.Utils
 
         public static int GetSelectedIndex(BasicInfo<string> info)
         {
+            if (info == null || info.candidates.Length == 0)
+            {
+                return 0;
+            }
             for (int i = 0; i < info.candidates.Length; i++)
             {
                 if (info.candidates[i] == info.current)

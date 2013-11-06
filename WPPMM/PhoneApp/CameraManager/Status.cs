@@ -292,10 +292,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (SelfTimerInfo == null || SelfTimerInfo.candidates == null || SelfTimerInfo.candidates.Length == 0)
-                    return new string[] { Resources.AppResources.Disabled };
-                else
-                    return SettingsValueConverter.FromSelfTimer(SelfTimerInfo).candidates;
+                return SettingsValueConverter.FromSelfTimer(SelfTimerInfo).candidates;
             }
         }
 
@@ -321,10 +318,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (PostviewSizeInfo == null || PostviewSizeInfo.candidates == null || PostviewSizeInfo.candidates.Length == 0)
-                    return new string[] { Resources.AppResources.Disabled };
-                else
-                    return SettingsValueConverter.FromPostViewSize(PostviewSizeInfo).candidates;
+                return SettingsValueConverter.FromPostViewSize(PostviewSizeInfo).candidates;
             }
         }
 
@@ -350,10 +344,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                if (ShootModeInfo == null || ShootModeInfo.candidates == null || ShootModeInfo.candidates.Length == 0)
-                    return new string[] { Resources.AppResources.Disabled };
-                else
-                    return SettingsValueConverter.FromShootMode(ShootModeInfo).candidates;
+                return SettingsValueConverter.FromShootMode(ShootModeInfo).candidates;
             }
         }
 

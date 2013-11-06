@@ -6,7 +6,7 @@ namespace WPPMM.Utils
     {
         public static int GetSelectedIndex(BasicInfo<int> info)
         {
-            if (info == null || info.candidates.Length == 0)
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
                 return 0;
             }
@@ -22,7 +22,7 @@ namespace WPPMM.Utils
 
         public static int GetSelectedIndex(BasicInfo<string> info)
         {
-            if (info == null || info.candidates.Length == 0)
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
                 return 0;
             }
@@ -38,6 +38,14 @@ namespace WPPMM.Utils
 
         public static BasicInfo<string> FromSelfTimer(BasicInfo<int> info)
         {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new BasicInfo<string>
+                {
+                    candidates = new string[] { Resources.AppResources.Disabled },
+                    current = Resources.AppResources.Disabled
+                };
+            }
             var mCandidates = new string[info.candidates.Length];
             for (int i = 0; i < info.candidates.Length; i++)
             {
@@ -59,6 +67,14 @@ namespace WPPMM.Utils
 
         public static BasicInfo<string> FromPostViewSize(BasicInfo<string> info)
         {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new BasicInfo<string>
+                {
+                    candidates = new string[] { Resources.AppResources.Disabled },
+                    current = Resources.AppResources.Disabled
+                };
+            }
             var mCandidates = new string[info.candidates.Length];
             for (int i = 0; i < info.candidates.Length; i++)
             {
@@ -86,6 +102,14 @@ namespace WPPMM.Utils
 
         public static BasicInfo<string> FromShootMode(BasicInfo<string> info)
         {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new BasicInfo<string>
+                {
+                    candidates = new string[] { Resources.AppResources.Disabled },
+                    current = Resources.AppResources.Disabled
+                };
+            }
             var mCandidates = new string[info.candidates.Length];
             for (int i = 0; i < info.candidates.Length; i++)
             {

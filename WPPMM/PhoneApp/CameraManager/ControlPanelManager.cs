@@ -147,10 +147,10 @@ namespace WPPMM.CameraManager
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(10, -5, 10, 0)
             };
-            picker.SelectionChanged += handler;
             picker.SetBinding(ListPicker.IsEnabledProperty, statusbind);
             picker.SetBinding(ListPicker.ItemsSourceProperty, candidatesbind);
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
+            picker.SelectionChanged += handler;
 
             child.Children.Add(picker);
             //child.Width = double.NaN;

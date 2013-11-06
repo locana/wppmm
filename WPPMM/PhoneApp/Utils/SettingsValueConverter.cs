@@ -51,7 +51,6 @@ namespace WPPMM.Utils
             {
                 mCandidates[i] = FromSelfTimer(info.candidates[i]);
             }
-
             return new BasicInfo<string>
             {
                 current = FromSelfTimer(info.current),

@@ -1,4 +1,4 @@
-﻿using Microsoft.Phone.Controls;
+﻿﻿using Microsoft.Phone.Controls;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -61,11 +61,6 @@ namespace WPPMM.CameraManager
         private void Initialize()
         {
             panel.Children.Clear();
-
-            if (status == null)
-            {
-                return;
-            }
 
             var title = new TextBlock
             {

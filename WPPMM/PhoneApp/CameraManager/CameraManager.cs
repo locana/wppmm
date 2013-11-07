@@ -393,7 +393,7 @@ namespace WPPMM.CameraManager
 
         internal void RequestActZoom(String direction, String movement)
         {
-            if (client != null)
+            if (client == null)
                 return;
 
             client.ActZoom(direction, movement, OnError, () => { });

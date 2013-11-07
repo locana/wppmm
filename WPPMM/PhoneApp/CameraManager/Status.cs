@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -115,7 +116,7 @@ namespace WPPMM.CameraManager
                 else
                     AvailableApiList = new List<string>();
 
-                OnPropertyChanged("CpIsAvailableSelfTime");
+                OnPropertyChanged("CpIsAvailableSelfTimer");
                 OnPropertyChanged("CpIsAvailableShootMode");
                 OnPropertyChanged("CpIsAvailablePostviewSize");
             }

@@ -95,12 +95,12 @@
                         <Storyboard x:Name="ToastApparance">
                             <DoubleAnimation Storyboard.TargetName="Toast"
                                              Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" 
-                                             Duration="0:0:0.5" AutoReverse="False" />
+                                             Duration="0:0:0.2" AutoReverse="False" />
                         </Storyboard>
                         <Storyboard x:Name="ToastDisApparance">
                             <DoubleAnimation Storyboard.TargetName="Toast"
                                              Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" 
-                                             Duration="0:0:0.5" AutoReverse="False" />
+                                             Duration="0:0:0.2" AutoReverse="False" />
 
                         </Storyboard>
                     </Grid.Resources>

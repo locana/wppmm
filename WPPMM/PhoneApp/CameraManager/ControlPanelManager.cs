@@ -153,6 +153,7 @@ namespace WPPMM.CameraManager
             };
             picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesPostviewTransferEnabled;
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
+            picker.SelectionChanged += handler;
 
             child.Children.Add(picker);
             return child;

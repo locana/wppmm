@@ -276,6 +276,17 @@ namespace WPPMM.CameraManager
 
         public Visibility ToastVisibility
         {
+            set
+            {
+                if (value == Visibility.Collapsed)
+                {
+                    _IsToastVisible = false;
+                }
+                else if (value == Visibility.Visible)
+                {
+                    _IsToastVisible = true;
+                }
+            }
             get { return IsToastVisible ? Visibility.Visible : Visibility.Collapsed; }
         }
 

@@ -293,6 +293,8 @@ namespace WPPMM
             SetLayoutByOrientation(this.Orientation);
 
             cameraManager.UpdateEvent += LiveViewUpdateListener;
+            cameraManager.StartToastAppearance += StartToastAppearance;
+            cameraManager.StartToastDisappearance += StartToastDisappearance;
             if (cameraManager.IsClientReady())
             {
                 cameraManager.StartLiveView();
@@ -346,6 +348,8 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
+            cameraManager.StartToastAppearance -= StartToastAppearance;
+            cameraManager.StartToastDisappearance -= StartToastDisappearance;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
             if (cpm != null) { cpm.Hide(); }
         }
@@ -469,6 +473,22 @@ namespace WPPMM
                     PostViewWindow.Margin = new Thickness(20, 20, 0, 0);
                     break;
             }
+        }
+
+        public void StartToastAppearance()
+        {
+            ToastApparance.Begin();
+        }
+
+        public void StartToastDisappearance()
+        {
+            ToastDisApparance.Begin();
+            // ToastDisApparance.Completed += ToastDisApparance_Completed;
+        }
+
+        void ToastDisApparance_Completed(object sender, EventArgs e)
+        {
+            Toast.Visibility = Visibility.Collapsed;
         }
     }
 }

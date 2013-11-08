@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Phone.Reactive;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -51,6 +52,19 @@ namespace WPPMM.CameraManager
                 _LiveviewImage = value;
             }
         }
+
+        public Action StartToastAppearance
+        {
+            get;
+            set;
+        }
+
+        public Action StartToastDisappearance
+        {
+            get;
+            set;
+        }
+
         private bool IsRendering = false;
 
         private CameraManager()
@@ -303,12 +317,12 @@ namespace WPPMM.CameraManager
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
-                        // MessageBox.Show(AppResources.Message_ImageDL_Succeed);
-                        cameraStatus.IsToastVisible = true;
-                        DispatcherTimer tmr = new DispatcherTimer();
-                        tmr.Interval = TimeSpan.FromSeconds(3);
-                        tmr.Tick += new EventHandler(CloseToast);
-                        tmr.Start(); 
+                        if (StartToastAppearance != null)
+                        {
+                            StartToastAppearance();
+                            Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(5));
+                        }
+
                         cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)
@@ -364,9 +378,13 @@ namespace WPPMM.CameraManager
             }
         }
 
-        private void CloseToast(object sender, EventArgs e)
+        private void CloseToast()
         {
-            _cameraStatus.IsToastVisible = false;
+            // _cameraStatus.IsToastVisible = false;
+            if (StartToastDisappearance != null)
+            {
+                StartToastDisappearance();
+            }
         }
 
         public void OnActTakePictureError(int err)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
+using Microsoft.Phone.Reactive;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System;
@@ -289,8 +290,7 @@ namespace WPPMM
             SetLayoutByOrientation(this.Orientation);
 
             cameraManager.UpdateEvent += LiveViewUpdateListener;
-            cameraManager.StartToastAppearance += StartToastAppearance;
-            cameraManager.StartToastDisappearance += StartToastDisappearance;
+            cameraManager.ShowToast += ShowToast;
             if (cameraManager.IsClientReady())
             {
                 cameraManager.StartLiveView();
@@ -344,8 +344,7 @@ namespace WPPMM
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
-            cameraManager.StartToastAppearance -= StartToastAppearance;
-            cameraManager.StartToastDisappearance -= StartToastDisappearance;
+            cameraManager.ShowToast -= ShowToast;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
             if (cpm != null) { cpm.Hide(); }
         }
@@ -471,13 +470,19 @@ namespace WPPMM
             }
         }
 
-        public void StartToastAppearance(String message)
+        public void ShowToast(String message)
         {
             ToastMessage.Text = message;
             ToastApparance.Begin();
+            ToastApparance.Completed += ToastApparance_Completed;
         }
 
-        public void StartToastDisappearance()
+        void ToastApparance_Completed(object sender, EventArgs e)
+        {
+            Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(3));
+        }
+
+        void CloseToast()
         {
             ToastDisApparance.Begin();
         }

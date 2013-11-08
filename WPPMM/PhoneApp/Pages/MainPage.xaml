@@ -147,15 +147,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <Grid.Resources>
-
-                        </Grid.Resources>
-                        <Rectangle Fill="{StaticResource PhoneAccentBrush}" Grid.Row="0"
-                                   HorizontalAlignment="Stretch" 
-                                   Margin="0,0,0,0" VerticalAlignment="Stretch"/>
-                        <TextBlock HorizontalAlignment="Center" Grid.Row="0"
-                                   Margin="10,10,10,10" TextWrapping="Wrap" Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
-                                   VerticalAlignment="Stretch" Name="ToastMessage"/>
+                        <TextBox HorizontalAlignment="Stretch" Grid.Row="0" Background="{StaticResource PhoneAccentBrush}"
+                                   Margin="0" TextWrapping="Wrap" Padding="10" 
+                                 Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
+                                   VerticalAlignment="Top" Name="ToastMessage"/>
                     </Grid>
                 </Grid>
             </phone:PivotItem>

@@ -161,6 +161,7 @@
     </Content>
     <Content Include="Assets\Button\Camcorder.png" />
     <Content Include="Assets\Button\Camera.png" />
+    <Content Include="Assets\Button\Music.png" />
     <Content Include="Assets\Button\Stop.png" />
     <Content Include="Assets\License.txt" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">

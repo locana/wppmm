@@ -211,23 +211,16 @@ namespace WPPMM
                         case ApiParams.ShootModeMovie:
                             cameraManager.StartMovieRec();
                             break;
+                        case ApiParams.ShootModeAudio:
+                            cameraManager.StartAudioRec();
+                            break;
                     }
                     break;
                 case ApiParams.EventMvRecording:
                     cameraManager.StopMovieRec();
                     break;
-            }
-        }
-
-        private void SwitchShootMode_Clicked(object sender, EventArgs e)
-        {
-            switch (cameraManager.cameraStatus.ShootModeInfo.current)
-            {
-                case ApiParams.ShootModeStill:
-                    cameraManager.SetShootMode(ApiParams.ShootModeMovie);
-                    break;
-                case ApiParams.ShootModeMovie:
-                    cameraManager.SetShootMode(ApiParams.ShootModeStill);
+                case ApiParams.EventAuRecording:
+                    cameraManager.StopAudioRec();
                     break;
             }
         }

@@ -413,7 +413,7 @@ namespace WPPMM.CameraManager
             if (client == null)
                 return;
 
-            client.StartMovieRec(OnError, () => { NoticeUpdate(); });
+            client.StartMovieRec(OnError, () => { });
         }
 
         public void StopMovieRec()
@@ -421,9 +421,24 @@ namespace WPPMM.CameraManager
             if (client == null)
                 return;
 
-            client.StopMovieRec(OnError, (urls) => { NoticeUpdate(); });
+            client.StopMovieRec(OnError, (urls) => { });
         }
 
+        public void StartAudioRec()
+        {
+            if (client == null)
+                return;
+
+            client.StartAudioRec(OnError, () => { });
+        }
+
+        public void StopAudioRec()
+        {
+            if (client == null)
+                return;
+
+            client.StopAudioRec(OnError, () => { });
+        }
 
         // ------- zoom
 
@@ -522,7 +537,7 @@ namespace WPPMM.CameraManager
         {
             if (client == null)
                 return;
-            client.SetShootMode(mode, OnError, () => { NoticeUpdate(); });
+            client.SetShootMode(mode, OnError, () => { });
         }
     }
 }

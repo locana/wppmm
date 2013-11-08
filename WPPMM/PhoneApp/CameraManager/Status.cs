@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -192,13 +191,8 @@ namespace WPPMM.CameraManager
         {
             set
             {
-                bool changed = false;
-                if (value != null && _ShootModeInfo != null)
-                    changed = _ShootModeInfo.current != value.current;
                 _ShootModeInfo = value;
-                if (changed)
-                    OnPropertyChanged("ShootButtonImage");
-
+                OnPropertyChanged("ShootButtonImage");
                 OnPropertyChanged("CpCandidatesShootMode");
                 OnPropertyChanged("CpSelectedIndexShootMode");
             }
@@ -216,7 +210,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                return (IsSupported("actTakePicture") || IsSupported("startMovieRec"))
+                return (IsSupported("actTakePicture") || IsSupported("startMovieRec") || IsSupported("startAudioRec"))
                     ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -244,13 +238,14 @@ namespace WPPMM.CameraManager
 
         private static readonly BitmapImage StillImage = new BitmapImage(new Uri("/Assets/Button/Camera.png", UriKind.Relative));
         private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Button/Camcorder.png", UriKind.Relative));
+        private static readonly BitmapImage AudioImage = new BitmapImage(new Uri("/Assets/Button/Music.png", UriKind.Relative));
         private static readonly BitmapImage StopImage = new BitmapImage(new Uri("/Assets/Button/Stop.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {
             get
             {
-                if (ShootModeInfo == null || ShootModeInfo.current == null || StillImage == null || CamImage == null)
+                if (ShootModeInfo == null || ShootModeInfo.current == null)
                 {
                     return null;
                 }
@@ -263,6 +258,11 @@ namespace WPPMM.CameraManager
                             return StopImage;
                         else
                             return CamImage;
+                    case ApiParams.ShootModeAudio:
+                        if (CameraStatus == ApiParams.EventAuRecording)
+                            return StopImage;
+                        else
+                            return AudioImage;
                     default:
                         return null;
                 }

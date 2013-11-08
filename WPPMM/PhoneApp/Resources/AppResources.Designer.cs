@@ -223,11 +223,29 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   オン に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string On {
+            get {
+                return ResourceManager.GetString("On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   オープンソースライセンス に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OSSText {
             get {
                 return ResourceManager.GetString("OSSText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   撮影画像受信 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PostviewTransferSetting {
+            get {
+                return ResourceManager.GetString("PostviewTransferSetting", resourceCulture);
             }
         }
         
@@ -277,7 +295,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   転送画像サイズ に類似しているローカライズされた文字列を検索します。
+        ///   受信画像サイズ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_PostViewImageSize {
             get {
@@ -291,6 +309,15 @@ namespace WPPMM.Resources {
         public static string ShootMode {
             get {
                 return ResourceManager.GetString("ShootMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   音声記録 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShootModeAudio {
+            get {
+                return ResourceManager.GetString("ShootModeAudio", resourceCulture);
             }
         }
         

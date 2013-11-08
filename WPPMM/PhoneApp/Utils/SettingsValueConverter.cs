@@ -129,6 +129,8 @@ namespace WPPMM.Utils
                     return Resources.AppResources.ShootModeMovie;
                 case ApiParams.ShootModeStill:
                     return Resources.AppResources.ShootModeStill;
+                case ApiParams.ShootModeAudio:
+                    return Resources.AppResources.ShootModeAudio;
                 default:
                     return val;
             }

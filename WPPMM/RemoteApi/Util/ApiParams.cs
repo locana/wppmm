@@ -5,6 +5,7 @@ namespace WPPMM.RemoteApi
     {
         public const string ShootModeStill = "still";
         public const string ShootModeMovie = "movie";
+        public const string ShootModeAudio = "audio";
 
         public const int SelfTimerOff = 0;
         public const int SelfTimer2 = 2;

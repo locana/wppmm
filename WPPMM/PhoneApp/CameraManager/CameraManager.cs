@@ -310,6 +310,11 @@ namespace WPPMM.CameraManager
 
         public void OnResultActTakePicture(String[] res)
         {
+            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
+            {
+                return;
+            }
+
             foreach (String s in res)
             {
                 downloader.DownloadImageFile(
@@ -322,7 +327,6 @@ namespace WPPMM.CameraManager
                             StartToastAppearance();
                             Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(5));
                         }
-
                         cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)

@@ -183,7 +183,7 @@
     <value>The picture has been saved successfully!</value>
   </data>
   <data name="Setting_PostViewImageSize" xml:space="preserve">
-    <value>Image size to transfer</value>
+    <value>Image size to receive</value>
   </data>
   <data name="Guide_StartLiveView" xml:space="preserve">
     <value>Swipe to start remote control.</value>
@@ -213,12 +213,21 @@
     <value>Still image rec</value>
   </data>
   <data name="Size2M" xml:space="preserve">
-    <value>2 MPx</value>
+    <value>2 MPixels</value>
   </data>
   <data name="SizeOriginal" xml:space="preserve">
     <value>Original</value>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value> - - -</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>ON</value>
+  </data>
+  <data name="PostviewTransferSetting" xml:space="preserve">
+    <value>Receive captured image</value>
+  </data>
+  <data name="ShootModeAudio" xml:space="preserve">
+    <value>Audio rec</value>
   </data>
 </root>

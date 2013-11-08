@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using WPPMM.DataModel;
 
 namespace WPPMM.CameraManager
 {
@@ -31,30 +32,6 @@ namespace WPPMM.CameraManager
 
         public void Show()
         {
-            // Test code
-            /*
-            var info = new BasicInfo<string>
-            {
-                current = "test2",
-                candidates = new string[] { "test1", "test2", "test3" }
-            };
-            var info2 = new BasicInfo<string>
-            {
-                current = "testtesttest2",
-                candidates = new string[] { "test1", "testtesttest2", "aaaaaaaaaaaaaaaaaaaaaatest3" }
-            };
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test222222222222", info2, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            panel.Children.Add(CreatePanel("Test", info, (sender, arg) => { }));
-            */
-            // end test code
-
             panel.Visibility = Visibility.Visible;
         }
 
@@ -73,7 +50,7 @@ namespace WPPMM.CameraManager
 
             if (status.IsSupported("setShootMode"))
             {
-                panel.Children.Add(CreatePanel("ShootMode", Resources.AppResources.ShootMode,
+                panel.Children.Add(CreateStatusPanel("ShootMode", Resources.AppResources.ShootMode,
                      (sender, arg) =>
                      {
                          if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null)
@@ -84,7 +61,7 @@ namespace WPPMM.CameraManager
             }
             if (status.IsSupported("setSelfTimer"))
             {
-                panel.Children.Add(CreatePanel("SelfTimer", Resources.AppResources.SelfTimer,
+                panel.Children.Add(CreateStatusPanel("SelfTimer", Resources.AppResources.SelfTimer,
                      (sender, arg) =>
                      {
                          if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null)
@@ -95,7 +72,7 @@ namespace WPPMM.CameraManager
             }
             if (status.IsSupported("setPostviewImageSize"))
             {
-                panel.Children.Add(CreatePanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
+                panel.Children.Add(CreateStatusPanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
                     (sender, arg) =>
                     {
                         if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null)
@@ -104,6 +81,14 @@ namespace WPPMM.CameraManager
                         manager.SetPostViewImageSize(status.PostviewSizeInfo.candidates[selected]);
                     }));
             }
+
+            panel.Children.Add(CreatePostviewSettingPanel(Resources.AppResources.PostviewTransferSetting,
+                (sender, arg) =>
+                {
+                    var selected = (sender as ListPicker).SelectedIndex;
+                    ApplicationSettings.GetInstance().IsPostviewTransferEnabled = (selected == 0);
+                }));
+
             panel.Width = double.NaN;
         }
 
@@ -112,22 +97,9 @@ namespace WPPMM.CameraManager
             panel.Visibility = Visibility.Collapsed;
         }
 
-        private StackPanel CreatePanel(string id, string title, SelectionChangedEventHandler handler)
+        private StackPanel CreateStatusPanel(string id, string title, SelectionChangedEventHandler handler)
         {
-            var child = new StackPanel
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-
-            child.Children.Add(
-                new TextBlock
-                {
-                    Text = title,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    Style = Application.Current.Resources["PhoneTextStyle"] as Style,
-                    Margin = new Thickness(5, 20, 0, 0)
-                }
-            );
+            var child = CreatePanel(title);
 
             var statusbind = new Binding()
             {
@@ -159,8 +131,50 @@ namespace WPPMM.CameraManager
             picker.SelectionChanged += handler;
 
             child.Children.Add(picker);
-            //child.Width = double.NaN;
-            child.Width = 240;
+            return child;
+        }
+
+        private StackPanel CreatePostviewSettingPanel(string title, SelectionChangedEventHandler handler)
+        {
+            var child = CreatePanel(title);
+
+            var selectedbind = new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("SelectedIndexPostviewTransferEnabled"),
+                Mode = BindingMode.OneWay
+            };
+
+            var picker = new ListPicker
+            {
+                SelectionMode = SelectionMode.Single,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(10, -5, 10, 0)
+            };
+            picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesPostviewTransferEnabled;
+            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
+
+            child.Children.Add(picker);
+            return child;
+        }
+
+        private StackPanel CreatePanel(string title)
+        {
+            var child = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+
+            child.Children.Add(
+                new TextBlock
+                {
+                    Text = title,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Style = Application.Current.Resources["PhoneTextStyle"] as Style,
+                    Margin = new Thickness(5, 20, 0, 0),
+                    Width = 240
+                }
+            );
             return child;
         }
     }

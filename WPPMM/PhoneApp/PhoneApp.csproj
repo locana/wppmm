@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
+    <Compile Include="DataModel\ApplicationSettings.cs" />
+    <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
     <Compile Include="CameraManager\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />

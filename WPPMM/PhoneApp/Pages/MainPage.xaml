@@ -126,6 +126,19 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
+                    <Grid Name="Toast" Visibility="{Binding ToastVisibility, Mode=OneWay}" Margin="13,0,-13,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Rectangle Fill="{StaticResource PhoneAccentBrush}" Grid.Row="0"
+                                   HorizontalAlignment="Stretch" 
+                                   Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch"/>
+                        <TextBlock HorizontalAlignment="Center" Grid.Row="0"
+                                   Margin="10,10,10,10" TextWrapping="Wrap" Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
+                                   VerticalAlignment="Stretch" />
+
+
+                    </Grid>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

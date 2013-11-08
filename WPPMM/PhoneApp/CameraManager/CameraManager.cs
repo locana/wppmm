@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using WPPMM.DataModel;
 using WPPMM.DeviceDiscovery;
 using WPPMM.Liveview;
@@ -295,7 +296,6 @@ namespace WPPMM.CameraManager
 
         public void OnResultActTakePicture(String[] res)
         {
-
             foreach (String s in res)
             {
                 downloader.DownloadImageFile(
@@ -303,7 +303,12 @@ namespace WPPMM.CameraManager
                     delegate(Picture p)
                     {
                         Debug.WriteLine("download succeed");
-                        MessageBox.Show(AppResources.Message_ImageDL_Succeed);
+                        // MessageBox.Show(AppResources.Message_ImageDL_Succeed);
+                        cameraStatus.IsToastVisible = true;
+                        DispatcherTimer tmr = new DispatcherTimer();
+                        tmr.Interval = TimeSpan.FromSeconds(3);
+                        tmr.Tick += new EventHandler(CloseToast);
+                        tmr.Start(); 
                         cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)
@@ -357,6 +362,11 @@ namespace WPPMM.CameraManager
                     }
                 );
             }
+        }
+
+        private void CloseToast(object sender, EventArgs e)
+        {
+            _cameraStatus.IsToastVisible = false;
         }
 
         public void OnActTakePictureError(int err)

@@ -231,4 +231,7 @@
   <data name="ShootModeAudio" xml:space="preserve">
     <value>音声記録</value>
   </data>
+  <data name="Message_ImageCapture_Succeed" xml:space="preserve">
+    <value>写真が撮影されました！</value>
+  </data>
 </root>

@@ -69,6 +69,21 @@ namespace WPPMM.CameraManager
             }
         }
 
+        public bool _IsToastVisible = false;
+
+        public bool IsToastVisible
+        {
+            get { return _IsToastVisible; }
+            set
+            {
+                if (_IsToastVisible != value)
+                {
+                    _IsToastVisible = value;
+                    OnPropertyChanged("ToastVisibility");
+                }
+            }
+        }
+
         private List<string> _MethodTypes = null;
         public List<String> MethodTypes
         {
@@ -257,6 +272,11 @@ namespace WPPMM.CameraManager
         public Visibility ZoomElementVisibility
         {
             get { return (IsSupported("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        public Visibility ToastVisibility
+        {
+            get { return IsToastVisible ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

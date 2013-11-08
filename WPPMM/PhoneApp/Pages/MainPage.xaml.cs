@@ -433,6 +433,7 @@ namespace WPPMM
             ShootButton.DataContext = cameraManager.cameraStatus;
             ShootingProgress.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
+            Toast.DataContext = cameraManager.cameraStatus;
             cpm = new ControlPanelManager(ControlPanel);
         }
 

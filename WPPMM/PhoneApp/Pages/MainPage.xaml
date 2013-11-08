@@ -151,7 +151,7 @@
                                    Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch"/>
                         <TextBlock HorizontalAlignment="Center" Grid.Row="0"
                                    Margin="10,10,10,10" TextWrapping="Wrap" Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
-                                   VerticalAlignment="Stretch" />
+                                   VerticalAlignment="Stretch" Name="ToastMessage"/>
                     </Grid>
                 </Grid>
             </phone:PivotItem>

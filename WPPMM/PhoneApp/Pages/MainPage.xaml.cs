@@ -475,20 +475,15 @@ namespace WPPMM
             }
         }
 
-        public void StartToastAppearance()
+        public void StartToastAppearance(String message)
         {
+            ToastMessage.Text = message;
             ToastApparance.Begin();
         }
 
         public void StartToastDisappearance()
         {
             ToastDisApparance.Begin();
-            // ToastDisApparance.Completed += ToastDisApparance_Completed;
-        }
-
-        void ToastDisApparance_Completed(object sender, EventArgs e)
-        {
-            Toast.Visibility = Visibility.Collapsed;
         }
     }
 }

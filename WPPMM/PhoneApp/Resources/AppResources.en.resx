@@ -230,4 +230,7 @@
   <data name="ShootModeAudio" xml:space="preserve">
     <value>Audio rec</value>
   </data>
+  <data name="Message_ImageCapture_Succeed" xml:space="preserve">
+    <value>The picture has been captured successfully!</value>
+  </data>
 </root>

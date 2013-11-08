@@ -53,7 +53,7 @@ namespace WPPMM.CameraManager
             }
         }
 
-        public Action StartToastAppearance
+        public Action<String> StartToastAppearance
         {
             get;
             set;
@@ -312,6 +312,8 @@ namespace WPPMM.CameraManager
         {
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
             {
+                StartToastAppearance(AppResources.Message_ImageCapture_Succeed);
+                Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(3));
                 return;
             }
 
@@ -324,8 +326,8 @@ namespace WPPMM.CameraManager
                         Debug.WriteLine("download succeed");
                         if (StartToastAppearance != null)
                         {
-                            StartToastAppearance();
-                            Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(5));
+                            StartToastAppearance(AppResources.Message_ImageDL_Succeed);
+                            Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(3));
                         }
                         cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();

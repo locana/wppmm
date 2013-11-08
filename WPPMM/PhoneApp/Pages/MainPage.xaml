@@ -104,8 +104,12 @@
 
                         </Storyboard>
                     </Grid.Resources>
-                    <Grid x:Name="LiveViewScreen" Margin="0,0,0,0" >
-                        <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}" Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
+                    <Grid x:Name="LiveViewScreen" Margin="-15,0" >
+                        <Image Name="ScreenImage" HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Stretch" 
+                               Source="{Binding image, Mode=OneWay}" 
+                               Loaded="ScreenImage_Loaded" 
+                               Unloaded="ScreenImage_Unloaded"/>
                         <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>
@@ -139,7 +143,7 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
-                    <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Margin="0,0,0,0">
+                    <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Margin="-15,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
@@ -148,7 +152,7 @@
                         </Grid.Resources>
                         <Rectangle Fill="{StaticResource PhoneAccentBrush}" Grid.Row="0"
                                    HorizontalAlignment="Stretch" 
-                                   Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch"/>
+                                   Margin="0,0,0,0" VerticalAlignment="Stretch"/>
                         <TextBlock HorizontalAlignment="Center" Grid.Row="0"
                                    Margin="10,10,10,10" TextWrapping="Wrap" Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
                                    VerticalAlignment="Stretch" Name="ToastMessage"/>

@@ -314,6 +314,8 @@ namespace WPPMM.CameraManager
             {
                 StartToastAppearance(AppResources.Message_ImageCapture_Succeed);
                 Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(3));
+                cameraStatus.IsTakingPicture = false;
+                NoticeUpdate();
                 return;
             }
 

@@ -91,6 +91,19 @@
             </phone:PivotItem>
             <phone:PivotItem CacheMode="{x:Null}" Header="">
                 <Grid>
+                    <Grid.Resources>
+                        <Storyboard x:Name="ToastApparance">
+                            <DoubleAnimation Storyboard.TargetName="Toast"
+                                             Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" 
+                                             Duration="0:0:0.5" AutoReverse="False" />
+                        </Storyboard>
+                        <Storyboard x:Name="ToastDisApparance">
+                            <DoubleAnimation Storyboard.TargetName="Toast"
+                                             Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" 
+                                             Duration="0:0:0.5" AutoReverse="False" />
+
+                        </Storyboard>
+                    </Grid.Resources>
                     <Grid x:Name="LiveViewScreen" Margin="0,0,0,0" >
                         <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}" Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
                         <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
@@ -126,18 +139,19 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
-                    <Grid Name="Toast" Visibility="{Binding ToastVisibility, Mode=OneWay}" Margin="13,0,-13,0">
+                    <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Margin="0,0,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
+                        <Grid.Resources>
+
+                        </Grid.Resources>
                         <Rectangle Fill="{StaticResource PhoneAccentBrush}" Grid.Row="0"
                                    HorizontalAlignment="Stretch" 
                                    Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch"/>
                         <TextBlock HorizontalAlignment="Center" Grid.Row="0"
                                    Margin="10,10,10,10" TextWrapping="Wrap" Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
                                    VerticalAlignment="Stretch" />
-
-
                     </Grid>
                 </Grid>
             </phone:PivotItem>

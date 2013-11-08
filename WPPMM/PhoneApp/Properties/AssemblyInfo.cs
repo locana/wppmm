@@ -6,11 +6,11 @@ using System.Resources;
 // アセンブリに関する一般情報は、以下の属性セットによって制御されます。 
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
-[assembly: AssemblyTitle("SCRAP")]
+[assembly: AssemblyTitle("Scrap")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SCRAP")]
+[assembly: AssemblyProduct("Scrap")]
 [assembly: AssemblyCopyright("Copyright (c) 2013 kazyx")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

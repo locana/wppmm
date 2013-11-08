@@ -70,7 +70,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   SCRAP に類似しているローカライズされた文字列を検索します。
+        ///   Scrap に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ApplicationTitle {
             get {

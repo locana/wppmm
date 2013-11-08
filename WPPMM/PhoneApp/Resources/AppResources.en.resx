@@ -126,7 +126,7 @@
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>SCRAP</value>
+    <value>Scrap</value>
   </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
     <value>Wi-Fi settings</value>

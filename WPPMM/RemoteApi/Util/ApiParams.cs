@@ -30,5 +30,9 @@ namespace WPPMM.RemoteApi
         public const string EventMvRecording = "MovieRecording";
         public const string EventMvWaitRecStop = "MovieWaitRecStop";
         public const string EventMvSaving = "MovieSaving";
+        public const string EventAuWaitRecStart = "AudioWaitRecStart";
+        public const string EventAuRecording = "AudioRecording";
+        public const string EventAuWaitRecStop = "AudioWaitRecStop";
+        public const string EventAuSaving = "AudioSaving";
     }
 }

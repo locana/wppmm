@@ -54,6 +54,16 @@ namespace WPPMM.RemoteApi
             BasicResultHandler.StringsArrayAction(jString, error, result);
         }
 
+        internal static void StartAudioRec(string jString, Action<int> error, Action result)
+        {
+            BasicResultHandler.NoValueAction(jString, error, result);
+        }
+
+        internal static void StopAudioRec(string jString, Action<int> error, Action result)
+        {
+            BasicResultHandler.NoValueAction(jString, error, result);
+        }
+
         internal static void StartLiveview(string jString, Action<int> error, Action<string> result)
         {
             BasicResultHandler.StringAction(jString, error, result);

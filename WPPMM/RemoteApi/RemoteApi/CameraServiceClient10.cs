@@ -78,6 +78,20 @@ namespace WPPMM.RemoteApi
                 () => { error.Invoke(StatusCode.Any); });
         }
 
+        public void StartAudioRec(Action<int> error, Action result)
+        {
+            XhrPostClient.Post(endpoint, RequestGenerator.startAudioRec(),
+                (res) => { ResultHandler.StartAudioRec(res, error, result); },
+                () => { error.Invoke(StatusCode.Any); });
+        }
+
+        public void StopAudioRec(Action<int> error, Action result)
+        {
+            XhrPostClient.Post(endpoint, RequestGenerator.stopAudioRec(),
+                (res) => { ResultHandler.StopAudioRec(res, error, result); },
+                () => { error.Invoke(StatusCode.Any); });
+        }
+
         public void StartLiveview(Action<int> error, Action<string> result)
         {
             XhrPostClient.Post(endpoint, RequestGenerator.startLiveview(),

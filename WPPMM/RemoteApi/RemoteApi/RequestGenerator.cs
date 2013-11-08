@@ -89,6 +89,16 @@ namespace WPPMM.RemoteApi
             return CreateJson10(GetCurrentMethodName());
         }
 
+        internal static string startAudioRec()
+        {
+            return CreateJson10(GetCurrentMethodName());
+        }
+
+        internal static string stopAudioRec()
+        {
+            return CreateJson10(GetCurrentMethodName());
+        }
+
         internal static string startLiveview()
         {
             return CreateJson10(GetCurrentMethodName());

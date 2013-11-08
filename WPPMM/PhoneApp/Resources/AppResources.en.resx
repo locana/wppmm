@@ -227,4 +227,7 @@
   <data name="PostviewTransferSetting" xml:space="preserve">
     <value>Receive captured image</value>
   </data>
+  <data name="ShootModeAudio" xml:space="preserve">
+    <value>Audio rec</value>
+  </data>
 </root>

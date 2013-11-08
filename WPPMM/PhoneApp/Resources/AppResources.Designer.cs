@@ -313,6 +313,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   音声記録 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ShootModeAudio {
+            get {
+                return ResourceManager.GetString("ShootModeAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   動画記録 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShootModeMovie {

@@ -82,7 +82,7 @@ namespace WPPMM.CameraManager
                     }));
             }
 
-            panel.Children.Add(CreatePostviewSettingPanel("Postview transfer setting",
+            panel.Children.Add(CreatePostviewSettingPanel(Resources.AppResources.PostviewTransferSetting,
                 (sender, arg) =>
                 {
                     var selected = (sender as ListPicker).SelectedIndex;

@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows;
 using WPPMM.Utils;
 
 namespace WPPMM.DataModel
@@ -44,7 +42,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                return new string[] { "On", "Off" };
+                return new string[] { Resources.AppResources.On, Resources.AppResources.Off };
             }
         }
 

@@ -134,9 +134,6 @@
   <data name="Guide_CantFindDevice" xml:space="preserve">
     <value>Couldn't find the devide. Make sure the SSID of connected access point is same as your device's one.</value>
   </data>
-  <data name="Guide_WiFiNotConnected" xml:space="preserve">
-    <value>Connect to your device.</value>
-  </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
     <value>Go to Wi-Fi settings and connect to your camera device.</value>
   </data>

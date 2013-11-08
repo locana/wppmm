@@ -85,17 +85,13 @@ namespace WPPMM
         {
             var ssid = GetSSIDName();
             Debug.WriteLine("SSID: " + ssid);
-            if (DeviceNetworkInformation.IsWiFiEnabled)
-            {
-                NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
-            }
-            else if (ssid.StartsWith("DIRECT-"))
+            if (ssid != null && ssid.StartsWith("DIRECT-"))
             {
                 NetworkStatus.Text = AppResources.Guide_CantFindDevice;
             }
             else
             {
-                NetworkStatus.Text = AppResources.Guide_WiFiNotConnected;
+                NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
             }
 
             if (cameraManager.GetDeviceInfo() != null)

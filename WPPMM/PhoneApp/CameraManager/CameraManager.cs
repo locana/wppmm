@@ -296,6 +296,11 @@ namespace WPPMM.CameraManager
 
         public void OnResultActTakePicture(String[] res)
         {
+            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
+            {
+                return;
+            }
+
             foreach (String s in res)
             {
                 downloader.DownloadImageFile(
@@ -308,7 +313,7 @@ namespace WPPMM.CameraManager
                         DispatcherTimer tmr = new DispatcherTimer();
                         tmr.Interval = TimeSpan.FromSeconds(3);
                         tmr.Tick += new EventHandler(CloseToast);
-                        tmr.Start(); 
+                        tmr.Start();
                         cameraStatus.IsTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)

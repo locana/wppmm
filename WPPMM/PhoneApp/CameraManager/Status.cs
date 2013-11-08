@@ -192,13 +192,8 @@ namespace WPPMM.CameraManager
         {
             set
             {
-                bool changed = false;
-                if (value != null && _ShootModeInfo != null)
-                    changed = _ShootModeInfo.current != value.current;
                 _ShootModeInfo = value;
-                if (changed)
-                    OnPropertyChanged("ShootButtonImage");
-
+                OnPropertyChanged("ShootButtonImage");
                 OnPropertyChanged("CpCandidatesShootMode");
                 OnPropertyChanged("CpSelectedIndexShootMode");
             }

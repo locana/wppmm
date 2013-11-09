@@ -89,6 +89,13 @@ namespace WPPMM.CameraManager
                     ApplicationSettings.GetInstance().IsPostviewTransferEnabled = (selected == 0);
                 }));
 
+            panel.Children.Add(CreateIntervalEnableSettingPanel(Resources.AppResources.IntervalSetting,
+                (sender, arg) =>
+                {
+                    var selected = (sender as ListPicker).SelectedIndex;
+                    ApplicationSettings.GetInstance().IsIntervalShootingEnabled = (selected == 0);
+                }));
+
             panel.Width = double.NaN;
         }
 
@@ -159,6 +166,31 @@ namespace WPPMM.CameraManager
             return child;
         }
 
+        private StackPanel CreateIntervalEnableSettingPanel(string title, SelectionChangedEventHandler handler)
+        {
+            var child = CreatePanel(title);
+            var selectedbind = new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("SelectedIndexIntervalShootingEnabled"),
+                Mode = BindingMode.OneWay
+            };
+
+            var picker = new ListPicker
+            {
+                SelectionMode = SelectionMode.Single,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(10, -5, 10, 0)
+            };
+
+            picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalShootingEnabled;
+            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
+            picker.SelectionChanged += handler;
+
+            child.Children.Add(picker);
+            return child;
+        }
+                
         private StackPanel CreatePanel(string title)
         {
             var child = new StackPanel

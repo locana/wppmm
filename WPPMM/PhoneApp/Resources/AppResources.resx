@@ -231,4 +231,10 @@
   <data name="Message_ImageCapture_Succeed" xml:space="preserve">
     <value>写真が撮影されました！</value>
   </data>
+  <data name="IntervalSetting" xml:space="preserve">
+    <value>インターバル撮影</value>
+  </data>
+  <data name="IntervalTime" xml:space="preserve">
+    <value>インターバル撮影間隔</value>
+  </data>
 </root>

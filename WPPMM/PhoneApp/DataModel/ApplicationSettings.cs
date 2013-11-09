@@ -38,6 +38,26 @@ namespace WPPMM.DataModel
             }
         }
 
+        private bool _IsIntervalShootingEnabled = false;
+        public bool IsIntervalShootingEnabled
+        {
+            set
+            {
+                if (_IsIntervalShootingEnabled != value)
+                {
+                    Preference.SetIntervalShootingEnabled(value);
+                    _IsIntervalShootingEnabled = value;
+                    OnPropertyChanged("IsIntervalShootingEnabled");
+                    OnPropertyChanged("SelectedIndexIntervalShootingEnabled");
+                }
+            }
+            get
+            {
+                return _IsIntervalShootingEnabled;
+            }
+        }
+
+
         public string[] CandidatesPostviewTransferEnabled
         {
             get
@@ -51,6 +71,22 @@ namespace WPPMM.DataModel
             get
             {
                 return IsPostviewTransferEnabled ? 0 : 1;
+            }
+        }
+
+        public string[] CandidatesIntervalShootingEnabled
+        {
+            get
+            {
+                return new string[] { Resources.AppResources.On, Resources.AppResources.Off };
+            }
+        }
+
+        public int SelectedIndexIntervalShootingEnabled
+        {
+            get
+            {
+                return IsIntervalShootingEnabled ? 0 : 1;
             }
         }
 

@@ -47,8 +47,6 @@ namespace WPPMM.DataModel
                 {
                     Preference.SetIntervalShootingEnabled(value);
                     _IsIntervalShootingEnabled = value;
-                    OnPropertyChanged("IsIntervalShootingEnabled");
-                    OnPropertyChanged("SelectedIndexIntervalShootingEnabled");
                 }
             }
             get
@@ -75,22 +73,6 @@ namespace WPPMM.DataModel
             get
             {
                 return _IntervalTime;
-            }
-        }
-
-        public string[] CandidatesIntervalShootingEnabled
-        {
-            get
-            {
-                return new string[] { Resources.AppResources.On, Resources.AppResources.Off };
-            }
-        }
-
-        public int SelectedIndexIntervalShootingEnabled
-        {
-            get
-            {
-                return IsIntervalShootingEnabled ? 0 : 1;
             }
         }
 

@@ -83,28 +83,11 @@ namespace WPPMM.CameraManager
                     }));
             }
 
-            panel.Children.Add(CreatePostviewSettingPanel(Resources.AppResources.PostviewTransferSetting));
+            panel.Children.Add(CreatePostviewSettingPanel());
 
-            panel.Children.Add(CreateIntervalEnableSettingPanel(Resources.AppResources.IntervalSetting,
-                (sender, arg) =>
-                {
-                    var selected = (sender as ListPicker).SelectedIndex;
-                    ApplicationSettings.GetInstance().IsIntervalShootingEnabled = (selected == 0);
-                }));
+            panel.Children.Add(CreateIntervalEnableSettingPanel());
 
-            panel.Children.Add(CreateIntervalTimeSettingPanel(Resources.AppResources.IntervalTime,
-                (sender, arg) =>
-                {
-                    var selected = (sender as ListPicker).SelectedIndex;
-                    Debug.WriteLine("selected index: " + selected);
-                    foreach (string s in ApplicationSettings.GetInstance().CandidatesIntervalTime)
-                    {
-                        Debug.WriteLine("candidate: " + s);
-                    }
-                    int selectedValue = int.Parse(ApplicationSettings.GetInstance().CandidatesIntervalTime[selected]);
-                    Debug.WriteLine("selected time: " + selectedValue);
-                    ApplicationSettings.GetInstance().IntervalTime = selectedValue;
-                }));
+            panel.Children.Add(CreateIntervalTimeSettingPanel());
 
             Debug.WriteLine("panels has set!");
 
@@ -149,58 +132,66 @@ namespace WPPMM.CameraManager
             return child;
         }
 
-        private StackPanel CreatePostviewSettingPanel(string title)
+        private StackPanel CreatePostviewSettingPanel()
         {
-            var child = CreatePanel(title);
+            var child = CreatePanel(Resources.AppResources.PostviewTransferSetting);
 
+            var toggle = CreateToggle();
             var checkbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
                 Path = new PropertyPath("IsPostviewTransferEnabled"),
                 Mode = BindingMode.TwoWay
             };
-
-            var toggle = CreateToggle();
             toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
 
             child.Children.Add(toggle);
             return child;
         }
 
-        private StackPanel CreateIntervalEnableSettingPanel(string title, SelectionChangedEventHandler handler)
+        private StackPanel CreateIntervalEnableSettingPanel()
         {
-            var child = CreatePanel(title);
-            var selectedbind = new Binding()
+            var child = CreatePanel(Resources.AppResources.IntervalSetting);
+
+            var toggle = CreateToggle();
+            var checkbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("SelectedIndexIntervalShootingEnabled"),
-                Mode = BindingMode.OneWay
+                Path = new PropertyPath("IsIntervalShootingEnabled"),
+                Mode = BindingMode.TwoWay
             };
+            toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
 
-            var picker = CreatePicker();
-            picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalShootingEnabled;
-            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
-            picker.SelectionChanged += handler;
-
-            child.Children.Add(picker);
+            child.Children.Add(toggle);
             return child;
         }
 
-        private StackPanel CreateIntervalTimeSettingPanel(string title, SelectionChangedEventHandler handler)
+        private StackPanel CreateIntervalTimeSettingPanel()
         {
-            var child = CreatePanel(title);
-            Debug.WriteLine("create panel: " + title);
+            var child = CreatePanel(Resources.AppResources.IntervalTime);
+            Debug.WriteLine("create panel: " + Resources.AppResources.IntervalTime);
+
             var selectedbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
                 Path = new PropertyPath("SelectedIntervalTime"),
                 Mode = BindingMode.OneWay
             };
-
             var picker = CreatePicker();
             picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalTime;
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
-            picker.SelectionChanged += handler;
+            picker.SelectionChanged += (sender, arg) =>
+            {
+                var selected = (sender as ListPicker).SelectedIndex;
+                Debug.WriteLine("selected index: " + selected);
+                foreach (string s in ApplicationSettings.GetInstance().CandidatesIntervalTime)
+                {
+                    Debug.WriteLine("candidate: " + s);
+                }
+                int selectedValue = int.Parse(ApplicationSettings.GetInstance().CandidatesIntervalTime[selected]);
+                Debug.WriteLine("selected time: " + selectedValue);
+                ApplicationSettings.GetInstance().IntervalTime = selectedValue;
+            };
 
             child.Children.Add(picker);
             return child;

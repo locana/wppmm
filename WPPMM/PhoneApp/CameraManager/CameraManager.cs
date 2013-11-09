@@ -447,7 +447,7 @@ namespace WPPMM.CameraManager
                     NoticeUpdate();
                     break;
                 case EventMember.CameraStatus:
-                    Debug.WriteLine("CameraStatus has changed: " + _cameraStatus.CameraStatus);
+                    Debug.WriteLine("CameraStatus has changed: " + _cameraStatus.Status);
                     break;
 
                 default:

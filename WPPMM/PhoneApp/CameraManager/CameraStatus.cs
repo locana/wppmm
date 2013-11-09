@@ -7,10 +7,8 @@ using WPPMM.RemoteApi;
 
 namespace WPPMM.CameraManager
 {
-
     public class CameraStatus : INotifyPropertyChanged
     {
-
         /// <summary>
         /// returnes true if it's possible to connect.
         /// (device info has got correctly)
@@ -66,7 +64,7 @@ namespace WPPMM.CameraManager
             PostviewSizeInfo = null;
             IsLiveviewAvailable = false;
             ZoomInfo = null;
-            CameraStatus = ApiParams.EventNotReady;
+            Status = ApiParams.EventNotReady;
             AvailableApis = null;
         }
 
@@ -93,18 +91,18 @@ namespace WPPMM.CameraManager
             return AvailableApiList.Contains(apiName);
         }
 
-        private string _CameraStatus = ApiParams.EventNotReady;
-        public string CameraStatus
+        private string _Status = ApiParams.EventNotReady;
+        public string Status
         {
             set
             {
-                if (value != _CameraStatus)
+                if (value != _Status)
                 {
-                    _CameraStatus = value;
-                    OnPropertyChanged("CameraStatus");
+                    _Status = value;
+                    OnPropertyChanged("Status");
                 }
             }
-            get { return _CameraStatus; }
+            get { return _Status; }
         }
 
         public ZoomInfo ZoomInfo { set; get; }

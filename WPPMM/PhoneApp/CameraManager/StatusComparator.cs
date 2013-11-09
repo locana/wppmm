@@ -34,8 +34,8 @@ namespace WPPMM.CameraManager
             {
                 return false;
             }
-            var previous = status.CameraStatus;
-            status.CameraStatus = latest;
+            var previous = status.Status;
+            status.Status = latest;
 
             return previous != latest;
         }

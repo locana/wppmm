@@ -7,7 +7,6 @@ namespace WPPMM.DataModel
 {
     public class PostViewData : INotifyPropertyChanged
     {
-
         private BitmapImage _postview = null;
 
         public BitmapImage postview

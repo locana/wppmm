@@ -45,7 +45,7 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ZoomElementVisibility");
                         break;
-                    case "CameraStatus":
+                    case "Status":
                         OnPropertyChanged("ShootButtonImage");
                         OnPropertyChanged("ShootButtonStatus");
                         break;
@@ -76,7 +76,11 @@ namespace WPPMM.DataModel
 
         public Visibility ShootingProgressVisibility
         {
-            get { return (appStatus.IsTakingPicture || appStatus.IsTryingToConnectLiveview || appStatus.IsSearchingDevice) ? Visibility.Visible : Visibility.Collapsed; }
+            get
+            {
+                return (appStatus.IsTakingPicture || appStatus.IsTryingToConnectLiveview || appStatus.IsSearchingDevice)
+                    ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         public bool ShootButtonStatus
@@ -92,7 +96,7 @@ namespace WPPMM.DataModel
                     return false;
                 }
 
-                switch (cameraStatus.CameraStatus)
+                switch (cameraStatus.Status)
                 {
                     case ApiParams.EventIdle:
                     case ApiParams.EventMvRecording:
@@ -127,12 +131,12 @@ namespace WPPMM.DataModel
                     case ApiParams.ShootModeStill:
                         return StillImage;
                     case ApiParams.ShootModeMovie:
-                        if (cameraStatus.CameraStatus == ApiParams.EventMvRecording)
+                        if (cameraStatus.Status == ApiParams.EventMvRecording)
                             return StopImage;
                         else
                             return CamImage;
                     case ApiParams.ShootModeAudio:
-                        if (cameraStatus.CameraStatus == ApiParams.EventAuRecording)
+                        if (cameraStatus.Status == ApiParams.EventAuRecording)
                             return StopImage;
                         else
                             return AudioImage;

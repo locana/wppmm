@@ -23,8 +23,6 @@ namespace WPPMM
 
         private CameraManager.CameraManager cameraManager = CameraManager.CameraManager.GetInstance();
 
-        private bool isRequestingLiveview = false;
-
         private bool OnZooming;
 
         private const double APPBAR_OPACITY = 0.0;
@@ -179,8 +177,6 @@ namespace WPPMM
 
         private void LiveViewInit()
         {
-            isRequestingLiveview = true;
-
             cameraManager.RequestCloseLiveView();
 
             OnZooming = false;
@@ -195,7 +191,7 @@ namespace WPPMM
             }
 
             var status = cameraManager.cameraStatus;
-            switch (status.CameraStatus)
+            switch (status.Status)
             {
                 case ApiParams.EventIdle:
                     switch (status.ShootModeInfo.current)

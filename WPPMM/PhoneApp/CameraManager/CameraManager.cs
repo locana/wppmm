@@ -85,7 +85,10 @@ namespace WPPMM.CameraManager
                 observer.Stop();
                 observer = null;
             }
-            IntervalManager.ActTakePicture += this.RequestActTakePicture;
+            if (IntervalManager.ActTakePicture == null)
+            {
+                IntervalManager.ActTakePicture += this.RequestActTakePicture;
+            }
         }
 
         public static CameraManager GetInstance()
@@ -497,6 +500,12 @@ namespace WPPMM.CameraManager
         public void OnError(int errno)
         {
             Debug.WriteLine("Error: " + errno.ToString());
+
+            if (IntervalManager.IsRunning)
+            {
+                IntervalManager.Stop();
+                MessageBox.Show(AppResources.ErrorMessage_Interval);
+            }
         }
 
         public DeviceInfo GetDeviceInfo()

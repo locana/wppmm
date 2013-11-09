@@ -169,6 +169,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to エラーが発生したのでインターバル撮影を停止しました.
+        /// </summary>
+        public static string ErrorMessage_Interval {
+            get {
+                return ResourceManager.GetString("ErrorMessage_Interval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。.
         /// </summary>
         public static string Guide_CantFindDevice {

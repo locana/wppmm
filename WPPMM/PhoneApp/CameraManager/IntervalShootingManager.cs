@@ -50,7 +50,7 @@ namespace WPPMM.CameraManager
 
         public void Init()
         {
-            this.Init();
+            _Init();
         }
 
         private void _Init()

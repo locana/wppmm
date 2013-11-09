@@ -39,6 +39,7 @@ namespace WPPMM.DataModel
         }
 
         private bool _IsIntervalShootingEnabled = false;
+
         public bool IsIntervalShootingEnabled
         {
             set

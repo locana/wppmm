@@ -237,4 +237,7 @@
   <data name="IntervalTime" xml:space="preserve">
     <value>インターバル撮影間隔</value>
   </data>
+  <data name="ErrorMessage_Interval" xml:space="preserve">
+    <value>エラーが発生したのでインターバル撮影を停止しました</value>
+  </data>
 </root>

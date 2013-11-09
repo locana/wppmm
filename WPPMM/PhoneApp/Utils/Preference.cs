@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO.IsolatedStorage;
 
 namespace WPPMM.Utils
@@ -52,6 +53,7 @@ namespace WPPMM.Utils
             {
                 settings.Remove(interval_enable_key);
             }
+            Debug.WriteLine("interval setting saved: " + enable);
             settings.Add(interval_enable_key, enable);
         }
     }

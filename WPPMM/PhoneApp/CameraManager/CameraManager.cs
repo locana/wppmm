@@ -133,10 +133,10 @@ namespace WPPMM.CameraManager
 
         private void OpenLiveviewConnection()
         {
-            cameraStatus.IsTryingToConnectLiveview = true;
+            AppStatus.GetInstance().IsTryingToConnectLiveview = true;
             client.StartLiveview((code) =>
             {
-                cameraStatus.IsTryingToConnectLiveview = false;
+                AppStatus.GetInstance().IsTryingToConnectLiveview = false;
             }, (url) =>
             {
                 if (lvProcessor != null && lvProcessor.IsOpen)
@@ -150,7 +150,7 @@ namespace WPPMM.CameraManager
                 {
                     lvProcessor.OpenConnection(url, OnJpegRetrieved, () =>
                     {
-                        cameraStatus.IsTryingToConnectLiveview = false;
+                        AppStatus.GetInstance().IsTryingToConnectLiveview = false;
                     });
                 }
                 catch (InvalidOperationException)
@@ -184,7 +184,7 @@ namespace WPPMM.CameraManager
         // callback methods (liveview)
         public void OnJpegRetrieved(byte[] data)
         {
-            cameraStatus.IsTryingToConnectLiveview = false;
+            AppStatus.GetInstance().IsTryingToConnectLiveview = false;
             if (IsRendering)
             {
                 return;
@@ -280,7 +280,7 @@ namespace WPPMM.CameraManager
                 return;
 
             client.ActTakePicture(OnActTakePictureError, OnResultActTakePicture);
-            cameraStatus.IsTakingPicture = true;
+            AppStatus.GetInstance().IsTakingPicture = true;
         }
 
         public void OnResultActTakePicture(String[] res)
@@ -292,7 +292,7 @@ namespace WPPMM.CameraManager
                     ShowToast(AppResources.Message_ImageCapture_Succeed);
                 }
 
-                cameraStatus.IsTakingPicture = false;
+                AppStatus.GetInstance().IsTakingPicture = false;
                 NoticeUpdate();
                 return;
             }
@@ -308,7 +308,7 @@ namespace WPPMM.CameraManager
                         {
                             ShowToast(AppResources.Message_ImageDL_Succeed);
                         }
-                        cameraStatus.IsTakingPicture = false;
+                        AppStatus.GetInstance().IsTakingPicture = false;
                         NoticeUpdate();
                         if (PictureNotifier != null)
                         {
@@ -356,7 +356,7 @@ namespace WPPMM.CameraManager
                         }
                         MessageBox.Show(error);
                         Debug.WriteLine(error);
-                        cameraStatus.IsTakingPicture = false;
+                        AppStatus.GetInstance().IsTakingPicture = false;
                         NoticeUpdate();
                     }
                 );
@@ -372,7 +372,7 @@ namespace WPPMM.CameraManager
             }
 
             Debug.WriteLine("Error during taking picture: " + err);
-            cameraStatus.IsTakingPicture = false;
+            AppStatus.GetInstance().IsTakingPicture = false;
             NoticeUpdate();
         }
 

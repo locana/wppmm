@@ -97,6 +97,9 @@
     <Compile Include="CameraManager\ControlPanelManager.cs" />
     <Compile Include="CameraManager\IntervalShootingManager.cs" />
     <Compile Include="DataModel\ApplicationSettings.cs" />
+    <Compile Include="DataModel\AppStatus.cs" />
+    <Compile Include="DataModel\ControlPanelViewData.cs" />
+    <Compile Include="DataModel\ShootingViewData.cs" />
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
     <Compile Include="CameraManager\Downloader.cs" />

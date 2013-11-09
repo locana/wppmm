@@ -4,11 +4,18 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using WPPMM.DataModel;
 
 namespace WPPMM.CameraManager
 {
     class IntervalShootingManager : INotifyPropertyChanged
     {
+        private readonly AppStatus status;
+
+        public IntervalShootingManager(AppStatus status)
+        {
+            this.status = status;
+        }
 
         public Action ActTakePicture
         {
@@ -106,7 +113,7 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
-            CameraManager.GetInstance().cameraStatus.IsIntervalShootingActivated = true;
+            status.IsIntervalShootingActivated = true;
             _Init();
             Timer.Interval = TimeSpan.FromSeconds(IntervalTime);
             Timer.Tick += new EventHandler(RequestActTakePicture);
@@ -122,7 +129,7 @@ namespace WPPMM.CameraManager
 
         public void Stop()
         {
-            CameraManager.GetInstance().cameraStatus.IsIntervalShootingActivated = false;
+            status.IsIntervalShootingActivated = false;
             Timer.Stop();
             OnPropertyChanged("IntervalStatusPanelVisibility");
         }

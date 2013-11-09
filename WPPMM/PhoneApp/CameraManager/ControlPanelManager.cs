@@ -10,13 +10,15 @@ namespace WPPMM.CameraManager
     public class ControlPanelManager
     {
         private CameraManager manager;
-        private Status status;
         private StackPanel panel;
+        private Status status;
+        private ControlPanelViewData data;
 
         public ControlPanelManager(StackPanel panel)
         {
             this.manager = CameraManager.GetInstance();
             this.status = manager.cameraStatus;
+            this.data = new ControlPanelViewData(status);
             this.panel = panel;
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
@@ -107,19 +109,19 @@ namespace WPPMM.CameraManager
 
             var statusbind = new Binding()
             {
-                Source = status,
+                Source = data,
                 Path = new PropertyPath("CpIsAvailable" + id),
                 Mode = BindingMode.OneWay
             };
             var selectedbind = new Binding()
             {
-                Source = status,
+                Source = data,
                 Path = new PropertyPath("CpSelectedIndex" + id),
                 Mode = BindingMode.TwoWay
             };
             var candidatesbind = new Binding()
             {
-                Source = status,
+                Source = data,
                 Path = new PropertyPath("CpCandidates" + id),
                 Mode = BindingMode.OneWay
             };

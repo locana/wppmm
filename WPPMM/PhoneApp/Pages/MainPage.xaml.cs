@@ -29,6 +29,7 @@ namespace WPPMM
 
         private const double APPBAR_OPACITY = 0.0;
 
+        private ShootingViewData svd;
         private readonly PostViewData pvd = new PostViewData();
         private AppBarManager abm = new AppBarManager();
         private ControlPanelManager cpm;
@@ -291,9 +292,9 @@ namespace WPPMM
             else
             {
                 Debug.WriteLine("Await for async device discovery");
-                cameraManager.cameraStatus.IsSearchingDevice = true;
+                AppStatus.GetInstance().IsSearchingDevice = true;
                 var found = await PrepareConnectionAsync();
-                Dispatcher.BeginInvoke(() => { cameraManager.cameraStatus.IsSearchingDevice = false; });
+                Dispatcher.BeginInvoke(() => { AppStatus.GetInstance().IsSearchingDevice = false; });
 
                 Debug.WriteLine("Async device discovery result: " + found);
                 if (found)
@@ -425,10 +426,11 @@ namespace WPPMM
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            ShootButton.DataContext = cameraManager.cameraStatus;
-            ShootingProgress.DataContext = cameraManager.cameraStatus;
-            ZoomElements.DataContext = cameraManager.cameraStatus;
-            Toast.DataContext = cameraManager.cameraStatus;
+            svd = new ShootingViewData(AppStatus.GetInstance(), cameraManager.cameraStatus);
+            ShootButton.DataContext = svd;
+            ShootingProgress.DataContext = svd;
+            ZoomElements.DataContext = svd;
+            Toast.DataContext = svd;
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
             IntervalStatusTime.DataContext = cameraManager.IntervalManager;
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
@@ -445,6 +447,7 @@ namespace WPPMM
             IntervalStatusTime.DataContext = null;
             IntervalStatusCount.DataContext = null;
             cpm = null;
+            svd = null;
         }
 
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)

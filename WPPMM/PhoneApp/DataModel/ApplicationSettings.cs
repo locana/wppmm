@@ -29,8 +29,6 @@ namespace WPPMM.DataModel
                 {
                     Preference.SetPostviewTransferEnabled(value);
                     _IsPostviewTransferEnabled = value;
-                    OnPropertyChanged("IsPostviewTransferEnabled");
-                    OnPropertyChanged("SelectedIndexPostviewTransferEnabled");
                 }
             }
             get
@@ -80,23 +78,6 @@ namespace WPPMM.DataModel
             }
         }
 
-
-        public string[] CandidatesPostviewTransferEnabled
-        {
-            get
-            {
-                return new string[] { Resources.AppResources.On, Resources.AppResources.Off };
-            }
-        }
-
-        public int SelectedIndexPostviewTransferEnabled
-        {
-            get
-            {
-                return IsPostviewTransferEnabled ? 0 : 1;
-            }
-        }
-
         public string[] CandidatesIntervalShootingEnabled
         {
             get
@@ -115,7 +96,8 @@ namespace WPPMM.DataModel
 
         public string[] CandidatesIntervalTime
         {
-            get {
+            get
+            {
                 return new string[] { "5", "7", "10", "15", "20", "30" };
             }
         }

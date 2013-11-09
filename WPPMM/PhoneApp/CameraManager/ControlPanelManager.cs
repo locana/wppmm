@@ -83,12 +83,7 @@ namespace WPPMM.CameraManager
                     }));
             }
 
-            panel.Children.Add(CreatePostviewSettingPanel(Resources.AppResources.PostviewTransferSetting,
-                (sender, arg) =>
-                {
-                    var selected = (sender as ListPicker).SelectedIndex;
-                    ApplicationSettings.GetInstance().IsPostviewTransferEnabled = (selected == 0);
-                }));
+            panel.Children.Add(CreatePostviewSettingPanel(Resources.AppResources.PostviewTransferSetting));
 
             panel.Children.Add(CreateIntervalEnableSettingPanel(Resources.AppResources.IntervalSetting,
                 (sender, arg) =>
@@ -143,12 +138,8 @@ namespace WPPMM.CameraManager
                 Path = new PropertyPath("CpCandidates" + id),
                 Mode = BindingMode.OneWay
             };
-            var picker = new ListPicker
-            {
-                SelectionMode = SelectionMode.Single,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(10, -5, 10, 0)
-            };
+
+            var picker = CreatePicker();
             picker.SetBinding(ListPicker.IsEnabledProperty, statusbind);
             picker.SetBinding(ListPicker.ItemsSourceProperty, candidatesbind);
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
@@ -158,28 +149,21 @@ namespace WPPMM.CameraManager
             return child;
         }
 
-        private StackPanel CreatePostviewSettingPanel(string title, SelectionChangedEventHandler handler)
+        private StackPanel CreatePostviewSettingPanel(string title)
         {
             var child = CreatePanel(title);
 
-            var selectedbind = new Binding()
+            var checkbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("SelectedIndexPostviewTransferEnabled"),
-                Mode = BindingMode.OneWay
+                Path = new PropertyPath("IsPostviewTransferEnabled"),
+                Mode = BindingMode.TwoWay
             };
 
-            var picker = new ListPicker
-            {
-                SelectionMode = SelectionMode.Single,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(10, -5, 10, 0)
-            };
-            picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesPostviewTransferEnabled;
-            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
-            picker.SelectionChanged += handler;
+            var toggle = CreateToggle();
+            toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
 
-            child.Children.Add(picker);
+            child.Children.Add(toggle);
             return child;
         }
 
@@ -193,13 +177,7 @@ namespace WPPMM.CameraManager
                 Mode = BindingMode.OneWay
             };
 
-            var picker = new ListPicker
-            {
-                SelectionMode = SelectionMode.Single,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(10, -5, 10, 0)
-            };
-
+            var picker = CreatePicker();
             picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalShootingEnabled;
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
             picker.SelectionChanged += handler;
@@ -219,13 +197,7 @@ namespace WPPMM.CameraManager
                 Mode = BindingMode.OneWay
             };
 
-            var picker = new ListPicker
-            {
-                SelectionMode = SelectionMode.Single,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(10, -5, 10, 0)
-            };
-
+            var picker = CreatePicker();
             picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalTime;
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
             picker.SelectionChanged += handler;
@@ -233,8 +205,27 @@ namespace WPPMM.CameraManager
             child.Children.Add(picker);
             return child;
         }
-                
-        private StackPanel CreatePanel(string title)
+
+        private static ListPicker CreatePicker()
+        {
+            return new ListPicker
+            {
+                SelectionMode = SelectionMode.Single,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(10, -5, 10, 0)
+            };
+        }
+
+        private static ToggleSwitch CreateToggle()
+        {
+            return new ToggleSwitch
+            {
+
+                Margin = new Thickness(10, -5, 10, 0)
+            };
+        }
+
+        private static StackPanel CreatePanel(string title)
         {
             var child = new StackPanel
             {

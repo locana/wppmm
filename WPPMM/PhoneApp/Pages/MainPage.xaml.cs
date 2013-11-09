@@ -281,6 +281,7 @@ namespace WPPMM
             ToastApparance.Completed += ToastApparance_Completed;
             if (cameraManager.IsClientReady())
             {
+                cameraManager.OperateInitialProcess();
                 cameraManager.RunEventObserver();
             }
             else if (!GetSSIDName().StartsWith("DIRECT-"))
@@ -298,6 +299,7 @@ namespace WPPMM
                 Debug.WriteLine("Async device discovery result: " + found);
                 if (found)
                 {
+                    cameraManager.OperateInitialProcess();
                     cameraManager.RunEventObserver();
                 }
                 else

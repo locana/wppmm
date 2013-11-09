@@ -109,6 +109,7 @@ namespace WPPMM.CameraManager
         public Status()
         {
             _init();
+            InitEventParams();
         }
 
         private void _init()
@@ -117,7 +118,6 @@ namespace WPPMM.CameraManager
             IsTryingToConnectLiveview = false;
             IsTakingPicture = false;
             MethodTypes = new List<string>();
-            IsLiveviewAvailable = false;
         }
 
         public void InitEventParams()
@@ -232,9 +232,15 @@ namespace WPPMM.CameraManager
                 OnPropertyChanged("ShootButtonImage");
                 OnPropertyChanged("CpCandidatesShootMode");
                 OnPropertyChanged("CpSelectedIndexShootMode");
+                if (value != null && value.current != null & CurrentShootModeNotifier != null)
+                {
+                    CurrentShootModeNotifier.Invoke(value.current);
+                }
             }
             get { return _ShootModeInfo; }
         }
+
+        public Action<string> CurrentShootModeNotifier;
 
         public BasicInfo<string> ExposureMode { set; get; }
         public BasicInfo<string> ShutterSpeed { set; get; }

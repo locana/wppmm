@@ -28,7 +28,6 @@ namespace WPPMM.CameraManager
         private CameraServiceClient10 client;
         private LvStreamProcessor lvProcessor = new LvStreamProcessor();
 
-        private String liveViewUrl = null;
         private readonly object lockObject = new Object();
         private readonly Downloader downloader = new Downloader();
 
@@ -69,6 +68,43 @@ namespace WPPMM.CameraManager
         private CameraManager()
         {
             Refresh();
+
+            cameraStatus.LiveviewAvailabilityNotifier += (available) =>
+            {
+                Debug.WriteLine("Liveview Availability changed:" + available);
+                if (available)
+                {
+                    cameraStatus.IsTryingToConnectLiveview = true;
+                    client.StartLiveview((code) =>
+                    {
+                        cameraStatus.IsTryingToConnectLiveview = false;
+                    }, (url) =>
+                    {
+                        if (lvProcessor != null && lvProcessor.IsOpen)
+                        {
+                            Debug.WriteLine("Close previous LVProcessor");
+                            lvProcessor.CloseConnection();
+                        }
+
+                        lvProcessor = new LvStreamProcessor();
+                        try
+                        {
+                            lvProcessor.OpenConnection(url, OnJpegRetrieved, () =>
+                            {
+                                cameraStatus.IsTryingToConnectLiveview = false;
+                            });
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            return;
+                        }
+                    });
+                }
+                else
+                {
+                    lvProcessor.CloseConnection();
+                }
+            };
         }
 
         public bool IsClientReady()
@@ -79,7 +115,7 @@ namespace WPPMM.CameraManager
         public void Refresh()
         {
             lvProcessor.CloseConnection();
-            liveViewUrl = null;
+            cameraStatus.Init();
             watch = new Stopwatch();
             watch.Start();
             deviceInfo = null;
@@ -101,10 +137,6 @@ namespace WPPMM.CameraManager
             {
                 RequestStartRecmode();
             }
-            else
-            {
-                RequestStartLiveView();
-            }
         }
 
         // request and callback
@@ -113,20 +145,7 @@ namespace WPPMM.CameraManager
             if (client == null)
                 return;
 
-            client.StartRecMode(OnError, () => { RequestStartLiveView(); });
-        }
-
-        // live view
-        public void RequestStartLiveView()
-        {
-            startLiveview(OnError, (res) =>
-            {
-                // finally, url for liveView has get
-                Debug.WriteLine("OnStartLiveViewResult: " + res);
-                liveViewUrl = res;
-                cameraStatus.isConnected = true;
-                NoticeUpdate();
-            });
+            client.StartRecMode(OnError, () => { });
         }
 
         public void SetPostViewImageSize(String size)
@@ -153,33 +172,6 @@ namespace WPPMM.CameraManager
             client.StartLiveview(error, result);
         }
 
-        public bool ConnectLiveView()
-        {
-            Debug.WriteLine("Connect liveview");
-            if (liveViewUrl == null)
-            {
-                Debug.WriteLine("error: liveViewUrl is null");
-                return false;
-            }
-
-            if (lvProcessor != null && lvProcessor.IsOpen)
-            {
-                Debug.WriteLine("Close previous LVProcessor");
-                lvProcessor.CloseConnection();
-            }
-
-            lvProcessor = new LvStreamProcessor();
-            try
-            {
-                lvProcessor.OpenConnection(liveViewUrl, OnJpegRetrieved, OnLiveViewClosed);
-            }
-            catch (InvalidOperationException)
-            {
-                return false;
-            }
-            return true;
-        }
-
         BitmapImage ImageSource = new BitmapImage()
         {
             CreateOptions = BitmapCreateOptions.None
@@ -188,20 +180,6 @@ namespace WPPMM.CameraManager
         // callback methods (liveview)
         public void OnJpegRetrieved(byte[] data)
         {
-
-            if (!cameraStatus.IsAvailableShooting)
-            {
-                cameraStatus.IsAvailableShooting = true;
-
-                //GetMethodTypes(null); // Why call here?
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    NoticeUpdate();
-                });
-            }
-
-            //Debug.WriteLine("[CameraManager] Jpeg retrived: " + size + "bytes.");
-
             if (IsRendering)
             {
                 return;
@@ -220,17 +198,6 @@ namespace WPPMM.CameraManager
             });
         }
 
-        public void OnLiveViewClosed()
-        {
-            Debug.WriteLine("liveView connection closed.");
-            // init();
-            cameraStatus.Init();
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                NoticeUpdate();
-            });
-        }
-
         public void RequestCloseLiveView()
         {
             lvProcessor.CloseConnection();
@@ -240,7 +207,7 @@ namespace WPPMM.CameraManager
 
         public void RequestSearchDevices(Action Found, Action Timeout)
         {
-            deviceFinder.SearchDevices(TIMEOUT, (info) => { OnServerFound(info, Found); }, () => { OnTimeout(); Timeout.Invoke(); });
+            deviceFinder.SearchDevices(TIMEOUT, (info) => { OnServerFound(info, Found); }, () => { Timeout.Invoke(); });
         }
 
         private void OnServerFound(DeviceInfo di, Action Found)
@@ -292,19 +259,11 @@ namespace WPPMM.CameraManager
 
         public void RequestActTakePicture()
         {
-            // lvProcessor.CloseConnection();
-            actTakePicture(OnActTakePictureError, OnResultActTakePicture);
-        }
-
-        private void actTakePicture(Action<int> error, Action<string[]> result)
-        {
             if (client == null)
                 return;
 
-            client.ActTakePicture(error, result);
-
+            client.ActTakePicture(OnActTakePictureError, OnResultActTakePicture);
             cameraStatus.IsTakingPicture = true;
-            NoticeUpdate();
         }
 
         public void OnResultActTakePicture(String[] res)
@@ -457,7 +416,7 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
-            observer.Start(cameraStatus, OnDetectDifference, OnStop);
+            observer.Start(cameraStatus, OnDetectDifference, () => { });
         }
 
         public void StopEventObserver()
@@ -485,25 +444,6 @@ namespace WPPMM.CameraManager
                     //Debug.WriteLine("Difference detected: default");
                     break;
             }
-        }
-
-        public void OnStop()
-        {
-
-        }
-
-
-        // -------
-
-        public void OnTimeout()
-        {
-            Debug.WriteLine("request timeout.");
-            NoticeUpdate();
-        }
-
-        public void OnError()
-        {
-            Debug.WriteLine("Error, something wrong.");
         }
 
         public void OnError(int errno)

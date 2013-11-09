@@ -151,19 +151,6 @@ namespace WPPMM
 
         internal void LiveViewUpdateListener(Status cameraStatus)
         {
-            if (isRequestingLiveview &&
-                cameraStatus.isConnected &&
-                !cameraStatus.IsAvailableShooting)
-            {
-                // starting liveview
-                bool started = cameraManager.ConnectLiveView();
-                if (!started)
-                {
-                    GoToMainPage();
-                    return;
-                }
-            }
-
             if (cameraStatus.ZoomInfo != null)
             {
                 // dumpZoomInfo(cameraStatus.ZoomInfo);
@@ -286,17 +273,23 @@ namespace WPPMM
             cameraManager.StartToastDisappearance += StartToastDisappearance;
             if (cameraManager.IsClientReady())
             {
-                cameraManager.StartLiveView();
                 cameraManager.RunEventObserver();
+            }
+            else if (!GetSSIDName().StartsWith("DIRECT-"))
+            {
+                Dispatcher.BeginInvoke(() => { GoToMainPage(); });
+                return;
             }
             else
             {
                 Debug.WriteLine("Await for async device discovery");
+                cameraManager.cameraStatus.IsSearchingDevice = true;
                 var found = await PrepareConnectionAsync();
+                Dispatcher.BeginInvoke(() => { cameraManager.cameraStatus.IsSearchingDevice = false; });
+
                 Debug.WriteLine("Async device discovery result: " + found);
                 if (found)
                 {
-                    cameraManager.StartLiveView();
                     cameraManager.RunEventObserver();
                 }
                 else

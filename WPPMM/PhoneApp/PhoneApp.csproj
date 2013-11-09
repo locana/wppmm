@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
+    <Compile Include="CameraManager\IntervalShootingManager.cs" />
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />

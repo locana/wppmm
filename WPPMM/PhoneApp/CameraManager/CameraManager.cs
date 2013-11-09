@@ -61,6 +61,8 @@ namespace WPPMM.CameraManager
 
         private bool IsRendering = false;
 
+        private IntervalShootingManager IntervalManager = new IntervalShootingManager();
+
         private CameraManager()
         {
             Refresh();
@@ -83,6 +85,7 @@ namespace WPPMM.CameraManager
                 observer.Stop();
                 observer = null;
             }
+            IntervalManager.ActTakePicture += this.RequestActTakePicture;
         }
 
         public static CameraManager GetInstance()
@@ -289,6 +292,8 @@ namespace WPPMM.CameraManager
         {
             // lvProcessor.CloseConnection();
             actTakePicture(OnActTakePictureError, OnResultActTakePicture);
+
+            IntervalManager.Start();
         }
 
         private void actTakePicture(Action<int> error, Action<string[]> result)

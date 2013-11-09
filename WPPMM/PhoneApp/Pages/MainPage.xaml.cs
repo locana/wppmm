@@ -290,6 +290,7 @@ namespace WPPMM
                 Debug.WriteLine("Async device discovery result: " + found);
                 if (found)
                 {
+                    cameraManager.OperateInitialProcess();
                     cameraManager.RunEventObserver();
                 }
                 else

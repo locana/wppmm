@@ -69,8 +69,25 @@ namespace WPPMM.CameraManager
             }
         }
 
-        public bool _IsToastVisible = false;
+        private bool _IsIntervalShootingActivated = false;
+        public bool IsIntervalShootingActivated
+        {
+            set
+            {
+                if (_IsIntervalShootingActivated != value)
+                {
+                    _IsIntervalShootingActivated = value;
+                    OnPropertyChanged("ShootButtonImage");
+                    OnPropertyChanged("ShootButtonStatus");
+                }
+            }
+            get
+            {
+                return _IsIntervalShootingActivated;
+            }
+        }
 
+        private bool _IsToastVisible = false;
         public bool IsToastVisible
         {
             get { return _IsToastVisible; }
@@ -267,6 +284,10 @@ namespace WPPMM.CameraManager
         {
             get
             {
+                if (IsIntervalShootingActivated)
+                {
+                    return true;
+                }
                 if (IsTakingPicture)
                 {
                     return false;
@@ -297,6 +318,11 @@ namespace WPPMM.CameraManager
                 {
                     return null;
                 }
+                if (IsIntervalShootingActivated)
+                {
+                    return StopImage;
+                }
+
                 switch (ShootModeInfo.current)
                 {
                     case ApiParams.ShootModeStill:

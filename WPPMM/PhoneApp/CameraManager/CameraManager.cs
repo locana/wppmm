@@ -1,5 +1,4 @@
-﻿using Microsoft.Phone.Reactive;
-using Microsoft.Xna.Framework.Media;
+﻿using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -292,7 +291,7 @@ namespace WPPMM.CameraManager
                 {
                     ShowToast(AppResources.Message_ImageCapture_Succeed);
                 }
-                
+
                 cameraStatus.IsTakingPicture = false;
                 NoticeUpdate();
                 return;

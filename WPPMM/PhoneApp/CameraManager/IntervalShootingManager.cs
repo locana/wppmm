@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace WPPMM.CameraManager
@@ -61,9 +57,14 @@ namespace WPPMM.CameraManager
 
         public void Start()
         {
-           Timer.Interval = TimeSpan.FromSeconds(IntervalTime);
-           Timer.Tick += new EventHandler(RequestActTakePicture);
-           Timer.Start();
+            if (IsRunning)
+            {
+                return;
+            }
+            CameraManager.GetInstance().cameraStatus.IsIntervalShootingActivated = true;
+            Timer.Interval = TimeSpan.FromSeconds(IntervalTime);
+            Timer.Tick += new EventHandler(RequestActTakePicture);
+            Timer.Start();
         }
 
         public void Start(int interval)
@@ -74,6 +75,7 @@ namespace WPPMM.CameraManager
 
         public void Stop()
         {
+            CameraManager.GetInstance().cameraStatus.IsIntervalShootingActivated = false;
             Timer.Stop();
         }
 
@@ -84,7 +86,5 @@ namespace WPPMM.CameraManager
                 ActTakePicture();
             }
         }
-
-
     }
 }

@@ -85,9 +85,11 @@ namespace WPPMM.CameraManager
 
             panel.Children.Add(CreatePostviewSettingPanel());
 
-            panel.Children.Add(CreateIntervalEnableSettingPanel());
-
-            panel.Children.Add(CreateIntervalTimeSettingPanel());
+            if (status.IsSupported("actTakePicture"))
+            {
+                panel.Children.Add(CreateIntervalEnableSettingPanel());
+                panel.Children.Add(CreateIntervalTimeSettingPanel());
+            }
 
             Debug.WriteLine("panels has set!");
 

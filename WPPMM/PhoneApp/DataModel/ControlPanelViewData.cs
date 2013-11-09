@@ -6,9 +6,9 @@ namespace WPPMM.DataModel
 {
     public class ControlPanelViewData : INotifyPropertyChanged
     {
-        private readonly Status status;
+        private readonly CameraStatus status;
 
-        public ControlPanelViewData(Status status)
+        public ControlPanelViewData(CameraStatus status)
         {
             this.status = status;
             status.PropertyChanged += (sender, e) =>

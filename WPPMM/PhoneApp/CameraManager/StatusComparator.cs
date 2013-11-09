@@ -5,7 +5,7 @@ namespace WPPMM.CameraManager
 {
     class StatusComparator
     {
-        internal static bool IsAvailableApisModified(Status status, string[] latest)
+        internal static bool IsAvailableApisModified(CameraStatus status, string[] latest)
         {
             if (latest == null)
             {
@@ -28,7 +28,7 @@ namespace WPPMM.CameraManager
             return false;
         }
 
-        internal static bool IsCameraStatusModified(Status status, string latest)
+        internal static bool IsCameraStatusModified(CameraStatus status, string latest)
         {
             if (latest == null)
             {
@@ -40,7 +40,7 @@ namespace WPPMM.CameraManager
             return previous != latest;
         }
 
-        internal static bool IsZoomInfoModified(Status status, ZoomInfo latest)
+        internal static bool IsZoomInfoModified(CameraStatus status, ZoomInfo latest)
         {
             if (latest == null)
             {
@@ -56,7 +56,7 @@ namespace WPPMM.CameraManager
                 previous.position_in_current_box != latest.position_in_current_box;
         }
 
-        internal static bool IsLiveviewAvailableModified(Status status, bool latest)
+        internal static bool IsLiveviewAvailableModified(CameraStatus status, bool latest)
         {
             var previous = status.IsLiveviewAvailable;
             status.IsLiveviewAvailable = latest;
@@ -64,7 +64,7 @@ namespace WPPMM.CameraManager
             return previous != latest;
         }
 
-        internal static bool IsPostviewSizeInfoModified(Status status, BasicInfo<string> latest)
+        internal static bool IsPostviewSizeInfoModified(CameraStatus status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -75,7 +75,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsSelftimerInfoModified(Status status, BasicInfo<int> latest)
+        internal static bool IsSelftimerInfoModified(CameraStatus status, BasicInfo<int> latest)
         {
             if (latest == null)
             {
@@ -86,7 +86,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsShootModeInfoModified(Status status, BasicInfo<string> latest)
+        internal static bool IsShootModeInfoModified(CameraStatus status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -97,7 +97,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsExposureModeInfoModified(Status status, BasicInfo<string> latest)
+        internal static bool IsExposureModeInfoModified(CameraStatus status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -108,7 +108,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsShutterSpeedModified(Status status, BasicInfo<string> latest)
+        internal static bool IsShutterSpeedModified(CameraStatus status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -119,7 +119,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsISOModified(Status status, BasicInfo<string> latest)
+        internal static bool IsISOModified(CameraStatus status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -130,7 +130,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsFNumberModified(Status status, BasicInfo<string> latest)
+        internal static bool IsFNumberModified(CameraStatus status, BasicInfo<string> latest)
         {
             if (latest == null)
             {
@@ -141,7 +141,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsEvInfoModified(Status status, EvInfo latest)
+        internal static bool IsEvInfoModified(CameraStatus status, EvInfo latest)
         {
             if (latest == null)
             {
@@ -156,7 +156,7 @@ namespace WPPMM.CameraManager
                 previous.StepDefinition != latest.StepDefinition;
         }
 
-        internal static bool IsProgramShiftModified(Status status, bool? latest)
+        internal static bool IsProgramShiftModified(CameraStatus status, bool? latest)
         {
             if (latest == null)
             {

@@ -30,11 +30,11 @@ namespace WPPMM.CameraManager
         private readonly object lockObject = new Object();
         private readonly Downloader downloader = new Downloader();
 
-        private readonly Status _cameraStatus = new Status();
-        public Status cameraStatus { get { return _cameraStatus; } }
+        private readonly CameraStatus _cameraStatus = new CameraStatus();
+        public CameraStatus cameraStatus { get { return _cameraStatus; } }
 
         private Action<byte[]> LiveViewUpdateListener;
-        internal event Action<Status> UpdateEvent;
+        internal event Action<CameraStatus> UpdateEvent;
 
         private Stopwatch watch;
 

@@ -11,9 +11,9 @@ namespace WPPMM.DataModel
     {
         private readonly AppStatus appStatus;
 
-        private readonly Status cameraStatus;
+        private readonly CameraStatus cameraStatus;
 
-        public ShootingViewData(AppStatus aStatus, Status cStatus)
+        public ShootingViewData(AppStatus aStatus, CameraStatus cStatus)
         {
             this.appStatus = aStatus;
             appStatus.PropertyChanged += (sender, e) =>

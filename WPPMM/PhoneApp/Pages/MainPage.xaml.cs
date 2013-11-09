@@ -129,7 +129,7 @@ namespace WPPMM
             MyPivot.SelectedIndex = 0;
         }
 
-        internal void WifiUpdateListener(Status cameraStatus)
+        internal void WifiUpdateListener(CameraStatus cameraStatus)
         {
 
             Debug.WriteLine("WifiUpdateLIstener called");
@@ -151,7 +151,7 @@ namespace WPPMM
             }
         }
 
-        internal void LiveViewUpdateListener(Status cameraStatus)
+        internal void LiveViewUpdateListener(CameraStatus cameraStatus)
         {
             if (cameraStatus.ZoomInfo != null)
             {

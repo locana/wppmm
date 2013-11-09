@@ -11,7 +11,7 @@ namespace WPPMM.CameraManager
     {
         private CameraManager manager;
         private StackPanel panel;
-        private Status status;
+        private CameraStatus status;
         private ControlPanelViewData data;
 
         public ControlPanelManager(StackPanel panel)

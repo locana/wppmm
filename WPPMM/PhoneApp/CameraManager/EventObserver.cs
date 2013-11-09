@@ -17,7 +17,7 @@ namespace WPPMM.CameraManager
 
         private const int RETRY_INTERVAL_SEC = 3;
 
-        private Status status;
+        private CameraStatus status;
 
         private Action<EventMember> OnDetectDifference = null;
 
@@ -41,7 +41,7 @@ namespace WPPMM.CameraManager
         /// <param name="OnDetectDifference">Called when the parameter has been changed</param>
         /// <param name="OnStop">Called when event observation is finished with error</param>
         ///
-        public void Start(Status status, Action<EventMember> OnDetectDifference, Action OnStop)
+        public void Start(CameraStatus status, Action<EventMember> OnDetectDifference, Action OnStop)
         {
             Debug.WriteLine("EventObserver.Start");
             if (status == null | OnDetectDifference == null || OnStop == null)
@@ -121,7 +121,7 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
-            Status target = status;
+            CameraStatus target = status;
 
             var data = e.Argument as Event;
             if (StatusComparator.IsAvailableApisModified(target, data.AvailableApis))

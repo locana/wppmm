@@ -168,7 +168,7 @@ namespace WPPMM
             if (cameraStatus.ZoomInfo != null)
             {
                 // dumpZoomInfo(cameraStatus.ZoomInfo);
-                double margin_left = cameraStatus.ZoomInfo.position_in_current_box * 156 / 100;
+                double margin_left = cameraStatus.ZoomInfo.position * 156 / 100;
                 ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
                 Debug.WriteLine("zoom bar display update: " + margin_left);
             }

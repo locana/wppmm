@@ -429,6 +429,9 @@ namespace WPPMM
             ShootingProgress.DataContext = cameraManager.cameraStatus;
             ZoomElements.DataContext = cameraManager.cameraStatus;
             Toast.DataContext = cameraManager.cameraStatus;
+            IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
+            IntervalStatusTime.DataContext = cameraManager.IntervalManager;
+            IntervalStatusCount.DataContext = cameraManager.IntervalManager;
             cpm = new ControlPanelManager(ControlPanel);
         }
 
@@ -437,6 +440,10 @@ namespace WPPMM
             ShootButton.DataContext = null;
             ShootingProgress.DataContext = null;
             ZoomElements.DataContext = null;
+            Toast.DataContext = null;
+            IntervalStatusPanel.DataContext = null;
+            IntervalStatusTime.DataContext = null;
+            IntervalStatusCount.DataContext = null;
             cpm = null;
         }
 
@@ -456,12 +463,14 @@ namespace WPPMM
                     ShootButton.Margin = new Thickness(0, 0, 70, 30);
                     ZoomElements.Margin = new Thickness(70, 0, 0, 30);
                     PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
+                    IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 30, 80);
                     ZoomElements.Margin = new Thickness(30, 0, 0, 80);
                     PostViewWindow.Margin = new Thickness(20, 20, 0, 0);
+                    IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     break;
             }
         }

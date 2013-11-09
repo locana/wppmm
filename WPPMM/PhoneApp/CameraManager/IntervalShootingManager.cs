@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace WPPMM.CameraManager
 {
-    class IntervalShootingManager
+    class IntervalShootingManager : INotifyPropertyChanged
     {
 
         public Action ActTakePicture
@@ -12,16 +16,32 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        private int _IntervalTime = 5;
         public int IntervalTime
         {
-            get;
-            set;
+            get { return _IntervalTime; }
+            set
+            {
+                if (value != _IntervalTime)
+                {
+                    _IntervalTime = value;
+                    OnPropertyChanged("IntervalStatusTime");
+                }
+            }
         }
 
+        private int _ShootCount = 0;
         public int ShootCount
         {
-            get;
-            set;
+            get { return _ShootCount; }
+            set
+            {
+                if (value != _ShootCount)
+                {
+                    _ShootCount = value;
+                    OnPropertyChanged("IntervalStatusCount");
+                }
+            }
         }
 
         public bool IsRunning
@@ -33,6 +53,31 @@ namespace WPPMM.CameraManager
                     return false;
                 }
                 return Timer.IsEnabled;
+            }
+        }
+
+        public Visibility IntervalStatusPanelVisibility
+        {
+            get
+            {
+                Debug.WriteLine("get interval panel visibility: " + this.IsRunning);
+                return this.IsRunning ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public String IntervalStatusTime
+        {
+            get
+            {
+                return "Interval (sec.): " + IntervalTime;
+            }
+        }
+
+        public String IntervalStatusCount
+        {
+            get
+            {
+                return "Count: " + ShootCount;
             }
         }
 
@@ -62,9 +107,11 @@ namespace WPPMM.CameraManager
                 return;
             }
             CameraManager.GetInstance().cameraStatus.IsIntervalShootingActivated = true;
+            _Init();
             Timer.Interval = TimeSpan.FromSeconds(IntervalTime);
             Timer.Tick += new EventHandler(RequestActTakePicture);
             Timer.Start();
+            OnPropertyChanged("IntervalStatusPanelVisibility");
         }
 
         public void Start(int interval)
@@ -77,6 +124,7 @@ namespace WPPMM.CameraManager
         {
             CameraManager.GetInstance().cameraStatus.IsIntervalShootingActivated = false;
             Timer.Stop();
+            OnPropertyChanged("IntervalStatusPanelVisibility");
         }
 
         public void RequestActTakePicture(object sender, EventArgs e)
@@ -84,6 +132,24 @@ namespace WPPMM.CameraManager
             if (ActTakePicture != null)
             {
                 ActTakePicture();
+                ShootCount++;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string name)
+        {
+            Debug.WriteLine("OnPropertyChanged(interval): " + name);
+            if (PropertyChanged != null)
+            {
+                try
+                {
+                    Debug.WriteLine("calling OnPropertyChanged(interval): " + name);
+                    Deployment.Current.Dispatcher.BeginInvoke(() => { PropertyChanged(this, new PropertyChangedEventArgs(name)); });
+                }
+                catch (COMException)
+                {
+                }
             }
         }
     }

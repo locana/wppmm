@@ -58,7 +58,7 @@ namespace WPPMM.CameraManager
 
         private bool IsRendering = false;
 
-        private IntervalShootingManager IntervalManager = new IntervalShootingManager();
+        internal IntervalShootingManager IntervalManager = new IntervalShootingManager();
 
         private CameraManager()
         {

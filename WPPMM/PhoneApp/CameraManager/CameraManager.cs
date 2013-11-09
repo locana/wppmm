@@ -270,7 +270,7 @@ namespace WPPMM.CameraManager
             else
             {
                 this.RequestActTakePicture();
-                IntervalManager.Start();
+                IntervalManager.Start(ApplicationSettings.GetInstance().IntervalTime);
             }
         }
 

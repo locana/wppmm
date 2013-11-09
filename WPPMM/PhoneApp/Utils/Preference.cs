@@ -56,5 +56,28 @@ namespace WPPMM.Utils
             Debug.WriteLine("interval setting saved: " + enable);
             settings.Add(interval_enable_key, enable);
         }
+
+        public static int IntervalTime()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(interval_time_key))
+            {
+                return (int)settings[interval_time_key];
+            }
+            else
+            {
+                return 5;
+            }
+        }
+
+        public static void SetIntervalTime(int time)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(interval_time_key))
+            {
+                settings.Remove(interval_time_key);
+            }
+            settings.Add(interval_time_key, time);
+        }
     }
 }

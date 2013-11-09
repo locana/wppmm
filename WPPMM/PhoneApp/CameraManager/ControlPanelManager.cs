@@ -1,4 +1,5 @@
 ﻿﻿using Microsoft.Phone.Controls;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -96,6 +97,22 @@ namespace WPPMM.CameraManager
                     ApplicationSettings.GetInstance().IsIntervalShootingEnabled = (selected == 0);
                 }));
 
+            panel.Children.Add(CreateIntervalTimeSettingPanel(Resources.AppResources.IntervalTime,
+                (sender, arg) =>
+                {
+                    var selected = (sender as ListPicker).SelectedIndex;
+                    Debug.WriteLine("selected index: " + selected);
+                    foreach (string s in ApplicationSettings.GetInstance().CandidatesIntervalTime)
+                    {
+                        Debug.WriteLine("candidate: " + s);
+                    }
+                    int selectedValue = int.Parse(ApplicationSettings.GetInstance().CandidatesIntervalTime[selected]);
+                    Debug.WriteLine("selected time: " + selectedValue);
+                    ApplicationSettings.GetInstance().IntervalTime = selectedValue;
+                }));
+
+            Debug.WriteLine("panels has set!");
+
             panel.Width = double.NaN;
         }
 
@@ -184,6 +201,32 @@ namespace WPPMM.CameraManager
             };
 
             picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalShootingEnabled;
+            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
+            picker.SelectionChanged += handler;
+
+            child.Children.Add(picker);
+            return child;
+        }
+
+        private StackPanel CreateIntervalTimeSettingPanel(string title, SelectionChangedEventHandler handler)
+        {
+            var child = CreatePanel(title);
+            Debug.WriteLine("create panel: " + title);
+            var selectedbind = new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("SelectedIntervalTime"),
+                Mode = BindingMode.OneWay
+            };
+
+            var picker = new ListPicker
+            {
+                SelectionMode = SelectionMode.Single,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(10, -5, 10, 0)
+            };
+
+            picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalTime;
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
             picker.SelectionChanged += handler;
 

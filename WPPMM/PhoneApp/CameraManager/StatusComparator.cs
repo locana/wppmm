@@ -58,8 +58,8 @@ namespace WPPMM.CameraManager
 
         internal static bool IsLiveviewAvailableModified(Status status, bool latest)
         {
-            var previous = status.LiveviewAvailable;
-            status.LiveviewAvailable = latest;
+            var previous = status.IsLiveviewAvailable;
+            status.IsLiveviewAvailable = latest;
 
             return previous != latest;
         }

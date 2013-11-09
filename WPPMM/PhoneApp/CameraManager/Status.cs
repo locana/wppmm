@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -24,29 +23,30 @@ namespace WPPMM.CameraManager
             set;
         }
 
-        /// <summary>
-        /// Is this phone connected to target device (after getting URL of liveview)
-        /// </summary>
-        public bool isConnected
+        private bool _IsTryingToConnectLieview = false;
+        public bool IsTryingToConnectLiveview
         {
-            get;
-            set;
-        }
-
-        private bool _IsAvailableShooting = false;
-        /// <summary>
-        /// Is available shooting (liveview running)
-        /// </summary>
-        public bool IsAvailableShooting
-        {
-            get { return _IsAvailableShooting; }
+            get { return _IsTryingToConnectLieview; }
             set
             {
-                if (_IsAvailableShooting != value)
+                if (_IsTryingToConnectLieview != value)
                 {
-                    _IsAvailableShooting = value;
+                    _IsTryingToConnectLieview = value;
                     OnPropertyChanged("ShootingProgressVisibility");
-                    OnPropertyChanged("ShootButtonStatus");
+                }
+            }
+        }
+
+        private bool _IsSearchingDevice = false;
+        public bool IsSearchingDevice
+        {
+            get { return _IsSearchingDevice; }
+            set
+            {
+                if (_IsSearchingDevice != value)
+                {
+                    _IsSearchingDevice = value;
+                    OnPropertyChanged("ShootingProgressVisibility");
                 }
             }
         }
@@ -114,10 +114,26 @@ namespace WPPMM.CameraManager
         private void _init()
         {
             isAvailableConnecting = false;
-            IsAvailableShooting = false;
-            isConnected = false;
+            IsTryingToConnectLiveview = false;
             IsTakingPicture = false;
             MethodTypes = new List<string>();
+            IsLiveviewAvailable = false;
+        }
+
+        public void InitEventParams()
+        {
+            ProgramShiftActivated = false;
+            EvInfo = null;
+            ISOSpeedRate = null;
+            ShutterSpeed = null;
+            ExposureMode = null;
+            ShootModeInfo = null;
+            SelfTimerInfo = null;
+            PostviewSizeInfo = null;
+            IsLiveviewAvailable = false;
+            ZoomInfo = null;
+            CameraStatus = ApiParams.EventNotReady;
+            AvailableApis = null;
         }
 
         private string[] _AvailableApis;
@@ -161,7 +177,27 @@ namespace WPPMM.CameraManager
         }
 
         public ZoomInfo ZoomInfo { set; get; }
-        public bool LiveviewAvailable { set; get; }
+
+        private bool _IsLiveviewAvailable = false;
+        public bool IsLiveviewAvailable
+        {
+            set
+            {
+                if (_IsLiveviewAvailable != value)
+                {
+                    _IsLiveviewAvailable = value;
+                    if (LiveviewAvailabilityNotifier != null)
+                    {
+                        LiveviewAvailabilityNotifier.Invoke(value);
+                    }
+                }
+            }
+            get
+            {
+                return _IsLiveviewAvailable;
+            }
+        }
+        public Action<bool> LiveviewAvailabilityNotifier;
 
         private BasicInfo<string> _PostviewSizeInfo;
         public BasicInfo<string> PostviewSizeInfo
@@ -211,25 +247,30 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                return (IsSupported("actTakePicture") || IsSupported("startMovieRec"))
+                return (IsSupported("actTakePicture") || IsSupported("startMovieRec") || IsSupported("startAudioRec"))
                     ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         public Visibility ShootingProgressVisibility
         {
-            get { return (IsTakingPicture || !IsAvailableShooting) ? Visibility.Visible : Visibility.Collapsed; }
+            get { return (IsTakingPicture || IsTryingToConnectLiveview || IsSearchingDevice) ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         public bool ShootButtonStatus
         {
-            //get { return !IsTakingPicture && IsAvailableShooting; }
             get
             {
+                if (IsTakingPicture)
+                {
+                    return false;
+                }
+
                 switch (CameraStatus)
                 {
                     case ApiParams.EventIdle:
                     case ApiParams.EventMvRecording:
+                    case ApiParams.EventAuRecording:
                         return true;
                     default:
                         return false;
@@ -239,13 +280,14 @@ namespace WPPMM.CameraManager
 
         private static readonly BitmapImage StillImage = new BitmapImage(new Uri("/Assets/Button/Camera.png", UriKind.Relative));
         private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Button/Camcorder.png", UriKind.Relative));
+        private static readonly BitmapImage AudioImage = new BitmapImage(new Uri("/Assets/Button/Music.png", UriKind.Relative));
         private static readonly BitmapImage StopImage = new BitmapImage(new Uri("/Assets/Button/Stop.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {
             get
             {
-                if (ShootModeInfo == null || ShootModeInfo.current == null || StillImage == null || CamImage == null)
+                if (ShootModeInfo == null || ShootModeInfo.current == null)
                 {
                     return null;
                 }
@@ -258,6 +300,11 @@ namespace WPPMM.CameraManager
                             return StopImage;
                         else
                             return CamImage;
+                    case ApiParams.ShootModeAudio:
+                        if (CameraStatus == ApiParams.EventAuRecording)
+                            return StopImage;
+                        else
+                            return AudioImage;
                     default:
                         return null;
                 }

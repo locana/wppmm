@@ -152,19 +152,6 @@ namespace WPPMM
 
         internal void LiveViewUpdateListener(Status cameraStatus)
         {
-            if (isRequestingLiveview &&
-                cameraStatus.isConnected &&
-                !cameraStatus.IsAvailableShooting)
-            {
-                // starting liveview
-                bool started = cameraManager.ConnectLiveView();
-                if (!started)
-                {
-                    GoToMainPage();
-                    return;
-                }
-            }
-
             if (cameraStatus.ZoomInfo != null)
             {
                 // dumpZoomInfo(cameraStatus.ZoomInfo);
@@ -219,23 +206,16 @@ namespace WPPMM
                         case ApiParams.ShootModeMovie:
                             cameraManager.StartMovieRec();
                             break;
+                        case ApiParams.ShootModeAudio:
+                            cameraManager.StartAudioRec();
+                            break;
                     }
                     break;
                 case ApiParams.EventMvRecording:
                     cameraManager.StopMovieRec();
                     break;
-            }
-        }
-
-        private void SwitchShootMode_Clicked(object sender, EventArgs e)
-        {
-            switch (cameraManager.cameraStatus.ShootModeInfo.current)
-            {
-                case ApiParams.ShootModeStill:
-                    cameraManager.SetShootMode(ApiParams.ShootModeMovie);
-                    break;
-                case ApiParams.ShootModeMovie:
-                    cameraManager.SetShootMode(ApiParams.ShootModeStill);
+                case ApiParams.EventAuRecording:
+                    cameraManager.StopAudioRec();
                     break;
             }
         }
@@ -301,17 +281,23 @@ namespace WPPMM
             ToastApparance.Completed += ToastApparance_Completed;
             if (cameraManager.IsClientReady())
             {
-                cameraManager.StartLiveView();
                 cameraManager.RunEventObserver();
+            }
+            else if (!GetSSIDName().StartsWith("DIRECT-"))
+            {
+                Dispatcher.BeginInvoke(() => { GoToMainPage(); });
+                return;
             }
             else
             {
                 Debug.WriteLine("Await for async device discovery");
+                cameraManager.cameraStatus.IsSearchingDevice = true;
                 var found = await PrepareConnectionAsync();
+                Dispatcher.BeginInvoke(() => { cameraManager.cameraStatus.IsSearchingDevice = false; });
+
                 Debug.WriteLine("Async device discovery result: " + found);
                 if (found)
                 {
-                    cameraManager.StartLiveView();
                     cameraManager.RunEventObserver();
                 }
                 else

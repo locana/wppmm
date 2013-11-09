@@ -48,6 +48,7 @@ namespace WPPMM.CameraManager
             {
                 throw new ArgumentNullException();
             }
+            status.InitEventParams();
             this.status = status;
             this.OnDetectDifference = OnDetectDifference;
             this.OnStop = OnStop;

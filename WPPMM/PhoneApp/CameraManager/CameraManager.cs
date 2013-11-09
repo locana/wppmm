@@ -287,16 +287,23 @@ namespace WPPMM.CameraManager
 
         // -------- take picture
 
+        public void ToggleIntevalRec()
+        {
+            if (IntervalManager.IsRunning)
+            {
+                IntervalManager.Stop();
+            }
+            else
+            {
+                this.RequestActTakePicture();
+                IntervalManager.Start();
+            }
+        }
 
         public void RequestActTakePicture()
         {
             // lvProcessor.CloseConnection();
             actTakePicture(OnActTakePictureError, OnResultActTakePicture);
-
-            if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
-            {
-                IntervalManager.Start();
-            }
         }
 
         private void actTakePicture(Action<int> error, Action<string[]> result)

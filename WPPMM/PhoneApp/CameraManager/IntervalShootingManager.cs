@@ -28,7 +28,19 @@ namespace WPPMM.CameraManager
             set;
         }
 
-        DispatcherTimer Timer;
+        public bool IsRunning
+        {
+            get
+            {
+                if (Timer == null)
+                {
+                    return false;
+                }
+                return Timer.IsEnabled;
+            }
+        }
+
+        private DispatcherTimer Timer;
 
         public IntervalShootingManager()
         {

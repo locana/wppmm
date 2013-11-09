@@ -143,14 +143,14 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
-                    <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Margin="-15,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <TextBox HorizontalAlignment="Stretch" Grid.Row="0" Background="{StaticResource PhoneAccentBrush}"
-                                   Margin="0" TextWrapping="Wrap" Padding="10" 
+                    <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                          Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
+                        <TextBlock HorizontalAlignment="Center" Grid.Row="0" 
+                                   TextWrapping="Wrap" Padding="5,5" Height="auto"
                                  Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
-                                   VerticalAlignment="Top" Name="ToastMessage"/>
+                                 Foreground="{StaticResource PhoneForegroundBrush}" 
+                                   VerticalAlignment="Center" Name="ToastMessage"/>
                     </Grid>
                 </Grid>
             </phone:PivotItem>

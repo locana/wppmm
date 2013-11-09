@@ -132,7 +132,8 @@
                             </Button>
                         </Grid>
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay}">
-                            <Rectangle Fill="#888888" Opacity="0.6" Stroke="Black" Margin="-15,0"/>
+                            <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
+                                       Opacity="0.5" Margin="-15,0"/>
                             <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
                         </Grid>
                     </Grid>

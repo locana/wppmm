@@ -291,6 +291,7 @@ namespace WPPMM
 
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             cameraManager.ShowToast += ShowToast;
+            ToastApparance.Completed += ToastApparance_Completed;
             if (cameraManager.IsClientReady())
             {
                 cameraManager.StartLiveView();
@@ -345,6 +346,7 @@ namespace WPPMM
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
+            ToastApparance.Completed -= ToastApparance_Completed;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
             if (cpm != null) { cpm.Hide(); }
         }
@@ -474,7 +476,6 @@ namespace WPPMM
         {
             ToastMessage.Text = message;
             ToastApparance.Begin();
-            ToastApparance.Completed += ToastApparance_Completed;
         }
 
         void ToastApparance_Completed(object sender, EventArgs e)

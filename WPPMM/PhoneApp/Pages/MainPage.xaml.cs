@@ -273,6 +273,7 @@ namespace WPPMM
             cameraManager.StartToastDisappearance += StartToastDisappearance;
             if (cameraManager.IsClientReady())
             {
+                cameraManager.OperateInitialProcess();
                 cameraManager.RunEventObserver();
             }
             else if (!GetSSIDName().StartsWith("DIRECT-"))

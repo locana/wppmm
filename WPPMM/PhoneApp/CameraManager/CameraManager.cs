@@ -58,7 +58,7 @@ namespace WPPMM.CameraManager
 
         private bool IsRendering = false;
 
-        internal IntervalShootingManager IntervalManager = new IntervalShootingManager();
+        internal IntervalShootingManager IntervalManager;
 
         private CameraManager()
         {
@@ -99,6 +99,9 @@ namespace WPPMM.CameraManager
                 observer.Stop();
                 observer = null;
             }
+
+            IntervalManager = new IntervalShootingManager(AppStatus.GetInstance());
+
             if (IntervalManager.ActTakePicture == null)
             {
                 IntervalManager.ActTakePicture += this.RequestActTakePicture;

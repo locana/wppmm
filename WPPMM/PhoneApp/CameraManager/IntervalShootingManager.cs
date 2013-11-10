@@ -15,6 +15,7 @@ namespace WPPMM.CameraManager
         public IntervalShootingManager(AppStatus status)
         {
             this.status = status;
+            _Init();
         }
 
         public Action ActTakePicture
@@ -89,12 +90,6 @@ namespace WPPMM.CameraManager
         }
 
         private DispatcherTimer Timer;
-
-        public IntervalShootingManager()
-        {
-            IntervalTime = 5;
-            _Init();
-        }
 
         public void Init()
         {

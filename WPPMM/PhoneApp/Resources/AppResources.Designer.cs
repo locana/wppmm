@@ -79,7 +79,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   このアプリケーションは下記のオープンソースソフトウェアを使用しています。 に類似しているローカライズされた文字列を検索します。
+        ///   This application contains the following open source softwares. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContainsLicense {
             get {
@@ -88,7 +88,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   設定パネル に類似しているローカライズされた文字列を検索します。
+        ///   Settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlPanel {
             get {
@@ -124,7 +124,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   ネットワークエラーが発生しました に類似しているローカライズされた文字列を検索します。
+        ///   Network error has occured while downloading your picture. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {
             get {
@@ -133,7 +133,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   予期せぬエラーが発生しました。 に類似しているローカライズされた文字列を検索します。
+        ///   Unexpected error has occured. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_Other {
             get {
@@ -142,7 +142,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   予期せぬエラーが発生しました。転送画像サイズを小さくして再度お試しください。 に類似しているローカライズされた文字列を検索します。
+        ///   Unexpected error has occured. Please try again with smaller image size to transfer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_OtherOriginal {
             get {
@@ -151,7 +151,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   画像の保存に失敗しました に類似しているローカライズされた文字列を検索します。
+        ///   Failed to save the picture. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_Saving {
             get {
@@ -160,7 +160,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   画像の保存に失敗しました。転送画像サイズを小さくして再度お試しください。 に類似しているローカライズされた文字列を検索します。
+        ///   Failed to save the picture. Please try again with smaller image size to transfer. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_ImageDL_SavingOriginal {
             get {
@@ -169,7 +169,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。 に類似しているローカライズされた文字列を検索します。
+        ///   Couldn&apos;t find the devide. Make sure the SSID of connected access point is same as your device&apos;s one. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_CantFindDevice {
             get {
@@ -178,7 +178,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   左右にスワイプしてリモコンを開始できます に類似しているローカライズされた文字列を検索します。
+        ///   Swipe to start remote control. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_StartLiveView {
             get {
@@ -187,7 +187,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Wi-Fi設定から、対応したカメラ機器に接続してください に類似しているローカライズされた文字列を検索します。
+        ///   Go to Wi-Fi settings and connect to your camera device. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_WiFiNotEnabled {
             get {
@@ -196,7 +196,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   写真が撮影されました！ に類似しているローカライズされた文字列を検索します。
+        ///   The picture has been captured successfully! に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Message_ImageCapture_Succeed {
             get {
@@ -205,7 +205,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   カメラロールに写真を保存しました！ に類似しているローカライズされた文字列を検索します。
+        ///   The picture has been saved successfully! に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Message_ImageDL_Succeed {
             get {
@@ -214,7 +214,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   オフ に類似しているローカライズされた文字列を検索します。
+        ///   OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Off {
             get {
@@ -223,7 +223,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   オン に類似しているローカライズされた文字列を検索します。
+        ///   ON に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string On {
             get {
@@ -232,7 +232,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   オープンソースライセンス に類似しているローカライズされた文字列を検索します。
+        ///   Open source licenses に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OSSText {
             get {
@@ -241,7 +241,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   撮影画像受信 に類似しているローカライズされた文字列を検索します。
+        ///   Receive captured image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PostviewTransferSetting {
             get {
@@ -268,7 +268,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   ja-jp に類似しているローカライズされた文字列を検索します。
+        ///   en に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ResourceLanguage {
             get {
@@ -277,7 +277,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   秒 に類似しているローカライズされた文字列を検索します。
+        ///    seconds に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Seconds {
             get {
@@ -286,7 +286,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   セルフタイマー に類似しているローカライズされた文字列を検索します。
+        ///   Self timer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SelfTimer {
             get {
@@ -295,7 +295,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   受信画像サイズ に類似しているローカライズされた文字列を検索します。
+        ///   Image size to receive に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_PostViewImageSize {
             get {
@@ -304,7 +304,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   動作モード に類似しているローカライズされた文字列を検索します。
+        ///   Operation mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShootMode {
             get {
@@ -313,7 +313,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   音声記録 に類似しているローカライズされた文字列を検索します。
+        ///   Audio rec に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShootModeAudio {
             get {
@@ -322,7 +322,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   動画記録 に類似しているローカライズされた文字列を検索します。
+        ///   Movie rec に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShootModeMovie {
             get {
@@ -331,7 +331,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   静止画記録 に類似しているローカライズされた文字列を検索します。
+        ///   Still image rec に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ShootModeStill {
             get {
@@ -340,7 +340,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   2Mピクセル に類似しているローカライズされた文字列を検索します。
+        ///   2 MPixels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Size2M {
             get {
@@ -349,7 +349,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   オリジナル に類似しているローカライズされた文字列を検索します。
+        ///   Original に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SizeOriginal {
             get {
@@ -358,7 +358,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   ソースコード に類似しているローカライズされた文字列を検索します。
+        ///   Source code に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SourceCode {
             get {
@@ -367,7 +367,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   切り替え に類似しているローカライズされた文字列を検索します。
+        ///   Switch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Switch {
             get {
@@ -376,7 +376,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   バージョン に類似しているローカライズされた文字列を検索します。
+        ///   Version に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Version {
             get {
@@ -385,7 +385,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Wi-Fi設定 に類似しているローカライズされた文字列を検索します。
+        ///   Wi-Fi settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WifiSettingLauncherButtonText {
             get {

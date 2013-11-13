@@ -91,6 +91,7 @@ namespace WPPMM.CameraManager
             {
                 panel.Children.Add(CreateIntervalEnableSettingPanel());
                 panel.Children.Add(CreateIntervalTimeSettingPanel());
+                panel.Children.Add(CreateIntervalTimeSliderPanel());
             }
 
             Debug.WriteLine("panels has set!");
@@ -201,6 +202,46 @@ namespace WPPMM.CameraManager
             return child;
         }
 
+        private StackPanel CreateIntervalTimeSliderPanel()
+        {
+            var child = CreatePanel(Resources.AppResources.IntervalTime);
+            Debug.WriteLine("create panel: " + Resources.AppResources.IntervalTime);
+
+            var slider = CreateSlider(5, 30);
+            slider.Value = ApplicationSettings.GetInstance().IntervalTime;
+            slider.ValueChanged += (sender, e) =>
+            {
+                ApplicationSettings.GetInstance().IntervalTime = (int)e.NewValue;
+            };
+
+            var hPanel = new StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+
+            var selectedbind = new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("SelectedIntervalTime"),
+                Mode = BindingMode.OneWay
+            };
+            var indicator = new TextBlock
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Style = Application.Current.Resources["PhoneTextNormalStyle"] as Style,
+                    Margin = new Thickness(10, 0, 10, 0)
+                };
+            indicator.SetBinding(TextBlock.TextProperty, selectedbind);
+
+            hPanel.Children.Add(indicator);
+            hPanel.Children.Add(slider);
+
+            child.Children.Add(hPanel);
+            return child;
+        }
+
         private static ListPicker CreatePicker()
         {
             return new ListPicker
@@ -216,7 +257,16 @@ namespace WPPMM.CameraManager
             return new ToggleSwitch
             {
 
-                Margin = new Thickness(10, -5, 10, 0)
+                Margin = new Thickness(10, -5, 10, -10)
+            };
+        }
+
+        private static Slider CreateSlider(int min, int max)
+        {
+            return new Slider
+            {
+                Maximum = max,
+                Minimum = min
             };
         }
 

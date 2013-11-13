@@ -122,27 +122,26 @@
     <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
   </data>
   <data name="ResourceLanguage" xml:space="preserve">
-    <value>ja-jp</value>
+    <value>en</value>
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
     <value>Scrap</value>
   </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
-    <value>Wi-Fi設定</value>
+    <value>Wi-Fi settings</value>
   </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
-    <value>デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。</value>
-    <comment>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</comment>
+    <value>Couldn't find the devide. Make sure the SSID of connected access point is same as your device's one.</value>
   </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
-    <value>Wi-Fi設定から、対応したカメラ機器に接続してください</value>
+    <value>Go to Wi-Fi settings and connect to your camera device.</value>
   </data>
   <data name="OSSText" xml:space="preserve">
-    <value>オープンソースライセンス</value>
+    <value>Open source licenses</value>
   </data>
   <data name="ContainsLicense" xml:space="preserve">
-    <value>このアプリケーションは下記のオープンソースソフトウェアを使用しています。</value>
+    <value>This application contains the following open source softwares.</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>about</value>
@@ -154,90 +153,93 @@
     <value>https://github.com/kazyx/WPPMM</value>
   </data>
   <data name="SourceCode" xml:space="preserve">
-    <value>ソースコード</value>
+    <value>Source code</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>バージョン</value>
+    <value>Version</value>
   </data>
   <data name="DevelopedBy" xml:space="preserve">
     <value>Developed by</value>
   </data>
   <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
-    <value>ネットワークエラーが発生しました</value>
+    <value>Network error has occured while downloading your picture.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Other" xml:space="preserve">
-    <value>予期せぬエラーが発生しました。</value>
+    <value>Unexpected error has occured.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
-    <value>画像の保存に失敗しました</value>
+    <value>Failed to save the picture.</value>
   </data>
   <data name="ErrorMessage_ImageDL_OtherOriginal" xml:space="preserve">
-    <value>予期せぬエラーが発生しました。転送画像サイズを小さくして再度お試しください。</value>
+    <value>Unexpected error has occured. Please try again with smaller image size to transfer.</value>
   </data>
   <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
-    <value>画像の保存に失敗しました。転送画像サイズを小さくして再度お試しください。</value>
+    <value>Failed to save the picture. Please try again with smaller image size to transfer.</value>
   </data>
   <data name="Message_ImageDL_Succeed" xml:space="preserve">
-    <value>カメラロールに写真を保存しました！</value>
+    <value>The picture has been saved successfully!</value>
   </data>
   <data name="Setting_PostViewImageSize" xml:space="preserve">
-    <value>受信画像サイズ</value>
+    <value>Image size to receive</value>
   </data>
   <data name="Guide_StartLiveView" xml:space="preserve">
-    <value>左右にスワイプしてリモコンを開始できます</value>
+    <value>Swipe to start remote control.</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>切り替え</value>
+    <value>Switch</value>
   </data>
   <data name="SelfTimer" xml:space="preserve">
-    <value>セルフタイマー</value>
+    <value>Self timer</value>
   </data>
   <data name="ControlPanel" xml:space="preserve">
-    <value>設定パネル</value>
+    <value>Settings</value>
   </data>
   <data name="Off" xml:space="preserve">
-    <value>オフ</value>
+    <value>OFF</value>
   </data>
   <data name="Seconds" xml:space="preserve">
-    <value>秒</value>
+    <value> seconds</value>
   </data>
   <data name="ShootMode" xml:space="preserve">
-    <value>動作モード</value>
+    <value>Operation mode</value>
   </data>
   <data name="ShootModeMovie" xml:space="preserve">
-    <value>動画記録</value>
+    <value>Movie rec</value>
   </data>
   <data name="ShootModeStill" xml:space="preserve">
-    <value>静止画記録</value>
+    <value>Still image rec</value>
   </data>
   <data name="Size2M" xml:space="preserve">
-    <value>2Mピクセル</value>
+    <value>2 MPixels</value>
   </data>
   <data name="SizeOriginal" xml:space="preserve">
-    <value>オリジナル</value>
+    <value>Original</value>
   </data>
   <data name="Disabled" xml:space="preserve">
     <value> - - -</value>
   </data>
   <data name="On" xml:space="preserve">
-    <value>オン</value>
+    <value>ON</value>
   </data>
   <data name="PostviewTransferSetting" xml:space="preserve">
-    <value>撮影画像受信</value>
+    <value>Receive captured image</value>
   </data>
   <data name="ShootModeAudio" xml:space="preserve">
-    <value>音声記録</value>
+    <value>Audio rec</value>
   </data>
   <data name="Message_ImageCapture_Succeed" xml:space="preserve">
-    <value>写真が撮影されました！</value>
+    <value>The picture has been captured successfully!</value>
   </data>
   <data name="IntervalSetting" xml:space="preserve">
-    <value>インターバル撮影</value>
+    <value>Interval shooting</value>
   </data>
   <data name="IntervalTime" xml:space="preserve">
-    <value>インターバル撮影間隔</value>
+    <value>Interval time</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
   <data name="ErrorMessage_Interval" xml:space="preserve">
-    <value>エラーが発生したのでインターバル撮影を停止しました</value>
+    <value>An error has occured. Interval shooting has stopped.</value>
   </data>
 </root>

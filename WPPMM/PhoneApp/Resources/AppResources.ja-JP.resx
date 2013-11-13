@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ResourceFlowDirection" xml:space="preserve">
+    <value>LeftToRight</value>
+    <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
+  </data>
+  <data name="ResourceLanguage" xml:space="preserve">
+    <value>ja-JP</value>
+    <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>Scrap</value>
+  </data>
+  <data name="WifiSettingLauncherButtonText" xml:space="preserve">
+    <value>Wi-Fi設定</value>
+  </data>
+  <data name="Guide_CantFindDevice" xml:space="preserve">
+    <value>デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。</value>
+    <comment>Couldn't find the devide. Make sure the connected SSID is same as your device's one.</comment>
+  </data>
+  <data name="Guide_WiFiNotEnabled" xml:space="preserve">
+    <value>Wi-Fi設定から、対応したカメラ機器に接続してください</value>
+  </data>
+  <data name="OSSText" xml:space="preserve">
+    <value>オープンソースライセンス</value>
+  </data>
+  <data name="ContainsLicense" xml:space="preserve">
+    <value>このアプリケーションは下記のオープンソースソフトウェアを使用しています。</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="CopyRight" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="RepoURL" xml:space="preserve">
+    <value>https://github.com/kazyx/WPPMM</value>
+  </data>
+  <data name="SourceCode" xml:space="preserve">
+    <value>ソースコード</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="DevelopedBy" xml:space="preserve">
+    <value>Developed by</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_Network" xml:space="preserve">
+    <value>ネットワークエラーが発生しました</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_Other" xml:space="preserve">
+    <value>予期せぬエラーが発生しました。</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_Saving" xml:space="preserve">
+    <value>画像の保存に失敗しました</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_OtherOriginal" xml:space="preserve">
+    <value>予期せぬエラーが発生しました。転送画像サイズを小さくして再度お試しください。</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_SavingOriginal" xml:space="preserve">
+    <value>画像の保存に失敗しました。転送画像サイズを小さくして再度お試しください。</value>
+  </data>
+  <data name="Message_ImageDL_Succeed" xml:space="preserve">
+    <value>カメラロールに写真を保存しました！</value>
+  </data>
+  <data name="Setting_PostViewImageSize" xml:space="preserve">
+    <value>受信画像サイズ</value>
+  </data>
+  <data name="Guide_StartLiveView" xml:space="preserve">
+    <value>左右にスワイプしてリモコンを開始できます</value>
+  </data>
+  <data name="Switch" xml:space="preserve">
+    <value>切り替え</value>
+  </data>
+  <data name="SelfTimer" xml:space="preserve">
+    <value>セルフタイマー</value>
+  </data>
+  <data name="ControlPanel" xml:space="preserve">
+    <value>設定パネル</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="ShootMode" xml:space="preserve">
+    <value>動作モード</value>
+  </data>
+  <data name="ShootModeMovie" xml:space="preserve">
+    <value>動画記録</value>
+  </data>
+  <data name="ShootModeStill" xml:space="preserve">
+    <value>静止画記録</value>
+  </data>
+  <data name="Size2M" xml:space="preserve">
+    <value>2Mピクセル</value>
+  </data>
+  <data name="SizeOriginal" xml:space="preserve">
+    <value>オリジナル</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value> - - -</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>オン</value>
+  </data>
+  <data name="PostviewTransferSetting" xml:space="preserve">
+    <value>撮影画像受信</value>
+  </data>
+  <data name="ShootModeAudio" xml:space="preserve">
+    <value>音声記録</value>
+  </data>
+  <data name="Message_ImageCapture_Succeed" xml:space="preserve">
+    <value>写真が撮影されました！</value>
+  </data>
+  <data name="IntervalSetting" xml:space="preserve">
+    <value>インターバル撮影</value>
+  </data>
+  <data name="IntervalTime" xml:space="preserve">
+    <value>インターバル撮影間隔</value>
+  </data>
+  <data name="ErrorMessage_Interval" xml:space="preserve">
+    <value>エラーが発生したのでインターバル撮影を停止しました</value>
+  </data>
+</root>

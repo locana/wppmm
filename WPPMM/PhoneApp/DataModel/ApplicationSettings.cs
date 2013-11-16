@@ -109,6 +109,27 @@ namespace WPPMM.DataModel
             }
         }
 
+        private int _SliderIntervalTime = 5;
+
+        public int SliderIntervalTime
+        {
+            set
+            {
+                if ( _SliderIntervalTime != value)
+                {
+                    _SliderIntervalTime = value;
+                    Preference.SetIntervalTime(value);
+                    OnPropertyChanged("IntervalTime");
+                    OnPropertyChanged("SelectedIntervalTime");
+                    OnPropertyChanged("SliderIntervalTime");
+                }
+            }
+            get
+            {
+                return _SliderIntervalTime;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {

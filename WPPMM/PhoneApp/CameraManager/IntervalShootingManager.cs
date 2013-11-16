@@ -99,7 +99,7 @@ namespace WPPMM.CameraManager
         private void _Init()
         {
             Timer = new DispatcherTimer();
-            ShootCount = 0;
+            ShootCount = 1;
         }
 
         public void Start()
@@ -110,6 +110,7 @@ namespace WPPMM.CameraManager
             }
             status.IsIntervalShootingActivated = true;
             _Init();
+            ActTakePicture();
             Timer.Interval = TimeSpan.FromSeconds(IntervalTime);
             Timer.Tick += new EventHandler(RequestActTakePicture);
             Timer.Start();

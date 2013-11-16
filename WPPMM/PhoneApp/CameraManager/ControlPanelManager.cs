@@ -188,13 +188,7 @@ namespace WPPMM.CameraManager
             picker.SelectionChanged += (sender, arg) =>
             {
                 var selected = (sender as ListPicker).SelectedIndex;
-                Debug.WriteLine("selected index: " + selected);
-                foreach (string s in ApplicationSettings.GetInstance().CandidatesIntervalTime)
-                {
-                    Debug.WriteLine("candidate: " + s);
-                }
                 int selectedValue = int.Parse(ApplicationSettings.GetInstance().CandidatesIntervalTime[selected]);
-                Debug.WriteLine("selected time: " + selectedValue);
                 ApplicationSettings.GetInstance().IntervalTime = selectedValue;
             };
 
@@ -209,6 +203,8 @@ namespace WPPMM.CameraManager
 
             var slider = CreateSlider(5, 30);
             slider.Value = ApplicationSettings.GetInstance().IntervalTime;
+            slider.MinWidth = 200;
+
             slider.ValueChanged += (sender, e) =>
             {
                 ApplicationSettings.GetInstance().IntervalTime = (int)e.NewValue;
@@ -224,8 +220,8 @@ namespace WPPMM.CameraManager
             var selectedbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("SelectedIntervalTime"),
-                Mode = BindingMode.OneWay
+                Path = new PropertyPath("SliderIntervalTime"),
+                Mode = BindingMode.TwoWay
             };
             var indicator = new TextBlock
                 {
@@ -234,6 +230,7 @@ namespace WPPMM.CameraManager
                     Margin = new Thickness(10, 0, 10, 0)
                 };
             indicator.SetBinding(TextBlock.TextProperty, selectedbind);
+            slider.SetBinding(Slider.ValueProperty, selectedbind);
 
             hPanel.Children.Add(indicator);
             hPanel.Children.Add(slider);
@@ -256,7 +253,6 @@ namespace WPPMM.CameraManager
         {
             return new ToggleSwitch
             {
-
                 Margin = new Thickness(10, -5, 10, -10)
             };
         }

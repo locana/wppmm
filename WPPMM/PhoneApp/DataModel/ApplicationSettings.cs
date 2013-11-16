@@ -29,6 +29,7 @@ namespace WPPMM.DataModel
                 {
                     Preference.SetPostviewTransferEnabled(value);
                     _IsPostviewTransferEnabled = value;
+                    OnPropertyChanged("IsPostviewTransferEnabled");
                 }
             }
             get
@@ -47,6 +48,12 @@ namespace WPPMM.DataModel
                 {
                     Preference.SetIntervalShootingEnabled(value);
                     _IsIntervalShootingEnabled = value;
+
+                    // exclusion
+                    if (value)
+                    {
+                        IsPostviewTransferEnabled = false;
+                    }
                 }
             }
             get
@@ -133,7 +140,7 @@ namespace WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            Debug.WriteLine("OnProperty changed: " + name);
+            // Debug.WriteLine("OnProperty changed: " + name);
             if (PropertyChanged != null)
             {
                 try

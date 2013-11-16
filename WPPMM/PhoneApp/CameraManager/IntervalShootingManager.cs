@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 using WPPMM.DataModel;
+using WPPMM.Resources;
 
 namespace WPPMM.CameraManager
 {
@@ -77,7 +78,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                return "Interval (sec.): " + IntervalTime;
+                return AppResources.IntervalTimePrefix + ": " + IntervalTime;
             }
         }
 
@@ -85,7 +86,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                return "Count: " + ShootCount;
+                return AppResources.IntervalCountPrefix + ": " + ShootCount;
             }
         }
 

@@ -242,4 +242,10 @@
   <data name="ErrorMessage_Interval" xml:space="preserve">
     <value>An error has occured. Interval shooting has stopped.</value>
   </data>
+  <data name="IntervalCountPrefix" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="IntervalTimePrefix" xml:space="preserve">
+    <value>Interval (sec.)</value>
+  </data>
 </root>

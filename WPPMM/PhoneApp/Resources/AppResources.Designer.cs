@@ -79,7 +79,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to このアプリケーションは下記のオープンソースソフトウェアを使用しています。.
+        ///   Looks up a localized string similar to This application contains the following open source softwares..
         /// </summary>
         public static string ContainsLicense {
             get {
@@ -88,7 +88,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 設定パネル.
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string ControlPanel {
             get {
@@ -124,7 +124,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ネットワークエラーが発生しました.
+        ///   Looks up a localized string similar to Network error has occured while downloading your picture..
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {
             get {
@@ -133,7 +133,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 予期せぬエラーが発生しました。.
+        ///   Looks up a localized string similar to Unexpected error has occured..
         /// </summary>
         public static string ErrorMessage_ImageDL_Other {
             get {
@@ -142,7 +142,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 予期せぬエラーが発生しました。転送画像サイズを小さくして再度お試しください。.
+        ///   Looks up a localized string similar to Unexpected error has occured. Please try again with smaller image size to transfer..
         /// </summary>
         public static string ErrorMessage_ImageDL_OtherOriginal {
             get {
@@ -151,7 +151,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 画像の保存に失敗しました.
+        ///   Looks up a localized string similar to Failed to save the picture..
         /// </summary>
         public static string ErrorMessage_ImageDL_Saving {
             get {
@@ -160,7 +160,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 画像の保存に失敗しました。転送画像サイズを小さくして再度お試しください。.
+        ///   Looks up a localized string similar to Failed to save the picture. Please try again with smaller image size to transfer..
         /// </summary>
         public static string ErrorMessage_ImageDL_SavingOriginal {
             get {
@@ -169,7 +169,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to エラーが発生したのでインターバル撮影を停止しました.
+        ///   Looks up a localized string similar to An error has occured. Interval shooting has stopped..
         /// </summary>
         public static string ErrorMessage_Interval {
             get {
@@ -178,7 +178,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。.
+        ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure the SSID of connected access point is same as your device&apos;s one..
         /// </summary>
         public static string Guide_CantFindDevice {
             get {
@@ -187,7 +187,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 左右にスワイプしてリモコンを開始できます.
+        ///   Looks up a localized string similar to Swipe to start remote control..
         /// </summary>
         public static string Guide_StartLiveView {
             get {
@@ -196,7 +196,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wi-Fi設定から、対応したカメラ機器に接続してください.
+        ///   Looks up a localized string similar to Go to Wi-Fi settings and connect to your camera device..
         /// </summary>
         public static string Guide_WiFiNotEnabled {
             get {
@@ -205,7 +205,16 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to インターバル撮影.
+        ///   Looks up a localized string similar to Count.
+        /// </summary>
+        public static string IntervalCountPrefix {
+            get {
+                return ResourceManager.GetString("IntervalCountPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interval shooting.
         /// </summary>
         public static string IntervalSetting {
             get {
@@ -214,7 +223,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to インターバル撮影間隔.
+        ///   Looks up a localized string similar to Interval time.
         /// </summary>
         public static string IntervalTime {
             get {
@@ -223,7 +232,16 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 写真が撮影されました！.
+        ///   Looks up a localized string similar to Interval (sec.).
+        /// </summary>
+        public static string IntervalTimePrefix {
+            get {
+                return ResourceManager.GetString("IntervalTimePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The picture has been captured successfully!.
         /// </summary>
         public static string Message_ImageCapture_Succeed {
             get {
@@ -232,7 +250,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to カメラロールに写真を保存しました！.
+        ///   Looks up a localized string similar to The picture has been saved successfully!.
         /// </summary>
         public static string Message_ImageDL_Succeed {
             get {
@@ -241,7 +259,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to オフ.
+        ///   Looks up a localized string similar to OFF.
         /// </summary>
         public static string Off {
             get {
@@ -250,7 +268,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to オン.
+        ///   Looks up a localized string similar to ON.
         /// </summary>
         public static string On {
             get {
@@ -259,7 +277,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to オープンソースライセンス.
+        ///   Looks up a localized string similar to Open source licenses.
         /// </summary>
         public static string OSSText {
             get {
@@ -268,7 +286,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 撮影画像受信.
+        ///   Looks up a localized string similar to Receive captured image.
         /// </summary>
         public static string PostviewTransferSetting {
             get {
@@ -295,7 +313,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ja-jp.
+        ///   Looks up a localized string similar to en.
         /// </summary>
         public static string ResourceLanguage {
             get {
@@ -304,7 +322,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 秒.
+        ///   Looks up a localized string similar to  seconds.
         /// </summary>
         public static string Seconds {
             get {
@@ -313,7 +331,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to セルフタイマー.
+        ///   Looks up a localized string similar to Self timer.
         /// </summary>
         public static string SelfTimer {
             get {
@@ -322,7 +340,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 受信画像サイズ.
+        ///   Looks up a localized string similar to Image size to receive.
         /// </summary>
         public static string Setting_PostViewImageSize {
             get {
@@ -331,7 +349,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 動作モード.
+        ///   Looks up a localized string similar to Operation mode.
         /// </summary>
         public static string ShootMode {
             get {
@@ -340,7 +358,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 音声記録.
+        ///   Looks up a localized string similar to Audio rec.
         /// </summary>
         public static string ShootModeAudio {
             get {
@@ -349,7 +367,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 動画記録.
+        ///   Looks up a localized string similar to Movie rec.
         /// </summary>
         public static string ShootModeMovie {
             get {
@@ -358,7 +376,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 静止画記録.
+        ///   Looks up a localized string similar to Still image rec.
         /// </summary>
         public static string ShootModeStill {
             get {
@@ -367,7 +385,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2Mピクセル.
+        ///   Looks up a localized string similar to 2 MPixels.
         /// </summary>
         public static string Size2M {
             get {
@@ -376,7 +394,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to オリジナル.
+        ///   Looks up a localized string similar to Original.
         /// </summary>
         public static string SizeOriginal {
             get {
@@ -385,7 +403,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ソースコード.
+        ///   Looks up a localized string similar to Source code.
         /// </summary>
         public static string SourceCode {
             get {
@@ -394,7 +412,16 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 切り替え.
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switch.
         /// </summary>
         public static string Switch {
             get {
@@ -403,7 +430,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to バージョン.
+        ///   Looks up a localized string similar to Version.
         /// </summary>
         public static string Version {
             get {
@@ -412,7 +439,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wi-Fi設定.
+        ///   Looks up a localized string similar to Wi-Fi settings.
         /// </summary>
         public static string WifiSettingLauncherButtonText {
             get {

@@ -444,6 +444,7 @@ namespace WPPMM
             IntervalStatusPanel.DataContext = null;
             IntervalStatusTime.DataContext = null;
             IntervalStatusCount.DataContext = null;
+            cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;
             svd = null;
         }

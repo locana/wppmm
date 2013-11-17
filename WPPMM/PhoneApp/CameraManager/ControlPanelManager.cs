@@ -46,7 +46,11 @@ namespace WPPMM.CameraManager
         public void Show()
         {
             panel.Visibility = Visibility.Visible;
-            SetPivotIsLocked(true);
+
+            if (SetPivotIsLocked != null)
+            {
+                SetPivotIsLocked(true);
+            }
         }
 
         private void Initialize()
@@ -112,7 +116,11 @@ namespace WPPMM.CameraManager
         public void Hide()
         {
             panel.Visibility = Visibility.Collapsed;
-            SetPivotIsLocked(false);
+
+            if (SetPivotIsLocked != null)
+            {
+                SetPivotIsLocked(false);
+            }
         }
 
         private StackPanel CreateStatusPanel(string id, string title, SelectionChangedEventHandler handler)

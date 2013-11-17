@@ -75,7 +75,8 @@
 
         <phone:Pivot Name="MyPivot" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0" 
                      VerticalAlignment="Stretch" Style="{StaticResource PivotStyle1}"
-                     SelectionChanged="MyPivot_SelectionChanged" >
+                     SelectionChanged="MyPivot_SelectionChanged" 
+                     IsLocked="False" >
             <phone:PivotItem CacheMode="{x:Null}" Header="">
                 <!--ContentPanel - 追加コンテンツをここに入力します-->
                 <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">

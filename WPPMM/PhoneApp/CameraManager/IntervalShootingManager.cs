@@ -143,12 +143,12 @@ namespace WPPMM.CameraManager
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            Debug.WriteLine("OnPropertyChanged(interval): " + name);
+            // Debug.WriteLine("OnPropertyChanged(interval): " + name);
             if (PropertyChanged != null)
             {
                 try
                 {
-                    Debug.WriteLine("calling OnPropertyChanged(interval): " + name);
+                    // Debug.WriteLine("calling OnPropertyChanged(interval): " + name);
                     Deployment.Current.Dispatcher.BeginInvoke(() => { PropertyChanged(this, new PropertyChangedEventArgs(name)); });
                 }
                 catch (COMException)

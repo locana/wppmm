@@ -1,11 +1,15 @@
 ﻿﻿using Microsoft.Phone.Controls;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using WPPMM.DataModel;
 
-namespace WPPMM.CameraManager
+
+namespace WPPMM.CameraManager 
 {
     public class ControlPanelManager
     {
@@ -13,6 +17,12 @@ namespace WPPMM.CameraManager
         private StackPanel panel;
         private CameraStatus status;
         private ControlPanelViewData data;
+
+        public Action<bool> SetPivotIsLocked
+        {
+            get;
+            set;
+        }
 
         public ControlPanelManager(StackPanel panel)
         {
@@ -36,6 +46,7 @@ namespace WPPMM.CameraManager
         public void Show()
         {
             panel.Visibility = Visibility.Visible;
+            SetPivotIsLocked(true);
         }
 
         private void Initialize()
@@ -102,6 +113,7 @@ namespace WPPMM.CameraManager
         public void Hide()
         {
             panel.Visibility = Visibility.Collapsed;
+            SetPivotIsLocked(false);
         }
 
         private StackPanel CreateStatusPanel(string id, string title, SelectionChangedEventHandler handler)

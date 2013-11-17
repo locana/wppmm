@@ -430,7 +430,9 @@ namespace WPPMM
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
             IntervalStatusTime.DataContext = cameraManager.IntervalManager;
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
+            
             cpm = new ControlPanelManager(ControlPanel);
+            cpm.SetPivotIsLocked += this.SetPivotIsLocked;
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
@@ -482,12 +484,23 @@ namespace WPPMM
 
         void ToastApparance_Completed(object sender, EventArgs e)
         {
-            Scheduler.Dispatcher.Schedule(CloseToast, TimeSpan.FromSeconds(3));
+            Scheduler.Dispatcher.Schedule(() => {
+                ToastDisApparance.Begin();
+            }
+                , TimeSpan.FromSeconds(3));
         }
 
-        void CloseToast()
+        void SetPivotIsLocked(bool l)
         {
-            ToastDisApparance.Begin();
+            if (l)
+            {
+                Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = true; });
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = false; });
+            }
+            
         }
     }
 }

@@ -71,7 +71,7 @@ namespace WPPMM.RemoteApi
                 () => { error.Invoke(StatusCode.Any); });
         }
 
-        public void StopMovieRec(Action<int> error, Action<string[]> result)
+        public void StopMovieRec(Action<int> error, Action<string> result)
         {
             XhrPostClient.Post(endpoint, RequestGenerator.stopMovieRec(),
                 (res) => { ResultHandler.StopMovieRec(res, error, result); },

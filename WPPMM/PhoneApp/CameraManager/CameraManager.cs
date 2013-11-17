@@ -421,7 +421,7 @@ namespace WPPMM.CameraManager
             if (client == null)
                 return;
 
-            client.StopMovieRec(OnError, (urls) => { NoticeUpdate(); });
+            client.StopMovieRec(OnError, (url) => { NoticeUpdate(); });
         }
 
 

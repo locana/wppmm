@@ -72,9 +72,8 @@ namespace WPPMM.DataModel
                 {
                     Preference.SetIntervalTime(value);
                     _IntervalTime = value;
-                    Debug.WriteLine("IntervalTime changed: " + value);
+                    // Debug.WriteLine("IntervalTime changed: " + value);
                     OnPropertyChanged("IntervalTime");
-                    OnPropertyChanged("SelectedIntervalTime");
                 }
             }
             get
@@ -82,61 +81,7 @@ namespace WPPMM.DataModel
                 return _IntervalTime;
             }
         }
-
-        public string[] CandidatesIntervalTime
-        {
-            get
-            {
-                return new string[] { "5", "7", "10", "15", "20", "30" };
-            }
-        }
-
-        public int SelectedIntervalTime
-        {
-            get
-            {
-                int ret = 0;
-                switch (IntervalTime)
-                {
-                    case 5:
-                        return 0;
-                    case 7:
-                        return 1;
-                    case 10:
-                        return 2;
-                    case 15:
-                        return 3;
-                    case 20:
-                        return 4;
-                    case 30:
-                        return 5;
-                    default:
-                        return ret;
-                }
-            }
-        }
-
-        private int _SliderIntervalTime = 5;
-
-        public int SliderIntervalTime
-        {
-            set
-            {
-                if ( _SliderIntervalTime != value)
-                {
-                    _SliderIntervalTime = value;
-                    Preference.SetIntervalTime(value);
-                    OnPropertyChanged("IntervalTime");
-                    OnPropertyChanged("SelectedIntervalTime");
-                    OnPropertyChanged("SliderIntervalTime");
-                }
-            }
-            get
-            {
-                return _SliderIntervalTime;
-            }
-        }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {

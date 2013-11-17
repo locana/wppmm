@@ -101,7 +101,6 @@ namespace WPPMM.CameraManager
             if (status.IsSupported("actTakePicture"))
             {
                 panel.Children.Add(CreateIntervalEnableSettingPanel());
-                panel.Children.Add(CreateIntervalTimeSettingPanel());
                 panel.Children.Add(CreateIntervalTimeSliderPanel());
             }
 
@@ -183,30 +182,6 @@ namespace WPPMM.CameraManager
             return child;
         }
 
-        private StackPanel CreateIntervalTimeSettingPanel()
-        {
-            var child = CreatePanel(Resources.AppResources.IntervalTime);
-            Debug.WriteLine("create panel: " + Resources.AppResources.IntervalTime);
-
-            var selectedbind = new Binding()
-            {
-                Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("SelectedIntervalTime"),
-                Mode = BindingMode.OneWay
-            };
-            var picker = CreatePicker();
-            picker.ItemsSource = ApplicationSettings.GetInstance().CandidatesIntervalTime;
-            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
-            picker.SelectionChanged += (sender, arg) =>
-            {
-                var selected = (sender as ListPicker).SelectedIndex;
-                int selectedValue = int.Parse(ApplicationSettings.GetInstance().CandidatesIntervalTime[selected]);
-                ApplicationSettings.GetInstance().IntervalTime = selectedValue;
-            };
-
-            child.Children.Add(picker);
-            return child;
-        }
 
         private StackPanel CreateIntervalTimeSliderPanel()
         {
@@ -215,7 +190,6 @@ namespace WPPMM.CameraManager
 
             var slider = CreateSlider(5, 30);
             slider.Value = ApplicationSettings.GetInstance().IntervalTime;
-            slider.MinWidth = 200;
 
             slider.ValueChanged += (sender, e) =>
             {
@@ -226,20 +200,22 @@ namespace WPPMM.CameraManager
             {
                 Orientation = System.Windows.Controls.Orientation.Horizontal,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Center
             };
 
             var selectedbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("SliderIntervalTime"),
+                Path = new PropertyPath("IntervalTime"),
                 Mode = BindingMode.TwoWay
             };
             var indicator = new TextBlock
                 {
-                    HorizontalAlignment = HorizontalAlignment.Left,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Top,
                     Style = Application.Current.Resources["PhoneTextNormalStyle"] as Style,
-                    Margin = new Thickness(10, 0, 10, 0)
+                    Margin = new Thickness(10, 15, 0, 0),
+                    MinWidth = 25
                 };
             indicator.SetBinding(TextBlock.TextProperty, selectedbind);
             slider.SetBinding(Slider.ValueProperty, selectedbind);
@@ -274,7 +250,11 @@ namespace WPPMM.CameraManager
             return new Slider
             {
                 Maximum = max,
-                Minimum = min
+                Minimum = min,
+                Margin = new Thickness(5, 0, 10, 0),
+                MinWidth = 185,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Top
             };
         }
 

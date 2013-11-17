@@ -223,7 +223,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interval time.
+        ///   Looks up a localized string similar to Interval (sec.).
         /// </summary>
         public static string IntervalTime {
             get {
@@ -232,7 +232,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interval (sec.).
+        ///   Looks up a localized string similar to Interval.
         /// </summary>
         public static string IntervalTimePrefix {
             get {

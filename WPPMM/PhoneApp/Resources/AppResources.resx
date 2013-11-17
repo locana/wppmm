@@ -234,7 +234,7 @@
     <value>Interval shooting</value>
   </data>
   <data name="IntervalTime" xml:space="preserve">
-    <value>Interval time</value>
+    <value>Interval (sec.)</value>
   </data>
   <data name="String1" xml:space="preserve">
     <value />
@@ -246,6 +246,6 @@
     <value>Count</value>
   </data>
   <data name="IntervalTimePrefix" xml:space="preserve">
-    <value>Interval (sec.)</value>
+    <value>Interval</value>
   </data>
 </root>

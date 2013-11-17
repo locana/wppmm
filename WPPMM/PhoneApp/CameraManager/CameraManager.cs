@@ -391,7 +391,7 @@ namespace WPPMM.CameraManager
             if (client == null)
                 return;
 
-            client.StopMovieRec(OnError, (urls) => { });
+            client.StopMovieRec(OnError, (url) => { });
         }
 
         public void StartAudioRec()

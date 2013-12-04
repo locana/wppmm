@@ -114,6 +114,7 @@ namespace WPPMM.CameraManager
             {
                 if (_IsLiveviewAvailable != value)
                 {
+                    OnPropertyChanged("IsLiveviewAvailable");
                     _IsLiveviewAvailable = value;
                     if (LiveviewAvailabilityNotifier != null)
                     {

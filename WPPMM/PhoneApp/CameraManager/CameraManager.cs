@@ -71,6 +71,10 @@ namespace WPPMM.CameraManager
                 {
                     lvProcessor.CloseConnection();
                 }
+                else if (!lvProcessor.IsOpen)
+                {
+                    OpenLiveviewConnection();
+                }
             };
             cameraStatus.CurrentShootModeNotifier += (mode) =>
             {

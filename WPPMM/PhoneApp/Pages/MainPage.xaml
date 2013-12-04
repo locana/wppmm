@@ -107,7 +107,7 @@
                     </Grid.Resources>
                     <Grid x:Name="LiveViewScreen" Margin="-15,0" >
                         <Image Name="ScreenImage" HorizontalAlignment="Stretch" 
-                               VerticalAlignment="Stretch" 
+                               VerticalAlignment="Stretch" Visibility="{Binding IsLiveviewAvailable, Mode=OneWay}"
                                Source="{Binding image, Mode=OneWay}" 
                                Loaded="ScreenImage_Loaded" 
                                Unloaded="ScreenImage_Unloaded"/>

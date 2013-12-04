@@ -12,6 +12,8 @@ namespace WPPMM.DataModel
         private ApplicationSettings()
         {
             IsPostviewTransferEnabled = Preference.IsPostviewTransferEnabled();
+            IsIntervalShootingEnabled = Preference.IsIntervalShootingEnabled();
+            IntervalTime = Preference.IntervalTime();
         }
 
         public static ApplicationSettings GetInstance()

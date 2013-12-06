@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace WPPMM.DataModel
 {
@@ -16,6 +18,26 @@ namespace WPPMM.DataModel
                 OnPropertyChanged("image");
             }
             get { return _image; }
+        }
+
+        private Visibility _LiveviewVisibility = Visibility.Collapsed;
+        public Visibility LiveviewVisibility
+        {
+            get
+            {
+                return _LiveviewVisibility;
+            }
+            set
+            {
+                if (_LiveviewVisibility != value)
+                {
+                    _LiveviewVisibility = value;
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        OnPropertyChanged("LiveviewVisibility");
+                    });
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

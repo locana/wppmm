@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using WPPMM.RemoteApi;
@@ -112,6 +113,7 @@ namespace WPPMM.CameraManager
         {
             set
             {
+                Debug.WriteLine("isLiveViewAvailableSet: " + value);
                 if (_IsLiveviewAvailable != value)
                 {
                     OnPropertyChanged("IsLiveviewAvailable");
@@ -158,6 +160,7 @@ namespace WPPMM.CameraManager
             {
                 _ShootModeInfo = value;
                 OnPropertyChanged("ShootModeInfo");
+
                 if (value != null && value.current != null & CurrentShootModeNotifier != null)
                 {
                     CurrentShootModeNotifier.Invoke(value.current);
@@ -165,7 +168,7 @@ namespace WPPMM.CameraManager
             }
             get { return _ShootModeInfo; }
         }
-
+        
         public Action<string> CurrentShootModeNotifier;
 
         public BasicInfo<string> ExposureMode { set; get; }
@@ -178,7 +181,8 @@ namespace WPPMM.CameraManager
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            //Debug.WriteLine("OnPropertyChanged: " + name);
+            
+            Debug.WriteLine("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
                 try

@@ -69,7 +69,7 @@ namespace WPPMM.CameraManager
                 Debug.WriteLine("Liveview Availability changed:" + available);
                 if (!available)
                 {
-                    lvProcessor.CloseConnection();
+                    CloseLiveviewConnection();
                 }
                 else if (!lvProcessor.IsOpen)
                 {
@@ -79,13 +79,20 @@ namespace WPPMM.CameraManager
             cameraStatus.CurrentShootModeNotifier += (mode) =>
             {
                 Debug.WriteLine("Current shoot mode updated: " + mode);
+
                 if (!lvProcessor.IsOpen && cameraStatus.IsAvailable("startLiveview"))
                 {
                     OpenLiveviewConnection();
                 }
+
+                if (lvProcessor.IsOpen && mode == ApiParams.ShootModeAudio)
+                {
+                    CloseLiveviewConnection();
+                }
             };
 
         }
+
 
         public bool IsClientReady()
         {
@@ -94,7 +101,7 @@ namespace WPPMM.CameraManager
 
         public void Refresh()
         {
-            lvProcessor.CloseConnection();
+            CloseLiveviewConnection();
             watch = new Stopwatch();
             watch.Start();
             deviceInfo = null;
@@ -149,7 +156,7 @@ namespace WPPMM.CameraManager
                 if (lvProcessor != null && lvProcessor.IsOpen)
                 {
                     Debug.WriteLine("Close previous LVProcessor");
-                    lvProcessor.CloseConnection();
+                    CloseLiveviewConnection();
                 }
 
                 lvProcessor = new LvStreamProcessor();
@@ -159,12 +166,19 @@ namespace WPPMM.CameraManager
                     {
                         AppStatus.GetInstance().IsTryingToConnectLiveview = false;
                     });
+                    LiveviewImage.LiveviewVisibility = Visibility.Visible;
                 }
                 catch (InvalidOperationException)
                 {
                     return;
                 }
             });
+        }
+
+        private void CloseLiveviewConnection()
+        {
+            LiveviewImage.LiveviewVisibility = Visibility.Collapsed;
+            lvProcessor.CloseConnection();
         }
 
         public void SetPostViewImageSize(String size)
@@ -212,7 +226,7 @@ namespace WPPMM.CameraManager
 
         public void RequestCloseLiveView()
         {
-            lvProcessor.CloseConnection();
+            CloseLiveviewConnection();
         }
 
         // --------- prepare

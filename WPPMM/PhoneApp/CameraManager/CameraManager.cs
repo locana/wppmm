@@ -268,16 +268,21 @@ namespace WPPMM.CameraManager
 
         // -------- take picture
 
-        public void ToggleIntevalRec()
+        public void StartIntervalRec()
         {
-            if (IntervalManager.IsRunning)
-            {
-                IntervalManager.Stop();
-            }
-            else
+            if (IntervalManager != null)
             {
                 IntervalManager.Start(ApplicationSettings.GetInstance().IntervalTime);
             }
+        }
+
+        public void StopIntervalRec()
+        {
+            if (IntervalManager != null)
+            {
+                IntervalManager.Stop();
+            }
+
         }
 
         public void RequestActTakePicture()

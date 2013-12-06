@@ -184,9 +184,9 @@ namespace WPPMM
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
+            if (cameraManager.IntervalManager.IsRunning)
             {
-                cameraManager.ToggleIntevalRec();
+                cameraManager.StopIntervalRec();
                 return;
             }
 
@@ -197,7 +197,14 @@ namespace WPPMM
                     switch (status.ShootModeInfo.current)
                     {
                         case ApiParams.ShootModeStill:
-                            cameraManager.RequestActTakePicture();
+                            if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
+                            {
+                                cameraManager.StartIntervalRec();
+                            }
+                            else
+                            {
+                                cameraManager.RequestActTakePicture();
+                            }                            
                             break;
                         case ApiParams.ShootModeMovie:
                             cameraManager.StartMovieRec();
@@ -214,6 +221,7 @@ namespace WPPMM
                     cameraManager.StopAudioRec();
                     break;
             }
+            
         }
 
         private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)

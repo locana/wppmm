@@ -1,4 +1,4 @@
-﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Reactive;
 using Microsoft.Phone.Tasks;

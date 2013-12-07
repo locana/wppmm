@@ -1,4 +1,4 @@
-﻿The Common directory contains classes and XAML styles that simplify application development.
+The Common directory contains classes and XAML styles that simplify application development.
 
 These are not merely convenient, but are required by most Visual Studio project and item templates.
 If you need a variation on one of the styles in StandardStyles it is recommended that you make a

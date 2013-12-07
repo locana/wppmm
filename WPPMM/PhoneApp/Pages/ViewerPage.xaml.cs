@@ -1,4 +1,4 @@
-﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;

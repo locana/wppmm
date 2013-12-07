@@ -1,4 +1,4 @@
-﻿using Microsoft.Phone.Reactive;
+using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;

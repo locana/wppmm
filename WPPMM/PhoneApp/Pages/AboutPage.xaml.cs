@@ -1,4 +1,4 @@
-﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Controls;
 using System;
 using System.IO;
 using System.Reflection;

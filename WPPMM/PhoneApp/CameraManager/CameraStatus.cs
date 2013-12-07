@@ -161,6 +161,7 @@ namespace WPPMM.CameraManager
                 _ShootModeInfo = value;
                 OnPropertyChanged("ShootModeInfo");
                 OnPropertyChanged("LiveviewScreenVisibility");
+                OnPropertyChanged("AudioScreenVisibility");
 
                 if (value != null && value.current != null & CurrentShootModeNotifier != null)
                 {
@@ -186,6 +187,26 @@ namespace WPPMM.CameraManager
                 else
                 {
                     return Visibility.Visible;
+                }
+            }
+        }
+
+        public Visibility AudioScreenVisibility
+        {
+            get
+            {
+                if (_ShootModeInfo == null)
+                {
+                    return Visibility.Collapsed;
+                }
+
+                if (_ShootModeInfo.current == ApiParams.ShootModeAudio)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
                 }
             }
         }

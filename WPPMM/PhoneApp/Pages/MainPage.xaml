@@ -113,8 +113,10 @@
                                Source="{Binding image, Mode=OneWay}" 
                                Loaded="ScreenImage_Loaded" 
                                Unloaded="ScreenImage_Unloaded"/>
+                            
                         </Grid>
-                        
+                        <Image Name="AudioScreenImage" HorizontalAlignment="Center" Margin="150,50" VerticalAlignment="Center" 
+                               Source="/Assets/Screen/audio.png" Visibility="{Binding AudioScreenVisibility, Mode=OneWay}"/>
                         <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>

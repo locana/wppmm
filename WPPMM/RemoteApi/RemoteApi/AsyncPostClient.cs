@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace WPPMM.RemoteApi
 {
-    internal class XhrPostClient
+    internal class AsyncPostClient
     {
         /// <summary>
         /// Asynchronously POST a request to the endpoint.

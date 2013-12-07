@@ -1,4 +1,4 @@
-﻿using MetroApp.Common;
+using MetroApp.Common;
 
 using System;
 using System.Collections.Generic;

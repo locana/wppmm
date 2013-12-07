@@ -1,4 +1,4 @@
-﻿
+
 namespace WPPMM.RemoteApi
 {
     public delegate void MethodTypesHandler(MethodType[] methodtypes);

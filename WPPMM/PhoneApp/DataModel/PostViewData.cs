@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;

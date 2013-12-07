@@ -1,4 +1,4 @@
-﻿using Microsoft.Phone.Shell;
+using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
 using WPPMM.Resources;

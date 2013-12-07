@@ -92,7 +92,7 @@
     <Compile Include="RemoteApi\ResultHandler.cs" />
     <Compile Include="RemoteApi\SpecialObjects.cs" />
     <Compile Include="Util\StatusCode.cs" />
-    <Compile Include="RemoteApi\XhrPostClient.cs" />
+    <Compile Include="RemoteApi\AsyncPostClient.cs" />
     <Compile Include="Util\EvConverter.cs" />
   </ItemGroup>
   <ItemGroup>

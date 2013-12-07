@@ -1,4 +1,4 @@
-﻿<common:LayoutAwarePage
+<common:LayoutAwarePage
     x:Name="pageRoot"
     x:Class="MetroApp.SplitPage"
     DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"

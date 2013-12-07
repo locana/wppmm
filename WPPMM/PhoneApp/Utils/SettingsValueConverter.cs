@@ -1,4 +1,4 @@
-﻿using WPPMM.RemoteApi;
+using WPPMM.RemoteApi;
 
 namespace WPPMM.Utils
 {

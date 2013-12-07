@@ -1,4 +1,4 @@
-﻿using WPPMM.Resources;
+using WPPMM.Resources;
 
 namespace WPPMM
 {

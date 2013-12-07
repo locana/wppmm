@@ -105,7 +105,7 @@
 
                         </Storyboard>
                     </Grid.Resources>
-                    <Grid x:Name="LiveViewScreen" Margin="-15,0" >
+                    <Grid x:Name="LiveViewScreen" Margin="-15,0" Background="Black" >
                         <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                               Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay}">
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" 

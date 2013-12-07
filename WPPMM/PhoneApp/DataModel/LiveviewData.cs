@@ -20,26 +20,6 @@ namespace WPPMM.DataModel
             get { return _image; }
         }
 
-        private Visibility _LiveviewVisibility = Visibility.Collapsed;
-        public Visibility LiveviewVisibility
-        {
-            get
-            {
-                return _LiveviewVisibility;
-            }
-            set
-            {
-                if (_LiveviewVisibility != value)
-                {
-                    _LiveviewVisibility = value;
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        OnPropertyChanged("LiveviewVisibility");
-                    });
-                }
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {

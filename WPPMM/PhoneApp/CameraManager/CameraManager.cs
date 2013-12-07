@@ -166,7 +166,6 @@ namespace WPPMM.CameraManager
                     {
                         AppStatus.GetInstance().IsTryingToConnectLiveview = false;
                     });
-                    LiveviewImage.LiveviewVisibility = Visibility.Visible;
                 }
                 catch (InvalidOperationException)
                 {
@@ -177,7 +176,6 @@ namespace WPPMM.CameraManager
 
         private void CloseLiveviewConnection()
         {
-            LiveviewImage.LiveviewVisibility = Visibility.Collapsed;
             lvProcessor.CloseConnection();
         }
 

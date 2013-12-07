@@ -438,6 +438,7 @@ namespace WPPMM
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
             IntervalStatusTime.DataContext = cameraManager.IntervalManager;
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
+            ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             
             cpm = new ControlPanelManager(ControlPanel);
             cpm.SetPivotIsLocked += this.SetPivotIsLocked;
@@ -452,6 +453,7 @@ namespace WPPMM
             IntervalStatusPanel.DataContext = null;
             IntervalStatusTime.DataContext = null;
             IntervalStatusCount.DataContext = null;
+            ScreenImageWrapper.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;

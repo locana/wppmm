@@ -59,7 +59,7 @@ namespace WPPMM.DataModel
                     if (value)
                     {
                         IsPostviewTransferEnabled = false;
-                        if (manager.cameraStatus.IsAvailable("setSelfTimer") && ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
+                        if (manager.cameraStatus.IsAvailable("setSelfTimer") && manager.IntervalManager != null)
                         {
                             manager.SetSelfTimer(RemoteApi.ApiParams.SelfTimerOff);
                         }

@@ -347,6 +347,7 @@ namespace WPPMM
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
+            cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
         }
 

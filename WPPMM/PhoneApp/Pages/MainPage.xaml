@@ -105,7 +105,7 @@
 
                         </Storyboard>
                     </Grid.Resources>
-                    <Grid x:Name="LiveViewScreen" Margin="-15,0" Background="Black" >
+                    <Grid x:Name="LiveViewScreen" Margin="-15,0">
                         <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                               Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay}">
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" 
@@ -115,8 +115,13 @@
                                Unloaded="ScreenImage_Unloaded"/>
                             
                         </Grid>
-                        <Image Name="AudioScreenImage" HorizontalAlignment="Center" Margin="150,50" VerticalAlignment="Center" 
-                               Source="/Assets/Screen/audio.png" Visibility="{Binding AudioScreenVisibility, Mode=OneWay}"/>
+                        <Rectangle Name="AudioScreenImage" Fill="{StaticResource PhoneForegroundBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="120,50"
+                                   Visibility="{Binding AudioScreenVisibility, Mode=OneWay}">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/audio.png" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle> 
                         <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>

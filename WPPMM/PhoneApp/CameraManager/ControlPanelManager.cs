@@ -100,10 +100,9 @@ namespace WPPMM.CameraManager
                     }));
             }
 
-            panel.Children.Add(CreatePostviewSettingPanel());
-
             if (status.IsSupported("actTakePicture"))
             {
+                panel.Children.Add(CreatePostviewSettingPanel());
                 panel.Children.Add(CreateIntervalEnableSettingPanel());
                 panel.Children.Add(CreateIntervalTimeSliderPanel());
             }

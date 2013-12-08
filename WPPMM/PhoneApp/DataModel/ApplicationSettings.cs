@@ -2,18 +2,22 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using WPPMM.Utils;
+using WPPMM.CameraManager;
 
 namespace WPPMM.DataModel
 {
     public class ApplicationSettings : INotifyPropertyChanged
     {
         private static ApplicationSettings sSettings = new ApplicationSettings();
+        private CameraManager.CameraManager manager;
+
 
         private ApplicationSettings()
         {
             IsPostviewTransferEnabled = Preference.IsPostviewTransferEnabled();
             IsIntervalShootingEnabled = Preference.IsIntervalShootingEnabled();
             IntervalTime = Preference.IntervalTime();
+            manager = CameraManager.CameraManager.GetInstance();
         }
 
         public static ApplicationSettings GetInstance()
@@ -55,6 +59,10 @@ namespace WPPMM.DataModel
                     if (value)
                     {
                         IsPostviewTransferEnabled = false;
+                        if (manager.cameraStatus.IsAvailable("setSelfTimer") && ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
+                        {
+                            manager.SetSelfTimer(RemoteApi.ApiParams.SelfTimerOff);
+                        }
                     }
                 }
             }

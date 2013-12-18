@@ -76,7 +76,10 @@ namespace WPPMM.RemoteApi
                 else
                     Debug.WriteLine("WebException: " + e.Status);
             }
-
+            catch (ObjectDisposedException e)
+            {
+                Debug.WriteLine("Caught Object Disposed Exception");
+            }
 #if WINDOWS_PHONE
             Deployment.Current.Dispatcher.BeginInvoke(() =>
 #else

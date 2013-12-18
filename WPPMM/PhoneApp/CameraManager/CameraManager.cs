@@ -22,7 +22,8 @@ namespace WPPMM.CameraManager
         private const int TIMEOUT = 10;
         public const String apiVersion = "1.0";
 
-        private DeviceInfo deviceInfo;
+        public DeviceInfo DeviceInfo;
+
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraServiceClient10 client;
         private LvStreamProcessor lvProcessor = new LvStreamProcessor();
@@ -104,7 +105,7 @@ namespace WPPMM.CameraManager
             CloseLiveviewConnection();
             watch = new Stopwatch();
             watch.Start();
-            deviceInfo = null;
+            DeviceInfo = null;
             if (observer != null)
             {
                 observer.Stop();
@@ -236,10 +237,10 @@ namespace WPPMM.CameraManager
 
         private void OnServerFound(DeviceInfo di, Action Found)
         {
-            deviceInfo = di;
-            Debug.WriteLine("found device: " + deviceInfo.ModelName);
+            DeviceInfo = di;
+            Debug.WriteLine("found device: " + DeviceInfo.ModelName);
 
-            if (deviceInfo.Endpoints.ContainsKey("camera"))
+            if (DeviceInfo.Endpoints.ContainsKey("camera"))
             {
                 client = new CameraServiceClient10(di.Endpoints["camera"]);
                 Debug.WriteLine(di.Endpoints["camera"]);
@@ -488,11 +489,6 @@ namespace WPPMM.CameraManager
                 IntervalManager.Stop();
                 MessageBox.Show(AppResources.ErrorMessage_Interval);
             }
-        }
-
-        public DeviceInfo GetDeviceInfo()
-        {
-            return deviceInfo;
         }
 
         // register EE screen update method

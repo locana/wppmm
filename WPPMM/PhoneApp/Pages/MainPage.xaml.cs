@@ -21,7 +21,7 @@ namespace WPPMM
         private const int PIVOTINDEX_MAIN = 0;
         private const int PIVOTINDEX_LIVEVIEW = 1;
 
-        private CameraManager.CameraManager cameraManager = CameraManager.CameraManager.GetInstance();
+        private readonly CameraManager.CameraManager cameraManager = CameraManager.CameraManager.GetInstance();
 
         private bool OnZooming;
 
@@ -94,9 +94,9 @@ namespace WPPMM
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
             }
 
-            if (cameraManager.GetDeviceInfo() != null)
+            if (cameraManager.DeviceInfo != null)
             {
-                String modelName = cameraManager.GetDeviceInfo().FriendlyName;
+                String modelName = cameraManager.DeviceInfo.FriendlyName;
                 if (modelName != null)
                 {
                     NetworkStatus.Text = "Connected device: " + modelName;
@@ -129,15 +129,14 @@ namespace WPPMM
 
         internal void WifiUpdateListener(CameraStatus cameraStatus)
         {
-
             Debug.WriteLine("WifiUpdateLIstener called");
 
             if (cameraStatus.isAvailableConnecting)
             {
                 String modelName = "";
-                if (cameraManager.GetDeviceInfo().FriendlyName != null)
+                if (cameraManager.DeviceInfo != null && cameraManager.DeviceInfo.FriendlyName != null)
                 {
-                    modelName = cameraManager.GetDeviceInfo().FriendlyName;
+                    modelName = cameraManager.DeviceInfo.FriendlyName;
                 }
                 NetworkStatus.Text = "Connected device: " + modelName;
                 GuideMessage.Visibility = System.Windows.Visibility.Visible;
@@ -204,7 +203,7 @@ namespace WPPMM
                             else
                             {
                                 cameraManager.RequestActTakePicture();
-                            }                            
+                            }
                             break;
                         case ApiParams.ShootModeMovie:
                             cameraManager.StartMovieRec();
@@ -221,7 +220,7 @@ namespace WPPMM
                     cameraManager.StopAudioRec();
                     break;
             }
-            
+
         }
 
         private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
@@ -441,7 +440,7 @@ namespace WPPMM
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
-            
+
             cpm = new ControlPanelManager(ControlPanel);
             cpm.SetPivotIsLocked += this.SetPivotIsLocked;
         }
@@ -499,7 +498,8 @@ namespace WPPMM
 
         void ToastApparance_Completed(object sender, EventArgs e)
         {
-            Scheduler.Dispatcher.Schedule(() => {
+            Scheduler.Dispatcher.Schedule(() =>
+            {
                 ToastDisApparance.Begin();
             }
                 , TimeSpan.FromSeconds(3));
@@ -515,7 +515,7 @@ namespace WPPMM
             {
                 Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = false; });
             }
-            
+
         }
     }
 }

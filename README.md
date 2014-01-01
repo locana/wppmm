@@ -1,6 +1,6 @@
 WPPMM
 =====
-WPPMM is a remote shooting application for Windows Phone 8 powered by [Sony Camera Remote API](http://camera.developer.sony.com/).
+WPPMM is a remote shooting application for Windows Phone 8 powered by [Sony Camera Remote API](http://developer.sony.com/develop/cameras/).
 
 This software is published under the [MIT License](http://opensource.org/licenses/mit-license.php).
 

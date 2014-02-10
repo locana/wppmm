@@ -79,7 +79,7 @@
                      IsLocked="False" >
             <phone:PivotItem CacheMode="{x:Null}" Header="">
                 <!--ContentPanel - 追加コンテンツをここに入力します-->
-                <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+                <Grid x:Name="EntrancePivot" Grid.Row="1" Margin="0,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -91,7 +91,7 @@
                 </Grid>
             </phone:PivotItem>
             <phone:PivotItem CacheMode="{x:Null}" Header="">
-                <Grid>
+                <Grid x:Name="ShootingPivot">
                     <Grid.Resources>
                         <Storyboard x:Name="ToastApparance">
                             <DoubleAnimation Storyboard.TargetName="Toast"
@@ -113,7 +113,7 @@
                                Source="{Binding image, Mode=OneWay}" 
                                Loaded="ScreenImage_Loaded" 
                                Unloaded="ScreenImage_Unloaded"/>
-                            
+
                         </Grid>
                         <Rectangle Name="AudioScreenImage" Fill="{StaticResource PhoneForegroundBrush}" 
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="120,50"
@@ -121,7 +121,7 @@
                             <Rectangle.OpacityMask>
                                 <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/audio.png" />
                             </Rectangle.OpacityMask>
-                        </Rectangle> 
+                        </Rectangle>
                         <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>

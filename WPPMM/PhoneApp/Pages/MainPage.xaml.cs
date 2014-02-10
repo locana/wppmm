@@ -271,6 +271,7 @@ namespace WPPMM
             {
                 return;
             }
+
             if (PreviousSelectedPivotIndex == pivot.SelectedIndex)
             {
                 return;
@@ -289,6 +290,8 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
+            EntrancePivot.Opacity = 0;
+            ShootingPivot.Opacity = 1;
             ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
             //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
             SetLayoutByOrientation(this.Orientation);
@@ -354,6 +357,8 @@ namespace WPPMM
 
         private void LiveviewPageUnloaded()
         {
+            EntrancePivot.Opacity = 1;
+            ShootingPivot.Opacity = 0;
             cameraManager.StopEventObserver();
             cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;

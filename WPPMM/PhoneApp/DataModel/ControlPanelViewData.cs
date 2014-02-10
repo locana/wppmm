@@ -19,6 +19,7 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableSelfTimer");
                         OnPropertyChanged("CpIsAvailableShootMode");
                         OnPropertyChanged("CpIsAvailablePostviewSize");
+                        OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                     case "PostviewSizeInfo":
                         OnPropertyChanged("CpCandidatesPostviewSize");
@@ -31,6 +32,7 @@ namespace WPPMM.DataModel
                     case "ShootModeInfo":
                         OnPropertyChanged("CpCandidatesShootMode");
                         OnPropertyChanged("CpSelectedIndexShootMode");
+                        OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                 }
             };
@@ -121,6 +123,17 @@ namespace WPPMM.DataModel
         public bool CpIsAvailableShootMode
         {
             get { return status.IsAvailable("setShootMode") && status.ShootModeInfo != null; }
+        }
+
+        public bool CpIsAvailableStillImageFunctions
+        {
+            get {
+                if (status == null || status.ShootModeInfo == null)
+                {
+                    return false;
+                }
+                return status.ShootModeInfo.current == RemoteApi.ApiParams.ShootModeStill;
+            }
         }
     }
 }

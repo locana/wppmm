@@ -192,7 +192,7 @@ namespace WPPMM.CameraManager
         {
             if (client == null)
                 return;
-
+            Debug.WriteLine("calling Setselftimer at CameraManager");
             client.SetSelfTimer(timer, OnError, () => { });
         }
 

@@ -166,7 +166,16 @@ namespace WPPMM.CameraManager
                 Path = new PropertyPath("IsPostviewTransferEnabled"),
                 Mode = BindingMode.TwoWay
             };
+
+            var enableBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
+                Mode = BindingMode.OneWay
+            };
+
             toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
+            toggle.SetBinding(ToggleSwitch.IsEnabledProperty, enableBind);
 
             child.Children.Add(toggle);
             return child;
@@ -184,6 +193,14 @@ namespace WPPMM.CameraManager
                 Mode = BindingMode.TwoWay
             };
             toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
+
+            var enableBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
+                Mode = BindingMode.OneWay
+            };
+            toggle.SetBinding(ToggleSwitch.IsEnabledProperty, enableBind);
 
             child.Children.Add(toggle);
             return child;
@@ -216,6 +233,14 @@ namespace WPPMM.CameraManager
                 Path = new PropertyPath("IntervalTime"),
                 Mode = BindingMode.TwoWay
             };
+
+            var enableBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
+                Mode = BindingMode.OneWay
+            };
+
             var indicator = new TextBlock
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -226,6 +251,7 @@ namespace WPPMM.CameraManager
                 };
             indicator.SetBinding(TextBlock.TextProperty, selectedbind);
             slider.SetBinding(Slider.ValueProperty, selectedbind);
+            slider.SetBinding(Slider.IsEnabledProperty, enableBind);
 
             hPanel.Children.Add(indicator);
             hPanel.Children.Add(slider);

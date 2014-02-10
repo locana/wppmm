@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using WPPMM.Utils;
 using WPPMM.CameraManager;
+using WPPMM.RemoteApi;
 
 namespace WPPMM.DataModel
 {
@@ -61,7 +62,7 @@ namespace WPPMM.DataModel
                         IsPostviewTransferEnabled = false;
                         if (manager.cameraStatus.IsAvailable("setSelfTimer") && manager.IntervalManager != null)
                         {
-                            manager.SetSelfTimer(RemoteApi.ApiParams.SelfTimerOff);
+                            manager.SetSelfTimerAsync(ApiParams.SelfTimerOff);
                         }
                     }
                 }
@@ -91,7 +92,7 @@ namespace WPPMM.DataModel
                 return _IntervalTime;
             }
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {

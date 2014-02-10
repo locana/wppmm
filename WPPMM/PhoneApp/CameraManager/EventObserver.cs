@@ -66,6 +66,21 @@ namespace WPPMM.CameraManager
             Deactivate();
         }
 
+        public void Refresh()
+        {
+            Debug.WriteLine("EventObserver.Refresh");
+            client.GetEvent(false,
+                (code) => { Debug.WriteLine("GetEvent failed"); },
+                (data) =>
+                {
+                    Debug.WriteLine("GetEvent for refresh success");
+                    if (status != null)
+                    {
+                        Compare(status, data);
+                    }
+                });
+        }
+
         private void OnError(int code)
         {
             switch (code)
@@ -121,9 +136,14 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
-            CameraStatus target = status;
 
-            var data = e.Argument as Event;
+            Compare(status, e.Argument as Event);
+
+            Call();
+        }
+
+        private void Compare(CameraStatus target, Event data)
+        {
             if (StatusComparator.IsAvailableApisModified(target, data.AvailableApis))
                 NotifyChangeDetected(EventMember.AvailableApis);
 
@@ -162,8 +182,6 @@ namespace WPPMM.CameraManager
 
             if (StatusComparator.IsProgramShiftModified(target, data.ProgramShiftActivated))
                 NotifyChangeDetected(EventMember.ProgramShift);
-
-            Call();
         }
 
         private void Call()

@@ -96,6 +96,7 @@ namespace WPPMM.CameraManager
                                          break;
                                      }
                                  }
+                                 manager.RefreshEventObserver();
                              }
                          }
                          catch (InvalidOperationException e)
@@ -107,23 +108,47 @@ namespace WPPMM.CameraManager
             if (status.IsSupported("setSelfTimer"))
             {
                 panel.Children.Add(CreateStatusPanel("SelfTimer", Resources.AppResources.SelfTimer,
-                     (sender, arg) =>
+                     async (sender, arg) =>
                      {
                          if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null)
                              return;
                          var selected = (sender as ListPicker).SelectedIndex;
-                         manager.SetSelfTimer(status.SelfTimerInfo.candidates[selected]);
+                         try
+                         {
+                             var code = await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
+                             if (code != StatusCode.OK)
+                             {
+                                 Debug.WriteLine("Failed to set selftimer");
+                                 manager.RefreshEventObserver();
+                             }
+                         }
+                         catch (InvalidOperationException e)
+                         {
+                             Debug.WriteLine("Not ready to call Web API");
+                         }
                      }));
             }
             if (status.IsSupported("setPostviewImageSize"))
             {
                 panel.Children.Add(CreateStatusPanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
-                    (sender, arg) =>
+                    async (sender, arg) =>
                     {
                         if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null)
                             return;
                         var selected = (sender as ListPicker).SelectedIndex;
-                        manager.SetPostViewImageSize(status.PostviewSizeInfo.candidates[selected]);
+                        try
+                        {
+                            var code = await manager.SetShootModeAsync(status.PostviewSizeInfo.candidates[selected]);
+                            if (code != StatusCode.OK)
+                            {
+                                Debug.WriteLine("Failed to set postview image size");
+                                manager.RefreshEventObserver();
+                            }
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            Debug.WriteLine("Not ready to call Web API");
+                        }
                     }));
             }
 

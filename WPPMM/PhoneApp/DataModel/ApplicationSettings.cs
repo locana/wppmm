@@ -14,10 +14,10 @@ namespace WPPMM.DataModel
 
         private ApplicationSettings()
         {
+            manager = CameraManager.CameraManager.GetInstance();
             IsPostviewTransferEnabled = Preference.IsPostviewTransferEnabled();
             IsIntervalShootingEnabled = Preference.IsIntervalShootingEnabled();
             IntervalTime = Preference.IntervalTime();
-            manager = CameraManager.CameraManager.GetInstance();
         }
 
         public static ApplicationSettings GetInstance()

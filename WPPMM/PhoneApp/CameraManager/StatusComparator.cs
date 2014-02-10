@@ -93,7 +93,7 @@ namespace WPPMM.CameraManager
                 return false;
             }
             var previous = status.ShootModeInfo;
-            status.ShootModeInfo = latest;
+            status.ShootModeInfo = new ExtendedInfo<string>(latest);
             return IsModified(previous, latest);
         }
 

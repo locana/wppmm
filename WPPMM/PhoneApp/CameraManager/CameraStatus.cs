@@ -153,12 +153,21 @@ namespace WPPMM.CameraManager
             get { return _SelfTimerInfo; }
         }
 
-        private BasicInfo<string> _ShootModeInfo;
-        public BasicInfo<string> ShootModeInfo
+        private ExtendedInfo<string> _ShootModeInfo;
+        public ExtendedInfo<string> ShootModeInfo
         {
             set
             {
+                string previous = null;
+                if (_ShootModeInfo != null)
+                {
+                    previous = _ShootModeInfo.current;
+                }
                 _ShootModeInfo = value;
+                if (_ShootModeInfo != null)
+                {
+                    _ShootModeInfo.previous = previous;
+                }
                 OnPropertyChanged("ShootModeInfo");
                 OnPropertyChanged("LiveviewScreenVisibility");
                 OnPropertyChanged("AudioScreenVisibility");
@@ -210,7 +219,7 @@ namespace WPPMM.CameraManager
                 }
             }
         }
-        
+
         public Action<string> CurrentShootModeNotifier;
 
         public BasicInfo<string> ExposureMode { set; get; }
@@ -223,7 +232,7 @@ namespace WPPMM.CameraManager
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            
+
             Debug.WriteLine("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
@@ -235,6 +244,24 @@ namespace WPPMM.CameraManager
                 {
                 }
             }
+        }
+    }
+
+    public class ExtendedInfo<T> : BasicInfo<T>
+    {
+        public T previous { set; get; }
+
+        public ExtendedInfo(BasicInfo<T> basic)
+        {
+            this.candidates = basic.candidates;
+            this.current = basic.current;
+        }
+
+        public ExtendedInfo(BasicInfo<T> basic, T previous)
+        {
+            this.candidates = basic.candidates;
+            this.current = basic.current;
+            this.previous = previous;
         }
     }
 }

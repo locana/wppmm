@@ -7,9 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using WPPMM.DataModel;
+using WPPMM.RemoteApi;
 
 
-namespace WPPMM.CameraManager 
+namespace WPPMM.CameraManager
 {
     public class ControlPanelManager
     {
@@ -69,12 +70,38 @@ namespace WPPMM.CameraManager
             if (status.IsSupported("setShootMode"))
             {
                 panel.Children.Add(CreateStatusPanel("ShootMode", Resources.AppResources.ShootMode,
-                     (sender, arg) =>
+                     async (sender, arg) =>
                      {
                          if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null)
                              return;
-                         var selected = (sender as ListPicker).SelectedIndex;
-                         manager.SetShootMode(status.ShootModeInfo.candidates[selected]);
+                         var picker = sender as ListPicker;
+                         var selected = picker.SelectedIndex;
+                         try
+                         {
+                             int code = await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
+                             if (code != StatusCode.OK)
+                             {
+                                 Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
+                                 var tmp = status.ShootModeInfo.candidates;
+
+                                 for (int i = 0; i < tmp.Length; i++)
+                                 {
+                                     if (tmp[i] == status.ShootModeInfo.previous)
+                                     {
+                                         Debug.WriteLine("Index of value matched: " + i);
+                                         Deployment.Current.Dispatcher.BeginInvoke(() =>
+                                         {
+                                             picker.SelectedIndex = i;
+                                         });
+                                         break;
+                                     }
+                                 }
+                             }
+                         }
+                         catch (InvalidOperationException e)
+                         {
+                             Debug.WriteLine("Not ready to call Web API");
+                         }
                      }));
             }
             if (status.IsSupported("setSelfTimer"))
@@ -150,7 +177,6 @@ namespace WPPMM.CameraManager
             picker.SetBinding(ListPicker.ItemsSourceProperty, candidatesbind);
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
             picker.SelectionChanged += handler;
-
             child.Children.Add(picker);
             return child;
         }

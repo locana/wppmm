@@ -329,7 +329,7 @@ namespace WPPMM
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
                 var status = cameraManager.cameraStatus;
-                if (cpm.ItemCount > 0)
+                if (cpm != null && cpm.ItemCount > 0)
                 {
                     abm.Enable(IconMenu.ControlPanel);
                 }
@@ -427,10 +427,13 @@ namespace WPPMM
             Debug.WriteLine("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
-                if (cpm.IsShowing())
+                if (cpm != null && cpm.IsShowing())
                 {
                     cpm.Hide();
-                    ApplicationBar.IsVisible = true;
+                    if (ApplicationBar != null)
+                    {
+                        ApplicationBar.IsVisible = true;
+                    }
                 }
                 else
                     GoToMainPage();

@@ -81,6 +81,7 @@ namespace WPPMM.CameraManager
                              int code = await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
                              if (code != StatusCode.OK)
                              {
+                                 Debug.WriteLine("Failed to set shootmode: " + code);
                                  Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
                                  var tmp = status.ShootModeInfo.candidates;
 
@@ -118,7 +119,7 @@ namespace WPPMM.CameraManager
                              var code = await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
                              if (code != StatusCode.OK)
                              {
-                                 Debug.WriteLine("Failed to set selftimer");
+                                 Debug.WriteLine("Failed to set selftimer: " + code);
                                  manager.RefreshEventObserver();
                              }
                          }
@@ -138,10 +139,10 @@ namespace WPPMM.CameraManager
                         var selected = (sender as ListPicker).SelectedIndex;
                         try
                         {
-                            var code = await manager.SetShootModeAsync(status.PostviewSizeInfo.candidates[selected]);
+                            var code = await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);
                             if (code != StatusCode.OK)
                             {
-                                Debug.WriteLine("Failed to set postview image size");
+                                Debug.WriteLine("Failed to set postview image size: " + code);
                                 manager.RefreshEventObserver();
                             }
                         }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.DataModel;
@@ -512,6 +513,24 @@ namespace WPPMM.CameraManager
             if (client == null)
                 return;
             client.SetShootMode(mode, OnError, () => { });
+        }
+
+        public Task<int> SetShootModeAsync(string mode)
+        {
+            var taskCS = new TaskCompletionSource<int>();
+            if (client == null)
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                client.SetShootMode(
+                    mode,
+                    (code) => { taskCS.SetResult(code); },
+                    () => { taskCS.SetResult(0); }
+                );
+            }
+            return taskCS.Task;
         }
     }
 }

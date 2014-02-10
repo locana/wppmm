@@ -81,14 +81,18 @@ namespace WPPMM.CameraManager
                              int code = await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
                              if (code != StatusCode.OK)
                              {
-                                 Debug.WriteLine("Rollback to previous ShootModeInfo");
+                                 Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
                                  var tmp = status.ShootModeInfo.candidates;
 
                                  for (int i = 0; i < tmp.Length; i++)
                                  {
-                                     if (tmp[i] == status.ShootModeInfo.current)
+                                     if (tmp[i] == status.ShootModeInfo.previous)
                                      {
-                                         picker.SelectedIndex = i;
+                                         Debug.WriteLine("Index of value matched: " + i);
+                                         Deployment.Current.Dispatcher.BeginInvoke(() =>
+                                         {
+                                             picker.SelectedIndex = i;
+                                         });
                                          break;
                                      }
                                  }
@@ -173,7 +177,6 @@ namespace WPPMM.CameraManager
             picker.SetBinding(ListPicker.ItemsSourceProperty, candidatesbind);
             picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
             picker.SelectionChanged += handler;
-
             child.Children.Add(picker);
             return child;
         }

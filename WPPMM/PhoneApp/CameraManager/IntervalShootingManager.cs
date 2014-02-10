@@ -69,7 +69,7 @@ namespace WPPMM.CameraManager
         {
             get
             {
-                // Debug.WriteLine("get interval panel visibility: " + this.IsRunning);
+                Debug.WriteLine("get interval panel visibility: " + this.IsRunning);
                 return this.IsRunning ? Visibility.Visible : Visibility.Collapsed;
             }
         }

@@ -186,6 +186,13 @@ namespace WPPMM
             if (cameraManager.IntervalManager.IsRunning)
             {
                 cameraManager.StopIntervalRec();
+                if (cpm != null)
+                {
+                    cpm.OnControlPanelPropertyChanged("CpIsAvailableSelfTimer");
+                    cpm.OnControlPanelPropertyChanged("CpIsAvailableShootMode");
+                    cpm.OnControlPanelPropertyChanged("CpIsAvailablePostviewSize");
+                    cpm.OnControlPanelPropertyChanged("CpIsAvailableStillImageFunctions");
+                }
                 return;
             }
 
@@ -199,6 +206,13 @@ namespace WPPMM
                             if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
                             {
                                 cameraManager.StartIntervalRec();
+                                if (cpm != null)
+                                {
+                                    cpm.OnControlPanelPropertyChanged("CpIsAvailableSelfTimer");
+                                    cpm.OnControlPanelPropertyChanged("CpIsAvailableShootMode");
+                                    cpm.OnControlPanelPropertyChanged("CpIsAvailablePostviewSize");
+                                    cpm.OnControlPanelPropertyChanged("CpIsAvailableStillImageFunctions");
+                                }
                             }
                             else
                             {

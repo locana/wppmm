@@ -310,5 +310,10 @@ namespace WPPMM.CameraManager
             );
             return child;
         }
+
+        public void OnControlPanelPropertyChanged(String name)
+        {
+            data.OnControlPanelPropertyChanged(name);
+        }
     }
 }

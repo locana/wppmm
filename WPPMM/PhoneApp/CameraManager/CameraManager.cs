@@ -315,6 +315,7 @@ namespace WPPMM.CameraManager
             if (IntervalManager != null)
             {
                 IntervalManager.Start(ApplicationSettings.GetInstance().IntervalTime);
+                
             }
         }
 

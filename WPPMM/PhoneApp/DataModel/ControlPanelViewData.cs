@@ -7,10 +7,13 @@ namespace WPPMM.DataModel
     public class ControlPanelViewData : INotifyPropertyChanged
     {
         private readonly CameraStatus status;
+        private CameraManager.CameraManager manager;
 
         public ControlPanelViewData(CameraStatus status)
         {
             this.status = status;
+            this.manager = CameraManager.CameraManager.GetInstance();
+
             status.PropertyChanged += (sender, e) =>
             {
                 switch (e.PropertyName)
@@ -70,7 +73,10 @@ namespace WPPMM.DataModel
 
         public bool CpIsAvailableSelfTimer
         {
-            get { return status.IsAvailable("setSelfTimer") && status.SelfTimerInfo != null; }
+            get { return status.IsAvailable("setSelfTimer") && 
+                status.SelfTimerInfo != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning ; }
         }
 
         public int CpSelectedIndexPostviewSize
@@ -96,7 +102,11 @@ namespace WPPMM.DataModel
 
         public bool CpIsAvailablePostviewSize
         {
-            get { return status.IsAvailable("setPostviewImageSize") && status.PostviewSizeInfo != null; }
+            get { return status.IsAvailable("setPostviewImageSize") && 
+                status.PostviewSizeInfo != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
         }
 
         public int CpSelectedIndexShootMode
@@ -122,7 +132,11 @@ namespace WPPMM.DataModel
 
         public bool CpIsAvailableShootMode
         {
-            get { return status.IsAvailable("setShootMode") && status.ShootModeInfo != null; }
+            get { return status.IsAvailable("setShootMode") &&
+                status.ShootModeInfo != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
         }
 
         public bool CpIsAvailableStillImageFunctions
@@ -132,8 +146,14 @@ namespace WPPMM.DataModel
                 {
                     return false;
                 }
-                return status.ShootModeInfo.current == RemoteApi.ApiParams.ShootModeStill;
+                return status.ShootModeInfo.current == RemoteApi.ApiParams.ShootModeStill &&
+                    manager != null && !manager.IntervalManager.IsRunning;
             }
+        }
+
+        public void OnControlPanelPropertyChanged(string name)
+        {
+            OnPropertyChanged(name);
         }
     }
 }

@@ -181,20 +181,48 @@ namespace WPPMM.CameraManager
             lvProcessor.CloseConnection();
         }
 
-        public void SetPostViewImageSize(String size)
+        public Task<int> SetPostViewImageSizeAsync(string size)
         {
+            var taskCS = new TaskCompletionSource<int>();
             if (client == null)
-                return;
-
-            client.SetPostviewImageSize(size, OnError, () => { });
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                client.SetPostviewImageSize(
+                    size,
+                    (code) => { taskCS.SetResult(code); },
+                    () =>
+                    {
+                        Debug.WriteLine("SetPostViewImageSizeAsync success");
+                        taskCS.SetResult(0);
+                    }
+                );
+            }
+            return taskCS.Task;
         }
 
-        public void SetSelfTimer(int timer)
+        public Task<int> SetSelfTimerAsync(int timer)
         {
+            var taskCS = new TaskCompletionSource<int>();
             if (client == null)
-                return;
-            Debug.WriteLine("calling Setselftimer at CameraManager");
-            client.SetSelfTimer(timer, OnError, () => { });
+            {
+                throw new InvalidOperationException();
+            }
+            else
+            {
+                client.SetSelfTimer(
+                    timer,
+                    (code) => { taskCS.SetResult(code); },
+                    () =>
+                    {
+                        Debug.WriteLine("SetSelfTimerAsync success");
+                        taskCS.SetResult(0);
+                    }
+                );
+            }
+            return taskCS.Task;
         }
 
         BitmapImage ImageSource = new BitmapImage()
@@ -463,6 +491,15 @@ namespace WPPMM.CameraManager
             observer.Stop();
         }
 
+        public void RefreshEventObserver()
+        {
+            if (observer == null)
+            {
+                return;
+            }
+            observer.Refresh();
+        }
+
         public void OnDetectDifference(EventMember member)
         {
             switch (member)
@@ -508,13 +545,6 @@ namespace WPPMM.CameraManager
 
         public Action MethodTypesUpdateNotifer;
 
-        public void SetShootMode(string mode)
-        {
-            if (client == null)
-                return;
-            client.SetShootMode(mode, OnError, () => { });
-        }
-
         public Task<int> SetShootModeAsync(string mode)
         {
             var taskCS = new TaskCompletionSource<int>();
@@ -527,7 +557,11 @@ namespace WPPMM.CameraManager
                 client.SetShootMode(
                     mode,
                     (code) => { taskCS.SetResult(code); },
-                    () => { taskCS.SetResult(0); }
+                    () =>
+                    {
+                        Debug.WriteLine("SetShootModeAsync success");
+                        taskCS.SetResult(0);
+                    }
                 );
             }
             return taskCS.Task;

@@ -65,7 +65,7 @@ namespace WPPMM.Utils
             }
             else
             {
-                return 5;
+                return 10;
             }
         }
 

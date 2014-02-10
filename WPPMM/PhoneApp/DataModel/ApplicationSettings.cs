@@ -73,7 +73,7 @@ namespace WPPMM.DataModel
             }
         }
 
-        private int _IntervalTime = 5;
+        private int _IntervalTime = 10;
 
         public int IntervalTime
         {

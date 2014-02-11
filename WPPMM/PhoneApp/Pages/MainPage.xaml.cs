@@ -36,7 +36,7 @@ namespace WPPMM
         private AppBarManager abm = new AppBarManager();
         private ControlPanelManager cpm;
 
-        private ProximityDevice _device;
+        private ProximityDevice _proximitiyDevice;
         private long _subscriptionIdNdef;
         private SonyNdefRecord ndefRecord;
 
@@ -554,9 +554,9 @@ namespace WPPMM
         private void initNFC()
         {
             // Initialize NFC
-            _device = ProximityDevice.GetDefault();
+            _proximitiyDevice = ProximityDevice.GetDefault();
             // Only subscribe for messages if no NDEF subscription is already active
-            if (_subscriptionIdNdef != 0 || _device == null)
+            if (_subscriptionIdNdef != 0 || _proximitiyDevice == null)
             {
                 // Debug.WriteLine("It seems this is not NFC available device");
                 return;
@@ -564,7 +564,7 @@ namespace WPPMM
             // Ask the proximity device to inform us about any kind of NDEF message received from
             // another device or tag.
             // Store the subscription ID so that we can cancel it later.
-            _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
+            _subscriptionIdNdef = _proximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
             NFCMessage.Visibility = System.Windows.Visibility.Visible;
 
         }
@@ -616,7 +616,10 @@ namespace WPPMM
 
         private void ClearNFCInfo()
         {
-            NFCMessage.Visibility = System.Windows.Visibility.Visible;
+            if (_proximitiyDevice != null)
+            {
+                NFCMessage.Visibility = System.Windows.Visibility.Visible;
+            }
             NFC_SSID.Text = "";
             NFC_Password.Text = "";
             NFCInfo.Visibility = System.Windows.Visibility.Collapsed;

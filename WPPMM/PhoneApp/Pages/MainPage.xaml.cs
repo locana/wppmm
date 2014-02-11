@@ -4,6 +4,7 @@ using Microsoft.Phone.Reactive;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,9 +14,8 @@ using WPPMM.CameraManager;
 using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 using WPPMM.Resources;
-using WPPMM.Utils;
 using WPPMM.SonyNdefUtils;
-using System.Collections.Generic;
+using WPPMM.Utils;
 
 
 namespace WPPMM
@@ -39,7 +39,6 @@ namespace WPPMM
         private ProximityDevice _device;
         private long _subscriptionIdNdef;
         private SonyNdefRecord ndefRecord;
-        
 
         public MainPage()
         {
@@ -603,7 +602,6 @@ namespace WPPMM
             if (ndefRecords.Count > 0)
             {
                 ndefRecord = ndefRecords[0];
-                
 
                 Dispatcher.BeginInvoke(() =>
                 {

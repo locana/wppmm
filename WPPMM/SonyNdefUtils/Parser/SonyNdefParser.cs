@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Networking.Proximity;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using Windows.Networking.Proximity;
 
 namespace WPPMM.SonyNdefUtils
 {
@@ -83,9 +81,9 @@ namespace WPPMM.SonyNdefUtils
             else
             {
                 record.idLength = 0;
-                
+
             }
-            
+
             recordPointer++;
 
             // get type
@@ -213,7 +211,7 @@ namespace WPPMM.SonyNdefUtils
 
         }
 
-        
+
 
     }
 }

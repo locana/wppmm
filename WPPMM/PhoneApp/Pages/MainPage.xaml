@@ -108,9 +108,9 @@
                         <TextBlock Grid.Row="0" x:Name="NFC_SSID" HorizontalAlignment="Left" Margin="16,16" TextWrapping="Wrap" Visibility="Visible" 
                                Text="" VerticalAlignment="Top" Grid.Column="1"/>
                         <TextBlock Grid.Row="1" x:Name="NFC_Password_Prefix" HorizontalAlignment="Right" Margin="0,16" TextWrapping="Wrap" Visibility="Visible" 
-                               Text="Password:" VerticalAlignment="Center" Grid.Column="0" />
+                               Text="Password: " VerticalAlignment="Center" Grid.Column="0" />
                         <TextBox Grid.Row="1" Grid.Column="1" x:Name="NFC_Password" HorizontalAlignment="Left" Margin="16,0,0,0" TextWrapping="Wrap" Visibility="Visible"
-                             Text="" TextAlignment="Center" VerticalAlignment="Center"/>
+                             Text="Password" TextAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
 
                 </Grid>

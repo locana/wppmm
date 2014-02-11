@@ -249,8 +249,7 @@
     <value>Interval</value>
   </data>
   <data name="Guide_NFC" xml:space="preserve">
-    <value>Forgot password?
-You can touch your phone to your camera to find password of Wi-Fi.
-(If both of them supports NFC)</value>
+    <value>Forgot Wi-Fi password of the camera device?
+You can touch your NFC enabled phone to NFC enabled camera to find password of Wi-Fi.</value>
   </data>
 </root>

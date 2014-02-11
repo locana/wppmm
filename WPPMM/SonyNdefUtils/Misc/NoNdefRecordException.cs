@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WPPMM.SonyNdefUtils
 {
@@ -13,7 +9,8 @@ namespace WPPMM.SonyNdefUtils
         {
         }
 
-        public NoNdefRecordException(String message): base(message)
+        public NoNdefRecordException(String message)
+            : base(message)
         {
         }
 

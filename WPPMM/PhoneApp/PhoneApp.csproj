@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -199,6 +199,10 @@
     <ProjectReference Include="..\RemoteApi\RemoteApi.csproj">
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>RemoteApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SonyNdefUtils\SonyNdefUtils.csproj">
+      <Project>{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}</Project>
+      <Name>SonyNdefUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

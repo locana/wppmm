@@ -8,11 +8,15 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
+using Windows.Networking.Proximity;
 using WPPMM.CameraManager;
 using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 using WPPMM.Resources;
 using WPPMM.Utils;
+using WPPMM.SonyNdefUtils;
+using System.Collections.Generic;
+
 
 namespace WPPMM
 {
@@ -31,6 +35,11 @@ namespace WPPMM
         private readonly PostViewData pvd = new PostViewData();
         private AppBarManager abm = new AppBarManager();
         private ControlPanelManager cpm;
+
+        private ProximityDevice _device;
+        private long _subscriptionIdNdef;
+        private SonyNdefRecord ndefRecord;
+        
 
         public MainPage()
         {
@@ -55,6 +64,7 @@ namespace WPPMM
             {
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
+            initNFC();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -339,6 +349,8 @@ namespace WPPMM
 
                 Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
             }
+
+            ClearNFCInfo();
         }
 
         private Task<bool> PrepareConnectionAsync()
@@ -538,6 +550,77 @@ namespace WPPMM
                 Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = false; });
             }
 
+        }
+
+        private void initNFC()
+        {
+            // Initialize NFC
+            _device = ProximityDevice.GetDefault();
+            // Only subscribe for messages if no NDEF subscription is already active
+            if (_subscriptionIdNdef != 0 || _device == null)
+            {
+                Debug.WriteLine("It seems there's not NFC available device");
+                return;
+            }
+            // Ask the proximity device to inform us about any kind of NDEF message received from
+            // another device or tag.
+            // Store the subscription ID so that we can cancel it later.
+            _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
+
+        }
+
+        private void MessageReceivedHandler(ProximityDevice sender, ProximityMessage message)
+        {
+            // Get the raw NDEF message data as byte array
+            var parser = new SonyNdefParser(message);
+            List<SonyNdefRecord> ndefRecords = new List<SonyNdefRecord>();
+            try
+            {
+                ndefRecords = parser.Parse();
+            }
+            catch (NoNdefRecordException e)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show("It seems there's no Sony's format record");
+                });
+            }
+            catch (NdefParseException e)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show("Parse error occured.");
+                });
+            }
+            catch (Exception e)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show("Unexpected error has occured.");
+                });
+            }
+
+            if (ndefRecords.Count > 0)
+            {
+                ndefRecord = ndefRecords[0];
+                
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    NFCMessage.Visibility = System.Windows.Visibility.Collapsed;
+                    NFC_SSID.Text = ndefRecord.SSID;
+                    NFC_Password.Text = ndefRecord.Password;
+                    NFCInfo.Visibility = System.Windows.Visibility.Visible;
+                });
+            }
+        }
+
+        private void ClearNFCInfo()
+        {
+            NFCMessage.Visibility = System.Windows.Visibility.Visible;
+            NFC_SSID.Text = "";
+            NFC_Password.Text = "";
+            NFCInfo.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

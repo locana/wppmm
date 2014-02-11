@@ -248,4 +248,9 @@
   <data name="IntervalTimePrefix" xml:space="preserve">
     <value>Interval</value>
   </data>
+  <data name="Guide_NFC" xml:space="preserve">
+    <value>Forgot password?
+You can touch your phone to your camera to find password of Wi-Fi.
+(If both of them supports NFC)</value>
+  </data>
 </root>

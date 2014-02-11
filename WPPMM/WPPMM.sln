@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneApp", "PhoneApp\PhoneApp.csproj", "{8E9F3BBF-DB1D-478F-8341-DB0D1767FD8D}"
@@ -8,6 +7,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDiscovery", "DeviceDiscovery\DeviceDiscovery.csproj", "{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liveview", "Liveview\Liveview.csproj", "{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonyNdefUtils", "SonyNdefUtils\SonyNdefUtils.csproj", "{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +114,26 @@ Global
 		{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}.Release|Win32.Build.0 = Release|x86
 		{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}.Release|x86.ActiveCfg = Release|x86
 		{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}.Release|x86.Build.0 = Release|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|ARM.Build.0 = Debug|ARM
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Win32.ActiveCfg = Debug|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Win32.Build.0 = Debug|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|x86.ActiveCfg = Debug|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|x86.Build.0 = Debug|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|ARM.ActiveCfg = Release|ARM
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|ARM.Build.0 = Release|ARM
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Win32.ActiveCfg = Release|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Win32.Build.0 = Release|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|x86.ActiveCfg = Release|x86
+		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

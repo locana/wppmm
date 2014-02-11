@@ -566,6 +566,7 @@ namespace WPPMM
             // another device or tag.
             // Store the subscription ID so that we can cancel it later.
             _subscriptionIdNdef = _device.SubscribeForMessage("NDEF", MessageReceivedHandler);
+            NFCMessage.Visibility = System.Windows.Visibility.Visible;
 
         }
 

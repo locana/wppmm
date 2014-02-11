@@ -91,7 +91,7 @@
                     <TextBlock Grid.Row="1" x:Name="NetworkStatus" HorizontalAlignment="Center" Margin="30,30,30,30" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                     <TextBlock Grid.Row="2" x:Name="GuideMessage" HorizontalAlignment="Center" Margin="30,10,30,30" TextWrapping="Wrap" Visibility="Collapsed" 
                                Text="{Binding LocalizedResources.Guide_StartLiveView, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top"/>
-                    <TextBlock Grid.Row="3" x:Name="NFCMessage" HorizontalAlignment="Center" Margin="30,50,30,30" TextWrapping="Wrap" Visibility="Visible" 
+                    <TextBlock Grid.Row="3" x:Name="NFCMessage" HorizontalAlignment="Center" Margin="30,50,30,30" TextWrapping="Wrap" Visibility="Collapsed" 
                                Text="{Binding LocalizedResources.Guide_NFC, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" />
                     <Grid x:Name="NFCInfo" Grid.Row="4" Visibility="Collapsed" Margin="0,80,0,0">
                         <Grid.RowDefinitions>
@@ -104,9 +104,9 @@
                             <ColumnDefinition Width="53*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" x:Name="NFC_SSID_Prefix" HorizontalAlignment="Right" Margin="0,16" TextWrapping="Wrap" Visibility="Visible" 
-                               Text="SSID: " VerticalAlignment="Top" Grid.Column="0" />
+                               Text="SSID:" VerticalAlignment="Top" Grid.Column="0" />
                         <TextBlock Grid.Row="0" x:Name="NFC_SSID" HorizontalAlignment="Left" Margin="16,16" TextWrapping="Wrap" Visibility="Visible" 
-                               Text="SSID" VerticalAlignment="Top" Grid.Column="1"/>
+                               Text="" VerticalAlignment="Top" Grid.Column="1"/>
                         <TextBlock Grid.Row="1" x:Name="NFC_Password_Prefix" HorizontalAlignment="Right" Margin="0,16" TextWrapping="Wrap" Visibility="Visible" 
                                Text="Password:" VerticalAlignment="Center" Grid.Column="0" />
                         <TextBox Grid.Row="1" Grid.Column="1" x:Name="NFC_Password" HorizontalAlignment="Left" Margin="16,0,0,0" TextWrapping="Wrap" Visibility="Visible"

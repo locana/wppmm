@@ -428,6 +428,8 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("Error during taking picture: " + err);
             AppStatus.GetInstance().IsTakingPicture = false;
             NoticeUpdate();
+
+            OnError(err);
         }
 
         public void StartMovieRec()
@@ -528,6 +530,30 @@ namespace WPPMM.CameraManager
                 IntervalManager.Stop();
                 MessageBox.Show(AppResources.ErrorMessage_Interval);
             }
+
+            String err = "error";
+
+            switch (errno)
+            {
+                case StatusCode.Any:
+                    err = AppResources.ErrorMessage_fatal;
+                    break;
+                case StatusCode.Timeout:
+                    err = AppResources.ErrorMessage_timeout;
+                    break;
+                case StatusCode.ShootingFailure:
+                    err = AppResources.ErrorMessage_shootingFailure;
+                    break;
+                case StatusCode.CameraNotReady:
+                    err = AppResources.ErrorMessage_cameraNotReady;
+                    break;
+
+                default:
+                    err = AppResources.ErrorMessage_fatal;
+                    break;
+            }
+
+            MessageBox.Show(err);
         }
 
         // register EE screen update method

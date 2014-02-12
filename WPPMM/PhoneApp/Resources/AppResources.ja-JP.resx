@@ -261,4 +261,16 @@
   <data name="String3" xml:space="preserve">
     <value />
   </data>
+  <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
+    <value>カメラが処理中です。しばらくまって再度お試しください。</value>
+  </data>
+  <data name="ErrorMessage_fatal" xml:space="preserve">
+    <value>予期せぬエラーが発生しました。</value>
+  </data>
+  <data name="ErrorMessage_shootingFailure" xml:space="preserve">
+    <value>撮影/記録開始できませんでした。メモリーカードをご確認ください。</value>
+  </data>
+  <data name="ErrorMessage_timeout" xml:space="preserve">
+    <value>通信に失敗しました。接続を確認してください。</value>
+  </data>
 </root>

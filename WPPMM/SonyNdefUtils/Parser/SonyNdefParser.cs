@@ -131,7 +131,7 @@ namespace WPPMM.SonyNdefUtils
                 record.dump();
 
                 // currently, only first record is required to dispaly SSID/Password. 
-                // and it looks that 2nd chunk difficult to parse.....
+                // and it looks that 2nd chunk is difficult to parse.....
                 break;
             }
         }

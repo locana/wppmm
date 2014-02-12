@@ -252,4 +252,16 @@
     <value>Forgot Wi-Fi password of the camera device?
 You can touch your NFC enabled phone to NFC enabled camera to find password of Wi-Fi.</value>
   </data>
+  <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
+    <value>Camera is under processing. Try again after while.</value>
+  </data>
+  <data name="ErrorMessage_fatal" xml:space="preserve">
+    <value>Something error occured.</value>
+  </data>
+  <data name="ErrorMessage_shootingFailure" xml:space="preserve">
+    <value>Can't shoot or start recording. Make sure the memory card.</value>
+  </data>
+  <data name="ErrorMessage_timeout" xml:space="preserve">
+    <value>Requet timeout. Make sure the connection and try again.</value>
+  </data>
 </root>

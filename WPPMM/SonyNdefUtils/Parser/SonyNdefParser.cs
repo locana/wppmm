@@ -51,73 +51,89 @@ namespace WPPMM.SonyNdefUtils
         {
             int recordPointer = 0;
 
-            var record = new SonyNdefRecord();
-            record.ndefHeader = raw[recordPointer];
-
-            recordPointer++;
-
-            record.typeLength = raw[recordPointer];
-
-            // to check whether short record or not
-            if ((0x10 & record.ndefHeader) == 0x10)
+            while (recordPointer < raw.Length)
             {
-                // short length
-                recordPointer += 1;
-                record.payloadLength = raw[recordPointer];
-            }
-            else
-            {
-                // not sony nfc format
-                recordPointer += 4;
-                record.payloadLength = raw[recordPointer + 3] << 24 | raw[recordPointer + 2] << 16 | raw[recordPointer + 1] << 8 | raw[recordPointer];
-            }
+                bool isLastMessage = false;
 
-            // to check id length (0 or 1)
-            if ((0x08 & record.ndefHeader) == 0x08)
-            {
-                record.IsIdExist = true;
-            }
-            else
-            {
-                record.IsIdExist = false;
-            }
-
-            recordPointer++;
-
-            // get id length
-            if (record.IsIdExist)
-            {
-                record.idLength = raw[recordPointer];
+                var record = new SonyNdefRecord();
+                record.ndefHeader = raw[recordPointer];
                 recordPointer++;
+                // Debug.WriteLine("NDEF header: " + Convert.ToString(record.ndefHeader, 2));
+
+                record.typeLength = raw[recordPointer];
+                recordPointer++;
+
+                // to check whether short record or not
+                if ((0x10 & record.ndefHeader) == 0x10)
+                {
+                    // short length
+                    record.payloadLength = raw[recordPointer];
+                    recordPointer += 1;
+                }
+                else
+                {
+                    // not sony nfc format
+                    record.payloadLength = raw[recordPointer + 3] << 24 | raw[recordPointer + 2] << 16 | raw[recordPointer + 1] << 8 | raw[recordPointer];
+                    recordPointer += 4;
+                }
+
+                // to check last message
+                if ((0x40 & record.ndefHeader) == 0x40)
+                {
+                    isLastMessage = true;
+                }
+
+                // to check id length (0 or 1)
+                if ((0x08 & record.ndefHeader) == 0x08)
+                {
+                    record.IsIdExist = true;
+                }
+                else
+                {
+                    record.IsIdExist = false;
+                }
+
+
+                // get id length
+                if (record.IsIdExist)
+                {
+                    record.idLength = raw[recordPointer];
+                    recordPointer++;
+                }
+
+                // get type
+                record.type = Encoding.UTF8.GetString(raw, recordPointer, record.typeLength);
+                recordPointer += record.typeLength;
+
+                StringBuilder sb = new StringBuilder();
+
+                // get id (if exist)
+                if (record.IsIdExist)
+                {
+                    record.id = Encoding.UTF8.GetString(raw, recordPointer, record.idLength);
+                    recordPointer += record.idLength;
+                }
+
+                // something strange, 1 byte here.
+                recordPointer++;
+
+                // get payload
+                Byte[] payload = new Byte[record.payloadLength];
+                Array.Copy(raw, recordPointer, payload, 0, record.payloadLength);
+                recordPointer += record.payloadLength;
+
+                var parsedPayload = this.ParseSonyNdefPayload(payload);
+                record.SSID = parsedPayload.SSID;
+                record.Password = parsedPayload.Password;
+
+                records.Add(record);
+
+                record.dump();
+
+                // currently, only first record is required to dispaly SSID/Password. 
+                // and it looks that 2nd chunk difficult to parse.....
+                break;
             }
-            
-            // get type
-            record.type = Encoding.UTF8.GetString(raw, recordPointer, record.typeLength);
-            recordPointer += record.typeLength;
-
-            StringBuilder sb = new StringBuilder();
-
-            // get id (if exist)
-            if (record.IsIdExist)
-            {
-                record.id = Encoding.UTF8.GetString(raw, recordPointer, record.idLength);
-                recordPointer += record.idLength;
-            }
-
-            // something strange, 1 byte here.
-            recordPointer++;
-
-            // get payload
-            Byte[] payload = new Byte[record.payloadLength];
-            Array.Copy(raw, recordPointer, payload, 0, record.payloadLength);
-
-            var parsedPayload = this.ParseSonyNdefPayload(payload);
-            record.SSID = parsedPayload.SSID;
-            record.Password = parsedPayload.Password;
-
-            records.Add(record);
-
-            record.dump();
         }
 
         private SonyNdefRecord ParseSonyNdefPayload(byte[] payload)
@@ -167,6 +183,8 @@ namespace WPPMM.SonyNdefUtils
                 }
 
                 pointer += size;
+
+                Debug.WriteLine("-----Record End----");
 
                 if (ret.SSID.Length > 0 && ret.Password.Length > 0)
                 {

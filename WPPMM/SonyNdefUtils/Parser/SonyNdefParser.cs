@@ -69,149 +69,111 @@ namespace WPPMM.SonyNdefUtils
             {
                 // not sony nfc format
                 recordPointer += 4;
+                record.payloadLength = raw[recordPointer + 3] << 24 | raw[recordPointer + 2] << 16 | raw[recordPointer + 1] << 8 | raw[recordPointer];
             }
 
             // to check id length (0 or 1)
             if ((0x08 & record.ndefHeader) == 0x08)
             {
-                record.idLength = 1;
-                recordPointer++;
-                record.idLength = (int)raw[recordPointer];
+                record.IsIdExist = true;
             }
             else
             {
-                record.idLength = 0;
-
+                record.IsIdExist = false;
             }
 
             recordPointer++;
 
-            // get type
-            int typeEndPointer = recordPointer + record.typeLength;
-            StringBuilder sb = new StringBuilder();
-            for (; recordPointer < typeEndPointer; recordPointer++)
+            // get id length
+            if (record.IsIdExist)
             {
-                sb.Append((char)raw[recordPointer]);
-            }
-            record.type = sb.ToString();
-            sb.Clear();
-
-            recordPointer++;
-
-            // get id (if exist)
-            if (record.idLength > 0)
-            {
-                int idEndPointer = recordPointer + record.idLength;
-                for (; recordPointer < idEndPointer; recordPointer++)
-                {
-                    sb.Append((char)raw[recordPointer]);
-                }
-                record.id = sb.ToString();
-                sb.Clear();
+                record.idLength = raw[recordPointer];
                 recordPointer++;
             }
+            
+            // get type
+            record.type = Encoding.UTF8.GetString(raw, recordPointer, record.typeLength);
+            recordPointer += record.typeLength;
+
+            StringBuilder sb = new StringBuilder();
+
+            // get id (if exist)
+            if (record.IsIdExist)
+            {
+                record.id = Encoding.UTF8.GetString(raw, recordPointer, record.idLength);
+                recordPointer += record.idLength;
+            }
+
+            // something strange, 1 byte here.
+            recordPointer++;
 
             // get payload
-            int payloadEndPointer = recordPointer + record.payloadLength;
-
             Byte[] payload = new Byte[record.payloadLength];
             Array.Copy(raw, recordPointer, payload, 0, record.payloadLength);
 
-            var parsedPayload = this.ParsePayload(payload);
+            var parsedPayload = this.ParseSonyNdefPayload(payload);
             record.SSID = parsedPayload.SSID;
             record.Password = parsedPayload.Password;
-
-            for (; recordPointer < payloadEndPointer; recordPointer++)
-            {
-                char ch = (char)raw[recordPointer];
-                if ((int)ch > 0x19)
-                {
-                    // Debug.WriteLine(ch);
-                    sb.Append(ch);
-                }
-                else
-                {
-                    // Debug.WriteLine((int)ch);
-                }
-            }
-            record.payload = sb.ToString();
-            sb.Clear();
 
             records.Add(record);
 
             record.dump();
         }
 
-        private SonyNdefRecord ParsePayload(byte[] payload)
+        private SonyNdefRecord ParseSonyNdefPayload(byte[] payload)
         {
             var ret = new SonyNdefRecord();
             StringBuilder sb = new StringBuilder();
 
-            int SSIDStartPointer = 0;
-            int SSIDLength = 0;
-            int PasswordStartPointer = 0;
-            int PasswordLength = 0;
+            int pointer = 0;
 
-            // find SSID
-            for (int i = 0; i < payload.Length; i++)
+            // remove header?
+            long header = (payload[0] << 24) | (payload[1] << 16) | (payload[2] << 8) | (payload[3]);
+            Debug.WriteLine("header?: " + header.ToString("x8"));
+
+            pointer = 4;
+
+            int contentCount = 0;
+
+            while (pointer < payload.Length)
             {
-                int val = (int)payload[i];
-                Debug.WriteLine((char)val);
+                Debug.WriteLine("pointer: " + pointer + " length: " + payload.Length);
 
-                if (val > 0x19 && i > 1 && (int)payload[i - 2] == 0)
+                Debug.WriteLine("-----Record[" + contentCount++ + "]-----");
+
+                // find id?
+                int id = payload[pointer] << 8 | payload[pointer + 1];
+                pointer += 2;
+                Debug.WriteLine("id: " + id.ToString("x4"));
+
+                // find size?
+                int size = payload[pointer] << 8 | payload[pointer + 1];
+                pointer += 2;
+                Debug.WriteLine("size: " + size.ToString("x4"));
+
+                Byte[] value = new Byte[size];
+                Array.Copy(payload, pointer, value, 0, size);
+
+                String valueText = Encoding.UTF8.GetString(value, 0, value.Length);
+                Debug.WriteLine("value: " + valueText);
+
+                if (id == 0x1000)
                 {
-                    // ASCII
-                    SSIDStartPointer = i;
-                    SSIDLength = (int)payload[i - 1];
+                    ret.SSID = valueText;
+                }
+                else if (id == 0x1001)
+                {
+                    ret.Password = valueText;
+                }
+
+                pointer += size;
+
+                if (ret.SSID.Length > 0 && ret.Password.Length > 0)
+                {
                     break;
                 }
             }
-
-            Debug.WriteLine("ssid starts from: " + SSIDStartPointer);
-            Debug.WriteLine("ssid length: " + SSIDLength);
-
-            // get ssid
-            for (int i = 0; i < SSIDLength; i++)
-            {
-                sb.Append((char)payload[SSIDStartPointer + i]);
-            }
-            ret.SSID = sb.ToString();
-            Debug.WriteLine("ssid: " + ret.SSID);
-
-            sb.Clear();
-
-            // find password
-            for (int i = SSIDStartPointer + SSIDLength; i < payload.Length; i++)
-            {
-
-                int val = (int)payload[i];
-
-                if (val > 0x19 && i > 1 && (int)payload[i - 2] == 0)
-                {
-                    // if ASCII found
-                    PasswordStartPointer = i;
-                    PasswordLength = (int)payload[i - 1];
-                    break;
-                }
-            }
-
-            Debug.WriteLine("password starts from: " + PasswordStartPointer);
-            Debug.WriteLine("password length: " + PasswordLength);
-
-            // get password
-            for (int i = 0; i < PasswordLength; i++)
-            {
-                sb.Append((char)payload[PasswordStartPointer + i]);
-            }
-            ret.Password = sb.ToString();
-
-
-
             return ret;
-
         }
-
-
-
     }
 }

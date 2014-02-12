@@ -60,6 +60,12 @@ namespace WPPMM.SonyNdefUtils
             set;
         }
 
+        public bool IsIdExist
+        {
+            get;
+            set;
+        }
+
         public SonyNdefRecord()
         {
             ndefHeader = (byte)0;
@@ -71,6 +77,7 @@ namespace WPPMM.SonyNdefUtils
             payload = "";
             SSID = "";
             Password = "";
+            IsIdExist = false;
         }
 
         public void dump()

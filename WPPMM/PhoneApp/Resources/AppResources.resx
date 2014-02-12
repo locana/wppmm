@@ -132,7 +132,7 @@
     <value>Wi-Fi settings</value>
   </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
-    <value>Couldn't find the devide. Make sure the SSID of connected access point is same as your device's one.</value>
+    <value>Couldn't find the devide. Make sure that SSID of connected access point is that of your camera device's.</value>
   </data>
   <data name="Guide_WiFiNotEnabled" xml:space="preserve">
     <value>Go to Wi-Fi settings and connect to your camera device.</value>
@@ -240,7 +240,7 @@
     <value />
   </data>
   <data name="ErrorMessage_Interval" xml:space="preserve">
-    <value>An error has occured. Interval shooting has stopped.</value>
+    <value>An error has occured. Stopped interval shooting.</value>
   </data>
   <data name="IntervalCountPrefix" xml:space="preserve">
     <value>Count</value>
@@ -253,15 +253,15 @@
 You can touch your NFC enabled phone to NFC enabled camera to find password of Wi-Fi.</value>
   </data>
   <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
-    <value>Camera is under processing. Try again after while.</value>
+    <value>Camera is under processing. Try again after a while.</value>
   </data>
   <data name="ErrorMessage_fatal" xml:space="preserve">
-    <value>Something error occured.</value>
+    <value>Remote request failed.</value>
   </data>
   <data name="ErrorMessage_shootingFailure" xml:space="preserve">
-    <value>Can't shoot or start recording. Make sure the memory card.</value>
+    <value>Failed to shoot or start recording. Make sure of the camera device's status.</value>
   </data>
   <data name="ErrorMessage_timeout" xml:space="preserve">
-    <value>Requet timeout. Make sure the connection and try again.</value>
+    <value>Request timeout. Make sure of the Wi-Fi connection and try again.</value>
   </data>
 </root>

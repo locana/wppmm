@@ -578,11 +578,18 @@ namespace WPPMM
             {
                 ndefRecords = parser.Parse();
             }
-            catch (NoNdefRecordException e)
+            catch (NoSonyNdefRecordException e)
             {
                 Dispatcher.BeginInvoke(() =>
                 {
                     MessageBox.Show("It seems there's no Sony's format record");
+                });
+            }
+            catch (NoNdefRecordException e)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show("It seems there's no NDEF record");
                 });
             }
             catch (NdefParseException e)

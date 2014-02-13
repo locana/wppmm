@@ -43,6 +43,11 @@ namespace WPPMM.SonyNdefUtils
             {
                 throw new NoNdefRecordException("It seems that there's no ndef record.");
             }
+            else if (this.CountValidSonyNdefRecord(records) == 0)
+            {
+                throw new NoSonyNdefRecordException("It seems that thete're some NDEF records, but It's not possible to find sony-format record");
+            }
+
 
             return records;
         }
@@ -58,7 +63,7 @@ namespace WPPMM.SonyNdefUtils
                 var record = new SonyNdefRecord();
                 record.ndefHeader = raw[recordPointer];
                 recordPointer++;
-                // Debug.WriteLine("NDEF header: " + Convert.ToString(record.ndefHeader, 2));
+                Debug.WriteLine("NDEF header: " + Convert.ToString((int)record.ndefHeader, 2).PadLeft(8));
 
                 record.typeLength = raw[recordPointer];
                 recordPointer++;
@@ -119,17 +124,31 @@ namespace WPPMM.SonyNdefUtils
                 Array.Copy(raw, recordPointer, payload, 0, record.payloadLength);
                 recordPointer += record.payloadLength;
 
-                var parsedPayload = this.ParseSonyNdefPayload(payload);
-                record.SSID = parsedPayload.SSID;
-                record.Password = parsedPayload.Password;
+                // store payload as text
+                record.payload = Encoding.UTF8.GetString(payload, 0, record.payloadLength);
+
+
+                // try to parse the payload as sony's NDEF payload
+                try
+                {
+                    var parsedPayload = this.ParseSonyNdefPayload(payload);
+                    record.SSID = parsedPayload.SSID;
+                    record.Password = parsedPayload.Password;
+                }
+                catch
+                {
+                    // if failed, store as just normal NDEF record.
+                }
 
                 records.Add(record);
-
                 record.dump();
 
-                // currently, only first record is required to dispaly SSID/Password. 
-                // and it looks that 2nd chunk is difficult to parse.....
-                break;
+                if (isLastMessage)
+                {
+                    Debug.WriteLine("Found the last record.");
+                    break;
+                }
+
             }
         }
 
@@ -156,6 +175,7 @@ namespace WPPMM.SonyNdefUtils
                 pointer += 2;
                 Debug.WriteLine("size: " + size.ToString("x4"));
 
+                // get value
                 String valueText = Encoding.UTF8.GetString(payload, pointer, size);
 
                 if (valueText.Length < 2)
@@ -180,6 +200,20 @@ namespace WPPMM.SonyNdefUtils
 
                 Debug.WriteLine("-----Record End----");
             }
+            return ret;
+        }
+
+        private int CountValidSonyNdefRecord(List<SonyNdefRecord> list)
+        {
+            int ret = 0;
+
+            foreach (SonyNdefRecord record in list){
+                if (record.SSID.Length > 0 && record.Password.Length > 0)
+                {
+                    ret++;
+                }
+            }
+
             return ret;
         }
     }

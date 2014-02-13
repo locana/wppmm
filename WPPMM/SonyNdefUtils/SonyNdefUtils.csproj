@@ -84,6 +84,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Misc\NoNdefRecordException.cs" />
+    <Compile Include="Misc\NoSonyNdefRecordException.cs" />
     <Compile Include="Misc\ParseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\SonyNdefParser.cs" />

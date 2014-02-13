@@ -273,4 +273,10 @@
   <data name="ErrorMessage_timeout" xml:space="preserve">
     <value>通信に失敗しました。接続を確認してください。</value>
   </data>
+  <data name="ErrorMessage_CantFindSonyRecord" xml:space="preserve">
+    <value>NFCタグからSSIDおよびパスワードを読み取れませんでした。</value>
+  </data>
+  <data name="ErrorMessage_ParseNFC" xml:space="preserve">
+    <value>NFCタグの読み取りに失敗しました。</value>
+  </data>
 </root>

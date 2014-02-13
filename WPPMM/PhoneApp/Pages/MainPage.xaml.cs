@@ -38,7 +38,6 @@ namespace WPPMM
 
         private ProximityDevice _proximitiyDevice;
         private long _subscriptionIdNdef;
-        private SonyNdefRecord ndefRecord;
 
         public MainPage()
         {
@@ -574,50 +573,50 @@ namespace WPPMM
             // Get the raw NDEF message data as byte array
             var parser = new SonyNdefParser(message);
             List<SonyNdefRecord> ndefRecords = new List<SonyNdefRecord>();
+    
+            String err = AppResources.ErrorMessage_fatal;
+
             try
             {
                 ndefRecords = parser.Parse();
             }
             catch (NoSonyNdefRecordException e)
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    MessageBox.Show("It seems there's no Sony's format record");
-                });
+                err = AppResources.ErrorMessage_CantFindSonyRecord;
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
             catch (NoNdefRecordException e)
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    MessageBox.Show("It seems there's no NDEF record");
-                });
+                err = AppResources.ErrorMessage_ParseNFC;
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
             catch (NdefParseException e)
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    MessageBox.Show("Parse error occured.");
-                });
+                err = AppResources.ErrorMessage_ParseNFC;
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
             catch (Exception e)
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    MessageBox.Show("Unexpected error has occured.");
-                });
+                err = AppResources.ErrorMessage_fatal;
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
 
             if (ndefRecords.Count > 0)
             {
-                ndefRecord = ndefRecords[0];
-
-                Dispatcher.BeginInvoke(() =>
+                foreach (SonyNdefRecord r in ndefRecords)
                 {
-                    NFCMessage.Visibility = System.Windows.Visibility.Collapsed;
-                    NFC_SSID.Text = ndefRecord.SSID;
-                    NFC_Password.Text = ndefRecord.Password;
-                    NFCInfo.Visibility = System.Windows.Visibility.Visible;
-                });
+                    if (r.SSID.Length > 0 && r.Password.Length > 0)
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            NFCMessage.Visibility = System.Windows.Visibility.Collapsed;
+                            NFC_SSID.Text = r.SSID;
+                            NFC_Password.Text = r.Password;
+                            NFCInfo.Visibility = System.Windows.Visibility.Visible;
+                        });
+                        break;
+                    }
+                }
             }
         }
 

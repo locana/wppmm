@@ -114,9 +114,6 @@ namespace WPPMM.SonyNdefUtils
                     recordPointer += record.idLength;
                 }
 
-                // something strange, 1 byte here.
-                recordPointer++;
-
                 // get payload
                 Byte[] payload = new Byte[record.payloadLength];
                 Array.Copy(raw, recordPointer, payload, 0, record.payloadLength);
@@ -142,18 +139,10 @@ namespace WPPMM.SonyNdefUtils
             StringBuilder sb = new StringBuilder();
 
             int pointer = 0;
-
-            // remove header?
-            long header = (payload[0] << 24) | (payload[1] << 16) | (payload[2] << 8) | (payload[3]);
-            Debug.WriteLine("header?: " + header.ToString("x8"));
-
-            pointer = 4;
-
             int contentCount = 0;
 
             while (pointer < payload.Length)
             {
-                Debug.WriteLine("pointer: " + pointer + " length: " + payload.Length);
 
                 Debug.WriteLine("-----Record[" + contentCount++ + "]-----");
 
@@ -167,11 +156,16 @@ namespace WPPMM.SonyNdefUtils
                 pointer += 2;
                 Debug.WriteLine("size: " + size.ToString("x4"));
 
-                Byte[] value = new Byte[size];
-                Array.Copy(payload, pointer, value, 0, size);
+                String valueText = Encoding.UTF8.GetString(payload, pointer, size);
 
-                String valueText = Encoding.UTF8.GetString(value, 0, value.Length);
-                Debug.WriteLine("value: " + valueText);
+                if (valueText.Length < 2)
+                {
+                    Debug.WriteLine("Value: 0x" + payload[pointer].ToString("x"));
+                }
+                else
+                {
+                    Debug.WriteLine("value: " + valueText);
+                }
 
                 if (id == 0x1000)
                 {
@@ -185,11 +179,6 @@ namespace WPPMM.SonyNdefUtils
                 pointer += size;
 
                 Debug.WriteLine("-----Record End----");
-
-                if (ret.SSID.Length > 0 && ret.Password.Length > 0)
-                {
-                    break;
-                }
             }
             return ret;
         }

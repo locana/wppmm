@@ -1,8 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -100,7 +98,7 @@ namespace WPPMM.CameraManager
                                  manager.RefreshEventObserver();
                              }
                          }
-                         catch (InvalidOperationException e)
+                         catch (InvalidOperationException)
                          {
                              Debug.WriteLine("Not ready to call Web API");
                          }
@@ -123,7 +121,7 @@ namespace WPPMM.CameraManager
                                  manager.RefreshEventObserver();
                              }
                          }
-                         catch (InvalidOperationException e)
+                         catch (InvalidOperationException)
                          {
                              Debug.WriteLine("Not ready to call Web API");
                          }
@@ -146,7 +144,7 @@ namespace WPPMM.CameraManager
                                 manager.RefreshEventObserver();
                             }
                         }
-                        catch (InvalidOperationException e)
+                        catch (InvalidOperationException)
                         {
                             Debug.WriteLine("Not ready to call Web API");
                         }

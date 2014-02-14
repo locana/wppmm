@@ -573,29 +573,29 @@ namespace WPPMM
             // Get the raw NDEF message data as byte array
             var parser = new SonyNdefParser(message);
             List<SonyNdefRecord> ndefRecords = new List<SonyNdefRecord>();
-    
+
             String err = AppResources.ErrorMessage_fatal;
 
             try
             {
                 ndefRecords = parser.Parse();
             }
-            catch (NoSonyNdefRecordException e)
+            catch (NoSonyNdefRecordException)
             {
                 err = AppResources.ErrorMessage_CantFindSonyRecord;
                 Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
-            catch (NoNdefRecordException e)
+            catch (NoNdefRecordException)
             {
                 err = AppResources.ErrorMessage_ParseNFC;
                 Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
-            catch (NdefParseException e)
+            catch (NdefParseException)
             {
                 err = AppResources.ErrorMessage_ParseNFC;
                 Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 err = AppResources.ErrorMessage_fatal;
                 Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });

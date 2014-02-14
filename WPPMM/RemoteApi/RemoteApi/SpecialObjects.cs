@@ -27,6 +27,12 @@ namespace WPPMM.RemoteApi
         public string version { set; get; }
     }
 
+    public class ApplicationInfo
+    {
+        public string name { set; get; }
+        public string version { set; get; }
+    }
+
     /// <summary>
     /// Though response of getEvent is not an object, use this as an callback arugument for future extension.
     /// </summary>

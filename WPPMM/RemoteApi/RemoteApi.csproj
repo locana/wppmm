@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoteApi\BasicResultHandler.cs" />
+    <Compile Include="RemoteApi\CameraApiClient.cs" />
     <Compile Include="RemoteApi\CameraServiceClient10.cs" />
     <Compile Include="RemoteApi\Delegates.cs" />
     <Compile Include="RemoteApi\RemoteApiException.cs" />

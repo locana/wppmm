@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using WPPMM.RemoteApi;
 
@@ -81,7 +81,7 @@ namespace WPPMM.CameraManager
                 });
         }
 
-        private void OnError(int code)
+        private async void OnError(int code)
         {
             switch (code)
             {
@@ -91,13 +91,11 @@ namespace WPPMM.CameraManager
                 case StatusCode.ServiceUnavailable:
                 case StatusCode.Timeout:
                 case StatusCode.Any:
-                    if (++failure_count < RETRY_LIMIT)
+                    if (failure_count++ < RETRY_LIMIT)
                     {
                         Debug.WriteLine("GetEvent failed: retry " + failure_count);
-                        Timer timer = new Timer((state) =>
-                        {
-                            Call();
-                        }, null, TimeSpan.FromSeconds(RETRY_INTERVAL_SEC), new TimeSpan(-1));
+                        await Task.Delay(TimeSpan.FromSeconds(RETRY_INTERVAL_SEC));
+                        Call();
                         return;
                     }
                     break;
@@ -186,10 +184,7 @@ namespace WPPMM.CameraManager
 
         private void Call()
         {
-            if (status != null)
-            {
-                client.GetEvent(true, OnError, OnSuccess);
-            }
+            client.GetEvent(true, OnError, OnSuccess);
         }
 
         private void NotifyChangeDetected(EventMember target)

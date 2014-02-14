@@ -107,10 +107,14 @@ namespace WPPMM.CameraManager
                     break;
             }
 
-            if (OnStop != null)
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                OnStop.Invoke();
-            }
+                if (OnStop != null)
+                {
+                    OnStop.Invoke();
+                }
+            });
+
             Debug.WriteLine("GetEvent Error limit: deactivate now");
             Deactivate();
         }

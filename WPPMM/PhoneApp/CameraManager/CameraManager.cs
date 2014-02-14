@@ -27,9 +27,10 @@ namespace WPPMM.CameraManager
 
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraServiceClient10 client;
-        private LvStreamProcessor lvProcessor = new LvStreamProcessor();
 
-        private readonly object lockObject = new Object();
+        private LvStreamProcessor lvProcessor;
+        private readonly object lvProcessorLocker = new Object();
+
         private readonly Downloader downloader = new Downloader();
 
         private readonly CameraStatus _cameraStatus = new CameraStatus();
@@ -69,27 +70,39 @@ namespace WPPMM.CameraManager
             cameraStatus.LiveviewAvailabilityNotifier += (available) =>
             {
                 Debug.WriteLine("Liveview Availability changed:" + available);
-                if (!available)
+
+                lock (lvProcessorLocker)
                 {
-                    CloseLiveviewConnection();
-                }
-                else if (!lvProcessor.IsOpen)
-                {
-                    OpenLiveviewConnection();
+                    if (!available)
+                    {
+                        CloseLiveviewConnection();
+                    }
+                    else if (lvProcessor != null && !lvProcessor.IsOpen)
+                    {
+                        OpenLiveviewConnection();
+                    }
                 }
             };
             cameraStatus.CurrentShootModeNotifier += (mode) =>
             {
                 Debug.WriteLine("Current shoot mode updated: " + mode);
 
-                if (!lvProcessor.IsOpen && cameraStatus.IsAvailable("startLiveview"))
+                lock (lvProcessorLocker)
                 {
-                    OpenLiveviewConnection();
-                }
+                    if (lvProcessor == null)
+                    {
+                        return;
+                    }
 
-                if (lvProcessor.IsOpen && mode == ApiParams.ShootModeAudio)
-                {
-                    CloseLiveviewConnection();
+                    if (!lvProcessor.IsOpen && cameraStatus.IsAvailable("startLiveview"))
+                    {
+                        OpenLiveviewConnection();
+                    }
+
+                    if (lvProcessor.IsOpen && mode == ApiParams.ShootModeAudio)
+                    {
+                        CloseLiveviewConnection();
+                    }
                 }
             };
 
@@ -155,30 +168,38 @@ namespace WPPMM.CameraManager
                 AppStatus.GetInstance().IsTryingToConnectLiveview = false;
             }, (url) =>
             {
-                if (lvProcessor != null && lvProcessor.IsOpen)
+                lock (lvProcessorLocker)
                 {
-                    Debug.WriteLine("Close previous LVProcessor");
-                    CloseLiveviewConnection();
-                }
-
-                lvProcessor = new LvStreamProcessor();
-                try
-                {
-                    lvProcessor.OpenConnection(url, OnJpegRetrieved, () =>
+                    if (lvProcessor != null && lvProcessor.IsOpen)
                     {
-                        AppStatus.GetInstance().IsTryingToConnectLiveview = false;
-                    });
-                }
-                catch (InvalidOperationException)
-                {
-                    return;
+                        Debug.WriteLine("Close previous LVProcessor");
+                        CloseLiveviewConnection();
+                    }
+                    lvProcessor = new LvStreamProcessor();
+                    try
+                    {
+                        lvProcessor.OpenConnection(url, OnJpegRetrieved, () =>
+                        {
+                            AppStatus.GetInstance().IsTryingToConnectLiveview = false;
+                        });
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        return;
+                    }
                 }
             });
         }
 
         private void CloseLiveviewConnection()
         {
-            lvProcessor.CloseConnection();
+            lock (lvProcessorLocker)
+            {
+                if (lvProcessor != null)
+                {
+                    lvProcessor.CloseConnection();
+                }
+            }
         }
 
         public Task<int> SetPostViewImageSizeAsync(string size)
@@ -315,7 +336,7 @@ namespace WPPMM.CameraManager
             if (IntervalManager != null)
             {
                 IntervalManager.Start(ApplicationSettings.GetInstance().IntervalTime);
-                
+
             }
         }
 

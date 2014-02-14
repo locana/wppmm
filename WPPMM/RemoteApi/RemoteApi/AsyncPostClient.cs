@@ -22,7 +22,7 @@ namespace WPPMM.RemoteApi
         /// <param name="body">Reqeust body.</param>
         /// <param name="OnResponse">Result json string callback.</param>
         /// <param name="OnError">Connection error callback.</param>
-        internal static async void Post(string endpoint, string body, Action<string> OnResponse, Action OnError)
+        internal static async void Post(string endpoint, string body, Action<string> OnResponse, Action<int> OnError)
         {
             if (endpoint == null || body == null || OnResponse == null || OnError == null)
             {
@@ -35,6 +35,8 @@ namespace WPPMM.RemoteApi
             //request.AllowReadStreamBuffering = true;
             Debug.WriteLine(body);
             var data = Encoding.UTF8.GetBytes(body);
+
+            int code = 200;
 
             try
             {
@@ -56,7 +58,7 @@ namespace WPPMM.RemoteApi
 #endif
                             {
                                 if (string.IsNullOrEmpty(resbody))
-                                    OnError.Invoke();
+                                    OnError.Invoke(StatusCode.IllegalResponse);
                                 else
                                     OnResponse.Invoke(resbody);
                             });
@@ -66,19 +68,27 @@ namespace WPPMM.RemoteApi
                 else
                 {
                     Debug.WriteLine("HTTP status code is not OK");
+                    code = (int)res.StatusCode;
                 }
             }
             catch (WebException e)
             {
                 var res = e.Response as HttpWebResponse;
                 if (res != null)
+                {
                     Debug.WriteLine("Http Status Error: " + res.StatusCode);
+                    code = (int)res.StatusCode;
+                }
                 else
+                {
                     Debug.WriteLine("WebException: " + e.Status);
+                    code = StatusCode.NetworkError;
+                }
             }
             catch (ObjectDisposedException)
             {
                 Debug.WriteLine("Caught Object Disposed Exception");
+                code = StatusCode.Any;
             }
 #if WINDOWS_PHONE
             Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -86,7 +96,7 @@ namespace WPPMM.RemoteApi
             await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
                 {
-                    OnError.Invoke();
+                    OnError.Invoke(code);
                 });
         }
 

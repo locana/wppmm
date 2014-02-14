@@ -146,7 +146,7 @@ namespace WPPMM.RemoteApi
                     else
                     {
                         Debug.WriteLine("WebException: " + e.Status);
-                        tcs.TrySetException(new RemoteApiException(StatusCode.NETWORK_ERROR));
+                        tcs.TrySetException(new RemoteApiException(StatusCode.NetworkError));
                     }
                 };
             });

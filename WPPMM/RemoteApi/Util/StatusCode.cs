@@ -6,7 +6,7 @@ namespace WPPMM.RemoteApi
     /// </summary>
     public class StatusCode
     {
-        public const int NETWORK_ERROR = -1;
+        public const int NetworkError = -1;
 
         public const int OK = 0;
 

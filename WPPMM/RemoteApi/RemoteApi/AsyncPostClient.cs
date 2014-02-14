@@ -76,7 +76,7 @@ namespace WPPMM.RemoteApi
                 else
                     Debug.WriteLine("WebException: " + e.Status);
             }
-            catch (ObjectDisposedException e)
+            catch (ObjectDisposedException)
             {
                 Debug.WriteLine("Caught Object Disposed Exception");
             }
@@ -117,26 +117,37 @@ namespace WPPMM.RemoteApi
                 try
                 {
                     var result = res as HttpWebResponse;
-                    if (result.StatusCode == HttpStatusCode.OK)
+                    var code = result.StatusCode;
+                    if (code == HttpStatusCode.OK)
+                    {
                         using (var reader = new StreamReader(result.GetResponseStream()))
                         {
                             var resbody = reader.ReadToEnd();
                             if (string.IsNullOrEmpty(resbody))
-                                tcs.TrySetException(new WebException("null or empty result"));
+                                tcs.TrySetException(new RemoteApiException(StatusCode.IllegalResponse));
                             else
                                 tcs.TrySetResult(body);
                         }
+                    }
                     else
-                        tcs.TrySetException(new WebException("HTTP Status code is not OK"));
+                    {
+                        Debug.WriteLine("Http Status Error: " + code);
+                        tcs.TrySetException(new RemoteApiException((int)code));
+                    }
                 }
                 catch (WebException e)
                 {
                     var result = e.Response as HttpWebResponse;
                     if (result != null)
+                    {
                         Debug.WriteLine("Http Status Error: " + result.StatusCode);
+                        tcs.TrySetException(new RemoteApiException((int)result.StatusCode));
+                    }
                     else
+                    {
                         Debug.WriteLine("WebException: " + e.Status);
-                    tcs.TrySetException(e);
+                        tcs.TrySetException(new RemoteApiException(StatusCode.NETWORK_ERROR));
+                    }
                 };
             });
 

@@ -28,7 +28,7 @@ namespace WPPMM.CameraManager
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraServiceClient10 client;
 
-        private LvStreamProcessor lvProcessor;
+        private LvStreamProcessor lvProcessor = new LvStreamProcessor();
         private readonly object lvProcessorLocker = new Object();
 
         private readonly Downloader downloader = new Downloader();
@@ -77,7 +77,7 @@ namespace WPPMM.CameraManager
                     {
                         CloseLiveviewConnection();
                     }
-                    else if (lvProcessor != null && !lvProcessor.IsOpen)
+                    else if (!lvProcessor.IsOpen)
                     {
                         OpenLiveviewConnection();
                     }
@@ -89,11 +89,6 @@ namespace WPPMM.CameraManager
 
                 lock (lvProcessorLocker)
                 {
-                    if (lvProcessor == null)
-                    {
-                        return;
-                    }
-
                     if (!lvProcessor.IsOpen && cameraStatus.IsAvailable("startLiveview"))
                     {
                         OpenLiveviewConnection();
@@ -170,7 +165,7 @@ namespace WPPMM.CameraManager
             {
                 lock (lvProcessorLocker)
                 {
-                    if (lvProcessor != null && lvProcessor.IsOpen)
+                    if (lvProcessor.IsOpen)
                     {
                         Debug.WriteLine("Close previous LVProcessor");
                         CloseLiveviewConnection();
@@ -195,10 +190,7 @@ namespace WPPMM.CameraManager
         {
             lock (lvProcessorLocker)
             {
-                if (lvProcessor != null)
-                {
-                    lvProcessor.CloseConnection();
-                }
+                lvProcessor.CloseConnection();
             }
         }
 

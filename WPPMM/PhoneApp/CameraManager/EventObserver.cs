@@ -85,15 +85,18 @@ namespace WPPMM.CameraManager
         {
             switch (code)
             {
+                case StatusCode.Timeout:
+                    Debug.WriteLine("GetEvent timeout without any event. Retry for the next event");
+                    Call();
+                    return;
                 case StatusCode.NotAcceptable:
                 case StatusCode.CameraNotReady:
                 case StatusCode.IllegalState:
                 case StatusCode.ServiceUnavailable:
-                case StatusCode.Timeout:
                 case StatusCode.Any:
                     if (failure_count++ < RETRY_LIMIT)
                     {
-                        Debug.WriteLine("GetEvent failed: retry " + failure_count);
+                        Debug.WriteLine("GetEvent failed - retry " + failure_count + ", status: " + code);
                         await Task.Delay(TimeSpan.FromSeconds(RETRY_INTERVAL_SEC));
                         Call();
                         return;

@@ -117,6 +117,7 @@ namespace WPPMM.CameraManager
             watch.Start();
             DeviceInfo = null;
             client = null;
+            cameraStatus.Init();
             if (observer != null)
             {
                 observer.Stop();

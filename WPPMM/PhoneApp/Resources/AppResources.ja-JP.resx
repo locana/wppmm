@@ -279,4 +279,7 @@
   <data name="ErrorMessage_ParseNFC" xml:space="preserve">
     <value>NFCタグの読み取りに失敗しました。</value>
   </data>
+  <data name="ErrorMessage_Dsconnected" xml:space="preserve">
+    <value>接続が途絶しました。</value>
+  </data>
 </root>

@@ -270,4 +270,7 @@ You can touch your NFC enabled phone to NFC enabled camera to find password of W
   <data name="ErrorMessage_ParseNFC" xml:space="preserve">
     <value>Failed to read data from the NFC tag.</value>
   </data>
+  <data name="ErrorMessage_Dsconnected" xml:space="preserve">
+    <value>Connection has been lost.</value>
+  </data>
 </root>

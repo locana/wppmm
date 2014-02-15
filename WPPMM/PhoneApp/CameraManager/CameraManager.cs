@@ -38,6 +38,7 @@ namespace WPPMM.CameraManager
 
         private Action<byte[]> LiveViewUpdateListener;
         internal event Action<CameraStatus> UpdateEvent;
+        internal event Action OnDisconnected;
 
         private Stopwatch watch;
 
@@ -115,6 +116,7 @@ namespace WPPMM.CameraManager
             watch = new Stopwatch();
             watch.Start();
             DeviceInfo = null;
+            client = null;
             if (observer != null)
             {
                 observer.Stop();
@@ -498,7 +500,14 @@ namespace WPPMM.CameraManager
             observer.Start(cameraStatus, OnDetectDifference,
                 () =>
                 {
-                    // TODO
+                    if (this.OnDisconnected != null)
+                    {
+
+
+                        MessageBox.Show(AppResources.ErrorMessage_Dsconnected);
+                        this.OnDisconnected();
+
+                    }
                 });
         }
 

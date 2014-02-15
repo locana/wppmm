@@ -55,14 +55,30 @@ namespace WPPMM
             base.OnNavigatedTo(e);
             Debug.WriteLine(e.Uri);
             progress.IsVisible = false;
-            cameraManager.Refresh();
-            UpdateNetworkStatus();
-            LiveViewInit();
+            InitializeApplication();
             if (GetSSIDName().StartsWith("DIRECT-"))
             {
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
+
+            cameraManager.OnDisconnected += this.GoToMainPage;
+            cameraManager.OnDisconnected += this.InitializeApplication;
+        }
+
+        internal void InitializeApplication()
+        {
+            cameraManager.Refresh();
+            UpdateNetworkStatus();
+            LiveViewInit();
             initNFC();
+        }
+
+        internal void HideControlPanel()
+        {
+            if (cpm != null && cpm.IsShowing())
+            {
+                cpm.Hide();
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -555,9 +571,9 @@ namespace WPPMM
             // Initialize NFC
             _proximitiyDevice = ProximityDevice.GetDefault();
             // Only subscribe for messages if no NDEF subscription is already active
-            if (_subscriptionIdNdef != 0 || _proximitiyDevice == null)
+            if ( _proximitiyDevice == null)
             {
-                // Debug.WriteLine("It seems this is not NFC available device");
+                Debug.WriteLine("It seems this is not NFC available device");
                 return;
             }
             // Ask the proximity device to inform us about any kind of NDEF message received from

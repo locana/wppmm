@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -109,14 +109,23 @@
     <Compile Include="..\..\Liveview\Liveview\LvStreamProcessor.cs">
       <Link>LinkRefs\Liveview\LvStreamProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\..\RemoteApi\RemoteApi\AsyncPostClient.cs">
+      <Link>LinkRefs\RemoteApi\AsyncPostClient.cs</Link>
+    </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\BasicResultHandler.cs">
       <Link>LinkRefs\RemoteApi\BasicResultHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RemoteApi\RemoteApi\CameraApiClient.cs">
+      <Link>LinkRefs\RemoteApi\CameraApiClient.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\CameraServiceClient10.cs">
       <Link>LinkRefs\RemoteApi\CameraServiceClient10.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\Delegates.cs">
       <Link>LinkRefs\RemoteApi\Delegates.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RemoteApi\RemoteApi\RemoteApiException.cs">
+      <Link>LinkRefs\RemoteApi\RemoteApiException.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\RequestGenerator.cs">
       <Link>LinkRefs\RemoteApi\RequestGenerator.cs</Link>
@@ -126,9 +135,6 @@
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\SpecialObjects.cs">
       <Link>LinkRefs\RemoteApi\SpecialObjects.cs</Link>
-    </Compile>
-    <Compile Include="..\..\RemoteApi\RemoteApi\XhrPostClient.cs">
-      <Link>LinkRefs\RemoteApi\XhrPostClient.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\Util\ApiParams.cs">
       <Link>LinkRefs\RemoteApiUtil\ApiParams.cs</Link>

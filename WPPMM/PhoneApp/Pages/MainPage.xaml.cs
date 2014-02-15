@@ -61,8 +61,18 @@ namespace WPPMM
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
 
-            cameraManager.OnDisconnected += this.GoToMainPage;
-            cameraManager.OnDisconnected += this.InitializeApplication;
+            cameraManager.OnDisconnected += cameraManager_OnDisconnected;
+        }
+
+        internal void cameraManager_OnDisconnected()
+        {
+            MyPivot.IsLocked = false;
+            if (cpm != null)
+            {
+                cpm.Hide();
+            }
+            this.GoToMainPage();
+            this.InitializeApplication();
         }
 
         internal void InitializeApplication()

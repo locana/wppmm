@@ -66,8 +66,9 @@ namespace WPPMM
 
         internal void cameraManager_OnDisconnected()
         {
+            MessageBox.Show(AppResources.ErrorMessage_Dsconnected);
             MyPivot.IsLocked = false;
-            if (cpm != null)
+            if (cpm != null && cpm.IsShowing())
             {
                 cpm.Hide();
             }

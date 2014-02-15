@@ -502,11 +502,7 @@ namespace WPPMM.CameraManager
                 {
                     if (this.OnDisconnected != null)
                     {
-
-
-                        MessageBox.Show(AppResources.ErrorMessage_Dsconnected);
                         this.OnDisconnected();
-
                     }
                 });
         }

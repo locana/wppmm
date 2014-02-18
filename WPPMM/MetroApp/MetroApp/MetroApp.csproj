@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{00D64143-1EFF-4053-9C92-05A265B4FED7}</ProjectGuid>
+    <ProjectGuid>{7B3298F6-B269-4BB6-B38E-A15A495AD62F}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WRTPMM</RootNamespace>
-    <AssemblyName>WRTPMM</AssemblyName>
-    <DefaultLanguage>ja-JP</DefaultLanguage>
+    <RootNamespace>kazyx.WMPMM</RootNamespace>
+    <AssemblyName>ScrapWin</AssemblyName>
+    <DefaultLanguage>en</DefaultLanguage>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>MetroApp_TemporaryKey.pfx</PackageCertificateKeyFile>
@@ -101,69 +103,68 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\DeviceDiscovery\DeviceDiscovery\DeviceFinder.cs">
-      <Link>LinkRefs\DeviceDiscovery\DeviceFinder.cs</Link>
+      <Link>LinkReference\DeviceDiscovery\DeviceFinder.cs</Link>
     </Compile>
     <Compile Include="..\..\DeviceDiscovery\DeviceDiscovery\DeviceInfo.cs">
-      <Link>LinkRefs\DeviceDiscovery\DeviceInfo.cs</Link>
+      <Link>LinkReference\DeviceDiscovery\DeviceInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Liveview\Liveview\LvStreamProcessor.cs">
-      <Link>LinkRefs\Liveview\LvStreamProcessor.cs</Link>
+    <Compile Include="..\..\Liveview\Liveview\LVStreamProcessor.cs">
+      <Link>LinkReference\Liveview\LVStreamProcessor.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\AsyncPostClient.cs">
-      <Link>LinkRefs\RemoteApi\AsyncPostClient.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\AsyncPostClient.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\BasicResultHandler.cs">
-      <Link>LinkRefs\RemoteApi\BasicResultHandler.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\BasicResultHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\CameraApiClient.cs">
-      <Link>LinkRefs\RemoteApi\CameraApiClient.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\CameraApiClient.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\CameraServiceClient10.cs">
-      <Link>LinkRefs\RemoteApi\CameraServiceClient10.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\CameraServiceClient10.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\Delegates.cs">
-      <Link>LinkRefs\RemoteApi\Delegates.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\Delegates.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\RemoteApiException.cs">
-      <Link>LinkRefs\RemoteApi\RemoteApiException.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\RemoteApiException.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\RequestGenerator.cs">
-      <Link>LinkRefs\RemoteApi\RequestGenerator.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\RequestGenerator.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\ResultHandler.cs">
-      <Link>LinkRefs\RemoteApi\ResultHandler.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\ResultHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\SpecialObjects.cs">
-      <Link>LinkRefs\RemoteApi\SpecialObjects.cs</Link>
+      <Link>LinkReference\RemoteApi\RemoteApi\SpecialObjects.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\Util\ApiParams.cs">
-      <Link>LinkRefs\RemoteApiUtil\ApiParams.cs</Link>
+      <Link>LinkReference\RemoteApi\Util\ApiParams.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\Util\EvConverter.cs">
-      <Link>LinkRefs\RemoteApiUtil\EvConverter.cs</Link>
+      <Link>LinkReference\RemoteApi\Util\EvConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\RemoteApi\Util\StatusCode.cs">
-      <Link>LinkRefs\RemoteApiUtil\StatusCode.cs</Link>
+      <Link>LinkReference\RemoteApi\Util\StatusCode.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemsPage.xaml.cs">
-      <DependentUpon>ItemsPage.xaml</DependentUpon>
+    <Compile Include="HubPage.xaml.cs">
+      <DependentUpon>HubPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\ImageData.cs" />
-    <Compile Include="DataModel\ResultData.cs" />
-    <Compile Include="SplitPage.xaml.cs">
-      <DependentUpon>SplitPage.xaml</DependentUpon>
+    <Compile Include="SectionPage.xaml.cs">
+      <DependentUpon>SectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemPage.xaml.cs">
+      <DependentUpon>ItemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
-    <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="Common\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Common\BooleanNegationConverter.cs" />
-    <Compile Include="Common\LayoutAwarePage.cs" />
-    <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Common\NavigationHelper.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\ObservableDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -172,12 +173,16 @@
     <None Include="Common\ReadMe.txt" />
     <None Include="MetroApp_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <PRIResource Include="Strings\ja-JP\Resources.resw">
+      <SubType>Designer</SubType>
+    </PRIResource>
+    <Content Include="DataModel\SampleData.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Logo.scale-100.png" />
+    <Content Include="Assets\SmallLogo.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\LightGray.png" />
     <Content Include="Assets\MediumGray.png" />
     <Content Include="Assets\DarkGray.png" />
@@ -187,26 +192,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Common\StandardStyles.xaml">
+    <Page Include="HubPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ItemsPage.xaml">
+    <Page Include="SectionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SplitPage.xaml">
+    <Page Include="ItemPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\netcore45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\netcore45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
-    <VisualStudioVersion>11.0</VisualStudioVersion>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

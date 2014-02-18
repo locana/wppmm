@@ -1,4 +1,4 @@
-<Application
+﻿<Application
     x:Class="MetroApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,19 +6,9 @@
     xmlns:localData="using:MetroApp.Data">
 
     <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+        <!--アプリケーション固有のリソース -->
 
-                <!-- 
-                    プラットフォームの外観の共通の要素を定義するスタイル
-                    Visual Studio プロジェクトおよびアイテム テンプレートで必要です
-                 -->
-                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+        <x:String x:Key="AppName">MetroApp</x:String>
 
-            <!--アプリケーション固有のリソース -->
-
-            <x:String x:Key="AppName">MetroApp</x:String>
-        </ResourceDictionary>
     </Application.Resources>
 </Application>

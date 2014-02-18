@@ -1,9 +1,10 @@
-using MetroApp.Common;
+﻿using MetroApp.Common;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -16,12 +17,12 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// 分割アプリケーション テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=234228 を参照してください
+// ハブ アプリケーション テンプレートについては、http://go.microsoft.com/fwlink/?LinkId=321221 を参照してください
 
 namespace MetroApp
 {
     /// <summary>
-    /// 既定の Application クラスを補完するアプリケーション固有の動作を提供します。
+    /// 既定の Application クラスに対してアプリケーション独自の動作を実装します。
     /// </summary>
     sealed partial class App : Application
     {
@@ -37,25 +38,35 @@ namespace MetroApp
 
         /// <summary>
         /// アプリケーションがエンド ユーザーによって正常に起動されたときに呼び出されます。他のエントリ ポイントは、
-        /// アプリケーションが特定のファイルを開くために呼び出されたときに
-        /// 検索結果やその他の情報を表示するために使用されます。
+        /// アプリケーションが特定のファイルを開くために呼び出されたときなどに使用されます。
         /// </summary>
-        /// <param name="args">起動要求とプロセスの詳細を表示します。</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        /// <param name="e">起動要求とプロセスの詳細を表示します。</param>
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                this.DebugSettings.EnableFrameRateCounter = true;
+            }
+#endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // ウィンドウに既にコンテンツが表示されている場合は、アプリケーションの初期化を繰り返さずに、
             // ウィンドウがアクティブであることだけを確認してください
-            
+
             if (rootFrame == null)
             {
                 // ナビゲーション コンテキストとして動作するフレームを作成し、最初のページに移動します
                 rootFrame = new Frame();
                 //フレームを SuspensionManager キーに関連付けます                                
                 SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
+                // 既定の言語を設定します
+                rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // 必要な場合のみ、保存されたセッション状態を復元します
                     try
@@ -74,16 +85,23 @@ namespace MetroApp
             }
             if (rootFrame.Content == null)
             {
-                // ナビゲーション スタックが復元されていない場合、最初のページに移動します。
+                // ナビゲーションの履歴スタックが復元されていない場合、最初のページに移動します。
                 // このとき、必要な情報をナビゲーション パラメーターとして渡して、新しいページを
-                // を構成します
-                if (!rootFrame.Navigate(typeof(ItemsPage), "AllGroups"))
-                {
-                    throw new Exception("Failed to create initial page");
-                }
+                // 作成します
+                rootFrame.Navigate(typeof(HubPage), e.Arguments);
             }
             // 現在のウィンドウがアクティブであることを確認します
             Window.Current.Activate();
+        }
+
+        /// <summary>
+        /// 特定のページへの移動が失敗したときに呼び出されます
+        /// </summary>
+        /// <param name="sender">移動に失敗したフレーム</param>
+        /// <param name="e">ナビゲーション エラーの詳細</param>
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         /// <summary>

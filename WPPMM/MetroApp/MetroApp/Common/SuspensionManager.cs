@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,29 +59,28 @@ namespace MetroApp.Common
         {
             try
             {
-            // 登録されているすべてのフレームのナビゲーション状態を保存します
-            foreach (var weakFrameReference in _registeredFrames)
-            {
-                Frame frame;
-                if (weakFrameReference.TryGetTarget(out frame))
+                // 登録されているすべてのフレームのナビゲーション状態を保存します
+                foreach (var weakFrameReference in _registeredFrames)
                 {
-                    SaveFrameNavigationState(frame);
+                    Frame frame;
+                    if (weakFrameReference.TryGetTarget(out frame))
+                    {
+                        SaveFrameNavigationState(frame);
+                    }
                 }
-            }
 
-            // セッション状態を同期的にシリアル化して、共有状態への非同期アクセスを
-            // 状態
-            MemoryStream sessionData = new MemoryStream();
-            DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), _knownTypes);
-            serializer.WriteObject(sessionData, _sessionState);
-            
+                // セッション状態を同期的にシリアル化して、共有状態への非同期アクセスを
+                // 状態
+                MemoryStream sessionData = new MemoryStream();
+                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), _knownTypes);
+                serializer.WriteObject(sessionData, _sessionState);
+
                 // SessionState ファイルの出力ストリームを取得し、状態を非同期的に書き込みます
                 StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync(sessionStateFilename, CreationCollisionOption.ReplaceExisting);
                 using (Stream fileStream = await file.OpenStreamForWriteAsync())
                 {
                     sessionData.Seek(0, SeekOrigin.Begin);
                     await sessionData.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
                 }
             }
             catch (Exception e)
@@ -197,7 +196,7 @@ namespace MetroApp.Common
         /// 遷移状態は、ナビゲーション キャッシュから破棄されたページを復元する場合に
         /// ナビゲーション キャッシュ。
         /// </summary>
-        /// <remarks>アプリケーションは、フレームのセッション状態を直接処理するのではなく、<see cref="LayoutAwarePage"/> に依存して
+        /// <remarks>アプリケーションは、フレームのセッション状態を直接処理するのではなく、<see cref="NavigationHelper"/> に依存して
         /// ページ固有の状態を管理するように選択できます。</remarks>
         /// <param name="frame">セッション状態が必要なインスタンスです。</param>
         /// <returns><see cref="SessionState"/> と同じシリアル化機構の影響を受ける状態の
@@ -249,9 +248,10 @@ namespace MetroApp.Common
         {
         }
 
-        public SuspensionManagerException(Exception e) : base("SuspensionManager failed", e)
+        public SuspensionManagerException(Exception e)
+            : base("SuspensionManager failed", e)
         {
-            
+
         }
     }
 }

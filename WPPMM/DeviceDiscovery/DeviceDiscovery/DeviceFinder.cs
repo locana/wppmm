@@ -15,6 +15,8 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Networking.Sockets;
 using Windows.Networking;
 using Windows.UI.Core;
+using Windows.Foundation;
+using Windows.Networking.Connectivity;
 #endif
 
 namespace WPPMM.DeviceDiscovery
@@ -82,6 +84,7 @@ namespace WPPMM.DeviceDiscovery
                         }
                         catch (Exception)
                         {
+                            Debug.WriteLine("Invalid XML");
                             //Invalid XML.
                         }
                     }
@@ -129,7 +132,7 @@ namespace WPPMM.DeviceDiscovery
             socket.SendToAsync(snd_event_args);
 #elif NETFX_CORE
             var sock = new DatagramSocket();
-            sock.MessageReceived += (sender, args) =>
+            var handler = new TypedEventHandler<DatagramSocket, DatagramSocketMessageReceivedEventArgs>((sender, args) =>
             {
                 if (timeout_called || args == null)
                 {
@@ -140,18 +143,25 @@ namespace WPPMM.DeviceDiscovery
                 Debug.WriteLine(data);
 
                 GetDDAsync(DD_Handler, data);
-            };
+            });
+            sock.MessageReceived += handler;
+
+            var profile = NetworkInformation.GetInternetConnectionProfile();
+            if (profile == null)
+            {
+                return;
+            }
+
+            var host = new HostName(multicast_address);
             try
             {
-                await sock.BindServiceNameAsync(ssdp_port.ToString());
+                await sock.BindServiceNameAsync("", profile.NetworkAdapter);
             }
             catch (Exception)
             {
                 Debug.WriteLine("Duplicate search is not supported");
                 return;
             }
-            var host = new HostName(multicast_address);
-            sock.JoinMulticastGroup(host);
             try
             {
                 var output = await sock.GetOutputStreamAsync(host, ssdp_port.ToString());

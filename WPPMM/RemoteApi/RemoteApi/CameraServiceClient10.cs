@@ -24,189 +24,189 @@ namespace WPPMM.RemoteApi
 
         public void SetShootMode(string mode, Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.setShootMode(mode),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setShootMode", mode),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetShootMode(Action<int> error, Action<string> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getShootMode(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getShootMode"),
                 (res) => { BasicResultHandler.HandleSingleValue<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetAvailableShootMode(Action<int> error, Action<BasicInfo<string>> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableShootMode(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableShootMode"),
                 (res) => { BasicResultHandler.HandleBasicInfo<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetSupportedShootMode(Action<int> error, Action<string[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getSupportedShootMode(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedShootMode"),
                 (res) => { BasicResultHandler.HandleArray<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void ActTakePicture(Action<int> error, Action<string[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.actTakePicture(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("actTakePicture"),
                 (res) => { BasicResultHandler.HandleArray<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void AwaitTakePicture(Action<int> error, Action<string[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.awaitTakePicture(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("awaitTakePicture"),
                 (res) => { BasicResultHandler.HandleArray<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StartMovieRec(Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.startMovieRec(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startMovieRec"),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StopMovieRec(Action<int> error, Action<string> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.stopMovieRec(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopMovieRec"),
                 (res) => { BasicResultHandler.HandleSingleValue<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StartAudioRec(Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.startAudioRec(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startAudioRec"),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StopAudioRec(Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.stopAudioRec(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopAudioRec"),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StartLiveview(Action<int> error, Action<string> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.startLiveview(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startLiveview"),
                 (res) => { BasicResultHandler.HandleSingleValue<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StopLiveview(Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.stopLiveview(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopLiveview"),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void ActZoom(string direction, string movement, Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.actZoom(direction, movement),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("actZoom", direction, movement),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void SetSelfTimer(int second, Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.setSelfTimer(second),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setSelfTimer", second),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetSelfTimer(Action<int> error, Action<int> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getSelfTimer(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSelfTimer"),
                 (res) => { BasicResultHandler.HandleSingleValue<int>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetSupportedSelfTimer(Action<int> error, Action<int[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getSupportedSelfTimer(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedSelfTimer"),
                 (res) => { BasicResultHandler.HandleArray<int>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetAvailableSelfTimer(Action<int> error, Action<BasicInfo<int>> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableSelfTimer(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableSelfTimer"),
                 (res) => { BasicResultHandler.HandleBasicInfo<int>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void SetPostviewImageSize(string size, Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.setPostviewImageSize(size),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setPostviewImageSize", size),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetPostviewImageSize(Action<int> error, Action<string> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getPostviewImageSize(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getPostviewImageSize"),
                 (res) => { BasicResultHandler.HandleSingleValue<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetSupportedPostviewImageSize(Action<int> error, Action<string[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getSupportedPostviewImageSize(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedPostviewImageSize"),
                 (res) => { BasicResultHandler.HandleArray<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetAvailablePostviewImageSize(Action<int> error, Action<BasicInfo<string>> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getAvailablePostviewImageSize(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailablePostviewImageSize"),
                 (res) => { BasicResultHandler.HandleBasicInfo<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StartRecMode(Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.startRecMode(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startRecMode"),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void StopRecMode(Action<int> error, Action result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.stopRecMode(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopRecMode"),
                 (res) => { BasicResultHandler.HandleNoValue(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetAvailableApiList(Action<int> error, Action<string[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableApiList(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableApiList"),
                 (res) => { BasicResultHandler.HandleArray<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetApplicationInfo(Action<int> error, Action<ApplicationInfo> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getApplicationInfo(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getApplicationInfo"),
                 (res) => { ResultHandler.HandleGetApplicationInfo(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetVersions(Action<int> error, Action<string[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getVersions(),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getVersions"),
                 (res) => { BasicResultHandler.HandleArray<string>(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
 
         public void GetMethodTypes(string version, Action<int> error, Action<MethodType[]> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getMethodTypes(version),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getMethodTypes", version),
                 (res) => { ResultHandler.HandleGetMethodTypes(res, error, result); },
                 (code) => { error.Invoke(code); });
         }
@@ -219,7 +219,7 @@ namespace WPPMM.RemoteApi
         /// <param name="result"></param>
         public void GetEvent(bool longpolling, Action<int> error, Action<Event> result)
         {
-            AsyncPostClient.Post(endpoint, RequestGenerator.getEvent(longpolling),
+            AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getEvent", longpolling),
                 (res) => { ResultHandler.HandleGetEvent(res, error, result); },
                 (code) => { error.Invoke(code); });
         }

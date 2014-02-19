@@ -39,154 +39,47 @@ namespace WPPMM.RemoteApi
             return json.ToString().Replace(" ", "").Replace("\n", "").Replace("\r", "");
         }
 
-        private static string CreateJson10(string name, params object[] prms)
+        /// <summary>
+        /// Automatically insert "version":"1.0"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal static string Jsonize(string name)
+        {
+            return CreateJson(name, "1.0");
+        }
+
+        /// <summary>
+        /// Automatically insert "version":"1.0"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        internal static string Jsonize(string name, params string[] prms)
         {
             return CreateJson(name, "1.0", prms);
         }
 
-        private static string GetCurrentMethodName([CallerMemberName]string name = "")
+        /// <summary>
+        /// Automatically insert "version":"1.0"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        internal static string Jsonize(string name, params int[] prms)
         {
-            return name;
+            return CreateJson(name, "1.0", prms);
         }
 
-        internal static string setShootMode(string mode)
+        /// <summary>
+        /// Automatically insert "version":"1.0"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="prms"></param>
+        /// <returns></returns>
+        internal static string Jsonize(string name, params bool[] prms)
         {
-            return CreateJson10(GetCurrentMethodName(), mode);
-        }
-
-        internal static string getShootMode()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getSupportedShootMode()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getAvailableShootMode()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string actTakePicture()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string awaitTakePicture()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string startMovieRec()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string stopMovieRec()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string startAudioRec()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string stopAudioRec()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string startLiveview()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string stopLiveview()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string actZoom(string direction, string movement)
-        {
-            return CreateJson10(GetCurrentMethodName(), direction, movement);
-        }
-
-        internal static string setSelfTimer(int second)
-        {
-            return CreateJson10(GetCurrentMethodName(), second);
-        }
-
-        internal static string getSelfTimer()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getSupportedSelfTimer()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getAvailableSelfTimer()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string setPostviewImageSize(string size)
-        {
-            return CreateJson10(GetCurrentMethodName(), size);
-        }
-
-        internal static string getPostviewImageSize()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getSupportedPostviewImageSize()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getAvailablePostviewImageSize()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getEvent(bool longpolling)
-        {
-            return CreateJson10(GetCurrentMethodName(), longpolling);
-        }
-
-        internal static string startRecMode()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string stopRecMode()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getAvailableApiList()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getApplicationInfo()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getVersions()
-        {
-            return CreateJson10(GetCurrentMethodName());
-        }
-
-        internal static string getMethodTypes(string version)
-        {
-            return CreateJson10(GetCurrentMethodName(), version);
+            return CreateJson(name, "1.0", prms);
         }
     }
 }

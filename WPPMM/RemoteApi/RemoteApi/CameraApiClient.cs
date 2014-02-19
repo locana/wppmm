@@ -29,7 +29,7 @@ namespace WPPMM.RemoteApi
         {
             Event result = null;
             ResultHandler.HandleGetEvent(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getEvent(longpolling)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getEvent", longpolling)),
                 code => { throw new RemoteApiException(code); },
                 @event => result = @event);
             return result;
@@ -39,7 +39,7 @@ namespace WPPMM.RemoteApi
         {
             MethodType[] result = null;
             ResultHandler.HandleGetMethodTypes(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getMethodTypes(version)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getMethodTypes", version)),
                 code => { throw new RemoteApiException(code); },
                 types => result = types);
             return result;
@@ -49,7 +49,7 @@ namespace WPPMM.RemoteApi
         {
             string[] result = null;
             BasicResultHandler.HandleArray<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getVersions()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getVersions")),
                 code => { throw new RemoteApiException(code); },
                 versions => result = versions);
             return result;
@@ -59,7 +59,7 @@ namespace WPPMM.RemoteApi
         {
             ApplicationInfo result = null;
             ResultHandler.HandleGetApplicationInfo(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getApplicationInfo()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getApplicationInfo")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
             return result;
@@ -69,7 +69,7 @@ namespace WPPMM.RemoteApi
         {
             string[] result = null;
             BasicResultHandler.HandleArray<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableApiList()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableApiList")),
                 code => { throw new RemoteApiException(code); },
                 list => result = list);
             return result;
@@ -78,7 +78,7 @@ namespace WPPMM.RemoteApi
         public async Task StartRecModeAsync()
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.startRecMode()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startRecMode")),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -86,7 +86,7 @@ namespace WPPMM.RemoteApi
         public async Task StopRecModeAsync()
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.stopRecMode()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopRecMode")),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -94,7 +94,7 @@ namespace WPPMM.RemoteApi
         public async Task ActZoomAsync(string direction, string movement)
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.actZoom(direction, movement)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("actZoom", direction, movement)),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -103,7 +103,7 @@ namespace WPPMM.RemoteApi
         {
             string result = null;
             BasicResultHandler.HandleSingleValue<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.startLiveview()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startLiveview")),
                 code => { throw new RemoteApiException(code); },
                 url => result = url);
             return result;
@@ -112,7 +112,7 @@ namespace WPPMM.RemoteApi
         public async Task StopLiveviewAsync()
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.stopLiveview()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopLiveview")),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -120,7 +120,7 @@ namespace WPPMM.RemoteApi
         public async Task StartAudioRecAsync()
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.startAudioRec()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startAudioRec")),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -128,7 +128,7 @@ namespace WPPMM.RemoteApi
         public async Task StopAudioRecAsync()
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.stopAudioRec()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopAudioRec")),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -136,7 +136,7 @@ namespace WPPMM.RemoteApi
         public async Task StartMovieRecAsync()
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.startMovieRec()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("startMovieRec")),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -145,7 +145,7 @@ namespace WPPMM.RemoteApi
         {
             string result = null;
             BasicResultHandler.HandleSingleValue<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.stopMovieRec()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("stopMovieRec")),
                 code => { throw new RemoteApiException(code); },
                 url => result = url);
             return result;
@@ -155,7 +155,7 @@ namespace WPPMM.RemoteApi
         {
             string[] result = null;
             BasicResultHandler.HandleArray<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.actTakePicture()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("actTakePicture")),
                 code => { throw new RemoteApiException(code); },
                 url => result = url);
             return result;
@@ -165,7 +165,7 @@ namespace WPPMM.RemoteApi
         {
             string[] result = null;
             BasicResultHandler.HandleArray<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.awaitTakePicture()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("awaitTakePicture")),
                 code => { throw new RemoteApiException(code); },
                 url => result = url);
             return result;
@@ -174,7 +174,7 @@ namespace WPPMM.RemoteApi
         public async Task SetSelfTimerAsync(int timer)
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.setSelfTimer(timer)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setSelfTimer", timer)),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -183,7 +183,7 @@ namespace WPPMM.RemoteApi
         {
             int result = 0;
             BasicResultHandler.HandleSingleValue<int>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getSelfTimer()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSelfTimer")),
                 code => { throw new RemoteApiException(code); },
                 timer => result = timer);
             return result;
@@ -193,7 +193,7 @@ namespace WPPMM.RemoteApi
         {
             int[] result = null;
             BasicResultHandler.HandleArray<int>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getSupportedSelfTimer()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedSelfTimer")),
                 code => { throw new RemoteApiException(code); },
                 timer => result = timer);
             return result;
@@ -203,7 +203,7 @@ namespace WPPMM.RemoteApi
         {
             BasicInfo<int> result = null;
             BasicResultHandler.HandleBasicInfo<int>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableSelfTimer()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableSelfTimer")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
             return result;
@@ -212,7 +212,7 @@ namespace WPPMM.RemoteApi
         public async Task SetPostviewImageSizeAsync(string size)
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.setPostviewImageSize(size)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setPostviewImageSize", size)),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -221,7 +221,7 @@ namespace WPPMM.RemoteApi
         {
             string result = null;
             BasicResultHandler.HandleSingleValue<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getPostviewImageSize()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getPostviewImageSize")),
                 code => { throw new RemoteApiException(code); },
                 size => result = size);
             return result;
@@ -231,7 +231,7 @@ namespace WPPMM.RemoteApi
         {
             string[] result = null;
             BasicResultHandler.HandleArray<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getSupportedPostviewImageSize()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedPostviewImageSize")),
                 code => { throw new RemoteApiException(code); },
                 size => result = size);
             return result;
@@ -241,7 +241,7 @@ namespace WPPMM.RemoteApi
         {
             BasicInfo<string> result = null;
             BasicResultHandler.HandleBasicInfo<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailablePostviewImageSize()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailablePostviewImageSize")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
             return result;
@@ -250,7 +250,7 @@ namespace WPPMM.RemoteApi
         public async Task SetShootModeAsync(string mode)
         {
             BasicResultHandler.HandleNoValue(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.setShootMode(mode)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setShootMode", mode)),
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
@@ -259,7 +259,7 @@ namespace WPPMM.RemoteApi
         {
             string result = null;
             BasicResultHandler.HandleSingleValue<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getShootMode()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getShootMode")),
                 code => { throw new RemoteApiException(code); },
                 mode => result = mode);
             return result;
@@ -269,7 +269,7 @@ namespace WPPMM.RemoteApi
         {
             string[] result = null;
             BasicResultHandler.HandleArray<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getSupportedShootMode()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedShootMode")),
                 code => { throw new RemoteApiException(code); },
                 mode => result = mode);
             return result;
@@ -279,7 +279,7 @@ namespace WPPMM.RemoteApi
         {
             BasicInfo<string> result = null;
             BasicResultHandler.HandleBasicInfo<string>(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableShootMode()),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableShootMode")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
             return result;

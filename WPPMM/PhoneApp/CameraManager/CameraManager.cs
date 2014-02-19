@@ -95,7 +95,7 @@ namespace WPPMM.CameraManager
                         OpenLiveviewConnection();
                     }
 
-                    if (lvProcessor.IsOpen && mode == ApiParams.ShootModeAudio)
+                    if (lvProcessor.IsOpen && mode == ShootModeParam.Audio)
                     {
                         CloseLiveviewConnection();
                     }

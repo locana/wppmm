@@ -90,9 +90,9 @@ namespace WPPMM.Utils
         {
             switch (val)
             {
-                case ApiParams.PostImg2M:
+                case PostviewSizeParam.Px2M:
                     return Resources.AppResources.Size2M;
-                case ApiParams.PostImgOriginal:
+                case PostviewSizeParam.Original:
                     return Resources.AppResources.SizeOriginal;
                 default:
                     return val;
@@ -125,11 +125,11 @@ namespace WPPMM.Utils
         {
             switch (val)
             {
-                case ApiParams.ShootModeMovie:
+                case ShootModeParam.Movie:
                     return Resources.AppResources.ShootModeMovie;
-                case ApiParams.ShootModeStill:
+                case ShootModeParam.Still:
                     return Resources.AppResources.ShootModeStill;
-                case ApiParams.ShootModeAudio:
+                case ShootModeParam.Audio:
                     return Resources.AppResources.ShootModeAudio;
                 default:
                     return val;

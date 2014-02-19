@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using WPPMM.CameraManager;
+using WPPMM.RemoteApi;
 using WPPMM.Utils;
 
 namespace WPPMM.DataModel
@@ -73,10 +74,13 @@ namespace WPPMM.DataModel
 
         public bool CpIsAvailableSelfTimer
         {
-            get { return status.IsAvailable("setSelfTimer") && 
-                status.SelfTimerInfo != null &&
-                manager != null &&
-                !manager.IntervalManager.IsRunning ; }
+            get
+            {
+                return status.IsAvailable("setSelfTimer") &&
+                    status.SelfTimerInfo != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
         }
 
         public int CpSelectedIndexPostviewSize
@@ -102,10 +106,12 @@ namespace WPPMM.DataModel
 
         public bool CpIsAvailablePostviewSize
         {
-            get { return status.IsAvailable("setPostviewImageSize") && 
-                status.PostviewSizeInfo != null &&
-                manager != null &&
-                !manager.IntervalManager.IsRunning;
+            get
+            {
+                return status.IsAvailable("setPostviewImageSize") &&
+                    status.PostviewSizeInfo != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
             }
         }
 
@@ -132,21 +138,24 @@ namespace WPPMM.DataModel
 
         public bool CpIsAvailableShootMode
         {
-            get { return status.IsAvailable("setShootMode") &&
-                status.ShootModeInfo != null &&
-                manager != null &&
-                !manager.IntervalManager.IsRunning;
+            get
+            {
+                return status.IsAvailable("setShootMode") &&
+                    status.ShootModeInfo != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
             }
         }
 
         public bool CpIsAvailableStillImageFunctions
         {
-            get {
+            get
+            {
                 if (status == null || status.ShootModeInfo == null)
                 {
                     return false;
                 }
-                return status.ShootModeInfo.current == RemoteApi.ApiParams.ShootModeStill &&
+                return status.ShootModeInfo.current == ShootModeParam.Still &&
                     manager != null && !manager.IntervalManager.IsRunning;
             }
         }

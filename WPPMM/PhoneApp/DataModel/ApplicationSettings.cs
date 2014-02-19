@@ -62,7 +62,7 @@ namespace WPPMM.DataModel
                         IsPostviewTransferEnabled = false;
                         if (manager.cameraStatus.IsAvailable("setSelfTimer") && manager.IntervalManager != null)
                         {
-                            manager.SetSelfTimerAsync(ApiParams.SelfTimerOff);
+                            manager.SetSelfTimerAsync(SelfTimerParam.Off);
                         }
                     }
                 }

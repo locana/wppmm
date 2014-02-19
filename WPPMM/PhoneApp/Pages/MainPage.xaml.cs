@@ -234,10 +234,10 @@ namespace WPPMM
             var status = cameraManager.cameraStatus;
             switch (status.Status)
             {
-                case ApiParams.EventIdle:
+                case EventParam.Idle:
                     switch (status.ShootModeInfo.current)
                     {
-                        case ApiParams.ShootModeStill:
+                        case ShootModeParam.Still:
                             if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
                             {
                                 cameraManager.StartIntervalRec();
@@ -254,18 +254,18 @@ namespace WPPMM
                                 cameraManager.RequestActTakePicture();
                             }
                             break;
-                        case ApiParams.ShootModeMovie:
+                        case ShootModeParam.Movie:
                             cameraManager.StartMovieRec();
                             break;
-                        case ApiParams.ShootModeAudio:
+                        case ShootModeParam.Audio:
                             cameraManager.StartAudioRec();
                             break;
                     }
                     break;
-                case ApiParams.EventMvRecording:
+                case EventParam.MvRecording:
                     cameraManager.StopMovieRec();
                     break;
-                case ApiParams.EventAuRecording:
+                case EventParam.AuRecording:
                     cameraManager.StopAudioRec();
                     break;
             }
@@ -411,7 +411,7 @@ namespace WPPMM
             Debug.WriteLine("Stop Zoom In (if started)");
             if (OnZooming)
             {
-                cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStop);
+                cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.ActionStop);
             }
         }
 
@@ -420,34 +420,34 @@ namespace WPPMM
             Debug.WriteLine("Stop zoom out (if started)");
             if (OnZooming)
             {
-                cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomActStop);
+                cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.ActionStop);
             }
         }
 
         private void OnZoomInHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom In: Start");
-            cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomActStart);
+            cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.ActionStart);
             OnZooming = true;
         }
 
         private void OnZoomOutHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom Out: Start");
-            cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomActStart);
+            cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.ActionStart);
             OnZooming = true;
         }
 
         private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom In: OneShot");
-            cameraManager.RequestActZoom(ApiParams.ZoomDirIn, ApiParams.ZoomAct1Shot);
+            cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.Action1Shot);
         }
 
         private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Debug.WriteLine("Zoom In: OneShot");
-            cameraManager.RequestActZoom(ApiParams.ZoomDirOut, ApiParams.ZoomAct1Shot);
+            cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.Action1Shot);
         }
 
         private void ScreenImage_Loaded(object sender, RoutedEventArgs e)
@@ -582,7 +582,7 @@ namespace WPPMM
             // Initialize NFC
             _proximitiyDevice = ProximityDevice.GetDefault();
             // Only subscribe for messages if no NDEF subscription is already active
-            if ( _proximitiyDevice == null)
+            if (_proximitiyDevice == null)
             {
                 Debug.WriteLine("It seems this is not NFC available device");
                 return;

@@ -1,38 +1,49 @@
 
 namespace WPPMM.RemoteApi
 {
-    public class ApiParams
+    public class ShootModeParam
     {
-        public const string ShootModeStill = "still";
-        public const string ShootModeMovie = "movie";
-        public const string ShootModeAudio = "audio";
+        public const string Still = "still";
+        public const string Movie = "movie";
+        public const string Audio = "audio";
+    }
 
-        public const int SelfTimerOff = 0;
-        public const int SelfTimer2 = 2;
-        public const int SelfTimer10 = 10;
+    public class ZoomParam
+    {
+        public const string DirectionIn = "in";
+        public const string DirectionOut = "out";
+        public const string ActionStart = "start";
+        public const string ActionStop = "stop";
+        public const string Action1Shot = "1shot";
+    }
 
-        public const string ZoomDirIn = "in";
-        public const string ZoomDirOut = "out";
+    public class PostviewSizeParam
+    {
+        public const string Original = "Original";
+        public const string Px2M = "2M";
+    }
 
-        public const string ZoomActStart = "start";
-        public const string ZoomActStop = "stop";
-        public const string ZoomAct1Shot = "1shot";
+    public class SelfTimerParam
+    {
+        public const int Off = 0;
+        public const int TwoSec = 2;
+        public const int TenSec = 10;
+    }
 
-        public const string PostImgOriginal = "Original";
-        public const string PostImg2M = "2M";
-
-        public const string EventError = "Error";
-        public const string EventNotReady = "NotReady";
-        public const string EventIdle = "IDLE";
-        public const string EventStCapturing = "StillCapturing";
-        public const string EventStSaving = "StillSaving";
-        public const string EventMvWaitRecStart = "MovieWaitRecStart";
-        public const string EventMvRecording = "MovieRecording";
-        public const string EventMvWaitRecStop = "MovieWaitRecStop";
-        public const string EventMvSaving = "MovieSaving";
-        public const string EventAuWaitRecStart = "AudioWaitRecStart";
-        public const string EventAuRecording = "AudioRecording";
-        public const string EventAuWaitRecStop = "AudioWaitRecStop";
-        public const string EventAuSaving = "AudioSaving";
+    public class EventParam
+    {
+        public const string Error = "Error";
+        public const string NotReady = "NotReady";
+        public const string Idle = "IDLE";
+        public const string StCapturing = "StillCapturing";
+        public const string StSaving = "StillSaving";
+        public const string MvWaitRecStart = "MovieWaitRecStart";
+        public const string MvRecording = "MovieRecording";
+        public const string MvWaitRecStop = "MovieWaitRecStop";
+        public const string MvSaving = "MovieSaving";
+        public const string AuWaitRecStart = "AudioWaitRecStart";
+        public const string AuRecording = "AudioRecording";
+        public const string AuWaitRecStop = "AudioWaitRecStop";
+        public const string AuSaving = "AudioSaving";
     }
 }

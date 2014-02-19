@@ -65,7 +65,7 @@ namespace WPPMM.CameraManager
             PostviewSizeInfo = null;
             IsLiveviewAvailable = false;
             ZoomInfo = null;
-            Status = ApiParams.EventNotReady;
+            Status = EventParam.NotReady;
             AvailableApis = null;
         }
 
@@ -92,7 +92,7 @@ namespace WPPMM.CameraManager
             return AvailableApiList.Contains(apiName);
         }
 
-        private string _Status = ApiParams.EventNotReady;
+        private string _Status = EventParam.NotReady;
         public string Status
         {
             set
@@ -189,7 +189,7 @@ namespace WPPMM.CameraManager
                     return Visibility.Collapsed;
                 }
 
-                if (_ShootModeInfo.current == ApiParams.ShootModeAudio)
+                if (_ShootModeInfo.current == ShootModeParam.Audio)
                 {
                     return Visibility.Collapsed;
                 }
@@ -209,7 +209,7 @@ namespace WPPMM.CameraManager
                     return Visibility.Collapsed;
                 }
 
-                if (_ShootModeInfo.current == ApiParams.ShootModeAudio)
+                if (_ShootModeInfo.current == ShootModeParam.Audio)
                 {
                     return Visibility.Visible;
                 }

@@ -98,9 +98,9 @@ namespace WPPMM.DataModel
 
                 switch (cameraStatus.Status)
                 {
-                    case ApiParams.EventIdle:
-                    case ApiParams.EventMvRecording:
-                    case ApiParams.EventAuRecording:
+                    case EventParam.Idle:
+                    case EventParam.MvRecording:
+                    case EventParam.AuRecording:
                         return true;
                     default:
                         return false;
@@ -128,15 +128,15 @@ namespace WPPMM.DataModel
 
                 switch (cameraStatus.ShootModeInfo.current)
                 {
-                    case ApiParams.ShootModeStill:
+                    case ShootModeParam.Still:
                         return StillImage;
-                    case ApiParams.ShootModeMovie:
-                        if (cameraStatus.Status == ApiParams.EventMvRecording)
+                    case ShootModeParam.Movie:
+                        if (cameraStatus.Status == EventParam.MvRecording)
                             return StopImage;
                         else
                             return CamImage;
-                    case ApiParams.ShootModeAudio:
-                        if (cameraStatus.Status == ApiParams.EventAuRecording)
+                    case ShootModeParam.Audio:
+                        if (cameraStatus.Status == EventParam.AuRecording)
                             return StopImage;
                         else
                             return AudioImage;

@@ -36,7 +36,7 @@ namespace WPPMM.RemoteApi
                 (code) => { error.Invoke(code); });
         }
 
-        public void GetAvailableShootMode(Action<int> error, Action<string, string[]> result)
+        public void GetAvailableShootMode(Action<int> error, Action<BasicInfo<string>> result)
         {
             AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableShootMode(),
                 (res) => { ResultHandler.GetAvailableShootMode(res, error, result); },
@@ -134,7 +134,7 @@ namespace WPPMM.RemoteApi
                 (code) => { error.Invoke(code); });
         }
 
-        public void GetAvailableSelfTimer(Action<int> error, Action<int, int[]> result)
+        public void GetAvailableSelfTimer(Action<int> error, Action<BasicInfo<int>> result)
         {
             AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableSelfTimer(),
                 (res) => { ResultHandler.GetAvailableSelfTimer(res, error, result); },
@@ -162,7 +162,7 @@ namespace WPPMM.RemoteApi
                 (code) => { error.Invoke(code); });
         }
 
-        public void GetAvailablePostviewImageSize(Action<int> error, Action<string, string[]> result)
+        public void GetAvailablePostviewImageSize(Action<int> error, Action<BasicInfo<string>> result)
         {
             AsyncPostClient.Post(endpoint, RequestGenerator.getAvailablePostviewImageSize(),
                 (res) => { ResultHandler.GetAvailablePostviewImageSize(res, error, result); },
@@ -190,7 +190,7 @@ namespace WPPMM.RemoteApi
                 (code) => { error.Invoke(code); });
         }
 
-        public void GetApplicationInfo(Action<int> error, Action<string, string> result)
+        public void GetApplicationInfo(Action<int> error, Action<ApplicationInfo> result)
         {
             AsyncPostClient.Post(endpoint, RequestGenerator.getApplicationInfo(),
                 (res) => { ResultHandler.GetApplicationInfo(res, error, result); },
@@ -204,7 +204,7 @@ namespace WPPMM.RemoteApi
                 (code) => { error.Invoke(code); });
         }
 
-        public void GetMethodTypes(string version, Action<int> error, MethodTypesHandler result)
+        public void GetMethodTypes(string version, Action<int> error, Action<MethodType[]> result)
         {
             AsyncPostClient.Post(endpoint, RequestGenerator.getMethodTypes(version),
                 (res) => { ResultHandler.GetMethodTypes(res, error, result); },
@@ -217,7 +217,7 @@ namespace WPPMM.RemoteApi
         /// <param name="longpolling">Set true for event notification, false for immediate response.</param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        public void GetEvent(bool longpolling, Action<int> error, GetEventHandler result)
+        public void GetEvent(bool longpolling, Action<int> error, Action<Event> result)
         {
             AsyncPostClient.Post(endpoint, RequestGenerator.getEvent(longpolling),
                 (res) => { ResultHandler.GetEvent(res, error, result); },

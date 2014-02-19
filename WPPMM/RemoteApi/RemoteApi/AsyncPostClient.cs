@@ -56,12 +56,12 @@ namespace WPPMM.RemoteApi
 #else
                         await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
-                            {
-                                if (string.IsNullOrEmpty(resbody))
-                                    OnError.Invoke(StatusCode.IllegalResponse);
-                                else
-                                    OnResponse.Invoke(resbody);
-                            });
+                        {
+                            if (string.IsNullOrEmpty(resbody))
+                                OnError.Invoke(StatusCode.IllegalResponse);
+                            else
+                                OnResponse.Invoke(resbody);
+                        });
                         return;
                     }
                 }
@@ -95,9 +95,9 @@ namespace WPPMM.RemoteApi
 #else
             await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
-                {
-                    OnError.Invoke(code);
-                });
+            {
+                OnError.Invoke(code);
+            });
         }
 
         /// <summary>

@@ -6,6 +6,12 @@ namespace WPPMM.RemoteApi
 {
     internal class BasicResultHandler
     {
+        /// <summary>
+        /// Check whether the response is error or success.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="error"></param>
+        /// <returns>true if the json is the error response.</returns>
         internal static bool HandleError(JObject json, Action<int> error)
         {
             if (json == null)
@@ -22,6 +28,12 @@ namespace WPPMM.RemoteApi
             return false;
         }
 
+        /// <summary>
+        /// For response which has no value or no effective value.
+        /// </summary>
+        /// <param name="jString"></param>
+        /// <param name="error"></param>
+        /// <param name="result"></param>
         internal static void NoValueAction(string jString, Action<int> error, Action result)
         {
             var json = JObject.Parse(jString);
@@ -33,7 +45,14 @@ namespace WPPMM.RemoteApi
             result.Invoke();
         }
 
-        internal static void StringAction(string jString, Action<int> error, Action<string> result)
+        /// <summary>
+        /// For response which has a single value.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="jString"></param>
+        /// <param name="error"></param>
+        /// <param name="result"></param>
+        internal static void SingleValueAction<T>(string jString, Action<int> error, Action<T> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -41,10 +60,17 @@ namespace WPPMM.RemoteApi
                 return;
             }
 
-            result.Invoke(json["result"][0].ToString());
+            result.Invoke(json["result"].Value<T>(0));
         }
 
-        internal static void StringsArrayAction(string jString, Action<int> error, Action<string[]> result)
+        /// <summary>
+        /// For response which has a single Array consists of a single type.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="jString"></param>
+        /// <param name="error"></param>
+        /// <param name="result"></param>
+        internal static void ArrayAction<T>(string jString, Action<int> error, Action<T[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -52,78 +78,24 @@ namespace WPPMM.RemoteApi
                 return;
             }
 
-            var strings = new List<string>();
-            foreach (var token in json["result"][0].Values<string>())
+            var array = new List<T>();
+            foreach (var token in json["result"][0].Values<T>())
             {
-                strings.Add(token);
+                array.Add(token);
             }
 
-            result.Invoke(strings.ToArray());
+            result.Invoke(array.ToArray());
         }
 
-        internal static void IntegerAction(string jString, Action<int> error, Action<int> result)
-        {
-            var json = JObject.Parse(jString);
-            if (HandleError(json, error))
-            {
-                return;
-            }
-
-            result.Invoke(json["result"].Value<int>(0));
-        }
-
-        internal static void IntegerArrayAction(string jString, Action<int> error, Action<int[]> result)
-        {
-            var json = JObject.Parse(jString);
-            if (HandleError(json, error))
-            {
-                return;
-            }
-
-            var integers = new List<int>();
-            foreach (var token in json["result"][0].Values<int>())
-            {
-                integers.Add(token);
-            }
-
-            result.Invoke(integers.ToArray());
-        }
-
-        internal static void String_StringArrayAction(string jString, Action<int> error, Action<string, string[]> result)
-        {
-            var json = JObject.Parse(jString);
-            if (HandleError(json, error))
-            {
-                return;
-            }
-
-            var strings = new List<string>();
-            foreach (var token in json["result"][1].Values<string>())
-            {
-                strings.Add(token);
-            }
-
-            result.Invoke(json["result"].Value<string>(0), strings.ToArray());
-        }
-
-        internal static void Int_IntArrayAction(string jString, Action<int> error, Action<int, int[]> result)
-        {
-            var json = JObject.Parse(jString);
-            if (HandleError(json, error))
-            {
-                return;
-            }
-
-            var integers = new List<int>();
-            foreach (var token in json["result"][1].Values<int>())
-            {
-                integers.Add(token);
-            }
-
-            result.Invoke(json["result"].Value<int>(0), integers.ToArray());
-        }
-
-        internal static void String_StringAction(string jString, Action<int> error, Action<string, string> result)
+        /// <summary>
+        /// For response which has multiple same type values in parallel.
+        /// </summary>
+        /// <typeparam name="T">Type of the values</typeparam>
+        /// <param name="jString"></param>
+        /// <param name="num">Number of the values contained</param>
+        /// <param name="error"></param>
+        /// <param name="result"></param>
+        internal static void ParallelValuesAction<T>(string jString, int num, Action<int> error, Action<T[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -132,7 +104,37 @@ namespace WPPMM.RemoteApi
             }
 
             var results = json["result"];
-            result.Invoke(results.Value<string>(0), results.Value<string>(1));
+            var array = new T[num];
+            for (int i = 0; i < num; i++)
+            {
+                array[i] = results.Value<T>(i);
+            }
+
+            result.Invoke(array);
+        }
+
+        /// <summary>
+        /// For response which has a single value and a single array.
+        /// </summary>
+        /// <typeparam name="T">Type of the values</typeparam>
+        /// <param name="jString"></param>
+        /// <param name="error"></param>
+        /// <param name="result"></param>
+        internal static void BasicInfoAction<T>(string jString, Action<int> error, Action<BasicInfo<T>> result)
+        {
+            var json = JObject.Parse(jString);
+            if (HandleError(json, error))
+            {
+                return;
+            }
+
+            var _candidates = new List<T>();
+            foreach (var token in json["result"][1].Values<T>())
+            {
+                _candidates.Add(token);
+            }
+
+            result.Invoke(new BasicInfo<T> { current = json["result"].Value<T>(0), candidates = _candidates.ToArray() });
         }
     }
 }

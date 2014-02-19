@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace WPPMM.RemoteApi
@@ -205,7 +205,7 @@ namespace WPPMM.RemoteApi
             ResultHandler.GetAvailableSelfTimer(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableSelfTimer()),
                 code => { throw new RemoteApiException(code); },
-                (cu, ca) => result = new BasicInfo<int> { current = cu, candidates = ca });
+                info => result = info);
             return result;
         }
 
@@ -243,7 +243,7 @@ namespace WPPMM.RemoteApi
             ResultHandler.GetAvailablePostviewImageSize(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailablePostviewImageSize()),
                 code => { throw new RemoteApiException(code); },
-                (cu, ca) => result = new BasicInfo<string> { current = cu, candidates = ca });
+                info => result = info);
             return result;
         }
 
@@ -281,7 +281,7 @@ namespace WPPMM.RemoteApi
             ResultHandler.GetAvailableShootMode(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.getAvailableShootMode()),
                 code => { throw new RemoteApiException(code); },
-                (cu, ca) => result = new BasicInfo<string> { current = cu, candidates = ca });
+                info => result = info);
             return result;
         }
     }

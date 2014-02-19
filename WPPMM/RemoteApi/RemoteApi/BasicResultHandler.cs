@@ -34,7 +34,7 @@ namespace WPPMM.RemoteApi
         /// <param name="jString"></param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        internal static void NoValueAction(string jString, Action<int> error, Action result)
+        internal static void HandleNoValue(string jString, Action<int> error, Action result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -52,7 +52,7 @@ namespace WPPMM.RemoteApi
         /// <param name="jString"></param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        internal static void SingleValueAction<T>(string jString, Action<int> error, Action<T> result)
+        internal static void HandleSingleValue<T>(string jString, Action<int> error, Action<T> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -70,7 +70,7 @@ namespace WPPMM.RemoteApi
         /// <param name="jString"></param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        internal static void ArrayAction<T>(string jString, Action<int> error, Action<T[]> result)
+        internal static void HandleArray<T>(string jString, Action<int> error, Action<T[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -95,7 +95,7 @@ namespace WPPMM.RemoteApi
         /// <param name="num">Number of the values contained</param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        internal static void ParallelValuesAction<T>(string jString, int num, Action<int> error, Action<T[]> result)
+        internal static void HandleParallelValues<T>(string jString, int num, Action<int> error, Action<T[]> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -120,7 +120,7 @@ namespace WPPMM.RemoteApi
         /// <param name="jString"></param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        internal static void BasicInfoAction<T>(string jString, Action<int> error, Action<BasicInfo<T>> result)
+        internal static void HandleBasicInfo<T>(string jString, Action<int> error, Action<BasicInfo<T>> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))

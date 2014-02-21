@@ -39,6 +39,8 @@ namespace WPPMM
         private ProximityDevice _proximitiyDevice;
         private long _subscriptionIdNdef;
 
+        private const string AP_NAME_PREFIX = "DIRECT-";
+
         public MainPage()
         {
             InitializeComponent();
@@ -56,7 +58,7 @@ namespace WPPMM
             Debug.WriteLine(e.Uri);
             progress.IsVisible = false;
             InitializeApplication();
-            if (GetSSIDName().StartsWith("DIRECT-"))
+            if (GetSSIDName().StartsWith(AP_NAME_PREFIX))
             {
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
@@ -120,7 +122,7 @@ namespace WPPMM
         {
             var ssid = GetSSIDName();
             Debug.WriteLine("SSID: " + ssid);
-            if (ssid != null && ssid.StartsWith("DIRECT-"))
+            if (ssid != null && ssid.StartsWith(AP_NAME_PREFIX))
             {
                 NetworkStatus.Text = AppResources.Guide_CantFindDevice;
             }
@@ -339,7 +341,7 @@ namespace WPPMM
                 cameraManager.OperateInitialProcess();
                 cameraManager.RunEventObserver();
             }
-            else if (!GetSSIDName().StartsWith("DIRECT-"))
+            else if (!GetSSIDName().StartsWith(AP_NAME_PREFIX))
             {
                 Dispatcher.BeginInvoke(() => { GoToMainPage(); });
                 return;

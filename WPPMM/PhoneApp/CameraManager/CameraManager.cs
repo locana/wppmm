@@ -278,7 +278,9 @@ namespace WPPMM.CameraManager
 
         public void RequestSearchDevices(Action Found, Action Timeout)
         {
-            deviceFinder.SearchDevices(TIMEOUT, (info) => { OnServerFound(info, Found); }, () => { Timeout.Invoke(); });
+            deviceFinder.SearchDevices(TIMEOUT,
+                (info) => { Deployment.Current.Dispatcher.BeginInvoke(() => OnServerFound(info, Found)); },
+                () => { Deployment.Current.Dispatcher.BeginInvoke(() => Timeout.Invoke()); });
         }
 
         private void OnServerFound(DeviceInfo di, Action Found)

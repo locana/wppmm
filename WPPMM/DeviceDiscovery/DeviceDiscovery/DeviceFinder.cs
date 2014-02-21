@@ -9,12 +9,10 @@ using System.Xml.Linq;
 using System.Threading.Tasks;
 #if WINDOWS_PHONE
 using System.Net.Sockets;
-using System.Windows;
 #elif NETFX_CORE
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Networking.Sockets;
 using Windows.Networking;
-using Windows.UI.Core;
 using Windows.Foundation;
 using Windows.Networking.Connectivity;
 #endif
@@ -79,8 +77,7 @@ namespace WPPMM.DeviceDiscovery
                     {
                         try
                         {
-                            var info = AnalyzeDD(reader.ReadToEnd());
-                            NotifyFoundAsync(info, OnServerFound);
+                            OnServerFound.Invoke(AnalyzeDD(reader.ReadToEnd()));
                         }
                         catch (Exception)
                         {
@@ -152,16 +149,17 @@ namespace WPPMM.DeviceDiscovery
                 return;
             }
 
-            var host = new HostName(multicast_address);
             try
             {
                 await sock.BindServiceNameAsync("", profile.NetworkAdapter);
             }
             catch (Exception)
             {
-                Debug.WriteLine("Duplicate search is not supported");
+                Debug.WriteLine("Failed to bind NetworkAdapter");
                 return;
             }
+
+            var host = new HostName(multicast_address);
             try
             {
                 var output = await sock.GetOutputStreamAsync(host, ssdp_port.ToString());
@@ -193,24 +191,7 @@ namespace WPPMM.DeviceDiscovery
         private async Task RunTimeoutInvokerAsync(int TimeoutSec, Action OnTimeout)
         {
             await Task.Delay(TimeSpan.FromSeconds(TimeoutSec));
-
-#if WINDOWS_PHONE
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-#else
-            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-#endif
-            { OnTimeout.Invoke(); });
-        }
-
-        private async void NotifyFoundAsync(DeviceInfo info, Action<DeviceInfo> OnServerFound)
-        {
-#if WINDOWS_PHONE
-            await Task.Run(() => { }); // avoid warning for async directive.
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-#else
-            await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-#endif
-            { OnServerFound.Invoke(info); });
+            OnTimeout.Invoke();
         }
 
         private static void GetDDAsync(AsyncCallback ac, string data)

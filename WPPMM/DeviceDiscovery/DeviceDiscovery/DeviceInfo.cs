@@ -13,6 +13,10 @@ namespace WPPMM.DeviceDiscovery
         }
 
         private Dictionary<string, string> _Endpoints;
+
+        /// <summary>
+        /// K-V pairs of service name and its endpoint URL
+        /// </summary>
         public Dictionary<string, string> Endpoints
         {
             private set { _Endpoints = value; }

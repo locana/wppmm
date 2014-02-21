@@ -123,9 +123,6 @@
     <Compile Include="..\..\RemoteApi\RemoteApi\CameraServiceClient10.cs">
       <Link>LinkReference\RemoteApi\RemoteApi\CameraServiceClient10.cs</Link>
     </Compile>
-    <Compile Include="..\..\RemoteApi\RemoteApi\Delegates.cs">
-      <Link>LinkReference\RemoteApi\RemoteApi\Delegates.cs</Link>
-    </Compile>
     <Compile Include="..\..\RemoteApi\RemoteApi\RemoteApiException.cs">
       <Link>LinkReference\RemoteApi\RemoteApi\RemoteApiException.cs</Link>
     </Compile>

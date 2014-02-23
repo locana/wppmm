@@ -91,7 +91,7 @@
     <Compile Include="Util\ApiParams.cs" />
     <Compile Include="RemoteApi\RequestGenerator.cs" />
     <Compile Include="RemoteApi\ResultHandler.cs" />
-    <Compile Include="RemoteApi\SpecialObjects.cs" />
+    <Compile Include="RemoteApi\Structures.cs" />
     <Compile Include="Util\StatusCode.cs" />
     <Compile Include="RemoteApi\AsyncPostClient.cs" />
     <Compile Include="Util\EvConverter.cs" />

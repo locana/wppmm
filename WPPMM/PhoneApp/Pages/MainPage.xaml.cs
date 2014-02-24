@@ -41,6 +41,8 @@ namespace WPPMM
 
         private const string AP_NAME_PREFIX = "DIRECT-";
 
+        private const bool FilterBySsid = true;
+
         public MainPage()
         {
             InitializeComponent();
@@ -58,7 +60,7 @@ namespace WPPMM
             Debug.WriteLine(e.Uri);
             progress.IsVisible = false;
             InitializeApplication();
-            if (GetSSIDName().StartsWith(AP_NAME_PREFIX))
+            if (FilterBySsid && GetSSIDName().StartsWith(AP_NAME_PREFIX))
             {
                 StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
             }
@@ -341,7 +343,7 @@ namespace WPPMM
                 cameraManager.OperateInitialProcess();
                 cameraManager.RunEventObserver();
             }
-            else if (!GetSSIDName().StartsWith(AP_NAME_PREFIX))
+            else if (FilterBySsid && !GetSSIDName().StartsWith(AP_NAME_PREFIX))
             {
                 Dispatcher.BeginInvoke(() => { GoToMainPage(); });
                 return;

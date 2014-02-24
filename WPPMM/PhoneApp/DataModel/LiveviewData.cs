@@ -32,6 +32,7 @@ namespace WPPMM.DataModel
                 }
                 catch (COMException)
                 {
+                    Debug.WriteLine("Caught COMException: LiveviewData");
                 }
             }
         }

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Media;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
 
@@ -56,6 +57,7 @@ namespace WPPMM.DataModel
                 }
                 catch (COMException)
                 {
+                    Debug.WriteLine("Caught COMException: PostviewData");
                 }
             }
         }

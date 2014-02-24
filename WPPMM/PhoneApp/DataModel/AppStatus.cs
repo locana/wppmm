@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace WPPMM.DataModel
@@ -10,7 +12,17 @@ namespace WPPMM.DataModel
         {
             if (PropertyChanged != null)
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() => { PropertyChanged(this, new PropertyChangedEventArgs(name)); });
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    try
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs(name));
+                    }
+                    catch (COMException)
+                    {
+                        Debug.WriteLine("Caught COMException: AppStatus");
+                    }
+                });
             }
         }
 

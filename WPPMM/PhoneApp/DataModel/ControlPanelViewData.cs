@@ -1,4 +1,6 @@
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using WPPMM.CameraManager;
 using WPPMM.RemoteApi;
 using WPPMM.Utils;
@@ -47,7 +49,14 @@ namespace WPPMM.DataModel
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+                try
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(name));
+                }
+                catch (COMException)
+                {
+                    Debug.WriteLine("Caught COMException: ControlPanelViewData");
+                }
             }
         }
 

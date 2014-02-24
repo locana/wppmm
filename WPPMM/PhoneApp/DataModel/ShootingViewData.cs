@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.CameraManager;
@@ -61,7 +63,14 @@ namespace WPPMM.DataModel
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+                try
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(name));
+                }
+                catch (COMException)
+                {
+                    Debug.WriteLine("Caught COMException: ShootingViewData");
+                }
             }
         }
 

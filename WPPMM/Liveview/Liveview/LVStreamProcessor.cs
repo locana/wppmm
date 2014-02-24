@@ -106,6 +106,10 @@ namespace WPPMM.Liveview
                 {
                     Debug.WriteLine("WebException");
                 }
+                catch (ObjectDisposedException)
+                {
+                    Debug.WriteLine("Caught ObjectDisposedException");
+                }
                 finally
                 {
                     Debug.WriteLine("Disconnected Jpeg stream");
@@ -135,17 +139,24 @@ namespace WPPMM.Liveview
         public void CloseConnection()
         {
             IsDisposed = true;
-            if (ConnectedStream != null)
+            try
             {
-                ConnectedStream.Dispose();
+                if (ConnectedStream != null)
+                {
+                    ConnectedStream.Dispose();
+                }
+                if (Response != null)
+                {
+                    Response.Dispose();
+                }
+                if (Request != null)
+                {
+                    Request.Abort();
+                }
             }
-            if (Response != null)
+            catch (ObjectDisposedException)
             {
-                Response.Dispose();
-            }
-            if (Request != null)
-            {
-                Request.Abort();
+                Debug.WriteLine("Ignore ObjectDisposedException while closing");
             }
             IsOpen = false;
         }

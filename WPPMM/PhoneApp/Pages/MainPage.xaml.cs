@@ -586,15 +586,13 @@ namespace WPPMM
         {
             // Initialize NFC
             _proximitiyDevice = ProximityDevice.GetDefault();
-            // Only subscribe for messages if no NDEF subscription is already active
+
             if (_proximitiyDevice == null)
             {
                 Debug.WriteLine("It seems this is not NFC available device");
                 return;
             }
-            // Ask the proximity device to inform us about any kind of NDEF message received from
-            // another device or tag.
-            // Store the subscription ID so that we can cancel it later.
+
             _subscriptionIdNdef = _proximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
             NFCMessage.Visibility = System.Windows.Visibility.Visible;
 
@@ -602,7 +600,6 @@ namespace WPPMM
 
         private void NFCMessageReceivedHandler(ProximityDevice sender, ProximityMessage message)
         {
-            // Get the raw NDEF message data as byte array
             var parser = new SonyNdefParser(message);
             List<SonyNdefRecord> ndefRecords = new List<SonyNdefRecord>();
 

@@ -275,4 +275,7 @@
   <data name="ConnectedDevice" xml:space="preserve">
     <value>Connected to _ssid_</value>
   </data>
+  <data name="NFC_iiwake" xml:space="preserve">
+    <value>Please ignore incorrect system prompt!!</value>
+  </data>
 </root>

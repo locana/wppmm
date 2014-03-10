@@ -276,4 +276,7 @@
   <data name="ConnectedDevice" xml:space="preserve">
     <value>_ssid_ に接続されています</value>
   </data>
+  <data name="NFC_iiwake" xml:space="preserve">
+    <value>誤ったシステムエラーメッセージが表示されることがあります。</value>
+  </data>
 </root>

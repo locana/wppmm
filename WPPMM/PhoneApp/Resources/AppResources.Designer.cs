@@ -349,6 +349,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Please ignore incorrect system prompt!! に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NFC_iiwake {
+            get {
+                return ResourceManager.GetString("NFC_iiwake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Off {

@@ -139,7 +139,7 @@ namespace WPPMM
                 String modelName = cameraManager.DeviceInfo.FriendlyName;
                 if (modelName != null)
                 {
-                    NetworkStatus.Text = "Connected device: " + modelName;
+                    NetworkStatus.Text = AppResources.ConnectedDevice.Replace("_ssid_", modelName);
                     GuideMessage.Visibility = System.Windows.Visibility.Visible;
                 }
             }
@@ -178,7 +178,7 @@ namespace WPPMM
                 {
                     modelName = cameraManager.DeviceInfo.FriendlyName;
                 }
-                NetworkStatus.Text = "Connected device: " + modelName;
+                NetworkStatus.Text = AppResources.ConnectedDevice.Replace("_ssid_", modelName);
                 GuideMessage.Visibility = System.Windows.Visibility.Visible;
             }
 

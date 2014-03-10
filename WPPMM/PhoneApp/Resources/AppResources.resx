@@ -246,8 +246,7 @@
     <value>Interval</value>
   </data>
   <data name="Guide_NFC" xml:space="preserve">
-    <value>Forgot Wi-Fi password of the camera device?
-You can touch your NFC enabled phone to NFC enabled camera to find password of Wi-Fi.</value>
+    <value>You can touch your NFC enabled camera to find password.</value>
   </data>
   <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
     <value>Camera is under processing. Try again after a while.</value>
@@ -262,7 +261,7 @@ You can touch your NFC enabled phone to NFC enabled camera to find password of W
     <value>Request timeout. Make sure of the Wi-Fi connection and try again.</value>
   </data>
   <data name="ErrorMessage_CantFindSonyRecord" xml:space="preserve">
-    <value>Couldn't find SSID or/and Password from the NFC tag.</value>
+    <value>Couldn't find SSID or Password from the NFC tag.</value>
   </data>
   <data name="ErrorMessage_ParseNFC" xml:space="preserve">
     <value>Failed to read data from the NFC tag.</value>
@@ -272,5 +271,8 @@ You can touch your NFC enabled phone to NFC enabled camera to find password of W
   </data>
   <data name="Message_NFC_succeed" xml:space="preserve">
     <value>Wi-Fi password of your camera device has been saved to the clipboard!</value>
+  </data>
+  <data name="ConnectedDevice" xml:space="preserve">
+    <value>Connected to _ssid_</value>
   </data>
 </root>

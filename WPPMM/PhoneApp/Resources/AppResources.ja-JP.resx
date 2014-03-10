@@ -247,7 +247,7 @@
     <value>撮影間隔</value>
   </data>
   <data name="Guide_NFC" xml:space="preserve">
-    <value>携帯電話とカメラがNFC対応であれば、タッチすることでWi-Fiのパスワードを確認することができます</value>
+    <value>NFC対応のカメラなら、タッチしてWi-Fiのパスワードを確認することができます</value>
   </data>
   <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
     <value>カメラが処理中です。しばらくまって再度お試しください。</value>
@@ -272,5 +272,8 @@
   </data>
   <data name="Message_NFC_succeed" xml:space="preserve">
     <value>カメラのWi-Fiパスワードをクリップボードに保存しました！</value>
+  </data>
+  <data name="ConnectedDevice" xml:space="preserve">
+    <value>_ssid_ に接続されています</value>
   </data>
 </root>

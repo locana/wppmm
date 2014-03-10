@@ -79,6 +79,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Connected to _ssid_ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ConnectedDevice {
+            get {
+                return ResourceManager.GetString("ConnectedDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This application contains the following open source softwares. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ContainsLicense {
@@ -133,7 +142,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Couldn&apos;t find SSID or/and Password from the NFC tag. に類似しているローカライズされた文字列を検索します。
+        ///   Couldn&apos;t find SSID or Password from the NFC tag. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorMessage_CantFindSonyRecord {
             get {
@@ -250,8 +259,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Forgot Wi-Fi password of the camera device?
-        ///You can touch your NFC enabled phone to NFC enabled camera to find password of Wi-Fi. に類似しているローカライズされた文字列を検索します。
+        ///   You can touch your NFC enabled camera to find password. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_NFC {
             get {

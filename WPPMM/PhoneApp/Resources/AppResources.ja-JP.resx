@@ -238,7 +238,7 @@
     <value>インターバル撮影間隔(秒)</value>
   </data>
   <data name="ErrorMessage_Interval" xml:space="preserve">
-    <value>エラーが発生したのでインターバル撮影を停止しました</value>
+    <value>エラーが発生したため、インターバル撮影を停止しました</value>
   </data>
   <data name="IntervalCountPrefix" xml:space="preserve">
     <value>撮影枚数</value>
@@ -246,20 +246,8 @@
   <data name="IntervalTimePrefix" xml:space="preserve">
     <value>撮影間隔</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="Guide_NFC" xml:space="preserve">
     <value>携帯電話とカメラがNFC対応であれば、タッチすることでWi-Fiのパスワードを確認することができます</value>
-  </data>
-  <data name="String" xml:space="preserve">
-    <value />
-  </data>
-  <data name="String2" xml:space="preserve">
-    <value />
-  </data>
-  <data name="String3" xml:space="preserve">
-    <value />
   </data>
   <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
     <value>カメラが処理中です。しばらくまって再度お試しください。</value>
@@ -268,7 +256,7 @@
     <value>予期せぬエラーが発生しました。</value>
   </data>
   <data name="ErrorMessage_shootingFailure" xml:space="preserve">
-    <value>撮影/記録開始できませんでした。メモリーカードをご確認ください。</value>
+    <value>撮影/記録開始できませんでした。カメラの状態を確認して下さい。</value>
   </data>
   <data name="ErrorMessage_timeout" xml:space="preserve">
     <value>通信に失敗しました。接続を確認してください。</value>

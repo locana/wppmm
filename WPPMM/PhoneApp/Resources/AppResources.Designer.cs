@@ -332,6 +332,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Wi-Fi password of your camera device has been saved to the clipboard!.
+        /// </summary>
+        public static string Message_NFC_succeed {
+            get {
+                return ResourceManager.GetString("Message_NFC_succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OFF.
         /// </summary>
         public static string Off {
@@ -490,6 +499,15 @@ namespace WPPMM.Resources {
         public static string String1 {
             get {
                 return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String4 {
+            get {
+                return ResourceManager.GetString("String4", resourceCulture);
             }
         }
         

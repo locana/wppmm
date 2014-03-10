@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
@@ -640,10 +641,17 @@ namespace WPPMM
                     {
                         Dispatcher.BeginInvoke(() =>
                         {
-                            NFCMessage.Visibility = System.Windows.Visibility.Collapsed;
-                            NFC_SSID.Text = r.SSID;
-                            NFC_Password.Text = r.Password;
-                            NFCInfo.Visibility = System.Windows.Visibility.Visible;
+                            Clipboard.SetText(r.Password);
+                            var sb = new StringBuilder();
+                            sb.Append(AppResources.Message_NFC_succeed);
+                            sb.Append(System.Environment.NewLine);
+                            sb.Append(System.Environment.NewLine);
+                            sb.Append("SSID: ");
+                            sb.Append(r.SSID);
+                            sb.Append(System.Environment.NewLine);
+                            sb.Append("Password: ");
+                            sb.Append(r.Password);
+                            MessageBox.Show(sb.ToString());
                         });
                         break;
                     }
@@ -657,9 +665,6 @@ namespace WPPMM
             {
                 NFCMessage.Visibility = System.Windows.Visibility.Visible;
             }
-            NFC_SSID.Text = "";
-            NFC_Password.Text = "";
-            NFCInfo.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

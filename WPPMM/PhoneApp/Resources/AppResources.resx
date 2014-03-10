@@ -275,4 +275,7 @@
   <data name="ConnectedDevice" xml:space="preserve">
     <value>Connected to _ssid_</value>
   </data>
+  <data name="MessageCaption_NFC_Succeed" xml:space="preserve">
+    <value>Opened successfully!</value>
+  </data>
 </root>

@@ -276,4 +276,7 @@
   <data name="ConnectedDevice" xml:space="preserve">
     <value>_ssid_ に接続されています</value>
   </data>
+  <data name="MessageCaption_NFC_Succeed" xml:space="preserve">
+    <value>読みこみに成功しました</value>
+  </data>
 </root>

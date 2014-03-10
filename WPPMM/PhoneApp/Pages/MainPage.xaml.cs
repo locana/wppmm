@@ -648,7 +648,7 @@ namespace WPPMM
                             sb.Append(System.Environment.NewLine);
                             sb.Append("Password: ");
                             sb.Append(r.Password);
-                            MessageBox.Show(sb.ToString());
+                            MessageBox.Show(sb.ToString(), AppResources.MessageCaption_NFC_Succeed, MessageBoxButton.OK);
                         });
                         break;
                     }

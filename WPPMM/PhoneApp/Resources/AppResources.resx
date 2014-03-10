@@ -274,7 +274,7 @@ You can touch your NFC enabled phone to NFC enabled camera to find password of W
     <value>Connection has been lost.</value>
   </data>
   <data name="Message_NFC_succeed" xml:space="preserve">
-    <value>The Wi-Fi password of your camera device has been saved to the clipboard!</value>
+    <value>Wi-Fi password of your camera device has been saved to the clipboard!</value>
   </data>
   <data name="String4" xml:space="preserve">
     <value />

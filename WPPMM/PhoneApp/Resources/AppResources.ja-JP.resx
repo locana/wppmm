@@ -283,6 +283,6 @@
     <value>接続が途絶しました。</value>
   </data>
   <data name="Message_NFC_succeed" xml:space="preserve">
-    <value>カメラのWi-Fiパスワードをクリップボードに保存しました!</value>
+    <value>カメラのWi-Fiパスワードをクリップボードに保存しました！</value>
   </data>
 </root>

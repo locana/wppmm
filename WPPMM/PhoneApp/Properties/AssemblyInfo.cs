@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Scrap")]
-[assembly: AssemblyCopyright("Copyright (c) 2013 kazyx")]
+[assembly: AssemblyCopyright("Copyright (c) 2013-2014 kazyx")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Resources;
 //
 // すべての値を指定するか、次のように '*' を使ってリビジョンおよびビルド番号を 
 // 既定値にすることができます。:
-[assembly: AssemblyVersion("1.1.0")]
-[assembly: AssemblyFileVersion("1.1.0")]
+[assembly: AssemblyVersion("1.2.0")]
+[assembly: AssemblyFileVersion("1.2.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]

@@ -279,4 +279,7 @@
   <data name="NFC_iiwake" xml:space="preserve">
     <value>誤ったシステムエラーメッセージが表示されることがあります。</value>
   </data>
+  <data name="MessageCaption_NFC_Succeed" xml:space="preserve">
+    <value>読みこみに成功しました</value>
+  </data>
 </root>

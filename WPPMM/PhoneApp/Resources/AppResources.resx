@@ -278,4 +278,7 @@
   <data name="NFC_iiwake" xml:space="preserve">
     <value>Please ignore incorrect system prompt!!</value>
   </data>
+  <data name="MessageCaption_NFC_Succeed" xml:space="preserve">
+    <value>Opened successfully!</value>
+  </data>
 </root>

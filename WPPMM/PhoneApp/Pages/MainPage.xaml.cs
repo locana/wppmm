@@ -651,7 +651,7 @@ namespace WPPMM
                             sb.Append(System.Environment.NewLine);
                             sb.Append(System.Environment.NewLine);
                             sb.Append(AppResources.NFC_iiwake);
-                            MessageBox.Show(sb.ToString());
+                            MessageBox.Show(sb.ToString(), AppResources.MessageCaption_NFC_Succeed, MessageBoxButton.OK);
                         });
                         break;
                     }

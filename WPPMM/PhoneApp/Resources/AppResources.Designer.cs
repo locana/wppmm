@@ -349,19 +349,29 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Please ignore incorrect system prompt!! に類似しているローカライズされた文字列を検索します。
+        ///   Looks up a localized string similar to Error.
         /// </summary>
-        public static string NFC_iiwake {
+        public static string MessageCaption_error {
             get {
-                return ResourceManager.GetString("NFC_iiwake", resourceCulture);
+                return ResourceManager.GetString("MessageCaption_error", resourceCulture);
             }
         }
         
+        /// <summary>
         ///   Looks up a localized string similar to Opened successfully!.
         /// </summary>
         public static string MessageCaption_NFC_Succeed {
             get {
                 return ResourceManager.GetString("MessageCaption_NFC_Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please ignore incorrect system prompt!!.
+        /// </summary>
+        public static string NFC_iiwake {
+            get {
+                return ResourceManager.GetString("NFC_iiwake", resourceCulture);
             }
         }
         

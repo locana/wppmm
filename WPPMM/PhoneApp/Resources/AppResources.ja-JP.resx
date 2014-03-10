@@ -282,4 +282,7 @@
   <data name="MessageCaption_NFC_Succeed" xml:space="preserve">
     <value>読みこみに成功しました</value>
   </data>
+  <data name="MessageCaption_error" xml:space="preserve">
+    <value>エラー</value>
+  </data>
 </root>

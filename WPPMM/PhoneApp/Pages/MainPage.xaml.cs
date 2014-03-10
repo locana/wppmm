@@ -71,7 +71,7 @@ namespace WPPMM
 
         internal void cameraManager_OnDisconnected()
         {
-            MessageBox.Show(AppResources.ErrorMessage_Dsconnected);
+            MessageBox.Show(AppResources.ErrorMessage_Dsconnected, AppResources.MessageCaption_error, MessageBoxButton.OK);
             MyPivot.IsLocked = false;
             if (cpm != null && cpm.IsShowing())
             {
@@ -604,6 +604,7 @@ namespace WPPMM
             List<SonyNdefRecord> ndefRecords = new List<SonyNdefRecord>();
 
             String err = AppResources.ErrorMessage_fatal;
+            String caption = AppResources.MessageCaption_error;
 
             try
             {
@@ -612,22 +613,22 @@ namespace WPPMM
             catch (NoSonyNdefRecordException)
             {
                 err = AppResources.ErrorMessage_CantFindSonyRecord;
-                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err, caption, MessageBoxButton.OK); });
             }
             catch (NoNdefRecordException)
             {
                 err = AppResources.ErrorMessage_ParseNFC;
-                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err, caption, MessageBoxButton.OK); });
             }
             catch (NdefParseException)
             {
                 err = AppResources.ErrorMessage_ParseNFC;
-                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err, caption, MessageBoxButton.OK); });
             }
             catch (Exception)
             {
                 err = AppResources.ErrorMessage_fatal;
-                Dispatcher.BeginInvoke(() => { MessageBox.Show(err); });
+                Dispatcher.BeginInvoke(() => { MessageBox.Show(err, caption, MessageBoxButton.OK); });
             }
 
             if (ndefRecords.Count > 0)

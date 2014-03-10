@@ -427,7 +427,7 @@ namespace WPPMM.CameraManager
                                 }
                                 break;
                         }
-                        MessageBox.Show(error);
+                        MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
                         Debug.WriteLine(error);
                         AppStatus.GetInstance().IsTakingPicture = false;
                         NoticeUpdate();
@@ -554,7 +554,7 @@ namespace WPPMM.CameraManager
             if (IntervalManager.IsRunning)
             {
                 IntervalManager.Stop();
-                MessageBox.Show(AppResources.ErrorMessage_Interval);
+                MessageBox.Show(AppResources.ErrorMessage_Interval, AppResources.MessageCaption_error, MessageBoxButton.OK);
             }
 
             String err = "error";
@@ -579,7 +579,7 @@ namespace WPPMM.CameraManager
                     break;
             }
 
-            MessageBox.Show(err);
+            MessageBox.Show(err, AppResources.MessageCaption_error, MessageBoxButton.OK);
         }
 
         // register EE screen update method

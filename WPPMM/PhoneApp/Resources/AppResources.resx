@@ -281,4 +281,7 @@
   <data name="MessageCaption_NFC_Succeed" xml:space="preserve">
     <value>Opened successfully!</value>
   </data>
+  <data name="MessageCaption_error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

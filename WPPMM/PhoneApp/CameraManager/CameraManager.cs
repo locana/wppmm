@@ -26,7 +26,7 @@ namespace WPPMM.CameraManager
         public DeviceInfo DeviceInfo;
 
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
-        private CameraServiceClient10 client;
+        private CameraApiClient apiClient;
 
         private LvStreamProcessor lvProcessor = new LvStreamProcessor();
         private readonly object lvProcessorLocker = new Object();
@@ -36,7 +36,6 @@ namespace WPPMM.CameraManager
         private readonly CameraStatus _cameraStatus = new CameraStatus();
         public CameraStatus cameraStatus { get { return _cameraStatus; } }
 
-        private Action<byte[]> LiveViewUpdateListener;
         internal event Action<CameraStatus> UpdateEvent;
         internal event Action OnDisconnected;
 
@@ -107,7 +106,7 @@ namespace WPPMM.CameraManager
 
         public bool IsClientReady()
         {
-            return client != null && cameraStatus.MethodTypes.Count != 0;
+            return apiClient != null && cameraStatus.MethodTypes.Count != 0;
         }
 
         public void Refresh()
@@ -116,7 +115,7 @@ namespace WPPMM.CameraManager
             watch = new Stopwatch();
             watch.Start();
             DeviceInfo = null;
-            client = null;
+            apiClient = null;
             cameraStatus.Init();
             cameraStatus.InitEventParams();
             if (observer != null)
@@ -138,20 +137,25 @@ namespace WPPMM.CameraManager
             return cameraManager;
         }
 
-        public void OperateInitialProcess()
+        public async void OperateInitialProcess()
         {
-            if (client == null)
+            if (apiClient == null)
                 return;
 
             if (cameraStatus.MethodTypes.Contains("startRecMode"))
             {
-                client.StartRecMode(OnError, () =>
+                try
                 {
+                    await apiClient.StartRecModeAsync();
                     if (cameraStatus.IsAvailable("startLiveview"))
                     {
                         OpenLiveviewConnection();
                     }
-                });
+                }
+                catch (RemoteApiException e)
+                {
+                    OnError(e.code);
+                }
             }
             else if (cameraStatus.IsAvailable("startLiveview"))
             {
@@ -159,14 +163,12 @@ namespace WPPMM.CameraManager
             }
         }
 
-        private void OpenLiveviewConnection()
+        private async void OpenLiveviewConnection()
         {
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
-            client.StartLiveview((code) =>
+            try
             {
-                AppStatus.GetInstance().IsTryingToConnectLiveview = false;
-            }, (url) =>
-            {
+                var url = await apiClient.StartLiveviewAsync();
                 lock (lvProcessorLocker)
                 {
                     if (lvProcessor.IsOpen)
@@ -187,7 +189,11 @@ namespace WPPMM.CameraManager
                         return;
                     }
                 }
-            });
+            }
+            catch (RemoteApiException)
+            {
+                AppStatus.GetInstance().IsTryingToConnectLiveview = false;
+            }
         }
 
         private void CloseLiveviewConnection()
@@ -198,48 +204,22 @@ namespace WPPMM.CameraManager
             }
         }
 
-        public Task<int> SetPostViewImageSizeAsync(string size)
+        public Task SetPostViewImageSizeAsync(string size)
         {
-            var taskCS = new TaskCompletionSource<int>();
-            if (client == null)
+            if (apiClient == null)
             {
                 throw new InvalidOperationException();
             }
-            else
-            {
-                client.SetPostviewImageSize(
-                    size,
-                    (code) => { taskCS.SetResult(code); },
-                    () =>
-                    {
-                        Debug.WriteLine("SetPostViewImageSizeAsync success");
-                        taskCS.SetResult(0);
-                    }
-                );
-            }
-            return taskCS.Task;
+            return apiClient.SetPostviewImageSizeAsync(size);
         }
 
-        public Task<int> SetSelfTimerAsync(int timer)
+        public Task SetSelfTimerAsync(int timer)
         {
-            var taskCS = new TaskCompletionSource<int>();
-            if (client == null)
+            if (apiClient == null)
             {
                 throw new InvalidOperationException();
             }
-            else
-            {
-                client.SetSelfTimer(
-                    timer,
-                    (code) => { taskCS.SetResult(code); },
-                    () =>
-                    {
-                        Debug.WriteLine("SetSelfTimerAsync success");
-                        taskCS.SetResult(0);
-                    }
-                );
-            }
-            return taskCS.Task;
+            return apiClient.SetSelfTimerAsync(timer);
         }
 
         BitmapImage ImageSource = new BitmapImage()
@@ -290,26 +270,29 @@ namespace WPPMM.CameraManager
 
             if (DeviceInfo.Endpoints.ContainsKey("camera"))
             {
-                client = new CameraServiceClient10(di.Endpoints["camera"]);
+                apiClient = new CameraApiClient(di.Endpoints["camera"]);
                 Debug.WriteLine(di.Endpoints["camera"]);
                 GetMethodTypes(Found);
                 cameraStatus.isAvailableConnecting = true;
 
-                observer = new EventObserver(client);
+                observer = new EventObserver(apiClient);
             }
             // TODO be careful, device info is updated to the latest found device.
 
             NoticeUpdate();
         }
 
-        private void GetMethodTypes(Action found)
+        private async void GetMethodTypes(Action found)
         {
-            if (client == null)
-                return;
-
-            client.GetMethodTypes(apiVersion, OnError, (methodTypes) =>
+            if (apiClient == null)
             {
-                List<String> list = new List<string>();
+                return;
+            }
+
+            try
+            {
+                var methodTypes = await apiClient.GetMethodTypesAsync(apiVersion);
+                var list = new List<string>();
                 foreach (MethodType t in methodTypes)
                 {
                     list.Add(t.name);
@@ -324,7 +307,11 @@ namespace WPPMM.CameraManager
                     found.Invoke();
                 }
                 NoticeUpdate();
-            });
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
         // -------- take picture
@@ -347,13 +334,23 @@ namespace WPPMM.CameraManager
 
         }
 
-        public void RequestActTakePicture()
+        public async void RequestActTakePicture()
         {
-            if (client == null)
+            if (apiClient == null)
+            {
                 return;
+            }
 
-            client.ActTakePicture(OnActTakePictureError, OnResultActTakePicture);
             AppStatus.GetInstance().IsTakingPicture = true;
+            try
+            {
+                var urls = await apiClient.ActTakePictureAsync();
+                OnResultActTakePicture(urls);
+            }
+            catch (RemoteApiException e)
+            {
+                OnActTakePictureError(e.code);
+            }
         }
 
         public void OnResultActTakePicture(String[] res)
@@ -374,7 +371,7 @@ namespace WPPMM.CameraManager
             {
                 downloader.DownloadImageFile(
                     new Uri(s),
-                    delegate(Picture p)
+                    (p) =>
                     {
                         Debug.WriteLine("download succeed");
                         if (ShowToast != null)
@@ -388,7 +385,7 @@ namespace WPPMM.CameraManager
                             PictureNotifier.Invoke(p);
                         }
                     },
-                    delegate(ImageDLError e)
+                    (e) =>
                     {
                         String error = "";
                         bool isOriginal = false;
@@ -451,46 +448,91 @@ namespace WPPMM.CameraManager
             OnError(err);
         }
 
-        public void StartMovieRec()
+        public async void StartMovieRec()
         {
-            if (client == null)
+            if (apiClient == null)
+            {
                 return;
+            }
 
-            client.StartMovieRec(OnError, () => { });
+            try
+            {
+                await apiClient.StartMovieRecAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
-        public void StopMovieRec()
+        public async void StopMovieRec()
         {
-            if (client == null)
+            if (apiClient == null)
+            {
                 return;
+            }
 
-            client.StopMovieRec(OnError, (url) => { });
+            try
+            {
+                await apiClient.StopMovieRecAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
-        public void StartAudioRec()
+        public async void StartAudioRec()
         {
-            if (client == null)
+            if (apiClient == null)
+            {
                 return;
+            }
 
-            client.StartAudioRec(OnError, () => { });
+            try
+            {
+                await apiClient.StartAudioRecAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
-        public void StopAudioRec()
+        public async void StopAudioRec()
         {
-            if (client == null)
+            if (apiClient == null)
+            {
                 return;
+            }
 
-            client.StopAudioRec(OnError, () => { });
+            try
+            {
+                await apiClient.StopAudioRecAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
         // ------- zoom
 
-        internal void RequestActZoom(String direction, String movement)
+        internal async void RequestActZoom(String direction, String movement)
         {
-            if (client == null)
+            if (apiClient == null)
+            {
                 return;
+            }
 
-            client.ActZoom(direction, movement, OnError, () => { });
+            try
+            {
+                await apiClient.ActZoomAsync(direction, movement);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
         // ------- Event Observer
@@ -549,15 +591,19 @@ namespace WPPMM.CameraManager
 
         public void OnError(int errno)
         {
-            Debug.WriteLine("Error: " + errno.ToString());
+            Debug.WriteLine("Error: " + errno);
 
             if (IntervalManager.IsRunning)
             {
                 IntervalManager.Stop();
-                MessageBox.Show(AppResources.ErrorMessage_Interval, AppResources.MessageCaption_error, MessageBoxButton.OK);
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show(AppResources.ErrorMessage_Interval, AppResources.MessageCaption_error, MessageBoxButton.OK);
+                });
+                return;
             }
 
-            String err = "error";
+            String err = null;
 
             switch (errno)
             {
@@ -579,45 +625,33 @@ namespace WPPMM.CameraManager
                     break;
             }
 
-            MessageBox.Show(err, AppResources.MessageCaption_error, MessageBoxButton.OK);
-        }
-
-        // register EE screen update method
-        public void SetLiveViewUpdateListener(Action<byte[]> action)
-        {
-            LiveViewUpdateListener = action;
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show(err, AppResources.MessageCaption_error, MessageBoxButton.OK);
+            });
         }
 
         // Notice update to UI classes
         internal void NoticeUpdate()
         {
-            UpdateEvent(cameraStatus);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                UpdateEvent(cameraStatus);
+            });
         }
 
         public Action<Picture> PictureNotifier;
 
         public Action MethodTypesUpdateNotifer;
 
-        public Task<int> SetShootModeAsync(string mode)
+        public Task SetShootModeAsync(string mode)
         {
-            var taskCS = new TaskCompletionSource<int>();
-            if (client == null)
+            if (apiClient == null)
             {
                 throw new InvalidOperationException();
             }
-            else
-            {
-                client.SetShootMode(
-                    mode,
-                    (code) => { taskCS.SetResult(code); },
-                    () =>
-                    {
-                        Debug.WriteLine("SetShootModeAsync success");
-                        taskCS.SetResult(0);
-                    }
-                );
-            }
-            return taskCS.Task;
+
+            return apiClient.SetShootModeAsync(mode);
         }
     }
 }

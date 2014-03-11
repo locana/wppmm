@@ -402,7 +402,6 @@ namespace WPPMM
             EntrancePivot.Opacity = 1;
             ShootingPivot.Opacity = 0;
             cameraManager.StopEventObserver();
-            cameraManager.SetLiveViewUpdateListener(null);
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
@@ -556,8 +555,11 @@ namespace WPPMM
 
         public void ShowToast(String message)
         {
-            ToastMessage.Text = message;
-            ToastApparance.Begin();
+            Dispatcher.BeginInvoke(() =>
+            {
+                ToastMessage.Text = message;
+                ToastApparance.Begin();
+            });
         }
 
         void ToastApparance_Completed(object sender, EventArgs e)

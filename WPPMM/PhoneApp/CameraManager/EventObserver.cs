@@ -9,7 +9,7 @@ namespace WPPMM.CameraManager
 {
     public class EventObserver
     {
-        private readonly CameraServiceClient10 client;
+        private readonly CameraApiClient client;
 
         private int failure_count = 0;
 
@@ -29,7 +29,7 @@ namespace WPPMM.CameraManager
             WorkerSupportsCancellation = true
         };
 
-        public EventObserver(CameraServiceClient10 client)
+        public EventObserver(CameraApiClient client)
         {
             this.client = client;
         }
@@ -41,7 +41,7 @@ namespace WPPMM.CameraManager
         /// <param name="OnDetectDifference">Called when the parameter has been changed</param>
         /// <param name="OnStop">Called when event observation is finished with error</param>
         ///
-        public void Start(CameraStatus status, Action<EventMember> OnDetectDifference, Action OnStop)
+        public async void Start(CameraStatus status, Action<EventMember> OnDetectDifference, Action OnStop)
         {
             Debug.WriteLine("EventObserver.Start");
             if (status == null | OnDetectDifference == null || OnStop == null)
@@ -54,7 +54,15 @@ namespace WPPMM.CameraManager
             this.OnStop = OnStop;
             failure_count = RETRY_LIMIT;
             worker.DoWork += AnalyzeEventData;
-            client.GetEvent(false, OnError, OnSuccess);
+            try
+            {
+                var res = await client.GetEventAsync(false);
+                OnSuccess(res);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
         /// <summary>
@@ -66,19 +74,22 @@ namespace WPPMM.CameraManager
             Deactivate();
         }
 
-        public void Refresh()
+        public async void Refresh()
         {
             Debug.WriteLine("EventObserver.Refresh");
-            client.GetEvent(false,
-                (code) => { Debug.WriteLine("GetEvent failed"); },
-                (data) =>
+            try
+            {
+                var res = await client.GetEventAsync(false);
+                Debug.WriteLine("GetEvent for refresh success");
+                if (status != null)
                 {
-                    Debug.WriteLine("GetEvent for refresh success");
-                    if (status != null)
-                    {
-                        Compare(status, data);
-                    }
-                });
+                    Compare(status, res);
+                }
+            }
+            catch (RemoteApiException)
+            {
+                Debug.WriteLine("GetEvent failed");
+            }
         }
 
         private async void OnError(int code)
@@ -190,9 +201,17 @@ namespace WPPMM.CameraManager
                 NotifyChangeDetected(EventMember.ProgramShift);
         }
 
-        private void Call()
+        private async void Call()
         {
-            client.GetEvent(true, OnError, OnSuccess);
+            try
+            {
+                var res = await client.GetEventAsync(true);
+                OnSuccess(res);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
 
         private void NotifyChangeDetected(EventMember target)

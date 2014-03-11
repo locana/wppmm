@@ -76,31 +76,31 @@ namespace WPPMM.CameraManager
                          var selected = picker.SelectedIndex;
                          try
                          {
-                             int code = await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
-                             if (code != StatusCode.OK)
-                             {
-                                 Debug.WriteLine("Failed to set shootmode: " + code);
-                                 Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
-                                 var tmp = status.ShootModeInfo.candidates;
-
-                                 for (int i = 0; i < tmp.Length; i++)
-                                 {
-                                     if (tmp[i] == status.ShootModeInfo.previous)
-                                     {
-                                         Debug.WriteLine("Index of value matched: " + i);
-                                         Deployment.Current.Dispatcher.BeginInvoke(() =>
-                                         {
-                                             picker.SelectedIndex = i;
-                                         });
-                                         break;
-                                     }
-                                 }
-                                 manager.RefreshEventObserver();
-                             }
+                             await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
                          }
                          catch (InvalidOperationException)
                          {
                              Debug.WriteLine("Not ready to call Web API");
+                         }
+                         catch (RemoteApiException e)
+                         {
+                             Debug.WriteLine("Failed to set shootmode: " + e.code);
+                             Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
+                             var tmp = status.ShootModeInfo.candidates;
+
+                             for (int i = 0; i < tmp.Length; i++)
+                             {
+                                 if (tmp[i] == status.ShootModeInfo.previous)
+                                 {
+                                     Debug.WriteLine("Index of value matched: " + i);
+                                     Deployment.Current.Dispatcher.BeginInvoke(() =>
+                                     {
+                                         picker.SelectedIndex = i;
+                                     });
+                                     break;
+                                 }
+                             }
+                             manager.RefreshEventObserver();
                          }
                      }));
             }
@@ -114,16 +114,16 @@ namespace WPPMM.CameraManager
                          var selected = (sender as ListPicker).SelectedIndex;
                          try
                          {
-                             var code = await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
-                             if (code != StatusCode.OK)
-                             {
-                                 Debug.WriteLine("Failed to set selftimer: " + code);
-                                 manager.RefreshEventObserver();
-                             }
+                             await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
                          }
                          catch (InvalidOperationException)
                          {
                              Debug.WriteLine("Not ready to call Web API");
+                         }
+                         catch (RemoteApiException e)
+                         {
+                             Debug.WriteLine("Failed to set selftimer: " + e.code);
+                             manager.RefreshEventObserver();
                          }
                      }));
             }
@@ -137,16 +137,16 @@ namespace WPPMM.CameraManager
                         var selected = (sender as ListPicker).SelectedIndex;
                         try
                         {
-                            var code = await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);
-                            if (code != StatusCode.OK)
-                            {
-                                Debug.WriteLine("Failed to set postview image size: " + code);
-                                manager.RefreshEventObserver();
-                            }
+                            await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);
                         }
                         catch (InvalidOperationException)
                         {
                             Debug.WriteLine("Not ready to call Web API");
+                        }
+                        catch (RemoteApiException e)
+                        {
+                            Debug.WriteLine("Failed to set postview image size: " + e.code);
+                            manager.RefreshEventObserver();
                         }
                     }));
             }

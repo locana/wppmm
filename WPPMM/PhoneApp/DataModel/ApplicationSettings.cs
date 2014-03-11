@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using WPPMM.Utils;
 using WPPMM.CameraManager;
 using WPPMM.RemoteApi;
+using System.Windows;
 
 namespace WPPMM.DataModel
 {
@@ -99,14 +100,17 @@ namespace WPPMM.DataModel
             // Debug.WriteLine("OnProperty changed: " + name);
             if (PropertyChanged != null)
             {
-                try
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(name));
-                }
-                catch (COMException)
-                {
-                    Debug.WriteLine("Caught COMException: ApplicationSettings");
-                }
+                    try
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs(name));
+                    }
+                    catch (COMException)
+                    {
+                        Debug.WriteLine("Caught COMException: ApplicationSettings");
+                    }
+                });
             }
         }
     }

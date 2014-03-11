@@ -63,14 +63,17 @@ namespace WPPMM.DataModel
         {
             if (PropertyChanged != null)
             {
-                try
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(name));
-                }
-                catch (COMException)
-                {
-                    Debug.WriteLine("Caught COMException: ShootingViewData");
-                }
+                    try
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs(name));
+                    }
+                    catch (COMException)
+                    {
+                        Debug.WriteLine("Caught COMException: ShootingViewData");
+                    }
+                });
             }
         }
 

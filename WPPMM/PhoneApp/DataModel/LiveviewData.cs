@@ -26,6 +26,7 @@ namespace WPPMM.DataModel
             //Debug.WriteLine("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
+                // No need to switch to the UI thread. Already on.
                 try
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs(name));

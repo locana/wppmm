@@ -54,6 +54,9 @@ namespace WPPMM
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { ApplicationBar.IsVisible = false; cpm.Show(); });
+            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/ApplicationSetting.xaml", UriKind.Relative)); });
+
+            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -391,6 +394,7 @@ namespace WPPMM
                 {
                     abm.Enable(IconMenu.ControlPanel);
                 }
+                abm.Enable(IconMenu.ApplicationSetting);
 
                 Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
             }
@@ -421,7 +425,7 @@ namespace WPPMM
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
-            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
         }

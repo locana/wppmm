@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.CameraManager;
 using WPPMM.RemoteApi;
+using WPPMM.Utils;
 
 namespace WPPMM.DataModel
 {
@@ -78,8 +79,12 @@ namespace WPPMM.DataModel
         {
             get
             {
+                if (Preference.GetPreference(Preference.display_take_image_button_key)){
                 return (cameraStatus.IsSupported("actTakePicture") || cameraStatus.IsSupported("startMovieRec") || cameraStatus.IsSupported("startAudioRec"))
                     ? Visibility.Visible : Visibility.Collapsed;
+                }else{
+                    return Visibility.Collapsed;
+                }
             }
         }
 

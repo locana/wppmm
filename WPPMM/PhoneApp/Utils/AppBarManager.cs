@@ -27,6 +27,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/ControlPanel.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton AppSettingItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.ApplicationSettings,
+            IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -38,6 +44,7 @@ namespace WPPMM.Utils
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
             IconMenuItems.Add(IconMenu.About, AboutMenuItem);
             IconMenuItems.Add(IconMenu.ControlPanel, ControlPanelItem);
+            IconMenuItems.Add(IconMenu.ApplicationSetting, AppSettingItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -139,6 +146,7 @@ namespace WPPMM.Utils
     {
         WiFi,
         About,
-        ControlPanel
+        ControlPanel,
+        ApplicationSetting,
     }
 }

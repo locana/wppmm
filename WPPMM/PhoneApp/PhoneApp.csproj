@@ -96,10 +96,16 @@
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
     <Compile Include="CameraManager\IntervalShootingManager.cs" />
+    <Compile Include="Controls\CheckBoxSetting.xaml.cs">
+      <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
+    <Compile Include="Pages\ApplicationSetting.xaml.cs">
+      <DependentUpon>ApplicationSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
     <Compile Include="CameraManager\Downloader.cs" />
@@ -132,7 +138,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Controls\CheckBoxSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ApplicationSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

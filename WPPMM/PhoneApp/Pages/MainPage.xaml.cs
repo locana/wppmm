@@ -1,3 +1,4 @@
+using Microsoft.Devices;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Reactive;
@@ -67,7 +68,10 @@ namespace WPPMM
             }
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
+
+            CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
         }
+
 
         internal void cameraManager_OnDisconnected()
         {
@@ -221,7 +225,19 @@ namespace WPPMM
             OnZooming = false;
         }
 
+
+        void CameraButtons_ShutterKeyPressed(object sender, EventArgs e)
+        {
+            RecStartStop();
+        }
+
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            RecStartStop();
+
+        }
+
+        private void RecStartStop()
         {
             if (cameraManager.IntervalManager.IsRunning)
             {
@@ -274,7 +290,6 @@ namespace WPPMM
                     cameraManager.StopAudioRec();
                     break;
             }
-
         }
 
         private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)

@@ -293,4 +293,7 @@
   <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
     <value>Don't worry, you can do it with the shutter button of your phone.</value>
   </data>
+  <data name="AppBar_AppSetting" xml:space="preserve">
+    <value>App. setting</value>
+  </data>
 </root>

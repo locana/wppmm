@@ -24,13 +24,13 @@ namespace WPPMM.Utils
         readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
         {
             Text = AppResources.ControlPanel,
-            IconUri = new Uri("/Assets/AppBar/ControlPanel.png", UriKind.Relative)
+            IconUri = new Uri("/Assets/AppBar/appbar_cameraSetting.png", UriKind.Relative)
         };
 
         readonly ApplicationBarIconButton AppSettingItem = new ApplicationBarIconButton
         {
-            Text = AppResources.ApplicationSettings,
-            IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
+            Text = AppResources.AppBar_AppSetting,
+            IconUri = new Uri("/Assets/AppBar/ControlPanel.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();

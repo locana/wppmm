@@ -70,6 +70,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to App. setting.
+        /// </summary>
+        public static string AppBar_AppSetting {
+            get {
+                return ResourceManager.GetString("AppBar_AppSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application settings.
         /// </summary>
         public static string ApplicationSettings {

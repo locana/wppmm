@@ -108,6 +108,7 @@ namespace WPPMM
         {
             cameraManager.RequestCloseLiveView();
             //LiveViewInit();
+            CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
         }
 
         private void StartConnectionSequence(bool connect)

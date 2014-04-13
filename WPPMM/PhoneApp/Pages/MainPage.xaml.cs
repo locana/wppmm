@@ -354,8 +354,7 @@ namespace WPPMM
 
         private void SettingPageLoaded()
         {
-         
-         
+            ApplicationBar = abm.Clear().CreateNew(0.0);
         }
 
         private async void LiveviewPageLoaded()

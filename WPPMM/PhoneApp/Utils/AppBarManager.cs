@@ -12,7 +12,7 @@ namespace WPPMM.Utils
         readonly ApplicationBarIconButton WifiMenuItem = new ApplicationBarIconButton
         {
             Text = AppResources.WifiSettingLauncherButtonText,
-            IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
+            IconUri = new Uri("/Assets/AppBar/appBar_wifi.png", UriKind.Relative)
         };
 
         readonly ApplicationBarIconButton AboutMenuItem = new ApplicationBarIconButton
@@ -30,7 +30,7 @@ namespace WPPMM.Utils
         readonly ApplicationBarIconButton AppSettingItem = new ApplicationBarIconButton
         {
             Text = AppResources.AppBar_AppSetting,
-            IconUri = new Uri("/Assets/AppBar/ControlPanel.png", UriKind.Relative)
+            IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();

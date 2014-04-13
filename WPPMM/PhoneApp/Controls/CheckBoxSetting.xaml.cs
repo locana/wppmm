@@ -8,35 +8,58 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WPPMM.Utils;
+using WPPMM.DataModel;
 
 namespace WPPMM.Controls
 {
     public partial class CheckBoxSetting : UserControl
     {
-        private string settingKey;
+        private SettingType type;
 
-        public CheckBoxSetting(string title, string guide, string key)
+        public enum SettingType
+        {
+            displayShootbutton,
+        };
+
+        public CheckBoxSetting(string title, string guide, SettingType setting)
         {   
             InitializeComponent();
 
             SettingName.Text = title;
             SettingGuide.Text = guide;
-            settingKey = key;
+            type = setting;
 
             SettingCheckBox.Checked += SettingCheckBox_Checked;
             SettingCheckBox.Unchecked += SettingCheckBox_Unchecked;
 
-            SettingCheckBox.IsChecked = Preference.GetPreference(settingKey);
+            if (ApplicationSettings.GetInstance().IsShootButtonDisplayed)
+            {
+                SettingCheckBox.IsChecked = true;
+            }
+            else
+            {
+                SettingCheckBox.IsChecked = false;
+            }
         }
 
         void SettingCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            Preference.SetPreference(settingKey, false);
+            switch (type)
+            {
+                case SettingType.displayShootbutton:
+                    ApplicationSettings.GetInstance().IsShootButtonDisplayed = false;
+                    break;
+            }
         }
 
         void SettingCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            Preference.SetPreference(settingKey, true);
+            switch (type)
+            {
+                case SettingType.displayShootbutton:
+                    ApplicationSettings.GetInstance().IsShootButtonDisplayed = true;
+                    break;
+            }
         }
     }
 }

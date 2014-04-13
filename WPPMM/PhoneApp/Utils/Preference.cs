@@ -80,6 +80,29 @@ namespace WPPMM.Utils
             settings.Add(interval_time_key, time);
         }
 
+        public static bool IsShootButtonDisplayed()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(display_take_image_button_key))
+            {
+                return (Boolean)settings[display_take_image_button_key];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void SetShootButtonDisplayed(bool enable)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(display_take_image_button_key))
+            {
+                settings.Remove(display_take_image_button_key);
+            }
+            settings.Add(display_take_image_button_key, enable);
+        }
+
         public static void SetPreference(string key, bool enable)
         {
             var settings = IsolatedStorageSettings.ApplicationSettings;

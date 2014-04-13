@@ -127,9 +127,12 @@
                                 <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/audio.png" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
+                        <Grid Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay}">
+                        <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
+                                Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>
+                        </Grid>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -180,6 +183,12 @@
                                    VerticalAlignment="Center" Name="ToastMessage"/>
                     </Grid>
                 </Grid>
+            </phone:PivotItem>
+            <phone:PivotItem CacheMode="{x:Null}" x:Name="SettingPivot">
+                <StackPanel Name="SettingList">
+                    <TextBlock Text="{Binding Path=LocalizedResources.ApplicationSettings, Source={StaticResource LocalizedStrings}}" 
+                               Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                </StackPanel>
             </phone:PivotItem>
         </phone:Pivot>
         <ProgressBar HorizontalAlignment="Stretch" Height="20" Margin="0,0,0,0" x:Name="ProgressBar"

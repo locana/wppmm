@@ -18,6 +18,7 @@ using WPPMM.RemoteApi;
 using WPPMM.Resources;
 using WPPMM.SonyNdefUtils;
 using WPPMM.Utils;
+using WPPMM.Controls;
 
 
 namespace WPPMM
@@ -54,9 +55,9 @@ namespace WPPMM
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { ApplicationBar.IsVisible = false; cpm.Show(); });
-            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/ApplicationSetting.xaml", UriKind.Relative)); });
+            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { MyPivot.SelectedIndex = 2; });
 
-            
+            SettingList.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -73,6 +74,7 @@ namespace WPPMM
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
 
             CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
+
         }
 
 
@@ -344,7 +346,16 @@ namespace WPPMM
                 case 1:
                     LiveviewPageLoaded();
                     break;
+                case 2:
+                    SettingPageLoaded();
+                    break;
             }
+        }
+
+        private void SettingPageLoaded()
+        {
+         
+         
         }
 
         private async void LiveviewPageLoaded()
@@ -525,6 +536,7 @@ namespace WPPMM
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
+            ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm = new ControlPanelManager(ControlPanel);
             cpm.SetPivotIsLocked += this.SetPivotIsLocked;
@@ -542,6 +554,7 @@ namespace WPPMM
             IntervalStatusCount.DataContext = null;
             ScreenImageWrapper.DataContext = null;
             AudioScreenImage.DataContext = null;
+            ShootButtonWrapper.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;

@@ -184,6 +184,7 @@
     <Content Include="Assets\Button\Music.png" />
     <Content Include="Assets\Button\Stop.png" />
     <Content Include="Assets\License.txt" />
+    <Content Include="Assets\Screen\rec.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

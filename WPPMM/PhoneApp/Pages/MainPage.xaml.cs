@@ -519,6 +519,7 @@ namespace WPPMM
             ShootingProgress.DataContext = svd;
             ZoomElements.DataContext = svd;
             Toast.DataContext = svd;
+            RecordingStatus.DataContext = svd;
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
             IntervalStatusTime.DataContext = cameraManager.IntervalManager;
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
@@ -535,6 +536,7 @@ namespace WPPMM
             ShootingProgress.DataContext = null;
             ZoomElements.DataContext = null;
             Toast.DataContext = null;
+            RecordingStatus.DataContext = null;
             IntervalStatusPanel.DataContext = null;
             IntervalStatusTime.DataContext = null;
             IntervalStatusCount.DataContext = null;

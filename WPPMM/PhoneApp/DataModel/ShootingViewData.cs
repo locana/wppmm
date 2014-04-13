@@ -51,6 +51,7 @@ namespace WPPMM.DataModel
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
                         OnPropertyChanged("ShootButtonStatus");
+                        OnPropertyChanged("RecordingStatusVisibility");
                         break;
                     case "ShootModeInfo":
                         OnPropertyChanged("ShootButtonImage");
@@ -156,6 +157,20 @@ namespace WPPMM.DataModel
                             return AudioImage;
                     default:
                         return null;
+                }
+            }
+        }
+
+        public Visibility RecordingStatusVisibility{
+            get
+            {
+                if (cameraStatus.Status == EventParam.MvRecording || cameraStatus.Status == EventParam.AuRecording)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
                 }
             }
         }

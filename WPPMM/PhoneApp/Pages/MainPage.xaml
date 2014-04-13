@@ -160,6 +160,8 @@
                             <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
                             <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
                         </StackPanel>
+                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40, 20" Name="RecordingStatus"
+                               Visibility="{Binding RecordingStatusVisibility, Mode=OneWay}"/>
                     </Grid>
                     <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Source="{Binding postview, Mode=OneWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >

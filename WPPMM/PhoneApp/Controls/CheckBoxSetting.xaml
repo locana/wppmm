@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="15,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -24,6 +24,6 @@
                        FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
         </Grid>
         <TextBlock Grid.Row="1"  TextWrapping="Wrap"
-                   Name="SettingGuide" Text="SettingGuide" Margin="70, 0, 0,0"  Style="{StaticResource PhoneTextSubtleStyle}"/>
+                   Name="SettingGuide" Text="SettingGuide" Margin="85, 0, 0,0"  Style="{StaticResource PhoneTextSubtleStyle}"/>
     </Grid>
 </UserControl>

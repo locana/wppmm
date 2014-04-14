@@ -40,7 +40,13 @@ namespace WPPMM.RemoteApi
             {
                 try
                 {
-                    var result = res as HttpWebResponse;
+                    var result = request.EndGetResponse(res) as HttpWebResponse;
+                    if (result == null)
+                    {
+                        tcs.TrySetException(new RemoteApiException(StatusCode.NetworkError));
+                        Debug.WriteLine("AsyncPostClient: No result");
+                        return;
+                    }
                     var code = result.StatusCode;
                     if (code == HttpStatusCode.OK)
                     {
@@ -50,7 +56,7 @@ namespace WPPMM.RemoteApi
                             if (string.IsNullOrEmpty(resbody))
                                 tcs.TrySetException(new RemoteApiException(StatusCode.IllegalResponse));
                             else
-                                tcs.TrySetResult(body);
+                                tcs.TrySetResult(resbody);
                         }
                     }
                     else

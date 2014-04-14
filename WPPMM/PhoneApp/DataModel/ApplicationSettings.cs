@@ -20,6 +20,7 @@ namespace WPPMM.DataModel
             IsPostviewTransferEnabled = Preference.IsPostviewTransferEnabled();
             IsIntervalShootingEnabled = Preference.IsIntervalShootingEnabled();
             IntervalTime = Preference.IntervalTime();
+            IsShootButtonDisplayed = Preference.IsShootButtonDisplayed();
         }
 
         public static ApplicationSettings GetInstance()
@@ -111,6 +112,40 @@ namespace WPPMM.DataModel
                         Debug.WriteLine("Caught COMException: ApplicationSettings");
                     }
                 });
+            }
+        }
+
+        private bool _IsShootButtonDisplayed = false;
+        public bool IsShootButtonDisplayed
+        {
+            set
+            {
+                if (_IsShootButtonDisplayed != value)
+                {
+                    Preference.SetShootButtonDisplayed(value);
+                    _IsShootButtonDisplayed = value;
+                    OnPropertyChanged("ShootButtonVisibility");
+                    Debug.WriteLine("ShootbuttonVisibility updated: " + value.ToString());
+                }
+            }
+            get
+            {
+                return _IsShootButtonDisplayed;
+            }
+        }
+
+        public Visibility ShootButtonVisibility
+        {
+            get
+            {
+                if (_IsShootButtonDisplayed)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
             }
         }
     }

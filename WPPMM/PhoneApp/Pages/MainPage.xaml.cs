@@ -1,3 +1,4 @@
+using Microsoft.Devices;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Reactive;
@@ -12,6 +13,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using Windows.Networking.Proximity;
 using WPPMM.CameraManager;
+using WPPMM.Controls;
 using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 using WPPMM.Resources;
@@ -53,6 +55,9 @@ namespace WPPMM
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { ApplicationBar.IsVisible = false; cpm.Show(); });
+            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { MyPivot.SelectedIndex = 2; });
+
+            SettingList.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -67,7 +72,11 @@ namespace WPPMM
             }
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
+
+            CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
+
         }
+
 
         internal void cameraManager_OnDisconnected()
         {
@@ -101,6 +110,7 @@ namespace WPPMM
         {
             cameraManager.RequestCloseLiveView();
             //LiveViewInit();
+            CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
         }
 
         private void StartConnectionSequence(bool connect)
@@ -221,7 +231,19 @@ namespace WPPMM
             OnZooming = false;
         }
 
+
+        void CameraButtons_ShutterKeyPressed(object sender, EventArgs e)
+        {
+            RecStartStop();
+        }
+
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            RecStartStop();
+
+        }
+
+        private void RecStartStop()
         {
             if (cameraManager.IntervalManager.IsRunning)
             {
@@ -274,7 +296,6 @@ namespace WPPMM
                     cameraManager.StopAudioRec();
                     break;
             }
-
         }
 
         private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
@@ -325,7 +346,15 @@ namespace WPPMM
                 case 1:
                     LiveviewPageLoaded();
                     break;
+                case 2:
+                    SettingPageLoaded();
+                    break;
             }
+        }
+
+        private void SettingPageLoaded()
+        {
+            ApplicationBar = abm.Clear().CreateNew(0.0);
         }
 
         private async void LiveviewPageLoaded()
@@ -376,6 +405,7 @@ namespace WPPMM
                 {
                     abm.Enable(IconMenu.ControlPanel);
                 }
+                abm.Enable(IconMenu.ApplicationSetting);
 
                 Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
             }
@@ -405,7 +435,7 @@ namespace WPPMM
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
-            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
         }
@@ -498,11 +528,13 @@ namespace WPPMM
             ShootingProgress.DataContext = svd;
             ZoomElements.DataContext = svd;
             Toast.DataContext = svd;
+            RecordingStatus.DataContext = svd;
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
             IntervalStatusTime.DataContext = cameraManager.IntervalManager;
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
+            ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm = new ControlPanelManager(ControlPanel);
             cpm.SetPivotIsLocked += this.SetPivotIsLocked;
@@ -514,11 +546,13 @@ namespace WPPMM
             ShootingProgress.DataContext = null;
             ZoomElements.DataContext = null;
             Toast.DataContext = null;
+            RecordingStatus.DataContext = null;
             IntervalStatusPanel.DataContext = null;
             IntervalStatusTime.DataContext = null;
             IntervalStatusCount.DataContext = null;
             ScreenImageWrapper.DataContext = null;
             AudioScreenImage.DataContext = null;
+            ShootButtonWrapper.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;

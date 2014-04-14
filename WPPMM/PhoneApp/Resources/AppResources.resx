@@ -284,4 +284,16 @@
   <data name="MessageCaption_error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="ApplicationSettings" xml:space="preserve">
+    <value>Application settings</value>
+  </data>
+  <data name="DisplayTakeImageButtonSetting" xml:space="preserve">
+    <value>Display shutter button on the screen.</value>
+  </data>
+  <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
+    <value>Don't worry, you can do it with the shutter button of your phone.</value>
+  </data>
+  <data name="AppBar_AppSetting" xml:space="preserve">
+    <value>App. setting</value>
+  </data>
 </root>

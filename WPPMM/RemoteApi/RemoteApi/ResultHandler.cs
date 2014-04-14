@@ -28,7 +28,7 @@ namespace WPPMM.RemoteApi
                 return;
             }
 
-            List<MethodType> method_types = new List<MethodType>();
+            var method_types = new List<MethodType>();
             foreach (var token in json["results"])
             {
                 var req = new List<string>();

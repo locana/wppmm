@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using WPPMM.CameraManager;
 using WPPMM.RemoteApi;
+using WPPMM.Utils;
 
 namespace WPPMM.DataModel
 {
@@ -50,6 +51,7 @@ namespace WPPMM.DataModel
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
                         OnPropertyChanged("ShootButtonStatus");
+                        OnPropertyChanged("RecordingStatusVisibility");
                         break;
                     case "ShootModeInfo":
                         OnPropertyChanged("ShootButtonImage");
@@ -158,9 +160,23 @@ namespace WPPMM.DataModel
             }
         }
 
+        public Visibility RecordingStatusVisibility{
+            get
+            {
+                if (cameraStatus.Status == EventParam.MvRecording || cameraStatus.Status == EventParam.AuRecording)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+        }
+
         public Visibility ZoomElementVisibility
         {
-            get { return (cameraStatus.IsSupported("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
+            get { return (cameraStatus.IsAvailable("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
         }
 
 

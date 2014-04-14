@@ -285,4 +285,16 @@
   <data name="MessageCaption_error" xml:space="preserve">
     <value>エラー</value>
   </data>
+  <data name="AppBar_AppSetting" xml:space="preserve">
+    <value>アプリ設定</value>
+  </data>
+  <data name="ApplicationSettings" xml:space="preserve">
+    <value>アプリケーション設定</value>
+  </data>
+  <data name="DisplayTakeImageButtonSetting" xml:space="preserve">
+    <value>画面に撮影ボタンを表示する</value>
+  </data>
+  <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
+    <value>非表示にしていても、本体のシャッターボタンで撮影することができます。</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 using Windows.Networking.Proximity;
 using WPPMM.CameraManager;
@@ -368,6 +369,7 @@ namespace WPPMM
             cameraManager.UpdateEvent += LiveViewUpdateListener;
             cameraManager.ShowToast += ShowToast;
             ToastApparance.Completed += ToastApparance_Completed;
+            ScreenImage.ManipulationCompleted += ScreenImage_ManipulationCompleted;
             if (cameraManager.IsClientReady())
             {
                 cameraManager.OperateInitialProcess();
@@ -413,6 +415,17 @@ namespace WPPMM
             ClearNFCInfo();
         }
 
+        void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            Image image = sender as Image;
+            double posX = e.ManipulationOrigin.X * 100.0 / image.ActualWidth;
+            double posY = e.ManipulationOrigin.Y * 100.0 / image.ActualHeight;
+            
+            // Debug.WriteLine("w: " + image.ActualWidth + " h: " + image.ActualHeight);
+            Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
+            cameraManager.RequestTouchAF(posX, posY);
+        }
+
         private Task<bool> PrepareConnectionAsync()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -435,6 +448,7 @@ namespace WPPMM
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
+            ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }

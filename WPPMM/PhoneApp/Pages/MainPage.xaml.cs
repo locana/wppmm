@@ -429,14 +429,13 @@ namespace WPPMM
 
         void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
         {
-            cameraManager.RequestHalfPressShutter(
-                () => {
-                    // succeed
-                    TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneAccentBrush"];
-                },
-                () => {
-                    TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
-                });
+            GeneralTransform trans = ScreenImage.TransformToVisual(null);
+            var point = trans.Transform(new Point());
+            TouchAFPointer.Visibility = System.Windows.Visibility.Visible;
+            TouchAFPointer.Margin = new Thickness(ScreenImage.ActualWidth / 2 + point.X - TouchAFPointer.Width / 2,
+                ScreenImage.ActualHeight / 2 + point.Y - TouchAFPointer.Height / 2, 0, 0);
+
+            cameraManager.RequestHalfPressShutter(OnAFSucceed, OnAFFailed);
         }
 
         void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
@@ -457,7 +456,16 @@ namespace WPPMM
             Debug.WriteLine("w: " + touchX + " h: " + touchY + " " + point.X + " " + point.Y);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
             
-            cameraManager.RequestTouchAF(posX, posY);
+            cameraManager.RequestTouchAF(posX, posY, OnAFSucceed, OnAFFailed);
+        }
+
+        public void OnAFSucceed()
+        {
+            TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneAccentBrush"];
+        }
+
+        public void OnAFFailed() {
+            TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
         }
 
         private Task<bool> PrepareConnectionAsync()

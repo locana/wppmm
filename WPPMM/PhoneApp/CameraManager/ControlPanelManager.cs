@@ -70,7 +70,7 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(CreateStatusPanel("ShootMode", Resources.AppResources.ShootMode,
                      async (sender, arg) =>
                      {
-                         if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null)
+                         if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null || status.ShootModeInfo.candidates.Length == 0)
                              return;
                          var picker = sender as ListPicker;
                          var selected = picker.SelectedIndex;
@@ -109,7 +109,7 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(CreateStatusPanel("SelfTimer", Resources.AppResources.SelfTimer,
                      async (sender, arg) =>
                      {
-                         if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null)
+                         if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null || status.SelfTimerInfo.candidates.Length == 0)
                              return;
                          var selected = (sender as ListPicker).SelectedIndex;
                          try
@@ -132,7 +132,7 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(CreateStatusPanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
                     async (sender, arg) =>
                     {
-                        if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null)
+                        if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null || status.PostviewSizeInfo.candidates.Length == 0)
                             return;
                         var selected = (sender as ListPicker).SelectedIndex;
                         try

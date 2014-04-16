@@ -435,7 +435,7 @@ namespace WPPMM
             TouchAFPointer.Margin = new Thickness(ScreenImage.ActualWidth / 2 + point.X - TouchAFPointer.Width / 2,
                 ScreenImage.ActualHeight / 2 + point.Y - TouchAFPointer.Height / 2, 0, 0);
 
-            cameraManager.RequestHalfPressShutter(OnAFSucceed, OnAFFailed);
+            cameraManager.RequestHalfPressShutter();
         }
 
         void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
@@ -455,8 +455,8 @@ namespace WPPMM
             
             Debug.WriteLine("w: " + touchX + " h: " + touchY + " " + point.X + " " + point.Y);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
-            
-            cameraManager.RequestTouchAF(posX, posY, OnAFSucceed, OnAFFailed);
+
+            cameraManager.RequestTouchAF(posX, posY);
         }
 
         public void OnAFSucceed()

@@ -81,5 +81,10 @@ namespace WPPMM.RemoteApi
         {
             return CreateJson(name, "1.0", prms);
         }
+
+        internal static string Jsonize(string name, params double[] prms)
+        {
+            return CreateJson(name, "1.0", prms);
+        }
     }
 }

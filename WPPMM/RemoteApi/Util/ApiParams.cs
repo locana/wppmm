@@ -46,4 +46,9 @@ namespace WPPMM.RemoteApi
         public const string AuWaitRecStop = "AudioWaitRecStop";
         public const string AuSaving = "AudioSaving";
     }
+
+    public class AfMode
+    {
+        public const string Touch = "Touch";
+    }
 }

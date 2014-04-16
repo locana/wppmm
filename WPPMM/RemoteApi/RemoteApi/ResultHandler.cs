@@ -14,6 +14,22 @@ namespace WPPMM.RemoteApi
     ///
     internal class ResultHandler
     {
+        internal static void HandleSetTouchAFPosition(string jString, Action<int> error, Action<SetAFResult> result)
+        {
+            var json = JObject.Parse(jString);
+            if (BasicResultHandler.HandleError(json, error))
+            {
+                return;
+            }
+
+            var res = json["result"][1];
+            result.Invoke(new SetAFResult
+            {
+                Focused = res["AFResult"].Value<bool>(),
+                Mode = res["AFType"].Value<string>()
+            });
+        }
+
         internal static void HandleGetApplicationInfo(string jString, Action<int> error, Action<ApplicationInfo> result)
         {
             BasicResultHandler.HandleParallelValues<string>(jString, 2, error,

@@ -450,7 +450,6 @@ namespace WPPMM
             GeneralTransform trans = ScreenImage.TransformToVisual(null);
             var point = trans.Transform(new Point());
 
-            TouchAFPointer.Visibility = System.Windows.Visibility.Visible;
             TouchAFPointer.Margin = new Thickness(touchX + point.X - TouchAFPointer.Width / 2, touchY + point.Y - TouchAFPointer.Height / 2, 0, 0);
             
             Debug.WriteLine("w: " + touchX + " h: " + touchY + " " + point.X + " " + point.Y);
@@ -594,6 +593,7 @@ namespace WPPMM
             IntervalStatusCount.DataContext = cameraManager.IntervalManager;
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
+            TouchAFPointer.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm = new ControlPanelManager(ControlPanel);
@@ -613,6 +613,7 @@ namespace WPPMM
             ScreenImageWrapper.DataContext = null;
             AudioScreenImage.DataContext = null;
             ShootButtonWrapper.DataContext = null;
+            TouchAFPointer.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;

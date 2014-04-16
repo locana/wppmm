@@ -115,7 +115,8 @@
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
                                    Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
                         </Grid>
-                        <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{StaticResource PhoneForegroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
+                        <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding TouchAFPointerVisibility, Mode=OneWay}"/>
                         <Rectangle Name="AudioScreenImage" Fill="{StaticResource PhoneForegroundBrush}" 
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="120,50"
                                    Visibility="{Binding AudioScreenVisibility, Mode=OneWay}">

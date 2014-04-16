@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WPPMM.CameraManager;
 using WPPMM.RemoteApi;
@@ -55,6 +56,10 @@ namespace WPPMM.DataModel
                         break;
                     case "ShootModeInfo":
                         OnPropertyChanged("ShootButtonImage");
+                        break;
+                    case "": // todo:
+                        OnPropertyChanged("TouchAFPointerStrokeBrush");
+                        OnPropertyChanged("TouchAFPointerVisibility");
                         break;
                 }
             };
@@ -208,6 +213,16 @@ namespace WPPMM.DataModel
                 }
             }
             get { return IsToastVisible ? Visibility.Visible : Visibility.Collapsed; }
+        }
+
+        public Visibility TouchAFPointerVisibility
+        {
+            get { return Visibility.Visible; }
+        }
+
+        public Brush TouchAFPointerStrokeBrush
+        {
+            get { return (Brush)Application.Current.Resources["PhoneForegroundBrush"]; }
         }
     }
 }

@@ -43,6 +43,9 @@ namespace WPPMM.CameraManager
 
         private EventObserver observer;
 
+        internal event Action OnAFSucceed;
+        internal event Action OnAFFailed;
+
         private LiveviewData _LiveviewImage = new LiveviewData();
         public LiveviewData LiveviewImage
         {
@@ -654,22 +657,45 @@ namespace WPPMM.CameraManager
             return apiClient.SetShootModeAsync(mode);
         }
 
-        public async void RequestTouchAF(double x, double y)
+        public async void RequestTouchAF(double x, double y, Action succeed, Action failed)
         {
+            this.OnAFSucceed = succeed;
+            this.OnAFFailed = failed;
+
             if (apiClient == null)
             {
                 return;
             }
 
-            await apiClient.SetAFPositionAsync(x, y);
+            try
+            {
+                await apiClient.SetAFPositionAsync(x, y);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
+            catch (Exception e)
+            {
+            }
 
         }
 
-        public async void RequestHalfPressShutter()
+        public async void RequestHalfPressShutter(Action succeed, Action failed)
         {
+            this.OnAFSucceed = succeed;
+            this.OnAFFailed = failed;
+
             if (apiClient != null)
             {
-                await apiClient.ActHalfPressShutterAsync();
+                try
+                {
+                    await apiClient.ActHalfPressShutterAsync();
+                }
+                catch (RemoteApiException e)
+                {
+                    OnError(e.code);
+                }
             }
         }
 
@@ -677,7 +703,14 @@ namespace WPPMM.CameraManager
         {
             if (apiClient != null)
             {
-                await apiClient.CancelHalfPressShutterAsync();
+                try
+                {
+                    await apiClient.CancelHalfPressShutterAsync();
+                }
+                catch (RemoteApiException e)
+                {
+                    OnError(e.code);
+                }
             }
         }
     }

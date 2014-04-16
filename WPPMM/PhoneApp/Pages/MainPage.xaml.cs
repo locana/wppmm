@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using Windows.Networking.Proximity;
 using WPPMM.CameraManager;
@@ -375,6 +376,7 @@ namespace WPPMM
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
 
+
             if (cameraManager.IsClientReady())
             {
                 cameraManager.OperateInitialProcess();
@@ -427,18 +429,43 @@ namespace WPPMM
 
         void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
         {
-            cameraManager.RequestHalfPressShutter();
+            GeneralTransform trans = ScreenImage.TransformToVisual(null);
+            var point = trans.Transform(new Point());
+            TouchAFPointer.Visibility = System.Windows.Visibility.Visible;
+            TouchAFPointer.Margin = new Thickness(ScreenImage.ActualWidth / 2 + point.X - TouchAFPointer.Width / 2,
+                ScreenImage.ActualHeight / 2 + point.Y - TouchAFPointer.Height / 2, 0, 0);
+
+            cameraManager.RequestHalfPressShutter(OnAFSucceed, OnAFFailed);
         }
 
         void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             Image image = sender as Image;
-            double posX = e.ManipulationOrigin.X * 100.0 / image.ActualWidth;
-            double posY = e.ManipulationOrigin.Y * 100.0 / image.ActualHeight;
+            var touchX = e.ManipulationOrigin.X;
+            var touchY = e.ManipulationOrigin.Y;
+
+            double posX = touchX * 100.0 / image.ActualWidth;
+            double posY = touchY * 100.0 / image.ActualHeight;
+
+            GeneralTransform trans = ScreenImage.TransformToVisual(null);
+            var point = trans.Transform(new Point());
+
+            TouchAFPointer.Visibility = System.Windows.Visibility.Visible;
+            TouchAFPointer.Margin = new Thickness(touchX + point.X - TouchAFPointer.Width / 2, touchY + point.Y - TouchAFPointer.Height / 2, 0, 0);
             
-            // Debug.WriteLine("w: " + image.ActualWidth + " h: " + image.ActualHeight);
+            Debug.WriteLine("w: " + touchX + " h: " + touchY + " " + point.X + " " + point.Y);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
-            cameraManager.RequestTouchAF(posX, posY);
+            
+            cameraManager.RequestTouchAF(posX, posY, OnAFSucceed, OnAFFailed);
+        }
+
+        public void OnAFSucceed()
+        {
+            TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneAccentBrush"];
+        }
+
+        public void OnAFFailed() {
+            TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
         }
 
         private Task<bool> PrepareConnectionAsync()

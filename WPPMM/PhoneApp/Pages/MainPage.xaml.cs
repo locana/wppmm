@@ -74,7 +74,7 @@ namespace WPPMM
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
 
-            CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
+            
 
         }
 
@@ -111,7 +111,7 @@ namespace WPPMM
         {
             cameraManager.RequestCloseLiveView();
             //LiveViewInit();
-            CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
+            
         }
 
         private void StartConnectionSequence(bool connect)
@@ -370,6 +370,11 @@ namespace WPPMM
             cameraManager.ShowToast += ShowToast;
             ToastApparance.Completed += ToastApparance_Completed;
             ScreenImage.ManipulationCompleted += ScreenImage_ManipulationCompleted;
+
+            CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
+            CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
+            CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
+
             if (cameraManager.IsClientReady())
             {
                 cameraManager.OperateInitialProcess();
@@ -415,6 +420,16 @@ namespace WPPMM
             ClearNFCInfo();
         }
 
+        void CameraButtons_ShutterKeyReleased(object sender, EventArgs e)
+        {
+            cameraManager.CancelHalfPressShutter();
+        }
+
+        void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
+        {
+            cameraManager.RequestHalfPressShutter();
+        }
+
         void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             Image image = sender as Image;
@@ -448,6 +463,10 @@ namespace WPPMM
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
+            CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
+            CameraButtons.ShutterKeyHalfPressed -= CameraButtons_ShutterKeyHalfPressed;
+            CameraButtons.ShutterKeyReleased -= CameraButtons_ShutterKeyReleased;
+
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);
             cameraManager.IntervalManager.Stop();

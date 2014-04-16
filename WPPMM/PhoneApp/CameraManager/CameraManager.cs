@@ -672,5 +672,13 @@ namespace WPPMM.CameraManager
                 await apiClient.ActHalfPressShutterAsync();
             }
         }
+
+        public async void CancelHalfPressShutter()
+        {
+            if (apiClient != null)
+            {
+                await apiClient.CancelHalfPressShutterAsync();
+            }
+        }
     }
 }

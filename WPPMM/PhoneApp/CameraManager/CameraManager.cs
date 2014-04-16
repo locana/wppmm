@@ -665,14 +665,7 @@ namespace WPPMM.CameraManager
             {
                 await apiClient.SetAFPositionAsync(x, y);
             }
-            catch (RemoteApiException e)
-            {
-                OnError(e.code);
-            }
-            catch (Exception e)
-            {
-            }
-
+            catch (RemoteApiException e) { }
         }
 
         public async void RequestHalfPressShutter()
@@ -683,10 +676,7 @@ namespace WPPMM.CameraManager
                 {
                     await apiClient.ActHalfPressShutterAsync();
                 }
-                catch (RemoteApiException e)
-                {
-                    OnError(e.code);
-                }
+                catch (RemoteApiException e) { }
             }
         }
 
@@ -698,10 +688,7 @@ namespace WPPMM.CameraManager
                 {
                     await apiClient.CancelHalfPressShutterAsync();
                 }
-                catch (RemoteApiException e)
-                {
-                    OnError(e.code);
-                }
+                catch (RemoteApiException e) { }
             }
         }
     }

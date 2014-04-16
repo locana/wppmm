@@ -455,15 +455,6 @@ namespace WPPMM
             cameraManager.RequestTouchAF(posX, posY);
         }
 
-        public void OnAFSucceed()
-        {
-            TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneAccentBrush"];
-        }
-
-        public void OnAFFailed() {
-            TouchAFPointer.Stroke = (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
-        }
-
         private Task<bool> PrepareConnectionAsync()
         {
             var tcs = new TaskCompletionSource<bool>();

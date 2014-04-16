@@ -43,6 +43,9 @@ namespace WPPMM.CameraManager
 
         private EventObserver observer;
 
+        internal event Action OnTouchAFSucceed;
+        internal event Action OnTouchAFFailed;
+
         private LiveviewData _LiveviewImage = new LiveviewData();
         public LiveviewData LiveviewImage
         {
@@ -665,8 +668,11 @@ namespace WPPMM.CameraManager
 
         }
 
-        public async void RequestHalfPressShutter()
+        public async void RequestHalfPressShutter(Action succeed, Action failed)
         {
+            this.OnTouchAFSucceed = succeed;
+            this.OnTouchAFFailed = failed;
+
             if (apiClient != null)
             {
                 await apiClient.ActHalfPressShutterAsync();

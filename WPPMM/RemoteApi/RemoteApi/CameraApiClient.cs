@@ -284,5 +284,45 @@ namespace WPPMM.RemoteApi
                 info => result = info);
             return result;
         }
+
+        public async Task ActHalfPressShutterAsync()
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("actHalfPressShutter")),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task CancelHalfPressShutterAsync()
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("cancelHalfPressShutter")),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="x">Percentage of the position to focus in x-axis.</param>
+        /// <param name="y">Percentage of the position to focus in y-axis</param>
+        /// <returns></returns>
+        public async Task<SetAFResult> SetAFPositionAsync(double x, double y)
+        {
+            SetAFResult result = null;
+            ResultHandler.HandleSetTouchAFPosition(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setTouchAFPosition", x, y)),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task CancelTouchAFAsync()
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("cancelTouchAFPosition")),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
     }
 }

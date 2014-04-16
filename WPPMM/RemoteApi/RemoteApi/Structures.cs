@@ -60,4 +60,10 @@ namespace WPPMM.RemoteApi
         public int MinIndex { internal set; get; }
         public int StepDefinition { internal set; get; }
     }
+
+    public class SetAFResult
+    {
+        public bool Focused { internal set; get; }
+        public string Mode { internal set; get; }
+    }
 }

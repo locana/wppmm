@@ -110,13 +110,14 @@
                         </Storyboard>
                     </Grid.Resources>
                     <Grid x:Name="LiveViewScreen" Margin="-15,0">
-                        <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Center" VerticalAlignment="Center"
                               Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay}">
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
-                                   Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
-                        </Grid>
-                        <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
+                                   Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>   
+                            <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
                                    HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding TouchAFPointerVisibility, Mode=OneWay}"/>
+                        </Grid>
+
                         <Rectangle Name="AudioScreenImage" Fill="{StaticResource PhoneForegroundBrush}" 
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="120,50"
                                    Visibility="{Binding AudioScreenVisibility, Mode=OneWay}">

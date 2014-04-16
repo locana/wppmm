@@ -447,12 +447,9 @@ namespace WPPMM
             double posX = touchX * 100.0 / image.ActualWidth;
             double posY = touchY * 100.0 / image.ActualHeight;
 
-            GeneralTransform trans = ScreenImage.TransformToVisual(null);
-            var point = trans.Transform(new Point());
+            TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY  - TouchAFPointer.Height / 2, 0, 0);
 
-            TouchAFPointer.Margin = new Thickness(touchX + point.X - TouchAFPointer.Width / 2, touchY + point.Y - TouchAFPointer.Height / 2, 0, 0);
-            
-            Debug.WriteLine("w: " + touchX + " h: " + touchY + " " + point.X + " " + point.Y);
+            Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
 
             cameraManager.RequestTouchAF(posX, posY);

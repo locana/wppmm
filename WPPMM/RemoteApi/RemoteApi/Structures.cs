@@ -56,14 +56,19 @@ namespace WPPMM.RemoteApi
     public class EvInfo
     {
         public int CurrentIndex { internal set; get; }
-        public int MaxIndex { internal set; get; }
-        public int MinIndex { internal set; get; }
-        public int StepDefinition { internal set; get; }
+        public EvRange Range { internal set; get; }
     }
 
     public class SetAFResult
     {
         public bool Focused { internal set; get; }
         public string Mode { internal set; get; }
+    }
+
+    public class EvRange
+    {
+        public EvStepDefinition IndexStep { internal set; get; }
+        public int MaxIndex { internal set; get; }
+        public int MinIndex { internal set; get; }
     }
 }

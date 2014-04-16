@@ -324,5 +324,120 @@ namespace WPPMM.RemoteApi
                 code => { throw new RemoteApiException(code); },
                 () => { });
         }
+
+        public async Task SetExposureModeAsync(string mode)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setExposureMode", mode)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<string> GetExposureModeAsync()
+        {
+            string result = null;
+            BasicResultHandler.HandleSingleValue<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getExposureMode")),
+                code => { throw new RemoteApiException(code); },
+                mode => result = mode);
+            return result;
+        }
+
+        public async Task<string[]> GetSupportedExposureModeAsync()
+        {
+            string[] result = null;
+            BasicResultHandler.HandleArray<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedExposureMode")),
+                code => { throw new RemoteApiException(code); },
+                mode => result = mode);
+            return result;
+        }
+
+        public async Task<BasicInfo<string>> GetAvailableExposureModeAsync()
+        {
+            BasicInfo<string> result = null;
+            BasicResultHandler.HandleBasicInfo<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableExposureMode")),
+                code => { throw new RemoteApiException(code); },
+                info => result = info);
+            return result;
+        }
+
+        public async Task SetFocusModeAsync(string mode)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setFocusMode", mode)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<string> GetFocusModeAsync()
+        {
+            string result = null;
+            BasicResultHandler.HandleSingleValue<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getFocusMode")),
+                code => { throw new RemoteApiException(code); },
+                mode => result = mode);
+            return result;
+        }
+
+        public async Task<string[]> GetSupportedFocusModeAsync()
+        {
+            string[] result = null;
+            BasicResultHandler.HandleArray<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedFocusMode")),
+                code => { throw new RemoteApiException(code); },
+                mode => result = mode);
+            return result;
+        }
+
+        public async Task<BasicInfo<string>> GetAvailableFocusModeAsync()
+        {
+            BasicInfo<string> result = null;
+            BasicResultHandler.HandleBasicInfo<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableFocusMode")),
+                code => { throw new RemoteApiException(code); },
+                info => result = info);
+            return result;
+        }
+
+        public async Task SetExposureCompensationIndexAsync(int index)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setExposureCompensation", index)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<int> GetExposureCompensationIndexAsync()
+        {
+            int result = -1;
+            BasicResultHandler.HandleSingleValue<int>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getExposureCompensation")),
+                code => { throw new RemoteApiException(code); },
+                mode => result = mode);
+            return result;
+        }
+
+        public async Task<EvRange[]> GetSupportedExposureCompensationAsync()
+        {
+            EvRange[] result = null;
+            ResultHandler.HandleGetSupportedExposureCompensation(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedExposureCompensation")),
+                code => { throw new RemoteApiException(code); },
+                info => result = info);
+            return result;
+        }
+
+        public async Task<EvInfo> GetAvailableExposureCompensationAsync()
+        {
+            EvInfo result = null;
+            BasicResultHandler.HandleParallelValues<int>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableExposureCompensation")),
+                4,
+                code => { throw new RemoteApiException(code); },
+                info => result = new EvInfo { Range = new EvRange { IndexStep = EvConverter.GetDefinition(info[3]), MaxIndex = info[1], MinIndex = info[2] }, CurrentIndex = info[0] });
+            return result;
+        }
     }
 }

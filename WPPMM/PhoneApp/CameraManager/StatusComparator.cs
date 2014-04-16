@@ -151,9 +151,9 @@ namespace WPPMM.CameraManager
             status.EvInfo = latest;
             return previous == null ||
                 previous.CurrentIndex != latest.CurrentIndex ||
-                previous.MaxIndex != latest.MaxIndex ||
-                previous.MinIndex != latest.MinIndex ||
-                previous.StepDefinition != latest.StepDefinition;
+                previous.Range.MaxIndex != latest.Range.MaxIndex ||
+                previous.Range.MinIndex != latest.Range.MinIndex ||
+                previous.Range.IndexStep != latest.Range.IndexStep;
         }
 
         internal static bool IsProgramShiftModified(CameraStatus status, bool? latest)

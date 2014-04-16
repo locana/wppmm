@@ -14,6 +14,8 @@ namespace WPPMM.RemoteApi
             {
                 case 1:
                     return EvStepDefinition.EV_1_3;
+                case 2:
+                    return EvStepDefinition.EV_1_2;
                 default:
                     return EvStepDefinition.Undefined;
             }
@@ -30,6 +32,8 @@ namespace WPPMM.RemoteApi
             {
                 case EvStepDefinition.EV_1_3:
                     return 1;
+                case EvStepDefinition.EV_1_2:
+                    return 2;
                 default:
                     return 0;
             }
@@ -60,6 +64,9 @@ namespace WPPMM.RemoteApi
                 case EvStepDefinition.EV_1_3:
                     by = 0.33f;
                     break;
+                case EvStepDefinition.EV_1_2:
+                    by = 0.5f;
+                    break;
                 default:
                     return 0;
             }
@@ -68,12 +75,13 @@ namespace WPPMM.RemoteApi
         }
     }
 
-    enum EvStepDefinition
+    public enum EvStepDefinition
     {
         Undefined,
         /// <summary>
         /// Increament of the index represents that EV is increased by 0.33.
         /// </summary>
-        EV_1_3
+        EV_1_3,
+        EV_1_2
     }
 }

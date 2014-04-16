@@ -14,6 +14,44 @@ namespace WPPMM.RemoteApi
     ///
     internal class ResultHandler
     {
+        internal static void HandleGetSupportedExposureCompensation(string jString, Action<int> error, Action<EvRange[]> result)
+        {
+            var json = JObject.Parse(jString);
+            if (BasicResultHandler.HandleError(json, error))
+            {
+                return;
+            }
+
+            var maxlist = new List<int>();
+            foreach (int max in json["result"][0].Values<int>())
+            {
+                maxlist.Add(max);
+            }
+
+            var minlist = new List<int>();
+            foreach (int min in json["result"][1].Values<int>())
+            {
+                minlist.Add(min);
+            }
+
+            var deflist = new List<int>();
+            foreach (int def in json["result"][2].Values<int>())
+            {
+                deflist.Add(def);
+            }
+
+            if (maxlist.Count != minlist.Count || minlist.Count != deflist.Count)
+            {
+                error.Invoke(StatusCode.IllegalResponse);
+            }
+            var tmp = new List<EvRange>();
+            for (int i = 0; i < maxlist.Count; i++)
+            {
+                tmp.Add(new EvRange { IndexStep = EvConverter.GetDefinition(deflist[i]), MaxIndex = maxlist[i], MinIndex = minlist[i] });
+            }
+            result.Invoke(tmp.ToArray());
+        }
+
         internal static void HandleSetTouchAFPosition(string jString, Action<int> error, Action<SetAFResult> result)
         {
             var json = JObject.Parse(jString);
@@ -187,10 +225,13 @@ namespace WPPMM.RemoteApi
             {
                 ev = new EvInfo
                 {
-                    MaxIndex = jEV.Value<int>("maxExposureCompensation"),
-                    MinIndex = jEV.Value<int>("minExposureCompensation"),
                     CurrentIndex = jEV.Value<int>("currentExposureCompensation"),
-                    StepDefinition = jEV.Value<int>("stepIndexOfExposureCompensation")
+                    Range = new EvRange
+                    {
+                        MaxIndex = jEV.Value<int>("maxExposureCompensation"),
+                        MinIndex = jEV.Value<int>("minExposureCompensation"),
+                        IndexStep = EvConverter.GetDefinition(jEV.Value<int>("stepIndexOfExposureCompensation"))
+                    }
                 };
             }
 

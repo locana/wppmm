@@ -63,8 +63,8 @@ namespace WPPMM.RemoteApi
             var res = json["result"][1];
             result.Invoke(new SetAFResult
             {
-                Focused = res["AFResult"].Value<bool>(),
-                Mode = res["AFType"].Value<string>()
+                Focused = res.Value<bool>("AFResult"),
+                Mode = res.Value<string>("AFType")
             });
         }
 

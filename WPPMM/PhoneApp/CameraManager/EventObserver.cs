@@ -248,6 +248,10 @@ namespace WPPMM.CameraManager
         FNumber,
         ISOSpeedRate,
         EVInfo,
-        ProgramShift
+        ProgramShift,
+        TouchAFStatus,
+        PictureURLs,
+        LiveviewOrientation,
+        BeepMode,
     }
 }

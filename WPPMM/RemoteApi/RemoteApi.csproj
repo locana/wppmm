@@ -87,6 +87,7 @@
     <Compile Include="RemoteApi\BasicResultHandler.cs" />
     <Compile Include="RemoteApi\CameraApiClient.cs" />
     <Compile Include="RemoteApi\RemoteApiException.cs" />
+    <Compile Include="RemoteApi\SystemApiClient.cs" />
     <Compile Include="Util\ApiParams.cs" />
     <Compile Include="RemoteApi\RequestGenerator.cs" />
     <Compile Include="RemoteApi\ResultHandler.cs" />

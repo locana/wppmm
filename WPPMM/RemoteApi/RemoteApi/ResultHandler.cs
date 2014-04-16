@@ -185,6 +185,44 @@ namespace WPPMM.RemoteApi
                 jLiveview.Value<bool>("liveviewStatus");
             }
 
+            var jlvo = jResult[4];
+            string lv_orientation = null;
+            if (jlvo.HasValues)
+            {
+                jlvo.Value<string>("liveviewOrientation");
+            }
+
+            var jpicurls = jResult[5];
+            string[] pic_urls = null;
+            if (jpicurls.HasValues)
+            {
+                var tmp = new List<string>();
+                foreach (var obj in jpicurls.Children())
+                {
+                    foreach (var url in obj["takePictureUrl"].Values<string>())
+                    {
+                        tmp.Add(url);
+                    }
+                }
+                pic_urls = tmp.ToArray();
+            }
+
+            var jbeep = jResult[11];
+            BasicInfo<string> beep = null;
+            if (jbeep.HasValues)
+            {
+                var bcand = new List<string>();
+                foreach (var str in jbeep["beepModeCandidates"].Values<string>())
+                {
+                    bcand.Add(str);
+                }
+                beep = new BasicInfo<string>
+                {
+                    current = jbeep.Value<string>("currentBeepMode"),
+                    candidates = bcand.ToArray()
+                };
+            }
+
             var jExposureMode = jResult[18];
             BasicInfo<string> exposure = null;
             if (jExposureMode.HasValues)
@@ -320,6 +358,16 @@ namespace WPPMM.RemoteApi
                 };
             }
 
+            var jtaf = jResult[34];
+            TouchAFStatus tafs = null;
+            if (jtaf.HasValues)
+            {
+                tafs = new TouchAFStatus
+                {
+                    Focused = jtaf.Value<bool>("currentSet")
+                };
+            }
+
             result.Invoke(new Event()
             {
                 AvailableApis = apis,
@@ -334,7 +382,11 @@ namespace WPPMM.RemoteApi
                 ShutterSpeed = ss,
                 EvInfo = ev,
                 ExposureMode = exposure,
-                ProgramShiftActivated = ps
+                ProgramShiftActivated = ps,
+                LiveviewOrientation = lv_orientation,
+                TouchAFStatus = tafs,
+                BeepMode = beep,
+                PictureUrls = pic_urls
             });
         }
     }

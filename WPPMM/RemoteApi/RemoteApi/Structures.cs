@@ -52,6 +52,10 @@ namespace WPPMM.RemoteApi
         public BasicInfo<string> FNumber { internal set; get; }
         public EvInfo EvInfo { internal set; get; }
         public bool? ProgramShiftActivated { internal set; get; }
+        public TouchAFStatus TouchAFStatus { internal set; get; }
+        public string[] PictureUrls { internal set; get; }
+        public BasicInfo<string> BeepMode { internal set; get; }
+        public string LiveviewOrientation { internal set; get; }
     }
 
     public class EvInfo

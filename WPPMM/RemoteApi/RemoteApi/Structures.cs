@@ -65,6 +65,11 @@ namespace WPPMM.RemoteApi
         public string Mode { internal set; get; }
     }
 
+    public class TouchAFStatus
+    {
+        public bool Focused { internal set; get; }
+    }
+
     public class EvRange
     {
         public EvStepDefinition IndexStep { internal set; get; }

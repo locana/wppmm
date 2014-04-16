@@ -317,6 +317,16 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
+        public async Task<TouchAFStatus> GetTouchAFStatus()
+        {
+            TouchAFStatus result = null;
+            ResultHandler.HandleGetTouchAFPosition(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getTouchAFPosition")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
         public async Task CancelTouchAFAsync()
         {
             BasicResultHandler.HandleNoValue(

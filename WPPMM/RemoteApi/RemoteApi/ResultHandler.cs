@@ -14,6 +14,21 @@ namespace WPPMM.RemoteApi
     ///
     internal class ResultHandler
     {
+        internal static void HandleGetCurrentTime(string jString, Action<int> error, Action<DateTimeOffset> result)
+        {
+            var json = JObject.Parse(jString);
+            if (BasicResultHandler.HandleError(json, error))
+            {
+                return;
+            }
+
+            DateTime dt = DateTime.Parse(json["result"][0].Value<string>("dateTime"));
+            int timezone = json["result"][1].Value<int>("timeZoneOffsetMinute");
+            int dst = json["result"][2].Value<int>("dstOffsetMinute");
+            DateTimeOffset dto = new DateTimeOffset(dt, TimeSpan.FromMinutes(timezone + dst));
+            result.Invoke(dto);
+        }
+
         internal static void HandleGetTouchAFPosition(string jString, Action<int> error, Action<TouchAFStatus> result)
         {
             var json = JObject.Parse(jString);

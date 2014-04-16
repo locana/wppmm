@@ -1,4 +1,5 @@
 
+using System;
 namespace WPPMM.RemoteApi
 {
     public class ZoomInfo

@@ -317,7 +317,7 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<TouchAFStatus> GetTouchAFStatus()
+        public async Task<TouchAFStatus> GetTouchAFStatusAsync()
         {
             TouchAFStatus result = null;
             ResultHandler.HandleGetTouchAFPosition(

@@ -53,6 +53,7 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("ShootButtonImage");
                         OnPropertyChanged("ShootButtonStatus");
                         OnPropertyChanged("RecordingStatusVisibility");
+                        OnPropertyChanged("TouchAFPointerVisibility");
                         break;
                     case "ShootModeInfo":
                         OnPropertyChanged("ShootButtonImage");
@@ -165,7 +166,8 @@ namespace WPPMM.DataModel
             }
         }
 
-        public Visibility RecordingStatusVisibility{
+        public Visibility RecordingStatusVisibility
+        {
             get
             {
                 if (cameraStatus.Status == EventParam.MvRecording || cameraStatus.Status == EventParam.AuRecording)
@@ -217,7 +219,17 @@ namespace WPPMM.DataModel
 
         public Visibility TouchAFPointerVisibility
         {
-            get { return Visibility.Visible; }
+            get
+            {
+                if (cameraStatus.IsAvailable("setTouchAFPosition"))
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
         }
 
         public Brush TouchAFPointerStrokeBrush

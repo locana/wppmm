@@ -445,6 +445,11 @@ namespace WPPMM
 
         void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
+            if (!cameraManager.IsTouchAfAvailable())
+            {
+                return;
+            }
+
             Image image = sender as Image;
             var touchX = e.ManipulationOrigin.X;
             var touchY = e.ManipulationOrigin.Y;

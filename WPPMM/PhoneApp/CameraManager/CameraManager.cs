@@ -682,6 +682,18 @@ namespace WPPMM.CameraManager
             catch (RemoteApiException e) { }
         }
 
+        public bool IsTouchAfAvailable()
+        {
+            if (_cameraStatus != null)
+            {
+                return _cameraStatus.IsAvailable("setTouchAFPosition");
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async void RequestHalfPressShutter()
         {
             if (apiClient != null)

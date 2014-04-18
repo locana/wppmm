@@ -161,6 +161,7 @@
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
     <Content Include="Assets\AppBar\appbar_cameraSetting.png" />
+    <Content Include="Assets\AppBar\appBar_cancel.png" />
     <Content Include="Assets\AppBar\appBar_wifi.png" />
     <Content Include="Assets\AppBar\ControlPanel.png" />
     <Content Include="Assets\AppBar\feature.settings.png">

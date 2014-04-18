@@ -79,6 +79,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel AF.
+        /// </summary>
+        public static string AppBar_CancelTouchAf {
+            get {
+                return ResourceManager.GetString("AppBar_CancelTouchAf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application settings.
         /// </summary>
         public static string ApplicationSettings {

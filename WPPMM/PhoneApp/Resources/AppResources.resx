@@ -296,4 +296,7 @@
   <data name="AppBar_AppSetting" xml:space="preserve">
     <value>App. setting</value>
   </data>
+  <data name="AppBar_CancelTouchAf" xml:space="preserve">
+    <value>Cancel AF</value>
+  </data>
 </root>

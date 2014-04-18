@@ -297,4 +297,7 @@
   <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
     <value>非表示にしていても、本体のシャッターボタンで撮影することができます。</value>
   </data>
+  <data name="AppBar_CancelTouchAf" xml:space="preserve">
+    <value>Cancel AF</value>
+  </data>
 </root>

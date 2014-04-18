@@ -58,6 +58,11 @@ namespace WPPMM
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { ApplicationBar.IsVisible = false; cpm.Show(); });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { MyPivot.SelectedIndex = 2; });
+            abm.SetEvent(IconMenu.TouchAfCancel, (sender, e) =>
+            {
+                if (cameraManager != null) { cameraManager.CancelTouchAF(); }
+                ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+            });
 
             SettingList.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
         }
@@ -451,6 +456,8 @@ namespace WPPMM
 
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
+
+            ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
 
             cameraManager.RequestTouchAF(posX, posY);
         }

@@ -668,6 +668,20 @@ namespace WPPMM.CameraManager
             catch (RemoteApiException e) { }
         }
 
+        public async void CancelTouchAF()
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+
+            try
+            {
+                await apiClient.CancelTouchAFAsync();
+            }
+            catch (RemoteApiException e) { }
+        }
+
         public async void RequestHalfPressShutter()
         {
             if (apiClient != null)

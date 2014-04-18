@@ -33,6 +33,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/feature.settings.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton TouchAfCancelItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.AppBar_CancelTouchAf,
+            IconUri = new Uri("/Assets/AppBar/appBar_cancel.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -45,6 +51,7 @@ namespace WPPMM.Utils
             IconMenuItems.Add(IconMenu.About, AboutMenuItem);
             IconMenuItems.Add(IconMenu.ControlPanel, ControlPanelItem);
             IconMenuItems.Add(IconMenu.ApplicationSetting, AppSettingItem);
+            IconMenuItems.Add(IconMenu.TouchAfCancel, TouchAfCancelItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -148,5 +155,6 @@ namespace WPPMM.Utils
         About,
         ControlPanel,
         ApplicationSetting,
+        TouchAfCancel,
     }
 }

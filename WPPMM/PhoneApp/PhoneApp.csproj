@@ -96,6 +96,7 @@
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
     <Compile Include="CameraManager\IntervalShootingManager.cs" />
+    <Compile Include="CameraManager\ServerVersion.cs" />
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
     </Compile>

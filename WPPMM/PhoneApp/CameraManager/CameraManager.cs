@@ -141,6 +141,19 @@ namespace WPPMM.CameraManager
             if (apiClient == null)
                 return;
 
+            var info = await apiClient.GetApplicationInfoAsync();
+            Debug.WriteLine("Server Info: " + info.name + " ver " + info.version);
+            try
+            {
+                cameraStatus.Version = new ServerVersion(info.version);
+            }
+            catch (ArgumentException e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Server version is invalid. Treat this as 2.0.0 device");
+                cameraStatus.Version = ServerVersion.CreateDefault();
+            }
+
             if (cameraStatus.IsSupported("startRecMode"))
             {
                 try

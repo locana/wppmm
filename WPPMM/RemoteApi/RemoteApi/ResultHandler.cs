@@ -89,10 +89,10 @@ namespace WPPMM.RemoteApi
             result.Invoke(tmp.ToArray());
         }
 
-        internal static void HandleGetApplicationInfo(string jString, Action<int> error, Action<ApplicationInfo> result)
+        internal static void HandleGetApplicationInfo(string jString, Action<int> error, Action<ServerAppInfo> result)
         {
             BasicResultHandler.HandleParallelValues<string>(jString, 2, error,
-                (array) => { result.Invoke(new ApplicationInfo { name = array[0], version = array[1] }); });
+                (array) => { result.Invoke(new ServerAppInfo { name = array[0], version = array[1] }); });
         }
 
         internal static void HandleGetMethodTypes(string jString, Action<int> error, Action<MethodType[]> result)
@@ -135,7 +135,7 @@ namespace WPPMM.RemoteApi
                 return;
             }
 
-            var jResult = json["result"];
+            var jResult = json["result"] as JArray;
 
             var jApi = jResult[0];
             string[] apis = null;
@@ -211,6 +211,22 @@ namespace WPPMM.RemoteApi
                 {
                     current = jbeep.Value<string>("currentBeepMode"),
                     candidates = bcand.ToArray()
+                };
+            }
+
+            var jssize = jResult[14];
+            StillImageSizeEvent sis = null;
+            if (jssize.HasValues)
+            {
+
+                sis = new StillImageSizeEvent
+                {
+                    Current = new StillImageSize
+                    {
+                        AspectRatio = jssize.Value<string>("currentAspect"),
+                        SizeDefinition = jssize.Value<string>("currentSize")
+                    },
+                    CapabilityChanged = jssize.Value<bool>("checkAvailability")
                 };
             }
 
@@ -310,6 +326,22 @@ namespace WPPMM.RemoteApi
                 };
             }
 
+            var jFM = jResult[28];
+            Capability<string> fm = null;
+            if (jFM.HasValues)
+            {
+                var candidates = new List<string>();
+                foreach (var str in jFM["focusModeCandidates"].Values<string>())
+                {
+                    candidates.Add(str);
+                }
+                fm = new Capability<string>
+                {
+                    current = jFM.Value<string>("currentFocusMode"),
+                    candidates = candidates.ToArray()
+                };
+            }
+
             var jIso = jResult[29];
             Capability<string> iso = null;
             if (jIso.HasValues)
@@ -349,6 +381,22 @@ namespace WPPMM.RemoteApi
                 };
             }
 
+
+            var jwb = jResult[33];
+            WhiteBalanceEvent wb = null;
+            if (jwb.HasValues)
+            {
+                wb = new WhiteBalanceEvent
+                {
+                    Current = new WhiteBalance
+                    {
+                        Mode = jwb.Value<string>("currentWhiteBalanceMode"),
+                        ColorTemperature = jwb.Value<int>("currentColorTemperature")
+                    },
+                    CapabilityChanged = jwb.Value<bool>("checkAvailability")
+                };
+            }
+
             var jtaf = jResult[34];
             TouchFocusStatus tafs = null;
             if (jtaf.HasValues)
@@ -358,6 +406,17 @@ namespace WPPMM.RemoteApi
                     Focused = jtaf.Value<bool>("currentSet")
                 };
             }
+
+            string fs = null;
+            if (jResult.Count > 35) // GetEvent version 1.1
+            {
+                var jfs = jResult[35];
+                if (jfs != null && jfs.HasValues)
+                {
+                    fs = jfs.Value<string>("focusStatus");
+                }
+            }
+
 
             result.Invoke(new Event()
             {
@@ -377,7 +436,10 @@ namespace WPPMM.RemoteApi
                 LiveviewOrientation = lv_orientation,
                 TouchAFStatus = tafs,
                 BeepMode = beep,
-                PictureUrls = pic_urls
+                PictureUrls = pic_urls,
+                StillImageSize = sis,
+                WhiteBalance = wb,
+                FocusStatus = fs
             });
         }
     }

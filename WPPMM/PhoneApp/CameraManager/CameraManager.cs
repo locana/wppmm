@@ -21,7 +21,6 @@ namespace WPPMM.CameraManager
         private static CameraManager cameraManager = new CameraManager();
 
         private const int TIMEOUT = 10;
-        public const String apiVersion = "1.0";
 
         public DeviceInfo DeviceInfo;
 
@@ -106,7 +105,7 @@ namespace WPPMM.CameraManager
 
         public bool IsClientReady()
         {
-            return apiClient != null && cameraStatus.MethodTypes.Count != 0;
+            return apiClient != null && cameraStatus.SupportedApis.Count != 0;
         }
 
         public void Refresh()
@@ -142,7 +141,7 @@ namespace WPPMM.CameraManager
             if (apiClient == null)
                 return;
 
-            if (cameraStatus.MethodTypes.Contains("startRecMode"))
+            if (cameraStatus.IsSupported("startRecMode"))
             {
                 try
                 {
@@ -291,13 +290,22 @@ namespace WPPMM.CameraManager
 
             try
             {
-                var methodTypes = await apiClient.GetMethodTypesAsync(apiVersion);
-                var list = new List<string>();
+                var methodTypes = await apiClient.GetMethodTypesAsync(); // Empty string means get all methods in all versions.
+                var list = new Dictionary<string, List<string>>();
                 foreach (MethodType t in methodTypes)
                 {
-                    list.Add(t.name);
+                    if (list.ContainsKey(t.name))
+                    {
+                        list[t.name].Add(t.version);
+                    }
+                    else
+                    {
+                        var versions = new List<string>();
+                        versions.Add(t.version);
+                        list.Add(t.name, versions);
+                    }
                 }
-                cameraStatus.MethodTypes = list;
+                cameraStatus.SupportedApis = list;
                 if (MethodTypesUpdateNotifer != null)
                 {
                     MethodTypesUpdateNotifer.Invoke(); // Notify before call OnFound to update contents of control panel.
@@ -550,7 +558,8 @@ namespace WPPMM.CameraManager
                     {
                         this.OnDisconnected();
                     }
-                });
+                },
+                cameraStatus.IsSupported("getEvent", "1.1") ? ApiVersion.V1_1 : ApiVersion.V1_0); // Use higher version
         }
 
         public void StopEventObserver()

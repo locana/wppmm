@@ -80,7 +80,7 @@ namespace WPPMM
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
 
-            
+
 
         }
 
@@ -117,7 +117,7 @@ namespace WPPMM
         {
             cameraManager.RequestCloseLiveView();
             //LiveViewInit();
-            
+
         }
 
         private void StartConnectionSequence(bool connect)
@@ -197,11 +197,6 @@ namespace WPPMM
                 }
                 NetworkStatus.Text = AppResources.ConnectedDevice.Replace("_ssid_", modelName);
                 GuideMessage.Visibility = System.Windows.Visibility.Visible;
-            }
-
-            if (cameraStatus.isAvailableConnecting && cameraStatus.MethodTypes != null)
-            {
-
             }
         }
 
@@ -457,7 +452,7 @@ namespace WPPMM
             double posX = touchX * 100.0 / image.ActualWidth;
             double posY = touchY * 100.0 / image.ActualHeight;
 
-            TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY  - TouchAFPointer.Height / 2, 0, 0);
+            TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
 
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);

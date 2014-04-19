@@ -23,6 +23,8 @@ namespace WPPMM.CameraManager
 
         private Action OnStop = null;
 
+        private ApiVersion version = ApiVersion.V1_0;
+
         private BackgroundWorker worker = new BackgroundWorker()
         {
             WorkerReportsProgress = false,
@@ -41,7 +43,7 @@ namespace WPPMM.CameraManager
         /// <param name="OnDetectDifference">Called when the parameter has been changed</param>
         /// <param name="OnStop">Called when event observation is finished with error</param>
         ///
-        public async void Start(CameraStatus status, Action<EventMember> OnDetectDifference, Action OnStop)
+        public async void Start(CameraStatus status, Action<EventMember> OnDetectDifference, Action OnStop, ApiVersion version)
         {
             Debug.WriteLine("EventObserver.Start");
             if (status == null | OnDetectDifference == null || OnStop == null)
@@ -52,11 +54,12 @@ namespace WPPMM.CameraManager
             this.status = status;
             this.OnDetectDifference = OnDetectDifference;
             this.OnStop = OnStop;
+            this.version = version;
             failure_count = RETRY_LIMIT;
             worker.DoWork += AnalyzeEventData;
             try
             {
-                var res = await client.GetEventAsync(false);
+                var res = await client.GetEventAsync(false, version);
                 OnSuccess(res);
             }
             catch (RemoteApiException e)
@@ -79,7 +82,7 @@ namespace WPPMM.CameraManager
             Debug.WriteLine("EventObserver.Refresh");
             try
             {
-                var res = await client.GetEventAsync(false);
+                var res = await client.GetEventAsync(false, version);
                 Debug.WriteLine("GetEvent for refresh success");
                 if (status != null)
                 {
@@ -205,7 +208,7 @@ namespace WPPMM.CameraManager
         {
             try
             {
-                var res = await client.GetEventAsync(true);
+                var res = await client.GetEventAsync(true, version);
                 OnSuccess(res);
             }
             catch (RemoteApiException e)

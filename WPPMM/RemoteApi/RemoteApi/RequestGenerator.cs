@@ -47,21 +47,21 @@ namespace WPPMM.RemoteApi
         /// <returns></returns>
         internal static string Jsonize(string name, params object[] prms)
         {
-            return Jsonize(name, Version.V1_0, prms);
+            return Jsonize(name, ApiVersion.V1_0, prms);
         }
 
-        internal static string Jsonize(string name, Version version, params object[] prms)
+        internal static string Jsonize(string name, ApiVersion version, params object[] prms)
         {
             return CreateJson(name, ToString(version), prms);
         }
 
-        private static string ToString(Version version)
+        private static string ToString(ApiVersion version)
         {
             switch (version)
             {
-                case Version.V1_0:
+                case ApiVersion.V1_0:
                     return "1.0";
-                case Version.V1_1:
+                case ApiVersion.V1_1:
                     return "1.1";
                 default:
                     throw new System.InvalidOperationException("Version " + version + " is not supported.");
@@ -69,7 +69,7 @@ namespace WPPMM.RemoteApi
         }
     }
 
-    internal enum Version
+    public enum ApiVersion
     {
         V1_0,
         V1_1

@@ -25,17 +25,17 @@ namespace WPPMM.RemoteApi
         /// </summary>
         /// <param name="longpolling">Set true for event notification, false for immediate response.</param>
         /// <returns></returns>
-        public async Task<Event> GetEventAsync(bool longpolling)
+        public async Task<Event> GetEventAsync(bool longpolling, ApiVersion version = ApiVersion.V1_0)
         {
             Event result = null;
             ResultHandler.HandleGetEvent(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getEvent", longpolling)),
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getEvent", version, longpolling)),
                 code => { throw new RemoteApiException(code); },
                 @event => result = @event);
             return result;
         }
 
-        public async Task<MethodType[]> GetMethodTypesAsync(string version)
+        public async Task<MethodType[]> GetMethodTypesAsync(string version = "")
         {
             MethodType[] result = null;
             ResultHandler.HandleGetMethodTypes(
@@ -55,9 +55,9 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<ApplicationInfo> GetApplicationInfoAsync()
+        public async Task<ServerAppInfo> GetApplicationInfoAsync()
         {
-            ApplicationInfo result = null;
+            ServerAppInfo result = null;
             ResultHandler.HandleGetApplicationInfo(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getApplicationInfo")),
                 code => { throw new RemoteApiException(code); },

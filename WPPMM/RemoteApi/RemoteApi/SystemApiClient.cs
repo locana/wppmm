@@ -30,7 +30,7 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<MethodType[]> GetMethodTypesAsync(string version)
+        public async Task<MethodType[]> GetMethodTypesAsync(string version = "")
         {
             MethodType[] result = null;
             ResultHandler.HandleGetMethodTypes(

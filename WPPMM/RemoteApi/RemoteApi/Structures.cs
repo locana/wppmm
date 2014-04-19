@@ -28,7 +28,7 @@ namespace WPPMM.RemoteApi
         public string version { set; get; }
     }
 
-    public class ApplicationInfo
+    public class ServerAppInfo
     {
         public string name { set; get; }
         public string version { set; get; }
@@ -56,6 +56,9 @@ namespace WPPMM.RemoteApi
         public string[] PictureUrls { internal set; get; }
         public Capability<string> BeepMode { internal set; get; }
         public string LiveviewOrientation { internal set; get; }
+        public WhiteBalanceEvent WhiteBalance { internal set; get; }
+        public StillImageSizeEvent StillImageSize { internal set; get; }
+        public string FocusStatus { internal set; get; }
     }
 
     public class EvCapability
@@ -95,6 +98,12 @@ namespace WPPMM.RemoteApi
         public string SizeDefinition { set; get; }
     }
 
+    public class StillImageSizeEvent
+    {
+        public bool CapabilityChanged { internal set; get; }
+        public StillImageSize Current { internal set; get; }
+    }
+
     public class WhiteBalanceCapability
     {
         public WhiteBalance current { internal set; get; }
@@ -114,6 +123,12 @@ namespace WPPMM.RemoteApi
             set { _ColorTemperature = value; }
             get { return _ColorTemperature; }
         }
+    }
+
+    public class WhiteBalanceEvent
+    {
+        public bool CapabilityChanged { internal set; get; }
+        public WhiteBalance Current { internal set; get; }
     }
 
     public class WhiteBalanceCandidate

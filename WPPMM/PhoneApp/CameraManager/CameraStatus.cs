@@ -20,6 +20,13 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        public enum AutoFocusType
+        {
+            None,
+            HalfPress,
+            Touch,
+        }
+
         private Dictionary<string, List<string>> _SupportedApis = null;
         public Dictionary<string, List<string>> SupportedApis
         {
@@ -257,6 +264,8 @@ namespace WPPMM.CameraManager
             }
             get { return _FocusStatus; }
         }
+
+        public AutoFocusType AfType { get; set; }
 
         public Visibility LiveviewScreenVisibility
         {

@@ -670,6 +670,7 @@ namespace WPPMM.CameraManager
                 return;
             }
 
+            _cameraStatus.AfType = CameraStatus.AutoFocusType.Touch;
             _cameraStatus.FocusStatus = RemoteApi.FocusState.InProgress;
 
             try
@@ -692,6 +693,8 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
+
+            _cameraStatus.AfType = CameraStatus.AutoFocusType.None;
 
             try
             {
@@ -716,6 +719,7 @@ namespace WPPMM.CameraManager
         {
             if (apiClient != null)
             {
+                _cameraStatus.AfType = CameraStatus.AutoFocusType.HalfPress;
                 try
                 {
                     await apiClient.ActHalfPressShutterAsync();
@@ -728,6 +732,7 @@ namespace WPPMM.CameraManager
         {
             if (apiClient != null)
             {
+                _cameraStatus.AfType = CameraStatus.AutoFocusType.None;
                 try
                 {
                     await apiClient.CancelHalfPressShutterAsync();

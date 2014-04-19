@@ -431,8 +431,7 @@ namespace WPPMM
         {
             GeneralTransform trans = ScreenImage.TransformToVisual(null);
             var point = trans.Transform(new Point());
-            TouchAFPointer.Margin = new Thickness(ScreenImage.ActualWidth / 2 + point.X - TouchAFPointer.Width / 2,
-                ScreenImage.ActualHeight / 2 + point.Y - TouchAFPointer.Height / 2, 0, 0);
+
 
             cameraManager.RequestHalfPressShutter();
         }

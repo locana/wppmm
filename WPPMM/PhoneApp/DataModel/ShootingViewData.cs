@@ -239,7 +239,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FocusStatus == null)
+                if (cameraStatus == null || cameraStatus.FocusStatus == null || cameraStatus.AfType != CameraStatus.AutoFocusType.Touch)
                 {
                     return Visibility.Collapsed;
                 }

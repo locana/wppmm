@@ -717,5 +717,20 @@ namespace WPPMM.CameraManager
                 catch (RemoteApiException e) { }
             }
         }
+
+        public async void SetExporeMode(String mode)
+        {
+            if (apiClient != null)
+            {
+                try
+                {
+                    await apiClient.SetExposureModeAsync(mode);
+                }
+                catch (RemoteApiException e)
+                {
+                    OnError(e.code);
+                }
+            }
+        }
     }
 }

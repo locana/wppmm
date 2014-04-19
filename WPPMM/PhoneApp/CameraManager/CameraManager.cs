@@ -670,6 +670,8 @@ namespace WPPMM.CameraManager
                 return;
             }
 
+            _cameraStatus.FocusStatus = RemoteApi.FocusState.InProgress;
+
             try
             {
                 await apiClient.SetAFPositionAsync(x, y);

@@ -443,8 +443,6 @@ namespace WPPMM
             {
                 return;
             }
-            cameraManager.cameraStatus.ClearFocusStatus();
-
             Image image = sender as Image;
             var touchX = e.ManipulationOrigin.X;
             var touchY = e.ManipulationOrigin.Y;

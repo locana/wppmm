@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,22 @@ namespace WPPMM.RemoteApi
     ///
     internal class ResultHandler
     {
+        internal static void HandleWBCapability(string jString, Action<int> error, Action<WhiteBalanceCapability> result)
+        {
+            var json = JObject.Parse(jString);
+            if (BasicResultHandler.HandleError(json, error))
+            {
+                return;
+            }
+
+            result.Invoke(new WhiteBalanceCapability
+            {
+                current = JsonConvert.DeserializeObject<WhiteBalance>(json["result"][0].ToString()),
+                candidates = JsonConvert.DeserializeObject<WhiteBalanceCandidate[]>(json["result"][1].ToString())
+            }
+            );
+        }
+
         internal static void HandleGetCurrentTime(string jString, Action<int> error, Action<DateTimeOffset> result)
         {
             var json = JObject.Parse(jString);
@@ -29,7 +46,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(dto);
         }
 
-        internal static void HandleGetSupportedExposureCompensation(string jString, Action<int> error, Action<EvRange[]> result)
+        internal static void HandleGetSupportedEv(string jString, Action<int> error, Action<EvCandidate[]> result)
         {
             var json = JObject.Parse(jString);
             if (BasicResultHandler.HandleError(json, error))
@@ -59,10 +76,15 @@ namespace WPPMM.RemoteApi
             {
                 error.Invoke(StatusCode.IllegalResponse);
             }
-            var tmp = new List<EvRange>();
+            var tmp = new List<EvCandidate>();
             for (int i = 0; i < maxlist.Count; i++)
             {
-                tmp.Add(new EvRange { IndexStep = EvConverter.GetDefinition(deflist[i]), MaxIndex = maxlist[i], MinIndex = minlist[i] });
+                tmp.Add(new EvCandidate
+                {
+                    IndexStep = EvConverter.GetDefinition(deflist[i]),
+                    MaxIndex = maxlist[i],
+                    MinIndex = minlist[i]
+                });
             }
             result.Invoke(tmp.ToArray());
         }
@@ -177,7 +199,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jbeep = jResult[11];
-            BasicInfo<string> beep = null;
+            Capability<string> beep = null;
             if (jbeep.HasValues)
             {
                 var bcand = new List<string>();
@@ -185,7 +207,7 @@ namespace WPPMM.RemoteApi
                 {
                     bcand.Add(str);
                 }
-                beep = new BasicInfo<string>
+                beep = new Capability<string>
                 {
                     current = jbeep.Value<string>("currentBeepMode"),
                     candidates = bcand.ToArray()
@@ -193,7 +215,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jExposureMode = jResult[18];
-            BasicInfo<string> exposure = null;
+            Capability<string> exposure = null;
             if (jExposureMode.HasValues)
             {
                 var modecandidates = new List<string>();
@@ -201,7 +223,7 @@ namespace WPPMM.RemoteApi
                 {
                     modecandidates.Add(str);
                 }
-                exposure = new BasicInfo<string>
+                exposure = new Capability<string>
                 {
                     current = jExposureMode.Value<string>("currentExposureMode"),
                     candidates = modecandidates.ToArray()
@@ -209,7 +231,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jPostView = jResult[19];
-            BasicInfo<string> postview = null;
+            Capability<string> postview = null;
             if (jPostView.HasValues)
             {
                 var pvcandidates = new List<string>();
@@ -217,7 +239,7 @@ namespace WPPMM.RemoteApi
                 {
                     pvcandidates.Add(str);
                 }
-                postview = new BasicInfo<string>
+                postview = new Capability<string>
                 {
                     current = jPostView.Value<string>("currentPostviewImageSize"),
                     candidates = pvcandidates.ToArray()
@@ -225,7 +247,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jSelfTimer = jResult[20];
-            BasicInfo<int> selftimer = null;
+            Capability<int> selftimer = null;
             if (jSelfTimer.HasValues)
             {
                 var stcandidates = new List<int>();
@@ -233,7 +255,7 @@ namespace WPPMM.RemoteApi
                 {
                     stcandidates.Add(str);
                 }
-                selftimer = new BasicInfo<int>
+                selftimer = new Capability<int>
                 {
                     current = jSelfTimer.Value<int>("currentSelfTimer"),
                     candidates = stcandidates.ToArray()
@@ -241,7 +263,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jShootMode = jResult[21];
-            BasicInfo<string> shootmode = null;
+            Capability<string> shootmode = null;
             if (jShootMode.HasValues)
             {
                 var smcandidates = new List<string>();
@@ -249,7 +271,7 @@ namespace WPPMM.RemoteApi
                 {
                     smcandidates.Add(str);
                 }
-                shootmode = new BasicInfo<string>
+                shootmode = new Capability<string>
                 {
                     current = jShootMode.Value<string>("currentShootMode"),
                     candidates = smcandidates.ToArray()
@@ -257,13 +279,13 @@ namespace WPPMM.RemoteApi
             }
 
             var jEV = jResult[25];
-            EvInfo ev = null;
+            EvCapability ev = null;
             if (jEV.HasValues)
             {
-                ev = new EvInfo
+                ev = new EvCapability
                 {
                     CurrentIndex = jEV.Value<int>("currentExposureCompensation"),
-                    Range = new EvRange
+                    Candidate = new EvCandidate
                     {
                         MaxIndex = jEV.Value<int>("maxExposureCompensation"),
                         MinIndex = jEV.Value<int>("minExposureCompensation"),
@@ -273,7 +295,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jFN = jResult[27];
-            BasicInfo<string> fn = null;
+            Capability<string> fn = null;
             if (jFN.HasValues)
             {
                 var fncandidates = new List<string>();
@@ -281,7 +303,7 @@ namespace WPPMM.RemoteApi
                 {
                     fncandidates.Add(str);
                 }
-                fn = new BasicInfo<string>
+                fn = new Capability<string>
                 {
                     current = jFN.Value<string>("currentFNumber"),
                     candidates = fncandidates.ToArray()
@@ -289,7 +311,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jIso = jResult[29];
-            BasicInfo<string> iso = null;
+            Capability<string> iso = null;
             if (jIso.HasValues)
             {
                 var isocandidates = new List<string>();
@@ -297,7 +319,7 @@ namespace WPPMM.RemoteApi
                 {
                     isocandidates.Add(str);
                 }
-                iso = new BasicInfo<string>
+                iso = new Capability<string>
                 {
                     current = jIso.Value<string>("currentIsoSpeedRate"),
                     candidates = isocandidates.ToArray()
@@ -312,7 +334,7 @@ namespace WPPMM.RemoteApi
             }
 
             var jSS = jResult[32];
-            BasicInfo<string> ss = null;
+            Capability<string> ss = null;
             if (jSS.HasValues)
             {
                 var sscandidates = new List<string>();
@@ -320,7 +342,7 @@ namespace WPPMM.RemoteApi
                 {
                     sscandidates.Add(str);
                 }
-                ss = new BasicInfo<string>
+                ss = new Capability<string>
                 {
                     current = jSS.Value<string>("currentShutterSpeed"),
                     candidates = sscandidates.ToArray()
@@ -328,10 +350,10 @@ namespace WPPMM.RemoteApi
             }
 
             var jtaf = jResult[34];
-            TouchAFStatus tafs = null;
+            TouchFocusStatus tafs = null;
             if (jtaf.HasValues)
             {
-                tafs = new TouchAFStatus
+                tafs = new TouchFocusStatus
                 {
                     Focused = jtaf.Value<bool>("currentSet")
                 };

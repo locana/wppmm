@@ -131,8 +131,8 @@ namespace WPPMM.CameraManager
         }
         public Action<bool> LiveviewAvailabilityNotifier;
 
-        private BasicInfo<string> _PostviewSizeInfo;
-        public BasicInfo<string> PostviewSizeInfo
+        private Capability<string> _PostviewSizeInfo;
+        public Capability<string> PostviewSizeInfo
         {
             set
             {
@@ -142,8 +142,8 @@ namespace WPPMM.CameraManager
             get { return _PostviewSizeInfo; }
         }
 
-        private BasicInfo<int> _SelfTimerInfo;
-        public BasicInfo<int> SelfTimerInfo
+        private Capability<int> _SelfTimerInfo;
+        public Capability<int> SelfTimerInfo
         {
             set
             {
@@ -222,11 +222,11 @@ namespace WPPMM.CameraManager
 
         public Action<string> CurrentShootModeNotifier;
 
-        public BasicInfo<string> ExposureMode { set; get; }
-        public BasicInfo<string> ShutterSpeed { set; get; }
-        public BasicInfo<string> ISOSpeedRate { set; get; }
-        public BasicInfo<string> FNumber { set; get; }
-        public EvInfo EvInfo { set; get; }
+        public Capability<string> ExposureMode { set; get; }
+        public Capability<string> ShutterSpeed { set; get; }
+        public Capability<string> ISOSpeedRate { set; get; }
+        public Capability<string> FNumber { set; get; }
+        public EvCapability EvInfo { set; get; }
         public bool ProgramShiftActivated { set; get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -247,17 +247,17 @@ namespace WPPMM.CameraManager
         }
     }
 
-    public class ExtendedInfo<T> : BasicInfo<T>
+    public class ExtendedInfo<T> : Capability<T>
     {
         public T previous { set; get; }
 
-        public ExtendedInfo(BasicInfo<T> basic)
+        public ExtendedInfo(Capability<T> basic)
         {
             this.candidates = basic.candidates;
             this.current = basic.current;
         }
 
-        public ExtendedInfo(BasicInfo<T> basic, T previous)
+        public ExtendedInfo(Capability<T> basic, T previous)
         {
             this.candidates = basic.candidates;
             this.current = basic.current;

@@ -14,7 +14,7 @@ namespace WPPMM.RemoteApi
     /// Set of current value and its candidates.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BasicInfo<T>
+    public class Capability<T>
     {
         public T current { set; get; }
         public T[] candidates { set; get; }
@@ -43,43 +43,43 @@ namespace WPPMM.RemoteApi
         public string CameraStatus { internal set; get; }
         public ZoomInfo ZoomInfo { internal set; get; }
         public bool LiveviewAvailable { internal set; get; }
-        public BasicInfo<string> PostviewSizeInfo { internal set; get; }
-        public BasicInfo<int> SelfTimerInfo { internal set; get; }
-        public BasicInfo<string> ShootModeInfo { internal set; get; }
-        public BasicInfo<string> ExposureMode { internal set; get; }
-        public BasicInfo<string> ShutterSpeed { internal set; get; }
-        public BasicInfo<string> ISOSpeedRate { internal set; get; }
-        public BasicInfo<string> FNumber { internal set; get; }
-        public EvInfo EvInfo { internal set; get; }
+        public Capability<string> PostviewSizeInfo { internal set; get; }
+        public Capability<int> SelfTimerInfo { internal set; get; }
+        public Capability<string> ShootModeInfo { internal set; get; }
+        public Capability<string> ExposureMode { internal set; get; }
+        public Capability<string> ShutterSpeed { internal set; get; }
+        public Capability<string> ISOSpeedRate { internal set; get; }
+        public Capability<string> FNumber { internal set; get; }
+        public EvCapability EvInfo { internal set; get; }
         public bool? ProgramShiftActivated { internal set; get; }
-        public TouchAFStatus TouchAFStatus { internal set; get; }
+        public TouchFocusStatus TouchAFStatus { internal set; get; }
         public string[] PictureUrls { internal set; get; }
-        public BasicInfo<string> BeepMode { internal set; get; }
+        public Capability<string> BeepMode { internal set; get; }
         public string LiveviewOrientation { internal set; get; }
     }
 
-    public class EvInfo
+    public class EvCapability
     {
         public int CurrentIndex { internal set; get; }
-        public EvRange Range { internal set; get; }
+        public EvCandidate Candidate { internal set; get; }
     }
 
-    public class SetAFResult
+    public class SetFocusResult
     {
         [JsonProperty("AFResult")]
-        public bool Focused { internal set; get; }
+        public bool Focused { set; get; }
 
         [JsonProperty("AFType")]
-        public string Mode { internal set; get; }
+        public string Mode { set; get; }
     }
 
-    public class TouchAFStatus
+    public class TouchFocusStatus
     {
         [JsonProperty("set")]
         public bool Focused { internal set; get; }
     }
 
-    public class EvRange
+    public class EvCandidate
     {
         public EvStepDefinition IndexStep { internal set; get; }
         public int MaxIndex { internal set; get; }
@@ -93,5 +93,35 @@ namespace WPPMM.RemoteApi
 
         [JsonProperty("size")]
         public string SizeDefinition { set; get; }
+    }
+
+    public class WhiteBalanceCapability
+    {
+        public WhiteBalance current { internal set; get; }
+        public WhiteBalanceCandidate[] candidates { internal set; get; }
+    }
+
+    public class WhiteBalance
+    {
+        [JsonProperty("whiteBalanceMode")]
+        public string Mode { set; get; }
+
+        private int _ColorTemperature = -1;
+
+        [JsonProperty("colorTemperature")]
+        public int ColorTemperature
+        {
+            set { _ColorTemperature = value; }
+            get { return _ColorTemperature; }
+        }
+    }
+
+    public class WhiteBalanceCandidate
+    {
+        [JsonProperty("whiteBalanceMode")]
+        public string WhiteBalanceMode { set; get; }
+
+        [JsonProperty("colorTemperatureRange")]
+        public int[] Candidates { set; get; }
     }
 }

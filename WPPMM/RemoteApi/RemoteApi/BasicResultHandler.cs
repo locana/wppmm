@@ -121,7 +121,7 @@ namespace WPPMM.RemoteApi
         /// <param name="jString"></param>
         /// <param name="error"></param>
         /// <param name="result"></param>
-        internal static void HandleBasicInfo<T>(string jString, Action<int> error, Action<BasicInfo<T>> result)
+        internal static void HandleCapability<T>(string jString, Action<int> error, Action<Capability<T>> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -135,7 +135,7 @@ namespace WPPMM.RemoteApi
                 _candidates.Add(token);
             }
 
-            result.Invoke(new BasicInfo<T> { current = json["result"].Value<T>(0), candidates = _candidates.ToArray() });
+            result.Invoke(new Capability<T> { current = json["result"].Value<T>(0), candidates = _candidates.ToArray() });
         }
 
 
@@ -150,7 +150,7 @@ namespace WPPMM.RemoteApi
             result.Invoke(JsonConvert.DeserializeObject<T>(json["result"][place].ToString()));
         }
 
-        internal static void HandleBasicInfoObject<T>(string jString, Action<int> error, Action<BasicInfo<T>> result)
+        internal static void HandleCapabilityObject<T>(string jString, Action<int> error, Action<Capability<T>> result)
         {
             var json = JObject.Parse(jString);
             if (HandleError(json, error))
@@ -164,7 +164,7 @@ namespace WPPMM.RemoteApi
                 _candidates.Add(JsonConvert.DeserializeObject<T>(token.ToString()));
             }
 
-            result.Invoke(new BasicInfo<T>
+            result.Invoke(new Capability<T>
             {
                 current = JsonConvert.DeserializeObject<T>(json["result"][0].ToString()),
                 candidates = _candidates.ToArray()

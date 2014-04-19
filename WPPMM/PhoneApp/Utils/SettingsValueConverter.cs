@@ -4,7 +4,7 @@ namespace WPPMM.Utils
 {
     public class SettingsValueConverter
     {
-        public static int GetSelectedIndex(BasicInfo<int> info)
+        public static int GetSelectedIndex(Capability<int> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
@@ -20,7 +20,7 @@ namespace WPPMM.Utils
             return 0;
         }
 
-        public static int GetSelectedIndex(BasicInfo<string> info)
+        public static int GetSelectedIndex(Capability<string> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
@@ -36,11 +36,11 @@ namespace WPPMM.Utils
             return 0;
         }
 
-        public static BasicInfo<string> FromSelfTimer(BasicInfo<int> info)
+        public static Capability<string> FromSelfTimer(Capability<int> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
-                return new BasicInfo<string>
+                return new Capability<string>
                 {
                     candidates = new string[] { Resources.AppResources.Disabled },
                     current = Resources.AppResources.Disabled
@@ -51,7 +51,7 @@ namespace WPPMM.Utils
             {
                 mCandidates[i] = FromSelfTimer(info.candidates[i]);
             }
-            return new BasicInfo<string>
+            return new Capability<string>
             {
                 current = FromSelfTimer(info.current),
                 candidates = mCandidates
@@ -64,11 +64,11 @@ namespace WPPMM.Utils
             else { return val + Resources.AppResources.Seconds; }
         }
 
-        public static BasicInfo<string> FromPostViewSize(BasicInfo<string> info)
+        public static Capability<string> FromPostViewSize(Capability<string> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
-                return new BasicInfo<string>
+                return new Capability<string>
                 {
                     candidates = new string[] { Resources.AppResources.Disabled },
                     current = Resources.AppResources.Disabled
@@ -79,7 +79,7 @@ namespace WPPMM.Utils
             {
                 mCandidates[i] = FromPostViewSize(info.candidates[i]);
             }
-            return new BasicInfo<string>
+            return new Capability<string>
             {
                 current = FromPostViewSize(info.current),
                 candidates = mCandidates
@@ -99,11 +99,11 @@ namespace WPPMM.Utils
             }
         }
 
-        public static BasicInfo<string> FromShootMode(BasicInfo<string> info)
+        public static Capability<string> FromShootMode(Capability<string> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
-                return new BasicInfo<string>
+                return new Capability<string>
                 {
                     candidates = new string[] { Resources.AppResources.Disabled },
                     current = Resources.AppResources.Disabled
@@ -114,7 +114,7 @@ namespace WPPMM.Utils
             {
                 mCandidates[i] = FromShootMode(info.candidates[i]);
             }
-            return new BasicInfo<string>
+            return new Capability<string>
             {
                 current = FromShootMode(info.current),
                 candidates = mCandidates

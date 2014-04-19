@@ -131,8 +131,8 @@ namespace WPPMM.CameraManager
         }
         public Action<bool> LiveviewAvailabilityNotifier;
 
-        private BasicInfo<string> _PostviewSizeInfo;
-        public BasicInfo<string> PostviewSizeInfo
+        private Capability<string> _PostviewSizeInfo;
+        public Capability<string> PostviewSizeInfo
         {
             set
             {
@@ -142,8 +142,8 @@ namespace WPPMM.CameraManager
             get { return _PostviewSizeInfo; }
         }
 
-        private BasicInfo<int> _SelfTimerInfo;
-        public BasicInfo<int> SelfTimerInfo
+        private Capability<int> _SelfTimerInfo;
+        public Capability<int> SelfTimerInfo
         {
             set
             {
@@ -180,8 +180,9 @@ namespace WPPMM.CameraManager
             get { return _ShootModeInfo; }
         }
 
-        private BasicInfo<string> _ExposureMode;
-        public BasicInfo<string> ExposureMode {
+        private Capability<string> _ExposureMode;
+        public Capability<string> ExposureMode
+        {
             set
             {
                 _ExposureMode = value;
@@ -190,8 +191,9 @@ namespace WPPMM.CameraManager
             get { return _ExposureMode; }
         }
 
-        private BasicInfo<string> _ShutterSpeed;
-        public BasicInfo<string> ShutterSpeed {
+        private Capability<string> _ShutterSpeed;
+        public Capability<string> ShutterSpeed
+        {
             set
             {
                 _ShutterSpeed = value;
@@ -199,8 +201,9 @@ namespace WPPMM.CameraManager
             } 
             get { return _ShutterSpeed; } }
 
-        private BasicInfo<string> _ISOSpeedRate;
-        public BasicInfo<string> ISOSpeedRate {
+        private Capability<string> _ISOSpeedRate;
+        public Capability<string> ISOSpeedRate
+        {
             set
             {
                 _ISOSpeedRate = value;
@@ -209,8 +212,9 @@ namespace WPPMM.CameraManager
             get { return _ISOSpeedRate; }
         }
 
-        private BasicInfo<string> _FNumber;
-        public BasicInfo<string> FNumber {
+        private Capability<string> _FNumber;
+        public Capability<string> FNumber
+        {
             set
             {
                 _FNumber = value;
@@ -219,8 +223,8 @@ namespace WPPMM.CameraManager
             get { return _FNumber; }
         }
 
-        private EvInfo _EvInfo;
-        public EvInfo EvInfo
+        private EvCapability _EvInfo;
+        public EvCapability EvInfo
         {
             set
             {
@@ -274,7 +278,6 @@ namespace WPPMM.CameraManager
         public Action<string> CurrentShootModeNotifier;
 
 
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
@@ -293,17 +296,17 @@ namespace WPPMM.CameraManager
         }
     }
 
-    public class ExtendedInfo<T> : BasicInfo<T>
+    public class ExtendedInfo<T> : Capability<T>
     {
         public T previous { set; get; }
 
-        public ExtendedInfo(BasicInfo<T> basic)
+        public ExtendedInfo(Capability<T> basic)
         {
             this.candidates = basic.candidates;
             this.current = basic.current;
         }
 
-        public ExtendedInfo(BasicInfo<T> basic, T previous)
+        public ExtendedInfo(Capability<T> basic, T previous)
         {
             this.candidates = basic.candidates;
             this.current = basic.current;

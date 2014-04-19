@@ -64,7 +64,7 @@ namespace WPPMM.CameraManager
             return previous != latest;
         }
 
-        internal static bool IsPostviewSizeInfoModified(CameraStatus status, BasicInfo<string> latest)
+        internal static bool IsPostviewSizeInfoModified(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
@@ -75,7 +75,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsSelftimerInfoModified(CameraStatus status, BasicInfo<int> latest)
+        internal static bool IsSelftimerInfoModified(CameraStatus status, Capability<int> latest)
         {
             if (latest == null)
             {
@@ -86,7 +86,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsShootModeInfoModified(CameraStatus status, BasicInfo<string> latest)
+        internal static bool IsShootModeInfoModified(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
@@ -97,7 +97,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsExposureModeInfoModified(CameraStatus status, BasicInfo<string> latest)
+        internal static bool IsExposureModeInfoModified(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
@@ -108,7 +108,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsShutterSpeedModified(CameraStatus status, BasicInfo<string> latest)
+        internal static bool IsShutterSpeedModified(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
@@ -119,7 +119,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsISOModified(CameraStatus status, BasicInfo<string> latest)
+        internal static bool IsISOModified(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
@@ -130,7 +130,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsFNumberModified(CameraStatus status, BasicInfo<string> latest)
+        internal static bool IsFNumberModified(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
@@ -141,7 +141,7 @@ namespace WPPMM.CameraManager
             return IsModified(previous, latest);
         }
 
-        internal static bool IsEvInfoModified(CameraStatus status, EvInfo latest)
+        internal static bool IsEvInfoModified(CameraStatus status, EvCapability latest)
         {
             if (latest == null)
             {
@@ -151,9 +151,9 @@ namespace WPPMM.CameraManager
             status.EvInfo = latest;
             return previous == null ||
                 previous.CurrentIndex != latest.CurrentIndex ||
-                previous.Range.MaxIndex != latest.Range.MaxIndex ||
-                previous.Range.MinIndex != latest.Range.MinIndex ||
-                previous.Range.IndexStep != latest.Range.IndexStep;
+                previous.Candidate.MaxIndex != latest.Candidate.MaxIndex ||
+                previous.Candidate.MinIndex != latest.Candidate.MinIndex ||
+                previous.Candidate.IndexStep != latest.Candidate.IndexStep;
         }
 
         internal static bool IsProgramShiftModified(CameraStatus status, bool? latest)
@@ -167,7 +167,7 @@ namespace WPPMM.CameraManager
             return previous != latest;
         }
 
-        private static bool IsModified(BasicInfo<string> previous, BasicInfo<string> latest)
+        private static bool IsModified(Capability<string> previous, Capability<string> latest)
         {
             if (previous == null ||
                 previous.current != latest.current ||
@@ -185,7 +185,7 @@ namespace WPPMM.CameraManager
             return false;
         }
 
-        private static bool IsModified(BasicInfo<int> previous, BasicInfo<int> latest)
+        private static bool IsModified(Capability<int> previous, Capability<int> latest)
         {
             if (previous == null ||
                 previous.current != latest.current ||

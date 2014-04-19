@@ -199,10 +199,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<int>> GetAvailableSelfTimerAsync()
+        public async Task<Capability<int>> GetAvailableSelfTimerAsync()
         {
-            BasicInfo<int> result = null;
-            BasicResultHandler.HandleBasicInfo<int>(
+            Capability<int> result = null;
+            BasicResultHandler.HandleCapability<int>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableSelfTimer")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
@@ -237,10 +237,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailablePostviewImageSizeAsync()
+        public async Task<Capability<string>> GetAvailablePostviewImageSizeAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailablePostviewImageSize")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
@@ -275,10 +275,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailableShootModeAsync()
+        public async Task<Capability<string>> GetAvailableShootModeAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableShootMode")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
@@ -307,10 +307,10 @@ namespace WPPMM.RemoteApi
         /// <param name="x">Percentage of the position to focus in x-axis.</param>
         /// <param name="y">Percentage of the position to focus in y-axis</param>
         /// <returns></returns>
-        public async Task<SetAFResult> SetAFPositionAsync(double x, double y)
+        public async Task<SetFocusResult> SetAFPositionAsync(double x, double y)
         {
-            SetAFResult result = null;
-            BasicResultHandler.HandleObject<SetAFResult>(
+            SetFocusResult result = null;
+            BasicResultHandler.HandleObject<SetFocusResult>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setTouchAFPosition", x, y)),
                 code => { throw new RemoteApiException(code); },
                 res => result = res,
@@ -318,10 +318,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<TouchAFStatus> GetTouchAFStatusAsync()
+        public async Task<TouchFocusStatus> GetTouchAFStatusAsync()
         {
-            TouchAFStatus result = null;
-            BasicResultHandler.HandleObject<TouchAFStatus>(
+            TouchFocusStatus result = null;
+            BasicResultHandler.HandleObject<TouchFocusStatus>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getTouchAFPosition")),
                 code => { throw new RemoteApiException(code); },
                 res => result = res);
@@ -364,10 +364,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailableExposureModeAsync()
+        public async Task<Capability<string>> GetAvailableExposureModeAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableExposureMode")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
@@ -402,17 +402,17 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailableFocusModeAsync()
+        public async Task<Capability<string>> GetAvailableFocusModeAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableFocusMode")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
             return result;
         }
 
-        public async Task SetEVIndexAsync(int index)
+        public async Task SetEvIndexAsync(int index)
         {
             BasicResultHandler.HandleNoValue(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setExposureCompensation", index)),
@@ -420,7 +420,7 @@ namespace WPPMM.RemoteApi
                 () => { });
         }
 
-        public async Task<int> GetEVIndexAsync()
+        public async Task<int> GetEvIndexAsync()
         {
             int result = -1;
             BasicResultHandler.HandleSingleValue<int>(
@@ -430,24 +430,33 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<EvRange[]> GetSupportedEVAsync()
+        public async Task<EvCandidate[]> GetSupportedEvAsync()
         {
-            EvRange[] result = null;
-            ResultHandler.HandleGetSupportedExposureCompensation(
+            EvCandidate[] result = null;
+            ResultHandler.HandleGetSupportedEv(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedExposureCompensation")),
                 code => { throw new RemoteApiException(code); },
                 info => result = info);
             return result;
         }
 
-        public async Task<EvInfo> GetAvailableEVAsync()
+        public async Task<EvCapability> GetAvailableEvAsync()
         {
-            EvInfo result = null;
+            EvCapability result = null;
             BasicResultHandler.HandleParallelValues<int>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableExposureCompensation")),
                 4,
                 code => { throw new RemoteApiException(code); },
-                info => result = new EvInfo { Range = new EvRange { IndexStep = EvConverter.GetDefinition(info[3]), MaxIndex = info[1], MinIndex = info[2] }, CurrentIndex = info[0] });
+                info => result = new EvCapability
+                {
+                    Candidate = new EvCandidate
+                    {
+                        IndexStep = EvConverter.GetDefinition(info[3]),
+                        MaxIndex = info[1],
+                        MinIndex = info[2]
+                    },
+                    CurrentIndex = info[0]
+                });
             return result;
         }
 
@@ -479,10 +488,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailableFNumberAsync()
+        public async Task<Capability<string>> GetAvailableFNumberAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableFNumber")),
                 code => { throw new RemoteApiException(code); },
                 res => result = res);
@@ -517,10 +526,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailableShutterSpeedAsync()
+        public async Task<Capability<string>> GetAvailableShutterSpeedAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableShutterSpeed")),
                 code => { throw new RemoteApiException(code); },
                 res => result = res);
@@ -555,10 +564,10 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<string>> GetAvailableIsoSpeedAsync()
+        public async Task<Capability<string>> GetAvailableIsoSpeedAsync()
         {
-            BasicInfo<string> result = null;
-            BasicResultHandler.HandleBasicInfo<string>(
+            Capability<string> result = null;
+            BasicResultHandler.HandleCapability<string>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableIsoSpeedRate")),
                 code => { throw new RemoteApiException(code); },
                 res => result = res);
@@ -593,11 +602,49 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<BasicInfo<StillImageSize>> GetAvailableStillSizeAsync()
+        public async Task<Capability<StillImageSize>> GetAvailableStillSizeAsync()
         {
-            BasicInfo<StillImageSize> result = null;
-            BasicResultHandler.HandleBasicInfoObject<StillImageSize>(
+            Capability<StillImageSize> result = null;
+            BasicResultHandler.HandleCapabilityObject<StillImageSize>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableStillSize")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task SetWhiteBalanceAsync(WhiteBalance wb, bool enableColorTemperature)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setWhiteBalance", wb.Mode, enableColorTemperature, wb.ColorTemperature)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<WhiteBalance> GetWhiteBalanceAsync()
+        {
+            WhiteBalance result = null;
+            BasicResultHandler.HandleObject<WhiteBalance>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getWhiteBalance")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<WhiteBalanceCandidate[]> GetSupportedWhiteBalanceAsync()
+        {
+            WhiteBalanceCandidate[] result = null;
+            BasicResultHandler.HandleObject<WhiteBalanceCandidate[]>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedWhiteBalance")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<WhiteBalanceCapability> GetAvailableWhiteBalanceAsync()
+        {
+            WhiteBalanceCapability result = null;
+            ResultHandler.HandleWBCapability(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableWhiteBalance")),
                 code => { throw new RemoteApiException(code); },
                 res => result = res);
             return result;

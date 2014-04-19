@@ -43,48 +43,35 @@ namespace WPPMM.RemoteApi
         /// Automatically insert "version":"1.0"
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        internal static string Jsonize(string name)
-        {
-            return CreateJson(name, "1.0");
-        }
-
-        /// <summary>
-        /// Automatically insert "version":"1.0"
-        /// </summary>
-        /// <param name="name"></param>
         /// <param name="prms"></param>
         /// <returns></returns>
-        internal static string Jsonize(string name, params string[] prms)
+        internal static string Jsonize(string name, params object[] prms)
         {
-            return CreateJson(name, "1.0", prms);
+            return Jsonize(name, Version.V1_0, prms);
         }
 
-        /// <summary>
-        /// Automatically insert "version":"1.0"
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="prms"></param>
-        /// <returns></returns>
-        internal static string Jsonize(string name, params int[] prms)
+        internal static string Jsonize(string name, Version version, params object[] prms)
         {
-            return CreateJson(name, "1.0", prms);
+            return CreateJson(name, ToString(version), prms);
         }
 
-        /// <summary>
-        /// Automatically insert "version":"1.0"
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="prms"></param>
-        /// <returns></returns>
-        internal static string Jsonize(string name, params bool[] prms)
+        private static string ToString(Version version)
         {
-            return CreateJson(name, "1.0", prms);
+            switch (version)
+            {
+                case Version.V1_0:
+                    return "1.0";
+                case Version.V1_1:
+                    return "1.1";
+                default:
+                    throw new System.InvalidOperationException("Version " + version + " is not supported.");
+            }
         }
+    }
 
-        internal static string Jsonize(string name, params double[] prms)
-        {
-            return CreateJson(name, "1.0", prms);
-        }
+    internal enum Version
+    {
+        V1_0,
+        V1_1
     }
 }

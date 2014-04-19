@@ -683,11 +683,21 @@ namespace WPPMM.CameraManager
                 return;
             }
 
+            _cameraStatus.AfType = CameraStatus.AutoFocusType.Touch;
+            _cameraStatus.FocusStatus = RemoteApi.FocusState.InProgress;
+
             try
             {
                 await apiClient.SetAFPositionAsync(x, y);
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException e)
+            {
+                // in case of AF has failed
+                if (_cameraStatus != null)
+                {
+                    _cameraStatus.FocusStatus = RemoteApi.FocusState.Failed;
+                }
+            }
         }
 
         public async void CancelTouchAF()
@@ -696,6 +706,8 @@ namespace WPPMM.CameraManager
             {
                 return;
             }
+
+            _cameraStatus.AfType = CameraStatus.AutoFocusType.None;
 
             try
             {
@@ -720,6 +732,7 @@ namespace WPPMM.CameraManager
         {
             if (apiClient != null)
             {
+                _cameraStatus.AfType = CameraStatus.AutoFocusType.HalfPress;
                 try
                 {
                     await apiClient.ActHalfPressShutterAsync();
@@ -732,11 +745,27 @@ namespace WPPMM.CameraManager
         {
             if (apiClient != null)
             {
+                _cameraStatus.AfType = CameraStatus.AutoFocusType.None;
                 try
                 {
                     await apiClient.CancelHalfPressShutterAsync();
                 }
                 catch (RemoteApiException e) { }
+            }
+        }
+
+        public async void SetExporeMode(String mode)
+        {
+            if (apiClient != null)
+            {
+                try
+                {
+                    await apiClient.SetExposureModeAsync(mode);
+                }
+                catch (RemoteApiException e)
+                {
+                    OnError(e.code);
+                }
             }
         }
     }

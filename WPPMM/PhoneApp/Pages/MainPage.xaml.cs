@@ -431,9 +431,7 @@ namespace WPPMM
         {
             GeneralTransform trans = ScreenImage.TransformToVisual(null);
             var point = trans.Transform(new Point());
-            TouchAFPointer.Visibility = System.Windows.Visibility.Visible;
-            TouchAFPointer.Margin = new Thickness(ScreenImage.ActualWidth / 2 + point.X - TouchAFPointer.Width / 2,
-                ScreenImage.ActualHeight / 2 + point.Y - TouchAFPointer.Height / 2, 0, 0);
+
 
             cameraManager.RequestHalfPressShutter();
         }
@@ -444,7 +442,6 @@ namespace WPPMM
             {
                 return;
             }
-
             Image image = sender as Image;
             var touchX = e.ManipulationOrigin.X;
             var touchY = e.ManipulationOrigin.Y;
@@ -453,7 +450,7 @@ namespace WPPMM
             double posY = touchY * 100.0 / image.ActualHeight;
 
             TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
-
+            
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
 
@@ -640,13 +637,15 @@ namespace WPPMM
                     ZoomElements.Margin = new Thickness(70, 0, 0, 30);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 20, 0, 0);
+                    CameraParameters.Margin = new Thickness(0, 0, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 30, 80);
-                    ZoomElements.Margin = new Thickness(30, 0, 0, 80);
+                    ZoomElements.Margin = new Thickness(30, 0, 0, 90);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 20, 0, 0);
+                    CameraParameters.Margin = new Thickness(0, 0, 0, 60);
                     break;
             }
         }

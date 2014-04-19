@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using WPPMM.RemoteApi;
 
@@ -165,6 +166,16 @@ namespace WPPMM.CameraManager
             var previous = status.ProgramShiftActivated;
             status.ProgramShiftActivated = (bool)latest;
             return previous != latest;
+        }
+
+        internal static bool IsFocusStatusModified(CameraStatus status, string latest)
+        {
+            if (latest == null)
+            {
+                return false;
+            }
+            status.FocusStatus = latest;
+            return (status.FocusStatus != latest);
         }
 
         private static bool IsModified(Capability<string> previous, Capability<string> latest)

@@ -202,6 +202,9 @@ namespace WPPMM.CameraManager
 
             if (StatusComparator.IsProgramShiftModified(target, data.ProgramShiftActivated))
                 NotifyChangeDetected(EventMember.ProgramShift);
+
+            if (StatusComparator.IsFocusStatusModified(target, data.FocusStatus))
+                NotifyChangeDetected(EventMember.FocusStatus);
         }
 
         private async void Call()
@@ -256,5 +259,6 @@ namespace WPPMM.CameraManager
         PictureURLs,
         LiveviewOrientation,
         BeepMode,
+        FocusStatus,
     }
 }

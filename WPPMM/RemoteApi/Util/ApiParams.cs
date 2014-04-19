@@ -86,7 +86,7 @@ namespace WPPMM.RemoteApi
         public const string Fluorescent_WarmWhite = "Fluorescent: Warm White (-1)";
         public const string Fluorescent_CoolWhite = "Fluorescent: Cool White (0)";
         public const string Fluorescent_DayWhite = "Fluorescent: Day White (+1)";
-        public const string Fluorescent_DayLight = "Fluorescent: Day White (+1)";
+        public const string Fluorescent_DayLight = "Fluorescent: Daylight (+2)";
         public const string Manual = "Color Temperature";
     }
 

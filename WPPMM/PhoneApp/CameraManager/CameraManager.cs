@@ -732,5 +732,16 @@ namespace WPPMM.CameraManager
                 }
             }
         }
+
+
+        public Task SetExporeModeAsync(string mode)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return apiClient.SetExposureModeAsync(mode);
+        }
     }
 }

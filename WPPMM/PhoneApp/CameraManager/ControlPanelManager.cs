@@ -104,6 +104,33 @@ namespace WPPMM.CameraManager
                          }
                      }));
             }
+
+            if (status.IsSupported("setExposureMode"))
+            {
+                panel.Children.Add(CreateStatusPanel("ExposureMode", "ExposureMode",
+                    async (sender, arg) =>
+                    {
+                        if (status.ExposureMode == null || status.ShootModeInfo.candidates == null || status.ExposureMode.candidates.Length == 0)
+                        {
+                            return;
+                        }
+                        var picker = sender as ListPicker;
+                        var selected = picker.SelectedIndex;
+                        try{
+                            await manager.SetExporeModeAsync(status.ExposureMode.candidates[selected]);
+                        }
+                        catch (InvalidOperationException)
+                         {
+                             Debug.WriteLine("Not ready to call Web API");
+                         }
+                        catch (RemoteApiException e)
+                        {
+ 
+                            manager.RefreshEventObserver();
+                        }
+                    }));            
+            }
+
             if (status.IsSupported("setSelfTimer"))
             {
                 panel.Children.Add(CreateStatusPanel("SelfTimer", Resources.AppResources.SelfTimer,

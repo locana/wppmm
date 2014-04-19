@@ -133,13 +133,13 @@
                         </Grid>
                         <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="37" />
                                 <ColumnDefinition Width="0.7*" />
                                 <ColumnDefinition Width="0.7*" />
                                 <ColumnDefinition Width="0.7*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay}" Grid.Column="0">
                                 <Rectangle.OpacityMask>
                                     <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />

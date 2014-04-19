@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 
 namespace WPPMM.RemoteApi
@@ -20,14 +21,18 @@ namespace WPPMM.RemoteApi
             this.endpoint = endpoint;
         }
 
-        public async Task<DateTimeOffset> GetCurrentTime()
+        public async Task SetCurrentTime(DateTimeOffset time)
         {
-            DateTimeOffset result;
-            ResultHandler.HandleGetCurrentTime(
-                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getCurrentTime")),
+            var req = new TimeOffset
+            {
+                DateTime = time.ToString("yyyy-MM-ddThh:mm:ssZ"),
+                TimeZoneOffsetMinute = (int)(time.Offset.TotalMinutes),
+                DstOffsetMinute = 0
+            };
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Serialize("setCurrentTime", ApiVersion.V1_0, req)),
                 code => { throw new RemoteApiException(code); },
-                info => result = info);
-            return result;
+                () => { });
         }
 
         public async Task<MethodType[]> GetMethodTypesAsync(string version = "")

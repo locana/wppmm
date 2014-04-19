@@ -26,6 +26,7 @@ namespace WPPMM.CameraManager
 
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraApiClient apiClient;
+        private SystemApiClient sysClient;
 
         private LvStreamProcessor lvProcessor = new LvStreamProcessor();
         private readonly object lvProcessorLocker = new Object();
@@ -174,6 +175,18 @@ namespace WPPMM.CameraManager
             {
                 OpenLiveviewConnection();
             }
+
+            if (sysClient != null)
+            {
+                try
+                {
+                    await sysClient.SetCurrentTime(DateTimeOffset.Now); // Should check availability
+                }
+                catch (RemoteApiException)
+                {
+                    Debug.WriteLine("Failed to set current time");
+                }
+            }
         }
 
         private async void OpenLiveviewConnection()
@@ -289,6 +302,11 @@ namespace WPPMM.CameraManager
                 cameraStatus.isAvailableConnecting = true;
 
                 observer = new EventObserver(apiClient);
+            }
+            if (DeviceInfo.Endpoints.ContainsKey("system"))
+            {
+                sysClient = new SystemApiClient(di.Endpoints["system"]);
+                Debug.WriteLine(di.Endpoints["system"]);
             }
             // TODO be careful, device info is updated to the latest found device.
 

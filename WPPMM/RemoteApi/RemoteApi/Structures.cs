@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 
 namespace WPPMM.RemoteApi
 {
@@ -138,5 +139,17 @@ namespace WPPMM.RemoteApi
 
         [JsonProperty("colorTemperatureRange")]
         public int[] Candidates { set; get; }
+    }
+
+    public class TimeOffset
+    {
+        [JsonProperty("dateTime")]
+        public string DateTime { set; get; }
+
+        [JsonProperty("timeZoneOffsetMinute")]
+        public int TimeZoneOffsetMinute { set; get; }
+
+        [JsonProperty("dstOffsetMinute")]
+        public int DstOffsetMinute { set; get; }
     }
 }

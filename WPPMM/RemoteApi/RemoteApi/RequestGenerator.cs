@@ -56,6 +56,11 @@ namespace WPPMM.RemoteApi
             return CreateJson(name, ToString(version), prms);
         }
 
+        internal static string Serialize(string name, ApiVersion version = ApiVersion.V1_0, object prm = null)
+        {
+            return CreateJson(name, ToString(version), JObject.FromObject(prm));
+        }
+
         private static string ToString(ApiVersion version)
         {
             switch (version)

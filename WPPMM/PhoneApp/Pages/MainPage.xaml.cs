@@ -56,12 +56,14 @@ namespace WPPMM
 
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
-            abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { ApplicationBar.IsVisible = false; cpm.Show(); });
+            abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { 
+                ApplicationBar.IsVisible = false;
+                if (cameraManager != null){cameraManager.CancelTouchAF();}
+                cpm.Show(); });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { MyPivot.SelectedIndex = 2; });
             abm.SetEvent(IconMenu.TouchAfCancel, (sender, e) =>
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
-                ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
             });
 
             SettingList.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
@@ -376,6 +378,7 @@ namespace WPPMM
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
 
+            cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
 
             if (cameraManager.IsClientReady())
             {
@@ -422,6 +425,25 @@ namespace WPPMM
             ClearNFCInfo();
         }
 
+        void cameraManager_OnAfStatusChanged(CameraStatus status)
+        {
+            Debug.WriteLine("onAFStatusChanged");
+            if (status.AfType == CameraStatus.AutoFocusType.Touch && status.FocusStatus != RemoteApi.FocusState.Released)
+            {
+                if (!abm.IsEnabled(IconMenu.TouchAfCancel))
+                {
+                    ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                }
+            }
+            else
+            {
+                if (abm.IsEnabled(IconMenu.TouchAfCancel))
+                {
+                    ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                }
+            }
+        }
+
         void CameraButtons_ShutterKeyReleased(object sender, EventArgs e)
         {
             cameraManager.CancelHalfPressShutter();
@@ -454,7 +476,7 @@ namespace WPPMM
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
 
-            ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+            
 
             cameraManager.RequestTouchAF(posX, posY);
         }
@@ -484,6 +506,8 @@ namespace WPPMM
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed -= CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased -= CameraButtons_ShutterKeyReleased;
+
+            cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);

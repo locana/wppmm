@@ -80,6 +80,7 @@ namespace WPPMM.CameraManager
             ZoomInfo = null;
             Status = EventParam.NotReady;
             AvailableApis = null;
+            AfType = AutoFocusType.None;
         }
 
         private string[] _AvailableApis;

@@ -174,8 +174,9 @@ namespace WPPMM.CameraManager
             {
                 return false;
             }
+            var previous = status.FocusStatus;
             status.FocusStatus = latest;
-            return (status.FocusStatus != latest);
+            return (previous != latest);
         }
 
         private static bool IsModified(Capability<string> previous, Capability<string> latest)

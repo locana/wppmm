@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -36,8 +37,7 @@ namespace WPPMM.RemoteApi
                 new JProperty("id", GetID()),
                 new JProperty("params", param));
 
-            //return json.ToString().Replace(" ", "").Replace("\n", "").Replace("\r", "");
-            return json.ToString();
+            return json.ToString(Formatting.None);
         }
 
         /// <summary>

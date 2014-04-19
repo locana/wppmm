@@ -358,7 +358,7 @@ namespace WPPMM.CameraManager
         private void OnPropertyChanged(string name)
         {
 
-            Debug.WriteLine("OnPropertyChanged: " + name);
+            // Debug.WriteLine("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
                 try

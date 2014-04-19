@@ -427,7 +427,6 @@ namespace WPPMM
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
         {
-            Debug.WriteLine("onAFStatusChanged");
             if (status.AfType == CameraStatus.AutoFocusType.Touch && status.FocusStatus != RemoteApi.FocusState.Released)
             {
                 if (!abm.IsEnabled(IconMenu.TouchAfCancel))
@@ -614,6 +613,7 @@ namespace WPPMM
             ShutterSpeed.DataContext = svd;
             ISO.DataContext = svd;
             Fnumber.DataContext = svd;
+            HalfPressFocusStatus.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm = new ControlPanelManager(ControlPanel);
@@ -638,6 +638,7 @@ namespace WPPMM
             ShutterSpeed.DataContext = null;
             ISO.DataContext = null;
             Fnumber.DataContext = null;
+            HalfPressFocusStatus.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;

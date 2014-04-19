@@ -79,6 +79,7 @@ namespace WPPMM.DataModel
                     case "FocusStatus":
                         OnPropertyChanged("TouchAFPointerStrokeBrush");
                         OnPropertyChanged("TouchAFPointerVisibility");
+                        OnPropertyChanged("HalfPressedAFVisibility");
                         break;
                 }
             };
@@ -285,6 +286,26 @@ namespace WPPMM.DataModel
                     case RemoteApi.FocusState.InProgress:
                     default:
                         return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+            }
+        }
+
+        public Visibility HalfPressedAFVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.FocusStatus == null)
+                {
+                    return Visibility.Collapsed;
+                }
+
+                if (cameraStatus.AfType == CameraStatus.AutoFocusType.HalfPress && cameraStatus.FocusStatus == RemoteApi.FocusState.Focused)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
                 }
             }
         }

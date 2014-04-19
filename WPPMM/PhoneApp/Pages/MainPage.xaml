@@ -133,15 +133,22 @@
                         </Grid>
                         <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="0.7*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="ShutterSpeed" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="0"/>
-                            <TextBlock Name="Fnumber" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="1"/>
-                            <TextBlock Name="Ev" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="Collapsed" Text="" HorizontalAlignment="Center" Margin="6"  Grid.Column="2"/>
-                            <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="3"/>
+                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                                Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay}" Grid.Column="0">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Name="ShutterSpeed" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="1"/>
+                            <TextBlock Name="Fnumber" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="2"/>
+                            <TextBlock Name="Ev" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="Collapsed" Text="" HorizontalAlignment="Center" Margin="6"  Grid.Column="3"/>
+                            <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="4"/>
                             
                         </Grid>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
@@ -177,8 +184,9 @@
                     </Grid>
                     <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
                         <TextBlock Name="ExposureMode" Text="{Binding ExposureModeDisplayName}" Visibility="{Binding ExposureModeVisibility}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-                        <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 20" Source="{Binding postview, Mode=OneWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
-                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 20" Name="RecordingStatus"
+                        <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Source="{Binding postview, Mode=OneWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
+                        
+                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus"
                                Visibility="{Binding RecordingStatusVisibility, Mode=OneWay}"/>
                     </StackPanel>
                     

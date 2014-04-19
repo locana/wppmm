@@ -131,6 +131,19 @@
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>
                         </Grid>
+                        <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="ShutterSpeed" Visibility="{Binding ShutterSpeedVisibility}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="0"/>
+                            <TextBlock Name="Fnumber" Visibility="{Binding FnumberVisibility}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="1"/>
+                            <TextBlock Name="Ev" Visibility="Collapsed" Text="" HorizontalAlignment="Center" Margin="6"  Grid.Column="2"/>
+                            <TextBlock Name="ISO" Visibility="{Binding ISOVisibility}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="3"/>
+                            
+                        </Grid>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -161,10 +174,15 @@
                             <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
                             <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
                         </StackPanel>
-                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40, 120" Name="RecordingStatus"
-                               Visibility="{Binding RecordingStatusVisibility, Mode=OneWay}"/>
+                        
                     </Grid>
-                    <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Source="{Binding postview, Mode=OneWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
+                    <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
+                        <TextBlock Name="ExposureMode" Text="{Binding ExposureModeDisplayName}" Visibility="{Binding ExposureModeVisibility}" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                        <Image x:Name="PostViewWindow" Width="100" Height="80" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 20" Source="{Binding postview, Mode=OneWay}" Loaded="PostViewWindow_Loaded" Unloaded="PostViewWindow_Unloaded" Tap="PostViewWindow_Tap"/>
+                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 20" Name="RecordingStatus"
+                               Visibility="{Binding RecordingStatusVisibility, Mode=OneWay}"/>
+                    </StackPanel>
+                    
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
                         <ScrollViewer.Background>
                             <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>

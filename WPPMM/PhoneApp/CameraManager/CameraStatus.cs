@@ -180,6 +180,57 @@ namespace WPPMM.CameraManager
             get { return _ShootModeInfo; }
         }
 
+        private BasicInfo<string> _ExposureMode;
+        public BasicInfo<string> ExposureMode {
+            set
+            {
+                _ExposureMode = value;
+                OnPropertyChanged("ExposureMode");
+            }
+            get { return _ExposureMode; }
+        }
+
+        private BasicInfo<string> _ShutterSpeed;
+        public BasicInfo<string> ShutterSpeed {
+            set
+            {
+                _ShutterSpeed = value;
+                OnPropertyChanged("ShutterSpeed");
+            } 
+            get { return _ShutterSpeed; } }
+
+        private BasicInfo<string> _ISOSpeedRate;
+        public BasicInfo<string> ISOSpeedRate {
+            set
+            {
+                _ISOSpeedRate = value;
+                OnPropertyChanged("ISOSpeedRate");
+            }
+            get { return _ISOSpeedRate; }
+        }
+
+        private BasicInfo<string> _FNumber;
+        public BasicInfo<string> FNumber {
+            set
+            {
+                _FNumber = value;
+                OnPropertyChanged("FNumber");
+            }
+            get { return _FNumber; }
+        }
+
+        private EvInfo _EvInfo;
+        public EvInfo EvInfo
+        {
+            set
+            {
+                _EvInfo = value;
+                OnPropertyChanged("EvInfo");
+            }
+            get { return _EvInfo; }
+        }
+        public bool ProgramShiftActivated { set; get; }
+
         public Visibility LiveviewScreenVisibility
         {
             get
@@ -222,12 +273,7 @@ namespace WPPMM.CameraManager
 
         public Action<string> CurrentShootModeNotifier;
 
-        public BasicInfo<string> ExposureMode { set; get; }
-        public BasicInfo<string> ShutterSpeed { set; get; }
-        public BasicInfo<string> ISOSpeedRate { set; get; }
-        public BasicInfo<string> FNumber { set; get; }
-        public EvInfo EvInfo { set; get; }
-        public bool ProgramShiftActivated { set; get; }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)

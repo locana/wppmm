@@ -594,6 +594,10 @@ namespace WPPMM
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
             TouchAFPointer.DataContext = svd;
+            ExposureMode.DataContext = svd;
+            ShutterSpeed.DataContext = svd;
+            ISO.DataContext = svd;
+            Fnumber.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm = new ControlPanelManager(ControlPanel);
@@ -614,6 +618,10 @@ namespace WPPMM
             AudioScreenImage.DataContext = null;
             ShootButtonWrapper.DataContext = null;
             TouchAFPointer.DataContext = null;
+            ExposureMode.DataContext = null;
+            ShutterSpeed.DataContext = null;
+            ISO.DataContext = null;
+            Fnumber.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             cpm = null;

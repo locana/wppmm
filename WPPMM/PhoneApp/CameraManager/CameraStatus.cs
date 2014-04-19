@@ -20,20 +20,25 @@ namespace WPPMM.CameraManager
             set;
         }
 
-        private List<string> _MethodTypes = null;
-        public List<String> MethodTypes
+        private Dictionary<string, List<string>> _SupportedApis = null;
+        public Dictionary<string, List<string>> SupportedApis
         {
-            get { return (_MethodTypes == null) ? new List<string>() : _MethodTypes; }
+            get { return (_SupportedApis == null) ? new Dictionary<string, List<string>>() : _SupportedApis; }
             set
             {
-                _MethodTypes = value;
+                _SupportedApis = value;
                 OnPropertyChanged("MethodTypes");
             }
         }
 
         public bool IsSupported(string apiName)
         {
-            return MethodTypes.Contains(apiName);
+            return SupportedApis.ContainsKey(apiName);
+        }
+
+        public bool IsSupported(string apiName, string version)
+        {
+            return SupportedApis.ContainsKey(apiName) && SupportedApis[apiName].Contains(version);
         }
 
         public void Init()
@@ -50,7 +55,7 @@ namespace WPPMM.CameraManager
         private void _init()
         {
             isAvailableConnecting = false;
-            MethodTypes = new List<string>();
+            SupportedApis = new Dictionary<string, List<string>>();
         }
 
         public void InitEventParams()
@@ -198,8 +203,9 @@ namespace WPPMM.CameraManager
             {
                 _ShutterSpeed = value;
                 OnPropertyChanged("ShutterSpeed");
-            } 
-            get { return _ShutterSpeed; } }
+            }
+            get { return _ShutterSpeed; }
+        }
 
         private Capability<string> _ISOSpeedRate;
         public Capability<string> ISOSpeedRate

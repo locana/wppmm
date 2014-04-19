@@ -643,15 +643,15 @@ namespace WPPMM
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 70, 30);
                     ZoomElements.Margin = new Thickness(70, 0, 0, 30);
-                    PostViewWindow.Margin = new Thickness(40, 20, 0, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
+                    UpperLeftElements.Margin = new Thickness(40, 20, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 30, 80);
                     ZoomElements.Margin = new Thickness(30, 0, 0, 80);
-                    PostViewWindow.Margin = new Thickness(20, 20, 0, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
+                    UpperLeftElements.Margin = new Thickness(10, 20, 0, 0);
                     break;
             }
         }

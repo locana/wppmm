@@ -36,7 +36,8 @@ namespace WPPMM.RemoteApi
                 new JProperty("id", GetID()),
                 new JProperty("params", param));
 
-            return json.ToString().Replace(" ", "").Replace("\n", "").Replace("\r", "");
+            //return json.ToString().Replace(" ", "").Replace("\n", "").Replace("\r", "");
+            return json.ToString();
         }
 
         /// <summary>

@@ -411,7 +411,7 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task SetExposureCompensationIndexAsync(int index)
+        public async Task SetEVIndexAsync(int index)
         {
             BasicResultHandler.HandleNoValue(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setExposureCompensation", index)),
@@ -419,7 +419,7 @@ namespace WPPMM.RemoteApi
                 () => { });
         }
 
-        public async Task<int> GetExposureCompensationIndexAsync()
+        public async Task<int> GetEVIndexAsync()
         {
             int result = -1;
             BasicResultHandler.HandleSingleValue<int>(
@@ -429,7 +429,7 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<EvRange[]> GetSupportedExposureCompensationAsync()
+        public async Task<EvRange[]> GetSupportedEVAsync()
         {
             EvRange[] result = null;
             ResultHandler.HandleGetSupportedExposureCompensation(
@@ -439,7 +439,7 @@ namespace WPPMM.RemoteApi
             return result;
         }
 
-        public async Task<EvInfo> GetAvailableExposureCompensationAsync()
+        public async Task<EvInfo> GetAvailableEVAsync()
         {
             EvInfo result = null;
             BasicResultHandler.HandleParallelValues<int>(

@@ -20,6 +20,21 @@ namespace WPPMM.CameraManager
             set;
         }
 
+        private ServerVersion version = ServerVersion.CreateDefault();
+
+        public ServerVersion Version
+        {
+            set { version = value; }
+            get
+            {
+                if (version == null)
+                {
+                    version = ServerVersion.CreateDefault();
+                }
+                return version;
+            }
+        }
+
         public enum AutoFocusType
         {
             None,
@@ -83,6 +98,20 @@ namespace WPPMM.CameraManager
             AfType = AutoFocusType.None;
         }
 
+        static readonly IEnumerable<string> RestrictedApiSet =
+            new string[]{
+                "actHalfPressShutter",
+                "setTouchAFPosition",
+                "setExposureMode",
+                "setFNumber",
+                "setShutterSpeed",
+                "setIsoSpeedRate",
+                "setWhiteBalance",
+                "setStillSize",
+                "setBeepMode",
+                "setCurrentTime"
+            };
+
         private string[] _AvailableApis;
         public string[] AvailableApis
         {
@@ -103,7 +132,21 @@ namespace WPPMM.CameraManager
 
         public bool IsAvailable(string apiName)
         {
-            return AvailableApiList.Contains(apiName);
+            if (Version.IsLiberated)
+            {
+                return AvailableApiList.Contains(apiName);
+            }
+            else
+            {
+                foreach (var api in RestrictedApiSet)
+                {
+                    if (apiName == api)
+                    {
+                        return false;
+                    }
+                }
+                return AvailableApiList.Contains(apiName);
+            }
         }
 
         private string _Status = EventParam.NotReady;

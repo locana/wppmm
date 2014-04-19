@@ -205,7 +205,6 @@ namespace WPPMM.CameraManager
 
             if (StatusComparator.IsFocusStatusModified(target, data.FocusStatus))
                 NotifyChangeDetected(EventMember.FocusStatus);
-                
         }
 
         private async void Call()

@@ -76,7 +76,7 @@ namespace WPPMM.DataModel
                         break;
                     case "EvInfo":
                         break;
-                    case "": // todo:
+                    case "FocusStatus":
                         OnPropertyChanged("TouchAFPointerStrokeBrush");
                         OnPropertyChanged("TouchAFPointerVisibility");
                         break;
@@ -239,13 +239,52 @@ namespace WPPMM.DataModel
         {
             get
             {
+                if (cameraStatus == null || cameraStatus.FocusStatus == null)
+                {
+                    return Visibility.Collapsed;
+                }
+
+                Debug.WriteLine("V focusStatus: " + cameraStatus.FocusStatus);
+
                 if (cameraStatus.IsAvailable("setTouchAFPosition"))
                 {
-                    return Visibility.Visible;
+                    switch (cameraStatus.FocusStatus)
+                    {
+                        case RemoteApi.FocusState.Focused:
+                        case RemoteApi.FocusState.Failed:
+                        case RemoteApi.FocusState.InProgress:
+                            return Visibility.Visible;
+
+                        case RemoteApi.FocusState.Released:
+                        default:
+                            return Visibility.Collapsed;
+                    }
                 }
                 else
                 {
                     return Visibility.Collapsed;
+                }
+            }
+        }
+
+        public Brush TouchAFPointerStrokeBrush
+        {
+            get {
+                if (cameraStatus == null || cameraStatus.FocusStatus == null)
+                {
+                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+                // Debug.WriteLine("focusStatus: " + cameraStatus.FocusStatus);
+                switch (cameraStatus.FocusStatus)
+                {
+                    case RemoteApi.FocusState.Focused:
+                        return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                    case RemoteApi.FocusState.Failed:
+                        return (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
+                    case RemoteApi.FocusState.Released:
+                    case RemoteApi.FocusState.InProgress:
+                    default:
+                        return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
                 }
             }
         }
@@ -349,9 +388,6 @@ namespace WPPMM.DataModel
             }
         }
 
-        public Brush TouchAFPointerStrokeBrush
-        {
-            get { return (Brush)Application.Current.Resources["PhoneForegroundBrush"]; }
-        }
+
     }
 }

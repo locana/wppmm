@@ -68,6 +68,7 @@ namespace WPPMM.CameraManager
             ShootModeInfo = null;
             SelfTimerInfo = null;
             PostviewSizeInfo = null;
+            FocusStatus = null;
             IsLiveviewAvailable = false;
             ZoomInfo = null;
             Status = EventParam.NotReady;
@@ -240,6 +241,22 @@ namespace WPPMM.CameraManager
             get { return _EvInfo; }
         }
         public bool ProgramShiftActivated { set; get; }
+
+        public void ClearFocusStatus()
+        {
+            FocusStatus = RemoteApi.FocusState.Released;
+        }
+
+        private string _FocusStatus;
+        public string FocusStatus
+        {
+            set
+            {
+                _FocusStatus = value;
+                OnPropertyChanged("FocusStatus");
+            }
+            get { return _FocusStatus; }
+        }
 
         public Visibility LiveviewScreenVisibility
         {

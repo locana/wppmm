@@ -431,7 +431,6 @@ namespace WPPMM
         {
             GeneralTransform trans = ScreenImage.TransformToVisual(null);
             var point = trans.Transform(new Point());
-            TouchAFPointer.Visibility = System.Windows.Visibility.Visible;
             TouchAFPointer.Margin = new Thickness(ScreenImage.ActualWidth / 2 + point.X - TouchAFPointer.Width / 2,
                 ScreenImage.ActualHeight / 2 + point.Y - TouchAFPointer.Height / 2, 0, 0);
 
@@ -444,6 +443,7 @@ namespace WPPMM
             {
                 return;
             }
+            cameraManager.cameraStatus.ClearFocusStatus();
 
             Image image = sender as Image;
             var touchX = e.ManipulationOrigin.X;
@@ -453,7 +453,7 @@ namespace WPPMM
             double posY = touchY * 100.0 / image.ActualHeight;
 
             TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
-
+            
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
 

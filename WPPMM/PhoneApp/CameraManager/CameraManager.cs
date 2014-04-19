@@ -674,7 +674,14 @@ namespace WPPMM.CameraManager
             {
                 await apiClient.SetAFPositionAsync(x, y);
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException e)
+            {
+                // in case of AF has failed
+                if (_cameraStatus != null)
+                {
+                    _cameraStatus.FocusStatus = RemoteApi.FocusState.Failed;
+                }
+            }
         }
 
         public async void CancelTouchAF()

@@ -1,5 +1,5 @@
+using Newtonsoft.Json;
 
-using System;
 namespace WPPMM.RemoteApi
 {
     public class ZoomInfo
@@ -66,12 +66,16 @@ namespace WPPMM.RemoteApi
 
     public class SetAFResult
     {
+        [JsonProperty("AFResult")]
         public bool Focused { internal set; get; }
+
+        [JsonProperty("AFType")]
         public string Mode { internal set; get; }
     }
 
     public class TouchAFStatus
     {
+        [JsonProperty("set")]
         public bool Focused { internal set; get; }
     }
 
@@ -80,5 +84,14 @@ namespace WPPMM.RemoteApi
         public EvStepDefinition IndexStep { internal set; get; }
         public int MaxIndex { internal set; get; }
         public int MinIndex { internal set; get; }
+    }
+
+    public class StillImageSize
+    {
+        [JsonProperty("aspect")]
+        public string AspectRatio { set; get; }
+
+        [JsonProperty("size")]
+        public string SizeDefinition { set; get; }
     }
 }

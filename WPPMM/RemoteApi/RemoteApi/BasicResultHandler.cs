@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -135,6 +136,39 @@ namespace WPPMM.RemoteApi
             }
 
             result.Invoke(new BasicInfo<T> { current = json["result"].Value<T>(0), candidates = _candidates.ToArray() });
+        }
+
+
+        internal static void HandleObject<T>(string jString, Action<int> error, Action<T> result, int? place = 0)
+        {
+            var json = JObject.Parse(jString);
+            if (HandleError(json, error))
+            {
+                return;
+            }
+
+            result.Invoke(JsonConvert.DeserializeObject<T>(json["result"][place].ToString()));
+        }
+
+        internal static void HandleBasicInfoObject<T>(string jString, Action<int> error, Action<BasicInfo<T>> result)
+        {
+            var json = JObject.Parse(jString);
+            if (HandleError(json, error))
+            {
+                return;
+            }
+
+            var _candidates = new List<T>();
+            foreach (var token in json["result"][1].Values())
+            {
+                _candidates.Add(JsonConvert.DeserializeObject<T>(token.ToString()));
+            }
+
+            result.Invoke(new BasicInfo<T>
+            {
+                current = JsonConvert.DeserializeObject<T>(json["result"][0].ToString()),
+                candidates = _candidates.ToArray()
+            });
         }
     }
 }

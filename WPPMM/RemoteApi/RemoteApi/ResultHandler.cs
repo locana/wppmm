@@ -29,21 +29,6 @@ namespace WPPMM.RemoteApi
             result.Invoke(dto);
         }
 
-        internal static void HandleGetTouchAFPosition(string jString, Action<int> error, Action<TouchAFStatus> result)
-        {
-            var json = JObject.Parse(jString);
-            if (BasicResultHandler.HandleError(json, error))
-            {
-                return;
-            }
-
-            var res = new TouchAFStatus
-            {
-                Focused = json["result"][0].Value<bool>("set")
-            };
-            result.Invoke(res);
-        }
-
         internal static void HandleGetSupportedExposureCompensation(string jString, Action<int> error, Action<EvRange[]> result)
         {
             var json = JObject.Parse(jString);
@@ -80,22 +65,6 @@ namespace WPPMM.RemoteApi
                 tmp.Add(new EvRange { IndexStep = EvConverter.GetDefinition(deflist[i]), MaxIndex = maxlist[i], MinIndex = minlist[i] });
             }
             result.Invoke(tmp.ToArray());
-        }
-
-        internal static void HandleSetTouchAFPosition(string jString, Action<int> error, Action<SetAFResult> result)
-        {
-            var json = JObject.Parse(jString);
-            if (BasicResultHandler.HandleError(json, error))
-            {
-                return;
-            }
-
-            var res = json["result"][1];
-            result.Invoke(new SetAFResult
-            {
-                Focused = res.Value<bool>("AFResult"),
-                Mode = res.Value<string>("AFType")
-            });
         }
 
         internal static void HandleGetApplicationInfo(string jString, Action<int> error, Action<ApplicationInfo> result)

@@ -310,17 +310,18 @@ namespace WPPMM.RemoteApi
         public async Task<SetAFResult> SetAFPositionAsync(double x, double y)
         {
             SetAFResult result = null;
-            ResultHandler.HandleSetTouchAFPosition(
+            BasicResultHandler.HandleObject<SetAFResult>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setTouchAFPosition", x, y)),
                 code => { throw new RemoteApiException(code); },
-                res => result = res);
+                res => result = res,
+                1); // ignore 0th parameter
             return result;
         }
 
         public async Task<TouchAFStatus> GetTouchAFStatusAsync()
         {
             TouchAFStatus result = null;
-            ResultHandler.HandleGetTouchAFPosition(
+            BasicResultHandler.HandleObject<TouchAFStatus>(
                 await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getTouchAFPosition")),
                 code => { throw new RemoteApiException(code); },
                 res => result = res);
@@ -447,6 +448,158 @@ namespace WPPMM.RemoteApi
                 4,
                 code => { throw new RemoteApiException(code); },
                 info => result = new EvInfo { Range = new EvRange { IndexStep = EvConverter.GetDefinition(info[3]), MaxIndex = info[1], MinIndex = info[2] }, CurrentIndex = info[0] });
+            return result;
+        }
+
+        public async Task SetFNumberAsync(string f)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setFNumber", f)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<string> GetFNumberAsync()
+        {
+            string result = null;
+            BasicResultHandler.HandleSingleValue<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getFNumber")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<string[]> GetSupportedFNumberAsync()
+        {
+            string[] result = null;
+            BasicResultHandler.HandleArray<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedFNumber")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<BasicInfo<string>> GetAvailableFNumberAsync()
+        {
+            BasicInfo<string> result = null;
+            BasicResultHandler.HandleBasicInfo<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableFNumber")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task SetShutterSpeedAsync(string ss)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setShutterSpeed", ss)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<string> GetShutterSpeedAsync()
+        {
+            string result = null;
+            BasicResultHandler.HandleSingleValue<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getShutterSpeed")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<string[]> GetSupportedShutterSpeedAsync()
+        {
+            string[] result = null;
+            BasicResultHandler.HandleArray<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedShutterSpeed")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<BasicInfo<string>> GetAvailableShutterSpeedAsync()
+        {
+            BasicInfo<string> result = null;
+            BasicResultHandler.HandleBasicInfo<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableShutterSpeed")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task SetISOSpeedAsync(string iso)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setIsoSpeedRate", iso)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<string> GetIsoSpeedAsync()
+        {
+            string result = null;
+            BasicResultHandler.HandleSingleValue<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getIsoSpeedRate")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<string[]> GetSupportedIsoSpeedAsync()
+        {
+            string[] result = null;
+            BasicResultHandler.HandleArray<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedIsoSpeedRate")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<BasicInfo<string>> GetAvailableIsoSpeedAsync()
+        {
+            BasicInfo<string> result = null;
+            BasicResultHandler.HandleBasicInfo<string>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableIsoSpeedRate")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task SetStillImageSizeAsync(StillImageSize size)
+        {
+            BasicResultHandler.HandleNoValue(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("setStillSize", size.AspectRatio, size.SizeDefinition)),
+                code => { throw new RemoteApiException(code); },
+                () => { });
+        }
+
+        public async Task<StillImageSize> GetStillSizeAsync()
+        {
+            StillImageSize result = null;
+            BasicResultHandler.HandleObject<StillImageSize>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getStillSize")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<StillImageSize[]> GetSupportedStillSizeAsync()
+        {
+            StillImageSize[] result = null;
+            BasicResultHandler.HandleObject<StillImageSize[]>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getSupportedStillSize")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
+            return result;
+        }
+
+        public async Task<BasicInfo<StillImageSize>> GetAvailableStillSizeAsync()
+        {
+            BasicInfo<StillImageSize> result = null;
+            BasicResultHandler.HandleBasicInfoObject<StillImageSize>(
+                await AsyncPostClient.Post(endpoint, RequestGenerator.Jsonize("getAvailableStillSize")),
+                code => { throw new RemoteApiException(code); },
+                res => result = res);
             return result;
         }
     }

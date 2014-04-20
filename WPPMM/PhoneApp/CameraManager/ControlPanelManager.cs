@@ -107,7 +107,7 @@ namespace WPPMM.CameraManager
 
             if (status.IsSupported("setExposureMode"))
             {
-                panel.Children.Add(CreateStatusPanel("ExposureMode", "ExposureMode",
+                panel.Children.Add(CreateStatusPanel("ExposureMode", Resources.AppResources.ExposureMode,
                     async (sender, arg) =>
                     {
                         if (status.ExposureMode == null || status.ShootModeInfo.candidates == null || status.ExposureMode.candidates.Length == 0)

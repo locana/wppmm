@@ -158,7 +158,21 @@ namespace WPPMM.Utils
 
         private static string FromExposureMode(string val)
         {
-            return val;
+            switch (val)
+            {
+                case RemoteApi.ExposureMode.Aperture:
+                    return Resources.AppResources.ExposureMode_A;
+                case RemoteApi.ExposureMode.SS:
+                    return Resources.AppResources.ExposureMode_S;
+                case RemoteApi.ExposureMode.Program:
+                    return Resources.AppResources.ExposureMode_P;
+                case RemoteApi.ExposureMode.Superior:
+                    return Resources.AppResources.ExposureMode_sA;
+                case RemoteApi.ExposureMode.Intelligent:
+                    return Resources.AppResources.ExposureMode_iA;
+                default:
+                    return val;            
+            }
         }
     }
 }

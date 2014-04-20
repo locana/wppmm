@@ -303,4 +303,22 @@
   <data name="AppBar_CameraRoll" xml:space="preserve">
     <value>Camera Roll</value>
   </data>
+  <data name="ExposureMode" xml:space="preserve">
+    <value>露出モード</value>
+  </data>
+  <data name="ExposureMode_A" xml:space="preserve">
+    <value>絞り優先</value>
+  </data>
+  <data name="ExposureMode_iA" xml:space="preserve">
+    <value>プレミアムおまかせオート</value>
+  </data>
+  <data name="ExposureMode_P" xml:space="preserve">
+    <value>プログラムオート</value>
+  </data>
+  <data name="ExposureMode_S" xml:space="preserve">
+    <value>シャッター優先</value>
+  </data>
+  <data name="ExposureMode_sA" xml:space="preserve">
+    <value>おまかせオート</value>
+  </data>
 </root>

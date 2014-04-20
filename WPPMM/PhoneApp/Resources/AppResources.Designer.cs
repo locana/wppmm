@@ -295,6 +295,60 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exposure mode.
+        /// </summary>
+        public static string ExposureMode {
+            get {
+                return ResourceManager.GetString("ExposureMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aperture Priority.
+        /// </summary>
+        public static string ExposureMode_A {
+            get {
+                return ResourceManager.GetString("ExposureMode_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intelligent Auto.
+        /// </summary>
+        public static string ExposureMode_iA {
+            get {
+                return ResourceManager.GetString("ExposureMode_iA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program Auto.
+        /// </summary>
+        public static string ExposureMode_P {
+            get {
+                return ResourceManager.GetString("ExposureMode_P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shutter Priority.
+        /// </summary>
+        public static string ExposureMode_S {
+            get {
+                return ResourceManager.GetString("ExposureMode_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Superior Auto.
+        /// </summary>
+        public static string ExposureMode_sA {
+            get {
+                return ResourceManager.GetString("ExposureMode_sA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure that SSID of connected access point is that of your camera device&apos;s..
         /// </summary>
         public static string Guide_CantFindDevice {

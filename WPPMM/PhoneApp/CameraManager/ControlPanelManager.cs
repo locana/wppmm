@@ -153,7 +153,7 @@ namespace WPPMM.CameraManager
 
             if (status.IsSupported("actTakePicture"))
             {
-                panel.Children.Add(CreatePostviewSettingPanel());
+                // panel.Children.Add(CreatePostviewSettingPanel());
                 panel.Children.Add(CreateIntervalEnableSettingPanel());
                 panel.Children.Add(CreateIntervalTimeSliderPanel());
             }

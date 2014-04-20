@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -59,6 +60,10 @@ namespace WPPMM.DataModel
                     catch (COMException)
                     {
                         Debug.WriteLine("Caught COMException: ControlPanelViewData");
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
                     }
                 });
             }

@@ -60,13 +60,11 @@ namespace WPPMM
                 ApplicationBar.IsVisible = false;
                 if (cameraManager != null){cameraManager.CancelTouchAF();}
                 cpm.Show(); });
-            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { MyPivot.SelectedIndex = 2; });
+            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AppSettingPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.TouchAfCancel, (sender, e) =>
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             });
-
-            SettingList.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -82,7 +80,10 @@ namespace WPPMM
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
 
-
+            if (MyPivot.SelectedIndex == 1)
+            {
+                LiveviewPageLoaded();
+            }
 
         }
 
@@ -117,6 +118,12 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+
+            if (MyPivot.SelectedIndex == 1)
+            {
+                LiveviewPageUnloaded();
+            }
+
             cameraManager.RequestCloseLiveView();
             //LiveViewInit();
 
@@ -350,15 +357,9 @@ namespace WPPMM
                 case 1:
                     LiveviewPageLoaded();
                     break;
-                case 2:
-                    SettingPageLoaded();
+                default:
                     break;
             }
-        }
-
-        private void SettingPageLoaded()
-        {
-            ApplicationBar = abm.Clear().CreateNew(0.0);
         }
 
         private async void LiveviewPageLoaded()
@@ -666,7 +667,7 @@ namespace WPPMM
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 30, 80);
+                    ShootButton.Margin = new Thickness(0, 0, 30, 90);
                     ZoomElements.Margin = new Thickness(30, 0, 0, 90);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 20, 0, 0);

@@ -207,12 +207,6 @@
                     </Grid>
                 </Grid>
             </phone:PivotItem>
-            <phone:PivotItem CacheMode="{x:Null}" x:Name="SettingPivot">
-                <StackPanel Name="SettingList">
-                    <TextBlock Text="{Binding Path=LocalizedResources.ApplicationSettings, Source={StaticResource LocalizedStrings}}" 
-                               Margin="0,8,0,20" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
-                </StackPanel>
-            </phone:PivotItem>
         </phone:Pivot>
         <ProgressBar HorizontalAlignment="Stretch" Height="20" Margin="0,0,0,0" x:Name="ProgressBar"
 			VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">

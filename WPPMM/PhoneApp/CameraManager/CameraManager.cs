@@ -39,6 +39,7 @@ namespace WPPMM.CameraManager
         internal event Action<CameraStatus> UpdateEvent;
         internal event Action OnDisconnected;
         internal event Action<CameraStatus> OnAfStatusChanged;
+        internal event Action<string> OnCameraStatusChanged;
 
         private Stopwatch watch;
 
@@ -622,6 +623,10 @@ namespace WPPMM.CameraManager
                     break;
                 case EventMember.CameraStatus:
                     Debug.WriteLine("CameraStatus has changed: " + _cameraStatus.Status);
+                    if (OnCameraStatusChanged != null)
+                    {
+                        OnCameraStatusChanged(_cameraStatus.Status);
+                    }
                     break;
                 case EventMember.FocusStatus:
                     if (OnAfStatusChanged != null)

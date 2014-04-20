@@ -361,8 +361,10 @@ namespace WPPMM
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
 
             cameraManager.PictureNotifier = OnPictureSaved;
-
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
+            cameraManager.OnCameraStatusChanged += cameraManager_OnCameraStatusChanged;
+
+            cameraManager.IntervalManager.OnIntervalRecStatusChanged += IntervalManager_OnIntervalRecStatusChanged;
 
             if (cameraManager.IsClientReady())
             {
@@ -407,6 +409,31 @@ namespace WPPMM
             }
 
             ClearNFCInfo();
+        }
+
+        void IntervalManager_OnIntervalRecStatusChanged(bool isRunning)
+        {
+            Debug.WriteLine("Interval changed: " + isRunning);
+            this.SetPivotIsLocked(isRunning);
+        }
+
+        void cameraManager_OnCameraStatusChanged(string status)
+        {
+            switch (status)
+            {
+                case RemoteApi.EventParam.MvWaitRecStop:
+                case RemoteApi.EventParam.MvWaitRecStart:
+                case RemoteApi.EventParam.MvSaving:
+                case RemoteApi.EventParam.MvRecording:
+                    this.SetPivotIsLocked(true);
+                    break;
+                default:
+                    if (!cameraManager.IntervalManager.IsRunning)
+                    {
+                        this.SetPivotIsLocked(false);
+                    }
+                    break;
+            }
         }
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
@@ -499,6 +526,7 @@ namespace WPPMM
             cameraManager.PictureNotifier = null;
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
+            cameraManager.OnCameraStatusChanged -= cameraManager_OnCameraStatusChanged; 
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);

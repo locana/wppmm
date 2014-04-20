@@ -12,6 +12,7 @@ namespace WPPMM.CameraManager
     class IntervalShootingManager : INotifyPropertyChanged
     {
         private readonly AppStatus status;
+        internal event Action<bool> OnIntervalRecStatusChanged;
 
         public IntervalShootingManager(AppStatus status)
         {
@@ -116,6 +117,11 @@ namespace WPPMM.CameraManager
             Timer.Tick += new EventHandler(RequestActTakePicture);
             Timer.Start();
             OnPropertyChanged("IntervalStatusPanelVisibility");
+
+            if (OnIntervalRecStatusChanged != null)
+            {
+                OnIntervalRecStatusChanged(this.IsRunning);
+            }
         }
 
         public void Start(int interval)
@@ -137,6 +143,11 @@ namespace WPPMM.CameraManager
             status.IsIntervalShootingActivated = false;
             Timer.Stop();
             OnPropertyChanged("IntervalStatusPanelVisibility");
+
+            if (OnIntervalRecStatusChanged != null)
+            {
+                OnIntervalRecStatusChanged(this.IsRunning);
+            }
         }
 
         public void RequestActTakePicture(object sender, EventArgs e)

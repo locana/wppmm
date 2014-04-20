@@ -443,6 +443,12 @@ namespace WPPMM
 
         void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
+            if (cpm.IsShowing())
+            {
+                cpm.Hide();
+                return;
+            }
+
             if (!cameraManager.IsTouchAfAvailable())
             {
                 return;

@@ -65,6 +65,7 @@ namespace WPPMM
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             });
+            abm.SetEvent(IconMenu.CameraRoll, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative)); });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -309,29 +310,9 @@ namespace WPPMM
             }
         }
 
-        private void PostViewWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            cameraManager.PictureNotifier = OnPictureSaved;
-            PostViewWindow.DataContext = pvd;
-        }
-
-        private void PostViewWindow_Unloaded(object sender, RoutedEventArgs e)
-        {
-            PostViewWindow.DataContext = null;
-            cameraManager.PictureNotifier = null;
-        }
-
         private void OnPictureSaved(Picture pic)
         {
-            pvd.PictureData = pic;
-        }
-
-        private void PostViewWindow_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (pvd.postview != null)
-            {
-                NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative));
-            }
+            ApplicationBar = abm.Enable(IconMenu.CameraRoll).CreateNew(0.0);
         }
 
         private int PreviousSelectedPivotIndex = -1;
@@ -378,6 +359,8 @@ namespace WPPMM
             CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
+
+            cameraManager.PictureNotifier = OnPictureSaved;
 
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
 
@@ -506,6 +489,8 @@ namespace WPPMM
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed -= CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased -= CameraButtons_ShutterKeyReleased;
+
+            cameraManager.PictureNotifier = null;
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
 

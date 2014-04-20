@@ -39,6 +39,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_cancel.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton CameraRollItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.AppBar_CameraRoll,
+            IconUri = new Uri("/Assets/AppBar/appBar_playback.png", UriKind.Relative),
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -52,6 +58,7 @@ namespace WPPMM.Utils
             IconMenuItems.Add(IconMenu.ControlPanel, ControlPanelItem);
             IconMenuItems.Add(IconMenu.ApplicationSetting, AppSettingItem);
             IconMenuItems.Add(IconMenu.TouchAfCancel, TouchAfCancelItem);
+            IconMenuItems.Add(IconMenu.CameraRoll, CameraRollItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -156,5 +163,6 @@ namespace WPPMM.Utils
         ControlPanel,
         ApplicationSetting,
         TouchAfCancel,
+        CameraRoll,
     }
 }

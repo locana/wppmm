@@ -79,6 +79,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Camera Roll.
+        /// </summary>
+        public static string AppBar_CameraRoll {
+            get {
+                return ResourceManager.GetString("AppBar_CameraRoll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel AF.
         /// </summary>
         public static string AppBar_CancelTouchAf {

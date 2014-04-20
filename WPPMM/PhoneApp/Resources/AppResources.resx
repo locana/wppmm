@@ -299,4 +299,7 @@
   <data name="AppBar_CancelTouchAf" xml:space="preserve">
     <value>Cancel AF</value>
   </data>
+  <data name="AppBar_CameraRoll" xml:space="preserve">
+    <value>Camera Roll</value>
+  </data>
 </root>

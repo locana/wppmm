@@ -395,7 +395,7 @@ namespace WPPMM.CameraManager
 
         public void OnResultActTakePicture(String[] res)
         {
-            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
+            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled || IntervalManager.IsRunning)
             {
                 if (ShowToast != null)
                 {
@@ -629,6 +629,7 @@ namespace WPPMM.CameraManager
                         OnAfStatusChanged(_cameraStatus);
                     }
                     break;
+                    
                 default:
                     //Debug.WriteLine("Difference detected: default");
                     break;

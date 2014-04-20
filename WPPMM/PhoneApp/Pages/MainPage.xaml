@@ -131,7 +131,7 @@
                             <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                         </Button>
                         </Grid>
-                        <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="37" />
                                 <ColumnDefinition Width="0.7*" />
@@ -139,16 +139,16 @@
                                 <ColumnDefinition Width="0.7*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6"
+                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,3"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay}" Grid.Column="0">
                                 <Rectangle.OpacityMask>
                                     <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Name="ShutterSpeed" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="1"/>
-                            <TextBlock Name="Fnumber" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="2"/>
-                            <TextBlock Name="Ev" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="Collapsed" Text="" HorizontalAlignment="Center" Margin="6"  Grid.Column="3"/>
-                            <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6" Grid.Column="4"/>
+                            <TextBlock Name="ShutterSpeed" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
+                            <TextBlock Name="Fnumber" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
+                            <TextBlock Name="Ev" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="Collapsed" Text="" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
+                            <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
                             
                         </Grid>
                         <Grid HorizontalAlignment="Left" Height="auto" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay}" >
@@ -175,17 +175,18 @@
                             <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
                         </Grid>
 
-                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Background="{StaticResource PhoneBackgroundBrush}"
-                                    Margin="30" Height="auto" Width="auto" Name="IntervalStatusPanel" Opacity="0.6" 
-                                    Visibility="{Binding IntervalStatusPanelVisibility, Mode=OneWay}">
-                            <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
-                            <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
-                        </StackPanel>
+
                     </Grid>
                     <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
                         <TextBlock Name="ExposureMode" Text="{Binding ExposureModeDisplayName}" Visibility="{Binding ExposureModeVisibility}" FontSize="{StaticResource PhoneFontSizeLarge}" />
                         <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus"
                                Visibility="{Binding RecordingStatusVisibility, Mode=OneWay}"/>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Background="{StaticResource PhoneBackgroundBrush}"
+                                    Margin="6" Height="auto" Width="auto" Name="IntervalStatusPanel" Opacity="0.6" 
+                                    Visibility="{Binding IntervalStatusPanelVisibility, Mode=OneWay}">
+                            <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
+                            <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
+                        </StackPanel>
                     </StackPanel>
                     
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >

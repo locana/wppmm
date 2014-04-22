@@ -302,4 +302,17 @@
   <data name="AppBar_CameraRoll" xml:space="preserve">
     <value>Camera Roll</value>
   </data>
+  <data name="Error_Message_FailedToGetInfo" xml:space="preserve">
+    <value>Failed to retrieve information.
+Please check internet connection status</value>
+  </data>
+  <data name="Message_Caution" xml:space="preserve">
+    <value>Please acknowledge that NO secret function is unlocked by purchasing these in-app items.</value>
+  </data>
+  <data name="Message_Encourage" xml:space="preserve">
+    <value>Donation will encourage our development for continuous update!</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
 </root>

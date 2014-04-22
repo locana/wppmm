@@ -45,6 +45,12 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_playback.png", UriKind.Relative),
         };
 
+        readonly ApplicationBarIconButton HiddenMenuItem = new ApplicationBarIconButton
+        {
+            Text = "Hidden",
+            IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -59,6 +65,7 @@ namespace WPPMM.Utils
             IconMenuItems.Add(IconMenu.ApplicationSetting, AppSettingItem);
             IconMenuItems.Add(IconMenu.TouchAfCancel, TouchAfCancelItem);
             IconMenuItems.Add(IconMenu.CameraRoll, CameraRollItem);
+            IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -164,5 +171,6 @@ namespace WPPMM.Utils
         ApplicationSetting,
         TouchAfCancel,
         CameraRoll,
+        Hidden
     }
 }

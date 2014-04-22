@@ -56,16 +56,19 @@ namespace WPPMM
 
             abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
-            abm.SetEvent(IconMenu.ControlPanel, (sender, e) => { 
+            abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
+            {
                 ApplicationBar.IsVisible = false;
-                if (cameraManager != null){cameraManager.CancelTouchAF();}
-                cpm.Show(); });
+                if (cameraManager != null) { cameraManager.CancelTouchAF(); }
+                cpm.Show();
+            });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AppSettingPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.TouchAfCancel, (sender, e) =>
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             });
             abm.SetEvent(IconMenu.CameraRoll, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative)); });
+            abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -87,7 +90,6 @@ namespace WPPMM
             }
 
         }
-
 
         internal void cameraManager_OnDisconnected()
         {
@@ -488,11 +490,11 @@ namespace WPPMM
             double posY = touchY * 100.0 / image.ActualHeight;
 
             TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
-            
+
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
 
-            
+
 
             cameraManager.RequestTouchAF(posX, posY);
         }
@@ -526,10 +528,10 @@ namespace WPPMM
             cameraManager.PictureNotifier = null;
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
-            cameraManager.OnCameraStatusChanged -= cameraManager_OnCameraStatusChanged; 
+            cameraManager.OnCameraStatusChanged -= cameraManager_OnCameraStatusChanged;
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
-            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.Hidden).CreateNew(0.0);
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
         }

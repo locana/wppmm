@@ -46,6 +46,7 @@ namespace WPPMM.DataModel
                 switch (e.PropertyName)
                 {
                     case "MethodTypes":
+                    case "AvailableApis":
                         OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ZoomElementVisibility");
                         break;
@@ -202,7 +203,7 @@ namespace WPPMM.DataModel
 
         public Visibility ZoomElementVisibility
         {
-            get { return (cameraStatus.IsSupported("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
+            get { return (cameraStatus.IsAvailable("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
         }
 
 

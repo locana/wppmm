@@ -20,9 +20,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Name="SettingList">
-            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationSettings, Source={StaticResource LocalizedStrings}}" 
-                               Margin="0,8,0,20" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+        <StackPanel Grid.Row="0" Name="SettingList" Margin="12,17,0,16">
+            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" Style="{StaticResource PhoneTextNormalStyle}" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationSettings, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
         </StackPanel>
     </Grid>
 

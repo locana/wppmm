@@ -70,7 +70,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   App. setting に類似しているローカライズされた文字列を検索します。
+        ///   Settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppBar_AppSetting {
             get {
@@ -88,7 +88,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Cancel AF に類似しているローカライズされた文字列を検索します。
+        ///   Unlock AF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppBar_CancelTouchAf {
             get {
@@ -323,7 +323,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Don&apos;t worry, you can do it with the shutter button of your phone. に類似しているローカライズされた文字列を検索します。
+        ///   You can invoke remote shutter with your phone&apos;s hardware shutter key. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Guide_DisplayTakeImageButtonSetting {
             get {
@@ -647,7 +647,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Wi-Fi settings に類似しているローカライズされた文字列を検索します。
+        ///   Wi-Fi に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WifiSettingLauncherButtonText {
             get {

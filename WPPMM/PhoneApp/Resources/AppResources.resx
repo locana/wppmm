@@ -129,7 +129,7 @@
     <value>Scrap</value>
   </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
-    <value>Wi-Fi settings</value>
+    <value>Wi-Fi</value>
   </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
     <value>Couldn't find the devide. Make sure that SSID of connected access point is that of your camera device's.</value>
@@ -291,13 +291,13 @@
     <value>Display shutter button on the screen.</value>
   </data>
   <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
-    <value>Don't worry, you can do it with the shutter button of your phone.</value>
+    <value>You can invoke remote shutter with your phone's hardware shutter key.</value>
   </data>
   <data name="AppBar_AppSetting" xml:space="preserve">
-    <value>App. setting</value>
+    <value>Settings</value>
   </data>
   <data name="AppBar_CancelTouchAf" xml:space="preserve">
-    <value>Cancel AF</value>
+    <value>Unlock AF</value>
   </data>
   <data name="AppBar_CameraRoll" xml:space="preserve">
     <value>Camera Roll</value>

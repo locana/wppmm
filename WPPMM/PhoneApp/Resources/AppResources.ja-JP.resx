@@ -129,7 +129,7 @@
     <value>Scrap</value>
   </data>
   <data name="WifiSettingLauncherButtonText" xml:space="preserve">
-    <value>Wi-Fi設定</value>
+    <value>Wi-Fi</value>
   </data>
   <data name="Guide_CantFindDevice" xml:space="preserve">
     <value>デバイスを見つけられませんでした。表示されているSSIDがお使いのカメラのものと一致しているか確認してください。</value>
@@ -295,13 +295,13 @@
     <value>画面に撮影ボタンを表示する</value>
   </data>
   <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
-    <value>非表示にしていても、本体のシャッターボタンで撮影することができます。</value>
+    <value>本体のシャッターボタンで撮影する場合に有効にしてください。</value>
   </data>
   <data name="AppBar_CancelTouchAf" xml:space="preserve">
-    <value>Cancel AF</value>
+    <value>AF解除</value>
   </data>
   <data name="AppBar_CameraRoll" xml:space="preserve">
-    <value>Camera Roll</value>
+    <value>ギャラリー</value>
   </data>
   <data name="Error_Message_FailedToGetInfo" xml:space="preserve">
     <value>情報が取得できませんでした。

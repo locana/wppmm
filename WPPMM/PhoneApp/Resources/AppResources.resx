@@ -315,4 +315,7 @@ Please check internet connection status</value>
   <data name="Retry" xml:space="preserve">
     <value>Retry</value>
   </data>
+  <data name="Donation" xml:space="preserve">
+    <value>Donation</value>
+  </data>
 </root>

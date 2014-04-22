@@ -178,6 +178,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Donation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Donation {
+            get {
+                return ResourceManager.GetString("Donation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Failed to retrieve information.
         ///Please check internet connection status に類似しているローカライズされた文字列を検索します。
         /// </summary>

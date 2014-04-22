@@ -47,8 +47,8 @@ namespace WPPMM.Utils
 
         readonly ApplicationBarIconButton HiddenMenuItem = new ApplicationBarIconButton
         {
-            Text = "Hidden",
-            IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
+            Text = AppResources.Donation,
+            IconUri = new Uri("/Assets/AppBar/appBar_Dollar.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();

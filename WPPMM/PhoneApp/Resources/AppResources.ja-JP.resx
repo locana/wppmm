@@ -316,4 +316,7 @@
   <data name="Retry" xml:space="preserve">
     <value>リトライ</value>
   </data>
+  <data name="Donation" xml:space="preserve">
+    <value>サポート</value>
+  </data>
 </root>

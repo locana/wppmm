@@ -137,9 +137,13 @@ namespace WPPMM.Utils
         {
             var bar = new ApplicationBar();
 
-            if (EnabledIconItems.Count == 0)
-                if (EnabledItems.Count == 0)
-                    return null;
+            var IconItems = new SortedSet<IconMenu>(EnabledIconItems);
+
+            var Items = new SortedSet<Menu>(EnabledItems);
+
+            if (IconItems.Count == 0)
+                if (Items.Count == 0)
+                    return bar;
                 else
                     bar.Mode = ApplicationBarMode.Minimized;
             else
@@ -147,11 +151,11 @@ namespace WPPMM.Utils
 
             bar.Opacity = opacity;
 
-            foreach (Menu menu in EnabledItems)
+            foreach (var menu in Items)
             {
                 bar.MenuItems.Add(MenuItems[menu]);
             }
-            foreach (IconMenu menu in EnabledIconItems)
+            foreach (var menu in EnabledIconItems)
             {
                 bar.Buttons.Add(IconMenuItems[menu]);
             }

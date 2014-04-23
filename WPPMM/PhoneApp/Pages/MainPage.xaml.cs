@@ -475,6 +475,10 @@ namespace WPPMM
             if (cpm.IsShowing())
             {
                 cpm.Hide();
+                if (ApplicationBar != null)
+                {
+                    ApplicationBar.IsVisible = true;
+                }
                 return;
             }
 

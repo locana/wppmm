@@ -15,10 +15,10 @@ namespace WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_wifi.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton AboutMenuItem = new ApplicationBarIconButton
+        readonly ApplicationBarMenuItem AboutMenuItem = new ApplicationBarMenuItem
         {
             Text = AppResources.About,
-            IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
+            // IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
         readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
@@ -60,7 +60,7 @@ namespace WPPMM.Utils
         public AppBarManager()
         {
             IconMenuItems.Add(IconMenu.WiFi, WifiMenuItem);
-            IconMenuItems.Add(IconMenu.About, AboutMenuItem);
+            MenuItems.Add(Menu.About, AboutMenuItem);
             IconMenuItems.Add(IconMenu.ControlPanel, ControlPanelItem);
             IconMenuItems.Add(IconMenu.ApplicationSetting, AppSettingItem);
             IconMenuItems.Add(IconMenu.TouchAfCancel, TouchAfCancelItem);
@@ -165,12 +165,12 @@ namespace WPPMM.Utils
 
     public enum Menu
     {
+        About
     }
 
     public enum IconMenu
     {
         WiFi,
-        About,
         ControlPanel,
         ApplicationSetting,
         TouchAfCancel,

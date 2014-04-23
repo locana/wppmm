@@ -209,6 +209,10 @@ namespace WPPMM.CameraManager
 
         private async void Call()
         {
+            if (OnDetectDifference == null)
+            {
+                return;
+            }
             try
             {
                 var res = await client.GetEventAsync(true, version);

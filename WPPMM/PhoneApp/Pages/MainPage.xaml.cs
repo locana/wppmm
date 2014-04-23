@@ -54,7 +54,7 @@ namespace WPPMM
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
 
-            abm.SetEvent(IconMenu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
+            abm.SetEvent(Menu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
             {
@@ -84,11 +84,17 @@ namespace WPPMM
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
 
-            if (MyPivot.SelectedIndex == 1)
+            switch (MyPivot.SelectedIndex)
             {
-                LiveviewPageLoaded();
+                case PIVOTINDEX_MAIN:
+                    LiveviewPageUnloaded();
+                    EntrancePageLoaded();
+                    break;
+                case PIVOTINDEX_LIVEVIEW:
+                    EntrancePageUnloaded();
+                    LiveviewPageLoaded();
+                    break;
             }
-
         }
 
         internal void cameraManager_OnDisconnected()
@@ -121,10 +127,14 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-
-            if (MyPivot.SelectedIndex == 1)
+            switch (MyPivot.SelectedIndex)
             {
-                LiveviewPageUnloaded();
+                case PIVOTINDEX_LIVEVIEW:
+                    LiveviewPageUnloaded();
+                    break;
+                case PIVOTINDEX_MAIN:
+                    EntrancePageUnloaded();
+                    break;
             }
 
             cameraManager.RequestCloseLiveView();
@@ -314,7 +324,7 @@ namespace WPPMM
 
         private void OnPictureSaved(Picture pic)
         {
-            ApplicationBar = abm.Clear().Enable(IconMenu.CameraRoll).CreateNew(0.0);
+            ApplicationBar = abm.Enable(IconMenu.CameraRoll).CreateNew(0.0);
         }
 
         private int PreviousSelectedPivotIndex = -1;
@@ -336,8 +346,10 @@ namespace WPPMM
             {
                 case 0:
                     LiveviewPageUnloaded();
+                    EntrancePageLoaded();
                     break;
                 case 1:
+                    EntrancePageUnloaded();
                     LiveviewPageLoaded();
                     break;
                 default:
@@ -345,11 +357,16 @@ namespace WPPMM
             }
         }
 
-        private async void LiveviewPageLoaded()
+        private void EntrancePageUnloaded()
         {
             EntrancePivot.Opacity = 0;
+            // ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
+            ClearNFCInfo();
+        }
+
+        private async void LiveviewPageLoaded()
+        {
             ShootingPivot.Opacity = 1;
-            ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
             //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
             SetLayoutByOrientation(this.Orientation);
 
@@ -398,20 +415,14 @@ namespace WPPMM
                 }
             }
 
-            if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
+            abm.Clear();
+            if (cpm != null && cpm.ItemCount > 0)
             {
-                // var status = cameraManager.cameraStatus;
-                
-                if (cpm != null && cpm.ItemCount > 0)
-                {
-                    abm.Enable(IconMenu.ControlPanel);
-                }
-                abm.Enable(IconMenu.ApplicationSetting);
-
-                Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY); });
+                abm.Enable(IconMenu.ControlPanel);
             }
+            abm.Enable(IconMenu.ApplicationSetting);
 
-            ClearNFCInfo();
+            Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
         }
 
         void IntervalManager_OnIntervalRecStatusChanged(bool isRunning)
@@ -447,7 +458,7 @@ namespace WPPMM
                 {
                     if (cpm != null && !cpm.IsShowing())
                     {
-                        ApplicationBar = abm.Clear().Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                        ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
                     }
                     else
                     {
@@ -461,7 +472,7 @@ namespace WPPMM
                 {
                     if (cpm != null && !cpm.IsShowing())
                     {
-                        ApplicationBar = abm.Clear().Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                        ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
                     }
                     else
                     {
@@ -540,8 +551,8 @@ namespace WPPMM
 
         private void LiveviewPageUnloaded()
         {
-            EntrancePivot.Opacity = 1;
             ShootingPivot.Opacity = 0;
+            // ApplicationBar = abm.Clear().CreateNew(0.0);
             cameraManager.StopEventObserver();
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
@@ -556,9 +567,14 @@ namespace WPPMM
             cameraManager.OnCameraStatusChanged -= cameraManager_OnCameraStatusChanged;
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
-            ApplicationBar = abm.Clear().Enable(IconMenu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.Hidden).CreateNew(0.0);
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
+        }
+
+        private void EntrancePageLoaded()
+        {
+            EntrancePivot.Opacity = 1;
+            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.Hidden).CreateNew(0.0);
         }
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)

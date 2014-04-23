@@ -445,14 +445,28 @@ namespace WPPMM
             {
                 if (!abm.IsEnabled(IconMenu.TouchAfCancel))
                 {
-                    ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                    if (cpm != null && !cpm.IsShowing())
+                    {
+                        ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                    }
+                    else
+                    {
+                        abm.Enable(IconMenu.TouchAfCancel);
+                    }
                 }
             }
             else
             {
                 if (abm.IsEnabled(IconMenu.TouchAfCancel))
                 {
-                    ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                    if (cpm != null && !cpm.IsShowing())
+                    {
+                        ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                    }
+                    else
+                    {
+                        abm.Disable(IconMenu.TouchAfCancel);
+                    }
                 }
             }
         }

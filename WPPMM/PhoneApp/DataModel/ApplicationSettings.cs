@@ -114,7 +114,7 @@ namespace WPPMM.DataModel
             }
         }
 
-        private bool _IsShootButtonDisplayed = false;
+        private bool _IsShootButtonDisplayed = true;
         public bool IsShootButtonDisplayed
         {
             set

@@ -89,7 +89,7 @@ namespace WPPMM.Utils
             }
             else
             {
-                return false;
+                return true;
             }
         }
 

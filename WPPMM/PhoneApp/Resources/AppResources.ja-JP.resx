@@ -308,10 +308,10 @@
 インターネットへの接続状態を確認して下さい。</value>
   </data>
   <data name="Message_Caution" xml:space="preserve">
-    <value>※これらのアプリ内アイテムの購入によって隠し機能が解放されることはありません。ご注意ください。</value>
+    <value>※これらのアプリ内アイテムの購入によって何らかの隠し機能が解放されることはありません。ご注意ください。</value>
   </data>
   <data name="Message_Encourage" xml:space="preserve">
-    <value>今後もアップデートを継続するため、開発者への飲み物の差し入れをお願いします。</value>
+    <value>今後もアップデートを継続するため、開発者への寄付をお願いします。</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>リトライ</value>

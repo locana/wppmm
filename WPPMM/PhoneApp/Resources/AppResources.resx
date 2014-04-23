@@ -192,7 +192,7 @@
     <value>Self timer</value>
   </data>
   <data name="ControlPanel" xml:space="preserve">
-    <value>Settings</value>
+    <value>Control Panel</value>
   </data>
   <data name="Off" xml:space="preserve">
     <value>OFF</value>

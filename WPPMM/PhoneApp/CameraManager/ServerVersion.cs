@@ -5,9 +5,9 @@ namespace WPPMM.CameraManager
 {
     public class ServerVersion
     {
-        readonly int major;
-        readonly int minor;
-        readonly int release;
+        readonly uint major;
+        readonly uint minor;
+        readonly uint release;
 
         public static ServerVersion CreateDefault()
         {
@@ -30,9 +30,9 @@ namespace WPPMM.CameraManager
             }
             try
             {
-                major = int.Parse(sepa[0]);
-                minor = int.Parse(sepa[1]);
-                release = int.Parse(sepa[2]);
+                major = uint.Parse(sepa[0]);
+                minor = uint.Parse(sepa[1]);
+                release = uint.Parse(sepa[2]);
                 Debug.WriteLine("ServerVersion: " + version);
                 if (IsLiberated)
                 {
@@ -51,14 +51,13 @@ namespace WPPMM.CameraManager
 
         private bool CheckLiberated()
         {
-
             if (major == 2)
             {
-                if (minor == 1)
+                if (minor == 0)
                 {
                     return release >= 1;
                 }
-                return minor > 1;
+                return true;
             }
             return major > 2;
         }

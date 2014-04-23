@@ -314,7 +314,7 @@ namespace WPPMM
 
         private void OnPictureSaved(Picture pic)
         {
-            ApplicationBar = abm.Enable(IconMenu.CameraRoll).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(IconMenu.CameraRoll).CreateNew(0.0);
         }
 
         private int PreviousSelectedPivotIndex = -1;
@@ -408,7 +408,7 @@ namespace WPPMM
                 }
                 abm.Enable(IconMenu.ApplicationSetting);
 
-                Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
+                Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY); });
             }
 
             ClearNFCInfo();
@@ -447,7 +447,7 @@ namespace WPPMM
                 {
                     if (cpm != null && !cpm.IsShowing())
                     {
-                        ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
                     }
                     else
                     {
@@ -461,7 +461,7 @@ namespace WPPMM
                 {
                     if (cpm != null && !cpm.IsShowing())
                     {
-                        ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                        ApplicationBar = abm.Clear().Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
                     }
                     else
                     {

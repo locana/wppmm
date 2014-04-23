@@ -57,6 +57,7 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("TouchAFPointerVisibility");
                         break;
                     case "ShootModeInfo":
+                        OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ShootButtonImage");
                         break;
                     case "ExposureMode":
@@ -109,7 +110,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                return (cameraStatus.IsSupported("actTakePicture") || cameraStatus.IsSupported("startMovieRec") || cameraStatus.IsSupported("startAudioRec"))
+                return ((cameraStatus.IsSupported("actTakePicture") || cameraStatus.IsSupported("startMovieRec") || cameraStatus.IsSupported("startAudioRec")) && ShootButtonImage != null)
                     ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -271,7 +272,8 @@ namespace WPPMM.DataModel
 
         public Brush TouchAFPointerStrokeBrush
         {
-            get {
+            get
+            {
                 if (cameraStatus == null || cameraStatus.FocusStatus == null)
                 {
                     return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
@@ -322,7 +324,8 @@ namespace WPPMM.DataModel
 
         public String ExposureModeDisplayName
         {
-            get {
+            get
+            {
                 if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current == null)
                 {
                     return "-";

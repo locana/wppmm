@@ -138,6 +138,7 @@ namespace WPPMM
             }
 
             cameraManager.RequestCloseLiveView();
+            cameraManager.Refresh();
             //LiveViewInit();
 
         }

@@ -400,7 +400,8 @@ namespace WPPMM
 
             if (PreviousSelectedPivotIndex == PIVOTINDEX_LIVEVIEW)
             {
-                var status = cameraManager.cameraStatus;
+                // var status = cameraManager.cameraStatus;
+                
                 if (cpm != null && cpm.ItemCount > 0)
                 {
                     abm.Enable(IconMenu.ControlPanel);
@@ -477,7 +478,10 @@ namespace WPPMM
                 cpm.Hide();
                 if (ApplicationBar != null)
                 {
-                    ApplicationBar.IsVisible = true;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        ApplicationBar.IsVisible = true;
+                    });
                 }
                 return;
             }
@@ -493,7 +497,10 @@ namespace WPPMM
             double posX = touchX * 100.0 / image.ActualWidth;
             double posY = touchY * 100.0 / image.ActualHeight;
 
-            TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
+            Dispatcher.BeginInvoke(() =>
+            {
+                TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
+            });
 
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);

@@ -102,6 +102,10 @@ namespace WPPMM.DataModel
                     {
                         Debug.WriteLine("Caught COMException: ShootingViewData");
                     }
+                    catch (NullReferenceException e)
+                    {
+                        Debug.WriteLine(e.StackTrace);
+                    }
                 });
             }
         }

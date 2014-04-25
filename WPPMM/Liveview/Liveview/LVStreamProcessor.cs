@@ -51,7 +51,7 @@ namespace WPPMM.Liveview
         /// <param name="OnClosed">Connection close callback.</param>
         public void OpenConnection(string url, Action<byte[]> OnJpegRetrieved, Action OnClosed)
         {
-            Debug.WriteLine("LiveviewStreamProcessor.OpenConnection");
+            Log("OpenConnection");
             if (IsDisposed)
             {
                 throw new ObjectDisposedException("This LvStreamProcessor is already disposed");
@@ -81,7 +81,7 @@ namespace WPPMM.Liveview
                     {
                         if (Response.StatusCode == HttpStatusCode.OK)
                         {
-                            Debug.WriteLine("Connected Jpeg stream");
+                            Log("Connected Jpeg stream");
                             using (var str = Response.GetResponseStream())
                             {
                                 RunFpsDetector();
@@ -95,6 +95,7 @@ namespace WPPMM.Liveview
                                     }
                                     catch (IOException)
                                     {
+                                        Log("Caught IOException: finish while loop");
                                         IsOpen = false;
                                     }
                                 }
@@ -104,15 +105,19 @@ namespace WPPMM.Liveview
                 }
                 catch (WebException)
                 {
-                    Debug.WriteLine("WebException");
+                    Log("WebException inside StreamingHandler.");
                 }
                 catch (ObjectDisposedException)
                 {
-                    Debug.WriteLine("Caught ObjectDisposedException");
+                    Log("Caught ObjectDisposedException inside StreamingHandler.");
+                }
+                catch (IOException)
+                {
+                    Log("Caught IOException inside StreamingHandler.");
                 }
                 finally
                 {
-                    Debug.WriteLine("Disconnected Jpeg stream");
+                    Log("Disconnected Jpeg stream");
                     CloseConnection();
                     OnClosed.Invoke();
                 }
@@ -126,7 +131,7 @@ namespace WPPMM.Liveview
             await Task.Delay(TimeSpan.FromMilliseconds(fps_interval));
             var fps = packet_counter * 1000 / fps_interval;
             packet_counter = 0;
-            Debug.WriteLine("- - - - " + fps + " FPS - - - -");
+            Log("- - - - " + fps + " FPS - - - -");
             if (IsOpen)
             {
                 RunFpsDetector();
@@ -156,7 +161,11 @@ namespace WPPMM.Liveview
             }
             catch (ObjectDisposedException)
             {
-                Debug.WriteLine("Ignore ObjectDisposedException while closing");
+                Log("Ignore ObjectDisposedException while closing");
+            }
+            catch (IOException)
+            {
+                Log("Ignore IOException while closing");
             }
             IsOpen = false;
         }
@@ -169,14 +178,14 @@ namespace WPPMM.Liveview
             var CHeader = BlockingRead(str, CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
-                Debug.WriteLine("Unexpected common header");
+                Log("Unexpected common header");
                 throw new IOException("Unexpected common header");
             }
 
             var PHeader = BlockingRead(str, PHeaderLength);
             if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
             {
-                Debug.WriteLine("Unexpected payload header");
+                Log("Unexpected payload header");
                 throw new IOException("Unexpected payload header");
             }
             int data_size = ReadIntFromByteArray(PHeader, 4, 3);
@@ -231,6 +240,11 @@ namespace WPPMM.Liveview
                 int_data = (int_data << 8) | (bytearray[index + i] & 0xff);
             }
             return int_data;
+        }
+
+        private static void Log(string message)
+        {
+            Debug.WriteLine("[LVSProcessor] " + message);
         }
     }
 }

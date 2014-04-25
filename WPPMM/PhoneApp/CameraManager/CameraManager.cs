@@ -204,12 +204,11 @@ namespace WPPMM.CameraManager
                         CloseLiveviewConnection();
                     }
                     lvProcessor = new LvStreamProcessor();
+                    lvProcessor.JpegRetrieved += OnJpegRetrieved;
+                    lvProcessor.Closed += OnLvClosed;
                     try
                     {
-                        lvProcessor.OpenConnection(url, OnJpegRetrieved, () =>
-                        {
-                            AppStatus.GetInstance().IsTryingToConnectLiveview = false;
-                        });
+                        lvProcessor.OpenConnection(url);
                     }
                     catch (InvalidOperationException)
                     {
@@ -227,6 +226,8 @@ namespace WPPMM.CameraManager
         {
             lock (lvProcessorLocker)
             {
+                lvProcessor.Closed -= OnLvClosed;
+                lvProcessor.JpegRetrieved -= OnJpegRetrieved;
                 lvProcessor.CloseConnection();
             }
         }
@@ -254,8 +255,14 @@ namespace WPPMM.CameraManager
             CreateOptions = BitmapCreateOptions.None
         };
 
+        private void OnLvClosed(object sender, EventArgs e)
+        {
+            AppStatus.GetInstance().IsTryingToConnectLiveview = false;
+        }
+
         // callback methods (liveview)
-        public void OnJpegRetrieved(byte[] data)
+        //public void OnJpegRetrieved(byte[] data)
+        private void OnJpegRetrieved(object sender, JpegEventArgs e)
         {
             AppStatus.GetInstance().IsTryingToConnectLiveview = false;
             if (IsRendering)
@@ -263,10 +270,10 @@ namespace WPPMM.CameraManager
                 return;
             }
             IsRendering = true;
-            var size = data.Length;
+            var size = e.JpegData.Length;
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                using (var stream = new MemoryStream(data, 0, size))
+                using (var stream = new MemoryStream(e.JpegData, 0, size))
                 {
                     LiveviewImage.image = null;
                     ImageSource.SetSource(stream);
@@ -634,7 +641,7 @@ namespace WPPMM.CameraManager
                         OnAfStatusChanged(_cameraStatus);
                     }
                     break;
-                    
+
                 default:
                     //Debug.WriteLine("Difference detected: default");
                     break;

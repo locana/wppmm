@@ -37,6 +37,28 @@ namespace WPPMM.Liveview
 
         private Stream ConnectedStream = null;
 
+        public event EventHandler Closed;
+
+        public delegate void LiveviewStreamHandler(object sender, JpegEventArgs e);
+
+        public event LiveviewStreamHandler JpegRetrieved;
+
+        protected void OnClosed(EventArgs e)
+        {
+            if (Closed != null)
+            {
+                Closed(this, e);
+            }
+        }
+
+        protected void OnJpegRetrieved(JpegEventArgs e)
+        {
+            if (JpegRetrieved != null)
+            {
+                JpegRetrieved(this, e);
+            }
+        }
+
         /// <summary>
         /// Open stream connection for Liveview.
         /// </summary>
@@ -47,23 +69,21 @@ namespace WPPMM.Liveview
         /// <para>If you've called CloseConnection or OnClose is already invoked, ObjectDisposedException is thrown.</para>
         /// </remarks>
         /// <param name="url">URL of the liveview. Get this via startLiveview API.</param>
-        /// <param name="OnJpegRetrieved">Success callback.</param>
-        /// <param name="OnClosed">Connection close callback.</param>
-        public void OpenConnection(string url, Action<byte[]> OnJpegRetrieved, Action OnClosed)
+        public void OpenConnection(string url)
         {
             Log("OpenConnection");
             if (IsDisposed)
             {
                 throw new ObjectDisposedException("This LvStreamProcessor is already disposed");
             }
-            if (url == null || OnJpegRetrieved == null | OnClosed == null)
+            if (url == null)
             {
                 throw new ArgumentNullException();
             }
 
             if (IsOpen)
             {
-                throw new InvalidOperationException("Liveview stream is already open");
+                return;
             }
 
             IsOpen = true;
@@ -91,7 +111,7 @@ namespace WPPMM.Liveview
                                     ConnectedStream = str;
                                     try
                                     {
-                                        OnJpegRetrieved(Next(str));
+                                        OnJpegRetrieved(new JpegEventArgs(Next(str)));
                                     }
                                     catch (IOException)
                                     {
@@ -119,7 +139,7 @@ namespace WPPMM.Liveview
                 {
                     Log("Disconnected Jpeg stream");
                     CloseConnection();
-                    OnClosed.Invoke();
+                    OnClosed(new EventArgs());
                 }
             });
 
@@ -245,6 +265,21 @@ namespace WPPMM.Liveview
         private static void Log(string message)
         {
             Debug.WriteLine("[LVSProcessor] " + message);
+        }
+    }
+
+    public class JpegEventArgs : EventArgs
+    {
+        private readonly byte[] jpegData;
+
+        public JpegEventArgs(byte[] data)
+        {
+            this.jpegData = data;
+        }
+
+        public byte[] JpegData
+        {
+            get { return jpegData; }
         }
     }
 }

@@ -580,7 +580,7 @@ namespace WPPMM
         private void EntrancePageLoaded()
         {
             EntrancePivot.Opacity = 1;
-            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.Hidden).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(0.0);
         }
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)
@@ -865,6 +865,7 @@ namespace WPPMM
         {
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, CheckBoxSetting.SettingType.postviewImageTransfer));
+            HideSettingAnimation.Completed += HideSettingAnimation_Completed;
 
         }
 
@@ -873,13 +874,21 @@ namespace WPPMM
             MyPivot.IsLocked = true;
             AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
             ApplicationBar = abm.Clear().Enable(IconMenu.CloseApplicationSetting).CreateNew(APPBAR_OPACITY);
+            ShowSettingAnimation.Begin();
         }
 
         private void CloseAppSettingPanel()
         {
+
+            HideSettingAnimation.Begin();
+            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).CreateNew(APPBAR_OPACITY);
+        }
+
+        void HideSettingAnimation_Completed(object sender, EventArgs e)
+        {
             MyPivot.IsLocked = false;
             AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
-            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).CreateNew(APPBAR_OPACITY);
+            
         }
     }
 }

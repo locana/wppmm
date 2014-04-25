@@ -318,4 +318,7 @@ Please check internet connection status</value>
   <data name="Donation" xml:space="preserve">
     <value>Donation</value>
   </data>
+  <data name="AppBar_Exit" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

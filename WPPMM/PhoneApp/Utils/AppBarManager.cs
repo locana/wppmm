@@ -53,8 +53,8 @@ namespace WPPMM.Utils
 
         readonly ApplicationBarIconButton CloseSettingItem = new ApplicationBarIconButton
         {
-            Text = "cancel",
-            IconUri = new Uri("/Assets/AppBar/appBar_cancel.png", UriKind.Relative)
+            Text = AppResources.AppBar_Exit,
+            IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();

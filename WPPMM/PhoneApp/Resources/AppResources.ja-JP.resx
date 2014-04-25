@@ -319,4 +319,7 @@
   <data name="Donation" xml:space="preserve">
     <value>サポート</value>
   </data>
+  <data name="AppBar_Exit" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

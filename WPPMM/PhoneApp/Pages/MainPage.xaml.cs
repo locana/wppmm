@@ -69,6 +69,8 @@ namespace WPPMM
             });
             abm.SetEvent(IconMenu.CameraRoll, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
+
+            cpm = new ControlPanelManager(ControlPanel);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -680,7 +682,7 @@ namespace WPPMM
             HalfPressFocusStatus.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
-            cpm = new ControlPanelManager(ControlPanel);
+            cpm.ReplacePanel(ControlPanel);
             cpm.SetPivotIsLocked += this.SetPivotIsLocked;
         }
 
@@ -705,7 +707,7 @@ namespace WPPMM
             HalfPressFocusStatus.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
-            cpm = null;
+            // cpm = null;
             svd = null;
         }
 

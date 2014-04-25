@@ -1,5 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,6 +18,8 @@ namespace WPPMM.CameraManager
         private CameraStatus status;
         private ControlPanelViewData data;
 
+        private Dictionary<string, StackPanel> Panels = new Dictionary<string, StackPanel>();
+
         public Action<bool> SetPivotIsLocked
         {
             get;
@@ -29,7 +32,28 @@ namespace WPPMM.CameraManager
             this.status = manager.cameraStatus;
             this.data = new ControlPanelViewData(status);
             this.panel = panel;
+
+            Panels.Add("ShootMode", CreateStatusPanel("ShootMode", Resources.AppResources.ShootMode, OnShootModeChanged));
+            Panels.Add("SelfTimer", CreateStatusPanel("SelfTimer", Resources.AppResources.SelfTimer, OnSelfTimerChanged));
+            Panels.Add("PostViewSize", CreateStatusPanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
+            Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
+            Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
+
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
+        }
+
+        public void ReplacePanel(StackPanel panel)
+        {
+            this.panel = panel;
+        }
+
+        public void Dispose()
+        {
+            manager = null;
+            panel = null;
+            status = null;
+            data = null;
+            Panels = null;
         }
 
         public bool IsShowing()
@@ -67,95 +91,22 @@ namespace WPPMM.CameraManager
 
             if (status.IsSupported("setShootMode"))
             {
-                panel.Children.Add(CreateStatusPanel("ShootMode", Resources.AppResources.ShootMode,
-                     async (sender, arg) =>
-                     {
-                         if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null || status.ShootModeInfo.candidates.Length == 0)
-                             return;
-                         var picker = sender as ListPicker;
-                         var selected = picker.SelectedIndex;
-                         try
-                         {
-                             await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
-                         }
-                         catch (InvalidOperationException)
-                         {
-                             Debug.WriteLine("Not ready to call Web API");
-                         }
-                         catch (RemoteApiException e)
-                         {
-                             Debug.WriteLine("Failed to set shootmode: " + e.code);
-                             Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
-                             var tmp = status.ShootModeInfo.candidates;
-
-                             for (int i = 0; i < tmp.Length; i++)
-                             {
-                                 if (tmp[i] == status.ShootModeInfo.previous)
-                                 {
-                                     Debug.WriteLine("Index of value matched: " + i);
-                                     Deployment.Current.Dispatcher.BeginInvoke(() =>
-                                     {
-                                         picker.SelectedIndex = i;
-                                     });
-                                     break;
-                                 }
-                             }
-                             manager.RefreshEventObserver();
-                         }
-                     }));
+                panel.Children.Add(Panels["ShootMode"]);
             }
             if (status.IsSupported("setSelfTimer"))
             {
-                panel.Children.Add(CreateStatusPanel("SelfTimer", Resources.AppResources.SelfTimer,
-                     async (sender, arg) =>
-                     {
-                         if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null || status.SelfTimerInfo.candidates.Length == 0)
-                             return;
-                         var selected = (sender as ListPicker).SelectedIndex;
-                         try
-                         {
-                             await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
-                         }
-                         catch (InvalidOperationException)
-                         {
-                             Debug.WriteLine("Not ready to call Web API");
-                         }
-                         catch (RemoteApiException e)
-                         {
-                             Debug.WriteLine("Failed to set selftimer: " + e.code);
-                             manager.RefreshEventObserver();
-                         }
-                     }));
+                panel.Children.Add(Panels["SelfTimer"]);
             }
             if (status.IsSupported("setPostviewImageSize"))
             {
-                panel.Children.Add(CreateStatusPanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize,
-                    async (sender, arg) =>
-                    {
-                        if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null || status.PostviewSizeInfo.candidates.Length == 0)
-                            return;
-                        var selected = (sender as ListPicker).SelectedIndex;
-                        try
-                        {
-                            await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);
-                        }
-                        catch (InvalidOperationException)
-                        {
-                            Debug.WriteLine("Not ready to call Web API");
-                        }
-                        catch (RemoteApiException e)
-                        {
-                            Debug.WriteLine("Failed to set postview image size: " + e.code);
-                            manager.RefreshEventObserver();
-                        }
-                    }));
+                panel.Children.Add(Panels["PostViewSize"]);
             }
 
             if (status.IsSupported("actTakePicture"))
             {
                 // panel.Children.Add(CreatePostviewSettingPanel());
-                panel.Children.Add(CreateIntervalEnableSettingPanel());
-                panel.Children.Add(CreateIntervalTimeSliderPanel());
+                panel.Children.Add(Panels["IntervalSwitch"]);
+                panel.Children.Add(Panels["IntervalValue"]);
             }
 
             Debug.WriteLine("panels has set!");
@@ -364,6 +315,82 @@ namespace WPPMM.CameraManager
         public void OnControlPanelPropertyChanged(String name)
         {
             data.OnControlPanelPropertyChanged(name);
+        }
+
+        private async void OnShootModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null || status.ShootModeInfo.candidates.Length == 0)
+                return;
+            var picker = sender as ListPicker;
+            var selected = picker.SelectedIndex;
+            try
+            {
+                await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("Not ready to call Web API");
+            }
+            catch (RemoteApiException e)
+            {
+                Debug.WriteLine("Failed to set shootmode: " + e.code);
+                Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
+                var tmp = status.ShootModeInfo.candidates;
+
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    if (tmp[i] == status.ShootModeInfo.previous)
+                    {
+                        Debug.WriteLine("Index of value matched: " + i);
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            picker.SelectedIndex = i;
+                        });
+                        break;
+                    }
+                }
+                manager.RefreshEventObserver();
+            }
+        }
+
+        private async void OnSelfTimerChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null || status.SelfTimerInfo.candidates.Length == 0)
+                return;
+            var selected = (sender as ListPicker).SelectedIndex;
+            try
+            {
+                await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("Not ready to call Web API");
+            }
+            catch (RemoteApiException e)
+            {
+                Debug.WriteLine("Failed to set selftimer: " + e.code);
+                manager.RefreshEventObserver();
+            }
+        }
+
+        private async void OnPostViewSizeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null || status.PostviewSizeInfo.candidates.Length == 0)
+                return;
+            var selected = (sender as ListPicker).SelectedIndex;
+            try
+            {
+                await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("Not ready to call Web API");
+            }
+            catch (RemoteApiException e)
+            {
+                Debug.WriteLine("Failed to set postview image size: " + e.code);
+                manager.RefreshEventObserver();
+            }
         }
     }
 }

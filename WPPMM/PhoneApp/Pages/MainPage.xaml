@@ -196,6 +196,14 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
+                    <Grid Name="AppSettingPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20" Opacity="0.9" Visibility="Collapsed" Background="{StaticResource PhoneBackgroundBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0">
+                            
+                        </StackPanel>
+                    </Grid>
                     <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">

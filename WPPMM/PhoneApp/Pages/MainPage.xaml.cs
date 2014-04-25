@@ -54,6 +54,8 @@ namespace WPPMM
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
 
+            this.InitAppSettingPanel();
+
             abm.SetEvent(Menu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
@@ -62,7 +64,8 @@ namespace WPPMM
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
                 cpm.Show();
             });
-            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AppSettingPage.xaml", UriKind.Relative)); });
+            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { this.OpenAppSettingPanel(); });
+            abm.SetEvent(IconMenu.CloseApplicationSetting, (sender, e) => { this.CloseAppSettingPanel(); });
             abm.SetEvent(IconMenu.TouchAfCancel, (sender, e) =>
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
@@ -570,6 +573,8 @@ namespace WPPMM
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
+
+            CloseAppSettingPanel();
         }
 
         private void EntrancePageLoaded()
@@ -854,6 +859,27 @@ namespace WPPMM
             {
                 NFCMessage.Visibility = System.Windows.Visibility.Visible;
             }
+        }
+
+        private void InitAppSettingPanel()
+        {
+            AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
+            AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, CheckBoxSetting.SettingType.postviewImageTransfer));
+
+        }
+
+        private void OpenAppSettingPanel()
+        {
+            MyPivot.IsLocked = true;
+            AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
+            ApplicationBar = abm.Clear().Enable(IconMenu.CloseApplicationSetting).CreateNew(APPBAR_OPACITY);
+        }
+
+        private void CloseAppSettingPanel()
+        {
+            MyPivot.IsLocked = false;
+            AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
+            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).CreateNew(APPBAR_OPACITY);
         }
     }
 }

@@ -203,11 +203,9 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
-                    <Grid Name="AppSettingPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Margin="16,32" Opacity="0.9" Background="{StaticResource PhoneBackgroundBrush}">
+                    <Grid Name="AppSettingPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Margin="0" >
+                        <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.9" Margin="-20" />
+                        <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="16,64" >
 
                         </StackPanel>
                     </Grid>

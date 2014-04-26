@@ -70,7 +70,10 @@ namespace WPPMM
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             });
-            abm.SetEvent(IconMenu.CameraRoll, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative)); });
+            abm.SetEvent(IconMenu.CameraRoll, (sender, e) => {
+                if (cameraManager != null) { cameraManager.CancelTouchAF(); }
+                NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative));
+            });
             abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
 
             cpm = new ControlPanelManager(ControlPanel);
@@ -575,8 +578,8 @@ namespace WPPMM
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
-
-            CloseAppSettingPanel();
+            MyPivot.IsLocked = false;
+            AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void EntrancePageLoaded()
@@ -873,6 +876,7 @@ namespace WPPMM
 
         private void OpenAppSettingPanel()
         {
+            if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             MyPivot.IsLocked = true;
             AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
             ApplicationBar = abm.Clear().Enable(IconMenu.CloseApplicationSetting).CreateNew(APPBAR_OPACITY);

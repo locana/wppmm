@@ -322,6 +322,6 @@ Please check internet connection status</value>
     <value>OK</value>
   </data>
   <data name="Guide_ReceiveCapturedImage" xml:space="preserve">
-    <value>Receive an image from the camera after taking picture. (Disabled during interval recording is going on.)</value>
+    <value>Receive an image from the camera after taking picture. Then, it will be saved to the camera roll. (Disabled during interval recording is going on.)</value>
   </data>
 </root>

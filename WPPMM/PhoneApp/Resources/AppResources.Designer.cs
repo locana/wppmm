@@ -350,7 +350,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Receive an image from the camera after taking picture. (Disabled during interval recording is going on.).
+        ///   Looks up a localized string similar to Receive an image from the camera after taking picture. Then, it will be saved to the camera roll. (Disabled during interval recording is going on.).
         /// </summary>
         public static string Guide_ReceiveCapturedImage {
             get {

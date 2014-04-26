@@ -78,7 +78,16 @@ namespace WPPMM.DataModel
             set
             {
                 if (status.SelfTimerInfo != null)
-                    status.SelfTimerInfo.current = status.SelfTimerInfo.candidates[value];
+                {
+                    if (status.SelfTimerInfo.candidates.Length > value)
+                    {
+                        status.SelfTimerInfo.current = status.SelfTimerInfo.candidates[value];
+                    }
+                    else
+                    {
+                        status.SelfTimerInfo.current = 0;
+                    }
+                }
             }
         }
 
@@ -110,7 +119,16 @@ namespace WPPMM.DataModel
             set
             {
                 if (status.PostviewSizeInfo != null)
-                    status.PostviewSizeInfo.current = status.PostviewSizeInfo.candidates[value];
+                {
+                    if (status.PostviewSizeInfo.candidates.Length > value)
+                    {
+                        status.PostviewSizeInfo.current = status.PostviewSizeInfo.candidates[value];
+                    }
+                    else
+                    {
+                        status.PostviewSizeInfo.current = null;
+                    }
+                }
             }
         }
 
@@ -142,7 +160,16 @@ namespace WPPMM.DataModel
             set
             {
                 if (status.ShootModeInfo != null)
-                    status.ShootModeInfo.current = status.ShootModeInfo.candidates[value];
+                {
+                    if (status.ShootModeInfo.candidates.Length > value)
+                    {
+                        status.ShootModeInfo.current = status.ShootModeInfo.candidates[value];
+                    }
+                    else
+                    {
+                        status.ShootModeInfo.current = null;
+                    }
+                }
             }
         }
 

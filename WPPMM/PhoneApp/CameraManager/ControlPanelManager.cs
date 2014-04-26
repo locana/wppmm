@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using WPPMM.DataModel;
 using WPPMM.RemoteApi;
+using WPPMM.Utils;
 
 
 namespace WPPMM.CameraManager
@@ -323,6 +324,10 @@ namespace WPPMM.CameraManager
                 return;
             var picker = sender as ListPicker;
             var selected = picker.SelectedIndex;
+            if (SettingsValueConverter.GetSelectedIndex(status.ShootModeInfo) != selected)
+            {
+                return;
+            }
             try
             {
                 await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
@@ -358,6 +363,10 @@ namespace WPPMM.CameraManager
             if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null || status.SelfTimerInfo.candidates.Length == 0)
                 return;
             var selected = (sender as ListPicker).SelectedIndex;
+            if (SettingsValueConverter.GetSelectedIndex(status.SelfTimerInfo) != selected)
+            {
+                return;
+            }
             try
             {
                 await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
@@ -378,6 +387,10 @@ namespace WPPMM.CameraManager
             if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null || status.PostviewSizeInfo.candidates.Length == 0)
                 return;
             var selected = (sender as ListPicker).SelectedIndex;
+            if (SettingsValueConverter.GetSelectedIndex(status.PostviewSizeInfo) != selected)
+            {
+                return;
+            }
             try
             {
                 await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);

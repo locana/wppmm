@@ -30,16 +30,25 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                     case "PostviewSizeInfo":
-                        OnPropertyChanged("CpCandidatesPostviewSize");
-                        OnPropertyChanged("CpSelectedIndexPostviewSize");
+                        if (status.IsAvailable("setPostviewImageSize"))
+                        {
+                            OnPropertyChanged("CpCandidatesPostviewSize");
+                            OnPropertyChanged("CpSelectedIndexPostviewSize");
+                        }
                         break;
                     case "SelfTimerInfo":
-                        OnPropertyChanged("CpCandidatesSelfTimer");
-                        OnPropertyChanged("CpSelectedIndexSelfTimer");
+                        if (status.IsAvailable("setSelfTimer"))
+                        {
+                            OnPropertyChanged("CpCandidatesSelfTimer");
+                            OnPropertyChanged("CpSelectedIndexSelfTimer");
+                        }
                         break;
                     case "ShootModeInfo":
-                        OnPropertyChanged("CpCandidatesShootMode");
-                        OnPropertyChanged("CpSelectedIndexShootMode");
+                        if (status.IsAvailable("setShootMode"))
+                        {
+                            OnPropertyChanged("CpCandidatesShootMode");
+                            OnPropertyChanged("CpSelectedIndexShootMode");
+                        }
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                 }

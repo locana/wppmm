@@ -8,7 +8,7 @@ namespace WPPMM.Liveview
 {
     public class LvStreamProcessor
     {
-        private const int fps_interval = 5000;
+        private const int FPS_INTERVAL = 5000;
         private int packet_counter = 0;
 
         /// <summary>
@@ -26,6 +26,10 @@ namespace WPPMM.Liveview
         private bool _IsOpen = false;
 
         private bool IsDisposed = false;
+
+        private const int DEFAULT_REQUEST_TIMEOUT = 5000;
+
+        private bool IsResponseReceived = false;
 
         public event EventHandler Closed;
 
@@ -59,7 +63,7 @@ namespace WPPMM.Liveview
         /// <para>If you've called CloseConnection or OnClose is already invoked, ObjectDisposedException is thrown.</para>
         /// </remarks>
         /// <param name="url">URL of the liveview. Get this via startLiveview API.</param>
-        public void OpenConnection(string url)
+        public async void OpenConnection(string url, TimeSpan? timeout = null)
         {
             Log("OpenConnection");
             if (IsDisposed)
@@ -76,6 +80,8 @@ namespace WPPMM.Liveview
                 return;
             }
 
+            var to = (timeout == null) ? TimeSpan.FromMilliseconds(DEFAULT_REQUEST_TIMEOUT) : timeout;
+
             IsOpen = true;
 
             var Request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
@@ -84,6 +90,7 @@ namespace WPPMM.Liveview
 
             var JpegStreamHandler = new AsyncCallback((ar) =>
             {
+                IsResponseReceived = true;
                 try
                 {
                     var req = ar.AsyncState as HttpWebRequest;
@@ -133,12 +140,19 @@ namespace WPPMM.Liveview
             });
 
             Request.BeginGetResponse(JpegStreamHandler, Request);
+
+            await Task.Delay((int)to.Value.TotalMilliseconds);
+            if (!IsResponseReceived)
+            {
+                Log("Open request timeout: aborting request.");
+                Request.Abort();
+            }
         }
 
         private async void RunFpsDetector()
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(fps_interval));
-            var fps = packet_counter * 1000 / fps_interval;
+            await Task.Delay(TimeSpan.FromMilliseconds(FPS_INTERVAL));
+            var fps = packet_counter * 1000 / FPS_INTERVAL;
             packet_counter = 0;
             Log("- - - - " + fps + " FPS - - - -");
             if (IsOpen)

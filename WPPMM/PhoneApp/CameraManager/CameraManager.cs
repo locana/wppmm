@@ -263,6 +263,7 @@ namespace WPPMM.CameraManager
 
         private void OnLvClosed(object sender, EventArgs e)
         {
+            Debug.WriteLine("--- OnLvClosed ---");
             CloseLock.Set();
             AppStatus.GetInstance().IsTryingToConnectLiveview = false;
         }

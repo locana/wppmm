@@ -210,7 +210,7 @@
     <value>Still image rec</value>
   </data>
   <data name="Size2M" xml:space="preserve">
-    <value>2 MPixels</value>
+    <value>2M Pixels</value>
   </data>
   <data name="SizeOriginal" xml:space="preserve">
     <value>Original</value>
@@ -222,7 +222,7 @@
     <value>ON</value>
   </data>
   <data name="PostviewTransferSetting" xml:space="preserve">
-    <value>Receive captured image</value>
+    <value>Receive captured pictures</value>
   </data>
   <data name="ShootModeAudio" xml:space="preserve">
     <value>Audio rec</value>
@@ -322,6 +322,6 @@ Please check internet connection status</value>
     <value>OK</value>
   </data>
   <data name="Guide_ReceiveCapturedImage" xml:space="preserve">
-    <value>Receive an image from the camera after taking picture. Then, it will be saved to the camera roll. (Disabled during interval recording is going on.)</value>
+    <value>Recieve pictures soon after taken and register them to Camera Roll. (Disabled while interval recording is going on.)</value>
   </data>
 </root>

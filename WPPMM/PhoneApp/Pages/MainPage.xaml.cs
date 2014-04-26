@@ -91,6 +91,7 @@ namespace WPPMM
             }
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
+            cameraManager.UpdateEvent += WifiUpdateListener;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -135,6 +136,9 @@ namespace WPPMM
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            cameraManager.OnDisconnected -= cameraManager_OnDisconnected;
+            cameraManager.UpdateEvent -= WifiUpdateListener;
+
             switch (MyPivot.SelectedIndex)
             {
                 case PIVOTINDEX_LIVEVIEW:
@@ -195,7 +199,7 @@ namespace WPPMM
             // display initialize
 
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-            cameraManager.UpdateEvent += WifiUpdateListener;
+            
         }
 
         private void GoToShootingPage()
@@ -577,6 +581,8 @@ namespace WPPMM
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
+            cameraManager.IntervalManager.OnIntervalRecStatusChanged -= IntervalManager_OnIntervalRecStatusChanged;
+
             if (cpm != null) { cpm.Hide(); }
 
             if (AppSettingPanel.Visibility == System.Windows.Visibility.Visible)

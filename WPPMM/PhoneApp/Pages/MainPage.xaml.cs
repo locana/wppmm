@@ -877,7 +877,7 @@ namespace WPPMM
         private void InitAppSettingPanel()
         {
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, CheckBoxSetting.SettingType.postviewImageTransfer));
+            AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage, CheckBoxSetting.SettingType.postviewImageTransfer));
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
 
         }

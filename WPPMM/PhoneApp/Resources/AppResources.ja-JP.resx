@@ -322,4 +322,7 @@
   <data name="AppBar_Exit" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Guide_ReceiveCapturedImage" xml:space="preserve">
+    <value>撮影後にカメラから画像を受信します。（インターバル撮影中は無効となります）</value>
+  </data>
 </root>

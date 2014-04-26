@@ -350,6 +350,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Receive an image from the camera after taking picture. (Disabled during interval recording is going on.).
+        /// </summary>
+        public static string Guide_ReceiveCapturedImage {
+            get {
+                return ResourceManager.GetString("Guide_ReceiveCapturedImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Swipe to start remote control..
         /// </summary>
         public static string Guide_StartLiveView {

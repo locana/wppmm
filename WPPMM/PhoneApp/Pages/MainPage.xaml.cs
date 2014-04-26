@@ -578,8 +578,11 @@ namespace WPPMM
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
             if (cpm != null) { cpm.Hide(); }
-            MyPivot.IsLocked = false;
-            AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
+
+            if (AppSettingPanel.Visibility == System.Windows.Visibility.Visible)
+            {
+                this.CloseAppSettingPanel();
+            }
         }
 
         private void EntrancePageLoaded()
@@ -666,6 +669,11 @@ namespace WPPMM
             else
             {
                 e.Cancel = false;
+            }
+
+            if (AppSettingPanel.Visibility == System.Windows.Visibility.Visible)
+            {
+                this.CloseAppSettingPanel();
             }
         }
 

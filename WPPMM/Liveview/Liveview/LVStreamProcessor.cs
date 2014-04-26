@@ -20,22 +20,12 @@ namespace WPPMM.Liveview
             private set
             {
                 _IsOpen = value;
-                if (!value)
-                {
-                    ConnectedStream = null;
-                }
             }
         }
 
         private bool _IsOpen = false;
 
         private bool IsDisposed = false;
-
-        private HttpWebRequest Request = null;
-
-        private HttpWebResponse Response = null;
-
-        private Stream ConnectedStream = null;
 
         public event EventHandler Closed;
 
@@ -88,7 +78,7 @@ namespace WPPMM.Liveview
 
             IsOpen = true;
 
-            Request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
+            var Request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             Request.Method = "GET";
             Request.AllowReadStreamBuffering = false;
 
@@ -97,7 +87,7 @@ namespace WPPMM.Liveview
                 try
                 {
                     var req = ar.AsyncState as HttpWebRequest;
-                    using (Response = req.EndGetResponse(ar) as HttpWebResponse)
+                    using (var Response = req.EndGetResponse(ar) as HttpWebResponse)
                     {
                         if (Response.StatusCode == HttpStatusCode.OK)
                         {
@@ -108,7 +98,6 @@ namespace WPPMM.Liveview
 
                                 while (IsOpen)
                                 {
-                                    ConnectedStream = str;
                                     try
                                     {
                                         OnJpegRetrieved(new JpegEventArgs(Next(str)));
@@ -163,30 +152,8 @@ namespace WPPMM.Liveview
         /// </summary>
         public void CloseConnection()
         {
+            Log("CloseConnection");
             IsDisposed = true;
-            try
-            {
-                if (ConnectedStream != null)
-                {
-                    ConnectedStream.Dispose();
-                }
-                if (Response != null)
-                {
-                    Response.Dispose();
-                }
-                if (Request != null)
-                {
-                    Request.Abort();
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                Log("Ignore ObjectDisposedException while closing");
-            }
-            catch (IOException)
-            {
-                Log("Ignore IOException while closing");
-            }
             IsOpen = false;
         }
 
@@ -231,6 +198,7 @@ namespace WPPMM.Liveview
                 {
                     if (!IsOpen)
                     {
+                        Log("IsOpen false: Finish while loop");
                         throw new IOException("Force finish reading");
                     }
                     try
@@ -239,10 +207,12 @@ namespace WPPMM.Liveview
                     }
                     catch (ObjectDisposedException)
                     {
+                        Log("Caught ObjectDisposedException while reading bytes: forcefully disposed.");
                         throw new IOException("Stream forcefully disposed");
                     }
                     if (read < 0)
                     {
+                        Log("Detected end of stream.");
                         throw new IOException("End of stream");
                     }
                     remainBytes -= read;

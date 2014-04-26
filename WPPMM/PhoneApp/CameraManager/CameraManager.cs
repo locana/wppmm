@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -190,6 +191,8 @@ namespace WPPMM.CameraManager
             }
         }
 
+        ManualResetEvent CloseLock = new ManualResetEvent(false);
+
         private async void OpenLiveviewConnection()
         {
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
@@ -201,7 +204,10 @@ namespace WPPMM.CameraManager
                     if (lvProcessor.IsOpen)
                     {
                         Debug.WriteLine("Close previous LVProcessor");
+                        CloseLock.Reset();
                         CloseLiveviewConnection();
+                        CloseLock.WaitOne(TimeSpan.FromMilliseconds(1000));
+                        Debug.WriteLine("LvCloseLock released");
                     }
                     lvProcessor = new LvStreamProcessor();
                     lvProcessor.JpegRetrieved += OnJpegRetrieved;
@@ -257,6 +263,7 @@ namespace WPPMM.CameraManager
 
         private void OnLvClosed(object sender, EventArgs e)
         {
+            CloseLock.Set();
             AppStatus.GetInstance().IsTryingToConnectLiveview = false;
         }
 

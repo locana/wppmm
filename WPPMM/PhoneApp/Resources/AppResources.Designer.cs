@@ -97,6 +97,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Ctrl Panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AppBar_ControlPanel {
+            get {
+                return ResourceManager.GetString("AppBar_ControlPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   OK に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AppBar_Exit {
@@ -142,7 +151,7 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Ctrl Panel に類似しているローカライズされた文字列を検索します。
+        ///   Control Panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlPanel {
             get {

@@ -325,4 +325,7 @@
   <data name="Guide_ReceiveCapturedImage" xml:space="preserve">
     <value>撮影後にカメラから画像を受信し、カメラロールに保存します。（インターバル撮影中は無効となります）</value>
   </data>
+  <data name="AppBar_ControlPanel" xml:space="preserve">
+    <value>設定パネル</value>
+  </data>
 </root>

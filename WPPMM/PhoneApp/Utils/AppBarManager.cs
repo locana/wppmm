@@ -23,7 +23,7 @@ namespace WPPMM.Utils
 
         readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
         {
-            Text = AppResources.ControlPanel,
+            Text = AppResources.AppBar_ControlPanel,
             IconUri = new Uri("/Assets/AppBar/appbar_cameraSetting.png", UriKind.Relative)
         };
 

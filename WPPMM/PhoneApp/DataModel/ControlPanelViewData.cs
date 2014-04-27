@@ -31,6 +31,7 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableExposureMode");
                         OnPropertyChanged("CpIsAvailableExposureCompensation");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
+                        OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
                     case "PostviewSizeInfo":
                         if (status.IsAvailable("setPostviewImageSize"))
@@ -271,7 +272,13 @@ namespace WPPMM.DataModel
 
         public int CpSelectedIndexExposureCompensation
         {
-            get { return SettingsValueConverter.GetSelectedIndex(status.EvInfo); }
+            get {
+                if (status == null || status.EvInfo == null || !status.IsAvailable("setExposureCompensation"))
+                {
+                    return 0;
+                } 
+                return SettingsValueConverter.GetSelectedIndex(status.EvInfo);
+            }
             set
             {
                 if (status.EvInfo != null)

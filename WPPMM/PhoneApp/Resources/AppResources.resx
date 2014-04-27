@@ -326,5 +326,23 @@ Please check internet connection status</value>
   </data>
   <data name="AppBar_ControlPanel" xml:space="preserve">
     <value>Ctrl Panel</value>
+    </data>
+  <data name="ExposureMode" xml:space="preserve">
+    <value>Exposure mode</value>
+  </data>
+  <data name="ExposureMode_A" xml:space="preserve">
+    <value>Aperture Priority</value>
+  </data>
+  <data name="ExposureMode_iA" xml:space="preserve">
+    <value>Intelligent Auto</value>
+  </data>
+  <data name="ExposureMode_P" xml:space="preserve">
+    <value>Program Auto</value>
+  </data>
+  <data name="ExposureMode_S" xml:space="preserve">
+    <value>Shutter Priority</value>
+  </data>
+  <data name="ExposureMode_sA" xml:space="preserve">
+    <value>Superior Auto</value>
   </data>
 </root>

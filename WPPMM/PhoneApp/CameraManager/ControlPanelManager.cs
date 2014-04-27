@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using WPPMM.DataModel;
 using WPPMM.RemoteApi;
 using WPPMM.Utils;
@@ -99,7 +100,7 @@ namespace WPPMM.CameraManager
 
             if (status.IsSupported("setExposureMode"))
             {
-                panel.Children.Add(Panels["ExposureMode"]);      
+                panel.Children.Add(Panels["ExposureMode"]);
             }
 
             if (status.IsSupported("setExposureCompensation"))
@@ -259,8 +260,8 @@ namespace WPPMM.CameraManager
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = System.Windows.VerticalAlignment.Top,
-                    Style = Application.Current.Resources["PhoneTextNormalStyle"] as Style,
-                    Margin = new Thickness(10, 15, 0, 0),
+                    Style = Application.Current.Resources["JumpListStringStyle"] as Style,
+                    Margin = new Thickness(10, 18, 0, 0),
                     MinWidth = 25
                 };
             indicator.SetBinding(TextBlock.TextProperty, selectedbind);
@@ -348,8 +349,8 @@ namespace WPPMM.CameraManager
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = System.Windows.VerticalAlignment.Top,
-                Style = Application.Current.Resources["PhoneTextNormalStyle"] as Style,
-                Margin = new Thickness(10, 15, 0, 0),
+                Style = Application.Current.Resources["JumpListStringStyle"] as Style,
+                Margin = new Thickness(10, 18, 0, 0),
                 MinWidth = 25
             };
             indicator.SetBinding(TextBlock.TextProperty, displayValueBind);
@@ -380,7 +381,7 @@ namespace WPPMM.CameraManager
         {
             return new ToggleSwitch
             {
-                Margin = new Thickness(10, -5, 10, -10)
+                Margin = new Thickness(10, -5, 10, -40)
             };
         }
 
@@ -390,10 +391,11 @@ namespace WPPMM.CameraManager
             {
                 Maximum = max,
                 Minimum = min,
-                Margin = new Thickness(5, 0, 10, 0),
+                Margin = new Thickness(5, 12, 10, -36),
                 MinWidth = 185,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Top
+                VerticalAlignment = VerticalAlignment.Top,
+                Background = Application.Current.Resources["PhoneProgressBarBackgroundBrush"] as Brush
             };
         }
 

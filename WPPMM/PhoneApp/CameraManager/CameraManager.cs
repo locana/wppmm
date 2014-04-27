@@ -696,7 +696,10 @@ namespace WPPMM.CameraManager
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                UpdateEvent(cameraStatus);
+                if (UpdateEvent != null)
+                {
+                    UpdateEvent(cameraStatus);
+                }
             });
         }
 

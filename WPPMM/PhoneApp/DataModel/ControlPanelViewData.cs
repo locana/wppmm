@@ -331,7 +331,14 @@ namespace WPPMM.DataModel
                     return "--";
                 }
                 var value = EvConverter.GetEv(status.EvInfo.CurrentIndex, status.EvInfo.Candidate.IndexStep);
-                return Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+                if (value > 0)
+                {
+                    return "+" + Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+                }
+                else
+                {
+                    return Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+                }
             }
         }
 

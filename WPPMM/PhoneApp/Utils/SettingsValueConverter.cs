@@ -213,11 +213,7 @@ namespace WPPMM.Utils
             var value = EvConverter.GetEv(index, def);
             var strValue = Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
 
-            if (value < 0)
-            {
-                return "EV " + strValue;
-            }
-            else if (value == 0.0f)
+            if (value <= 0)
             {
                 return "EV " + strValue;
             }

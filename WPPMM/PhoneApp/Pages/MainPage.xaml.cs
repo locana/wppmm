@@ -772,7 +772,7 @@ namespace WPPMM
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
-                    AppSettings.Margin = new Thickness(20, 64, 16, 64);
+                    AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);

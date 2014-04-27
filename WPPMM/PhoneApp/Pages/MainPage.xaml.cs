@@ -515,17 +515,7 @@ namespace WPPMM
 
         void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
         {
-            if (cameraManager == null || cpm == null) { return; }
-
-            if (cpm.IsShowing())
-            {
-                cpm.Hide();
-            }
-
-            if (IsAppSettingPanelShowing())
-            {
-                CloseAppSettingPanel();
-            }
+            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
 
             cameraManager.RequestHalfPressShutter();
         }

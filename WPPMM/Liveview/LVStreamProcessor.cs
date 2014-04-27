@@ -125,6 +125,7 @@ namespace WPPMM.Liveview
                                         break;
                                     }
                                 }
+                                Log("End of reading loop");
                             }
                         }
                     }

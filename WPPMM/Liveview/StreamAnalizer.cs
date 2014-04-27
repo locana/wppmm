@@ -35,7 +35,16 @@ namespace WPPMM.Liveview
         internal void Dispose()
         {
             IsOpen = false;
+        }
+
+        private void DisposeResouces()
+        {
+            if (str != null)
+            {
+                str.Dispose();
+            }
             str = null;
+            Dispose();
         }
 
         internal async void RunFpsDetector()
@@ -61,7 +70,7 @@ namespace WPPMM.Liveview
             var CHeader = BlockingRead(CHeaderLength);
             if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
             {
-                Dispose();
+                DisposeResouces();
                 Log("Unexpected common header");
                 throw new IOException("Unexpected common header");
             }
@@ -69,7 +78,7 @@ namespace WPPMM.Liveview
             var PHeader = BlockingRead(PHeaderLength);
             if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
             {
-                Dispose();
+                DisposeResouces();
                 Log("Unexpected payload header");
                 throw new IOException("Unexpected payload header");
             }
@@ -102,7 +111,7 @@ namespace WPPMM.Liveview
                     var source = str;
                     if (source == null)
                     {
-                        Dispose();
+                        DisposeResouces();
                         Log("Cannot access Stream. Finish reading.");
                         throw new IOException("Cannot access Stream. Finish reading.");
                     }
@@ -112,13 +121,13 @@ namespace WPPMM.Liveview
                     }
                     catch (ObjectDisposedException)
                     {
-                        Dispose();
+                        DisposeResouces();
                         Log("Caught ObjectDisposedException while reading bytes: forcefully disposed.");
                         throw new IOException("Stream forcefully disposed");
                     }
                     if (read < 0)
                     {
-                        Dispose();
+                        DisposeResouces();
                         Log("Detected end of stream.");
                         throw new IOException("End of stream");
                     }

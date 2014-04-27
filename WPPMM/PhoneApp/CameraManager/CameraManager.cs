@@ -253,14 +253,12 @@ namespace WPPMM.CameraManager
         {
             Debug.WriteLine("--- OnLvClosed ---");
 
-
             if (AppStatus.GetInstance().IsInShootingDisplay)
             {
                 Debug.WriteLine("--- Retry connection for Liveview Stream ---");
                 await Task.Delay(1000);
                 OpenLiveviewConnection();
             }
-
         }
 
         // callback methods (liveview)

@@ -49,6 +49,12 @@ namespace WPPMM.DataModel
                     case "AvailableApis":
                         OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ZoomElementVisibility");
+                        OnPropertyChanged("ShutterSpeedVisibility");
+                        OnPropertyChanged("ShutterSpeedDisplayValue");
+                        OnPropertyChanged("ISOVisibility");
+                        OnPropertyChanged("ISODisplayValue");
+                        OnPropertyChanged("FnumberVisibility");
+                        OnPropertyChanged("FnumberDisplayValue");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -63,10 +69,14 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("ExposureModeImage");
                         break;
                     case "ExposureMode":
-                        // OnPropertyChanged("ExposureModeVisibility");
-                        // OnPropertyChanged("ExposureModeDisplayName");
                         OnPropertyChanged("ModeImage");
                         OnPropertyChanged("ExposureModeImage");
+                        OnPropertyChanged("ShutterSpeedVisibility");
+                        OnPropertyChanged("ShutterSpeedDisplayValue");
+                        OnPropertyChanged("ISOVisibility");
+                        OnPropertyChanged("ISODisplayValue");
+                        OnPropertyChanged("FnumberVisibility");
+                        OnPropertyChanged("FnumberDisplayValue");
                         break;
                     case "ShutterSpeed":
                         OnPropertyChanged("ShutterSpeedVisibility");
@@ -375,7 +385,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.current == null) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.current == null || !cameraStatus.IsAvailable("getShutterSpeed")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -399,7 +409,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.current == null) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.current == null || !cameraStatus.IsAvailable("getIsoSpeedRate")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -417,7 +427,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.current == null) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.current == null || !cameraStatus.IsAvailable("getFNumber")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }

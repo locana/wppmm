@@ -27,7 +27,8 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableSelfTimer");
                         OnPropertyChanged("CpIsAvailableShootMode");
                         OnPropertyChanged("CpIsAvailablePostviewSize");
-                        OnPropertyChanged("CpIsAvailableStillImageFunctions");
+                        OnPropertyChanged("CpIsAvailableStillImageFunctions"); 
+                        OnPropertyChanged("CpIsAvailableExposureMode");
                         break;
                     case "PostviewSizeInfo":
                         if (status.IsAvailable("setPostviewImageSize"))
@@ -51,6 +52,16 @@ namespace WPPMM.DataModel
                         }
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
+                    case "ExposureMode":
+                        if (status.IsAvailable("setExposureMode"))
+                        {
+                            OnPropertyChanged("CpSelectedIndexExposureMode");
+                            OnPropertyChanged("CpCandidatesExposureMode");
+                        }
+                       
+                        break;
+                    default:
+                        break;
                 }
             };
         }
@@ -73,6 +84,10 @@ namespace WPPMM.DataModel
                     catch (NullReferenceException)
                     {
                         Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
+                    }
+                    catch (System.InvalidOperationException e)
+                    {
+                        Debug.WriteLine(e.StackTrace);
                     }
                 });
             }
@@ -198,6 +213,40 @@ namespace WPPMM.DataModel
                     status.ShootModeInfo != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexExposureMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ExposureMode);
+            }
+            set
+            {
+                if (status.ExposureMode != null)
+                {
+                    if (status.ExposureMode.candidates.Length > value)
+                    {
+                        status.ExposureMode.current = status.ExposureMode.candidates[value];
+                    }
+                    else
+                    {
+                        status.ExposureMode.current = null;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesExposureMode
+        {
+            get { return SettingsValueConverter.FromExposureMode(status.ExposureMode).candidates; }
+        }
+
+        public bool CpIsAvailableExposureMode
+        {
+            get{
+                return status.IsAvailable("setExposureMode") && status.ExposureMode != null && manager != null && !manager.IntervalManager.IsRunning;
             }
         }
 

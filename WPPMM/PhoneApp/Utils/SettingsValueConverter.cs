@@ -135,5 +135,44 @@ namespace WPPMM.Utils
                     return val;
             }
         }
+
+        public static Capability<string> FromExposureMode(Capability<string> info)
+        {
+            if (info == null || info.candidates == null || info.candidates.Length == 0){
+                return new Capability<string>
+                {
+                    candidates = new string[] {Resources.AppResources.Disabled},
+                    current = Resources.AppResources.Disabled
+                };
+            }
+
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++){
+                mCandidates[i] = FromExposureMode(info.candidates[i]);
+            }
+            return new Capability<string>{
+                current = FromExposureMode(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromExposureMode(string val)
+        {
+            switch (val)
+            {
+                case RemoteApi.ExposureMode.Aperture:
+                    return Resources.AppResources.ExposureMode_A;
+                case RemoteApi.ExposureMode.SS:
+                    return Resources.AppResources.ExposureMode_S;
+                case RemoteApi.ExposureMode.Program:
+                    return Resources.AppResources.ExposureMode_P;
+                case RemoteApi.ExposureMode.Superior:
+                    return Resources.AppResources.ExposureMode_sA;
+                case RemoteApi.ExposureMode.Intelligent:
+                    return Resources.AppResources.ExposureMode_iA;
+                default:
+                    return val;            
+            }
+        }
     }
 }

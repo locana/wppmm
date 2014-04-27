@@ -39,6 +39,7 @@ namespace WPPMM.CameraManager
             Panels.Add("PostViewSize", CreateStatusPanel("PostviewSize", Resources.AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
+            Panels.Add("ExposureMode", CreateStatusPanel("ExposureMode", Resources.AppResources.ExposureMode, OnExposureModeChanged));
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
@@ -94,6 +95,12 @@ namespace WPPMM.CameraManager
             {
                 panel.Children.Add(Panels["ShootMode"]);
             }
+
+            if (status.IsSupported("setExposureMode"))
+            {
+                panel.Children.Add(Panels["ExposureMode"]);      
+            }
+
             if (status.IsSupported("setSelfTimer"))
             {
                 panel.Children.Add(Panels["SelfTimer"]);
@@ -402,6 +409,31 @@ namespace WPPMM.CameraManager
             catch (RemoteApiException e)
             {
                 Debug.WriteLine("Failed to set postview image size: " + e.code);
+                manager.RefreshEventObserver();
+            }
+        }
+
+        private async void OnExposureModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            if (status.ExposureMode == null || status.ExposureMode.candidates == null || status.ExposureMode.candidates.Length == 0)
+            {
+                return;
+            }
+            var selected = (sender as ListPicker).SelectedIndex;
+            if (SettingsValueConverter.GetSelectedIndex(status.ExposureMode) != selected)
+            {
+                return;
+            }
+            try
+            {
+                await manager.SetExporeModeAsync(status.ExposureMode.candidates[selected]);
+            }
+            catch (InvalidOperationException)
+            {
+                Debug.WriteLine("Not ready to call Web API");
+            }
+            catch (RemoteApiException e)
+            {
                 manager.RefreshEventObserver();
             }
         }

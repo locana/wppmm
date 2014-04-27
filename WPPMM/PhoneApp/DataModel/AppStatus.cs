@@ -55,6 +55,12 @@ namespace WPPMM.DataModel
             }
         }
 
+        public bool IsInShootingDisplay
+        {
+            set;
+            get;
+        }
+
         private bool _IsSearchingDevice = false;
         public bool IsSearchingDevice
         {

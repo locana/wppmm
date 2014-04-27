@@ -125,7 +125,7 @@ namespace WPPMM.Liveview
                         Log("Caught ObjectDisposedException while reading bytes: forcefully disposed.");
                         throw new IOException("Stream forcefully disposed");
                     }
-                    if (read < 0)
+                    if (read <= 0)
                     {
                         DisposeResouces();
                         Log("Detected end of stream.");

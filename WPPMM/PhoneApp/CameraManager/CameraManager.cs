@@ -29,8 +29,7 @@ namespace WPPMM.CameraManager
         private CameraApiClient apiClient;
         private SystemApiClient sysClient;
 
-        private LvStreamProcessor lvProcessor = new LvStreamProcessor();
-        private readonly object lvProcessorLocker = new Object();
+        private readonly LvStreamProcessor lvProcessor = new LvStreamProcessor();
 
         private readonly Downloader downloader = new Downloader();
 
@@ -74,36 +73,31 @@ namespace WPPMM.CameraManager
             {
                 Debug.WriteLine("Liveview Availability changed:" + available);
 
-                lock (lvProcessorLocker)
+                if (!available)
                 {
-                    if (!available)
-                    {
-                        CloseLiveviewConnection();
-                    }
-                    else if (!lvProcessor.IsOpen)
-                    {
-                        OpenLiveviewConnection();
-                    }
+                    CloseLiveviewConnection();
+                }
+                else if (!lvProcessor.IsProcessing)
+                {
+                    OpenLiveviewConnection();
                 }
             };
             cameraStatus.CurrentShootModeNotifier += (mode) =>
             {
                 Debug.WriteLine("Current shoot mode updated: " + mode);
 
-                lock (lvProcessorLocker)
+                if (!lvProcessor.IsProcessing && cameraStatus.IsAvailable("startLiveview"))
                 {
-                    if (!lvProcessor.IsOpen && cameraStatus.IsAvailable("startLiveview"))
-                    {
-                        OpenLiveviewConnection();
-                    }
+                    OpenLiveviewConnection();
+                }
 
-                    if (lvProcessor.IsOpen && mode == ShootModeParam.Audio)
-                    {
-                        CloseLiveviewConnection();
-                    }
+                if (lvProcessor.IsProcessing && mode == ShootModeParam.Audio)
+                {
+                    CloseLiveviewConnection();
                 }
             };
-
+            lvProcessor.JpegRetrieved += OnJpegRetrieved;
+            lvProcessor.Closed += OnLvClosed;
         }
 
 
@@ -191,36 +185,35 @@ namespace WPPMM.CameraManager
             }
         }
 
-        ManualResetEvent CloseLock = new ManualResetEvent(false);
-
-        private async void OpenLiveviewConnection()
+        private async void OpenLiveviewConnection(TimeSpan? connectionTimeout = null)
         {
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
             try
             {
                 var url = await apiClient.StartLiveviewAsync();
-                lock (lvProcessorLocker)
+
+                if (!lvProcessor.IsProcessing)
                 {
-                    if (lvProcessor.IsOpen)
-                    {
-                        Debug.WriteLine("Close previous LVProcessor");
-                        CloseLock.Reset();
-                        CloseLiveviewConnection();
-                        CloseLock.WaitOne(TimeSpan.FromMilliseconds(1000));
-                        Debug.WriteLine("LvCloseLock released");
-                    }
-                    lvProcessor = new LvStreamProcessor();
-                    lvProcessor.JpegRetrieved += OnJpegRetrieved;
-                    lvProcessor.Closed += OnLvClosed;
-                    try
-                    {
-                        lvProcessor.OpenConnection(url);
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        return;
-                    }
+                    lvProcessor.OpenConnection(url, connectionTimeout);
                 }
+                /*
+                if (lvProcessor.IsOpen)
+                {
+                    Debug.WriteLine("Close previous LVProcessor");
+                    CloseLock.Reset();
+                    CloseLiveviewConnection();
+                    CloseLock.WaitOne(TimeSpan.FromMilliseconds(1000));
+                    Debug.WriteLine("LvCloseLock released");
+                }
+                try
+                {
+                    lvProcessor.OpenConnection(url, connectionTimeout);
+                }
+                catch (InvalidOperationException)
+                {
+                    return;
+                }
+                 * */
             }
             catch (RemoteApiException)
             {
@@ -230,12 +223,7 @@ namespace WPPMM.CameraManager
 
         private void CloseLiveviewConnection()
         {
-            lock (lvProcessorLocker)
-            {
-                lvProcessor.Closed -= OnLvClosed;
-                lvProcessor.JpegRetrieved -= OnJpegRetrieved;
-                lvProcessor.CloseConnection();
-            }
+            lvProcessor.CloseConnection();
         }
 
         public Task SetPostViewImageSizeAsync(string size)
@@ -264,8 +252,14 @@ namespace WPPMM.CameraManager
         private void OnLvClosed(object sender, EventArgs e)
         {
             Debug.WriteLine("--- OnLvClosed ---");
-            CloseLock.Set();
-            AppStatus.GetInstance().IsTryingToConnectLiveview = false;
+
+            /*
+            if (AppStatus.GetInstance().IsTryingToConnectLiveview)
+            {
+                Debug.WriteLine("--- Retry connection for Liveview Stream ---");
+                OpenLiveviewConnection(TimeSpan.FromMilliseconds(7000));
+            }
+             * */
         }
 
         // callback methods (liveview)

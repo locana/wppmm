@@ -8,28 +8,37 @@ namespace WPPMM.Liveview
 {
     public class LvStreamProcessor
     {
-        private const int FPS_INTERVAL = 5000;
-        private int packet_counter = 0;
-
         /// <summary>
         /// Connection status of this LVProcessor.
         /// </summary>
         public bool IsOpen
         {
-            get { return _IsOpen; }
-            private set
+            get
             {
-                _IsOpen = value;
+                if (core != null)
+                {
+                    return core.IsOpen;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
-        private bool _IsOpen = false;
+        public bool IsProcessing
+        {
+            get
+            {
+                return state != State.Closed;
+            }
+        }
 
-        private bool IsDisposed = false;
+        private StreamAnalizer core;
 
         private const int DEFAULT_REQUEST_TIMEOUT = 5000;
 
-        private bool IsResponseReceived = false;
+        private State state = State.Closed;
 
         public event EventHandler Closed;
 
@@ -66,23 +75,19 @@ namespace WPPMM.Liveview
         public async void OpenConnection(string url, TimeSpan? timeout = null)
         {
             Log("OpenConnection");
-            if (IsDisposed)
-            {
-                throw new ObjectDisposedException("This LvStreamProcessor is already disposed");
-            }
             if (url == null)
             {
                 throw new ArgumentNullException();
             }
 
-            if (IsOpen)
+            if (state != State.Closed)
             {
                 return;
             }
 
-            var to = (timeout == null) ? TimeSpan.FromMilliseconds(DEFAULT_REQUEST_TIMEOUT) : timeout;
+            state = State.TryingConnection;
 
-            IsOpen = true;
+            var to = (timeout == null) ? TimeSpan.FromMilliseconds(DEFAULT_REQUEST_TIMEOUT) : timeout;
 
             var Request = HttpWebRequest.Create(new Uri(url)) as HttpWebRequest;
             Request.Method = "GET";
@@ -90,7 +95,7 @@ namespace WPPMM.Liveview
 
             var JpegStreamHandler = new AsyncCallback((ar) =>
             {
-                IsResponseReceived = true;
+                state = State.Connected;
                 try
                 {
                     var req = ar.AsyncState as HttpWebRequest;
@@ -101,18 +106,23 @@ namespace WPPMM.Liveview
                             Log("Connected Jpeg stream");
                             using (var str = Response.GetResponseStream())
                             {
-                                RunFpsDetector();
+                                if (core != null)
+                                {
+                                    core.Dispose();
+                                }
+                                core = new StreamAnalizer(str);
+                                core.RunFpsDetector();
 
                                 while (IsOpen)
                                 {
                                     try
                                     {
-                                        OnJpegRetrieved(new JpegEventArgs(Next(str)));
+                                        OnJpegRetrieved(new JpegEventArgs(core.Next()));
                                     }
                                     catch (IOException)
                                     {
-                                        Log("Caught IOException: finish while loop");
-                                        IsOpen = false;
+                                        Log("Caught IOException: finish reading loop");
+                                        break;
                                     }
                                 }
                             }
@@ -142,22 +152,10 @@ namespace WPPMM.Liveview
             Request.BeginGetResponse(JpegStreamHandler, Request);
 
             await Task.Delay((int)to.Value.TotalMilliseconds);
-            if (!IsResponseReceived)
+            if (state == State.TryingConnection)
             {
                 Log("Open request timeout: aborting request.");
                 Request.Abort();
-            }
-        }
-
-        private async void RunFpsDetector()
-        {
-            await Task.Delay(TimeSpan.FromMilliseconds(FPS_INTERVAL));
-            var fps = packet_counter * 1000 / FPS_INTERVAL;
-            packet_counter = 0;
-            Log("- - - - " + fps + " FPS - - - -");
-            if (IsOpen)
-            {
-                RunFpsDetector();
             }
         }
 
@@ -167,89 +165,25 @@ namespace WPPMM.Liveview
         public void CloseConnection()
         {
             Log("CloseConnection");
-            IsDisposed = true;
-            IsOpen = false;
-        }
-
-        private const int CHeaderLength = 8;
-        private const int PHeaderLength = 128;
-
-        private byte[] Next(Stream str)
-        {
-            var CHeader = BlockingRead(str, CHeaderLength);
-            if (CHeader[0] != (byte)0xFF || CHeader[1] != (byte)0x01) // Check fixed data
+            if (core != null)
             {
-                Log("Unexpected common header");
-                throw new IOException("Unexpected common header");
+                core.Dispose();
             }
-
-            var PHeader = BlockingRead(str, PHeaderLength);
-            if (PHeader[0] != (byte)0x24 || PHeader[1] != (byte)0x35 || PHeader[2] != (byte)0x68 || PHeader[3] != (byte)0x79) // Check fixed data
-            {
-                Log("Unexpected payload header");
-                throw new IOException("Unexpected payload header");
-            }
-            int data_size = ReadIntFromByteArray(PHeader, 4, 3);
-            int padding_size = ReadIntFromByteArray(PHeader, 7, 1);
-
-            var data = BlockingRead(str, data_size);
-            BlockingRead(str, padding_size); // discard padding from stream
-
-            packet_counter++;
-
-            return data;
-        }
-
-        private byte[] ReadBuffer = new byte[8192];
-
-        private byte[] BlockingRead(Stream str, int numBytes)
-        {
-            var remainBytes = numBytes;
-            int read;
-            using (var output = new MemoryStream())
-            {
-                while (remainBytes > 0)
-                {
-                    if (!IsOpen)
-                    {
-                        Log("IsOpen false: Finish while loop");
-                        throw new IOException("Force finish reading");
-                    }
-                    try
-                    {
-                        read = str.Read(ReadBuffer, 0, Math.Min(ReadBuffer.Length, remainBytes));
-                    }
-                    catch (ObjectDisposedException)
-                    {
-                        Log("Caught ObjectDisposedException while reading bytes: forcefully disposed.");
-                        throw new IOException("Stream forcefully disposed");
-                    }
-                    if (read < 0)
-                    {
-                        Log("Detected end of stream.");
-                        throw new IOException("End of stream");
-                    }
-                    remainBytes -= read;
-                    output.Write(ReadBuffer, 0, read);
-                }
-                return output.ToArray();
-            }
-        }
-
-        private static int ReadIntFromByteArray(byte[] bytearray, int index, int length)
-        {
-            int int_data = 0;
-            for (int i = 0; i < length; i++)
-            {
-                int_data = (int_data << 8) | (bytearray[index + i] & 0xff);
-            }
-            return int_data;
+            core = null;
+            state = State.Closed;
         }
 
         private static void Log(string message)
         {
             Debug.WriteLine("[LVSProcessor] " + message);
         }
+    }
+
+    internal enum State
+    {
+        Closed,
+        TryingConnection,
+        Connected
     }
 
     public class JpegEventArgs : EventArgs

@@ -21,7 +21,7 @@ namespace WPPMM.RemoteApi
             this.endpoint = endpoint;
         }
 
-        public async Task SetCurrentTime(DateTimeOffset time)
+        public async Task SetCurrentTimeAsync(DateTimeOffset time)
         {
             var req = new TimeOffset
             {

@@ -216,7 +216,7 @@ namespace WPPMM.CameraManager
             {
                 try
                 {
-                    await sysClient.SetCurrentTime(DateTimeOffset.Now); // Should check availability
+                    await sysClient.SetCurrentTimeAsync(DateTimeOffset.Now); // Should check availability
                 }
                 catch (RemoteApiException)
                 {

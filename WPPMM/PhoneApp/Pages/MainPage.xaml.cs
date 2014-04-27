@@ -752,6 +752,11 @@ namespace WPPMM
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
         {
             Debug.WriteLine("OrientationChagned: " + e.Orientation);
+            if (cameraManager != null)
+            {
+                cameraManager.CancelTouchAF();
+                cameraManager.CancelHalfPressShutter();
+            }
             SetLayoutByOrientation(e.Orientation);
         }
 

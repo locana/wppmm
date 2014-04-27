@@ -709,10 +709,10 @@ namespace WPPMM
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
             TouchAFPointer.DataContext = svd;
-            // ExposureMode.DataContext = svd;
             ShutterSpeed.DataContext = svd;
             ISO.DataContext = svd;
             Fnumber.DataContext = svd;
+            Ev.DataContext = svd;
             HalfPressFocusStatus.DataContext = svd;
             ModeImage.DataContext = svd;
             ExposureModeImage.DataContext = svd;
@@ -736,10 +736,10 @@ namespace WPPMM
             AudioScreenImage.DataContext = null;
             ShootButtonWrapper.DataContext = null;
             TouchAFPointer.DataContext = null;
-            // ExposureMode.DataContext = null;
             ShutterSpeed.DataContext = null;
             ISO.DataContext = null;
             Fnumber.DataContext = null;
+            Ev.DataContext = null;
             HalfPressFocusStatus.DataContext = null;
             ModeImage.DataContext = null;
             ExposureModeImage.DataContext = null;

@@ -91,6 +91,8 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("FnumberDisplayValue");
                         break;
                     case "EvInfo":
+                        OnPropertyChanged("EvVisibility");
+                        OnPropertyChanged("EvDisplayValue");
                         break;
                     case "FocusStatus":
                         OnPropertyChanged("TouchAFPointerStrokeBrush");
@@ -419,7 +421,7 @@ namespace WPPMM.DataModel
             get
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.current == null) { return "ISO: --"; }
-                else { return "ISO: " + cameraStatus.ISOSpeedRate.current; }
+                else { return "ISO " + cameraStatus.ISOSpeedRate.current; }
             }
         }
 
@@ -438,6 +440,44 @@ namespace WPPMM.DataModel
             {
                 if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.current == null) { return "F--"; }
                 else { return "F" + cameraStatus.FNumber.current; }
+            }
+        }
+
+        public Visibility EvVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsAvailable("getExposureCompensation")){ return Visibility.Collapsed; }
+                else{ return Visibility.Visible; }
+            }
+        }
+
+        public string EvDisplayValue
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null )
+                {
+                    return "";
+                }
+                else
+                {
+                    var value = EvConverter.GetEv(cameraStatus.EvInfo.CurrentIndex, cameraStatus.EvInfo.Candidate.IndexStep);
+                    var strValue = Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+
+                    if (value < 0)
+                    {
+                        return "EV " + strValue;
+                    }
+                    else if (value == 0.0f)
+                    {
+                        return "EV " + strValue;
+                    }
+                    else
+                    {
+                        return "EV +" + strValue;
+                    }
+                }
             }
         }
 

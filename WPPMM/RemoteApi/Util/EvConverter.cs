@@ -1,7 +1,7 @@
 
 namespace WPPMM.RemoteApi
 {
-    class EvConverter
+    public class EvConverter
     {
         /// <summary>
         /// Convert step definition from integer value to the Enum value.

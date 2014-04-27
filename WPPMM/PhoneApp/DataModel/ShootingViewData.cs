@@ -60,10 +60,12 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ShootButtonImage");
                         OnPropertyChanged("ModeImage");
+                        OnPropertyChanged("ExposureModeImage");
                         break;
                     case "ExposureMode":
-                        OnPropertyChanged("ExposureModeVisibility");
-                        OnPropertyChanged("ExposureModeDisplayName");
+                        // OnPropertyChanged("ExposureModeVisibility");
+                        // OnPropertyChanged("ExposureModeDisplayName");
+                        OnPropertyChanged("ModeImage");
                         OnPropertyChanged("ExposureModeImage");
                         break;
                     case "ShutterSpeed":
@@ -433,7 +435,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
+                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
                 {
                     return null;
                 }
@@ -456,28 +458,28 @@ namespace WPPMM.DataModel
         {
             get
             {
+                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current != ShootModeParam.Still)
+                {
+                    return null;
+                }
                 if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current == null)
                 {
                     return null;
                 }
-                else
+                switch (cameraStatus.ExposureMode.current)
                 {
-                    switch (cameraStatus.ExposureMode.current)
-                    {
-
-                        case ExposureMode.Aperture:
-                            return ExModeImage_A;
-                        case ExposureMode.SS:
-                            return ExModeImage_S;
-                        case ExposureMode.Program:
-                            return ExModeImage_P;
-                        case ExposureMode.Intelligent:
-                            return ExModeImage_IA;
-                        case ExposureMode.Superior:
-                            return ExModeImage_IAPlus;
-                        default:
-                            return null;
-                    }
+                    case ExposureMode.Aperture:
+                        return ExModeImage_A;
+                    case ExposureMode.SS:
+                        return ExModeImage_S;
+                    case ExposureMode.Program:
+                        return ExModeImage_P;
+                    case ExposureMode.Intelligent:
+                        return ExModeImage_IA;
+                    case ExposureMode.Superior:
+                        return ExModeImage_IAPlus;
+                    default:
+                        return null;
                 }
             }
         }

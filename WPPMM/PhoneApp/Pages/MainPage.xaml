@@ -191,7 +191,7 @@
                             <ColumnDefinition Width="160" />
                         </Grid.ColumnDefinitions>
                         <Image Name="ModeImage" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" Stretch="None" HorizontalAlignment="Center"/>
-                        <Image Name="ExposureModeImage" Source="{Binding ExposureModeImage, Mode=OneWay}" Stretch="None" Visibility="{Binding ExposureModeVisibility, FallbackValue=Collapsed}" Grid.Column="1" HorizontalAlignment="Center" />
+                        <Image Name="ExposureModeImage" Source="{Binding ExposureModeImage, Mode=OneWay}" Stretch="None" Grid.Column="1" HorizontalAlignment="Center" />
                     </Grid>
                     <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
                         <!--

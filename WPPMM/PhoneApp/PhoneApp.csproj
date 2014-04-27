@@ -200,7 +200,17 @@
     <Content Include="Assets\Button\Music.png" />
     <Content Include="Assets\Button\Stop.png" />
     <Content Include="Assets\License.txt" />
+    <Content Include="Assets\Screen\ExposureMode.png" />
+    <Content Include="Assets\Screen\ExposureMode_A.png" />
+    <Content Include="Assets\Screen\ExposureMode_iA.png" />
+    <Content Include="Assets\Screen\ExposureMode_iAPlus.png" />
+    <Content Include="Assets\Screen\ExposureMode_M.png" />
+    <Content Include="Assets\Screen\ExposureMode_P.png" />
+    <Content Include="Assets\Screen\ExposureMode_S.png" />
     <Content Include="Assets\Screen\focused.png" />
+    <Content Include="Assets\Screen\mode_audio.png" />
+    <Content Include="Assets\Screen\mode_movie.png" />
+    <Content Include="Assets\Screen\mode_photo.png" />
     <Content Include="Assets\Screen\rec.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

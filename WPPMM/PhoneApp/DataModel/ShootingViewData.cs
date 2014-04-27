@@ -59,10 +59,12 @@ namespace WPPMM.DataModel
                     case "ShootModeInfo":
                         OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ShootButtonImage");
+                        OnPropertyChanged("ModeImage");
                         break;
                     case "ExposureMode":
                         OnPropertyChanged("ExposureModeVisibility");
                         OnPropertyChanged("ExposureModeDisplayName");
+                        OnPropertyChanged("ExposureModeImage");
                         break;
                     case "ShutterSpeed":
                         OnPropertyChanged("ShutterSpeedVisibility");
@@ -157,6 +159,16 @@ namespace WPPMM.DataModel
         private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Button/Camcorder.png", UriKind.Relative));
         private static readonly BitmapImage AudioImage = new BitmapImage(new Uri("/Assets/Button/Music.png", UriKind.Relative));
         private static readonly BitmapImage StopImage = new BitmapImage(new Uri("/Assets/Button/Stop.png", UriKind.Relative));
+
+        private static readonly BitmapImage PhotoModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_photo.png", UriKind.Relative));
+        private static readonly BitmapImage MovieModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_movie.png", UriKind.Relative));
+        private static readonly BitmapImage AudioModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_audio.png", UriKind.Relative));
+
+        private static readonly BitmapImage ExModeImage_IA = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_iA.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_IAPlus = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_iAPlus.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_A = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_A.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_S = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_S.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_P = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {
@@ -417,6 +429,58 @@ namespace WPPMM.DataModel
             }
         }
 
+        public BitmapImage ModeImage
+        {
+            get
+            {
+                if (cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
+                {
+                    return null;
+                }
+
+                switch (cameraStatus.ShootModeInfo.current)
+                {
+                    case ShootModeParam.Still:
+                        return PhotoModeImage;
+                    case ShootModeParam.Movie:
+                        return MovieModeImage;
+                    case ShootModeParam.Audio:
+                        return AudioModeImage;
+                    default:
+                        return null;
+                }
+            }
+        }
+
+        public BitmapImage ExposureModeImage
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    switch (cameraStatus.ExposureMode.current)
+                    {
+
+                        case ExposureMode.Aperture:
+                            return ExModeImage_A;
+                        case ExposureMode.SS:
+                            return ExModeImage_S;
+                        case ExposureMode.Program:
+                            return ExModeImage_P;
+                        case ExposureMode.Intelligent:
+                            return ExModeImage_IA;
+                        case ExposureMode.Superior:
+                            return ExModeImage_IAPlus;
+                        default:
+                            return null;
+                    }
+                }
+            }
+        }
 
     }
 }

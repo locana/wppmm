@@ -719,11 +719,13 @@ namespace WPPMM
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
             TouchAFPointer.DataContext = svd;
-            ExposureMode.DataContext = svd;
+            // ExposureMode.DataContext = svd;
             ShutterSpeed.DataContext = svd;
             ISO.DataContext = svd;
             Fnumber.DataContext = svd;
             HalfPressFocusStatus.DataContext = svd;
+            ModeImage.DataContext = svd;
+            ExposureModeImage.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
@@ -744,11 +746,13 @@ namespace WPPMM
             AudioScreenImage.DataContext = null;
             ShootButtonWrapper.DataContext = null;
             TouchAFPointer.DataContext = null;
-            ExposureMode.DataContext = null;
+            // ExposureMode.DataContext = null;
             ShutterSpeed.DataContext = null;
             ISO.DataContext = null;
             Fnumber.DataContext = null;
             HalfPressFocusStatus.DataContext = null;
+            ModeImage.DataContext = null;
+            ExposureModeImage.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             // cpm = null;
@@ -771,16 +775,18 @@ namespace WPPMM
                     ShootButton.Margin = new Thickness(0, 0, 70, 30);
                     ZoomElements.Margin = new Thickness(70, 0, 0, 30);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
-                    UpperLeftElements.Margin = new Thickness(40, 20, 0, 0);
+                    UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 0);
+                    StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 30, 90);
                     ZoomElements.Margin = new Thickness(30, 0, 0, 90);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
-                    UpperLeftElements.Margin = new Thickness(10, 20, 0, 0);
+                    UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 60);
+                    StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     break;
             }
         }

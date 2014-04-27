@@ -185,9 +185,19 @@
 
 
                     </Grid>
+                    <Grid Name="StatusDisplayelements" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="160" />
+                        </Grid.ColumnDefinitions>
+                        <Image Name="ModeImage" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" Stretch="None" HorizontalAlignment="Center"/>
+                        <Image Name="ExposureModeImage" Source="{Binding ExposureModeImage, Mode=OneWay}" Stretch="None" Visibility="{Binding ExposureModeVisibility, FallbackValue=Collapsed}" Grid.Column="1" HorizontalAlignment="Center" />
+                    </Grid>
                     <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
+                        <!--
                         <TextBlock Name="ExposureMode" Text="{Binding ExposureModeDisplayName}" Visibility="{Binding ExposureModeVisibility, FallbackValue=Collapsed}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus"
+                        -->
+                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus" Stretch="None"
                                Visibility="{Binding RecordingStatusVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Background="{StaticResource PhoneBackgroundBrush}"
                                     Margin="6" Height="auto" Width="auto" Name="IntervalStatusPanel" Opacity="0.6" 

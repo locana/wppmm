@@ -23,7 +23,7 @@ namespace WPPMM.CameraManager
 
         private const int TIMEOUT = 10;
 
-        public DeviceInfo DeviceInfo;
+        public ScalarDeviceInfo DeviceInfo;
 
         private readonly DeviceFinder deviceFinder = new DeviceFinder();
         private CameraApiClient apiClient;
@@ -98,6 +98,46 @@ namespace WPPMM.CameraManager
             };
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
+            deviceFinder.ScalarDeviceDiscovered += deviceFinder_Discovered;
+            deviceFinder.Finished += deviceFinder_Finished;
+        }
+
+        void deviceFinder_Finished(object sender, EventArgs e)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                if (DiscoveryTimeout != null)
+                {
+                    DiscoveryTimeout.Invoke();
+                }
+            });
+        }
+
+        void deviceFinder_Discovered(object sender, ScalarDeviceEventArgs e)
+        {
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                DeviceInfo = e.ScalarDevice;
+                Debug.WriteLine("found device: " + DeviceInfo.ModelName + " - " + DeviceInfo.UDN);
+
+                if (DeviceInfo.Endpoints.ContainsKey("camera"))
+                {
+                    apiClient = new CameraApiClient(e.ScalarDevice.Endpoints["camera"]);
+                    Debug.WriteLine(e.ScalarDevice.Endpoints["camera"]);
+                    GetMethodTypes();
+                    cameraStatus.isAvailableConnecting = true;
+
+                    observer = new EventObserver(apiClient);
+                }
+                if (DeviceInfo.Endpoints.ContainsKey("system"))
+                {
+                    sysClient = new SystemApiClient(e.ScalarDevice.Endpoints["system"]);
+                    Debug.WriteLine(e.ScalarDevice.Endpoints["system"]);
+                }
+                // TODO be careful, device info is updated to the latest found device.
+
+                NoticeUpdate();
+            });
         }
 
 
@@ -289,40 +329,19 @@ namespace WPPMM.CameraManager
             CloseLiveviewConnection();
         }
 
+        private Action DeviceDiscovered;
+        private Action DiscoveryTimeout;
+
         // --------- prepare
 
         public void RequestSearchDevices(Action Found, Action Timeout)
         {
-            deviceFinder.SearchDevices(TIMEOUT,
-                (info) => { Deployment.Current.Dispatcher.BeginInvoke(() => OnServerFound(info, Found)); },
-                () => { Deployment.Current.Dispatcher.BeginInvoke(() => Timeout.Invoke()); });
+            DeviceDiscovered = Found;
+            DiscoveryTimeout = Timeout;
+            deviceFinder.SearchScalarDevices(TimeSpan.FromSeconds(TIMEOUT));
         }
 
-        private void OnServerFound(DeviceInfo di, Action Found)
-        {
-            DeviceInfo = di;
-            Debug.WriteLine("found device: " + DeviceInfo.ModelName);
-
-            if (DeviceInfo.Endpoints.ContainsKey("camera"))
-            {
-                apiClient = new CameraApiClient(di.Endpoints["camera"]);
-                Debug.WriteLine(di.Endpoints["camera"]);
-                GetMethodTypes(Found);
-                cameraStatus.isAvailableConnecting = true;
-
-                observer = new EventObserver(apiClient);
-            }
-            if (DeviceInfo.Endpoints.ContainsKey("system"))
-            {
-                sysClient = new SystemApiClient(di.Endpoints["system"]);
-                Debug.WriteLine(di.Endpoints["system"]);
-            }
-            // TODO be careful, device info is updated to the latest found device.
-
-            NoticeUpdate();
-        }
-
-        private async void GetMethodTypes(Action found)
+        private async void GetMethodTypes()
         {
             if (apiClient == null)
             {
@@ -351,9 +370,9 @@ namespace WPPMM.CameraManager
                 {
                     MethodTypesUpdateNotifer.Invoke(); // Notify before call OnFound to update contents of control panel.
                 }
-                if (found != null)
+                if (DeviceDiscovered != null)
                 {
-                    found.Invoke();
+                    DeviceDiscovered.Invoke();
                 }
                 NoticeUpdate();
             }

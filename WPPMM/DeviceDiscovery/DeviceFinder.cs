@@ -25,20 +25,47 @@ namespace WPPMM.DeviceDiscovery
         private const int ssdp_port = 1900;
         private const int result_buffer = 8192;
 
-        /// <summary>
-        /// Search devices and retrieve their device info.
-        /// </summary>
-        /// <param name="timeoutSec">Seconds to wait before invokation of OnTimeout.</param>
-        /// <param name="OnServerFound">Success callback. This will be invoked for each devices until OnTimeout is invoked.</param>
-        /// <param name="OnTimeout">Timeout callback.</param>
-        public async void SearchDevices(int timeoutSec, Action<DeviceInfo> OnServerFound, Action OnTimeout)
-        {
-            if (OnServerFound == null || OnTimeout == null)
-            {
-                throw new ArgumentNullException();
-            }
+        private readonly TimeSpan DEFAULT_TIMEOUT = new TimeSpan(0, 0, 5);
 
+        public delegate void ScalarDeviceHandler(object sender, ScalarDeviceEventArgs e);
+
+        public event ScalarDeviceHandler ScalarDeviceDiscovered;
+
+        protected void OnDiscovered(ScalarDeviceEventArgs e)
+        {
+            if (ScalarDeviceDiscovered != null)
+            {
+                ScalarDeviceDiscovered(this, e);
+            }
+        }
+
+        public delegate void DeviceDescriptionHandler(object sender, DeviceDescriptionEventArgs e);
+
+        public event DeviceDescriptionHandler DescriptionObtained;
+
+        protected void OnDiscovered(DeviceDescriptionEventArgs e)
+        {
+            if (DescriptionObtained != null)
+            {
+                DescriptionObtained(this, e);
+            }
+        }
+
+        public event EventHandler Finished;
+
+        protected void OnTimeout(EventArgs e)
+        {
+            if (Finished != null)
+            {
+                Finished(this, e);
+            }
+        }
+
+        private async Task Search(string st, TimeSpan? timeout = null)
+        {
             Debug.WriteLine("DeviceFinder.SearchDevices");
+
+            int timeoutSec = (timeout == null) ? (int)DEFAULT_TIMEOUT.TotalSeconds : (int)timeout.Value.TotalSeconds;
 
             if (timeoutSec < 2)
             {
@@ -52,7 +79,7 @@ namespace WPPMM.DeviceDiscovery
                 .Append("HOST: ").Append(multicast_address).Append(":").Append(ssdp_port.ToString()).Append("\r\n")
                 .Append("MAN: ").Append("\"ssdp:discover\"").Append("\r\n")
                 .Append("MX: ").Append(MX.ToString()).Append("\r\n")
-                .Append("ST: urn:schemas-sony-com:service:ScalarWebAPI:1").Append("\r\n")
+                .Append("ST: ").Append(st).Append("\r\n")
                 //.Append("ST: ssdp:all").Append("\r\n") // For debug
                 .Append("\r\n")
                 .ToString();
@@ -77,7 +104,9 @@ namespace WPPMM.DeviceDiscovery
                     {
                         try
                         {
-                            OnServerFound.Invoke(AnalyzeDD(reader.ReadToEnd()));
+                            var response = reader.ReadToEnd();
+                            OnDiscovered(new DeviceDescriptionEventArgs(response));
+                            OnDiscovered(new ScalarDeviceEventArgs(AnalyzeDD(response)));
                         }
                         catch (Exception)
                         {
@@ -184,8 +213,27 @@ namespace WPPMM.DeviceDiscovery
 #elif NETFX_CORE
                 sock.Dispose();
 #endif
-                OnTimeout.Invoke();
+                OnTimeout(new EventArgs());
             });
+        }
+
+        /// <summary>
+        /// Search devices and retrieve their device info.
+        /// </summary>
+        /// <param name="timeoutSec">Timeout value to finish searching.</param>
+        public async void SearchScalarDevices(TimeSpan? timeout = null)
+        {
+            await Search("urn:schemas-sony-com:service:ScalarWebAPI:1", timeout);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="st">Search Target parameter for SSDP.</param>
+        /// <param name="timeoutSec">Timeout value to finish searching.</param>
+        private async void SearchUpnpDevices(string st, TimeSpan? timeout = null)
+        {
+            await Search(st, timeout);
         }
 
         private async Task RunTimeoutInvokerAsync(int TimeoutSec, Action OnTimeout)
@@ -246,7 +294,7 @@ namespace WPPMM.DeviceDiscovery
         private const string upnp_ns = "{urn:schemas-upnp-org:device-1-0}";
         private const string sony_ns = "{urn:schemas-sony-com:av}";
 
-        private static DeviceInfo AnalyzeDD(string response)
+        private static ScalarDeviceInfo AnalyzeDD(string response)
         {
             //Debug.WriteLine(response);
             var endpoints = new Dictionary<string, string>();
@@ -280,7 +328,37 @@ namespace WPPMM.DeviceDiscovery
                 throw new XmlException("No endoint found in XML");
             }
 
-            return new DeviceInfo(udn, m_name, f_name, endpoints);
+            return new ScalarDeviceInfo(udn, m_name, f_name, endpoints);
+        }
+    }
+
+    public class DeviceDescriptionEventArgs : EventArgs
+    {
+        private readonly string description;
+
+        public DeviceDescriptionEventArgs(string description)
+        {
+            this.description = description;
+        }
+
+        public string Description
+        {
+            get { return description; }
+        }
+    }
+
+    public class ScalarDeviceEventArgs : EventArgs
+    {
+        private readonly ScalarDeviceInfo info;
+
+        public ScalarDeviceEventArgs(ScalarDeviceInfo info)
+        {
+            this.info = info;
+        }
+
+        public ScalarDeviceInfo ScalarDevice
+        {
+            get { return info; }
         }
     }
 }

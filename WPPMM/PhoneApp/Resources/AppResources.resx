@@ -326,7 +326,7 @@ Please check internet connection status</value>
   </data>
   <data name="AppBar_ControlPanel" xml:space="preserve">
     <value>Ctrl Panel</value>
-    </data>
+  </data>
   <data name="ExposureMode" xml:space="preserve">
     <value>Exposure mode</value>
   </data>
@@ -344,5 +344,8 @@ Please check internet connection status</value>
   </data>
   <data name="ExposureMode_sA" xml:space="preserve">
     <value>Superior Auto</value>
+  </data>
+  <data name="ExposureCompensation" xml:space="preserve">
+    <value>Exposure Compensation</value>
   </data>
 </root>

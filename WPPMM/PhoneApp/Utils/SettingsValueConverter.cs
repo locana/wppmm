@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using WPPMM.RemoteApi;
 
 namespace WPPMM.Utils
@@ -34,6 +36,15 @@ namespace WPPMM.Utils
                 }
             }
             return 0;
+        }
+
+        public static int GetSelectedIndex(EvCapability info)
+        {
+            if (info == null || info.Candidate == null)
+            {
+                return 0;
+            }
+            return info.CurrentIndex;
         }
 
         public static Capability<string> FromSelfTimer(Capability<int> info)
@@ -138,19 +149,22 @@ namespace WPPMM.Utils
 
         public static Capability<string> FromExposureMode(Capability<string> info)
         {
-            if (info == null || info.candidates == null || info.candidates.Length == 0){
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
                 return new Capability<string>
                 {
-                    candidates = new string[] {Resources.AppResources.Disabled},
+                    candidates = new string[] { Resources.AppResources.Disabled },
                     current = Resources.AppResources.Disabled
                 };
             }
 
             var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++){
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
                 mCandidates[i] = FromExposureMode(info.candidates[i]);
             }
-            return new Capability<string>{
+            return new Capability<string>
+            {
                 current = FromExposureMode(info.current),
                 candidates = mCandidates
             };
@@ -171,7 +185,45 @@ namespace WPPMM.Utils
                 case RemoteApi.ExposureMode.Intelligent:
                     return Resources.AppResources.ExposureMode_iA;
                 default:
-                    return val;            
+                    return val;
+            }
+        }
+
+        public static string[] FromExposureCompensation(EvCapability info)
+        {
+            if (info == null)
+            {
+                Debug.WriteLine("Return null.");
+                return new string[] { Resources.AppResources.Disabled };
+            }
+
+            int num = info.Candidate.MaxIndex + Math.Abs(info.Candidate.MinIndex) + 1;
+            var mCandidates = new string[num];
+            for (int i = 0; i < num ; i++)
+            {
+                Debug.WriteLine("ev: " + i);
+                mCandidates[i] = FromExposureCompensation(i + info.Candidate.MinIndex, info.Candidate.IndexStep);
+            }
+
+            return mCandidates;
+        }
+
+        private static string FromExposureCompensation(int index, EvStepDefinition def)
+        {
+            var value = EvConverter.GetEv(index, def);
+            var strValue = Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+
+            if (value < 0)
+            {
+                return "EV " + strValue;
+            }
+            else if (value == 0.0f)
+            {
+                return "EV " + strValue;
+            }
+            else
+            {
+                return "EV +" + strValue;
             }
         }
     }

@@ -346,4 +346,7 @@
   <data name="ExposureMode_sA" xml:space="preserve">
     <value>おまかせオート</value>
   </data>
+  <data name="ExposureCompensation" xml:space="preserve">
+    <value>露出補正</value>
+  </data>
 </root>

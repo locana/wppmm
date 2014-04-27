@@ -29,6 +29,8 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailablePostviewSize");
                         OnPropertyChanged("CpIsAvailableStillImageFunctions"); 
                         OnPropertyChanged("CpIsAvailableExposureMode");
+                        OnPropertyChanged("CpIsAvailableExposureCompensation");
+                        OnPropertyChanged("CpDisplayValueExposureCompensation");
                         break;
                     case "PostviewSizeInfo":
                         if (status.IsAvailable("setPostviewImageSize"))
@@ -58,7 +60,16 @@ namespace WPPMM.DataModel
                             OnPropertyChanged("CpSelectedIndexExposureMode");
                             OnPropertyChanged("CpCandidatesExposureMode");
                         }
-                       
+                        break;
+                    case "EvInfo":
+                        if (status.IsAvailable("setExposureCompensation"))
+                        {
+                            OnPropertyChanged("CpSelectedIndexExposureCompensation");
+                            OnPropertyChanged("CpCandidatesExposureCompensation");
+                            OnPropertyChanged("CpMaxExposureCompensation");
+                            OnPropertyChanged("CpMinExposureCompensation");
+                            OnPropertyChanged("CpDisplayValueExposureCompensation");
+                        }
                         break;
                     default:
                         break;
@@ -249,6 +260,74 @@ namespace WPPMM.DataModel
                 return status.IsAvailable("setExposureMode") && status.ExposureMode != null && manager != null && !manager.IntervalManager.IsRunning;
             }
         }
+
+        public bool CpIsAvailableExposureCompensation
+        {
+            get
+            {
+                return status.IsAvailable("setExposureCompensation") && status.EvInfo != null && manager != null && !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexExposureCompensation
+        {
+            get { return SettingsValueConverter.GetSelectedIndex(status.EvInfo); }
+            set
+            {
+                if (status.EvInfo != null)
+                {   
+                    if (value <= status.EvInfo.Candidate.MaxIndex && value >= status.EvInfo.Candidate.MinIndex)
+                    {
+                        status.EvInfo.CurrentIndex = value;
+                    }
+                    else
+                    {
+                        status.EvInfo.CurrentIndex = 0;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesExposureCompensation
+        {
+            get { return SettingsValueConverter.FromExposureCompensation(status.EvInfo); }
+        }
+
+        public int CpMaxExposureCompensation
+        {
+            get {
+                if (status == null || status.EvInfo == null)
+                {
+                    return 0;
+                }
+                return status.EvInfo.Candidate.MaxIndex; 
+            }
+        }
+
+        public int CpMinExposureCompensation
+        {
+            get {
+                if (status == null || status.EvInfo == null)
+                {
+                    return 0;
+                } 
+                return status.EvInfo.Candidate.MinIndex;
+            }
+        }
+
+        public string CpDisplayValueExposureCompensation
+        {
+            get
+            {
+                if (status == null || status.EvInfo == null || !status.IsAvailable("setExposureCompensation"))
+                {
+                    return "--";
+                }
+                var value = EvConverter.GetEv(status.EvInfo.CurrentIndex, status.EvInfo.Candidate.IndexStep);
+                return Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+            }
+        }
+
 
         public bool CpIsAvailableStillImageFunctions
         {

@@ -55,6 +55,7 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("ISODisplayValue");
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
+                        OnPropertyChanged("EvVisibility");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -447,7 +448,7 @@ namespace WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsAvailable("getExposureCompensation")){ return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsAvailable("setExposureCompensation")){ return Visibility.Collapsed; }
                 else{ return Visibility.Visible; }
             }
         }

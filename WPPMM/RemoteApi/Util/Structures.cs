@@ -64,7 +64,7 @@ namespace WPPMM.RemoteApi
 
     public class EvCapability
     {
-        public int CurrentIndex { internal set; get; }
+        public int CurrentIndex { set; get; }
         public EvCandidate Candidate { internal set; get; }
     }
 

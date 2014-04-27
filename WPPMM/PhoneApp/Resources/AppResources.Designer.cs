@@ -332,6 +332,15 @@ namespace WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exposure Compensation.
+        /// </summary>
+        public static string ExposureCompensation {
+            get {
+                return ResourceManager.GetString("ExposureCompensation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exposure mode.
         /// </summary>
         public static string ExposureMode {

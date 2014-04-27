@@ -839,5 +839,30 @@ namespace WPPMM.CameraManager
 
             return apiClient.SetExposureModeAsync(mode);
         }
+
+        public async void SetExposureCompensation(int index)
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+            try
+            {
+                await apiClient.SetEvIndexAsync(index);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
+        }
+
+        public Task SetExposureCompensationAsync(int index)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return apiClient.SetEvIndexAsync(index);
+        }
     }
 }

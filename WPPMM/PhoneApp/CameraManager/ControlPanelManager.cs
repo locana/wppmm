@@ -40,6 +40,7 @@ namespace WPPMM.CameraManager
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
             Panels.Add("ExposureMode", CreateStatusPanel("ExposureMode", Resources.AppResources.ExposureMode, OnExposureModeChanged));
+            Panels.Add("ExposureCompensation", CreateExposureCompensationSliderPanel());
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
@@ -101,6 +102,11 @@ namespace WPPMM.CameraManager
                 panel.Children.Add(Panels["ExposureMode"]);      
             }
 
+            if (status.IsSupported("setExposureCompensation"))
+            {
+                panel.Children.Add(Panels["ExposureCompensation"]);
+            }
+
             if (status.IsSupported("setSelfTimer"))
             {
                 panel.Children.Add(Panels["SelfTimer"]);
@@ -112,7 +118,6 @@ namespace WPPMM.CameraManager
 
             if (status.IsSupported("actTakePicture"))
             {
-                // panel.Children.Add(CreatePostviewSettingPanel());
                 panel.Children.Add(Panels["IntervalSwitch"]);
                 panel.Children.Add(Panels["IntervalValue"]);
             }
@@ -267,6 +272,98 @@ namespace WPPMM.CameraManager
 
             child.Children.Add(hPanel);
             return child;
+        }
+
+        private StackPanel CreateExposureCompensationSliderPanel()
+        {
+            var child = CreatePanel(Resources.AppResources.ExposureCompensation);
+            var slider = CreateSlider(-10, 10);
+            slider.Value = 0;
+
+            slider.ManipulationCompleted += (sender, e) =>
+            {
+                if (status == null || status.EvInfo == null)
+                {
+                    Debug.WriteLine("return null.");
+                    return;
+                }
+                var selected = (int)(sender as Slider).Value;
+
+                //
+
+                try
+                {
+                    Debug.WriteLine("Set EV Index: " + selected);
+                    manager.SetExposureCompensation(selected);
+                }
+                catch (InvalidOperationException)
+                {
+                    Debug.WriteLine("Not ready to call Web API");
+                }
+            };
+
+            var hPanel = new StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var selectedbind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpSelectedIndexExposureCompensation"),
+                Mode = BindingMode.TwoWay
+            };
+
+            var enableBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsAvailableExposureCompensation"),
+                Mode = BindingMode.OneWay
+            };
+
+            var maxBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpMaxExposureCompensation"),
+                Mode = BindingMode.OneWay
+            };
+
+            var minBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpMinExposureCompensation"),
+                Mode = BindingMode.OneWay
+            };
+
+            var displayValueBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpDisplayValueExposureCompensation"),
+                Mode = BindingMode.OneWay,
+            };
+
+            var indicator = new TextBlock
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = System.Windows.VerticalAlignment.Top,
+                Style = Application.Current.Resources["PhoneTextNormalStyle"] as Style,
+                Margin = new Thickness(10, 15, 0, 0),
+                MinWidth = 25
+            };
+            indicator.SetBinding(TextBlock.TextProperty, displayValueBind);
+            slider.SetBinding(Slider.ValueProperty, selectedbind);
+            slider.SetBinding(Slider.IsEnabledProperty, enableBind);
+            slider.SetBinding(Slider.MaximumProperty, maxBind);
+            slider.SetBinding(Slider.MinimumProperty, minBind);
+
+            hPanel.Children.Add(indicator);
+            hPanel.Children.Add(slider);
+
+            child.Children.Add(hPanel);
+            return child;
+
         }
 
         private static ListPicker CreatePicker()

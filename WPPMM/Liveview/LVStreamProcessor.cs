@@ -96,6 +96,10 @@ namespace WPPMM.Liveview
             var JpegStreamHandler = new AsyncCallback((ar) =>
             {
                 state = State.Connected;
+                if (core != null)
+                {
+                    core.Dispose();
+                }
                 try
                 {
                     var req = ar.AsyncState as HttpWebRequest;
@@ -106,10 +110,6 @@ namespace WPPMM.Liveview
                             Log("Connected Jpeg stream");
                             using (var str = Response.GetResponseStream())
                             {
-                                if (core != null)
-                                {
-                                    core.Dispose();
-                                }
                                 core = new StreamAnalizer(str);
                                 core.RunFpsDetector();
 

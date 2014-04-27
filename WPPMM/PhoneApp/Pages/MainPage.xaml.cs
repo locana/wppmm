@@ -74,7 +74,8 @@ namespace WPPMM
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             });
-            abm.SetEvent(IconMenu.CameraRoll, (sender, e) => {
+            abm.SetEvent(IconMenu.CameraRoll, (sender, e) =>
+            {
                 if (cameraManager != null)
                 {
                     cameraManager.CancelTouchAF();
@@ -207,7 +208,7 @@ namespace WPPMM
             // display initialize
 
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-            
+
         }
 
         private void GoToShootingPage()
@@ -388,6 +389,7 @@ namespace WPPMM
 
         private async void LiveviewPageLoaded()
         {
+            AppStatus.GetInstance().IsInShootingDisplay = true;
             ShootingPivot.Opacity = 1;
             //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
             SetLayoutByOrientation(this.Orientation);
@@ -515,11 +517,13 @@ namespace WPPMM
         {
             if (cameraManager == null || cpm == null) { return; }
 
-            if (cpm.IsShowing()){
+            if (cpm.IsShowing())
+            {
                 cpm.Hide();
             }
 
-            if (IsAppSettingPanelShowing()){
+            if (IsAppSettingPanelShowing())
+            {
                 CloseAppSettingPanel();
             }
 
@@ -581,6 +585,7 @@ namespace WPPMM
 
         private void LiveviewPageUnloaded()
         {
+            AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
             // ApplicationBar = abm.Clear().CreateNew(0.0);
             cameraManager.StopEventObserver();
@@ -929,7 +934,7 @@ namespace WPPMM
         {
             MyPivot.IsLocked = false;
             AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
-            
+
         }
 
         private bool IsAppSettingPanelShowing()

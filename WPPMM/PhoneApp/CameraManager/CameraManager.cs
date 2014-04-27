@@ -249,17 +249,18 @@ namespace WPPMM.CameraManager
             CreateOptions = BitmapCreateOptions.None
         };
 
-        private void OnLvClosed(object sender, EventArgs e)
+        private async void OnLvClosed(object sender, EventArgs e)
         {
             Debug.WriteLine("--- OnLvClosed ---");
 
-            /*
-            if (AppStatus.GetInstance().IsTryingToConnectLiveview)
+
+            if (AppStatus.GetInstance().IsInShootingDisplay)
             {
                 Debug.WriteLine("--- Retry connection for Liveview Stream ---");
-                OpenLiveviewConnection(TimeSpan.FromMilliseconds(7000));
+                await Task.Delay(1000);
+                OpenLiveviewConnection();
             }
-             * */
+
         }
 
         // callback methods (liveview)

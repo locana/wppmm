@@ -61,7 +61,11 @@ namespace WPPMM
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
             {
                 ApplicationBar.IsVisible = false;
-                if (cameraManager != null) { cameraManager.CancelTouchAF(); }
+                if (cameraManager != null)
+                {
+                    cameraManager.CancelTouchAF();
+                    cameraManager.CancelHalfPressShutter();
+                }
                 cpm.Show();
             });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { this.OpenAppSettingPanel(); });
@@ -71,7 +75,11 @@ namespace WPPMM
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
             });
             abm.SetEvent(IconMenu.CameraRoll, (sender, e) => {
-                if (cameraManager != null) { cameraManager.CancelTouchAF(); }
+                if (cameraManager != null)
+                {
+                    cameraManager.CancelTouchAF();
+                    cameraManager.CancelHalfPressShutter();
+                }
                 NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative));
             });
             abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
@@ -271,6 +279,7 @@ namespace WPPMM
 
         void CameraButtons_ShutterKeyPressed(object sender, EventArgs e)
         {
+            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
             RecStartStop();
         }
 
@@ -497,14 +506,22 @@ namespace WPPMM
 
         void CameraButtons_ShutterKeyReleased(object sender, EventArgs e)
         {
+            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
+
             cameraManager.CancelHalfPressShutter();
         }
 
         void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
         {
-            GeneralTransform trans = ScreenImage.TransformToVisual(null);
-            var point = trans.Transform(new Point());
+            if (cameraManager == null || cpm == null) { return; }
 
+            if (cpm.IsShowing()){
+                cpm.Hide();
+            }
+
+            if (IsAppSettingPanelShowing()){
+                CloseAppSettingPanel();
+            }
 
             cameraManager.RequestHalfPressShutter();
         }
@@ -585,7 +602,7 @@ namespace WPPMM
 
             if (cpm != null) { cpm.Hide(); }
 
-            if (AppSettingPanel.Visibility == System.Windows.Visibility.Visible)
+            if (IsAppSettingPanelShowing())
             {
                 this.CloseAppSettingPanel();
             }
@@ -677,7 +694,7 @@ namespace WPPMM
                 e.Cancel = false;
             }
 
-            if (AppSettingPanel.Visibility == System.Windows.Visibility.Visible)
+            if (IsAppSettingPanelShowing())
             {
                 this.CloseAppSettingPanel();
             }
@@ -890,7 +907,11 @@ namespace WPPMM
 
         private void OpenAppSettingPanel()
         {
-            if (cameraManager != null) { cameraManager.CancelTouchAF(); }
+            if (cameraManager != null)
+            {
+                cameraManager.CancelTouchAF();
+                cameraManager.CancelHalfPressShutter();
+            }
             MyPivot.IsLocked = true;
             AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
             ApplicationBar = abm.Clear().Enable(IconMenu.CloseApplicationSetting).CreateNew(APPBAR_OPACITY);
@@ -909,6 +930,16 @@ namespace WPPMM
             MyPivot.IsLocked = false;
             AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
             
+        }
+
+        private bool IsAppSettingPanelShowing()
+        {
+            if (AppSettingPanel.Visibility == System.Windows.Visibility.Visible)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

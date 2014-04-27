@@ -187,11 +187,11 @@
                     </Grid>
                     <Grid Name="StatusDisplayelements" HorizontalAlignment="Left" VerticalAlignment="Top" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="42" />
+                            <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
-                        <Image Name="ModeImage" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" Stretch="None" HorizontalAlignment="Center"/>
-                        <Image Name="ExposureModeImage" Source="{Binding ExposureModeImage, Mode=OneWay}" Stretch="None" Grid.Column="1" HorizontalAlignment="Center" />
+                        <Image Name="ModeImage" Margin="6, 0" Width="30" Height="30" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" HorizontalAlignment="Center"/>
+                        <Image Name="ExposureModeImage" Width="150" Height="30" Source="{Binding ExposureModeImage, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" />
                     </Grid>
                     <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
                         <!--

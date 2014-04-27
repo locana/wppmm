@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace WPPMM.DeviceDiscovery
 {
-    public class DeviceInfo
+    public class ScalarDeviceInfo
     {
-        internal DeviceInfo(string udn, string mname, string fname, Dictionary<string, string> ep)
+        internal ScalarDeviceInfo(string udn, string mname, string fname, Dictionary<string, string> ep)
         {
             UDN = udn;
             ModelName = mname;

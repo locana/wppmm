@@ -864,5 +864,22 @@ namespace WPPMM.CameraManager
             }
             return apiClient.SetEvIndexAsync(index);
         }
+
+        public async void SetFNumber(string value)
+        {
+            Debug.WriteLine("set Fnumber: " + value);
+            if (apiClient == null)
+            {
+                return;
+            }
+            try
+            {
+                await apiClient.SetFNumberAsync(value);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
+        }
     }
 }

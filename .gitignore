@@ -108,3 +108,5 @@ Backup*/
 UpgradeLog*.XML
 HiddenPage.xaml
 HiddenPage.xaml.cs
+
+.nuget

@@ -1,0 +1,243 @@
+<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone"
+    x:Class="Kazyx.WPPMM.Pages.MainPage"
+    mc:Ignorable="d"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.Opacity="0.0"
+    Loaded="PhoneApplicationPage_Loaded"
+    Unloaded="PhoneApplicationPage_Unloaded" OrientationChanged="PhoneApplicationPage_OrientationChanged">
+
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="PivotStyle1" TargetType="phone:Pivot">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="phone:Pivot">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="{TemplateBinding Background}" Grid.RowSpan="3"/>
+                            <ContentControl ContentTemplate="{TemplateBinding TitleTemplate}"  Visibility="Collapsed"
+                                            Content="{TemplateBinding Title}" HorizontalAlignment="Left" Height="0"
+                                            Margin="0,0,0,0" Style="{StaticResource PivotTitleStyle}"/>
+                            <Primitives:PivotHeadersControl x:Name="HeadersListElement"
+                                                            Grid.Row="1" Width="0" Height="0" Margin="0,-100,0,0"/>
+                            <ItemsPresenter x:Name="PivotItemPresenter" Margin="{TemplateBinding Padding}" Grid.Row="2"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Name="ShowSettingAnimation">
+            <DoubleAnimation Duration="0:0:0.1" From="0.0" To="0.9" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
+        </Storyboard>
+        <Storyboard x:Name="HideSettingAnimation">
+            <DoubleAnimation Duration="0:0:0.1" From="0.9" To="0.0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
+        </Storyboard>
+
+    </phone:PhoneApplicationPage.Resources>
+    <phone:PhoneApplicationPage.FontFamily>
+        <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+    </phone:PhoneApplicationPage.FontFamily>
+    <phone:PhoneApplicationPage.FontSize>
+        <StaticResource ResourceKey="PhoneFontSizeNormal"/>
+    </phone:PhoneApplicationPage.FontSize>
+    <phone:PhoneApplicationPage.Foreground>
+        <StaticResource ResourceKey="PhoneForegroundBrush"/>
+    </phone:PhoneApplicationPage.Foreground>
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="True" Text="Preparing connection..." />
+    </shell:SystemTray.ProgressIndicator>
+
+    <!--LayoutRoot は、すべてのページ コンテンツが配置されるルート グリッドです-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <phone:Pivot Name="MyPivot" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Margin="0,0,0,0" 
+                     VerticalAlignment="Stretch" Style="{StaticResource PivotStyle1}"
+                     SelectionChanged="MyPivot_SelectionChanged" 
+                     IsLocked="False" >
+            <phone:PivotItem CacheMode="{x:Null}" Header="">
+                <!--ContentPanel - 追加コンテンツをここに入力します-->
+                <Grid x:Name="EntrancePivot" Grid.Row="1" Margin="0,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="AppTitle" Grid.Row="0" Text="{Binding LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Style="{StaticResource PanoramaItemHeaderTextStyle}" FontWeight="Bold" />
+                    <TextBlock Grid.Row="1" x:Name="NetworkStatus" HorizontalAlignment="Left" Margin="30,30,30,30" TextAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Row="2" x:Name="GuideMessage" HorizontalAlignment="Left" TextAlignment="Left" Margin="30,10,30,30" TextWrapping="Wrap" Visibility="Collapsed" 
+                               Text="{Binding LocalizedResources.Guide_StartLiveView, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top"/>
+                    <TextBlock Grid.Row="3" x:Name="NFCMessage" HorizontalAlignment="Left" Margin="30,50,30,30" TextAlignment="Left" TextWrapping="Wrap" Visibility="Collapsed" 
+                               Text="{Binding LocalizedResources.Guide_NFC, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" />
+                </Grid>
+            </phone:PivotItem>
+            <phone:PivotItem CacheMode="{x:Null}" Header="">
+                <Grid x:Name="ShootingPivot">
+                    <Grid.Resources>
+                        <Storyboard x:Name="ToastApparance">
+                            <DoubleAnimation Storyboard.TargetName="Toast"
+                                             Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" 
+                                             Duration="0:0:0.2" AutoReverse="False" />
+                        </Storyboard>
+                        <Storyboard x:Name="ToastDisApparance">
+                            <DoubleAnimation Storyboard.TargetName="Toast"
+                                             Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" 
+                                             Duration="0:0:0.2" AutoReverse="False" />
+                        </Storyboard>
+                    </Grid.Resources>
+                    <Grid x:Name="LiveViewScreen" Margin="-15,0">
+                        <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay, FallbackValue=Collapsed}">
+                            <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
+                                   Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
+                            <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
+                                   HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding TouchAFPointerVisibility, Mode=OneWay, FallbackValue=Collapsed}"
+                                       StrokeThickness="2"/>
+                        </Grid>
+
+                        <Rectangle Name="AudioScreenImage" Fill="{StaticResource PhoneForegroundBrush}" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="120,50"
+                                   Visibility="{Binding AudioScreenVisibility, Mode=OneWay, FallbackValue=Collapsed}">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/audio.png" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Grid Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}">
+                            <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
+                                Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
+                                <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
+                            </Button>
+                        </Grid>
+                        <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="37" />
+                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,3"
+                                Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
+                            <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
+                            <TextBlock Name="Ev" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
+                            <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+
+                        </Grid>
+                        <Grid HorizontalAlignment="Left" Height="auto" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="70" />
+                            </Grid.RowDefinitions>
+                            
+                            <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="13" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
+                            <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="9" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
+                            <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,3" Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton">
+                                <Image Source="/Assets/Button/ZoomOut.png" Margin="0" />
+                            </Button>
+                            <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,3" Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton">
+                                <Image Source="/Assets/Button/ZoomIn.png" Margin="0" />
+                                
+                            </Button>
+                        </Grid>
+                        <Slider Name="FNumberSlider" MinWidth="180" Value="{Binding CurrentFNumberIndex}" HorizontalAlignment="Left" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Bottom"
+                                Width="300" Height="80"  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="10,55" 
+                                Minimum="0" Maximum="{Binding MaxFNumberIndex}"/>
+                        <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
+                            <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
+                                       Opacity="0.5" Margin="-15,0"/>
+                            <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
+                        </Grid>
+                        
+
+                    </Grid>
+                    <Grid Name="StatusDisplayelements" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="42" />
+                            <ColumnDefinition Width="150" />
+                        </Grid.ColumnDefinitions>
+                        <Image Name="ModeImage" Margin="6, 0" Width="30" Height="30" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" HorizontalAlignment="Center"/>
+                        <Image Name="ExposureModeImage" Width="150" Height="30" Source="{Binding ExposureModeImage, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" />
+                    </Grid>
+                    <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
+                        <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus" Stretch="None"
+                               Visibility="{Binding RecordingStatusVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Background="{StaticResource PhoneBackgroundBrush}"
+                                    Margin="6" Height="auto" Width="auto" Name="IntervalStatusPanel" Opacity="0.6" 
+                                    Visibility="{Binding IntervalStatusPanelVisibility, Mode=OneWay, FallbackValue=Collapsed}">
+                            <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
+                            <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
+                        <ScrollViewer.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
+                        </ScrollViewer.Background>
+                        <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
+                    </ScrollViewer>
+                    <Grid Name="AppSettingPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Margin="0" >
+                        <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.9" Margin="-20" />
+                        <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-12,64,0,64" >
+
+                        </StackPanel>
+                    </Grid>
+                    <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                          Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
+                        <TextBlock HorizontalAlignment="Center" Grid.Row="0" 
+                                   TextWrapping="Wrap" Padding="5,5" Height="auto"
+                                 Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
+                                 Foreground="{StaticResource PhoneForegroundBrush}" 
+                                   VerticalAlignment="Center" Name="ToastMessage"/>
+                    </Grid>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+        <ProgressBar HorizontalAlignment="Stretch" Height="20" Margin="0,0,0,0" x:Name="ProgressBar"
+			VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <ProgressBar.RenderTransform>
+                <CompositeTransform ScaleY="-1"/>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
+    </Grid>
+</phone:PhoneApplicationPage>

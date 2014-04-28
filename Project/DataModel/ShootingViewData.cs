@@ -608,7 +608,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return 0;
                 }
-                return cameraStatus.FNumber.candidates.Length;
+                return cameraStatus.FNumber.candidates.Length - 1;
             }
         }
 

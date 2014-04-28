@@ -1,0 +1,9 @@
+[submodule "modules/KzLiveview"]
+	path = modules/KzLiveview
+	url = git@github.com:kazyx/KzLiveview.git
+[submodule "modules/KzSoDiscovery"]
+	path = modules/KzSoDiscovery
+	url = git@github.com:kazyx/KzSoDiscovery.git
+[submodule "modules/KzRemoteApi"]
+	path = modules/KzRemoteApi
+	url = git@github.com:kazyx/KzRemoteApi.git

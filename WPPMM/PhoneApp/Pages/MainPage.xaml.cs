@@ -716,6 +716,7 @@ namespace WPPMM
             HalfPressFocusStatus.DataContext = svd;
             ModeImage.DataContext = svd;
             ExposureModeImage.DataContext = svd;
+            FNumberSlider.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
@@ -743,6 +744,7 @@ namespace WPPMM
             HalfPressFocusStatus.DataContext = null;
             ModeImage.DataContext = null;
             ExposureModeImage.DataContext = null;
+            FNumberSlider.DataContext = null;
 
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             // cpm = null;
@@ -787,7 +789,7 @@ namespace WPPMM
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 30, 90);
-                    ZoomElements.Margin = new Thickness(30, 0, 0, 90);
+                    ZoomElements.Margin = new Thickness(30, 0, 0, 130);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 60);
@@ -957,6 +959,21 @@ namespace WPPMM
             }
 
             return false;
+        }
+
+        private void FNumberSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.FNumber == null)
+            {
+                return;
+            }
+            
+            var value = (int)(sender as Slider).Value;
+
+            if (value < cameraManager.cameraStatus.FNumber.candidates.Length)
+            {
+                cameraManager.SetFNumber(cameraManager.cameraStatus.FNumber.candidates[value]);
+            }
         }
     }
 }

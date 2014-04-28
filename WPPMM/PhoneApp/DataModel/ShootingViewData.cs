@@ -56,6 +56,10 @@ namespace WPPMM.DataModel
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
                         OnPropertyChanged("EvVisibility");
+                        OnPropertyChanged("ShutterSpeedVisibility");
+                        OnPropertyChanged("FNumberSliderVisibility");
+                        OnPropertyChanged("FNumberBrush");
+                        OnPropertyChanged("ShutterSpeedBrush");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -90,6 +94,8 @@ namespace WPPMM.DataModel
                     case "FNumber":
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
+                        OnPropertyChanged("CurrentFNumberIndex");
+                        OnPropertyChanged("MaxFNumberIndex");
                         break;
                     case "EvInfo":
                         OnPropertyChanged("EvVisibility");
@@ -532,6 +538,98 @@ namespace WPPMM.DataModel
                     default:
                         return null;
                 }
+            }
+        }
+
+        public Visibility FNumberSliderVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setFNumber"))
+                {
+                    return Visibility.Collapsed;
+                }
+                else
+                {
+                    return Visibility.Visible;
+                }
+            }
+        }
+
+        public Visibility ShutterSpeedSliderVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed"))
+                {
+                    return Visibility.Collapsed;
+                }
+                else
+                {
+                    return Visibility.Visible;
+                }
+            }
+        }
+
+        public Brush FNumberBrush
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setFNumber"))
+                {
+                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+                else
+                {
+                    return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                }
+            }
+        }
+
+        public Brush ShutterSpeedBrush
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed"))
+                {
+                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+                else
+                {
+                    return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                }
+            }
+        }
+
+        public int MaxFNumberIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.FNumber == null)
+                {
+                    return 0;
+                }
+                return cameraStatus.FNumber.candidates.Length;
+            }
+        }
+
+        public int CurrentFNumberIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.FNumber == null)
+                {
+                    return 0;
+                }
+
+                for (int i = 0; i < cameraStatus.FNumber.candidates.Length; i++)
+                {
+                    if (cameraStatus.FNumber.current == cameraStatus.FNumber.candidates[i])
+                    {
+                        return i;
+                    }
+                }
+                return 0;
             }
         }
 

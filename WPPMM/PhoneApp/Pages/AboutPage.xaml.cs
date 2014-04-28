@@ -17,7 +17,7 @@ namespace WPPMM.Pages
         private static string version = "";
         private static string license = "";
         private static string copyright = "";
-        private static string developer = "";
+        private const string developer = "kazyx and naotaco";
         public AboutPage()
         {
             InitializeComponent();
@@ -49,7 +49,6 @@ namespace WPPMM.Pages
         {
             var element = XDocument.Load("WMAppManifest.xml").Root.Element("App");
             version = element.Attribute("Version").Value;
-            developer = element.Attribute("Author").Value;
         }
 
         private async void LoadLicenseFile()

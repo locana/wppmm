@@ -7,3 +7,6 @@
 [submodule "modules/KzRemoteApi"]
 	path = modules/KzRemoteApi
 	url = git@github.com:kazyx/KzRemoteApi.git
+[submodule "modules/NtNfcLib"]
+	path = modules/NtNfcLib
+	url = git@github.com:naotaco/NtNfcLib.git

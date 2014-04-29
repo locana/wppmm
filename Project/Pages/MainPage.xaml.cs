@@ -388,6 +388,8 @@ namespace Kazyx.WPPMM.Pages
 
         private async void LiveviewPageLoaded()
         {
+            SetPivotIsLocked(true);
+
             AppStatus.GetInstance().IsInShootingDisplay = true;
             ShootingPivot.Opacity = 1;
             //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
@@ -451,7 +453,7 @@ namespace Kazyx.WPPMM.Pages
         void IntervalManager_OnIntervalRecStatusChanged(bool isRunning)
         {
             Debug.WriteLine("Interval changed: " + isRunning);
-            this.SetPivotIsLocked(isRunning);
+            // this.SetPivotIsLocked(isRunning);
         }
 
         void cameraManager_OnCameraStatusChanged(string status)
@@ -462,12 +464,12 @@ namespace Kazyx.WPPMM.Pages
                 case EventParam.MvWaitRecStart:
                 case EventParam.MvSaving:
                 case EventParam.MvRecording:
-                    this.SetPivotIsLocked(true);
+                    // this.SetPivotIsLocked(true);
                     break;
                 default:
                     if (!cameraManager.IntervalManager.IsRunning)
                     {
-                        this.SetPivotIsLocked(false);
+                        // this.SetPivotIsLocked(false);
                     }
                     break;
             }
@@ -574,6 +576,8 @@ namespace Kazyx.WPPMM.Pages
 
         private void LiveviewPageUnloaded()
         {
+            SetPivotIsLocked(false);
+
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
             // ApplicationBar = abm.Clear().CreateNew(0.0);
@@ -668,6 +672,7 @@ namespace Kazyx.WPPMM.Pages
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
+            SetPivotIsLocked(false);
             Debug.WriteLine("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
@@ -720,7 +725,6 @@ namespace Kazyx.WPPMM.Pages
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
-            cpm.SetPivotIsLocked += this.SetPivotIsLocked;
         }
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
@@ -746,7 +750,6 @@ namespace Kazyx.WPPMM.Pages
             ExposureModeImage.DataContext = null;
             FNumberSlider.DataContext = null;
             ShutterSpeedSlider.DataContext = null;
-            cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             // cpm = null;
             svd = null;
         }

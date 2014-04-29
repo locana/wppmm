@@ -102,6 +102,9 @@
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SettingDial.xaml.cs">
+      <DependentUpon>SettingDial.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
@@ -145,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Controls\CheckBoxSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SettingDial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,6 +203,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Controls\setting_gear.png" />
     <Content Include="Assets\Screen\audio.png" />
     <Content Include="Assets\Button\Camcorder.png" />
     <Content Include="Assets\Button\Camera.png" />

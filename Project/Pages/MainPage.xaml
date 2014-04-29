@@ -186,14 +186,18 @@
                             <Slider Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Stretch"
                                 Visibility="{Binding ShutterSpeedSliderVisibility}" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted"  Margin="0" 
                                 Minimum="0" Maximum="{Binding MaxShutterSpeedIndex}" Orientation="Vertical"/>
-                        </Grid>                        
+                        </Grid>     
+                        
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
                                        Opacity="0.5" Margin="-15,0"/>
                             <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
                         </Grid>
-                        
-
+                        <!--
+                        <Grid xmlns:src="clr-namespace:Kazyx.WPMMM.Controls">
+                            <src:SettingDial Width="160" Height="300" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,-40,0" />
+                        </Grid>
+-->
                     </Grid>
                     <Grid Name="StatusDisplayelements" HorizontalAlignment="Left" VerticalAlignment="Top" >
                         <Grid.ColumnDefinitions>

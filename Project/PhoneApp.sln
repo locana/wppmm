@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzSoDiscovery", "..\modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzLiveview", "..\modules\KzLiveview\Project\KzLiveview.csproj", "{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SonyNdefUtils", "..\SonyNdefUtils\SonyNdefUtils.csproj", "{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A67E8803-81EC-45AA-8C5F-F7BFCD4CE5F4}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -17,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A67E88
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzRemoteApi", "..\modules\KzRemoteApi\Project\KzRemoteApi.csproj", "{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtNfcLib", "..\NtNfcLib\NtNfcLib\NtNfcLib.csproj", "{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,18 +70,6 @@ Global
 		{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}.Release|ARM.Build.0 = Release|ARM
 		{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}.Release|x86.ActiveCfg = Release|x86
 		{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}.Release|x86.Build.0 = Release|x86
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|ARM.ActiveCfg = Debug|ARM
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|ARM.Build.0 = Debug|ARM
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|x86.ActiveCfg = Debug|x86
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Debug|x86.Build.0 = Debug|x86
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|ARM.ActiveCfg = Release|ARM
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|ARM.Build.0 = Release|ARM
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|x86.ActiveCfg = Release|x86
-		{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}.Release|x86.Build.0 = Release|x86
 		{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}.Debug|ARM.ActiveCfg = Debug|ARM
@@ -94,6 +82,18 @@ Global
 		{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}.Release|ARM.Build.0 = Release|ARM
 		{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}.Release|x86.ActiveCfg = Release|x86
 		{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}.Release|x86.Build.0 = Release|x86
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Debug|ARM.ActiveCfg = Debug|ARM
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Debug|ARM.Build.0 = Debug|ARM
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Debug|x86.ActiveCfg = Debug|x86
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Debug|x86.Build.0 = Debug|x86
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Release|ARM.ActiveCfg = Release|ARM
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Release|ARM.Build.0 = Release|ARM
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Release|x86.ActiveCfg = Release|x86
+		{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

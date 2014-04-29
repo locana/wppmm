@@ -19,7 +19,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Windows.Networking.Proximity;
-using WPPMM.SonyNdefUtils;
+using NtNfcLib;
 
 
 namespace Kazyx.WPPMM.Pages
@@ -847,8 +847,8 @@ namespace Kazyx.WPPMM.Pages
 
         private void NFCMessageReceivedHandler(ProximityDevice sender, ProximityMessage message)
         {
-            var parser = new SonyNdefParser(message);
-            List<SonyNdefRecord> ndefRecords = new List<SonyNdefRecord>();
+            var parser = new NdefParser(message);
+            List<NdefRecord> ndefRecords = new List<NdefRecord>();
 
             String err = AppResources.ErrorMessage_fatal;
             String caption = AppResources.MessageCaption_error;
@@ -880,7 +880,7 @@ namespace Kazyx.WPPMM.Pages
 
             if (ndefRecords.Count > 0)
             {
-                foreach (SonyNdefRecord r in ndefRecords)
+                foreach (NdefRecord r in ndefRecords)
                 {
                     if (r.SSID.Length > 0 && r.Password.Length > 0)
                     {

@@ -880,5 +880,21 @@ namespace Kazyx.WPPMM.CameraManager
                 OnError(e.code);
             }
         }
+
+        public async void SetShutterSpeed(string value)
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+            try
+            {
+                await apiClient.SetShutterSpeedAsync(value);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
+        }
     }
 }

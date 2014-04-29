@@ -179,9 +179,14 @@
                                 
                             </Button>
                         </Grid>
-                        <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}" HorizontalAlignment="Left" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Bottom"
-                                Width="50" Height="300"  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="10,85" 
-                                Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Vertical"/>
+                        <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85">
+                            <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" 
+                                 Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="0" 
+                                Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <Slider Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Stretch"
+                                Visibility="{Binding ShutterSpeedSliderVisibility}" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted"  Margin="0" 
+                                Minimum="0" Maximum="{Binding MaxShutterSpeedIndex}" Orientation="Vertical"/>
+                        </Grid>                        
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
                                        Opacity="0.5" Margin="-15,0"/>

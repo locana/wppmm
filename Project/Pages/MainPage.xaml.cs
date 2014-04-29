@@ -716,6 +716,7 @@ namespace Kazyx.WPPMM.Pages
             ModeImage.DataContext = svd;
             ExposureModeImage.DataContext = svd;
             FNumberSlider.DataContext = svd;
+            ShutterSpeedSlider.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
@@ -744,7 +745,7 @@ namespace Kazyx.WPPMM.Pages
             ModeImage.DataContext = null;
             ExposureModeImage.DataContext = null;
             FNumberSlider.DataContext = null;
-
+            ShutterSpeedSlider.DataContext = null;
             cpm.SetPivotIsLocked -= this.SetPivotIsLocked;
             // cpm = null;
             svd = null;
@@ -972,6 +973,21 @@ namespace Kazyx.WPPMM.Pages
             if (value < cameraManager.cameraStatus.FNumber.candidates.Length)
             {
                 cameraManager.SetFNumber(cameraManager.cameraStatus.FNumber.candidates[value]);
+            }
+        }
+
+        private void ShutterSpeedSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.ShutterSpeed == null)
+            {
+                return;
+            }
+
+            var value = (int)(sender as Slider).Value;
+
+            if (value < cameraManager.cameraStatus.ShutterSpeed.candidates.Length)
+            {
+                cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.candidates[value]);
             }
         }
     }

@@ -16,11 +16,13 @@ namespace Kazyx.WPMMM.Controls
 {
     public partial class SettingDial : UserControl
     {
-        public const int THRESHOLD = 7;
-        public const int GEAR_SPEED = 10;
+        private const int TH_OPERATION = 2;
+        private const int GEAR_SPEED = 18;
+        private const int TH_SETTING = 40;
 
         private double GearAngle;
-        private int OperationCount;
+        private double OperationCount;
+        private int SettingCount;
 
         private CameraManager manager;
 
@@ -30,6 +32,7 @@ namespace Kazyx.WPMMM.Controls
 
             GearAngle = 0;
             OperationCount = 0;
+            SettingCount = 0;
 
             manager = CameraManager.GetInstance();
         }
@@ -42,20 +45,40 @@ namespace Kazyx.WPMMM.Controls
             // Debug.WriteLine("accm: " + accm.Translation.Y);
             var vel = e.Velocities;
             // Debug.WriteLine("v: " + vel.LinearVelocity.Y);
-            if (delta.Translation.Y > THRESHOLD)
+            var deltaY = delta.Translation.Y;
+
+            // if each manipuration is too small, it's may be noise
+            if (Math.Abs(deltaY) > TH_OPERATION)
             {
-                Debug.WriteLine("Operation: Down");
-                RotateGear(GearAngle, GearAngle - GEAR_SPEED);
-                GearAngle -= GEAR_SPEED;
-                OperationCount--;
+                OperationCount += -(deltaY);
             }
-            else if (delta.Translation.Y < (-THRESHOLD))
+
+            if (OperationCount > TH_SETTING)
             {
-                Debug.WriteLine("Operation: Up");
-                RotateGear(GearAngle, GearAngle + THRESHOLD);
+                Debug.WriteLine("Going UP");
+                // do animation: up
+                RotateGear(GearAngle, GearAngle + GEAR_SPEED);
                 GearAngle += GEAR_SPEED;
-                OperationCount++;
+
+                // increment setting value
+                SettingCount++;
+
+                OperationCount = 0;
+                return;
             }
+
+            if (OperationCount < (-TH_SETTING))
+            {
+                Debug.WriteLine("Going DOWN");
+                RotateGear(GearAngle, GearAngle -= GEAR_SPEED);
+                GearAngle -= GEAR_SPEED;
+
+                SettingCount--;
+
+                OperationCount = 0;
+                return;
+            }
+
         }
 
         private void Gear_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
@@ -63,14 +86,23 @@ namespace Kazyx.WPMMM.Controls
             if (manager == null || manager.cameraStatus == null)
             {
                 OperationCount = 0;
+                SettingCount = 0;
                 return;
             }
 
             // Ev
             if (manager.cameraStatus.IsAvailable("setExposureCompensation") && manager.cameraStatus.EvInfo != null)
             {
-                var target = manager.cameraStatus.EvInfo.CurrentIndex + OperationCount;
-                if (target >= manager.cameraStatus.EvInfo.Candidate.MinIndex && target <= manager.cameraStatus.EvInfo.Candidate.MaxIndex)
+                var target = manager.cameraStatus.EvInfo.CurrentIndex + SettingCount;
+                if (target < manager.cameraStatus.EvInfo.Candidate.MinIndex )
+                {
+                    manager.SetExposureCompensation(manager.cameraStatus.EvInfo.Candidate.MinIndex);
+                }
+                else if (target > manager.cameraStatus.EvInfo.Candidate.MaxIndex)
+                {
+                    manager.SetExposureCompensation(manager.cameraStatus.EvInfo.Candidate.MaxIndex);
+                }
+                else
                 {
                     manager.SetExposureCompensation(target);
                 }
@@ -78,12 +110,13 @@ namespace Kazyx.WPMMM.Controls
 
 
             OperationCount = 0;
+            SettingCount = 0;
         }
 
         private void RotateGear(double from, double to)
         {
             var story = new Storyboard();
-            var duration= new TimeSpan(0, 0, 0, 0, 100);
+            var duration= new TimeSpan(0, 0, 0, 0, 150);
             var animation = new DoubleAnimation();
             var rt = new RotateTransform();
 

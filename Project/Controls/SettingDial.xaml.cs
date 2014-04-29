@@ -24,7 +24,21 @@ namespace Kazyx.WPMMM.Controls
         private double OperationCount;
         private int SettingCount;
 
+        internal event Action<int> DialManipulationCompleted;
+
         private CameraManager manager;
+
+        public enum DialPosition
+        {
+            RightMid,
+            RightBottom,
+        };
+
+        public DialPosition position
+        {
+            get;
+            set;
+        }
 
         public SettingDial()
         {
@@ -34,23 +48,42 @@ namespace Kazyx.WPMMM.Controls
             OperationCount = 0;
             SettingCount = 0;
 
+            position = DialPosition.RightBottom;
+
             manager = CameraManager.GetInstance();
         }
 
         private void Gear_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            var delta = e.DeltaManipulation;
-            // Debug.WriteLine("delta: " + delta.Translation.Y);
             var accm = e.CumulativeManipulation;
             // Debug.WriteLine("accm: " + accm.Translation.Y);
             var vel = e.Velocities;
             // Debug.WriteLine("v: " + vel.LinearVelocity.Y);
-            var deltaY = delta.Translation.Y;
+
+            var deltaX = e.DeltaManipulation.Translation.X;
+            var deltaY = e.DeltaManipulation.Translation.Y;
+            double delta = 0;
+
+            switch(position){
+                case DialPosition.RightMid:
+                    delta = -deltaY;
+                    break;
+                case DialPosition.RightBottom:
+                    delta = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
+                    if (deltaY > 0)
+                    {
+                        delta = -delta;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            
 
             // if each manipuration is too small, it's may be noise
-            if (Math.Abs(deltaY) > TH_OPERATION)
+            if (Math.Abs(delta) > TH_OPERATION)
             {
-                OperationCount += -(deltaY);
+                OperationCount += delta;
             }
 
             if (OperationCount > TH_SETTING)
@@ -90,24 +123,10 @@ namespace Kazyx.WPMMM.Controls
                 return;
             }
 
-            // Ev
-            if (manager.cameraStatus.IsAvailable("setExposureCompensation") && manager.cameraStatus.EvInfo != null)
+            if (DialManipulationCompleted != null)
             {
-                var target = manager.cameraStatus.EvInfo.CurrentIndex + SettingCount;
-                if (target < manager.cameraStatus.EvInfo.Candidate.MinIndex )
-                {
-                    manager.SetExposureCompensation(manager.cameraStatus.EvInfo.Candidate.MinIndex);
-                }
-                else if (target > manager.cameraStatus.EvInfo.Candidate.MaxIndex)
-                {
-                    manager.SetExposureCompensation(manager.cameraStatus.EvInfo.Candidate.MaxIndex);
-                }
-                else
-                {
-                    manager.SetExposureCompensation(target);
-                }
+                DialManipulationCompleted(SettingCount);
             }
-
 
             OperationCount = 0;
             SettingCount = 0;

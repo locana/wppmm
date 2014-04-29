@@ -598,11 +598,97 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.IntervalManager.Stop();
             cameraManager.IntervalManager.OnIntervalRecStatusChanged -= IntervalManager_OnIntervalRecStatusChanged;
 
+            Dial.DialManipulationCompleted += Dial_DialManipulationCompleted;
+
             if (cpm != null) { cpm.Hide(); }
 
             if (IsAppSettingPanelShowing())
             {
                 this.CloseAppSettingPanel();
+            }
+        }
+
+        void Dial_DialManipulationCompleted(int value)
+        {
+            Debug.WriteLine("Dial manipurated: " + value);
+            if (cameraManager == null || cameraManager.cameraStatus == null || value == 0)
+            {
+                return;
+            }
+
+            var status = cameraManager.cameraStatus;
+
+            if (status.IsAvailable("setFNumber"))
+            {
+                int current = 0;
+                for (int i = 0; i < status.FNumber.candidates.Length; i++)
+                {
+                    if (status.FNumber.current == status.FNumber.candidates[i])
+                    {
+                        current = i;
+                    }
+                }
+
+                var target = current + value;
+
+                if (target < 0)
+                {
+                    cameraManager.SetFNumber(status.FNumber.candidates[0]);
+                }
+                else if (target >= status.FNumber.candidates.Length)
+                {
+                    cameraManager.SetFNumber(status.FNumber.candidates[status.FNumber.candidates.Length - 1]);
+                }
+                else
+                {
+                    cameraManager.SetFNumber(status.FNumber.candidates[target]);
+                }
+                return;
+            }
+
+            if (status.IsAvailable("setShutterSpeed"))
+            {
+                int current = 0;
+                for (int i = 0; i < status.ShutterSpeed.candidates.Length; i++)
+                {
+                    if (status.ShutterSpeed.current == status.ShutterSpeed.candidates[i])
+                    {
+                        current = i;
+                    }
+                }
+
+                var target = current + value;
+
+                if (target < 0)
+                {
+                    cameraManager.SetShutterSpeed(status.FNumber.candidates[0]);
+                }
+                else if (target >= status.ShutterSpeed.candidates.Length)
+                {
+                    cameraManager.SetShutterSpeed(status.ShutterSpeed.candidates[status.ShutterSpeed.candidates.Length - 1]);
+                }
+                else
+                {
+                    cameraManager.SetShutterSpeed(status.ShutterSpeed.candidates[target]);
+                }
+                return;
+            }
+
+            if (status.IsAvailable("setExposureCompensation") && status.EvInfo != null)
+            {
+                var target = status.EvInfo.CurrentIndex + value;
+                if (target < status.EvInfo.Candidate.MinIndex)
+                {
+                    cameraManager.SetExposureCompensation(status.EvInfo.Candidate.MinIndex);
+                }
+                else if (target > status.EvInfo.Candidate.MaxIndex)
+                {
+                    cameraManager.SetExposureCompensation(status.EvInfo.Candidate.MaxIndex);
+                }
+                else
+                {
+                    cameraManager.SetExposureCompensation(target);
+                }
             }
         }
 
@@ -723,6 +809,7 @@ namespace Kazyx.WPPMM.Pages
             FNumberSlider.DataContext = svd;
             ShutterSpeedSlider.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
+            Dial.DialManipulationCompleted -= Dial_DialManipulationCompleted;
 
             cpm.ReplacePanel(ControlPanel);
         }
@@ -779,6 +866,8 @@ namespace Kazyx.WPPMM.Pages
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     Sliders.Margin = new Thickness(60, 0, 0, 30);
+                    Dial.Margin = new Thickness(0, 0, -90, -130);
+                    DialMask.Margin = new Thickness(0, 0, -90, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -801,6 +890,8 @@ namespace Kazyx.WPPMM.Pages
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
                     Sliders.Margin = new Thickness(10, 0, 0, 85);
+                    Dial.Margin = new Thickness(0, 0, -160, -80);
+                    DialMask.Margin = new Thickness(0, 0, 0, -90);
                     break;
             }
         }

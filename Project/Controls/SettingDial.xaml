@@ -7,10 +7,10 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="300" d:DesignWidth="160">
+    d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="LayoutRoot" Background="Transparent" ManipulationDelta="Gear_ManipulationDelta" ManipulationCompleted="Gear_ManipulationCompleted">
-        <Image Name="Gear" Height="240" Width="240" Margin="50,0" Source="../Assets/Controls/setting_gear.png" 
+        <Image Name="Gear" Height="240" Width="240" Margin="0,0" Source="../Assets/Controls/setting_gear.png" 
                />
         
     </Grid>

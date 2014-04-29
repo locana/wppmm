@@ -180,7 +180,7 @@
                             </Button>
                         </Grid>
                         <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}" HorizontalAlignment="Left" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Bottom"
-                                Width="50" Height="300"  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="10,55" 
+                                Width="50" Height="300"  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="10,85" 
                                 Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Vertical"/>
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"

@@ -233,6 +233,10 @@
     <Content Include="Assets\Button\ZoomOut.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\modules\KzRemoteApi\Project\KzRemoteApi.csproj">
+      <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
+      <Name>KzRemoteApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\modules\KzSoDiscovery\Project\KzSoDiscovery.csproj">
       <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
       <Name>KzSoDiscovery</Name>
@@ -240,10 +244,6 @@
     <ProjectReference Include="..\modules\KzLiveview\Project\KzLiveview.csproj">
       <Project>{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}</Project>
       <Name>KzLiveview</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\modules\KzRemoteApi\Project\KzRemoteApi.csproj">
-      <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
-      <Name>KzRemoteApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\SonyNdefUtils\SonyNdefUtils.csproj">
       <Project>{56BE5CB7-8A13-4EC8-A97E-4DDC775D95F1}</Project>

@@ -233,26 +233,9 @@ namespace Kazyx.WPPMM.CameraManager
 
                 if (!lvProcessor.IsProcessing)
                 {
-                    lvProcessor.OpenConnection(url, connectionTimeout);
+                    var res = await lvProcessor.OpenConnection(url, connectionTimeout);
+                    Debug.WriteLine("Liveview Connection status: " + res);
                 }
-                /*
-                if (lvProcessor.IsOpen)
-                {
-                    Debug.WriteLine("Close previous LVProcessor");
-                    CloseLock.Reset();
-                    CloseLiveviewConnection();
-                    CloseLock.WaitOne(TimeSpan.FromMilliseconds(1000));
-                    Debug.WriteLine("LvCloseLock released");
-                }
-                try
-                {
-                    lvProcessor.OpenConnection(url, connectionTimeout);
-                }
-                catch (InvalidOperationException)
-                {
-                    return;
-                }
-                 * */
             }
             catch (RemoteApiException)
             {

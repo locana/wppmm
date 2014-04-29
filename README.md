@@ -1,3 +1,4 @@
+=======
 WPPMM
 =====
 - Remote shooting application for Windows Phone 8 powered by [Sony Camera Remote API beta](http://developer.sony.com/develop/cameras/).
@@ -6,9 +7,10 @@ WPPMM
 This software is published under the [MIT License](http://opensource.org/licenses/mit-license.php).
 
 ##Build
-1. Clone repository.
+1. Clone repositories.
  ``` bash
  git clone git@github.com:kazyx/WPPMM.git
+ cd WPMMM
  git submodule update --init
  ```
 

@@ -788,7 +788,7 @@ namespace Kazyx.WPPMM.Pages
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 30, 90);
-                    ZoomElements.Margin = new Thickness(30, 0, 0, 130);
+                    ZoomElements.Margin = new Thickness(60, 0, 0, 90);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 60);

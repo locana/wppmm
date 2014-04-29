@@ -245,7 +245,7 @@
       <Project>{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}</Project>
       <Name>KzLiveview</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NtNfcLib\NtNfcLib\NtNfcLib.csproj">
+    <ProjectReference Include="..\modules\NtNfcLib\NtNfcLib\NtNfcLib.csproj">
       <Project>{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}</Project>
       <Name>NtNfcLib</Name>
     </ProjectReference>

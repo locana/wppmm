@@ -179,9 +179,9 @@
                                 
                             </Button>
                         </Grid>
-                        <Slider Name="FNumberSlider" MinWidth="180" Value="{Binding CurrentFNumberIndex}" HorizontalAlignment="Left" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Bottom"
-                                Width="300" Height="80"  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="10,55" 
-                                Minimum="0" Maximum="{Binding MaxFNumberIndex}"/>
+                        <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}" HorizontalAlignment="Left" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Bottom"
+                                Width="50" Height="300"  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="10,55" 
+                                Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Vertical"/>
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
                                        Opacity="0.5" Margin="-15,0"/>

@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A67E88
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzRemoteApi", "..\modules\KzRemoteApi\Project\KzRemoteApi.csproj", "{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtNfcLib", "..\NtNfcLib\NtNfcLib\NtNfcLib.csproj", "{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtNfcLib", "..\modules\NtNfcLib\NtNfcLib\NtNfcLib.csproj", "{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -60,6 +60,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("FNumberBrush");
                         OnPropertyChanged("ShutterSpeedBrush");
                         OnPropertyChanged("EvBrush");
+                        OnPropertyChanged("DialVisibility");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -687,6 +688,24 @@ namespace Kazyx.WPPMM.DataModel
                     return (Brush)Application.Current.Resources["PhoneAccentBrush"];
                 }
                 return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+            }
+        }
+
+        public Visibility DialVisibility
+        {
+            get {
+                if (cameraStatus == null)
+                {
+                    return Visibility.Collapsed;
+                }
+                if (cameraStatus.IsAvailable("setShutterSpeed") || cameraStatus.IsAvailable("setFNumber") || cameraStatus.IsAvailable("setExposureCompensation"))
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
             }
         }
 

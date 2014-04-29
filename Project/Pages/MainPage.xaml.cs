@@ -762,6 +762,14 @@ namespace Kazyx.WPPMM.Pages
             Debug.WriteLine("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
+                e.Cancel = true;
+
+                if (IsAppSettingPanelShowing())
+                {
+                    this.CloseAppSettingPanel();
+                    return;
+                }
+
                 if (cpm != null && cpm.IsShowing())
                 {
                     cpm.Hide();
@@ -771,18 +779,18 @@ namespace Kazyx.WPPMM.Pages
                     }
                 }
                 else
+                {
                     GoToMainPage();
-                e.Cancel = true;
+                }
+                
+                
             }
             else
             {
                 e.Cancel = false;
             }
 
-            if (IsAppSettingPanelShowing())
-            {
-                this.CloseAppSettingPanel();
-            }
+
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -808,6 +816,7 @@ namespace Kazyx.WPPMM.Pages
             ExposureModeImage.DataContext = svd;
             FNumberSlider.DataContext = svd;
             ShutterSpeedSlider.DataContext = svd;
+            Dial.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
             Dial.DialManipulationCompleted -= Dial_DialManipulationCompleted;
 
@@ -837,6 +846,7 @@ namespace Kazyx.WPPMM.Pages
             ExposureModeImage.DataContext = null;
             FNumberSlider.DataContext = null;
             ShutterSpeedSlider.DataContext = null;
+            Dial.DataContext = null;
             // cpm = null;
             svd = null;
         }
@@ -862,7 +872,7 @@ namespace Kazyx.WPPMM.Pages
                     ZoomElements.Margin = new Thickness(80, 0, 0, 30);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    CameraParameters.Margin = new Thickness(0, 0, 170, 0);
+                    CameraParameters.Margin = new Thickness(0, 0, 160, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     // Sliders.Margin = new Thickness(60, 0, 0, 30);
@@ -878,7 +888,9 @@ namespace Kazyx.WPPMM.Pages
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
                     // Sliders.Margin = new Thickness(60, 0, 0, 30);
-                    CameraParameters.Margin = new Thickness(0, 0, 170, 0);
+                    CameraParameters.Margin = new Thickness(0, 0, 160, 0);
+                    Dial.Margin = new Thickness(0, 0, -90, -130);
+                    DialMask.Margin = new Thickness(0, 0, -90, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);

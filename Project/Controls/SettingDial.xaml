@@ -9,9 +9,9 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid x:Name="LayoutRoot" Background="Transparent" ManipulationDelta="Gear_ManipulationDelta" ManipulationCompleted="Gear_ManipulationCompleted">
-        <Image Name="Gear" Height="240" Width="240" Margin="0,0" Source="../Assets/Controls/setting_gear.png" 
-               />
-        
+    <Grid x:Name="LayoutRoot" Background="Transparent" >
+        <Image Name="Gear" Height="240" Width="240" Margin="0,0" Source="../Assets/Controls/setting_gear.png" />
+        <Rectangle Name="operator" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stroke="Transparent" Fill="Transparent" 
+                   ManipulationDelta="Gear_ManipulationDelta" ManipulationCompleted="Gear_ManipulationCompleted" />
     </Grid>
 </UserControl>

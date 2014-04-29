@@ -83,10 +83,10 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("FnumberDisplayValue");
                         break;
                     case "ShutterSpeed":
-                        if (cameraStatus.IsAvailable("setShutterSpeed"))
-                        {
                             OnPropertyChanged("ShutterSpeedVisibility");
                             OnPropertyChanged("ShutterSpeedDisplayValue");
+                        if (cameraStatus.IsAvailable("setShutterSpeed"))
+                        {
                             OnPropertyChanged("MaxShutterSpeedIndex");
                             OnPropertyChanged("CurrentShutterSpeedIndex");
                         }
@@ -96,11 +96,11 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ISOVisibility");
                         OnPropertyChanged("ISODisplayValue");
                         break;
-                    case "FNumber":
+                    case "FNumber":      
+                        OnPropertyChanged("FnumberVisibility");
+                        OnPropertyChanged("FnumberDisplayValue");
                         if (cameraStatus.IsAvailable("setFNumber"))
                         {
-                            OnPropertyChanged("FnumberVisibility");
-                            OnPropertyChanged("FnumberDisplayValue");
                             OnPropertyChanged("MaxFNumberIndex");
                             OnPropertyChanged("CurrentFNumberIndex");
                         }

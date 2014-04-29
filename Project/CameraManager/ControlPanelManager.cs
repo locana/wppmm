@@ -75,10 +75,6 @@ namespace Kazyx.WPPMM.CameraManager
         {
             panel.Visibility = Visibility.Visible;
 
-            if (SetPivotIsLocked != null)
-            {
-                SetPivotIsLocked(true);
-            }
         }
 
         private void Initialize()
@@ -132,11 +128,6 @@ namespace Kazyx.WPPMM.CameraManager
         public void Hide()
         {
             panel.Visibility = Visibility.Collapsed;
-
-            if (SetPivotIsLocked != null)
-            {
-                SetPivotIsLocked(false);
-            }
         }
 
         private StackPanel CreateStatusPanel(string id, string title, SelectionChangedEventHandler handler)

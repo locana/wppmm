@@ -59,6 +59,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ShutterSpeedSliderVisibility");
                         OnPropertyChanged("FNumberBrush");
                         OnPropertyChanged("ShutterSpeedBrush");
+                        OnPropertyChanged("EvBrush");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -670,6 +671,22 @@ namespace Kazyx.WPPMM.DataModel
                     }
                 }
                 return 0;
+            }
+        }
+
+        public Brush EvBrush
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.IsAvailable("setShutterSpeed") || cameraStatus.IsAvailable("setFNumber"))
+                {
+                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+                else if (cameraStatus.IsAvailable("setExposureCompensation"))
+                {
+                    return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                }
+                return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
             }
         }
 

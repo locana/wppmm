@@ -224,6 +224,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void GoToMainPage()
         {
+            MyPivot.IsLocked = false;
             MyPivot.SelectedIndex = 0;
         }
 
@@ -758,7 +759,6 @@ namespace Kazyx.WPPMM.Pages
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            SetPivotIsLocked(false);
             Debug.WriteLine("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
@@ -858,38 +858,38 @@ namespace Kazyx.WPPMM.Pages
             {
                 case PageOrientation.LandscapeLeft:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 70, 30);
-                    ZoomElements.Margin = new Thickness(130, 0, 0, 30);
+                    ShootButton.Margin = new Thickness(0, 0, 170, 30);
+                    ZoomElements.Margin = new Thickness(80, 0, 0, 30);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    CameraParameters.Margin = new Thickness(0, 0, 0, 0);
+                    CameraParameters.Margin = new Thickness(0, 0, 170, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
-                    Sliders.Margin = new Thickness(60, 0, 0, 30);
+                    // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     Dial.Margin = new Thickness(0, 0, -90, -130);
                     DialMask.Margin = new Thickness(0, 0, -90, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 70, 30);
-                    ZoomElements.Margin = new Thickness(130, 0, 0, 30);
+                    ShootButton.Margin = new Thickness(0, 0, 170, 30);
+                    ZoomElements.Margin = new Thickness(80, 0, 0, 30);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    CameraParameters.Margin = new Thickness(0, 0, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
-                    Sliders.Margin = new Thickness(60, 0, 0, 30);
+                    // Sliders.Margin = new Thickness(60, 0, 0, 30);
+                    CameraParameters.Margin = new Thickness(0, 0, 170, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 30, 90);
-                    ZoomElements.Margin = new Thickness(60, 0, 0, 90);
+                    ShootButton.Margin = new Thickness(0, 0, 130, 90);
+                    ZoomElements.Margin = new Thickness(10, 0, 0, 90);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 60);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
-                    Sliders.Margin = new Thickness(10, 0, 0, 85);
+                    // Sliders.Margin = new Thickness(10, 0, 0, 85);
                     Dial.Margin = new Thickness(0, 0, -160, -80);
                     DialMask.Margin = new Thickness(0, 0, 0, -90);
                     break;
@@ -1028,7 +1028,6 @@ namespace Kazyx.WPPMM.Pages
                 cameraManager.CancelTouchAF();
                 cameraManager.CancelHalfPressShutter();
             }
-            MyPivot.IsLocked = true;
             AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
             ApplicationBar = abm.Clear().Enable(IconMenu.CloseApplicationSetting).CreateNew(APPBAR_OPACITY);
             ShowSettingAnimation.Begin();
@@ -1043,7 +1042,6 @@ namespace Kazyx.WPPMM.Pages
 
         void HideSettingAnimation_Completed(object sender, EventArgs e)
         {
-            MyPivot.IsLocked = false;
             AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
 
         }

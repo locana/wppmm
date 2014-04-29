@@ -832,10 +832,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetEvIndexAsync(index);
             }
-            catch (RemoteApiException e)
-            {
-                OnError(e.code);
-            }
+            catch (RemoteApiException e) { }
         }
 
         public Task SetExposureCompensationAsync(int index)
@@ -858,10 +855,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetFNumberAsync(value);
             }
-            catch (RemoteApiException e)
-            {
-                OnError(e.code);
-            }
+            catch (RemoteApiException e) { }
         }
 
         public async void SetShutterSpeed(string value)
@@ -874,10 +868,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetShutterSpeedAsync(value);
             }
-            catch (RemoteApiException e)
-            {
-                OnError(e.code);
-            }
+            catch (RemoteApiException e) { }
         }
     }
 }

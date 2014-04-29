@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Kazyx.WPMMM.Controls.SettingDial"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="300" d:DesignWidth="160">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent" ManipulationDelta="Gear_ManipulationDelta" ManipulationCompleted="Gear_ManipulationCompleted">
+        <Image Name="Gear" Height="240" Width="240" Margin="50,0" Source="../Assets/Controls/setting_gear.png" 
+               />
+        
+    </Grid>
+</UserControl>

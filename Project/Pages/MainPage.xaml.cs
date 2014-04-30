@@ -690,14 +690,12 @@ namespace Kazyx.WPPMM.Pages
         private void ScreenImage_Loaded(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("ScreenImage_Loaded");
-            LiveviewPageUnloaded();
             ScreenImage.DataContext = cameraManager.LiveviewImage;
         }
 
         private void ScreenImage_Unloaded(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("ScreenImage_UnLoaded");
-            LiveviewPageUnloaded();
             ScreenImage.DataContext = null;
         }
 
@@ -847,7 +845,8 @@ namespace Kazyx.WPPMM.Pages
                     break;
             }
 
-            switch(orientation){
+            switch (orientation)
+            {
                 case PageOrientation.LandscapeLeft:
                 case PageOrientation.LandscapeRight:
                     Grid.SetRow(Ev, 0);

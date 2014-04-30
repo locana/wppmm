@@ -55,10 +55,15 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+
+        private bool _IsInShootingDisplay = false;
         public bool IsInShootingDisplay
         {
-            set;
-            get;
+            set
+            {
+                _IsInShootingDisplay = value;
+            }
+            get { return _IsInShootingDisplay; }
         }
 
         private bool _IsSearchingDevice = false;

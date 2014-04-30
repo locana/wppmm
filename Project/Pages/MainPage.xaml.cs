@@ -808,11 +808,10 @@ namespace Kazyx.WPPMM.Pages
             {
                 case PageOrientation.LandscapeLeft:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 170, 30);
-                    ZoomElements.Margin = new Thickness(80, 0, 0, 30);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 160, 0);
+                    ShootButton.Margin = new Thickness(0, 0, 190, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     // Sliders.Margin = new Thickness(60, 0, 0, 30);
@@ -822,11 +821,11 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetRow(ISO, 0);
                     Grid.SetColumn(Ev, 3);
                     Grid.SetColumn(ISO, 4);
+                    Grid.SetRow(HalfPressFocusStatus, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 170, 30);
-                    ZoomElements.Margin = new Thickness(80, 0, 0, 30);
+                    ShootButton.Margin = new Thickness(0, 0, 190, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
@@ -839,11 +838,11 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetRow(ISO, 0);
                     Grid.SetColumn(Ev, 3);
                     Grid.SetColumn(ISO, 4);
+                    Grid.SetRow(HalfPressFocusStatus, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 130, 90);
-                    ZoomElements.Margin = new Thickness(10, 0, 0, 130);
+                    ShootButton.Margin = new Thickness(0, 0, 115, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 60);
@@ -856,6 +855,7 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetRow(ISO, 1);
                     Grid.SetColumn(Ev, 1);
                     Grid.SetColumn(ISO, 2);
+                    Grid.SetRow(HalfPressFocusStatus, 1);
                     break;
             }
         }

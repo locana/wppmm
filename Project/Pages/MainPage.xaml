@@ -133,56 +133,64 @@
                                 <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/audio.png" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-                        <Grid Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}">
-                            <Button Name="ShootButton" HorizontalAlignment="Right" Margin="0,0,30,30" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
-                                Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
-                                <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
-                            </Button>
-                        </Grid>
-                        <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="37" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <Grid Name="BottomElements" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" /> <!--for zoom elements, shoot button-->
+                                <RowDefinition Height="*" /> <!--for status display, half press indicator-->
                             </Grid.RowDefinitions>
-                            <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,3"
+                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="10">
+                                <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
+                                Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
+                                    <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Row="0" HorizontalAlignment="Left" Height="auto" Margin="30,10" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="70" />
+                                </Grid.RowDefinitions>
+
+                                <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="13" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
+                                <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="9" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
+                                <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,3" Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton">
+                                    <Image Source="/Assets/Button/ZoomOut.png" Margin="0" />
+                                </Button>
+                                <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,3" Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton">
+                                    <Image Source="/Assets/Button/ZoomIn.png" Margin="0" />
+
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="37" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
+                                <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
+                                <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
+                                <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+
+                            </Grid>
+                            <Rectangle Grid.Row="1" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">
                                 <Rectangle.OpacityMask>
                                     <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
-                            <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
-                            <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
-                            <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
-                            <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+                        </Grid>
 
-                        </Grid>
-                        <Grid HorizontalAlignment="Left" Height="auto" Margin="30,0,0,30" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="70" />
-                            </Grid.RowDefinitions>
-                            
-                            <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="13" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
-                            <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="9" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
-                            <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,3" Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton">
-                                <Image Source="/Assets/Button/ZoomOut.png" Margin="0" />
-                            </Button>
-                            <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,3" Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton">
-                                <Image Source="/Assets/Button/ZoomIn.png" Margin="0" />
-                                
-                            </Button>
-                        </Grid>
                         <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85" Visibility="Collapsed">
                             <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" 
                                  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="0" 
@@ -190,8 +198,8 @@
                             <Slider Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch" Background="{StaticResource PhoneAccentBrush}" VerticalAlignment="Stretch"
                                 Visibility="{Binding ShutterSpeedSliderVisibility}" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted"  Margin="0" 
                                 Minimum="0" Maximum="{Binding MaxShutterSpeedIndex}" Orientation="Vertical"/>
-                        </Grid>     
-                        
+                        </Grid>
+
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
                                        Opacity="0.5" Margin="-15,0"/>

@@ -142,11 +142,15 @@
                         <Grid Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="37" />
-                                <ColumnDefinition Width="0.7*" />
-                                <ColumnDefinition Width="0.7*" />
-                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
                             <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,3"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">
                                 <Rectangle.OpacityMask>

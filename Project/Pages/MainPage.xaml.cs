@@ -726,15 +726,11 @@ namespace Kazyx.WPPMM.Pages
                 {
                     GoToMainPage();
                 }
-                
-                
             }
             else
             {
                 e.Cancel = false;
             }
-
-
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -822,6 +818,10 @@ namespace Kazyx.WPPMM.Pages
                     // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     Dial.Margin = new Thickness(0, 0, -90, -130);
                     DialMask.Margin = new Thickness(0, 0, -90, 0);
+                    Grid.SetRow(Ev, 0);
+                    Grid.SetRow(ISO, 0);
+                    Grid.SetColumn(Ev, 3);
+                    Grid.SetColumn(ISO, 4);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -835,11 +835,15 @@ namespace Kazyx.WPPMM.Pages
                     CameraParameters.Margin = new Thickness(0, 0, 160, 0);
                     Dial.Margin = new Thickness(0, 0, -90, -130);
                     DialMask.Margin = new Thickness(0, 0, -90, 0);
+                    Grid.SetRow(Ev, 0);
+                    Grid.SetRow(ISO, 0);
+                    Grid.SetColumn(Ev, 3);
+                    Grid.SetColumn(ISO, 4);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 130, 90);
-                    ZoomElements.Margin = new Thickness(10, 0, 0, 90);
+                    ZoomElements.Margin = new Thickness(10, 0, 0, 130);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     CameraParameters.Margin = new Thickness(0, 0, 0, 60);
@@ -848,6 +852,10 @@ namespace Kazyx.WPPMM.Pages
                     // Sliders.Margin = new Thickness(10, 0, 0, 85);
                     Dial.Margin = new Thickness(0, 0, -160, -80);
                     DialMask.Margin = new Thickness(0, 0, 0, -90);
+                    Grid.SetRow(Ev, 1);
+                    Grid.SetRow(ISO, 1);
+                    Grid.SetColumn(Ev, 1);
+                    Grid.SetColumn(ISO, 2);
                     break;
             }
         }

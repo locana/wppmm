@@ -103,10 +103,12 @@ namespace Kazyx.WPPMM.CameraManager
 
         void deviceFinder_Finished(object sender, EventArgs e)
         {
+            Debug.WriteLine("deviceFinder_Finished");
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 if (DiscoveryTimeout != null)
                 {
+                    Debug.WriteLine("Invoke DiscoveryTimeout");
                     DiscoveryTimeout.Invoke();
                 }
             });
@@ -352,10 +354,14 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     MethodTypesUpdateNotifer.Invoke(); // Notify before call OnFound to update contents of control panel.
                 }
-                if (DeviceDiscovered != null)
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    DeviceDiscovered.Invoke();
-                }
+                    if (DeviceDiscovered != null)
+                    {
+                        Debug.WriteLine("Invoke DeviceDiscovered");
+                        DeviceDiscovered.Invoke();
+                    }
+                });
                 NoticeUpdate();
             }
             catch (RemoteApiException e)
@@ -884,7 +890,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
 
             this.SetExposureCompensation(target);
-            
+
         }
 
         public void ShiftFNumber(int relativeIndex)

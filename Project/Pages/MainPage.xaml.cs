@@ -10,6 +10,7 @@ using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Reactive;
 using Microsoft.Phone.Tasks;
 using Microsoft.Xna.Framework.Media;
+using NtNfcLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,8 +20,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Windows.Networking.Proximity;
-using NtNfcLib;
-
 
 namespace Kazyx.WPPMM.Pages
 {
@@ -95,7 +94,10 @@ namespace Kazyx.WPPMM.Pages
             InitializeApplication();
             if (FilterBySsid && GetSSIDName().StartsWith(AP_NAME_PREFIX))
             {
-                StartConnectionSequence(NavigationMode.New == e.NavigationMode || MyPivot.SelectedIndex == 1);
+                if (MyPivot.SelectedIndex != PIVOTINDEX_LIVEVIEW)
+                {
+                    StartConnectionSequence(NavigationMode.New == e.NavigationMode);
+                }
             }
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
@@ -160,7 +162,6 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.RequestCloseLiveView();
             cameraManager.Refresh();
             //LiveViewInit();
-
         }
 
         private void StartConnectionSequence(bool connect)
@@ -168,10 +169,12 @@ namespace Kazyx.WPPMM.Pages
             progress.IsVisible = connect;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
+                Debug.WriteLine("DeviceFound -> GoToShootingPage if required.");
                 progress.IsVisible = false;
                 if (connect) GoToShootingPage();
             }, () =>
             {
+                Debug.WriteLine("Discovery timeout.");
                 progress.IsVisible = false;
             });
         }
@@ -203,11 +206,9 @@ namespace Kazyx.WPPMM.Pages
                     GuideMessage.Visibility = System.Windows.Visibility.Visible;
                 }
             }
-
             // display initialize
 
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
-
         }
 
         private void GoToShootingPage()
@@ -273,10 +274,8 @@ namespace Kazyx.WPPMM.Pages
         private void LiveViewInit()
         {
             cameraManager.RequestCloseLiveView();
-
             OnZooming = false;
         }
-
 
         void CameraButtons_ShutterKeyPressed(object sender, EventArgs e)
         {
@@ -425,7 +424,9 @@ namespace Kazyx.WPPMM.Pages
             {
                 Debug.WriteLine("Await for async device discovery");
                 AppStatus.GetInstance().IsSearchingDevice = true;
+                progress.IsVisible = true;
                 var found = await PrepareConnectionAsync();
+                progress.IsVisible = false;
                 Dispatcher.BeginInvoke(() => { AppStatus.GetInstance().IsSearchingDevice = false; });
 
                 Debug.WriteLine("Async device discovery result: " + found);
@@ -555,8 +556,6 @@ namespace Kazyx.WPPMM.Pages
 
             Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
-
-
 
             cameraManager.RequestTouchAF(posX, posY);
         }

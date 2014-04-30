@@ -144,7 +144,7 @@
                                     <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                                 </Button>
                             </Grid>
-                            <Grid Grid.Row="0" HorizontalAlignment="Left" Height="auto" Margin="30,0" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
+                            <Grid Grid.Row="0" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
@@ -171,6 +171,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="160" /> <!--margin-->
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />

@@ -810,18 +810,14 @@ namespace Kazyx.WPPMM.Pages
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    CameraParameters.Margin = new Thickness(0, 0, 160, 0);
                     ShootButton.Margin = new Thickness(0, 0, 190, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     Dial.Margin = new Thickness(0, 0, -90, -130);
                     DialMask.Margin = new Thickness(0, 0, -90, 0);
-                    Grid.SetRow(Ev, 0);
-                    Grid.SetRow(ISO, 0);
-                    Grid.SetColumn(Ev, 3);
-                    Grid.SetColumn(ISO, 4);
-                    Grid.SetRow(HalfPressFocusStatus, 0);
+                    BottomElements.Margin = new Thickness(0, 0, 0, 0);
+                    ZoomElements.Margin = new Thickness(40, 0, 0, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -831,33 +827,56 @@ namespace Kazyx.WPPMM.Pages
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
                     // Sliders.Margin = new Thickness(60, 0, 0, 30);
-                    CameraParameters.Margin = new Thickness(0, 0, 160, 0);
                     Dial.Margin = new Thickness(0, 0, -90, -130);
                     DialMask.Margin = new Thickness(0, 0, -90, 0);
-                    Grid.SetRow(Ev, 0);
-                    Grid.SetRow(ISO, 0);
-                    Grid.SetColumn(Ev, 3);
-                    Grid.SetColumn(ISO, 4);
-                    Grid.SetRow(HalfPressFocusStatus, 0);
+                    BottomElements.Margin = new Thickness(0, 0, 0, 0);
+                    ZoomElements.Margin = new Thickness(70, 0, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 115, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
-                    CameraParameters.Margin = new Thickness(0, 0, 0, 60);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
                     // Sliders.Margin = new Thickness(10, 0, 0, 85);
                     Dial.Margin = new Thickness(0, 0, -160, -80);
                     DialMask.Margin = new Thickness(0, 0, 0, -90);
+                    BottomElements.Margin = new Thickness(0, 0, 0, 60);
+                    ZoomElements.Margin = new Thickness(30, 0, 0, 0);
+                    break;
+            }
+
+            switch(orientation){
+                case PageOrientation.LandscapeLeft:
+                case PageOrientation.LandscapeRight:
+                    Grid.SetRow(Ev, 0);
+                    Grid.SetRow(ISO, 0);
+                    Grid.SetColumn(ShutterSpeed, 1);
+                    Grid.SetColumn(Fnumber, 2);
+                    Grid.SetColumn(Ev, 3);
+                    Grid.SetColumn(ISO, 4);
+                    Grid.SetRow(HalfPressFocusStatus, 0);
+                    Grid.SetColumnSpan(Ev, 1);
+                    Grid.SetColumnSpan(ISO, 1);
+                    Grid.SetColumnSpan(Fnumber, 1);
+                    Grid.SetColumnSpan(ShutterSpeed, 1);
+                    break;
+                case PageOrientation.PortraitUp:
                     Grid.SetRow(Ev, 1);
                     Grid.SetRow(ISO, 1);
                     Grid.SetColumn(Ev, 1);
-                    Grid.SetColumn(ISO, 2);
+                    Grid.SetColumn(ShutterSpeed, 1);
+                    Grid.SetColumn(Fnumber, 3);
+                    Grid.SetColumn(ISO, 3);
                     Grid.SetRow(HalfPressFocusStatus, 1);
+                    Grid.SetColumnSpan(Ev, 2);
+                    Grid.SetColumnSpan(ISO, 2);
+                    Grid.SetColumnSpan(Fnumber, 2);
+                    Grid.SetColumnSpan(ShutterSpeed, 2);
                     break;
             }
+
         }
 
         public void ShowToast(String message)

@@ -733,27 +733,10 @@ namespace Kazyx.WPPMM.Pages
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             svd = new ShootingViewData(AppStatus.GetInstance(), cameraManager.cameraStatus);
-            ShootButton.DataContext = svd;
-            ShootingProgress.DataContext = svd;
-            ZoomElements.DataContext = svd;
-            Toast.DataContext = svd;
-            RecordingStatus.DataContext = svd;
+            ShootingPivot.DataContext = svd;
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
-            IntervalStatusTime.DataContext = cameraManager.IntervalManager;
-            IntervalStatusCount.DataContext = cameraManager.IntervalManager;
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
-            TouchAFPointer.DataContext = svd;
-            ShutterSpeed.DataContext = svd;
-            ISO.DataContext = svd;
-            Fnumber.DataContext = svd;
-            Ev.DataContext = svd;
-            HalfPressFocusStatus.DataContext = svd;
-            ModeImage.DataContext = svd;
-            ExposureModeImage.DataContext = svd;
-            FNumberSlider.DataContext = svd;
-            ShutterSpeedSlider.DataContext = svd;
-            Dial.DataContext = svd;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
             Dial.DialManipulationCompleted -= Dial_DialManipulationCompleted;
 
@@ -762,29 +745,10 @@ namespace Kazyx.WPPMM.Pages
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            ShootButton.DataContext = null;
-            ShootingProgress.DataContext = null;
-            ZoomElements.DataContext = null;
-            Toast.DataContext = null;
-            RecordingStatus.DataContext = null;
+            ShootingPivot.DataContext = null;
             IntervalStatusPanel.DataContext = null;
-            IntervalStatusTime.DataContext = null;
-            IntervalStatusCount.DataContext = null;
             ScreenImageWrapper.DataContext = null;
             AudioScreenImage.DataContext = null;
-            ShootButtonWrapper.DataContext = null;
-            TouchAFPointer.DataContext = null;
-            ShutterSpeed.DataContext = null;
-            ISO.DataContext = null;
-            Fnumber.DataContext = null;
-            Ev.DataContext = null;
-            HalfPressFocusStatus.DataContext = null;
-            ModeImage.DataContext = null;
-            ExposureModeImage.DataContext = null;
-            FNumberSlider.DataContext = null;
-            ShutterSpeedSlider.DataContext = null;
-            Dial.DataContext = null;
-            // cpm = null;
             svd = null;
         }
 

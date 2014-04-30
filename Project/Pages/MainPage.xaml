@@ -219,7 +219,7 @@
                         <Image Name="ModeImage" Margin="6, 0" Width="30" Height="30" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" HorizontalAlignment="Center"/>
                         <Image Name="ExposureModeImage" Width="150" Height="30" Source="{Binding ExposureModeImage, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" />
                     </Grid>
-                    <StackPanel Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
+                    <Grid Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >
                         <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus" Stretch="None"
                                Visibility="{Binding RecordingStatusVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Background="{StaticResource PhoneBackgroundBrush}"
@@ -228,7 +228,7 @@
                             <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
                             <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
 
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
                         <ScrollViewer.Background>

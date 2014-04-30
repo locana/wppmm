@@ -769,7 +769,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 case PageOrientation.LandscapeLeft:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
+                    IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 190, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
@@ -783,7 +783,7 @@ namespace Kazyx.WPPMM.Pages
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 190, 0);
-                    IntervalStatusPanel.Margin = new Thickness(0, 50, 70, 0);
+                    IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
@@ -796,7 +796,7 @@ namespace Kazyx.WPPMM.Pages
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
                     ShootButton.Margin = new Thickness(0, 0, 115, 0);
-                    IntervalStatusPanel.Margin = new Thickness(0, 80, 30, 0);
+                    IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);

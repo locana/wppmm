@@ -895,6 +895,11 @@ namespace Kazyx.WPPMM.CameraManager
 
         public void ShiftFNumber(int relativeIndex)
         {
+            if (cameraStatus.FNumber.candidates.Length == 0)
+            {
+                return;
+            }
+
             int current = 0;
             for (int i = 0; i < cameraStatus.FNumber.candidates.Length; i++)
             {
@@ -925,6 +930,10 @@ namespace Kazyx.WPPMM.CameraManager
 
         public void ShiftShutterSpeed(int relativeIndex)
         {
+            if (cameraStatus.ShutterSpeed.candidates.Length == 0)
+            {
+                return;
+            }
             int current = 0;
             for (int i = 0; i < cameraStatus.ShutterSpeed.candidates.Length; i++)
             {
@@ -939,7 +948,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             if (targetIndex < 0)
             {
-                target = cameraStatus.FNumber.candidates[0];
+                target = cameraStatus.ShutterSpeed.candidates[0];
             }
             else if (targetIndex >= cameraStatus.ShutterSpeed.candidates.Length)
             {

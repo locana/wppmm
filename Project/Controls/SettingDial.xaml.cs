@@ -74,7 +74,6 @@ namespace Kazyx.WPMMM.Controls
                 default:
                     break;
             }
-            
 
             // if each manipuration is too small, it's may be noise
             if (Math.Abs(delta) > TH_OPERATION)

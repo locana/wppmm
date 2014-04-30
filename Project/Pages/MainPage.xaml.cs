@@ -621,75 +621,19 @@ namespace Kazyx.WPPMM.Pages
 
             if (status.IsAvailable("setFNumber"))
             {
-                int current = 0;
-                for (int i = 0; i < status.FNumber.candidates.Length; i++)
-                {
-                    if (status.FNumber.current == status.FNumber.candidates[i])
-                    {
-                        current = i;
-                    }
-                }
-
-                var target = current + value;
-
-                if (target < 0)
-                {
-                    cameraManager.SetFNumber(status.FNumber.candidates[0]);
-                }
-                else if (target >= status.FNumber.candidates.Length)
-                {
-                    cameraManager.SetFNumber(status.FNumber.candidates[status.FNumber.candidates.Length - 1]);
-                }
-                else
-                {
-                    cameraManager.SetFNumber(status.FNumber.candidates[target]);
-                }
+                cameraManager.ShiftFNumber(value);
                 return;
             }
 
             if (status.IsAvailable("setShutterSpeed"))
             {
-                int current = 0;
-                for (int i = 0; i < status.ShutterSpeed.candidates.Length; i++)
-                {
-                    if (status.ShutterSpeed.current == status.ShutterSpeed.candidates[i])
-                    {
-                        current = i;
-                    }
-                }
-
-                var target = current + value;
-
-                if (target < 0)
-                {
-                    cameraManager.SetShutterSpeed(status.FNumber.candidates[0]);
-                }
-                else if (target >= status.ShutterSpeed.candidates.Length)
-                {
-                    cameraManager.SetShutterSpeed(status.ShutterSpeed.candidates[status.ShutterSpeed.candidates.Length - 1]);
-                }
-                else
-                {
-                    cameraManager.SetShutterSpeed(status.ShutterSpeed.candidates[target]);
-                }
+                cameraManager.ShiftShutterSpeed(value);
                 return;
             }
 
             if (status.IsAvailable("setExposureCompensation") && status.EvInfo != null)
             {
-                var target = status.EvInfo.CurrentIndex + value;
-                if (target < status.EvInfo.Candidate.MinIndex)
-                {
-                    cameraManager.SetExposureCompensation(status.EvInfo.Candidate.MinIndex);
-                }
-                else if (target > status.EvInfo.Candidate.MaxIndex)
-                {
-                    cameraManager.SetExposureCompensation(status.EvInfo.Candidate.MaxIndex);
-                }
-                else
-                {
-                    cameraManager.SetExposureCompensation(target);
-                }
+                cameraManager.ShiftEv(value);
             }
         }
 

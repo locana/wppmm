@@ -870,5 +870,81 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (RemoteApiException e) { }
         }
+
+        public void ShiftEv(int relativeIndex)
+        {
+            var target = cameraStatus.EvInfo.CurrentIndex + relativeIndex;
+            if (target < cameraStatus.EvInfo.Candidate.MinIndex)
+            {
+                target = cameraStatus.EvInfo.Candidate.MinIndex;
+            }
+            else if (target > cameraStatus.EvInfo.Candidate.MaxIndex)
+            {
+                target = cameraStatus.EvInfo.Candidate.MaxIndex;
+            }
+
+            this.SetExposureCompensation(target);
+            
+        }
+
+        public void ShiftFNumber(int relativeIndex)
+        {
+            int current = 0;
+            for (int i = 0; i < cameraStatus.FNumber.candidates.Length; i++)
+            {
+                if (cameraStatus.FNumber.current == cameraStatus.FNumber.candidates[i])
+                {
+                    current = i;
+                }
+            }
+
+            var targetIndex = current + relativeIndex;
+            var target = "";
+
+            if (targetIndex < 0)
+            {
+                target = cameraStatus.FNumber.candidates[0];
+            }
+            else if (targetIndex >= cameraStatus.FNumber.candidates.Length)
+            {
+                target = cameraStatus.FNumber.candidates[cameraStatus.FNumber.candidates.Length - 1];
+            }
+            else
+            {
+                target = cameraStatus.FNumber.candidates[targetIndex];
+            }
+
+            this.SetFNumber(target);
+        }
+
+        public void ShiftShutterSpeed(int relativeIndex)
+        {
+            int current = 0;
+            for (int i = 0; i < cameraStatus.ShutterSpeed.candidates.Length; i++)
+            {
+                if (cameraStatus.ShutterSpeed.current == cameraStatus.ShutterSpeed.candidates[i])
+                {
+                    current = i;
+                }
+            }
+
+            var targetIndex = current + relativeIndex;
+            var target = "";
+
+            if (targetIndex < 0)
+            {
+                target = cameraStatus.FNumber.candidates[0];
+            }
+            else if (targetIndex >= cameraStatus.ShutterSpeed.candidates.Length)
+            {
+                target = cameraStatus.ShutterSpeed.candidates[cameraStatus.ShutterSpeed.candidates.Length - 1];
+            }
+            else
+            {
+                target = cameraStatus.ShutterSpeed.candidates[targetIndex];
+            }
+
+            this.SetShutterSpeed(target);
+        }
     }
 }

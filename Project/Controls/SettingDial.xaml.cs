@@ -18,15 +18,13 @@ namespace Kazyx.WPMMM.Controls
     {
         private const int TH_OPERATION = 2;
         private const int GEAR_SPEED = 18;
-        private const int TH_SETTING = 40;
+        private const int TH_SETTING = 42;
 
         private double GearAngle;
         private double OperationCount;
         private int SettingCount;
 
         internal event Action<int> DialManipulationCompleted;
-
-        private CameraManager manager;
 
         public enum DialPosition
         {
@@ -49,8 +47,6 @@ namespace Kazyx.WPMMM.Controls
             SettingCount = 0;
 
             position = DialPosition.RightBottom;
-
-            manager = CameraManager.GetInstance();
         }
 
         private void Gear_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
@@ -116,12 +112,6 @@ namespace Kazyx.WPMMM.Controls
 
         private void Gear_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            if (manager == null || manager.cameraStatus == null)
-            {
-                OperationCount = 0;
-                SettingCount = 0;
-                return;
-            }
 
             if (DialManipulationCompleted != null)
             {
@@ -142,6 +132,7 @@ namespace Kazyx.WPMMM.Controls
             story.Duration = duration;
             animation.Duration = duration;
             story.Children.Add(animation);
+
             Storyboard.SetTarget(animation, rt);
             Storyboard.SetTargetProperty(animation, new PropertyPath("Angle"));
             animation.From = from;
@@ -151,12 +142,6 @@ namespace Kazyx.WPMMM.Controls
             Gear.RenderTransformOrigin = new Point(0.5, 0.5);
 
             story.Begin();
-
-            
-
-
-
-
         }
     }
 }

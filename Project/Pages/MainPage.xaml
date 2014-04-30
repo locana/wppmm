@@ -232,7 +232,7 @@
 
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
                         <ScrollViewer.Background>
-                            <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
+                            <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>

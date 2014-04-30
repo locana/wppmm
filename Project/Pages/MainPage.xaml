@@ -135,16 +135,16 @@
                         </Rectangle>
                         <Grid Name="BottomElements" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" /> <!--for zoom elements, shoot button-->
-                                <RowDefinition Height="*" /> <!--for status display, half press indicator-->
+                                <RowDefinition Height="*" /> <!--row 0: for zoom elements, shoot button-->
+                                <RowDefinition Height="*" /> <!--row 1: for status display, half press indicator-->
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="10">
+                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="0">
                                 <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
                                 Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                                     <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                                 </Button>
                             </Grid>
-                            <Grid Grid.Row="0" HorizontalAlignment="Left" Height="auto" Margin="30,10" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
+                            <Grid Grid.Row="0" HorizontalAlignment="Left" Height="auto" Margin="30,0" VerticalAlignment="Bottom" Width="200" Name="ZoomElements" Visibility="{Binding ZoomElementVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />

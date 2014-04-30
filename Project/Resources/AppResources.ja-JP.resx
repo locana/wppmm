@@ -335,7 +335,7 @@
     <value>絞り優先</value>
   </data>
   <data name="ExposureMode_iA" xml:space="preserve">
-    <value>プレミアムおまかせオート</value>
+    <value>おまかせオート</value>
   </data>
   <data name="ExposureMode_P" xml:space="preserve">
     <value>プログラムオート</value>
@@ -344,7 +344,7 @@
     <value>シャッター優先</value>
   </data>
   <data name="ExposureMode_sA" xml:space="preserve">
-    <value>おまかせオート</value>
+    <value>プレミアムオート</value>
   </data>
   <data name="ExposureCompensation" xml:space="preserve">
     <value>露出補正</value>

@@ -48,14 +48,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Storyboard x:Name="ShowSettingAnimation">
             <DoubleAnimation Duration="0:0:0.1" From="0.0" To="0.9" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
         </Storyboard>
+
         <Storyboard x:Name="HideSettingAnimation">
             <DoubleAnimation Duration="0:0:0.1" From="0.9" To="0.0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
         </Storyboard>
 
+
     </phone:PhoneApplicationPage.Resources>
+
     <phone:PhoneApplicationPage.FontFamily>
         <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
     </phone:PhoneApplicationPage.FontFamily>
@@ -135,8 +139,10 @@
                         </Rectangle>
                         <Grid Name="BottomElements" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" /> <!--row 0: for zoom elements, shoot button-->
-                                <RowDefinition Height="*" /> <!--row 1: for status display, half press indicator-->
+                                <RowDefinition Height="*" />
+                                <!--row 0: for zoom elements, shoot button-->
+                                <RowDefinition Height="*" />
+                                <!--row 1: for status display, half press indicator-->
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="0">
                                 <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
@@ -171,7 +177,8 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="160" /> <!--margin-->
+                                    <ColumnDefinition Width="160" />
+                                    <!--margin-->
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -181,7 +188,31 @@
                                 <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
                                 <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
-                                <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+                                <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4" >
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush x:Name="Foreground" Color="{StaticResource PhoneForegroundColor}" />
+                                    </TextBlock.Foreground>
+                                    <TextBlock.Triggers>
+                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard x:Name="BluringAnimation">
+                                                    <ColorAnimation
+                Storyboard.TargetName="Foreground"
+                Storyboard.TargetProperty="Color"
+                From="{StaticResource PhoneForegroundColor}"
+                To="{StaticResource PhoneAccentColor}"
+                Duration="0:0:5"
+                AutoReverse="True"
+                RepeatBehavior="Forever" >
+                                                        <ColorAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseIn" />
+                                                        </ColorAnimation.EasingFunction>
+                                                    </ColorAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </TextBlock.Triggers>
+                                </TextBlock>
 
                             </Grid>
                             <Rectangle Grid.Row="1" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"

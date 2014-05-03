@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Kazyx.WPMMM.Controls.ViewSelector"
+﻿<UserControl x:Class="Kazyx.WPMMM.Controls.VisualSelector"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -63,22 +63,15 @@
         </Style>
 
         <DataTemplate x:Key="ImageItemTemplate">
-            <StackPanel Height="72" Width="72" Margin="6,6" >
-                <Button Style="{StaticResource CustomButtonStyle}" Tap="ItemImage_Tap" BorderThickness="0" Click="ItemImage_Click">
-                    <Image Width="68" Height="68"
-                       Stretch="UniformToFill"
-                       Source="{Binding Image, Mode=OneWay}" Margin="-4" VerticalAlignment="Center" />
-                </Button>
-                <TextBlock x:Name="ItemTitle"
-                           Text="{Binding Title, Mode=OneWay}"
-                           Visibility="{Binding TitleVisibility, Mode=OneWay, FallbackValue=Collapsed}" Tap="ItemTitle_Tap" />
-            </StackPanel>
+            <Button Margin="6,6" Style="{StaticResource CustomButtonStyle}" Tap="ItemImage_Tap" BorderThickness="0" Click="ItemImage_Click" HorizontalContentAlignment="Center">
+                <Image Stretch="UniformToFill"
+                       Source="{Binding Image, Mode=OneWay}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            </Button>
         </DataTemplate>
 
     </UserControl.Resources>
 
     <phone:LongListSelector
-                Margin="0"
                 IsGroupingEnabled="False"
                 LayoutMode="Grid"
                 GridCellSize="84,84"

@@ -8,9 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace Kazyx.WPMMM.Controls
 {
-    public partial class ViewSelector : UserControl
+    public partial class VisualSelector : UserControl
     {
-        public ViewSelector()
+        public VisualSelector()
         {
             InitializeComponent();
         }

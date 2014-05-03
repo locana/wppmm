@@ -254,18 +254,17 @@
                                  Foreground="{StaticResource PhoneForegroundBrush}" 
                                    VerticalAlignment="Center" Name="ToastMessage"/>
                     </Grid>
-                    <Grid Name="ImageSelectorRoot" xmlns:src="clr-namespace:Kazyx.WPMMM.Controls" Margin="80,280" Visibility="Collapsed" >
-                        <Border BorderThickness="2" CornerRadius="5">
-                            <Border.BorderBrush>
-                                <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-                            </Border.BorderBrush>
-                            <Border.Background>
-                                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
-                            </Border.Background>
-                            <src:ViewSelector Name="ImageSelector" Selected="ImageSelector_Selected" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="16">
-                            </src:ViewSelector>
-                        </Border>
-                    </Grid>
+                    <Border Name="ImageSelectorRoot" xmlns:src="clr-namespace:Kazyx.WPMMM.Controls"  Visibility="Collapsed" BorderThickness="2" CornerRadius="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+                        </Border.Background>
+                        <Grid Width="{Binding Width}" Height="{Binding Height}">
+                            <src:VisualSelector Name="ImageSelector" Selected="ImageSelector_Selected" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="16,16,0,16"/>
+                        </Grid>
+                    </Border>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

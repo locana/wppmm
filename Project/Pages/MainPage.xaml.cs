@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.WPMMM.Controls;
+using Kazyx.WPMMM.DataModel;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
@@ -1039,8 +1040,9 @@ namespace Kazyx.WPPMM.Pages
         {
             Debug.WriteLine("ExposureModeImage_Tap");
             var collection = new ObservableCollection<SelectorItem>();
+
+            
             var capa = cameraManager.cameraStatus.ExposureMode;
-            int i = 0;
             foreach (var val in capa.candidates)
             {
                 var item = new SelectorItem(val);
@@ -1048,9 +1050,14 @@ namespace Kazyx.WPPMM.Pages
                 collection.Add(item);
                 Debug.WriteLine("Add " + val);
             }
-            var groups = new ItemGroup();
+            
+            /*
+            collection.Add(new SelectorItem(ExposureMode.Aperture) { Image = ParamToImageConverter.ConvertToExposureModeImage(ExposureMode.Aperture) });
+            collection.Add(new SelectorItem(ExposureMode.Aperture) { Image = ParamToImageConverter.ConvertToExposureModeImage(ExposureMode.Aperture) });
+             * */
+            var groups = new VisualSelectorData();
             groups.Group = collection;
-            ImageSelector.DataContext = groups;
+            ImageSelectorRoot.DataContext = groups;
             ImageSelectorRoot.Visibility = Visibility.Visible;
         }
 
@@ -1065,7 +1072,7 @@ namespace Kazyx.WPPMM.Pages
             }
             catch (RemoteApiException ex)
             {
-                Debug.WriteLine("Failed to set ExposureMode: " + ex);
+                Debug.WriteLine("Failed to set ExposureMode: " + ex.code);
             }
         }
     }

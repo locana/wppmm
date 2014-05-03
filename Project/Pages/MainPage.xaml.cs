@@ -1,5 +1,7 @@
 using Kazyx.RemoteApi;
+using Kazyx.WPMMM.Controls;
 using Kazyx.WPMMM.Resources;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Controls;
 using Kazyx.WPPMM.DataModel;
@@ -13,6 +15,7 @@ using Microsoft.Xna.Framework.Media;
 using NtNfcLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -676,8 +679,9 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: OneShot");
-            cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.Action1Shot);
+            this.ExposureModeImage_Tap(sender, e);
+            //Debug.WriteLine("Zoom In: OneShot");
+            //cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.Action1Shot);
         }
 
         private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -1028,6 +1032,40 @@ namespace Kazyx.WPPMM.Pages
             if (value < cameraManager.cameraStatus.ShutterSpeed.candidates.Length)
             {
                 cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.candidates[value]);
+            }
+        }
+
+        private void ExposureModeImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Debug.WriteLine("ExposureModeImage_Tap");
+            var collection = new ObservableCollection<SelectorItem>();
+            var capa = cameraManager.cameraStatus.ExposureMode;
+            int i = 0;
+            foreach (var val in capa.candidates)
+            {
+                var item = new SelectorItem(val);
+                item.Image = ParamToImageConverter.ConvertToExposureModeImage(val);
+                collection.Add(item);
+                Debug.WriteLine("Add " + val);
+            }
+            var groups = new ItemGroup();
+            groups.Group = collection;
+            ImageSelector.DataContext = groups;
+            ImageSelectorRoot.Visibility = Visibility.Visible;
+        }
+
+        private async void ImageSelector_Selected(object sender, SelectionEventArgs e)
+        {
+            // TODO check target parameter. not always exposure mode?
+            Debug.WriteLine(e.Item.Id + " is selected");
+            ImageSelectorRoot.Visibility = Visibility.Collapsed;
+            try
+            {
+                await cameraManager.SetExporeModeAsync(e.Item.Id);
+            }
+            catch (RemoteApiException ex)
+            {
+                Debug.WriteLine("Failed to set ExposureMode: " + ex);
             }
         }
     }

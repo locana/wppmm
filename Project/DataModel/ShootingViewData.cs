@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using System;
 using System.ComponentModel;
@@ -85,8 +86,8 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("FnumberDisplayValue");
                         break;
                     case "ShutterSpeed":
-                            OnPropertyChanged("ShutterSpeedVisibility");
-                            OnPropertyChanged("ShutterSpeedDisplayValue");
+                        OnPropertyChanged("ShutterSpeedVisibility");
+                        OnPropertyChanged("ShutterSpeedDisplayValue");
                         if (cameraStatus.IsAvailable("setShutterSpeed"))
                         {
                             OnPropertyChanged("MaxShutterSpeedIndex");
@@ -98,7 +99,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ISOVisibility");
                         OnPropertyChanged("ISODisplayValue");
                         break;
-                    case "FNumber":      
+                    case "FNumber":
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
                         if (cameraStatus.IsAvailable("setFNumber"))
@@ -194,12 +195,6 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage PhotoModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_photo.png", UriKind.Relative));
         private static readonly BitmapImage MovieModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_movie.png", UriKind.Relative));
         private static readonly BitmapImage AudioModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_audio.png", UriKind.Relative));
-
-        private static readonly BitmapImage ExModeImage_IA = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_iA.png", UriKind.Relative));
-        private static readonly BitmapImage ExModeImage_IAPlus = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_iAPlus.png", UriKind.Relative));
-        private static readonly BitmapImage ExModeImage_A = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_A.png", UriKind.Relative));
-        private static readonly BitmapImage ExModeImage_S = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_S.png", UriKind.Relative));
-        private static readonly BitmapImage ExModeImage_P = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {
@@ -533,21 +528,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return null;
                 }
-                switch (cameraStatus.ExposureMode.current)
-                {
-                    case ExposureMode.Aperture:
-                        return ExModeImage_A;
-                    case ExposureMode.SS:
-                        return ExModeImage_S;
-                    case ExposureMode.Program:
-                        return ExModeImage_P;
-                    case ExposureMode.Intelligent:
-                        return ExModeImage_IA;
-                    case ExposureMode.Superior:
-                        return ExModeImage_IAPlus;
-                    default:
-                        return null;
-                }
+                return ParamToImageConverter.ConvertToExposureModeImage(cameraStatus.ExposureMode.current);
             }
         }
 
@@ -693,7 +674,8 @@ namespace Kazyx.WPPMM.DataModel
 
         public Visibility DialVisibility
         {
-            get {
+            get
+            {
                 if (cameraStatus == null)
                 {
                     return Visibility.Collapsed;

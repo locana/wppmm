@@ -708,6 +708,7 @@ namespace Kazyx.WPPMM.Pages
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
+            ShootButton.DataContext = svd;
             TouchAFPointer.DataContext = svd;
 
             cpm.ReplacePanel(ControlPanel);
@@ -719,6 +720,8 @@ namespace Kazyx.WPPMM.Pages
             IntervalStatusPanel.DataContext = null;
             ScreenImageWrapper.DataContext = null;
             AudioScreenImage.DataContext = null;
+            ShootButtonWrapper.DataContext = null;
+            ShootButton.DataContext = null;
             TouchAFPointer.DataContext = null;
             svd = null;
         }
@@ -742,7 +745,6 @@ namespace Kazyx.WPPMM.Pages
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 190, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     Sliders.Margin = new Thickness(60, 0, 0, 30);
@@ -751,7 +753,6 @@ namespace Kazyx.WPPMM.Pages
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 190, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
@@ -762,7 +763,6 @@ namespace Kazyx.WPPMM.Pages
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
-                    ShootButton.Margin = new Thickness(0, 0, 115, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);

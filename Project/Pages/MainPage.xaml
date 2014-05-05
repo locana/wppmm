@@ -138,7 +138,7 @@
                                 <RowDefinition Height="*" /> <!--row 0: for zoom elements, shoot button-->
                                 <RowDefinition Height="*" /> <!--row 1: for status display, half press indicator-->
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="0">
+                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
                                 <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
                                 Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                                     <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />

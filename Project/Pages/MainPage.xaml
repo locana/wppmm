@@ -183,7 +183,7 @@
                                 <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
 
                             </Grid>
-                            <Rectangle Grid.Row="1" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
+                            <Rectangle Grid.Row="0" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">
                                 <Rectangle.OpacityMask>
                                     <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />

@@ -56,8 +56,6 @@
         <Storyboard x:Name="HideSettingAnimation">
             <DoubleAnimation Duration="0:0:0.1" From="0.9" To="0.0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
         </Storyboard>
-
-
     </phone:PhoneApplicationPage.Resources>
 
     <phone:PhoneApplicationPage.FontFamily>
@@ -170,7 +168,7 @@
 
                                 </Button>
                             </Grid>
-                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
+                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6" xmlns:src="clr-namespace:Kazyx.WPMMM.Controls">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="37" />
                                     <ColumnDefinition Width="*" />
@@ -188,32 +186,7 @@
                                 <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
                                 <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
-                                <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4" >
-                                    <TextBlock.Foreground>
-                                        <SolidColorBrush x:Name="Foreground" Color="{StaticResource PhoneForegroundColor}" />
-                                    </TextBlock.Foreground>
-                                    <TextBlock.Triggers>
-                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                            <BeginStoryboard>
-                                                <Storyboard x:Name="BluringAnimation">
-                                                    <ColorAnimation
-                Storyboard.TargetName="Foreground"
-                Storyboard.TargetProperty="Color"
-                From="{StaticResource PhoneForegroundColor}"
-                To="{StaticResource PhoneAccentColor}"
-                Duration="0:0:5"
-                AutoReverse="True"
-                RepeatBehavior="Forever" >
-                                                        <ColorAnimation.EasingFunction>
-                                                            <PowerEase EasingMode="EaseIn" />
-                                                        </ColorAnimation.EasingFunction>
-                                                    </ColorAnimation>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </TextBlock.Triggers>
-                                </TextBlock>
-
+                                <src:DimLightTextBlock Name="ISO" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Title="{Binding ISODisplayValue, Mode=OneWay, }" />
                             </Grid>
                             <Rectangle Grid.Row="1" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">

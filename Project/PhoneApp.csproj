@@ -102,6 +102,9 @@
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DimLightTextBlock.xaml.cs">
+      <DependentUpon>DimLightTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SettingDial.xaml.cs">
       <DependentUpon>SettingDial.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Controls\CheckBoxSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DimLightTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

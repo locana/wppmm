@@ -708,6 +708,7 @@ namespace Kazyx.WPPMM.Pages
             ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
             AudioScreenImage.DataContext = cameraManager.cameraStatus;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
+            TouchAFPointer.DataContext = svd;
 
             cpm.ReplacePanel(ControlPanel);
         }
@@ -718,6 +719,7 @@ namespace Kazyx.WPPMM.Pages
             IntervalStatusPanel.DataContext = null;
             ScreenImageWrapper.DataContext = null;
             AudioScreenImage.DataContext = null;
+            TouchAFPointer.DataContext = null;
             svd = null;
         }
 

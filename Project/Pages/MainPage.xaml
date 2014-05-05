@@ -171,7 +171,6 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="160" /> <!--margin-->
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -192,7 +191,7 @@
                             </Rectangle>
                         </Grid>
 
-                        <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85" Visibility="Collapsed">
+                        <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85">
                             <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" 
                                  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="0" 
                                 Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
@@ -205,10 +204,6 @@
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
                                        Opacity="0.5" Margin="-15,0"/>
                             <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
-                        </Grid>
-                        <Grid xmlns:src="clr-namespace:Kazyx.WPMMM.Controls">
-                            <src:SettingDial Name="Dial" Visibility="{Binding DialVisibility}" Width="300" Height="300" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-160,-80" />
-                            <Rectangle Name="DialMask" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Height="150" Margin="0,0,0,-40" Fill="{StaticResource PhoneBackgroundBrush}" />
                         </Grid>
                     </Grid>
                     <Grid Name="StatusDisplayelements" HorizontalAlignment="Left" VerticalAlignment="Top" >

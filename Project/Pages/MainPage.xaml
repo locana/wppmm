@@ -181,14 +181,7 @@
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
                                 <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
                                 <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
-
                             </Grid>
-                            <Rectangle Grid.Row="0" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
-                                Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
                         </Grid>
 
                         <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85">
@@ -224,6 +217,12 @@
                             <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
                         </StackPanel>
                     </Grid>
+                    <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
+                                Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
+                        <Rectangle.OpacityMask>
+                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
 
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
                         <ScrollViewer.Background>

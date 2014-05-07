@@ -180,7 +180,16 @@ namespace Kazyx.WPPMM.CameraManager
             if (apiClient == null)
                 return;
 
-            var info = await apiClient.GetApplicationInfoAsync();
+            ServerAppInfo info = null;
+            try
+            {
+                info = await apiClient.GetApplicationInfoAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                Debug.WriteLine("CameraManager: failed to get application info. - " + e.code);
+                return;
+            }
             Debug.WriteLine("Server Info: " + info.name + " ver " + info.version);
             try
             {
@@ -228,6 +237,10 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void OpenLiveviewConnection(TimeSpan? connectionTimeout = null)
         {
+            if (apiClient == null)
+            {
+                return;
+            }
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
             try
             {

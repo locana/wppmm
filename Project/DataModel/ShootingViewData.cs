@@ -679,14 +679,6 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.IsAvailable("setShutterSpeed") || cameraStatus.IsAvailable("setFNumber"))
-                {
-                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
-                }
-                else if (cameraStatus.IsAvailable("setExposureCompensation"))
-                {
-                    return (Brush)Application.Current.Resources["PhoneAccentBrush"];
-                }
                 return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
             }
         }

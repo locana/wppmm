@@ -138,7 +138,7 @@
                                 <RowDefinition Height="*" /> <!--row 0: for zoom elements, shoot button-->
                                 <RowDefinition Height="*" /> <!--row 1: for status display, half press indicator-->
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="0">
+                            <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
                                 <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
                                 Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                                     <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
@@ -167,11 +167,10 @@
                             <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="{StaticResource PhoneBackgroundBrush}" Opacity="0.6">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="37" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="160" /> <!--margin-->
+                                    <ColumnDefinition Width="0.7*" />
+                                    <ColumnDefinition Width="0.7*" />
+                                    <ColumnDefinition Width="0.7*" />
+                                    <ColumnDefinition Width="1.0*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -182,17 +181,10 @@
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
                                 <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
                                 <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
-
                             </Grid>
-                            <Rectangle Grid.Row="1" Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
-                                Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" Grid.Column="0">
-                                <Rectangle.OpacityMask>
-                                    <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
                         </Grid>
 
-                        <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85" Visibility="Collapsed">
+                        <Grid Name="Sliders" Width="50" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10, 85">
                             <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" 
                                  Visibility="{Binding FNumberSliderVisibility}" ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="0" 
                                 Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
@@ -205,10 +197,6 @@
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"
                                        Opacity="0.5" Margin="-15,0"/>
                             <ProgressBar IsIndeterminate="True" Background="{StaticResource PhoneAccentBrush}"/>
-                        </Grid>
-                        <Grid xmlns:src="clr-namespace:Kazyx.WPMMM.Controls">
-                            <src:SettingDial Name="Dial" Visibility="{Binding DialVisibility}" Width="300" Height="300" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-160,-80" />
-                            <Rectangle Name="DialMask" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="150" Height="150" Margin="0,0,0,-40" Fill="{StaticResource PhoneBackgroundBrush}" />
                         </Grid>
                     </Grid>
                     <Grid Name="StatusDisplayelements" HorizontalAlignment="Left" VerticalAlignment="Top" >
@@ -229,6 +217,12 @@
                             <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
                         </StackPanel>
                     </Grid>
+                    <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
+                                Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" >
+                        <Rectangle.OpacityMask>
+                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/focused.png" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
 
                     <ScrollViewer Margin="0,-28,-15,0" HorizontalAlignment="Right" HorizontalContentAlignment="Left" >
                         <ScrollViewer.Background>

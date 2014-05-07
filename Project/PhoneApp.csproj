@@ -221,6 +221,7 @@
     <Content Include="Assets\Screen\mode_audio.png" />
     <Content Include="Assets\Screen\mode_movie.png" />
     <Content Include="Assets\Screen\mode_photo.png" />
+    <Content Include="Assets\Screen\OpenSlider.png" />
     <Content Include="Assets\Screen\rec.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -18,6 +18,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using Windows.Networking.Proximity;
 
@@ -747,7 +749,7 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
-                    Sliders.Margin = new Thickness(60, 0, 0, 30);
+                    // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
                     ZoomElements.Margin = new Thickness(100, 0, 0, 0);
                     break;
@@ -757,7 +759,7 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
-                    Sliders.Margin = new Thickness(60, 0, 0, 30);
+                    // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
                     ZoomElements.Margin = new Thickness(110, 0, 0, 0);
                     break;
@@ -767,7 +769,7 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
-                    Sliders.Margin = new Thickness(10, 0, 0, 85);
+                    // Sliders.Margin = new Thickness(10, 0, 0, 85);
                     BottomElements.Margin = new Thickness(0, 0, 0, 60);
                     ZoomElements.Margin = new Thickness(70, 0, 0, 0);
                     break;
@@ -963,6 +965,43 @@ namespace Kazyx.WPPMM.Pages
             {
                 cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.candidates[value]);
             }
+        }
+
+        private void OpenSlider_Click(object sender, RoutedEventArgs e)
+        {
+            if (Sliders.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                Sliders.Visibility = System.Windows.Visibility.Visible;
+                StartOpenSliderAnimation(0, 180);
+            }
+            else
+            {
+                Sliders.Visibility = System.Windows.Visibility.Collapsed;
+                StartOpenSliderAnimation(180, 0);
+            }
+        }
+
+        public void StartOpenSliderAnimation(double from, double to)
+        {
+            var duration = new Duration(TimeSpan.FromMilliseconds(200));
+            var sb = new Storyboard();
+            sb.Duration = duration;
+
+            var da = new DoubleAnimation();
+            da.Duration = duration;
+
+            sb.Children.Add(da);
+
+            var rt = new RotateTransform();
+
+            Storyboard.SetTarget(da, rt);
+            Storyboard.SetTargetProperty(da, new PropertyPath("Angle"));
+            da.From = from;
+            da.To = to;
+
+            OpenSlider.RenderTransform = rt;
+            OpenSlider.RenderTransformOrigin = new Point(0.5, 0.5);
+            sb.Begin();
         }
     }
 }

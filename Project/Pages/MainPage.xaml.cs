@@ -749,9 +749,10 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
-                    // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
-                    ZoomElements.Margin = new Thickness(100, 0, 0, 0);
+                    ZoomElements.Margin = new Thickness(50, 0, 0, 0);
+                    ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
+                    OpenSlider.Margin = new Thickness(50, 0, 0, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -759,9 +760,10 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
-                    // Sliders.Margin = new Thickness(60, 0, 0, 30);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
-                    ZoomElements.Margin = new Thickness(110, 0, 0, 0);
+                    ZoomElements.Margin = new Thickness(70, 0, 0, 0);
+                    ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
+                    OpenSlider.Margin = new Thickness(70, 0, 0, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
@@ -769,9 +771,10 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
-                    // Sliders.Margin = new Thickness(10, 0, 0, 85);
-                    BottomElements.Margin = new Thickness(0, 0, 0, 60);
-                    ZoomElements.Margin = new Thickness(70, 0, 0, 0);
+                    BottomElements.Margin = new Thickness(0, 0, 0, 65);
+                    ZoomElements.Margin = new Thickness(20, 0, 0, 0);
+                    ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);
+                    OpenSlider.Margin = new Thickness(5, 0, 0, 0);
                     break;
             }
 

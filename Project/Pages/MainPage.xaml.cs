@@ -690,11 +690,17 @@ namespace Kazyx.WPPMM.Pages
                     {
                         ApplicationBar.IsVisible = true;
                     }
+                    return;
                 }
-                else
+
+                if (Sliders.Visibility == System.Windows.Visibility.Visible)
                 {
-                    GoToMainPage();
+                    CloseSliderPanel();
+                    return;
                 }
+                
+                GoToMainPage();
+                
             }
             else
             {
@@ -1005,14 +1011,24 @@ namespace Kazyx.WPPMM.Pages
         {
             if (Sliders.Visibility == System.Windows.Visibility.Collapsed)
             {
-                Sliders.Visibility = System.Windows.Visibility.Visible;
-                StartOpenSliderAnimation(0, 180);
+                OpenSliderPanel();
             }
             else
             {
-                Sliders.Visibility = System.Windows.Visibility.Collapsed;
-                StartOpenSliderAnimation(180, 0);
+                CloseSliderPanel();
             }
+        }
+
+        private void OpenSliderPanel()
+        {
+            Sliders.Visibility = System.Windows.Visibility.Visible;
+            StartOpenSliderAnimation(0, 180);
+        }
+
+        private void CloseSliderPanel()
+        {
+            Sliders.Visibility = System.Windows.Visibility.Collapsed;
+            StartOpenSliderAnimation(180, 0);
         }
 
         public void StartOpenSliderAnimation(double from, double to)

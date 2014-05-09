@@ -184,7 +184,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" Click="OpenSlider_Click" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Image Source="/Assets/Screen/OpenSlider.png" Margin="-15,-15,-15,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    <Image Source="/Assets/Screen/OpenSlider.png" Margin="-15,-20,-15,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                 </Button>
                                 <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>

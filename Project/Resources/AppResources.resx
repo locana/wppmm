@@ -348,4 +348,13 @@ Please check internet connection status</value>
   <data name="ExposureCompensation" xml:space="preserve">
     <value>Exposure Compensation</value>
   </data>
+  <data name="Aperture" xml:space="preserve">
+    <value>Aperture</value>
+  </data>
+  <data name="ISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="ShutterSpeed" xml:space="preserve">
+    <value>SS</value>
+  </data>
 </root>

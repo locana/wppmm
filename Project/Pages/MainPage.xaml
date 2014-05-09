@@ -135,9 +135,12 @@
                         </Rectangle>
                         <Grid Name="BottomElements" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" /> <!--row 0: for zoom elements, shoot button-->
-                                <RowDefinition Height="*" /> <!--row 1: for status display, half press indicator-->
-                                <RowDefinition Height="*" /> <!--row 2: for sliders. -->
+                                <RowDefinition Height="*" />
+                                <!--row 0: for zoom elements, shoot button-->
+                                <RowDefinition Height="*" />
+                                <!--row 1: for status display, half press indicator-->
+                                <RowDefinition Height="*" />
+                                <!--row 2: for sliders. -->
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
                                 <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
@@ -190,23 +193,25 @@
                             </Grid>
                             <Grid Name="Sliders" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="80" /> <!--Setting name-->
+                                    <ColumnDefinition Width="*" /> <!--Slider-->
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" /><!--SS-->
+                                    <RowDefinition Height="*" /><!--F-->
+                                    <RowDefinition Height="*" /><!--EV-->
+                                    <RowDefinition Height="*" /><!--ISO-->
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="Fnumber" Grid.Row="0" Grid.Column="0" />
                                 <TextBlock Text="SS" Grid.Row="1" Grid.Column="0" />
-                                <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" 
+                                <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" IsEnabled="{Binding IsFNumberSliderEnabled}"
                                  ManipulationCompleted="FNumberSlider_ManipulationCompleted" Margin="0"  Grid.Row="0" Grid.Column="1" Height="80"
                                 Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                 <Slider Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch" Background="{StaticResource PhoneAccentBrush}" 
-                                        Height="80" VerticalAlignment="Center" Visibility="{Binding ShutterSpeedSliderVisibility}"
+                                        Height="80" VerticalAlignment="Center" Visibility="{Binding ShutterSpeedSliderVisibility}" IsEnabled="{Binding IsShutterSpeedSliderEnabled}"
                                         ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted"  Margin="0" Grid.Row="1" Grid.Column="1"
                                 Minimum="0" Maximum="{Binding MaxShutterSpeedIndex}" Orientation="Horizontal"/>
+                                
                             </Grid>
                         </Grid>
 

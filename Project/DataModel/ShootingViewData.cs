@@ -61,6 +61,8 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ShutterSpeedBrush");
                         OnPropertyChanged("EvBrush");
                         OnPropertyChanged("DialVisibility");
+                        OnPropertyChanged("IsFNumberSliderEnabled");
+                        OnPropertyChanged("IsShutterSpeedSliderEnabled");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -555,7 +557,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || !cameraStatus.IsAvailable("setFNumber"))
+                if (cameraStatus == null || !cameraStatus.IsSupported("setFNumber"))
                 {
                     return Visibility.Collapsed;
                 }
@@ -566,11 +568,21 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+
+        public bool IsFNumberSliderEnabled
+        {
+            get
+            {
+                if (cameraStatus == null ||  !cameraStatus.IsAvailable("setFNumber")) { return false; }
+                else { return true; }
+            }
+        }
+
         public Visibility ShutterSpeedSliderVisibility
         {
             get
             {
-                if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed"))
+                if (cameraStatus == null || !cameraStatus.IsSupported("setShutterSpeed"))
                 {
                     return Visibility.Collapsed;
                 }
@@ -578,6 +590,15 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return Visibility.Visible;
                 }
+            }
+        }
+
+        public bool IsShutterSpeedSliderEnabled
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed")) { return false; }
+                else { return true; }
             }
         }
 

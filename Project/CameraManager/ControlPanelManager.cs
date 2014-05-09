@@ -100,11 +100,6 @@ namespace Kazyx.WPPMM.CameraManager
                 panel.Children.Add(Panels["ExposureMode"]);
             }
 
-            if (status.IsSupported("setExposureCompensation"))
-            {
-                panel.Children.Add(Panels["ExposureCompensation"]);
-            }
-
             if (status.IsSupported("setSelfTimer"))
             {
                 panel.Children.Add(Panels["SelfTimer"]);

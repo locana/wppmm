@@ -189,36 +189,59 @@
                                 <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
                                 <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
-                                <TextBlock Name="ISO" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+                                <TextBlock Name="ISO" Foreground="{Binding IsoBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
                             </Grid>
                             <Grid Name="Sliders" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" Visibility="Collapsed">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="80" /> <!--Setting name-->
-                                    <ColumnDefinition Width="*" /> <!--Slider-->
-                                </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" /><!--SS-->
-                                    <RowDefinition Height="*" /><!--F-->
-                                    <RowDefinition Height="*" /><!--EV-->
-                                    <RowDefinition Height="*" /><!--ISO-->
+                                    <RowDefinition Height="*" />
+                                    <!--SS-->
+                                    <RowDefinition Height="*" />
+                                    <!--F-->
+                                    <RowDefinition Height="*" />
+                                    <!--EV-->
+                                    <RowDefinition Height="*" />
+                                    <!--ISO-->
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Fnumber" Grid.Row="1" Grid.Column="0" />
-                                <TextBlock Text="SS" Grid.Row="0" Grid.Column="0" />
-                                <TextBlock Text="EV" Grid.Row="2" />
-                                <TextBlock Text="ISO" Grid.Row="3" />
-                                <Slider Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch" Background="{StaticResource PhoneAccentBrush}" 
-                                        Height="80" VerticalAlignment="Center" Visibility="{Binding ShutterSpeedSliderVisibility}" IsEnabled="{Binding IsShutterSpeedSliderEnabled}" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted"
-                                        Margin="0" Grid.Row="0" Grid.Column="1" Minimum="0" Maximum="{Binding MaxShutterSpeedIndex}" Orientation="Horizontal"/>
-                                <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneAccentBrush}" IsEnabled="{Binding IsFNumberSliderEnabled}"
-                                 Margin="0"  Grid.Row="1" Grid.Column="1" Height="80"  ManipulationCompleted="FNumberSlider_ManipulationCompleted"
-                                Minimum="0" Maximum="{Binding MaxFNumberIndex}" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                <Slider Name="EvSlider" Value="{Binding CurrentEvIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Row="2" Grid.Column="1" IsEnabled="{Binding IsEvSliderEnabled}"
+                                <Grid Grid.Row="0" Visibility="{Binding ShutterSpeedSliderVisibility}" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="SS" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                                    <Slider Grid.Column="1" Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch"  
+                                            Background="{StaticResource PhoneBackgroundBrush}" 
+                                        Height="80" VerticalAlignment="Center" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
+                                </Grid>
+                                <Grid Grid.Row="1" Visibility="{Binding FNumberSliderVisibility}" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Fnum." Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+                                    <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneBackgroundBrush}" Height="80"
+                                            ManipulationCompleted="FNumberSlider_ManipulationCompleted" Grid.Column="1" Maximum="{Binding MaxFNumberIndex}"
+                                            VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                </Grid>
+                                <Grid Grid.Row="2" Visibility="{Binding EvSliderVisibility}" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="EV" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+                                    <Slider Name="EvSlider" Value="{Binding CurrentEvIndex}" HorizontalAlignment="Stretch" Height="80" IsEnabled="{Binding IsEvSliderEnabled}" Grid.Column="1"
                                         Maximum="{Binding MaxEvIndex}" Minimum="{Binding MinEvIndex}" Visibility="{Binding EvSliderVisibility}" ManipulationCompleted="EvSlider_ManipulationCompleted"
-                                         Background="{StaticResource PhoneAccentBrush}"/>
-                                <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Row="3" Grid.Column="1" IsEnabled="{Binding IsIsoSliderEnabled}"
+                                         Background="{StaticResource PhoneBackgroundBrush}" VerticalAlignment="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="3" Visibility="{Binding IsoSliderVisibility}" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="ISO" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+                                    <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" IsEnabled="{Binding IsIsoSliderEnabled}" Grid.Column="1"
                                         Maximum="{Binding MaxIsoIndex}" Visibility="{Binding IsoSliderVisibility}" ManipulationCompleted="IsoSlider_ManipulationCompleted"
-                                         Background="{StaticResource PhoneAccentBrush}"/>
-                                
+                                         Background="{StaticResource PhoneBackgroundBrush}" VerticalAlignment="Center"/>
+                                </Grid>
                             </Grid>
                         </Grid>
 

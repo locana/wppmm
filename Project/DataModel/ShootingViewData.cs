@@ -60,6 +60,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("FNumberBrush");
                         OnPropertyChanged("ShutterSpeedBrush");
                         OnPropertyChanged("EvBrush");
+                        OnPropertyChanged("IsoBrush");
                         OnPropertyChanged("DialVisibility");
                         OnPropertyChanged("IsFNumberSliderEnabled");
                         OnPropertyChanged("IsShutterSpeedSliderEnabled");
@@ -572,7 +573,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || !cameraStatus.IsSupported("setFNumber"))
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setFNumber"))
                 {
                     return Visibility.Collapsed;
                 }
@@ -597,7 +598,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || !cameraStatus.IsSupported("setShutterSpeed"))
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed"))
                 {
                     return Visibility.Collapsed;
                 }
@@ -621,7 +622,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || !cameraStatus.IsSupported("setExposureCompensation")) { return Visibility.Collapsed; }
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setExposureCompensation")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -639,7 +640,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || !cameraStatus.IsSupported("setIsoSpeedRate")) { return Visibility.Collapsed; }
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -675,6 +676,36 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed"))
+                {
+                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+                else
+                {
+                    return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                }
+            }
+        }
+
+        public Brush EvBrush
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setExposureCompensation"))
+                {
+                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                }
+                else
+                {
+                    return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                }
+            }
+        }
+
+        public Brush IsoBrush
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setIsoSpeedRate"))
                 {
                     return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
                 }
@@ -815,12 +846,6 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-        public Brush EvBrush
-        {
-            get
-            {
-                return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
-            }
-        }
+
     }
 }

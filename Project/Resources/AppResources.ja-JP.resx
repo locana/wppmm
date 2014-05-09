@@ -347,6 +347,15 @@
     <value>プレミアムオート</value>
   </data>
   <data name="ExposureCompensation" xml:space="preserve">
-    <value>露出補正</value>
+    <value>EV</value>
+  </data>
+  <data name="Aperture" xml:space="preserve">
+    <value>絞り</value>
+  </data>
+  <data name="ISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="ShutterSpeed" xml:space="preserve">
+    <value>SS</value>
   </data>
 </root>

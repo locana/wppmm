@@ -202,10 +202,10 @@
                                     <RowDefinition Height="*" /><!--EV-->
                                     <RowDefinition Height="*" /><!--ISO-->
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Fnumber" Grid.Row="1" Grid.Column="0" />
-                                <TextBlock Text="SS" Grid.Row="0" Grid.Column="0" />
-                                <TextBlock Text="EV" Grid.Row="2" />
-                                <TextBlock Text="ISO" Grid.Row="3" />
+                                <TextBlock Text="{Binding LocalizedResources.Aperture, Source={StaticResource LocalizedStrings}}" Grid.Row="1" Grid.Column="0" />
+                                <TextBlock Text="{Binding LocalizedResources.ShutterSpeed, Source={StaticResource LocalizedStrings}}" Grid.Row="0" Grid.Column="0" />
+                                <TextBlock Text="{Binding LocalizedResources.ExposureCompensation, Source={StaticResource LocalizedStrings}}" Grid.Row="2" />
+                                <TextBlock Text="{Binding LocalizedResources.ISO, Source={StaticResource LocalizedStrings}}" Grid.Row="3" />
                                 <Slider Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch" Background="{StaticResource PhoneAccentBrush}" 
                                         Height="80" VerticalAlignment="Center" Visibility="{Binding ShutterSpeedSliderVisibility}" IsEnabled="{Binding IsShutterSpeedSliderEnabled}" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted"
                                         Margin="0" Grid.Row="0" Grid.Column="1" Minimum="0" Maximum="{Binding MaxShutterSpeedIndex}" Orientation="Horizontal"/>

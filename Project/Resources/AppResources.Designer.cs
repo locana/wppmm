@@ -70,6 +70,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aperture.
+        /// </summary>
+        public static string Aperture {
+            get {
+                return ResourceManager.GetString("Aperture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string AppBar_AppSetting {
@@ -485,6 +494,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ISO.
+        /// </summary>
+        public static string ISO {
+            get {
+                return ResourceManager.GetString("ISO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please acknowledge that NO secret function is unlocked by purchasing these in-app items..
         /// </summary>
         public static string Message_Caution {
@@ -688,6 +706,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string ShootModeStill {
             get {
                 return ResourceManager.GetString("ShootModeStill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SS.
+        /// </summary>
+        public static string ShutterSpeed {
+            get {
+                return ResourceManager.GetString("ShutterSpeed", resourceCulture);
             }
         }
         

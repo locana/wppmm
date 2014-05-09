@@ -890,6 +890,19 @@ namespace Kazyx.WPPMM.CameraManager
             catch (RemoteApiException e) { }
         }
 
+        public async void SetIsoSpeedRate(string value)
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+            try
+            {
+                await apiClient.SetISOSpeedAsync(value);
+            }
+            catch (RemoteApiException e) { }
+        }
+
         public void ShiftEv(int relativeIndex)
         {
             var target = cameraStatus.EvInfo.CurrentIndex + relativeIndex;

@@ -63,6 +63,10 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("DialVisibility");
                         OnPropertyChanged("IsFNumberSliderEnabled");
                         OnPropertyChanged("IsShutterSpeedSliderEnabled");
+                        OnPropertyChanged("IsoSliderVisibility");
+                        OnPropertyChanged("IsIsoSliderEnabled");
+                        OnPropertyChanged("EvSliderVisibility");
+                        OnPropertyChanged("IsEvSliderEnabled");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -99,6 +103,11 @@ namespace Kazyx.WPPMM.DataModel
                     case "ISOSpeedRate":
                         OnPropertyChanged("ISOVisibility");
                         OnPropertyChanged("ISODisplayValue");
+                        if (cameraStatus.IsAvailable("setIsoSpeedRate"))
+                        {
+                            OnPropertyChanged("MaxIsoIndex");
+                            OnPropertyChanged("CurrentIsoIndex");
+                        }
                         break;
                     case "FNumber":      
                         OnPropertyChanged("FnumberVisibility");
@@ -112,6 +121,12 @@ namespace Kazyx.WPPMM.DataModel
                     case "EvInfo":
                         OnPropertyChanged("EvVisibility");
                         OnPropertyChanged("EvDisplayValue");
+                        if (cameraStatus.IsAvailable("setExposureCompensation"))
+                        {
+                            OnPropertyChanged("MinEvIndex");
+                            OnPropertyChanged("MaxEvIndex");
+                            OnPropertyChanged("CurrentEvIndex");
+                        }
                         break;
                     case "FocusStatus":
                         OnPropertyChanged("TouchAFPointerStrokeBrush");
@@ -602,6 +617,44 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public Visibility EvSliderVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsSupported("setExposureCompensation")) { return Visibility.Collapsed; }
+                else { return Visibility.Visible; }
+            }
+        }
+
+        public bool IsEvSliderEnabled
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setExposureCompensation")) { return false; }
+                else { return true; }
+            }
+        }
+
+        public Visibility IsoSliderVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsSupported("setIsoSpeedRate")) { return Visibility.Collapsed; }
+                else { return Visibility.Visible; }
+            }
+        }
+
+        public bool IsIsoSliderEnabled
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return false; }
+                else { return true; }
+            }
+        }
+
+        
+
         public Brush FNumberBrush
         {
             get
@@ -696,6 +749,72 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public int MaxEvIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsSupported("setExposureCompensation")) { return 0; }
+                return cameraStatus.EvInfo.Candidate.MaxIndex;
+            }
+        }
+
+        public int MinEvIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsSupported("setExposureCompensation")) { return 0; }
+                return cameraStatus.EvInfo.Candidate.MinIndex;
+            }
+        }
+
+        public int CurrentEvIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsSupported("setExposureCompensation")) { return 0; }
+                return cameraStatus.EvInfo.CurrentIndex;
+            }
+            set
+            {
+                if (cameraStatus.EvInfo != null)
+                {
+                    if (value <= cameraStatus.EvInfo.Candidate.MaxIndex && value >= cameraStatus.EvInfo.Candidate.MinIndex)
+                    {
+                        cameraStatus.EvInfo.CurrentIndex = value;
+                    }
+                    else
+                    {
+                        cameraStatus.EvInfo.CurrentIndex = 0;
+                    }
+                }
+            }
+        }
+
+        public int MaxIsoIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return 0; }
+                return cameraStatus.ISOSpeedRate.candidates.Length - 1;
+            }
+        }
+
+        public int CurrentIsoIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return 0; }
+                for (int i = 0; i < cameraStatus.ISOSpeedRate.candidates.Length; i++)
+                {
+                    if (cameraStatus.ISOSpeedRate.current == cameraStatus.ISOSpeedRate.candidates[i])
+                    {
+                        return i;
+                    }
+                }
+                return 0;
+            }
+        }
+
         public Brush EvBrush
         {
             get
@@ -703,24 +822,5 @@ namespace Kazyx.WPPMM.DataModel
                 return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
             }
         }
-
-        public Visibility DialVisibility
-        {
-            get {
-                if (cameraStatus == null)
-                {
-                    return Visibility.Collapsed;
-                }
-                if (cameraStatus.IsAvailable("setShutterSpeed") || cameraStatus.IsAvailable("setFNumber") || cameraStatus.IsAvailable("setExposureCompensation"))
-                {
-                    return Visibility.Visible;
-                }
-                else
-                {
-                    return Visibility.Collapsed;
-                }
-            }
-        }
-
     }
 }

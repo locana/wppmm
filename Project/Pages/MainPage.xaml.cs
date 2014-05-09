@@ -967,6 +967,37 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
+        private void EvSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.EvInfo == null)
+            {
+                return;
+            }
+
+            var value = (int)(sender as Slider).Value;
+
+            if (value >= cameraManager.cameraStatus.EvInfo.Candidate.MinIndex && value <= cameraManager.cameraStatus.EvInfo.Candidate.MaxIndex)
+            {
+                cameraManager.SetExposureCompensation(value);
+            }
+
+        }
+
+        private void IsoSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.ISOSpeedRate == null)
+            {
+                return;
+            }
+
+            var value = (int)(sender as Slider).Value;
+
+            if (value < cameraManager.cameraStatus.ISOSpeedRate.candidates.Length)
+            {
+                cameraManager.SetIsoSpeedRate(cameraManager.cameraStatus.ISOSpeedRate.candidates[value]);
+            }
+        }
+
         private void OpenSlider_Click(object sender, RoutedEventArgs e)
         {
             if (Sliders.Visibility == System.Windows.Visibility.Collapsed)
@@ -1003,5 +1034,7 @@ namespace Kazyx.WPPMM.Pages
             OpenSlider.RenderTransformOrigin = new Point(0.5, 0.5);
             sb.Begin();
         }
+
+
     }
 }

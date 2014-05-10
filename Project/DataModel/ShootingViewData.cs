@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Kazyx.WPPMM.Utils;
 
 namespace Kazyx.WPPMM.DataModel
 {
@@ -94,6 +95,8 @@ namespace Kazyx.WPPMM.DataModel
                     case "ShutterSpeed":
                             OnPropertyChanged("ShutterSpeedVisibility");
                             OnPropertyChanged("ShutterSpeedDisplayValue");
+                            OnPropertyChanged("MaxShutterSpeedLabel");
+                            OnPropertyChanged("MinShutterSpeedLabel");
                         if (cameraStatus.IsAvailable("setShutterSpeed"))
                         {
                             OnPropertyChanged("MaxShutterSpeedIndex");
@@ -104,6 +107,8 @@ namespace Kazyx.WPPMM.DataModel
                     case "ISOSpeedRate":
                         OnPropertyChanged("ISOVisibility");
                         OnPropertyChanged("ISODisplayValue");
+                        OnPropertyChanged("MinIsoLabel");
+                        OnPropertyChanged("MaxIsoLabel");
                         if (cameraStatus.IsAvailable("setIsoSpeedRate"))
                         {
                             OnPropertyChanged("MaxIsoIndex");
@@ -113,6 +118,8 @@ namespace Kazyx.WPPMM.DataModel
                     case "FNumber":      
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
+                        OnPropertyChanged("MaxFNumberLabel");
+                        OnPropertyChanged("MinFNumberLabel");
                         if (cameraStatus.IsAvailable("setFNumber"))
                         {
                             OnPropertyChanged("MaxFNumberIndex");
@@ -122,6 +129,8 @@ namespace Kazyx.WPPMM.DataModel
                     case "EvInfo":
                         OnPropertyChanged("EvVisibility");
                         OnPropertyChanged("EvDisplayValue");
+                        OnPropertyChanged("MinEvLabel");
+                        OnPropertyChanged("MaxEvLabel");
                         if (cameraStatus.IsAvailable("setExposureCompensation"))
                         {
                             OnPropertyChanged("MinEvIndex");
@@ -748,6 +757,24 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public string MaxFNumberLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.candidates.Length == 0) { return ""; }
+                else { return cameraStatus.FNumber.candidates[cameraStatus.FNumber.candidates.Length - 1]; }
+            }
+        }
+
+        public string MinFNumberLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.candidates.Length == 0) { return ""; }
+                else { return cameraStatus.FNumber.candidates[0]; }
+            }
+        }
+
         public int MaxShutterSpeedIndex
         {
             get
@@ -780,6 +807,24 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public string MaxShutterSpeedLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.candidates.Length == 0) { return ""; }
+                else { return cameraStatus.ShutterSpeed.candidates[cameraStatus.ShutterSpeed.candidates.Length - 1]; }
+            }
+        }
+
+        public string MinShutterSpeedLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.candidates.Length == 0) { return ""; }
+                else { return cameraStatus.ShutterSpeed.candidates[0]; }
+            }
+        }
+
         public int MaxEvIndex
         {
             get
@@ -795,6 +840,26 @@ namespace Kazyx.WPPMM.DataModel
             {
                 if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsSupported("setExposureCompensation")) { return 0; }
                 return cameraStatus.EvInfo.Candidate.MinIndex;
+            }
+        }
+
+        public string MaxEvLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsSupported("setExposureCompensation")) { return ""; }
+                var value = EvConverter.GetEv(cameraStatus.EvInfo.Candidate.MaxIndex, cameraStatus.EvInfo.Candidate.IndexStep);
+                return Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
+            }
+        }
+
+        public string MinEvLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsSupported("setExposureCompensation")) { return ""; }
+                var value = EvConverter.GetEv(cameraStatus.EvInfo.Candidate.MinIndex, cameraStatus.EvInfo.Candidate.IndexStep);
+                return Math.Round(value, 1, MidpointRounding.AwayFromZero).ToString("0.0");
             }
         }
 
@@ -846,6 +911,22 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public string MaxIsoLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.candidates.Length == 0) { return ""; }
+                else return cameraStatus.ISOSpeedRate.candidates[cameraStatus.ISOSpeedRate.candidates.Length - 1];
+            }
+        }
 
+        public string MinIsoLabel
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.candidates.Length == 0) { return ""; }
+                else return cameraStatus.ISOSpeedRate.candidates[0];
+            }
+        }
     }
 }

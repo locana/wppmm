@@ -230,6 +230,10 @@
     <Content Include="Assets\Screen\mode_photo.png" />
     <Content Include="Assets\Screen\OpenSlider.png" />
     <Content Include="Assets\Screen\rec.png" />
+    <Content Include="Assets\Slider\aperture.png" />
+    <Content Include="Assets\Slider\EVComp.png" />
+    <Content Include="Assets\Slider\ISO.png" />
+    <Content Include="Assets\Slider\ShutterSpeed.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

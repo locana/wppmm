@@ -777,7 +777,7 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
-                    BottomElements.Margin = new Thickness(0, 0, 0, 65);
+                    BottomElements.Margin = new Thickness(0, 0, 0, 70);
                     ZoomElements.Margin = new Thickness(20, 0, 0, 0);
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);
                     OpenSlider.Margin = new Thickness(5, 0, 0, 0);
@@ -954,6 +954,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            FNumberSlider.Value = value;
 
             if (value < cameraManager.cameraStatus.FNumber.candidates.Length)
             {
@@ -969,6 +970,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            ShutterSpeedSlider.Value = value;
 
             if (value < cameraManager.cameraStatus.ShutterSpeed.candidates.Length)
             {
@@ -984,6 +986,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            EvSlider.Value = value;
 
             if (value >= cameraManager.cameraStatus.EvInfo.Candidate.MinIndex && value <= cameraManager.cameraStatus.EvInfo.Candidate.MaxIndex)
             {
@@ -1000,6 +1003,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            IsoSlider.Value = value;
 
             if (value < cameraManager.cameraStatus.ISOSpeedRate.candidates.Length)
             {

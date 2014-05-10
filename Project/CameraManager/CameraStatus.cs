@@ -101,6 +101,7 @@ namespace Kazyx.WPPMM.CameraManager
         static readonly IEnumerable<string> RestrictedApiSet =
             new string[]{
                 "actHalfPressShutter",
+                "setExposureCompensation",
                 "setTouchAFPosition",
                 "setExposureMode",
                 "setFNumber",

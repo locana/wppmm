@@ -95,7 +95,7 @@ namespace Kazyx.WPPMM.CameraManager
                 panel.Children.Add(Panels["ShootMode"]);
             }
 
-            if (status.IsSupported("setExposureMode"))
+            if (status.Version.IsLiberated && status.IsSupported("setExposureMode"))
             {
                 panel.Children.Add(Panels["ExposureMode"]);
             }

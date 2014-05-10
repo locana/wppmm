@@ -202,6 +202,13 @@ namespace Kazyx.WPPMM.CameraManager
                 cameraStatus.Version = ServerVersion.CreateDefault();
             }
 
+
+            if (cameraStatus.Version.IsLiberated && MethodTypesUpdateNotifer != null)
+            {
+                Debug.WriteLine("Update control panel for libarated camera device");
+                MethodTypesUpdateNotifer.Invoke();
+            }
+
             if (cameraStatus.IsSupported("startRecMode"))
             {
                 try

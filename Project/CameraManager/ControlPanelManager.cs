@@ -45,6 +45,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("ExposureCompensation", CreateExposureCompensationSliderPanel());
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
+            manager.VersionDetected += (version) => { if (version.IsLiberated) { DetectLiberated(); } };
         }
 
         public void ReplacePanel(StackPanel panel)
@@ -77,6 +78,11 @@ namespace Kazyx.WPPMM.CameraManager
 
         }
 
+        private void DetectLiberated()
+        {
+            Panels["ExposureMode"].Visibility = Visibility.Visible;
+        }
+
         private void Initialize()
         {
             panel.Children.Clear();
@@ -95,9 +101,13 @@ namespace Kazyx.WPPMM.CameraManager
                 panel.Children.Add(Panels["ShootMode"]);
             }
 
-            if (status.Version.IsLiberated && status.IsSupported("setExposureMode"))
+            if (status.IsSupported("setExposureMode"))
             {
                 panel.Children.Add(Panels["ExposureMode"]);
+                if (!status.Version.IsLiberated)
+                {
+                    Panels["ExposureMode"].Visibility = Visibility.Collapsed;
+                }
             }
 
             if (status.IsSupported("setSelfTimer"))

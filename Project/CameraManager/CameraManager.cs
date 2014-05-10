@@ -40,6 +40,19 @@ namespace Kazyx.WPPMM.CameraManager
         internal event Action<CameraStatus> OnAfStatusChanged;
         internal event Action<string> OnCameraStatusChanged;
 
+        internal event Action<ServerVersion> VersionDetected;
+
+        protected void OnVersionDetected()
+        {
+            if (VersionDetected != null)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    VersionDetected.Invoke(cameraStatus.Version);
+                });
+            }
+        }
+
         private Stopwatch watch;
 
         private EventObserver observer;
@@ -202,12 +215,7 @@ namespace Kazyx.WPPMM.CameraManager
                 cameraStatus.Version = ServerVersion.CreateDefault();
             }
 
-
-            if (cameraStatus.Version.IsLiberated && MethodTypesUpdateNotifer != null)
-            {
-                Debug.WriteLine("Update control panel for libarated camera device");
-                MethodTypesUpdateNotifer.Invoke();
-            }
+            OnVersionDetected();
 
             if (cameraStatus.IsSupported("startRecMode"))
             {

@@ -24,7 +24,11 @@ namespace Kazyx.WPPMM.CameraManager
 
         public ServerVersion Version
         {
-            set { version = value; }
+            set
+            {
+                version = value;
+                OnPropertyChanged("AvailableApis");
+            }
             get
             {
                 if (version == null)

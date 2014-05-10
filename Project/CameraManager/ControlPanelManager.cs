@@ -87,15 +87,6 @@ namespace Kazyx.WPPMM.CameraManager
         {
             panel.Children.Clear();
 
-            var title = new TextBlock
-            {
-                Text = AppResources.ControlPanel,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Style = Application.Current.Resources["PhoneTextLargeStyle"] as Style,
-                Margin = new Thickness(-5, 15, 0, -10)
-            };
-            panel.Children.Add(title);
-
             if (status.IsSupported("setShootMode"))
             {
                 panel.Children.Add(Panels["ShootMode"]);

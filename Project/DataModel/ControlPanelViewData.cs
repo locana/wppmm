@@ -34,43 +34,21 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
                     case "PostviewSizeInfo":
-                        if (status.IsAvailable("setPostviewImageSize"))
-                        {
-                            OnPropertyChanged("CpCandidatesPostviewSize");
-                            OnPropertyChanged("CpSelectedIndexPostviewSize");
-                        }
+                        OnPropertyChanged("CpCandidatesPostviewSize");
+                        OnPropertyChanged("CpSelectedIndexPostviewSize");
                         break;
                     case "SelfTimerInfo":
-                        if (status.IsAvailable("setSelfTimer"))
-                        {
-                            OnPropertyChanged("CpCandidatesSelfTimer");
-                            OnPropertyChanged("CpSelectedIndexSelfTimer");
-                        }
+                        OnPropertyChanged("CpCandidatesSelfTimer");
+                        OnPropertyChanged("CpSelectedIndexSelfTimer");
                         break;
                     case "ShootModeInfo":
-                        if (status.IsAvailable("setShootMode"))
-                        {
-                            OnPropertyChanged("CpCandidatesShootMode");
-                            OnPropertyChanged("CpSelectedIndexShootMode");
-                        }
+                        OnPropertyChanged("CpCandidatesShootMode");
+                        OnPropertyChanged("CpSelectedIndexShootMode");
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                     case "ExposureMode":
-                        if (status.IsAvailable("setExposureMode"))
-                        {
-                            OnPropertyChanged("CpCandidatesExposureMode");
-                            OnPropertyChanged("CpSelectedIndexExposureMode");
-                        }
-                        break;
-                    case "EvInfo":
-                        if (status.IsAvailable("setExposureCompensation"))
-                        {
-                            OnPropertyChanged("CpCandidatesExposureCompensation");
-                            OnPropertyChanged("CpMaxExposureCompensation");
-                            OnPropertyChanged("CpMinExposureCompensation");
-                            OnPropertyChanged("CpDisplayValueExposureCompensation");
-                            OnPropertyChanged("CpSelectedIndexExposureCompensation");
-                        }
+                        OnPropertyChanged("CpCandidatesExposureMode");
+                        OnPropertyChanged("CpSelectedIndexExposureMode");
                         break;
                     default:
                         break;
@@ -97,7 +75,7 @@ namespace Kazyx.WPPMM.DataModel
                     {
                         Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
                     }
-                    catch (System.InvalidOperationException e)
+                    catch (InvalidOperationException e)
                     {
                         Debug.WriteLine(e.StackTrace);
                     }

@@ -135,11 +135,11 @@
                         </Rectangle>
                         <Grid Name="BottomElements" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.5*" />
                                 <!--row 0: for zoom elements, shoot button-->
                                 <RowDefinition Height="*" />
                                 <!--row 1: for status display, half press indicator-->
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="4.5*" />
                                 <!--row 2: for sliders. -->
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
@@ -218,7 +218,7 @@
                                     </Rectangle>
                                     <Slider Grid.Column="1" Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch"  
                                             Background="{StaticResource PhoneProgressBarBackgroundBrush}" 
-                                        Height="80" VerticalAlignment="Center" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
+                                        Height="80" VerticalAlignment="Stretch" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
                                     <TextBlock Text="{Binding MaxShutterSpeedLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinShutterSpeedLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
@@ -234,7 +234,7 @@
                                     </Rectangle>
                                     <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneProgressBarBackgroundBrush}" Height="80"
                                             ManipulationCompleted="FNumberSlider_ManipulationCompleted" Grid.Column="1" Maximum="{Binding MaxFNumberIndex}"
-                                            VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                     <TextBlock Text="{Binding MaxFNumberLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinFNumberLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
@@ -246,7 +246,7 @@
                                     <Image Source="/Assets/Slider/EVComp.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
                                     <Slider Name="EvSlider" Value="{Binding CurrentEvIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxEvIndex}" Minimum="{Binding MinEvIndex}" Visibility="{Binding EvSliderVisibility}" ManipulationCompleted="EvSlider_ManipulationCompleted"
-                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>
+                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Stretch"/>
                                     <TextBlock Text="{Binding MaxEvLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinEvLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
@@ -263,7 +263,7 @@
                                     </Rectangle>
                                     <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxIsoIndex}" Visibility="{Binding IsoSliderVisibility}" ManipulationCompleted="IsoSlider_ManipulationCompleted"
-                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>
+                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Stretch"/>
                                     <TextBlock Text="{Binding MaxIsoLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinIsoLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>

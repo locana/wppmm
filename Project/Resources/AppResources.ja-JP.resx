@@ -223,7 +223,7 @@
     <value>オン</value>
   </data>
   <data name="PostviewTransferSetting" xml:space="preserve">
-    <value>撮影画像受信</value>
+    <value>撮影画像の受信</value>
   </data>
   <data name="ShootModeAudio" xml:space="preserve">
     <value>音声記録</value>
@@ -295,7 +295,7 @@
     <value>画面に撮影ボタンを表示する</value>
   </data>
   <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
-    <value>本体のシャッターボタンで撮影する場合に有効にしてください。</value>
+    <value>本体のシャッターキーで撮影する場合には非表示にもできます。</value>
   </data>
   <data name="AppBar_CancelTouchAf" xml:space="preserve">
     <value>AF解除</value>

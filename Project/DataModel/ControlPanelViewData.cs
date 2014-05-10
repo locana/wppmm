@@ -58,18 +58,18 @@ namespace Kazyx.WPPMM.DataModel
                     case "ExposureMode":
                         if (status.IsAvailable("setExposureMode"))
                         {
-                            OnPropertyChanged("CpSelectedIndexExposureMode");
                             OnPropertyChanged("CpCandidatesExposureMode");
+                            OnPropertyChanged("CpSelectedIndexExposureMode");
                         }
                         break;
                     case "EvInfo":
                         if (status.IsAvailable("setExposureCompensation"))
                         {
-                            OnPropertyChanged("CpSelectedIndexExposureCompensation");
                             OnPropertyChanged("CpCandidatesExposureCompensation");
                             OnPropertyChanged("CpMaxExposureCompensation");
                             OnPropertyChanged("CpMinExposureCompensation");
                             OnPropertyChanged("CpDisplayValueExposureCompensation");
+                            OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         }
                         break;
                     default:

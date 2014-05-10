@@ -211,6 +211,8 @@
                                     <Slider Grid.Column="1" Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch"  
                                             Background="{StaticResource PhoneProgressBarBackgroundBrush}" 
                                         Height="80" VerticalAlignment="Center" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
+                                    <TextBlock Text="{Binding MaxShutterSpeedLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="{Binding MinShutterSpeedLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
                                 <Grid Grid.Row="1" Visibility="{Binding FNumberSliderVisibility}" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
@@ -221,6 +223,8 @@
                                     <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneProgressBarBackgroundBrush}" Height="80"
                                             ManipulationCompleted="FNumberSlider_ManipulationCompleted" Grid.Column="1" Maximum="{Binding MaxFNumberIndex}"
                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                    <TextBlock Text="{Binding MaxFNumberLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="{Binding MinFNumberLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
                                 <Grid Grid.Row="2" Visibility="{Binding EvSliderVisibility}" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
@@ -231,6 +235,9 @@
                                     <Slider Name="EvSlider" Value="{Binding CurrentEvIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxEvIndex}" Minimum="{Binding MinEvIndex}" Visibility="{Binding EvSliderVisibility}" ManipulationCompleted="EvSlider_ManipulationCompleted"
                                          Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding MaxEvLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="{Binding MinEvLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
                                 <Grid Grid.Row="3" Visibility="{Binding IsoSliderVisibility}" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
@@ -241,6 +248,8 @@
                                     <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxIsoIndex}" Visibility="{Binding IsoSliderVisibility}" ManipulationCompleted="IsoSlider_ManipulationCompleted"
                                          Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding MaxIsoLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="{Binding MinIsoLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
                             </Grid>
                         </Grid>

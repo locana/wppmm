@@ -432,21 +432,6 @@ namespace Kazyx.WPPMM.CameraManager
             catch (RemoteApiException e)
             {
                 Debug.WriteLine("Failed to set shootmode: " + e.code);
-                Debug.WriteLine("Rollback to previous ShootModeInfo: " + status.ShootModeInfo.current);
-                var tmp = status.ShootModeInfo.candidates;
-
-                for (int i = 0; i < tmp.Length; i++)
-                {
-                    if (tmp[i] == status.ShootModeInfo.previous)
-                    {
-                        Debug.WriteLine("Index of value matched: " + i);
-                        Deployment.Current.Dispatcher.BeginInvoke(() =>
-                        {
-                            picker.SelectedIndex = i;
-                        });
-                        break;
-                    }
-                }
                 manager.RefreshEventObserver();
             }
         }

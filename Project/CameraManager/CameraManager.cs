@@ -256,6 +256,11 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
+            if (AppStatus.GetInstance().IsTryingToConnectLiveview)
+            {
+                Debug.WriteLine("Avoid duplicated liveview opening");
+                return;
+            }
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
             try
             {
@@ -268,6 +273,10 @@ namespace Kazyx.WPPMM.CameraManager
                 }
             }
             catch (RemoteApiException)
+            {
+                Debug.WriteLine("Failed to call StartLiveview");
+            }
+            finally
             {
                 AppStatus.GetInstance().IsTryingToConnectLiveview = false;
             }
@@ -308,6 +317,7 @@ namespace Kazyx.WPPMM.CameraManager
             if (AppStatus.GetInstance().IsInShootingDisplay)
             {
                 Debug.WriteLine("--- Retry connection for Liveview Stream ---");
+                CloseLiveviewConnection();
                 await Task.Delay(1000);
                 OpenLiveviewConnection();
             }
@@ -317,7 +327,6 @@ namespace Kazyx.WPPMM.CameraManager
         //public void OnJpegRetrieved(byte[] data)
         private void OnJpegRetrieved(object sender, JpegEventArgs e)
         {
-            AppStatus.GetInstance().IsTryingToConnectLiveview = false;
             if (IsRendering)
             {
                 return;

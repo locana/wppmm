@@ -1055,16 +1055,8 @@ namespace Kazyx.WPPMM.Pages
         {
 
         }
-
-        private void ParamDisplayArea_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (!e.Handled && Sliders.Visibility == Visibility.Collapsed)
-            {
-                OpenSliderPanel();
-            }
-        }
-
-        private void OpenSlider_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        
+        private void OpenSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             if (Sliders.Visibility == Visibility.Collapsed)
             {
@@ -1075,6 +1067,14 @@ namespace Kazyx.WPPMM.Pages
                 CloseSliderPanel();
             }
             e.Handled = true;
+        }
+
+        private void CameraParameters_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            if (!e.Handled && Sliders.Visibility == Visibility.Collapsed)
+            {
+                OpenSliderPanel();
+            }
         }
     }
 }

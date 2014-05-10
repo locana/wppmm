@@ -170,7 +170,8 @@
                             </Grid>
                             <Rectangle Name="BottomElementsBackground" Fill="{StaticResource PhoneBackgroundBrush}" Opacity="0.6" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"/>
-                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{Binding SlidersVisibility, FallbackValue=Collapsed}" Tap="ParamDisplayArea_Tap">
+                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{Binding SlidersVisibility, FallbackValue=Collapsed}"
+                                  ManipulationCompleted="CameraParameters_ManipulationCompleted" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
@@ -183,7 +184,7 @@
                                     <ColumnDefinition Width="1.0*" />
                                 </Grid.ColumnDefinitions>
 
-                                    <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" Tap="OpenSlider_Tap" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" ManipulationCompleted="OpenSlider_ManipulationCompleted" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Margin="-30,-20,-30,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/OpenSlider.png" />

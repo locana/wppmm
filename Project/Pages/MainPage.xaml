@@ -171,25 +171,26 @@
                             <Rectangle Name="BottomElementsBackground" Fill="{StaticResource PhoneBackgroundBrush}" Opacity="0.6" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"/>
                             <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{Binding SlidersVisibility, FallbackValue=Collapsed}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="0.7*" />
-                                    <ColumnDefinition Width="0.7*" />
-                                    <ColumnDefinition Width="0.7*" />
-                                    <ColumnDefinition Width="1.0*" />
-                                </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-
-                                <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" Click="OpenSlider_Click" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Image Source="/Assets/Screen/OpenSlider.png" Margin="-15,-20,-15,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                </Button>
-                                <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
-                                <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
-                                <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
-                                <TextBlock Name="ISO" Foreground="{Binding IsoBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+                                <Grid x:Name="ParamDisplayArea" Tap="ParamDisplayArea_Tap">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="0.7*" />
+                                        <ColumnDefinition Width="0.7*" />
+                                        <ColumnDefinition Width="0.7*" />
+                                        <ColumnDefinition Width="1.0*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Tap="OpenSlider_Tap">
+                                        <Image Source="/Assets/Screen/OpenSlider.png" Margin="-15,-20,-15,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    </Button>
+                                    <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
+                                    <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
+                                    <TextBlock Name="Ev" Foreground="{Binding EvBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding EvVisibility, FallbackValue=Collapsed}" Text="{Binding EvDisplayValue}" HorizontalAlignment="Center" Margin="6,3"  Grid.Column="3"/>
+                                    <TextBlock Name="ISO" Foreground="{Binding IsoBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ISOVisibility, FallbackValue=Collapsed}" Text="{Binding ISODisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="4"/>
+                                </Grid>
                             </Grid>
                             <Grid Name="Sliders" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" Grid.Row="2" Visibility="Collapsed">
                                 <Grid.RowDefinitions>

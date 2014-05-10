@@ -1007,27 +1007,17 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private void OpenSlider_Click(object sender, RoutedEventArgs e)
-        {
-            if (Sliders.Visibility == System.Windows.Visibility.Collapsed)
-            {
-                OpenSliderPanel();
-            }
-            else
-            {
-                CloseSliderPanel();
-            }
-        }
-
         private void OpenSliderPanel()
         {
-            Sliders.Visibility = System.Windows.Visibility.Visible;
+            Debug.WriteLine("OpenSlider");
+            Sliders.Visibility = Visibility.Visible;
             StartOpenSliderAnimation(0, 180);
         }
 
         private void CloseSliderPanel()
         {
-            Sliders.Visibility = System.Windows.Visibility.Collapsed;
+            Debug.WriteLine("CloseSlider");
+            Sliders.Visibility = Visibility.Collapsed;
             StartOpenSliderAnimation(180, 0);
         }
 
@@ -1057,6 +1047,27 @@ namespace Kazyx.WPPMM.Pages
         private void VisualSelector_Selected(object sender, WPMMM.Controls.SelectionEventArgs e)
         {
 
+        }
+
+        private void ParamDisplayArea_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (!e.Handled && Sliders.Visibility == Visibility.Collapsed)
+            {
+                OpenSliderPanel();
+            }
+        }
+
+        private void OpenSlider_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (Sliders.Visibility == Visibility.Collapsed)
+            {
+                OpenSliderPanel();
+            }
+            else
+            {
+                CloseSliderPanel();
+            }
+            e.Handled = true;
         }
     }
 }

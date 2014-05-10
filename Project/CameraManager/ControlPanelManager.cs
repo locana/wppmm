@@ -118,6 +118,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             Debug.WriteLine("panels has set!");
 
+            panel.Margin = new Thickness(8, 24, 4, 24);
             panel.Width = double.NaN;
         }
 

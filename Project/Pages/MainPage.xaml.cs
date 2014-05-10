@@ -759,7 +759,7 @@ namespace Kazyx.WPPMM.Pages
                     ZoomElements.Margin = new Thickness(50, 0, 0, 0);
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
                     OpenSlider.Margin = new Thickness(50, 0, 0, 0);
-                    Sliders.Margin = new Thickness(70, 0, 0, 0);
+                    Sliders.Margin = new Thickness(70, 0, 70, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -771,7 +771,7 @@ namespace Kazyx.WPPMM.Pages
                     ZoomElements.Margin = new Thickness(70, 0, 0, 0);
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
                     OpenSlider.Margin = new Thickness(70, 0, 0, 0);
-                    Sliders.Margin = new Thickness(70, 0, 0, 0);
+                    Sliders.Margin = new Thickness(70, 0, 70, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);

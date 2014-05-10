@@ -700,6 +700,7 @@ namespace Kazyx.WPPMM.CameraManager
             if (IntervalManager.IsRunning)
             {
                 IntervalManager.Stop();
+                RefreshEventObserver();
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     MessageBox.Show(AppResources.ErrorMessage_Interval, AppResources.MessageCaption_error, MessageBoxButton.OK);
@@ -875,7 +876,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetEvIndexAsync(index);
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public Task SetExposureCompensationAsync(int index)
@@ -898,7 +899,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetFNumberAsync(value);
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public async void SetShutterSpeed(string value)
@@ -911,7 +912,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetShutterSpeedAsync(value);
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public async void SetIsoSpeedRate(string value)
@@ -924,7 +925,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await apiClient.SetISOSpeedAsync(value);
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public void ShiftEv(int relativeIndex)

@@ -184,7 +184,11 @@
                                 </Grid.RowDefinitions>
 
                                 <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" ManipulationCompleted="OpenSlider_Click" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Image Source="/Assets/Screen/OpenSlider.png" Margin="-15,-20,-15,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Margin="-30,-20,-30,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/OpenSlider.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                 </Button>
                                 <TextBlock Name="ShutterSpeed" Opacity="1" Foreground="{Binding ShutterSpeedBrush}"  FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding ShutterSpeedVisibility, FallbackValue=Collapsed}" Text="{Binding ShutterSpeedDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="1"/>
                                 <TextBlock Name="Fnumber" Foreground="{Binding FNumberBrush}" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding FnumberVisibility, FallbackValue=Collapsed}" Text="{Binding FnumberDisplayValue}" HorizontalAlignment="Center" Margin="6,3" Grid.Column="2"/>
@@ -207,7 +211,11 @@
                                         <ColumnDefinition Width="60" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="/Assets/Slider/ShutterSpeed.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" >
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ShutterSpeed.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                     <Slider Grid.Column="1" Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch"  
                                             Background="{StaticResource PhoneProgressBarBackgroundBrush}" 
                                         Height="80" VerticalAlignment="Center" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
@@ -219,7 +227,11 @@
                                         <ColumnDefinition Width="60" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="/Assets/Slider/aperture.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" >
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/aperture.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                     <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneProgressBarBackgroundBrush}" Height="80"
                                             ManipulationCompleted="FNumberSlider_ManipulationCompleted" Grid.Column="1" Maximum="{Binding MaxFNumberIndex}"
                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
@@ -244,7 +256,11 @@
                                         <ColumnDefinition Width="60" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="/Assets/Slider/ISO.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" >
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ISO.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                     <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxIsoIndex}" Visibility="{Binding IsoSliderVisibility}" ManipulationCompleted="IsoSlider_ManipulationCompleted"
                                          Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>

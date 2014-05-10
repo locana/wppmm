@@ -954,6 +954,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            FNumberSlider.Value = value;
 
             if (value < cameraManager.cameraStatus.FNumber.candidates.Length)
             {
@@ -969,6 +970,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            ShutterSpeedSlider.Value = value;
 
             if (value < cameraManager.cameraStatus.ShutterSpeed.candidates.Length)
             {
@@ -984,6 +986,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            EvSlider.Value = value;
 
             if (value >= cameraManager.cameraStatus.EvInfo.Candidate.MinIndex && value <= cameraManager.cameraStatus.EvInfo.Candidate.MaxIndex)
             {
@@ -1000,6 +1003,7 @@ namespace Kazyx.WPPMM.Pages
             }
 
             var value = (int)(sender as Slider).Value;
+            IsoSlider.Value = value;
 
             if (value < cameraManager.cameraStatus.ISOSpeedRate.candidates.Length)
             {

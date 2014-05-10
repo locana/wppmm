@@ -105,10 +105,14 @@
     <Compile Include="Controls\SettingDial.xaml.cs">
       <DependentUpon>SettingDial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\VisualSelector.xaml.cs">
+      <DependentUpon>VisualSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
+    <Compile Include="DataModel\VisualSelectorData.cs" />
     <Compile Include="Pages\AppSettingPage.xaml.cs">
       <DependentUpon>AppSettingPage.xaml</DependentUpon>
     </Compile>
@@ -154,6 +158,9 @@
     <Page Include="Controls\SettingDial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VisualSelector.xaml">
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>

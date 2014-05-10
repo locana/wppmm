@@ -62,13 +62,9 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ShutterSpeedBrush");
                         OnPropertyChanged("EvBrush");
                         OnPropertyChanged("IsoBrush");
-                        OnPropertyChanged("DialVisibility");
-                        OnPropertyChanged("IsFNumberSliderEnabled");
-                        OnPropertyChanged("IsShutterSpeedSliderEnabled");
                         OnPropertyChanged("IsoSliderVisibility");
-                        OnPropertyChanged("IsIsoSliderEnabled");
                         OnPropertyChanged("EvSliderVisibility");
-                        OnPropertyChanged("IsEvSliderEnabled");
+                        OnPropertyChanged("SlidersVisibility");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -91,18 +87,19 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ISODisplayValue");
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
+                        OnPropertyChanged("SlidersVisibility");
                         break;
                     case "ShutterSpeed":
-                            OnPropertyChanged("ShutterSpeedVisibility");
-                            OnPropertyChanged("ShutterSpeedDisplayValue");
-                            OnPropertyChanged("MaxShutterSpeedLabel");
-                            OnPropertyChanged("MinShutterSpeedLabel");
+                        OnPropertyChanged("ShutterSpeedVisibility");
+                        OnPropertyChanged("ShutterSpeedDisplayValue");
+                        OnPropertyChanged("MaxShutterSpeedLabel");
+                        OnPropertyChanged("MinShutterSpeedLabel");
                         if (cameraStatus.IsAvailable("setShutterSpeed"))
                         {
                             OnPropertyChanged("MaxShutterSpeedIndex");
                             OnPropertyChanged("CurrentShutterSpeedIndex");
                         }
-
+                        OnPropertyChanged("SlidersVisibility");
                         break;
                     case "ISOSpeedRate":
                         OnPropertyChanged("ISOVisibility");
@@ -114,8 +111,9 @@ namespace Kazyx.WPPMM.DataModel
                             OnPropertyChanged("MaxIsoIndex");
                             OnPropertyChanged("CurrentIsoIndex");
                         }
+                        OnPropertyChanged("SlidersVisibility");
                         break;
-                    case "FNumber":      
+                    case "FNumber":
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
                         OnPropertyChanged("MaxFNumberLabel");
@@ -125,6 +123,7 @@ namespace Kazyx.WPPMM.DataModel
                             OnPropertyChanged("MaxFNumberIndex");
                             OnPropertyChanged("CurrentFNumberIndex");
                         }
+                        OnPropertyChanged("SlidersVisibility");
                         break;
                     case "EvInfo":
                         OnPropertyChanged("EvVisibility");
@@ -137,6 +136,7 @@ namespace Kazyx.WPPMM.DataModel
                             OnPropertyChanged("MaxEvIndex");
                             OnPropertyChanged("CurrentEvIndex");
                         }
+                        OnPropertyChanged("SlidersVisibility");
                         break;
                     case "FocusStatus":
                         OnPropertyChanged("TouchAFPointerStrokeBrush");
@@ -427,6 +427,21 @@ namespace Kazyx.WPPMM.DataModel
 
         }
 
+        public Visibility SlidersVisibility
+        {
+            get
+            {
+                if (ShutterSpeedVisibility == Visibility.Visible || ISOVisibility == Visibility.Visible || FnumberVisibility == Visibility.Visible || EvVisibility == Visibility.Visible)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+        }
+
         public Visibility ShutterSpeedVisibility
         {
             get
@@ -593,16 +608,6 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-
-        public bool IsFNumberSliderEnabled
-        {
-            get
-            {
-                if (cameraStatus == null ||  !cameraStatus.IsAvailable("setFNumber")) { return false; }
-                else { return true; }
-            }
-        }
-
         public Visibility ShutterSpeedSliderVisibility
         {
             get
@@ -618,30 +623,12 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-        public bool IsShutterSpeedSliderEnabled
-        {
-            get
-            {
-                if (cameraStatus == null || !cameraStatus.IsAvailable("setShutterSpeed")) { return false; }
-                else { return true; }
-            }
-        }
-
         public Visibility EvSliderVisibility
         {
             get
             {
                 if (cameraStatus == null || !cameraStatus.IsAvailable("setExposureCompensation")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
-            }
-        }
-
-        public bool IsEvSliderEnabled
-        {
-            get
-            {
-                if (cameraStatus == null || !cameraStatus.IsAvailable("setExposureCompensation")) { return false; }
-                else { return true; }
             }
         }
 
@@ -653,17 +640,6 @@ namespace Kazyx.WPPMM.DataModel
                 else { return Visibility.Visible; }
             }
         }
-
-        public bool IsIsoSliderEnabled
-        {
-            get
-            {
-                if (cameraStatus == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return false; }
-                else { return true; }
-            }
-        }
-
-        
 
         public Brush FNumberBrush
         {

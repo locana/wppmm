@@ -170,7 +170,7 @@
                             </Grid>
                             <Rectangle Name="BottomElementsBackground" Fill="{StaticResource PhoneBackgroundBrush}" Opacity="0.6" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"/>
-                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
+                            <Grid Grid.Row="1" Name="CameraParameters" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{Binding SlidersVisibility, FallbackValue=Collapsed}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="0.7*" />
@@ -209,8 +209,8 @@
                                     </Grid.ColumnDefinitions>
                                     <Image Source="/Assets/Slider/ShutterSpeed.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
                                     <Slider Grid.Column="1" Name="ShutterSpeedSlider" Value="{Binding CurrentShutterSpeedIndex}" HorizontalAlignment="Stretch"  
-                                            Background="{StaticResource PhoneBackgroundBrush}" 
-                                        Height="80" MinHeight="80" VerticalAlignment="Center" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
+                                            Background="{StaticResource PhoneProgressBarBackgroundBrush}" 
+                                        Height="80" VerticalAlignment="Center" ManipulationCompleted="ShutterSpeedSlider_ManipulationCompleted" Maximum="{Binding MaxShutterSpeedIndex}" />
                                     <TextBlock Text="{Binding MaxShutterSpeedLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinShutterSpeedLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
@@ -220,7 +220,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Image Source="/Assets/Slider/aperture.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
-                                    <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneBackgroundBrush}" Height="80"
+                                    <Slider Name="FNumberSlider" Value="{Binding CurrentFNumberIndex}"  Background="{StaticResource PhoneProgressBarBackgroundBrush}" Height="80"
                                             ManipulationCompleted="FNumberSlider_ManipulationCompleted" Grid.Column="1" Maximum="{Binding MaxFNumberIndex}"
                                             VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                     <TextBlock Text="{Binding MaxFNumberLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
@@ -232,9 +232,9 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Image Source="/Assets/Slider/EVComp.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
-                                    <Slider Name="EvSlider" Value="{Binding CurrentEvIndex}" HorizontalAlignment="Stretch" Height="80" IsEnabled="{Binding IsEvSliderEnabled}" Grid.Column="1"
+                                    <Slider Name="EvSlider" Value="{Binding CurrentEvIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxEvIndex}" Minimum="{Binding MinEvIndex}" Visibility="{Binding EvSliderVisibility}" ManipulationCompleted="EvSlider_ManipulationCompleted"
-                                         Background="{StaticResource PhoneBackgroundBrush}" VerticalAlignment="Center"/>
+                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding MaxEvLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinEvLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
@@ -245,9 +245,9 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Image Source="/Assets/Slider/ISO.png" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10"/>
-                                    <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" IsEnabled="{Binding IsIsoSliderEnabled}" Grid.Column="1"
+                                    <Slider Name="IsoSlider"  Value="{Binding CurrentIsoIndex}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
                                         Maximum="{Binding MaxIsoIndex}" Visibility="{Binding IsoSliderVisibility}" ManipulationCompleted="IsoSlider_ManipulationCompleted"
-                                         Background="{StaticResource PhoneBackgroundBrush}" VerticalAlignment="Center"/>
+                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding MaxIsoLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinIsoLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
@@ -308,6 +308,17 @@
                                  Foreground="{StaticResource PhoneForegroundBrush}" 
                                    VerticalAlignment="Center" Name="ToastMessage"/>
                     </Grid>
+                    <Border Name="VisualSelectorRoot" xmlns:src="clr-namespace:Kazyx.WPMMM.Controls"  Visibility="Collapsed" BorderThickness="2" CornerRadius="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+                        </Border.Background>
+                        <Grid Width="{Binding Width}" Height="{Binding Height}">
+                            <src:VisualSelector Name="VisualSelector" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="16,16,0,16" Selected="VisualSelector_Selected"/>
+                        </Grid>
+                    </Border>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

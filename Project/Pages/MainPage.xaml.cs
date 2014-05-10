@@ -698,9 +698,9 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                     return;
                 }
-                
+
                 GoToMainPage();
-                
+
             }
             else
             {
@@ -1058,6 +1058,9 @@ namespace Kazyx.WPPMM.Pages
             sb.Begin();
         }
 
+        private void VisualSelector_Selected(object sender, WPMMM.Controls.SelectionEventArgs e)
+        {
 
+        }
     }
 }

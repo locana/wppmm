@@ -65,6 +65,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("IsoSliderVisibility");
                         OnPropertyChanged("EvSliderVisibility");
                         OnPropertyChanged("SlidersVisibility");
+                        OnPropertyChanged("SliderButtonVisibility");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -442,6 +443,21 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public Visibility SliderButtonVisibility
+        {
+            get
+            {
+                if (cameraStatus != null && cameraStatus.Version.IsLiberated)
+                {
+                    if (ShutterSpeedSliderVisibility == Visibility.Visible || IsoSliderVisibility == Visibility.Visible || FNumberSliderVisibility == Visibility.Visible || EvSliderVisibility == Visibility.Visible)
+                    {
+                        return Visibility.Visible;
+                    }
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
         public Visibility ShutterSpeedVisibility
         {
             get
@@ -506,7 +522,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsAvailable("setExposureCompensation")) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.EvInfo == null || !cameraStatus.IsAvailable("getExposureCompensation")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }

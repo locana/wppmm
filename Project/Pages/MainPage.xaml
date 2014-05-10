@@ -184,7 +184,7 @@
                                     <ColumnDefinition Width="1.0*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" ManipulationCompleted="OpenSlider_ManipulationCompleted" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="OpenSlider" Margin="0" Grid.Column="0" Grid.Row="0" ManipulationCompleted="OpenSlider_ManipulationCompleted" BorderBrush="Transparent" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SliderButtonVisibility, FallbackValue=Collapsed}">
                                     <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Margin="-30,-20,-30,-10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                         <Rectangle.OpacityMask>
                                             <ImageBrush Stretch="Uniform" ImageSource="/Assets/Screen/OpenSlider.png" />

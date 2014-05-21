@@ -7,7 +7,7 @@ namespace Kazyx.WPPMM.Utils
 {
     public class SettingsValueConverter
     {
-        public static int GetSelectedIndex(Capability<int> info)
+        public static int GetSelectedIndex<T>(Capability<T> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)
             {
@@ -15,23 +15,7 @@ namespace Kazyx.WPPMM.Utils
             }
             for (int i = 0; i < info.candidates.Length; i++)
             {
-                if (info.candidates[i] == info.current)
-                {
-                    return i;
-                }
-            }
-            return 0;
-        }
-
-        public static int GetSelectedIndex(Capability<string> info)
-        {
-            if (info == null || info.candidates == null || info.candidates.Length == 0)
-            {
-                return 0;
-            }
-            for (int i = 0; i < info.candidates.Length; i++)
-            {
-                if (info.candidates[i] == info.current)
+                if (info.candidates[i].Equals(info.current))
                 {
                     return i;
                 }
@@ -143,6 +127,8 @@ namespace Kazyx.WPPMM.Utils
                     return AppResources.ShootModeStill;
                 case ShootModeParam.Audio:
                     return AppResources.ShootModeAudio;
+                case ShootModeParam.Interval:
+                    return AppResources.ShootModeIntervalStill;
                 default:
                     return val;
             }
@@ -190,6 +176,135 @@ namespace Kazyx.WPPMM.Utils
             }
         }
 
+        public static Capability<string> FromSteadyMode(Capability<string> info)
+        {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new Capability<string>
+                {
+                    candidates = new string[] { AppResources.Disabled },
+                    current = AppResources.Disabled
+                };
+            }
+
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                mCandidates[i] = FromSteadyMode(info.candidates[i]);
+            }
+            return new Capability<string>
+            {
+                current = FromSteadyMode(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromSteadyMode(string val)
+        {
+            switch (val)
+            {
+                case SteadyMode.On:
+                    return AppResources.On;
+                case SteadyMode.Off:
+                    return AppResources.Off;
+                default:
+                    return val;
+            }
+        }
+
+        public static Capability<string> FromBeepMode(Capability<string> info)
+        {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new Capability<string>
+                {
+                    candidates = new string[] { AppResources.Disabled },
+                    current = AppResources.Disabled
+                };
+            }
+
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                mCandidates[i] = FromBeepMode(info.candidates[i]);
+            }
+            return new Capability<string>
+            {
+                current = FromBeepMode(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromBeepMode(string val)
+        {
+            switch (val)
+            {
+                case BeepMode.On:
+                    return AppResources.On;
+                case BeepMode.Silent:
+                    return AppResources.Off;
+                case BeepMode.Shutter:
+                    return AppResources.BeepModeShutterOnly;
+                default:
+                    return val;
+            }
+        }
+
+        public static Capability<string> FromViewAngle(Capability<int> info)
+        {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new Capability<string>
+                {
+                    candidates = new string[] { AppResources.Disabled },
+                    current = AppResources.Disabled
+                };
+            }
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                mCandidates[i] = FromViewAngle(info.candidates[i]);
+            }
+            return new Capability<string>
+            {
+                current = FromViewAngle(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromViewAngle(int val)
+        {
+            return val + AppResources.ViewAngleUnit;
+        }
+
+        public static Capability<string> FromMovieQuality(Capability<string> info)
+        {
+            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            {
+                return new Capability<string>
+                {
+                    candidates = new string[] { AppResources.Disabled },
+                    current = AppResources.Disabled
+                };
+            }
+
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                mCandidates[i] = FromMovieQuality(info.candidates[i]);
+            }
+            return new Capability<string>
+            {
+                current = FromMovieQuality(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromMovieQuality(string p)
+        {
+            return p;
+        }
+        
         public static string[] FromExposureCompensation(EvCapability info)
         {
             if (info == null)

@@ -30,6 +30,10 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         OnPropertyChanged("CpIsAvailableExposureMode");
                         OnPropertyChanged("CpIsAvailableExposureCompensation");
+                        OnPropertyChanged("CpIsAvailableBeepMode");
+                        OnPropertyChanged("CpIsAvailableSteadyMode");
+                        OnPropertyChanged("CpIsAvailableViewAngle");
+                        OnPropertyChanged("CpIsAvailableMovieQuality");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
@@ -49,6 +53,22 @@ namespace Kazyx.WPPMM.DataModel
                     case "ExposureMode":
                         OnPropertyChanged("CpCandidatesExposureMode");
                         OnPropertyChanged("CpSelectedIndexExposureMode");
+                        break;
+                    case "BeepMode":
+                        OnPropertyChanged("CpCandidatesBeepMode");
+                        OnPropertyChanged("CpSelectedIndexBeepMode");
+                        break;
+                    case "SteadyMode":
+                        OnPropertyChanged("CpCandidatesSteadyMode");
+                        OnPropertyChanged("CpSelectedIndexSteadyMode");
+                        break;
+                    case "ViewAngle":
+                        OnPropertyChanged("CpCandidatesViewAngle");
+                        OnPropertyChanged("CpSelectedIndexViewAngle");
+                        break;
+                    case "MovieQuality":
+                        OnPropertyChanged("CpCandidatesMovieQuality");
+                        OnPropertyChanged("CpSelectedIndexMovieQuality");
                         break;
                     default:
                         break;
@@ -324,6 +344,169 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public int CpSelectedIndexBeepMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.BeepMode);
+            }
+            set
+            {
+                if (status.BeepMode != null)
+                {
+                    if (status.BeepMode.candidates.Length > value)
+                    {
+                        status.BeepMode.current = status.BeepMode.candidates[value];
+                    }
+                    else
+                    {
+                        status.BeepMode.current = null;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesBeepMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromBeepMode(status.BeepMode).candidates;
+            }
+        }
+
+        public bool CpIsAvailableBeepMode
+        {
+            get
+            {
+                return status.IsAvailable("setBeepMode") &&
+                    status.BeepMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexViewAngle
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ViewAngle);
+            }
+            set
+            {
+                if (status.ViewAngle != null)
+                {
+                    if (status.ViewAngle.candidates.Length > value)
+                    {
+                        status.ViewAngle.current = status.ViewAngle.candidates[value];
+                    }
+                    else
+                    {
+                        status.ViewAngle.current = 0;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesViewAngle
+        {
+            get
+            {
+                return SettingsValueConverter.FromViewAngle(status.ViewAngle).candidates;
+            }
+        }
+
+        public bool CpIsAvailableViewAngle
+        {
+            get
+            {
+                return status.IsAvailable("setViewAngle") &&
+                    status.BeepMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexSteadyMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.SteadyMode);
+            }
+            set
+            {
+                if (status.SteadyMode != null)
+                {
+                    if (status.SteadyMode.candidates.Length > value)
+                    {
+                        status.SteadyMode.current = status.SteadyMode.candidates[value];
+                    }
+                    else
+                    {
+                        status.SteadyMode.current = null;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesSteadyMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromSteadyMode(status.SteadyMode).candidates;
+            }
+        }
+
+        public bool CpIsAvailableSteadyMode
+        {
+            get
+            {
+                return status.IsAvailable("setSteadyMode") &&
+                    status.SteadyMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexMovieQuality
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.MovieQuality);
+            }
+            set
+            {
+                if (status.MovieQuality != null)
+                {
+                    if (status.MovieQuality.candidates.Length > value)
+                    {
+                        status.MovieQuality.current = status.MovieQuality.candidates[value];
+                    }
+                    else
+                    {
+                        status.MovieQuality.current = null;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesMovieQuality
+        {
+            get
+            {
+                return SettingsValueConverter.FromMovieQuality(status.MovieQuality).candidates;
+            }
+        }
+
+        public bool CpIsAvailableMovieQuality
+        {
+            get
+            {
+                return status.IsAvailable("setMovieQuality") &&
+                    status.MovieQuality != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
 
         public bool CpIsAvailableStillImageFunctions
         {

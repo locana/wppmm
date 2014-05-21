@@ -27,6 +27,7 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 version = value;
+                OnPropertyChanged("IsRestrictedApiVisible");
                 OnPropertyChanged("AvailableApis");
             }
             get
@@ -37,6 +38,11 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 return version;
             }
+        }
+
+        public Visibility IsRestrictedApiVisible
+        {
+            get { return Version.IsLiberated ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         public enum AutoFocusType
@@ -114,8 +120,23 @@ namespace Kazyx.WPPMM.CameraManager
                 "setWhiteBalance",
                 "setStillSize",
                 "setBeepMode",
-                "setCurrentTime"
+                "setMovieQuality",
+                "setViewAngle",
+                "setSteadyMode",
+                "setCurrentTime",
             };
+
+        public bool IsRestrictedApi(string apiName)
+        {
+            foreach (var api in RestrictedApiSet)
+            {
+                if (apiName == api)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private string[] _AvailableApis;
         public string[] AvailableApis
@@ -137,21 +158,11 @@ namespace Kazyx.WPPMM.CameraManager
 
         public bool IsAvailable(string apiName)
         {
-            if (Version.IsLiberated)
+            if (!Version.IsLiberated && IsRestrictedApi(apiName))
             {
-                return AvailableApiList.Contains(apiName);
+                return false;
             }
-            else
-            {
-                foreach (var api in RestrictedApiSet)
-                {
-                    if (apiName == api)
-                    {
-                        return false;
-                    }
-                }
-                return AvailableApiList.Contains(apiName);
-            }
+            return AvailableApiList.Contains(apiName);
         }
 
         private string _Status = EventParam.NotReady;
@@ -168,7 +179,16 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _Status; }
         }
 
-        public ZoomInfo ZoomInfo { set; get; }
+        private ZoomInfo _ZoomInfo = null;
+        public ZoomInfo ZoomInfo
+        {
+            set
+            {
+                _ZoomInfo = value;
+                OnPropertyChanged("ZoomInfo");
+            }
+            get { return _ZoomInfo; }
+        }
 
         private bool _IsLiveviewAvailable = false;
         public bool IsLiveviewAvailable
@@ -286,6 +306,50 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _FNumber; }
         }
 
+        private Capability<string> _BeepMode;
+        public Capability<string> BeepMode
+        {
+            set
+            {
+                _BeepMode = value;
+                OnPropertyChanged("BeepMode");
+            }
+            get { return _BeepMode; }
+        }
+
+        private Capability<string> _SteadyMode;
+        public Capability<string> SteadyMode
+        {
+            set
+            {
+                _SteadyMode = value;
+                OnPropertyChanged("SteadyMode");
+            }
+            get { return _SteadyMode; }
+        }
+
+        private Capability<int> _ViewAngle;
+        public Capability<int> ViewAngle
+        {
+            set
+            {
+                _ViewAngle = value;
+                OnPropertyChanged("ViewAngle");
+            }
+            get { return _ViewAngle; }
+        }
+
+        private Capability<string> _MovieQuality;
+        public Capability<string> MovieQuality
+        {
+            set
+            {
+                _MovieQuality = value;
+                OnPropertyChanged("MovieQuality");
+            }
+            get { return _MovieQuality; }
+        }
+
         private EvCapability _EvInfo;
         public EvCapability EvInfo
         {
@@ -313,6 +377,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             get { return _FocusStatus; }
         }
+
 
         public AutoFocusType AfType { get; set; }
 

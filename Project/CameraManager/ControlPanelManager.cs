@@ -6,11 +6,11 @@ using Microsoft.Phone.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -36,16 +36,19 @@ namespace Kazyx.WPPMM.CameraManager
             this.data = new ControlPanelViewData(status);
             this.panel = panel;
 
-            Panels.Add("ShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
-            Panels.Add("SelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
-            Panels.Add("PostViewSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
+            // Key of the Dictionary is the name of setter API in most cases. Uses to check availability.
+            Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
+            Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
+            Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
+            Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
+            Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
+            Panels.Add("setPostViewSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
+            Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
+            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
-            Panels.Add("ExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
-            Panels.Add("ExposureCompensation", CreateExposureCompensationSliderPanel());
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
-            manager.VersionDetected += (version) => { if (version.IsLiberated) { DetectLiberated(); } };
         }
 
         public void ReplacePanel(StackPanel panel)
@@ -78,36 +81,28 @@ namespace Kazyx.WPPMM.CameraManager
 
         }
 
-        private void DetectLiberated()
-        {
-            Panels["ExposureMode"].Visibility = Visibility.Visible;
-        }
-
         private void Initialize()
         {
             panel.Children.Clear();
 
-            if (status.IsSupported("setShootMode"))
+            var visibility = new Binding()
             {
-                panel.Children.Add(Panels["ShootMode"]);
-            }
+                Source = status,
+                Path = new PropertyPath("IsRestrictedApiVisible"),
+                Mode = BindingMode.OneWay,
+                FallbackValue = Visibility.Collapsed
+            };
 
-            if (status.IsSupported("setExposureMode"))
+            foreach (var key in Panels.Keys)
             {
-                panel.Children.Add(Panels["ExposureMode"]);
-                if (!status.Version.IsLiberated)
+                if (status.IsSupported(key))
                 {
-                    Panels["ExposureMode"].Visibility = Visibility.Collapsed;
+                    panel.Children.Add(Panels[key]);
+                    if (status.IsRestrictedApi(key))
+                    {
+                        Panels[key].SetBinding(StackPanel.VisibilityProperty, visibility);
+                    }
                 }
-            }
-
-            if (status.IsSupported("setSelfTimer"))
-            {
-                panel.Children.Add(Panels["SelfTimer"]);
-            }
-            if (status.IsSupported("setPostviewImageSize"))
-            {
-                panel.Children.Add(Panels["PostViewSize"]);
             }
 
             if (status.IsSupported("actTakePicture"))
@@ -159,32 +154,6 @@ namespace Kazyx.WPPMM.CameraManager
             return child;
         }
 
-        private StackPanel CreatePostviewSettingPanel()
-        {
-            var child = CreatePanel(AppResources.PostviewTransferSetting);
-
-            var toggle = CreateToggle();
-            var checkbind = new Binding()
-            {
-                Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("IsPostviewTransferEnabled"),
-                Mode = BindingMode.TwoWay
-            };
-
-            var enableBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
-                Mode = BindingMode.OneWay
-            };
-
-            toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
-            toggle.SetBinding(ToggleSwitch.IsEnabledProperty, enableBind);
-
-            child.Children.Add(toggle);
-            return child;
-        }
-
         private StackPanel CreateIntervalEnableSettingPanel()
         {
             var child = CreatePanel(AppResources.IntervalSetting);
@@ -209,7 +178,6 @@ namespace Kazyx.WPPMM.CameraManager
             child.Children.Add(toggle);
             return child;
         }
-
 
         private StackPanel CreateIntervalTimeSliderPanel()
         {
@@ -264,104 +232,13 @@ namespace Kazyx.WPPMM.CameraManager
             return child;
         }
 
-        private StackPanel CreateExposureCompensationSliderPanel()
-        {
-            var child = CreatePanel(AppResources.ExposureCompensation);
-            var slider = CreateSlider(-10, 10);
-            slider.Value = 0;
-
-            slider.ManipulationCompleted += (sender, e) =>
-            {
-                if (status == null || status.EvInfo == null)
-                {
-                    Debug.WriteLine("return null.");
-                    return;
-                }
-                var selected = (int)(sender as Slider).Value;
-
-                //
-
-                try
-                {
-                    Debug.WriteLine("Set EV Index: " + selected);
-                    manager.SetExposureCompensation(selected);
-                }
-                catch (InvalidOperationException)
-                {
-                    Debug.WriteLine("Not ready to call Web API");
-                }
-            };
-
-            var hPanel = new StackPanel
-            {
-                Orientation = System.Windows.Controls.Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-            var selectedbind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpSelectedIndexExposureCompensation"),
-                Mode = BindingMode.TwoWay
-            };
-
-            var enableBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpIsAvailableExposureCompensation"),
-                Mode = BindingMode.OneWay
-            };
-
-            var maxBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpMaxExposureCompensation"),
-                Mode = BindingMode.OneWay
-            };
-
-            var minBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpMinExposureCompensation"),
-                Mode = BindingMode.OneWay
-            };
-
-            var displayValueBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpDisplayValueExposureCompensation"),
-                Mode = BindingMode.OneWay,
-            };
-
-            var indicator = new TextBlock
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = System.Windows.VerticalAlignment.Top,
-                Style = Application.Current.Resources["JumpListStringStyle"] as Style,
-                Margin = new Thickness(10, 18, 0, 0),
-                MinWidth = 25
-            };
-            indicator.SetBinding(TextBlock.TextProperty, displayValueBind);
-            slider.SetBinding(Slider.ValueProperty, selectedbind);
-            slider.SetBinding(Slider.IsEnabledProperty, enableBind);
-            slider.SetBinding(Slider.MaximumProperty, maxBind);
-            slider.SetBinding(Slider.MinimumProperty, minBind);
-
-            hPanel.Children.Add(indicator);
-            hPanel.Children.Add(slider);
-
-            child.Children.Add(hPanel);
-            return child;
-
-        }
-
         private static ListPicker CreatePicker()
         {
             return new ListPicker
             {
                 SelectionMode = SelectionMode.Single,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
+                BorderThickness = new Thickness(1),
                 Margin = new Thickness(10, -5, 10, 0)
             };
         }
@@ -370,7 +247,8 @@ namespace Kazyx.WPPMM.CameraManager
         {
             return new ToggleSwitch
             {
-                Margin = new Thickness(10, -5, 10, -40)
+                Margin = new Thickness(10, -5, 10, -40),
+                BorderThickness = new Thickness(1),
             };
         }
 
@@ -415,91 +293,64 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void OnShootModeChanged(object sender, SelectionChangedEventArgs arg)
         {
-            if (status.ShootModeInfo == null || status.ShootModeInfo.candidates == null || status.ShootModeInfo.candidates.Length == 0)
-                return;
-            var picker = sender as ListPicker;
-            var selected = picker.SelectedIndex;
-            if (SettingsValueConverter.GetSelectedIndex(status.ShootModeInfo) != selected)
-            {
-                return;
-            }
-            try
-            {
-                await manager.SetShootModeAsync(status.ShootModeInfo.candidates[selected]);
-            }
-            catch (InvalidOperationException)
-            {
-                Debug.WriteLine("Not ready to call Web API");
-            }
-            catch (RemoteApiException e)
-            {
-                Debug.WriteLine("Failed to set shootmode: " + e.code);
-                manager.RefreshEventObserver();
-            }
+            await OnPickerChanged<string>(sender, status.ShootModeInfo,
+                async (selected) => { await manager.SetShootModeAsync(selected); });
         }
 
         private async void OnSelfTimerChanged(object sender, SelectionChangedEventArgs arg)
         {
-            if (status.SelfTimerInfo == null || status.SelfTimerInfo.candidates == null || status.SelfTimerInfo.candidates.Length == 0)
-                return;
-            var selected = (sender as ListPicker).SelectedIndex;
-            if (SettingsValueConverter.GetSelectedIndex(status.SelfTimerInfo) != selected)
-            {
-                return;
-            }
-            try
-            {
-                await manager.SetSelfTimerAsync(status.SelfTimerInfo.candidates[selected]);
-            }
-            catch (InvalidOperationException)
-            {
-                Debug.WriteLine("Not ready to call Web API");
-            }
-            catch (RemoteApiException e)
-            {
-                Debug.WriteLine("Failed to set selftimer: " + e.code);
-                manager.RefreshEventObserver();
-            }
+            await OnPickerChanged<int>(sender, status.SelfTimerInfo,
+                async (selected) => { await manager.SetSelfTimerAsync(selected); });
         }
 
         private async void OnPostViewSizeChanged(object sender, SelectionChangedEventArgs arg)
         {
-            if (status.PostviewSizeInfo == null || status.PostviewSizeInfo.candidates == null || status.PostviewSizeInfo.candidates.Length == 0)
-                return;
-            var selected = (sender as ListPicker).SelectedIndex;
-            if (SettingsValueConverter.GetSelectedIndex(status.PostviewSizeInfo) != selected)
-            {
-                return;
-            }
-            try
-            {
-                await manager.SetPostViewImageSizeAsync(status.PostviewSizeInfo.candidates[selected]);
-            }
-            catch (InvalidOperationException)
-            {
-                Debug.WriteLine("Not ready to call Web API");
-            }
-            catch (RemoteApiException e)
-            {
-                Debug.WriteLine("Failed to set postview image size: " + e.code);
-                manager.RefreshEventObserver();
-            }
+            await OnPickerChanged<string>(sender, status.PostviewSizeInfo,
+                async (selected) => { await manager.SetPostViewImageSizeAsync(selected); });
         }
 
         private async void OnExposureModeChanged(object sender, SelectionChangedEventArgs arg)
         {
-            if (status.ExposureMode == null || status.ExposureMode.candidates == null || status.ExposureMode.candidates.Length == 0)
-            {
+            await OnPickerChanged<string>(sender, status.ExposureMode,
+                async (selected) => { await manager.SetExporeModeAsync(selected); });
+        }
+
+        private async void OnBeepModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.BeepMode,
+                async (selected) => { await manager.SetBeepModeAsync(selected); });
+        }
+
+        private async void OnViewAngleChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<int>(sender, status.ViewAngle,
+                async (selected) => { await manager.SetViewAngleAsync(selected); });
+        }
+
+        private async void OnSteadyModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.SteadyMode,
+                async (selected) => { await manager.SetSteadyModeAsync(selected); });
+        }
+
+        private async void OnMovieQualityChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.MovieQuality,
+                async (selected) => { await manager.SetMovieQualityAsync(selected); });
+        }
+
+        private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)
+        {
+            if (param == null || param.candidates == null || param.candidates.Length == 0)
                 return;
-            }
             var selected = (sender as ListPicker).SelectedIndex;
-            if (SettingsValueConverter.GetSelectedIndex(status.ExposureMode) != selected)
+            if (SettingsValueConverter.GetSelectedIndex(param) != selected)
             {
                 return;
             }
             try
             {
-                await manager.SetExporeModeAsync(status.ExposureMode.candidates[selected]);
+                await action.Invoke(param.candidates[selected]);
             }
             catch (InvalidOperationException)
             {
@@ -507,8 +358,11 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (RemoteApiException e)
             {
+                Debug.WriteLine("Failed to set SteadyMode: " + e.code);
                 manager.RefreshEventObserver();
             }
         }
+
+        private delegate Task AsyncAction<T>(T arg);
     }
 }

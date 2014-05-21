@@ -9,12 +9,12 @@ using System.Windows.Threading;
 
 namespace Kazyx.WPPMM.CameraManager
 {
-    class IntervalShootingManager : INotifyPropertyChanged
+    class LocalIntervalShootingManager : INotifyPropertyChanged
     {
         private readonly AppStatus status;
         internal event Action<bool> OnIntervalRecStatusChanged;
 
-        public IntervalShootingManager(AppStatus status)
+        public LocalIntervalShootingManager(AppStatus status)
         {
             this.status = status;
             _Init();

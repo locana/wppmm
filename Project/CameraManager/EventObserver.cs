@@ -19,8 +19,6 @@ namespace Kazyx.WPPMM.CameraManager
 
         private CameraStatus status;
 
-        private Action<EventMember> OnDetectDifference = null;
-
         private Action OnStop = null;
 
         private ApiVersion version = ApiVersion.V1_0;
@@ -43,16 +41,15 @@ namespace Kazyx.WPPMM.CameraManager
         /// <param name="OnDetectDifference">Called when the parameter has been changed</param>
         /// <param name="OnStop">Called when event observation is finished with error</param>
         ///
-        public async void Start(CameraStatus status, Action<EventMember> OnDetectDifference, Action OnStop, ApiVersion version)
+        public async void Start(CameraStatus status, Action OnStop, ApiVersion version)
         {
             Debug.WriteLine("EventObserver.Start");
-            if (status == null | OnDetectDifference == null || OnStop == null)
+            if (status == null || OnStop == null)
             {
                 throw new ArgumentNullException();
             }
             status.InitEventParams();
             this.status = status;
-            this.OnDetectDifference = OnDetectDifference;
             this.OnStop = OnStop;
             this.version = version;
             failure_count = RETRY_LIMIT;
@@ -86,7 +83,7 @@ namespace Kazyx.WPPMM.CameraManager
                 Debug.WriteLine("GetEvent for refresh success");
                 if (status != null)
                 {
-                    Compare(status, res);
+                    UpdateIfRequired(status, res);
                 }
             }
             catch (RemoteApiException)
@@ -157,59 +154,53 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
 
-            Compare(status, e.Argument as Event);
+            UpdateIfRequired(status, e.Argument as Event);
 
             Call();
         }
 
-        private void Compare(CameraStatus target, Event data)
+        private void UpdateIfRequired(CameraStatus target, Event data)
         {
-            if (StatusComparator.IsAvailableApisModified(target, data.AvailableApis))
-                NotifyChangeDetected(EventMember.AvailableApis);
+            StatusUpdater.AvailableApis(target, data.AvailableApis);
 
-            if (StatusComparator.IsCameraStatusModified(target, data.CameraStatus))
-                NotifyChangeDetected(EventMember.CameraStatus);
+            StatusUpdater.CameraStatus(target, data.CameraStatus);
 
-            if (StatusComparator.IsLiveviewAvailableModified(target, data.LiveviewAvailable))
-                NotifyChangeDetected(EventMember.LiveviewAvailable);
+            StatusUpdater.LiveviewAvailability(target, data.LiveviewAvailable);
 
-            if (StatusComparator.IsPostviewSizeInfoModified(target, data.PostviewSizeInfo))
-                NotifyChangeDetected(EventMember.PostviewSizeInfo);
+            StatusUpdater.PostviewSize(target, data.PostviewSizeInfo);
 
-            if (StatusComparator.IsSelftimerInfoModified(target, data.SelfTimerInfo))
-                NotifyChangeDetected(EventMember.SelfTimerInfo);
+            StatusUpdater.SelfTimer(target, data.SelfTimerInfo);
 
-            if (StatusComparator.IsShootModeInfoModified(target, data.ShootModeInfo))
-                NotifyChangeDetected(EventMember.ShootModeInfo);
+            StatusUpdater.ShootMode(target, data.ShootModeInfo);
 
-            if (StatusComparator.IsZoomInfoModified(target, data.ZoomInfo))
-                NotifyChangeDetected(EventMember.ZoomInfo);
+            StatusUpdater.ZoomInfo(target, data.ZoomInfo);
 
-            if (StatusComparator.IsExposureModeInfoModified(target, data.ExposureMode))
-                NotifyChangeDetected(EventMember.ExposureMode);
+            StatusUpdater.ExposureMode(target, data.ExposureMode);
 
-            if (StatusComparator.IsFNumberModified(target, data.FNumber))
-                NotifyChangeDetected(EventMember.FNumber);
+            StatusUpdater.FNumber(target, data.FNumber);
 
-            if (StatusComparator.IsShutterSpeedModified(target, data.ShutterSpeed))
-                NotifyChangeDetected(EventMember.ShutterSpeed);
+            StatusUpdater.ShutterSpeed(target, data.ShutterSpeed);
 
-            if (StatusComparator.IsISOModified(target, data.ISOSpeedRate))
-                NotifyChangeDetected(EventMember.ISOSpeedRate);
+            StatusUpdater.ISO(target, data.ISOSpeedRate);
 
-            if (StatusComparator.IsEvInfoModified(target, data.EvInfo))
-                NotifyChangeDetected(EventMember.EVInfo);
+            StatusUpdater.EvInfo(target, data.EvInfo);
 
-            if (StatusComparator.IsProgramShiftModified(target, data.ProgramShiftActivated))
-                NotifyChangeDetected(EventMember.ProgramShift);
+            StatusUpdater.ProgramShift(target, data.ProgramShiftActivated);
 
-            if (StatusComparator.IsFocusStatusModified(target, data.FocusStatus))
-                NotifyChangeDetected(EventMember.FocusStatus);
+            StatusUpdater.FocusStatus(target, data.FocusStatus);
+
+            StatusUpdater.BeepMode(target, data.BeepMode);
+
+            StatusUpdater.SteadyMode(target, data.SteadyMode);
+
+            StatusUpdater.ViewAngle(target, data.ViewAngle);
+
+            StatusUpdater.MovieQuality(target, data.MovieQuality);
         }
 
         private async void Call()
         {
-            if (OnDetectDifference == null)
+            if (status == null)
             {
                 return;
             }
@@ -224,45 +215,12 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        private void NotifyChangeDetected(EventMember target)
-        {
-            Debug.WriteLine("NotifyChangeDetected: " + target);
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                if (OnDetectDifference != null)
-                { OnDetectDifference.Invoke(target); }
-            });
-        }
-
         private void Deactivate()
         {
             Debug.WriteLine("EventObserver deactivated");
             status = null;
             OnStop = null;
-            OnDetectDifference = null;
             worker.DoWork -= AnalyzeEventData;
         }
-    }
-
-    public enum EventMember
-    {
-        AvailableApis,
-        CameraStatus,
-        ZoomInfo,
-        LiveviewAvailable,
-        PostviewSizeInfo,
-        SelfTimerInfo,
-        ShootModeInfo,
-        ExposureMode,
-        ShutterSpeed,
-        FNumber,
-        ISOSpeedRate,
-        EVInfo,
-        ProgramShift,
-        TouchAFStatus,
-        PictureURLs,
-        LiveviewOrientation,
-        BeepMode,
-        FocusStatus,
     }
 }

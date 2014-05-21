@@ -38,7 +38,6 @@ namespace Kazyx.WPPMM.CameraManager
         internal event Action<CameraStatus> UpdateEvent;
         internal event Action OnDisconnected;
         internal event Action<CameraStatus> OnAfStatusChanged;
-        internal event Action<string> OnCameraStatusChanged;
 
         internal event Action<ServerVersion> VersionDetected;
 
@@ -75,7 +74,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private bool IsRendering = false;
 
-        internal IntervalShootingManager IntervalManager;
+        internal LocalIntervalShootingManager IntervalManager;
 
         private CameraManager()
         {
@@ -108,10 +107,28 @@ namespace Kazyx.WPPMM.CameraManager
                     CloseLiveviewConnection();
                 }
             };
+            cameraStatus.PropertyChanged += cameraStatus_PropertyChanged;
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
             deviceFinder.ScalarDeviceDiscovered += deviceFinder_Discovered;
             deviceFinder.Finished += deviceFinder_Finished;
+        }
+
+        void cameraStatus_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "FocusStatus":
+                    if (OnAfStatusChanged != null)
+                    {
+                        OnAfStatusChanged(_cameraStatus);
+                    }
+                    break;
+                case "ZoomInfo":
+                    Debug.WriteLine("Difference detected: zoom");
+                    NoticeUpdate();
+                    break;
+            }
         }
 
         void deviceFinder_Finished(object sender, EventArgs e)
@@ -175,7 +192,7 @@ namespace Kazyx.WPPMM.CameraManager
                 observer = null;
             }
 
-            IntervalManager = new IntervalShootingManager(AppStatus.GetInstance());
+            IntervalManager = new LocalIntervalShootingManager(AppStatus.GetInstance());
 
             if (IntervalManager.ActTakePicture == null)
             {
@@ -409,7 +426,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         // -------- take picture
 
-        public void StartIntervalRec()
+        public void StartLocalIntervalRec()
         {
             if (IntervalManager != null)
             {
@@ -418,7 +435,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public void StopIntervalRec()
+        public void StopLocalIntervalRec()
         {
             if (IntervalManager != null)
             {
@@ -609,6 +626,40 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
+        public async void StartIntervalStillRec()
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+
+            try
+            {
+                await apiClient.StartIntervalStillRecAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
+        }
+
+        public async void StopIntervalStillRec()
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+
+            try
+            {
+                await apiClient.StopIntervalStillRecAsync();
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
+        }
+
         // ------- zoom
 
         internal async void RequestActZoom(String direction, String movement)
@@ -636,7 +687,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            observer.Start(cameraStatus, OnDetectDifference,
+            observer.Start(cameraStatus,
                 () =>
                 {
                     if (this.OnDisconnected != null)
@@ -663,34 +714,6 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
             observer.Refresh();
-        }
-
-        public void OnDetectDifference(EventMember member)
-        {
-            switch (member)
-            {
-                case EventMember.ZoomInfo:
-                    Debug.WriteLine("Difference detected: zoom");
-                    NoticeUpdate();
-                    break;
-                case EventMember.CameraStatus:
-                    Debug.WriteLine("CameraStatus has changed: " + _cameraStatus.Status);
-                    if (OnCameraStatusChanged != null)
-                    {
-                        OnCameraStatusChanged(_cameraStatus.Status);
-                    }
-                    break;
-                case EventMember.FocusStatus:
-                    if (OnAfStatusChanged != null)
-                    {
-                        OnAfStatusChanged(_cameraStatus);
-                    }
-                    break;
-
-                default:
-                    //Debug.WriteLine("Difference detected: default");
-                    break;
-            }
         }
 
         public void OnError(StatusCode errno)
@@ -729,6 +752,8 @@ namespace Kazyx.WPPMM.CameraManager
                     err = AppResources.ErrorMessage_fatal;
                     break;
             }
+
+            err = err + Environment.NewLine + "Error code: " + errno;
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
@@ -1011,6 +1036,62 @@ namespace Kazyx.WPPMM.CameraManager
             }
 
             this.SetShutterSpeed(target);
+        }
+
+        public Task SetBeepModeAsync(string mode)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return apiClient.SetBeepModeAsync(mode);
+        }
+
+        public Task SetSteadyModeAsync(string mode)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return apiClient.SetSteadyModeAsync(mode);
+        }
+
+        public Task SetViewAngleAsync(int value)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return apiClient.SetViewAngleAsync(value);
+        }
+
+        public Task SetMovieQualityAsync(string value)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return apiClient.SetMovieQualityAsync(value);
+        }
+
+        public async void SetMovieQuality(string value)
+        {
+            if (apiClient == null)
+            {
+                return;
+            }
+
+            try
+            {
+                await apiClient.SetMovieQualityAsync(value);
+            }
+            catch (RemoteApiException e)
+            {
+                OnError(e.code);
+            }
         }
     }
 }

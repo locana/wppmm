@@ -142,6 +142,24 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System sound.
+        /// </summary>
+        public static string BeepMode {
+            get {
+                return ResourceManager.GetString("BeepMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shutter tone only.
+        /// </summary>
+        public static string BeepModeShutterOnly {
+            get {
+                return ResourceManager.GetString("BeepModeShutterOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected to _ssid_.
         /// </summary>
         public static string ConnectedDevice {
@@ -341,7 +359,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exposure Compensation.
+        ///   Looks up a localized string similar to Exposure compensation.
         /// </summary>
         public static string ExposureCompensation {
             get {
@@ -359,7 +377,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aperture Priority.
+        ///   Looks up a localized string similar to Aperture priority.
         /// </summary>
         public static string ExposureMode_A {
             get {
@@ -368,7 +386,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Intelligent Auto.
+        ///   Looks up a localized string similar to Intelligent auto.
         /// </summary>
         public static string ExposureMode_iA {
             get {
@@ -377,7 +395,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Program Auto.
+        ///   Looks up a localized string similar to Program auto.
         /// </summary>
         public static string ExposureMode_P {
             get {
@@ -386,7 +404,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shutter Priority.
+        ///   Looks up a localized string similar to Shutter priority.
         /// </summary>
         public static string ExposureMode_S {
             get {
@@ -395,7 +413,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Superior Auto.
+        ///   Looks up a localized string similar to Superior auto.
         /// </summary>
         public static string ExposureMode_sA {
             get {
@@ -566,6 +584,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Movie quality.
+        /// </summary>
+        public static string MovieQuality {
+            get {
+                return ResourceManager.GetString("MovieQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please ignore incorrect system prompt!!.
         /// </summary>
         public static string NFC_iiwake {
@@ -692,6 +719,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interval rec..
+        /// </summary>
+        public static string ShootModeIntervalStill {
+            get {
+                return ResourceManager.GetString("ShootModeIntervalStill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movie rec.
         /// </summary>
         public static string ShootModeMovie {
@@ -719,7 +755,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2M Pixels.
+        ///   Looks up a localized string similar to 2M pixels.
         /// </summary>
         public static string Size2M {
             get {
@@ -746,6 +782,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Steady shot.
+        /// </summary>
+        public static string SteadyShot {
+            get {
+                return ResourceManager.GetString("SteadyShot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Switch.
         /// </summary>
         public static string Switch {
@@ -760,6 +805,24 @@ namespace Kazyx.WPMMM.Resources {
         public static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View angle.
+        /// </summary>
+        public static string ViewAngle {
+            get {
+                return ResourceManager.GetString("ViewAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to deg..
+        /// </summary>
+        public static string ViewAngleUnit {
+            get {
+                return ResourceManager.GetString("ViewAngleUnit", resourceCulture);
             }
         }
         

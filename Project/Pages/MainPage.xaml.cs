@@ -295,7 +295,7 @@ namespace Kazyx.WPPMM.Pages
         {
             if (cameraManager.IntervalManager.IsRunning)
             {
-                cameraManager.StopIntervalRec();
+                cameraManager.StopLocalIntervalRec();
                 if (cpm != null)
                 {
                     cpm.OnControlPanelPropertyChanged("CpIsAvailableSelfTimer");
@@ -315,7 +315,7 @@ namespace Kazyx.WPPMM.Pages
                         case ShootModeParam.Still:
                             if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
                             {
-                                cameraManager.StartIntervalRec();
+                                cameraManager.StartLocalIntervalRec();
                                 if (cpm != null)
                                 {
                                     cpm.OnControlPanelPropertyChanged("CpIsAvailableSelfTimer");
@@ -334,6 +334,9 @@ namespace Kazyx.WPPMM.Pages
                             break;
                         case ShootModeParam.Audio:
                             cameraManager.StartAudioRec();
+                            break;
+                        case ShootModeParam.Interval:
+                            cameraManager.StartIntervalStillRec();
                             break;
                     }
                     break;
@@ -408,7 +411,6 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.PictureNotifier = OnPictureSaved;
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
-            cameraManager.OnCameraStatusChanged += cameraManager_OnCameraStatusChanged;
 
             cameraManager.IntervalManager.OnIntervalRecStatusChanged += IntervalManager_OnIntervalRecStatusChanged;
 
@@ -458,25 +460,6 @@ namespace Kazyx.WPPMM.Pages
         {
             Debug.WriteLine("Interval changed: " + isRunning);
             // this.SetPivotIsLocked(isRunning);
-        }
-
-        void cameraManager_OnCameraStatusChanged(string status)
-        {
-            switch (status)
-            {
-                case EventParam.MvWaitRecStop:
-                case EventParam.MvWaitRecStart:
-                case EventParam.MvSaving:
-                case EventParam.MvRecording:
-                    // this.SetPivotIsLocked(true);
-                    break;
-                default:
-                    if (!cameraManager.IntervalManager.IsRunning)
-                    {
-                        // this.SetPivotIsLocked(false);
-                    }
-                    break;
-            }
         }
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
@@ -594,7 +577,6 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.PictureNotifier = null;
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
-            cameraManager.OnCameraStatusChanged -= cameraManager_OnCameraStatusChanged;
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
@@ -1059,7 +1041,7 @@ namespace Kazyx.WPPMM.Pages
         {
 
         }
-        
+
         private void OpenSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             if (Sliders.Visibility == Visibility.Collapsed)

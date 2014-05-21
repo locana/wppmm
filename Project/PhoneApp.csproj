@@ -97,7 +97,7 @@
     </Compile>
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
-    <Compile Include="CameraManager\IntervalShootingManager.cs" />
+    <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />
     <Compile Include="CameraManager\ServerVersion.cs" />
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
@@ -210,6 +210,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Button\IntervalStillRecButton.png" />
     <Content Include="Assets\Controls\setting_gear.png" />
     <Content Include="Assets\Screen\audio.png" />
     <Content Include="Assets\Button\Camcorder.png" />

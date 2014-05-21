@@ -218,6 +218,7 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage CamImage = new BitmapImage(new Uri("/Assets/Button/Camcorder.png", UriKind.Relative));
         private static readonly BitmapImage AudioImage = new BitmapImage(new Uri("/Assets/Button/Music.png", UriKind.Relative));
         private static readonly BitmapImage StopImage = new BitmapImage(new Uri("/Assets/Button/Stop.png", UriKind.Relative));
+        private static readonly BitmapImage IntervalStillImage = new BitmapImage(new Uri("/Assets/Button/IntervalStillRecButton.png", UriKind.Relative));
 
         private static readonly BitmapImage PhotoModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_photo.png", UriKind.Relative));
         private static readonly BitmapImage MovieModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_movie.png", UriKind.Relative));
@@ -256,6 +257,9 @@ namespace Kazyx.WPPMM.DataModel
                             return StopImage;
                         else
                             return AudioImage;
+                    case ShootModeParam.Interval:
+                        return IntervalStillImage;
+
                     default:
                         return null;
                 }

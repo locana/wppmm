@@ -358,4 +358,25 @@
   <data name="ShutterSpeed" xml:space="preserve">
     <value>SS</value>
   </data>
+  <data name="BeepMode" xml:space="preserve">
+    <value>操作音</value>
+  </data>
+  <data name="BeepModeShutterOnly" xml:space="preserve">
+    <value>シャッター音のみ</value>
+  </data>
+  <data name="ShootModeIntervalStill" xml:space="preserve">
+    <value>インターバル撮影</value>
+  </data>
+  <data name="SteadyShot" xml:space="preserve">
+    <value>手ぶれ補正</value>
+  </data>
+  <data name="ViewAngle" xml:space="preserve">
+    <value>画角</value>
+  </data>
+  <data name="ViewAngleUnit" xml:space="preserve">
+    <value>°</value>
+  </data>
+  <data name="MovieQuality" xml:space="preserve">
+    <value>動画画質</value>
+  </data>
 </root>

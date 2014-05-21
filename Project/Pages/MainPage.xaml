@@ -143,7 +143,7 @@
                                 <!--row 2: for sliders. -->
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
-                                <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" 
+                                <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" BorderThickness="1.5"
                                 Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="100">
                                     <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                                 </Button>
@@ -160,10 +160,12 @@
 
                                 <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="13" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
                                 <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="9" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
-                                <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,3" Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton">
+                                <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,3" 
+                                        Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton" BorderThickness="1" >
                                     <Image Source="/Assets/Button/ZoomOut.png" Margin="0" />
                                 </Button>
-                                <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,3" Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton">
+                                <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="1" Click="OnZoomInClick" Padding="10,3"
+                                        Hold="OnZoomInHold" Tap="OnZoomInTap" Name="ZoomInButton" BorderThickness="1">
                                     <Image Source="/Assets/Button/ZoomIn.png" Margin="0" />
 
                                 </Button>

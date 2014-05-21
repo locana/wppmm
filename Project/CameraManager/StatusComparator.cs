@@ -163,5 +163,32 @@ namespace Kazyx.WPPMM.CameraManager
             }
             status.MovieQuality = latest;
         }
+
+        internal static void Storages(CameraStatus status, StorageInfo[] latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.Storages = latest;
+        }
+
+        internal static void LiveviewOrientation(CameraStatus status, string latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.LiveviewOrientation = latest;
+        }
+
+        internal static void PictureUrls(CameraStatus status, string[] latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.PictureUrls = latest;
+        }
     }
 }

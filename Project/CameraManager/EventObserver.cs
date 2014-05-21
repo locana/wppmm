@@ -196,6 +196,12 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.ViewAngle(target, data.ViewAngle);
 
             StatusUpdater.MovieQuality(target, data.MovieQuality);
+
+            StatusUpdater.Storages(target, data.StorageInfo);
+
+            StatusUpdater.LiveviewOrientation(target, data.LiveviewOrientation);
+
+            StatusUpdater.PictureUrls(target, data.PictureUrls);
         }
 
         private async void Call()

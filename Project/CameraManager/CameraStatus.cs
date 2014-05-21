@@ -360,6 +360,40 @@ namespace Kazyx.WPPMM.CameraManager
             }
             get { return _EvInfo; }
         }
+
+        private StorageInfo[] _Storages;
+        public StorageInfo[] Storages
+        {
+            set
+            {
+                _Storages = value;
+                OnPropertyChanged("Storages");
+            }
+            get { return _Storages; }
+        }
+
+        private string _LiveviewOrientation;
+        public string LiveviewOrientation
+        {
+            set
+            {
+                _LiveviewOrientation = value;
+                OnPropertyChanged("LiveviewOrientation");
+            }
+            get { return _LiveviewOrientation == null ? Orientation.Straight : _LiveviewOrientation; }
+        }
+
+        private string[] _PictureUrls;
+        public string[] PictureUrls
+        {
+            set
+            {
+                _PictureUrls = value;
+                OnPropertyChanged("PictureUrls");
+            }
+            get { return _PictureUrls; }
+        }
+
         public bool ProgramShiftActivated { set; get; }
 
         public void ClearFocusStatus()

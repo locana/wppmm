@@ -735,7 +735,7 @@ namespace Kazyx.WPPMM.Pages
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
+                    StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
                     ZoomElements.Margin = new Thickness(50, 0, 0, 0);
@@ -747,7 +747,7 @@ namespace Kazyx.WPPMM.Pages
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
                     IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
-                    StatusDisplayelements.Margin = new Thickness(40, 6, 0, 0);
+                    StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
                     ZoomElements.Margin = new Thickness(70, 0, 0, 0);

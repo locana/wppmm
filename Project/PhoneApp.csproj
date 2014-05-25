@@ -226,9 +226,12 @@
     <Content Include="Assets\Screen\ExposureMode_P.png" />
     <Content Include="Assets\Screen\ExposureMode_S.png" />
     <Content Include="Assets\Screen\focused.png" />
+    <Content Include="Assets\Screen\memory_card.png" />
     <Content Include="Assets\Screen\mode_audio.png" />
+    <Content Include="Assets\Screen\mode_interval.png" />
     <Content Include="Assets\Screen\mode_movie.png" />
     <Content Include="Assets\Screen\mode_photo.png" />
+    <Content Include="Assets\Screen\no_memory_card.png" />
     <Content Include="Assets\Screen\OpenSlider.png" />
     <Content Include="Assets\Screen\rec.png" />
     <Content Include="Assets\Slider\aperture.png" />

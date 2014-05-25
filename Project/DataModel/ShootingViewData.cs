@@ -144,6 +144,15 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("TouchAFPointerVisibility");
                         OnPropertyChanged("HalfPressedAFVisibility");
                         break;
+                    case "Storages":
+                        OnPropertyChanged("StorageImage");
+                        OnPropertyChanged("RecordbaleAmount");
+                        Debug.WriteLine("description: " + cameraStatus.Storages[0].Description);
+                        Debug.WriteLine("RecordableImages: " + cameraStatus.Storages[0].RecordableImages);
+                        Debug.WriteLine("RecordableMovieLength: " + cameraStatus.Storages[0].RecordableMovieLength);
+                        Debug.WriteLine("RecordTarget: " + cameraStatus.Storages[0].RecordTarget);
+                        Debug.WriteLine("StorageID: " + cameraStatus.Storages[0].StorageID);
+                        break;
                 }
             };
         }
@@ -223,12 +232,16 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage PhotoModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_photo.png", UriKind.Relative));
         private static readonly BitmapImage MovieModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_movie.png", UriKind.Relative));
         private static readonly BitmapImage AudioModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_audio.png", UriKind.Relative));
+        private static readonly BitmapImage IntervalStillModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_interval.png", UriKind.Relative));
 
         private static readonly BitmapImage ExModeImage_IA = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_iA.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_IAPlus = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_iAPlus.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_A = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_A.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_S = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_S.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_P = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P.png", UriKind.Relative));
+
+        private static readonly BitmapImage MemoryCard = new BitmapImage(new Uri("/Assets/Screen/memory_card.png", UriKind.Relative));
+        private static readonly BitmapImage NoMemoryCard = new BitmapImage(new Uri("/Assets/Screen/no_memory_card.png", UriKind.Relative));
 
         public BitmapImage ShootButtonImage
         {
@@ -577,6 +590,8 @@ namespace Kazyx.WPPMM.DataModel
                         return MovieModeImage;
                     case ShootModeParam.Audio:
                         return AudioModeImage;
+                    case ShootModeParam.Interval:
+                        return IntervalStillModeImage;
                     default:
                         return null;
                 }
@@ -610,6 +625,33 @@ namespace Kazyx.WPPMM.DataModel
                     default:
                         return null;
                 }
+            }
+        }
+
+        public BitmapImage StorageImage
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.Storages == null)
+                {
+                    return null;
+                }
+
+                foreach (StorageInfo storage in cameraStatus.Storages)
+                {
+                    if (storage.RecordTarget)
+                    {
+                        switch (storage.StorageID)
+                        {
+                            case "No Media":
+                                return NoMemoryCard;
+                            case "Memory Card 1":
+                            default:
+                                return MemoryCard;
+                        }
+                    }
+                }
+                return NoMemoryCard;
             }
         }
 
@@ -922,6 +964,37 @@ namespace Kazyx.WPPMM.DataModel
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.candidates.Length == 0) { return ""; }
                 else return cameraStatus.ISOSpeedRate.candidates[0];
+            }
+        }
+
+        public string RecordbaleAmount
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.Storages == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
+                {
+                    return "";
+                }
+                foreach (StorageInfo storage in cameraStatus.Storages)
+                {
+                    if (storage.RecordTarget)
+                    {
+                        switch (cameraStatus.ShootModeInfo.current)
+                        {
+                            case ShootModeParam.Still:
+                            case ShootModeParam.Interval:
+                                if (storage.RecordableImages == -1) { return ""; }
+                                return storage.RecordableImages.ToString();
+                            case ShootModeParam.Movie:
+                            case ShootModeParam.Audio:
+                                if (storage.RecordableMovieLength == -1) { return ""; }
+                                return storage.RecordableMovieLength.ToString();
+                            default:
+                                break;
+                        }
+                    }
+                }
+                return "";
             }
         }
     }

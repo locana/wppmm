@@ -147,11 +147,6 @@ namespace Kazyx.WPPMM.DataModel
                     case "Storages":
                         OnPropertyChanged("StorageImage");
                         OnPropertyChanged("RecordbaleAmount");
-                        Debug.WriteLine("description: " + cameraStatus.Storages[0].Description);
-                        Debug.WriteLine("RecordableImages: " + cameraStatus.Storages[0].RecordableImages);
-                        Debug.WriteLine("RecordableMovieLength: " + cameraStatus.Storages[0].RecordableMovieLength);
-                        Debug.WriteLine("RecordTarget: " + cameraStatus.Storages[0].RecordTarget);
-                        Debug.WriteLine("StorageID: " + cameraStatus.Storages[0].StorageID);
                         break;
                 }
             };

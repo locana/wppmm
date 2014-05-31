@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzRemoteApi", "..\modules\K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtNfcLib", "..\modules\NtNfcLib\NtNfcLib\NtNfcLib.csproj", "{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtImageProcessor", "..\..\NtImageLib\NtImageProcessor\NtImageProcessor.csproj", "{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtImageProcessor", "..\modules\NtImageLib\NtImageProcessor\NtImageProcessor.csproj", "{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,3 +10,6 @@
 [submodule "modules/NtNfcLib"]
 	path = modules/NtNfcLib
 	url = git@github.com:naotaco/NtNfcLib.git
+[submodule "modules/NtImageLib"]
+	path = modules/NtImageLib
+	url = git@github.com:naotaco/NtImageLib.git

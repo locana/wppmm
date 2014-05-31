@@ -44,26 +44,33 @@ namespace Kazyx.WPMMM.Controls
         {
             Resolution = resolution;
             MaxFrequency = maxFrequency;
-            ScaleFactor = BarsStackPanel.ActualHeight / (double)maxFrequency * 5;
+            ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 5;
 
             double barWidth = (double)LayoutRoot.ActualWidth / (double)resolution;
             Debug.WriteLine("width " + LayoutRoot.ActualWidth + " " + barWidth);
-                        
+
             var barBrush = new SolidColorBrush();
             barBrush.Color = Color.FromArgb(255, 255, 255, 255);
-            
+
+
             for (int i = 0; i < Resolution; i++)
             {
+                BarsGrid.ColumnDefinitions.Add(new ColumnDefinition()
+                {
+                    Width = new GridLength(1, GridUnitType.Star),
+                });
+
                 var rect = new Rectangle()
                 {
                     VerticalAlignment = System.Windows.VerticalAlignment.Bottom,
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
                     Margin = new Thickness(0),
                     Height = 0,
-                    Width = barWidth,
                     Fill = barBrush,
                     StrokeThickness = 0,
                 };
-                BarsStackPanel.Children.Add(rect);
+                BarsGrid.Children.Add(rect);
+                Grid.SetColumn(rect, i);
             }
 
             Debug.WriteLine("");
@@ -96,15 +103,15 @@ namespace Kazyx.WPMMM.Controls
 
         public void SetHistogramValue(int[] values)
         {
-            for (int i = 0; i < BarsStackPanel.Children.Count; i++)
+            for (int i = 0; i < BarsGrid.Children.Count; i++)
             {
-                var rect = BarsStackPanel.Children.ElementAt(i) as Rectangle;
+                var rect = BarsGrid.Children.ElementAt(i) as Rectangle;
                 if (i < values.Length)
                 {
                     var barHeight = ScaleFactor * values[i];
-                    if (barHeight > BarsStackPanel.ActualHeight)
+                    if (barHeight > BarsGrid.ActualHeight)
                     {
-                        barHeight = BarsStackPanel.ActualHeight;
+                        barHeight = BarsGrid.ActualHeight;
                     }
                     else
                     {

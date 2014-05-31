@@ -16,9 +16,9 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3"/>
             </Grid.RowDefinitions>  
-            <StackPanel Name="BarsStackPanel" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
+            <Grid Name="BarsGrid" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <!--histogram bars will be added here dinamically.-->
-            </StackPanel>
+            </Grid>
             <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="Red"/>
         </Grid>
 

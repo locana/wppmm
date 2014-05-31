@@ -204,7 +204,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
 
             histogramCreator = null;
-            histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_64, 5000);
+            histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128, 5000);
             histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
         }
 

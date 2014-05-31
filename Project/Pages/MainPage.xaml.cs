@@ -454,6 +454,8 @@ namespace Kazyx.WPPMM.Pages
             abm.Enable(IconMenu.ApplicationSetting);
 
             Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
+
+            HistogramRed.Init(WPMMM.Controls.Histogram.ColorType.Red, 128, 1000);
         }
 
         void IntervalManager_OnIntervalRecStatusChanged(bool isRunning)

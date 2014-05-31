@@ -20,9 +20,9 @@ namespace Kazyx.WPMMM.Controls
             Red,
             Green,
             Blue,
+            White,
         }
 
-        private List<Rectangle> bars;
         private int MaxFrequency;
         private int Resolution;
         private double ScaleFactor;
@@ -47,6 +47,7 @@ namespace Kazyx.WPMMM.Controls
             ScaleFactor = BarsStackPanel.ActualHeight / (double)maxFrequency * 5;
 
             double barWidth = (double)LayoutRoot.ActualWidth / (double)resolution;
+            Debug.WriteLine("width " + LayoutRoot.ActualWidth + " " + barWidth);
                         
             var barBrush = new SolidColorBrush();
             barBrush.Color = Color.FromArgb(255, 255, 255, 255);
@@ -82,6 +83,9 @@ namespace Kazyx.WPMMM.Controls
                     break;
                 case ColorType.Blue:
                     colorBarBrush.Color = Color.FromArgb(255, 0, 0, 255);
+                    break;
+                case ColorType.White:
+                    colorBarBrush.Color = Color.FromArgb(255, 255, 255, 255);
                     break;
                 default:
                     colorBarBrush.Color = Color.FromArgb(255, 0, 0, 0);

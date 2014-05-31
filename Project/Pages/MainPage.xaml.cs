@@ -748,8 +748,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 case PageOrientation.LandscapeLeft:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
-                    UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
+                    UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
@@ -757,11 +756,18 @@ namespace Kazyx.WPPMM.Pages
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
                     OpenSlider.Margin = new Thickness(50, 0, 0, 0);
                     Sliders.Margin = new Thickness(70, 0, 70, 0);
+                    Grid.SetRow(HistogramRed, 1);
+                    Grid.SetRow(HistogramGreen, 2);
+                    Grid.SetRow(HistogramBlue, 3);
+                    Grid.SetRow(IntervalStatusPanel, 1);
+                    Grid.SetColumn(HistogramRed, 0);
+                    Grid.SetColumn(HistogramGreen, 0);
+                    Grid.SetColumn(HistogramBlue, 0);
+                    Grid.SetColumn(IntervalStatusPanel, 1);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
-                    UpperLeftElements.Margin = new Thickness(40, 46, 0, 0);
+                    UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
                     BottomElements.Margin = new Thickness(0, 0, 0, 0);
@@ -769,10 +775,17 @@ namespace Kazyx.WPPMM.Pages
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
                     OpenSlider.Margin = new Thickness(70, 0, 0, 0);
                     Sliders.Margin = new Thickness(70, 0, 70, 0);
+                    Grid.SetRow(HistogramRed, 1);
+                    Grid.SetRow(HistogramGreen, 2);
+                    Grid.SetRow(HistogramBlue, 3);
+                    Grid.SetRow(IntervalStatusPanel, 1);
+                    Grid.SetColumn(HistogramRed, 0);
+                    Grid.SetColumn(HistogramGreen, 0);
+                    Grid.SetColumn(HistogramBlue, 0);
+                    Grid.SetColumn(IntervalStatusPanel, 1);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
-                    IntervalStatusPanel.Margin = new Thickness(0, 10, 0, 0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
                     AppSettings.Margin = new Thickness(-12, 64, 0, 64);
@@ -781,6 +794,14 @@ namespace Kazyx.WPPMM.Pages
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);
                     OpenSlider.Margin = new Thickness(5, 0, 0, 0);
                     Sliders.Margin = new Thickness(5, 0, 0, 0);
+                    Grid.SetRow(HistogramRed, 1);
+                    Grid.SetRow(HistogramGreen, 1);
+                    Grid.SetRow(HistogramBlue, 1);
+                    Grid.SetRow(IntervalStatusPanel, 1);
+                    Grid.SetColumn(HistogramRed, 0);
+                    Grid.SetColumn(HistogramGreen, 1);
+                    Grid.SetColumn(HistogramBlue, 2);
+                    Grid.SetColumn(IntervalStatusPanel, 3);
                     break;
             }
 

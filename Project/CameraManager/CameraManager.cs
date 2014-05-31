@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using NtImageProcessor;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -38,6 +39,9 @@ namespace Kazyx.WPPMM.CameraManager
         internal event Action<CameraStatus> UpdateEvent;
         internal event Action OnDisconnected;
         internal event Action<CameraStatus> OnAfStatusChanged;
+
+        internal event Action<int[], int[], int[]> OnHistogramUpdated;
+        internal HistogramCreator histogramCreator;
 
         internal event Action<ServerVersion> VersionDetected;
 
@@ -198,6 +202,21 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 IntervalManager.ActTakePicture += this.RequestActTakePicture;
             }
+
+            histogramCreator = null;
+            histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128, 5000);
+            histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
+        }
+
+        void histogramCreator_OnHistogramCreated(int[] arg1, int[] arg2, int[] arg3)
+        {
+            if (OnHistogramUpdated != null)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {  
+                    OnHistogramUpdated(arg1, arg2, arg3);
+                });
+            }
         }
 
         public static CameraManager GetInstance()
@@ -324,7 +343,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         BitmapImage ImageSource = new BitmapImage()
         {
-            CreateOptions = BitmapCreateOptions.None
+            CreateOptions = BitmapCreateOptions.None,
         };
 
         private async void OnLvClosed(object sender, EventArgs e)
@@ -357,6 +376,7 @@ namespace Kazyx.WPPMM.CameraManager
                     LiveviewImage.image = null;
                     ImageSource.SetSource(stream);
                     LiveviewImage.image = ImageSource;
+                    histogramCreator.CreateHistogram(ImageSource);
                     IsRendering = false;
                 }
             });

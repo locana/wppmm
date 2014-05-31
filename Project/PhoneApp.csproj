@@ -264,6 +264,10 @@
     <Content Include="Assets\Button\ZoomOut.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NtImageLib\NtImageProcessor\NtImageProcessor.csproj">
+      <Project>{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}</Project>
+      <Name>NtImageProcessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\modules\KzRemoteApi\Project\KzRemoteApi.csproj">
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>KzRemoteApi</Name>
@@ -295,6 +299,9 @@
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

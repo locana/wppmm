@@ -23,8 +23,9 @@ namespace Kazyx.WPMMM.Controls
         }
 
         private List<Rectangle> bars;
-        private int MaxLevel;
+        private int MaxFrequency;
         private int Resolution;
+        private double ScaleFactor;
 
         public Histogram()
         {
@@ -39,10 +40,11 @@ namespace Kazyx.WPMMM.Controls
             InitBars(resolution, maxLevel);
         }
 
-        private void InitBars(int resolution, int maxLevel)
+        private void InitBars(int resolution, int maxFrequency)
         {
             Resolution = resolution;
-            maxLevel = MaxLevel;
+            MaxFrequency = maxFrequency;
+            ScaleFactor = BarsStackPanel.ActualHeight / (double)maxFrequency * 10;
 
             double barWidth = (double)LayoutRoot.ActualWidth / (double)resolution;
                         
@@ -55,7 +57,7 @@ namespace Kazyx.WPMMM.Controls
                 {
                     VerticalAlignment = System.Windows.VerticalAlignment.Bottom,
                     Margin = new Thickness(0),
-                    Height = 90,
+                    Height = 0,
                     Width = barWidth,
                     Fill = barBrush,
                     StrokeThickness = 0,
@@ -90,9 +92,21 @@ namespace Kazyx.WPMMM.Controls
 
         public void SetHistogramValue(int[] values)
         {
-            foreach (int value in values)
+            for (int i = 0; i < BarsStackPanel.Children.Count; i++)
             {
-
+                var rect = BarsStackPanel.Children.ElementAt(i) as Rectangle;
+                if (i < values.Length)
+                {
+                    var barHeight = ScaleFactor * values[i];
+                    if (barHeight > BarsStackPanel.ActualHeight)
+                    {
+                        barHeight = BarsStackPanel.ActualHeight;
+                    }
+                    else
+                    {
+                        rect.Height = ScaleFactor * values[i];
+                    }
+                }
             }
         }
 

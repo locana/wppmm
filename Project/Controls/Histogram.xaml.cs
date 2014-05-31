@@ -44,7 +44,7 @@ namespace Kazyx.WPMMM.Controls
         {
             Resolution = resolution;
             MaxFrequency = maxFrequency;
-            ScaleFactor = BarsStackPanel.ActualHeight / (double)maxFrequency * 10;
+            ScaleFactor = BarsStackPanel.ActualHeight / (double)maxFrequency * 5;
 
             double barWidth = (double)LayoutRoot.ActualWidth / (double)resolution;
                         

@@ -309,8 +309,11 @@
                             <TextBlock Margin="15,10" Name="IntervalStatusTime"  Text="{Binding IntervalStatusTime, Mode=OneWay}" />
                             <TextBlock Margin="15,0,15,10" Name="IntervalStatusCount" Text="{Binding IntervalStatusCount, Mode=OneWay}" />
                         </StackPanel>
-                        <Controls:Histogram HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramRed" Width="128" Height="100" Grid.Row="1" />
-
+                        <StackPanel Name="Histgrams" Orientation="Horizontal">
+                            <Controls:Histogram Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramRed" Width="100" Height="100" Grid.Row="1" />
+                            <Controls:Histogram Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramGreen" Width="100" Height="100" Grid.Row="1" />
+                            <Controls:Histogram Margin="5,0" HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramBlue" Width="100" Height="100" Grid.Row="1" />
+                        </StackPanel>
                     </Grid>
                     <Rectangle Name="HalfPressFocusStatus" Fill="{StaticResource PhoneAccentBrush}" Width="25" Height="25"  Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="6,3"
                                 Visibility="{Binding HalfPressedAFVisibility, Mode=OneWay, FallbackValue=Collapsed}" >

@@ -20,6 +20,7 @@ namespace Kazyx.WPPMM.DataModel
             IsIntervalShootingEnabled = Preference.IsIntervalShootingEnabled();
             IntervalTime = Preference.IntervalTime();
             IsShootButtonDisplayed = Preference.IsShootButtonDisplayed();
+            IsHistogramDisplayed = Preference.IsHistogramDisplayed();
         }
 
         public static ApplicationSettings GetInstance()
@@ -132,11 +133,42 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        private bool _IsHistogramDisplayed = true;
+        public bool IsHistogramDisplayed
+        {
+            set
+            {
+                if (_IsHistogramDisplayed != value)
+                {
+                    Preference.SetHistogramDisplayed(value);
+                    _IsHistogramDisplayed = value;
+                    OnPropertyChanged("HistogramVisibility");
+
+                }
+            }
+            get { return _IsHistogramDisplayed; }
+        }
+
         public Visibility ShootButtonVisibility
         {
             get
             {
                 if (_IsShootButtonDisplayed)
+                {
+                    return Visibility.Visible;
+                }
+                else
+                {
+                    return Visibility.Collapsed;
+                }
+            }
+        }
+
+        public Visibility HistogramVisibility
+        {
+            get
+            {
+                if (_IsHistogramDisplayed)
                 {
                     return Visibility.Visible;
                 }

@@ -214,6 +214,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display histogram.
+        /// </summary>
+        public static string DisplayHistogram {
+            get {
+                return ResourceManager.GetString("DisplayHistogram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display shutter button on the screen..
         /// </summary>
         public static string DisplayTakeImageButtonSetting {

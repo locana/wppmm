@@ -12,6 +12,7 @@ namespace Kazyx.WPPMM.Controls
         {
             displayShootbutton,
             postviewImageTransfer,
+            displayHistogram,
         };
 
         public CheckBoxSetting(string title, string guide, SettingType setting)
@@ -48,6 +49,9 @@ namespace Kazyx.WPPMM.Controls
                 case SettingType.postviewImageTransfer:
                     isChecked = ApplicationSettings.GetInstance().IsPostviewTransferEnabled;
                     break;
+                case SettingType.displayHistogram:
+                    isChecked = ApplicationSettings.GetInstance().IsHistogramDisplayed;
+                    break;
             }
 
             SettingCheckBox.IsChecked = isChecked;
@@ -63,6 +67,9 @@ namespace Kazyx.WPPMM.Controls
                 case SettingType.postviewImageTransfer:
                     ApplicationSettings.GetInstance().IsPostviewTransferEnabled = false;
                     break;
+                case SettingType.displayHistogram:
+                    ApplicationSettings.GetInstance().IsHistogramDisplayed = false;
+                    break;
             }
         }
 
@@ -75,6 +82,9 @@ namespace Kazyx.WPPMM.Controls
                     break;
                 case SettingType.postviewImageTransfer:
                     ApplicationSettings.GetInstance().IsPostviewTransferEnabled = true;
+                    break;
+                case SettingType.displayHistogram:
+                    ApplicationSettings.GetInstance().IsHistogramDisplayed = true;
                     break;
             }
         }

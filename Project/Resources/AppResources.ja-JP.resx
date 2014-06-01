@@ -379,4 +379,7 @@
   <data name="MovieQuality" xml:space="preserve">
     <value>動画画質</value>
   </data>
+  <data name="DisplayHistogram" xml:space="preserve">
+    <value>ヒストグラムを表示する</value>
+  </data>
 </root>

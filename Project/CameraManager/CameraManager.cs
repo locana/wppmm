@@ -376,7 +376,10 @@ namespace Kazyx.WPPMM.CameraManager
                     LiveviewImage.image = null;
                     ImageSource.SetSource(stream);
                     LiveviewImage.image = ImageSource;
-                    histogramCreator.CreateHistogram(ImageSource);
+                    if (ApplicationSettings.GetInstance().IsHistogramDisplayed)
+                    {
+                        histogramCreator.CreateHistogram(ImageSource);
+                    }
                     IsRendering = false;
                 }
             });

@@ -715,6 +715,9 @@ namespace Kazyx.WPPMM.Pages
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
             ShootButton.DataContext = svd;
             TouchAFPointer.DataContext = svd;
+            HistogramRed.DataContext = ApplicationSettings.GetInstance();
+            HistogramGreen.DataContext = ApplicationSettings.GetInstance();
+            HistogramBlue.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
         }
@@ -728,6 +731,9 @@ namespace Kazyx.WPPMM.Pages
             ShootButtonWrapper.DataContext = null;
             ShootButton.DataContext = null;
             TouchAFPointer.DataContext = null;
+            HistogramRed.DataContext = null;
+            HistogramGreen.DataContext = null;
+            HistogramBlue.DataContext = null;
             svd = null;
         }
 
@@ -928,6 +934,7 @@ namespace Kazyx.WPPMM.Pages
         {
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage, CheckBoxSetting.SettingType.postviewImageTransfer));
+            AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayHistogram, CheckBoxSetting.SettingType.displayHistogram));
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
 
         }

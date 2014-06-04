@@ -268,13 +268,13 @@
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>KzRemoteApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\modules\KzSoDiscovery\Project\KzSoDiscovery.csproj">
-      <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
-      <Name>KzSoDiscovery</Name>
-    </ProjectReference>
     <ProjectReference Include="..\modules\KzLiveview\Project\KzLiveview.csproj">
       <Project>{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}</Project>
       <Name>KzLiveview</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modules\KzSoDiscovery\Project\KzSoDiscovery.csproj">
+      <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
+      <Name>KzSoDiscovery</Name>
     </ProjectReference>
     <ProjectReference Include="..\modules\NtImageLib\NtImageProcessor\NtImageProcessor.csproj">
       <Project>{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}</Project>
@@ -286,7 +286,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AppResources.ja-JP.resx" />
+    <EmbeddedResource Include="Resources\AppResources.ja-JP.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -294,7 +296,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="DeviceDiscovery, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>

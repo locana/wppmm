@@ -1,4 +1,3 @@
-using Kazyx.DeviceDiscovery;
 using Kazyx.Liveview;
 using Kazyx.RemoteApi;
 using Kazyx.WPMMM.Resources;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using NtImageProcessor;
+using Kazyx.DeviceDiscovery;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -204,7 +204,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
 
             histogramCreator = null;
-            histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128, 5000);
+            histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128);
             histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
         }
 

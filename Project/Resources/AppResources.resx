@@ -380,6 +380,7 @@ Please check internet connection status</value>
   </data>
   <data name="DisplayHistogram" xml:space="preserve">
     <value>Display histogram</value>
+    </data>
   <data name="StillImageSize" xml:space="preserve">
     <value>Picture resolution</value>
   </data>

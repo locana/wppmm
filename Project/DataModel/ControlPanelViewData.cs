@@ -34,41 +34,26 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableSteadyMode");
                         OnPropertyChanged("CpIsAvailableViewAngle");
                         OnPropertyChanged("CpIsAvailableMovieQuality");
+                        OnPropertyChanged("CpIsAvailableStillImageSize");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
-                    case "PostviewSizeInfo":
-                        OnPropertyChanged("CpCandidatesPostviewSize");
-                        OnPropertyChanged("CpSelectedIndexPostviewSize");
-                        break;
-                    case "SelfTimerInfo":
-                        OnPropertyChanged("CpCandidatesSelfTimer");
-                        OnPropertyChanged("CpSelectedIndexSelfTimer");
-                        break;
-                    case "ShootModeInfo":
+                    case "ShootMode":
                         OnPropertyChanged("CpCandidatesShootMode");
                         OnPropertyChanged("CpSelectedIndexShootMode");
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
+                    case "PostviewSize":
+                    case "SelfTimer":
                     case "ExposureMode":
-                        OnPropertyChanged("CpCandidatesExposureMode");
-                        OnPropertyChanged("CpSelectedIndexExposureMode");
-                        break;
                     case "BeepMode":
-                        OnPropertyChanged("CpCandidatesBeepMode");
-                        OnPropertyChanged("CpSelectedIndexBeepMode");
-                        break;
                     case "SteadyMode":
-                        OnPropertyChanged("CpCandidatesSteadyMode");
-                        OnPropertyChanged("CpSelectedIndexSteadyMode");
-                        break;
                     case "ViewAngle":
-                        OnPropertyChanged("CpCandidatesViewAngle");
-                        OnPropertyChanged("CpSelectedIndexViewAngle");
-                        break;
                     case "MovieQuality":
-                        OnPropertyChanged("CpCandidatesMovieQuality");
-                        OnPropertyChanged("CpSelectedIndexMovieQuality");
+                    case "StillImageSize":
+                        OnPropertyChanged("CpCandidates" + e.PropertyName);
+                        OnPropertyChanged("CpSelectedIndex" + e.PropertyName);
+                        OnPropertyChanged("CpIsAvailable" + e.PropertyName);
                         break;
                     default:
                         break;
@@ -111,17 +96,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.SelfTimerInfo != null)
-                {
-                    if (status.SelfTimerInfo.candidates.Length > value)
-                    {
-                        status.SelfTimerInfo.current = status.SelfTimerInfo.candidates[value];
-                    }
-                    else
-                    {
-                        status.SelfTimerInfo.current = 0;
-                    }
-                }
+                SetSelectedAsCurrent(status.SelfTimerInfo, value);
             }
         }
 
@@ -152,17 +127,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.PostviewSizeInfo != null)
-                {
-                    if (status.PostviewSizeInfo.candidates.Length > value)
-                    {
-                        status.PostviewSizeInfo.current = status.PostviewSizeInfo.candidates[value];
-                    }
-                    else
-                    {
-                        status.PostviewSizeInfo.current = null;
-                    }
-                }
+                SetSelectedAsCurrent(status.PostviewSizeInfo, value);
             }
         }
 
@@ -193,17 +158,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.ShootModeInfo != null)
-                {
-                    if (status.ShootModeInfo.candidates.Length > value)
-                    {
-                        status.ShootModeInfo.current = status.ShootModeInfo.candidates[value];
-                    }
-                    else
-                    {
-                        status.ShootModeInfo.current = null;
-                    }
-                }
+                SetSelectedAsCurrent(status.ShootModeInfo, value);
             }
         }
 
@@ -234,17 +189,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.ExposureMode != null)
-                {
-                    if (status.ExposureMode.candidates.Length > value)
-                    {
-                        status.ExposureMode.current = status.ExposureMode.candidates[value];
-                    }
-                    else
-                    {
-                        status.ExposureMode.current = null;
-                    }
-                }
+                SetSelectedAsCurrent(status.ExposureMode, value);
             }
         }
 
@@ -352,17 +297,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.BeepMode != null)
-                {
-                    if (status.BeepMode.candidates.Length > value)
-                    {
-                        status.BeepMode.current = status.BeepMode.candidates[value];
-                    }
-                    else
-                    {
-                        status.BeepMode.current = null;
-                    }
-                }
+                SetSelectedAsCurrent(status.BeepMode, value);
             }
         }
 
@@ -385,6 +320,37 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public int CpSelectedIndexStillImageSize
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.StillImageSize);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.StillImageSize, value);
+            }
+        }
+
+        public string[] CpCandidatesStillImageSize
+        {
+            get
+            {
+                return SettingsValueConverter.FromStillImageSize(status.StillImageSize).candidates;
+            }
+        }
+
+        public bool CpIsAvailableStillImageSize
+        {
+            get
+            {
+                return status.IsAvailable("setStillSize") &&
+                    status.StillImageSize != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
         public int CpSelectedIndexViewAngle
         {
             get
@@ -393,17 +359,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.ViewAngle != null)
-                {
-                    if (status.ViewAngle.candidates.Length > value)
-                    {
-                        status.ViewAngle.current = status.ViewAngle.candidates[value];
-                    }
-                    else
-                    {
-                        status.ViewAngle.current = 0;
-                    }
-                }
+                SetSelectedAsCurrent(status.ViewAngle, value);
             }
         }
 
@@ -434,17 +390,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.SteadyMode != null)
-                {
-                    if (status.SteadyMode.candidates.Length > value)
-                    {
-                        status.SteadyMode.current = status.SteadyMode.candidates[value];
-                    }
-                    else
-                    {
-                        status.SteadyMode.current = null;
-                    }
-                }
+                SetSelectedAsCurrent(status.SteadyMode, value);
             }
         }
 
@@ -475,17 +421,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             set
             {
-                if (status.MovieQuality != null)
-                {
-                    if (status.MovieQuality.candidates.Length > value)
-                    {
-                        status.MovieQuality.current = status.MovieQuality.candidates[value];
-                    }
-                    else
-                    {
-                        status.MovieQuality.current = null;
-                    }
-                }
+                SetSelectedAsCurrent(status.MovieQuality, value);
             }
         }
 
@@ -524,6 +460,22 @@ namespace Kazyx.WPPMM.DataModel
         public void OnControlPanelPropertyChanged(string name)
         {
             OnPropertyChanged(name);
+        }
+
+        private static void SetSelectedAsCurrent<T>(Capability<T> capability, int index)
+        {
+            if (capability != null)
+            {
+                if (capability.candidates.Length > index)
+                {
+                    capability.current = capability.candidates[index];
+                }
+                else
+                {
+
+                    capability.current = default(T);
+                }
+            }
         }
     }
 }

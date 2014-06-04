@@ -202,6 +202,8 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.LiveviewOrientation(target, data.LiveviewOrientation);
 
             StatusUpdater.PictureUrls(target, data.PictureUrls);
+
+            StatusUpdater.StillSize(target, data.StillImageSize, client);
         }
 
         private async void Call()

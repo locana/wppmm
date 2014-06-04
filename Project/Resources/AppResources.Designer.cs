@@ -800,6 +800,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Picture resolution.
+        /// </summary>
+        public static string StillImageSize {
+            get {
+                return ResourceManager.GetString("StillImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Switch.
         /// </summary>
         public static string Switch {

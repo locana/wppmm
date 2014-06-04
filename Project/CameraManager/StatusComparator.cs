@@ -1,4 +1,6 @@
 using Kazyx.RemoteApi;
+using System;
+using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 
@@ -189,6 +191,68 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
             status.PictureUrls = latest;
+        }
+
+        internal static async void StillSize(CameraStatus status, StillImageSizeEvent latest, CameraApiClient client)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            if (latest.CapabilityChanged)
+            {
+                try
+                {
+                    var size = await client.GetAvailableStillSizeAsync();
+                    Array.Sort(size.candidates, CompareStillSize);
+                    status.StillImageSize = size;
+                }
+                catch (RemoteApiException)
+                {
+                    Debug.WriteLine("Failed to get still image size capability");
+                }
+            }
+        }
+
+        private static int CompareStillSize(StillImageSize x, StillImageSize y)
+        {
+            if (x == null && y == null)
+            {
+                return 0;
+            }
+            if (x == null)
+            {
+                return -1;
+            }
+            if (y == null)
+            {
+                return 1;
+            }
+
+            if (!x.SizeDefinition.EndsWith("M") || !y.SizeDefinition.EndsWith("M"))
+            {
+                var comp = x.SizeDefinition.CompareTo(y.SizeDefinition);
+                if (comp == 0)
+                {
+                    return x.AspectRatio.CompareTo(y.AspectRatio);
+                }
+                else
+                {
+                    return comp;
+                }
+            }
+
+            var xv = (int)double.Parse(x.SizeDefinition.Substring(0, x.SizeDefinition.Length - 1)) * 100;
+            var yv = (int)double.Parse(y.SizeDefinition.Substring(0, y.SizeDefinition.Length - 1)) * 100;
+
+            if (xv == yv)
+            {
+                return x.AspectRatio.CompareTo(y.AspectRatio);
+            }
+            else
+            {
+                return xv < yv ? 1 : -1;
+            }
         }
     }
 }

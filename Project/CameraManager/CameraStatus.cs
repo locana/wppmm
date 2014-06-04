@@ -219,7 +219,7 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _PostviewSizeInfo = value;
-                OnPropertyChanged("PostviewSizeInfo");
+                OnPropertyChanged("PostviewSize");
             }
             get { return _PostviewSizeInfo; }
         }
@@ -230,7 +230,7 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _SelfTimerInfo = value;
-                OnPropertyChanged("SelfTimerInfo");
+                OnPropertyChanged("SelfTimer");
             }
             get { return _SelfTimerInfo; }
         }
@@ -250,7 +250,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     _ShootModeInfo.previous = previous;
                 }
-                OnPropertyChanged("ShootModeInfo");
+                OnPropertyChanged("ShootMode");
                 OnPropertyChanged("LiveviewScreenVisibility");
                 OnPropertyChanged("AudioScreenVisibility");
 
@@ -348,6 +348,17 @@ namespace Kazyx.WPPMM.CameraManager
                 OnPropertyChanged("MovieQuality");
             }
             get { return _MovieQuality; }
+        }
+
+        private Capability<StillImageSize> _StillSize;
+        public Capability<StillImageSize> StillImageSize
+        {
+            set
+            {
+                _StillSize = value;
+                OnPropertyChanged("StillImageSize");
+            }
+            get { return _StillSize; }
         }
 
         private EvCapability _EvInfo;

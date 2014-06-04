@@ -1100,6 +1100,15 @@ namespace Kazyx.WPPMM.CameraManager
             return apiClient.SetMovieQualityAsync(value);
         }
 
+        public Task SetStillImageSizeAsync(StillImageSize size)
+        {
+            if (apiClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return apiClient.SetStillImageSizeAsync(size);
+        }
+
         public async void SetMovieQuality(string value)
         {
             if (apiClient == null)

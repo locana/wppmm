@@ -378,4 +378,7 @@ Please check internet connection status</value>
   <data name="MovieQuality" xml:space="preserve">
     <value>Movie quality</value>
   </data>
+  <data name="StillImageSize" xml:space="preserve">
+    <value>Picture resolution</value>
+  </data>
 </root>

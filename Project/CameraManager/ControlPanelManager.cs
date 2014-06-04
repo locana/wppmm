@@ -42,6 +42,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
             Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
+            Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
             Panels.Add("setPostViewSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
             Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
@@ -339,6 +340,12 @@ namespace Kazyx.WPPMM.CameraManager
                 async (selected) => { await manager.SetMovieQualityAsync(selected); });
         }
 
+        private async void OnStillImageSizeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<StillImageSize>(sender, status.StillImageSize,
+                async (selected) => { await manager.SetStillImageSizeAsync(selected); });
+        }
+
         private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)
         {
             if (param == null || param.candidates == null || param.candidates.Length == 0)
@@ -358,7 +365,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("Failed to set SteadyMode: " + e.code);
+                Debug.WriteLine("Failed to set: " + e.code);
                 manager.RefreshEventObserver();
             }
         }

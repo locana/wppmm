@@ -379,4 +379,7 @@
   <data name="MovieQuality" xml:space="preserve">
     <value>動画画質</value>
   </data>
+  <data name="StillImageSize" xml:space="preserve">
+    <value>静止画サイズ</value>
+  </data>
 </root>

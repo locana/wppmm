@@ -34,41 +34,26 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableSteadyMode");
                         OnPropertyChanged("CpIsAvailableViewAngle");
                         OnPropertyChanged("CpIsAvailableMovieQuality");
+                        OnPropertyChanged("CpIsAvailableStillImageSize");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
-                    case "PostviewSizeInfo":
-                        OnPropertyChanged("CpCandidatesPostviewSize");
-                        OnPropertyChanged("CpSelectedIndexPostviewSize");
-                        break;
-                    case "SelfTimerInfo":
-                        OnPropertyChanged("CpCandidatesSelfTimer");
-                        OnPropertyChanged("CpSelectedIndexSelfTimer");
-                        break;
-                    case "ShootModeInfo":
+                    case "ShootMode":
                         OnPropertyChanged("CpCandidatesShootMode");
                         OnPropertyChanged("CpSelectedIndexShootMode");
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
+                    case "PostviewSize":
+                    case "SelfTimer":
                     case "ExposureMode":
-                        OnPropertyChanged("CpCandidatesExposureMode");
-                        OnPropertyChanged("CpSelectedIndexExposureMode");
-                        break;
                     case "BeepMode":
-                        OnPropertyChanged("CpCandidatesBeepMode");
-                        OnPropertyChanged("CpSelectedIndexBeepMode");
-                        break;
                     case "SteadyMode":
-                        OnPropertyChanged("CpCandidatesSteadyMode");
-                        OnPropertyChanged("CpSelectedIndexSteadyMode");
-                        break;
                     case "ViewAngle":
-                        OnPropertyChanged("CpCandidatesViewAngle");
-                        OnPropertyChanged("CpSelectedIndexViewAngle");
-                        break;
                     case "MovieQuality":
-                        OnPropertyChanged("CpCandidatesMovieQuality");
-                        OnPropertyChanged("CpSelectedIndexMovieQuality");
+                    case "StillImageSize":
+                        OnPropertyChanged("CpCandidates" + e.PropertyName);
+                        OnPropertyChanged("CpSelectedIndex" + e.PropertyName);
+                        OnPropertyChanged("CpIsAvailable" + e.PropertyName);
                         break;
                     default:
                         break;
@@ -380,6 +365,47 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return status.IsAvailable("setBeepMode") &&
                     status.BeepMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexStillImageSize
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.StillImageSize);
+            }
+            set
+            {
+                if (status.StillImageSize != null)
+                {
+                    if (status.StillImageSize.candidates.Length > value)
+                    {
+                        status.StillImageSize.current = status.StillImageSize.candidates[value];
+                    }
+                    else
+                    {
+                        status.StillImageSize.current = null;
+                    }
+                }
+            }
+        }
+
+        public string[] CpCandidatesStillImageSize
+        {
+            get
+            {
+                return SettingsValueConverter.FromStillImageSize(status.StillImageSize).candidates;
+            }
+        }
+
+        public bool CpIsAvailableStillImageSize
+        {
+            get
+            {
+                return status.IsAvailable("setStillSize") &&
+                    status.StillImageSize != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
             }

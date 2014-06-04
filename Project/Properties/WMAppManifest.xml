@@ -5,7 +5,7 @@
     <Language code="en" />
     <Language code="ja-JP" />
   </Languages>
-  <App xmlns="" ProductID="{8e9f3bbf-db1d-478f-8341-db0d1767fd8d}" Title="Scrap" RuntimeType="Silverlight" Version="2.1.0.0" Genre="apps.normal" Author="kazyx and naotaco" Description="Remote shooting application powered by Sony Camera Remote API." Publisher="kazyx" PublisherID="{c4b36e6b-5c04-4e1f-93a4-ac06dce252b1}">
+  <App xmlns="" ProductID="{8e9f3bbf-db1d-478f-8341-db0d1767fd8d}" Title="Scrap" RuntimeType="Silverlight" Version="2.2.0.0" Genre="apps.normal" Author="kazyx and naotaco" Description="Remote shooting application powered by Sony Camera Remote API." Publisher="kazyx" PublisherID="{c4b36e6b-5c04-4e1f-93a4-ac06dce252b1}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

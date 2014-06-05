@@ -43,7 +43,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
-            Panels.Add("setPostViewSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
+            Panels.Add("setPostviewImageSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
             Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());

@@ -15,12 +15,11 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3"/>
-            </Grid.RowDefinitions>  
+            </Grid.RowDefinitions>
             <Grid Name="BarsGrid" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <!--histogram bars will be added here dinamically.-->
+                <Polygon x:Name="HistogramPolygon" Fill="White" />
             </Grid>
             <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="Red"/>
         </Grid>
-
     </Grid>
 </UserControl>

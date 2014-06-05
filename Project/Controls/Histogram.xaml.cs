@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 namespace Kazyx.WPMMM.Controls
 {
@@ -24,56 +16,23 @@ namespace Kazyx.WPMMM.Controls
         }
 
         private int MaxFrequency;
-        private int Resolution;
         private double ScaleFactor;
 
         public Histogram()
         {
             InitializeComponent();
-
-
         }
 
-        public void Init(ColorType type, int resolution, int maxLevel)
+        public void Init(ColorType type, int maxLevel)
         {
             InitColorBar(type);
-            InitBars(resolution, maxLevel);
+            InitBars(maxLevel);
         }
 
-        private void InitBars(int resolution, int maxFrequency)
+        private void InitBars(int maxFrequency)
         {
-            Resolution = resolution;
             MaxFrequency = maxFrequency;
-            ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 5;
-
-            double barWidth = (double)LayoutRoot.ActualWidth / (double)resolution;
-            Debug.WriteLine("width " + LayoutRoot.ActualWidth + " " + barWidth);
-
-            var barBrush = new SolidColorBrush();
-            barBrush.Color = Color.FromArgb(255, 255, 255, 255);
-
-
-            for (int i = 0; i < Resolution; i++)
-            {
-                BarsGrid.ColumnDefinitions.Add(new ColumnDefinition()
-                {
-                    Width = new GridLength(1, GridUnitType.Star),
-                });
-
-                var rect = new Rectangle()
-                {
-                    VerticalAlignment = System.Windows.VerticalAlignment.Bottom,
-                    HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-                    Margin = new Thickness(0),
-                    Height = 0,
-                    Fill = barBrush,
-                    StrokeThickness = 0,
-                };
-                BarsGrid.Children.Add(rect);
-                Grid.SetColumn(rect, i);
-            }
-
-            Debug.WriteLine("");
+            ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 6;
         }
 
         private void InitColorBar(ColorType type)
@@ -101,25 +60,37 @@ namespace Kazyx.WPMMM.Controls
             ColorBar.Fill = colorBarBrush;
         }
 
+        private const int X_SKIP_ORDER = 4;
+
         public void SetHistogramValue(int[] values)
         {
-            for (int i = 0; i < BarsGrid.Children.Count; i++)
+            if (values == null)
             {
-                var rect = BarsGrid.Children.ElementAt(i) as Rectangle;
-                if (i < values.Length)
-                {
-                    var barHeight = ScaleFactor * values[i];
-                    if (barHeight > BarsGrid.ActualHeight)
-                    {
-                        barHeight = BarsGrid.ActualHeight;
-                    }
-                    else
-                    {
-                        rect.Height = ScaleFactor * values[i];
-                    }
-                }
+                return;
             }
-        }
 
+            var rate = (int)(values.Length / BarsGrid.ActualWidth * X_SKIP_ORDER);
+
+            var points = new PointCollection();
+
+            // Left corner
+            points.Add(new Point(0.0, BarsGrid.ActualHeight));
+
+            for (int i = 0; i < BarsGrid.ActualWidth / X_SKIP_ORDER; i++)
+            {
+                var index = rate * i;
+                if (index > values.Length - 1)
+                {
+                    index = values.Length - 1;
+                }
+                var barHeight = ScaleFactor * values[index];
+                points.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeight)));
+            }
+
+            // Right corner
+            points.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
+
+            HistogramPolygon.Points = points;
+        }
     }
 }

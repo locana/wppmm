@@ -116,9 +116,6 @@
     <Compile Include="DataModel\ControlPanelViewData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
     <Compile Include="DataModel\VisualSelectorData.cs" />
-    <Compile Include="Pages\AppSettingPage.xaml.cs">
-      <DependentUpon>AppSettingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\HiddenPage.xaml.cs">
       <DependentUpon>HiddenPage.xaml</DependentUpon>
     </Compile>
@@ -170,10 +167,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\AboutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AppSettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

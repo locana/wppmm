@@ -458,7 +458,7 @@ namespace Kazyx.WPPMM.Pages
             HistogramRed.Init(WPMMM.Controls.Histogram.ColorType.Red, 128, 1000);
             HistogramGreen.Init(WPMMM.Controls.Histogram.ColorType.Green, 128, 1000);
             HistogramBlue.Init(WPMMM.Controls.Histogram.ColorType.Blue, 128, 1000);
-            
+
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
         }
 
@@ -934,7 +934,7 @@ namespace Kazyx.WPPMM.Pages
         {
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage, CheckBoxSetting.SettingType.postviewImageTransfer));
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayHistogram, CheckBoxSetting.SettingType.displayHistogram));
+            AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayHistogram, AppResources.Guide_Histogram, CheckBoxSetting.SettingType.displayHistogram));
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
 
         }

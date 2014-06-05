@@ -380,8 +380,11 @@ Please check internet connection status</value>
   </data>
   <data name="DisplayHistogram" xml:space="preserve">
     <value>Display histogram</value>
-    </data>
+  </data>
   <data name="StillImageSize" xml:space="preserve">
     <value>Picture resolution</value>
+  </data>
+  <data name="Guide_Histogram" xml:space="preserve">
+    <value>Analyze and display RGB histogram. This may cause performance issue on some devices.</value>
   </data>
 </root>

@@ -381,8 +381,11 @@
   </data>
   <data name="DisplayHistogram" xml:space="preserve">
     <value>ヒストグラムを表示する</value>
-    </data>
+  </data>
   <data name="StillImageSize" xml:space="preserve">
     <value>静止画サイズ</value>
+  </data>
+  <data name="Guide_Histogram" xml:space="preserve">
+    <value>RGBヒストグラムを解析して表示します。機器によってはアプリのパフォーマンスに影響する場合があります。</value>
   </data>
 </root>

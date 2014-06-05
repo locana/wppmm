@@ -449,6 +449,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analyze and display RGB histogram. This may cause performance issue on some devices..
+        /// </summary>
+        public static string Guide_Histogram {
+            get {
+                return ResourceManager.GetString("Guide_Histogram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can touch your NFC enabled camera to find password..
         /// </summary>
         public static string Guide_NFC {

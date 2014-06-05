@@ -26,7 +26,7 @@ namespace Kazyx.WPPMM.CameraManager
         public ScalarDeviceInfo DeviceInfo;
 
         private readonly SoDiscovery deviceFinder = new SoDiscovery();
-        private CameraApiClient apiClient;
+        private CameraApiClient cameraClient;
         private SystemApiClient sysClient;
 
         private readonly LvStreamProcessor lvProcessor = new LvStreamProcessor();
@@ -157,12 +157,12 @@ namespace Kazyx.WPPMM.CameraManager
 
                 if (DeviceInfo.Endpoints.ContainsKey("camera"))
                 {
-                    apiClient = new CameraApiClient(e.ScalarDevice.Endpoints["camera"]);
+                    cameraClient = new CameraApiClient(e.ScalarDevice.Endpoints["camera"]);
                     Debug.WriteLine(e.ScalarDevice.Endpoints["camera"]);
                     GetMethodTypes();
                     cameraStatus.isAvailableConnecting = true;
 
-                    observer = new EventObserver(apiClient);
+                    observer = new EventObserver(cameraClient);
                 }
                 if (DeviceInfo.Endpoints.ContainsKey("system"))
                 {
@@ -178,7 +178,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         public bool IsClientReady()
         {
-            return apiClient != null && cameraStatus.SupportedApis.Count != 0;
+            return cameraClient != null && cameraStatus.SupportedApis.Count != 0;
         }
 
         public void Refresh()
@@ -187,7 +187,7 @@ namespace Kazyx.WPPMM.CameraManager
             watch = new Stopwatch();
             watch.Start();
             DeviceInfo = null;
-            apiClient = null;
+            cameraClient = null;
             cameraStatus.Init();
             cameraStatus.InitEventParams();
             if (observer != null)
@@ -210,13 +210,13 @@ namespace Kazyx.WPPMM.CameraManager
 
         void histogramCreator_OnHistogramCreated(int[] arg1, int[] arg2, int[] arg3)
         {
-            if (OnHistogramUpdated != null)
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {  
+                if (OnHistogramUpdated != null)
+                {
                     OnHistogramUpdated(arg1, arg2, arg3);
-                });
-            }
+                }
+            });
         }
 
         public static CameraManager GetInstance()
@@ -226,13 +226,13 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void OperateInitialProcess()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
                 return;
 
             ServerAppInfo info = null;
             try
             {
-                info = await apiClient.GetApplicationInfoAsync();
+                info = await cameraClient.GetApplicationInfoAsync();
             }
             catch (RemoteApiException e)
             {
@@ -257,7 +257,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 try
                 {
-                    await apiClient.StartRecModeAsync();
+                    await cameraClient.StartRecModeAsync();
                     if (cameraStatus.IsAvailable("startLiveview"))
                     {
                         OpenLiveviewConnection();
@@ -288,7 +288,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void OpenLiveviewConnection(TimeSpan? connectionTimeout = null)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
@@ -300,7 +300,7 @@ namespace Kazyx.WPPMM.CameraManager
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
             try
             {
-                var url = await apiClient.StartLiveviewAsync();
+                var url = await cameraClient.StartLiveviewAsync();
 
                 if (!lvProcessor.IsProcessing)
                 {
@@ -325,20 +325,20 @@ namespace Kazyx.WPPMM.CameraManager
 
         public Task SetPostViewImageSizeAsync(string size)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
-            return apiClient.SetPostviewImageSizeAsync(size);
+            return cameraClient.SetPostviewImageSizeAsync(size);
         }
 
         public Task SetSelfTimerAsync(int timer)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
-            return apiClient.SetSelfTimerAsync(timer);
+            return cameraClient.SetSelfTimerAsync(timer);
         }
 
         BitmapImage ImageSource = new BitmapImage()
@@ -369,7 +369,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             IsRendering = true;
             var size = e.JpegData.Length;
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            Deployment.Current.Dispatcher.BeginInvoke(async () =>
             {
                 using (var stream = new MemoryStream(e.JpegData, 0, size))
                 {
@@ -378,7 +378,7 @@ namespace Kazyx.WPPMM.CameraManager
                     LiveviewImage.image = ImageSource;
                     if (ApplicationSettings.GetInstance().IsHistogramDisplayed)
                     {
-                        histogramCreator.CreateHistogram(ImageSource);
+                        await histogramCreator.CreateHistogram(ImageSource);
                     }
                     IsRendering = false;
                 }
@@ -404,14 +404,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void GetMethodTypes()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                var methodTypes = await apiClient.GetMethodTypesAsync(); // Empty string means get all methods in all versions.
+                var methodTypes = await cameraClient.GetMethodTypesAsync(); // Empty string means get all methods in all versions.
                 var list = new Dictionary<string, List<string>>();
                 foreach (MethodType t in methodTypes)
                 {
@@ -469,7 +469,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void RequestActTakePicture()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
@@ -477,7 +477,7 @@ namespace Kazyx.WPPMM.CameraManager
             AppStatus.GetInstance().IsTakingPicture = true;
             try
             {
-                var urls = await apiClient.ActTakePictureAsync();
+                var urls = await cameraClient.ActTakePictureAsync();
                 OnResultActTakePicture(urls);
             }
             catch (RemoteApiException e)
@@ -583,14 +583,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void StartMovieRec()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.StartMovieRecAsync();
+                await cameraClient.StartMovieRecAsync();
             }
             catch (RemoteApiException e)
             {
@@ -600,14 +600,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void StopMovieRec()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.StopMovieRecAsync();
+                await cameraClient.StopMovieRecAsync();
             }
             catch (RemoteApiException e)
             {
@@ -617,14 +617,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void StartAudioRec()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.StartAudioRecAsync();
+                await cameraClient.StartAudioRecAsync();
             }
             catch (RemoteApiException e)
             {
@@ -634,14 +634,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void StopAudioRec()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.StopAudioRecAsync();
+                await cameraClient.StopAudioRecAsync();
             }
             catch (RemoteApiException e)
             {
@@ -651,14 +651,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void StartIntervalStillRec()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.StartIntervalStillRecAsync();
+                await cameraClient.StartIntervalStillRecAsync();
             }
             catch (RemoteApiException e)
             {
@@ -668,14 +668,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void StopIntervalStillRec()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.StopIntervalStillRecAsync();
+                await cameraClient.StopIntervalStillRecAsync();
             }
             catch (RemoteApiException e)
             {
@@ -687,14 +687,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal async void RequestActZoom(String direction, String movement)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.ActZoomAsync(direction, movement);
+                await cameraClient.ActZoomAsync(direction, movement);
             }
             catch (RemoteApiException e)
             {
@@ -802,17 +802,17 @@ namespace Kazyx.WPPMM.CameraManager
 
         public Task SetShootModeAsync(string mode)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
 
-            return apiClient.SetShootModeAsync(mode);
+            return cameraClient.SetShootModeAsync(mode);
         }
 
         public async void RequestTouchAF(double x, double y)
         {
-            if (apiClient == null || x < 0 || x > 100 || y < 0 || y > 100)
+            if (cameraClient == null || x < 0 || x > 100 || y < 0 || y > 100)
             {
                 return;
             }
@@ -822,7 +822,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             try
             {
-                await apiClient.SetAFPositionAsync(x, y);
+                await cameraClient.SetAFPositionAsync(x, y);
             }
             catch (RemoteApiException e)
             {
@@ -836,7 +836,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void CancelTouchAF()
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
@@ -845,7 +845,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             try
             {
-                await apiClient.CancelTouchAFAsync();
+                await cameraClient.CancelTouchAFAsync();
             }
             catch (RemoteApiException e) { }
         }
@@ -864,12 +864,12 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void RequestHalfPressShutter()
         {
-            if (apiClient != null)
+            if (cameraClient != null)
             {
                 _cameraStatus.AfType = CameraStatus.AutoFocusType.HalfPress;
                 try
                 {
-                    await apiClient.ActHalfPressShutterAsync();
+                    await cameraClient.ActHalfPressShutterAsync();
                 }
                 catch (RemoteApiException e) { }
             }
@@ -877,12 +877,12 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void CancelHalfPressShutter()
         {
-            if (apiClient != null)
+            if (cameraClient != null)
             {
                 _cameraStatus.AfType = CameraStatus.AutoFocusType.None;
                 try
                 {
-                    await apiClient.CancelHalfPressShutterAsync();
+                    await cameraClient.CancelHalfPressShutterAsync();
                 }
                 catch (RemoteApiException e) { }
             }
@@ -890,11 +890,11 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void SetExporeMode(String mode)
         {
-            if (apiClient != null)
+            if (cameraClient != null)
             {
                 try
                 {
-                    await apiClient.SetExposureModeAsync(mode);
+                    await cameraClient.SetExposureModeAsync(mode);
                 }
                 catch (RemoteApiException e)
                 {
@@ -906,72 +906,72 @@ namespace Kazyx.WPPMM.CameraManager
 
         public Task SetExporeModeAsync(string mode)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
 
-            return apiClient.SetExposureModeAsync(mode);
+            return cameraClient.SetExposureModeAsync(mode);
         }
 
         public async void SetExposureCompensation(int index)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
             try
             {
-                await apiClient.SetEvIndexAsync(index);
+                await cameraClient.SetEvIndexAsync(index);
             }
             catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public Task SetExposureCompensationAsync(int index)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
-            return apiClient.SetEvIndexAsync(index);
+            return cameraClient.SetEvIndexAsync(index);
         }
 
         public async void SetFNumber(string value)
         {
             Debug.WriteLine("set Fnumber: " + value);
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
             try
             {
-                await apiClient.SetFNumberAsync(value);
+                await cameraClient.SetFNumberAsync(value);
             }
             catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public async void SetShutterSpeed(string value)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
             try
             {
-                await apiClient.SetShutterSpeedAsync(value);
+                await cameraClient.SetShutterSpeedAsync(value);
             }
             catch (RemoteApiException e) { RefreshEventObserver(); }
         }
 
         public async void SetIsoSpeedRate(string value)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
             try
             {
-                await apiClient.SetISOSpeedAsync(value);
+                await cameraClient.SetISOSpeedAsync(value);
             }
             catch (RemoteApiException e) { RefreshEventObserver(); }
         }
@@ -1063,62 +1063,62 @@ namespace Kazyx.WPPMM.CameraManager
 
         public Task SetBeepModeAsync(string mode)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
 
-            return apiClient.SetBeepModeAsync(mode);
+            return cameraClient.SetBeepModeAsync(mode);
         }
 
         public Task SetSteadyModeAsync(string mode)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
 
-            return apiClient.SetSteadyModeAsync(mode);
+            return cameraClient.SetSteadyModeAsync(mode);
         }
 
         public Task SetViewAngleAsync(int value)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
 
-            return apiClient.SetViewAngleAsync(value);
+            return cameraClient.SetViewAngleAsync(value);
         }
 
         public Task SetMovieQualityAsync(string value)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
-            return apiClient.SetMovieQualityAsync(value);
+            return cameraClient.SetMovieQualityAsync(value);
         }
 
         public Task SetStillImageSizeAsync(StillImageSize size)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
-            return apiClient.SetStillImageSizeAsync(size);
+            return cameraClient.SetStillImageSizeAsync(size);
         }
 
         public async void SetMovieQuality(string value)
         {
-            if (apiClient == null)
+            if (cameraClient == null)
             {
                 return;
             }
 
             try
             {
-                await apiClient.SetMovieQualityAsync(value);
+                await cameraClient.SetMovieQualityAsync(value);
             }
             catch (RemoteApiException e)
             {

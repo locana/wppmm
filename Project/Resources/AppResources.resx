@@ -387,4 +387,7 @@ Please check internet connection status</value>
   <data name="Guide_Histogram" xml:space="preserve">
     <value>Analyze and display RGB histogram. This may cause performance issue on some devices.</value>
   </data>
+  <data name="WhiteBalance" xml:space="preserve">
+    <value>White balance</value>
+  </data>
 </root>

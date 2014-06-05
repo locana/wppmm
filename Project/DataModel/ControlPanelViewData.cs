@@ -35,6 +35,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableViewAngle");
                         OnPropertyChanged("CpIsAvailableMovieQuality");
                         OnPropertyChanged("CpIsAvailableStillImageSize");
+                        OnPropertyChanged("CpIsAvailableWhiteBalance");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
@@ -51,6 +52,7 @@ namespace Kazyx.WPPMM.DataModel
                     case "ViewAngle":
                     case "MovieQuality":
                     case "StillImageSize":
+                    case "WhiteBalance":
                         OnPropertyChanged("CpCandidates" + e.PropertyName);
                         OnPropertyChanged("CpSelectedIndex" + e.PropertyName);
                         OnPropertyChanged("CpIsAvailable" + e.PropertyName);
@@ -346,6 +348,37 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return status.IsAvailable("setStillSize") &&
                     status.StillImageSize != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexWhiteBalance
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.WhiteBalance);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.WhiteBalance, value);
+            }
+        }
+
+        public string[] CpCandidatesWhiteBalance
+        {
+            get
+            {
+                return SettingsValueConverter.FromWhiteBalance(status.WhiteBalance).candidates;
+            }
+        }
+
+        public bool CpIsAvailableWhiteBalance
+        {
+            get
+            {
+                return status.IsAvailable("setWhiteBalance") &&
+                    status.WhiteBalance != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
             }

@@ -388,4 +388,7 @@
   <data name="Guide_Histogram" xml:space="preserve">
     <value>RGBヒストグラムを解析して表示します。機器によってはアプリのパフォーマンスに影響する場合があります。</value>
   </data>
+  <data name="WhiteBalance" xml:space="preserve">
+    <value>ホワイトバランス</value>
+  </data>
 </root>

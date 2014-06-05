@@ -854,6 +854,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to White balance.
+        /// </summary>
+        public static string WhiteBalance {
+            get {
+                return ResourceManager.GetString("WhiteBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wi-Fi.
         /// </summary>
         public static string WifiSettingLauncherButtonText {

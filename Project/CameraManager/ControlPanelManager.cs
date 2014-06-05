@@ -39,6 +39,7 @@ namespace Kazyx.WPPMM.CameraManager
             // Key of the Dictionary is the name of setter API in most cases. Uses to check availability.
             Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
             Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
+            Panels.Add("setWhiteBalance", CreateStatusPanel("WhiteBalance", "WB", OnWhiteBalanceChanged));
             Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
             Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
@@ -344,6 +345,12 @@ namespace Kazyx.WPPMM.CameraManager
         {
             await OnPickerChanged<StillImageSize>(sender, status.StillImageSize,
                 async (selected) => { await manager.SetStillImageSizeAsync(selected); });
+        }
+
+        private async void OnWhiteBalanceChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.WhiteBalance,
+                async (selected) => { await manager.SetWhiteBalanceAsync(selected); });
         }
 
         private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)

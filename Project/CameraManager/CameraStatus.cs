@@ -361,6 +361,17 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _StillSize; }
         }
 
+        private Capability<string> _WhiteBalance;
+        public Capability<string> WhiteBalance
+        {
+            set
+            {
+                _WhiteBalance = value;
+                OnPropertyChanged("WhiteBalance");
+            }
+            get { return _WhiteBalance; }
+        }
+
         private EvCapability _EvInfo;
         public EvCapability EvInfo
         {

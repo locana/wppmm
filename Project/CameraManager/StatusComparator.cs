@@ -1,8 +1,7 @@
 using Kazyx.RemoteApi;
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -210,6 +209,31 @@ namespace Kazyx.WPPMM.CameraManager
                 catch (RemoteApiException)
                 {
                     Debug.WriteLine("Failed to get still image size capability");
+                }
+            }
+        }
+
+        internal static async void WhiteBalance(CameraStatus status, WhiteBalanceEvent latest, CameraApiClient client)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            if (latest.CapabilityChanged)
+            {
+                try
+                {
+                    var wb = await client.GetAvailableWhiteBalanceAsync();
+                    var candidates = new List<string>();
+                    foreach (var mode in wb.candidates)
+                    {
+                        candidates.Add(mode.WhiteBalanceMode);
+                    }
+                    status.WhiteBalance = new Capability<string> { candidates = candidates.ToArray(), current = wb.current.Mode };
+                }
+                catch (RemoteApiException)
+                {
+                    Debug.WriteLine("Failed to get white balance capability");
                 }
             }
         }

@@ -1109,6 +1109,15 @@ namespace Kazyx.WPPMM.CameraManager
             return cameraClient.SetStillImageSizeAsync(size);
         }
 
+        public Task SetWhiteBalanceAsync(string mode)
+        {
+            if (cameraClient == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return cameraClient.SetWhiteBalanceAsync(new WhiteBalance { Mode = mode, ColorTemperature = -1 }, false);
+        }
+
         public async void SetMovieQuality(string value)
         {
             if (cameraClient == null)

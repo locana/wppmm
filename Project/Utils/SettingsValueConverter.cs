@@ -324,6 +324,15 @@ namespace Kazyx.WPPMM.Utils
             };
         }
 
+        public static Capability<string> FromWhiteBalance(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            return info; // TODO
+        }
+
         private static Capability<string> AsDisabledCapability<T>(Capability<T> info)
         {
             if (info == null || info.candidates == null || info.candidates.Length == 0)

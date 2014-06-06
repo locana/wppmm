@@ -390,4 +390,34 @@ Please check internet connection status</value>
   <data name="WhiteBalance" xml:space="preserve">
     <value>White balance</value>
   </data>
+  <data name="WB_Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="WB_Cloudy" xml:space="preserve">
+    <value>Cloudy</value>
+  </data>
+  <data name="WB_ColorTemperture" xml:space="preserve">
+    <value>Color Temp.</value>
+  </data>
+  <data name="WB_DayLight" xml:space="preserve">
+    <value>Daylight</value>
+  </data>
+  <data name="WB_Fluorescent_CoolWhite" xml:space="preserve">
+    <value>Fluor. Cool white</value>
+  </data>
+  <data name="WB_Fluorescent_DayLight" xml:space="preserve">
+    <value>Fluor. Daylight</value>
+  </data>
+  <data name="WB_Fluorescent_DayWhite" xml:space="preserve">
+    <value>Fluor. Day white</value>
+  </data>
+  <data name="WB_Fluorescent_WarmWhite" xml:space="preserve">
+    <value>Fluor. Warm white</value>
+  </data>
+  <data name="WB_Incandescent" xml:space="preserve">
+    <value>Incandescent</value>
+  </data>
+  <data name="WB_Shade" xml:space="preserve">
+    <value>Shade</value>
+  </data>
 </root>

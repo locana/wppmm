@@ -854,6 +854,96 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string WB_Auto {
+            get {
+                return ResourceManager.GetString("WB_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloudy.
+        /// </summary>
+        public static string WB_Cloudy {
+            get {
+                return ResourceManager.GetString("WB_Cloudy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color Temp..
+        /// </summary>
+        public static string WB_ColorTemperture {
+            get {
+                return ResourceManager.GetString("WB_ColorTemperture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daylight.
+        /// </summary>
+        public static string WB_DayLight {
+            get {
+                return ResourceManager.GetString("WB_DayLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluor. Cool white.
+        /// </summary>
+        public static string WB_Fluorescent_CoolWhite {
+            get {
+                return ResourceManager.GetString("WB_Fluorescent_CoolWhite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluor. Daylight.
+        /// </summary>
+        public static string WB_Fluorescent_DayLight {
+            get {
+                return ResourceManager.GetString("WB_Fluorescent_DayLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluor. Day white.
+        /// </summary>
+        public static string WB_Fluorescent_DayWhite {
+            get {
+                return ResourceManager.GetString("WB_Fluorescent_DayWhite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluor. Warm white.
+        /// </summary>
+        public static string WB_Fluorescent_WarmWhite {
+            get {
+                return ResourceManager.GetString("WB_Fluorescent_WarmWhite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incandescent.
+        /// </summary>
+        public static string WB_Incandescent {
+            get {
+                return ResourceManager.GetString("WB_Incandescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shade.
+        /// </summary>
+        public static string WB_Shade {
+            get {
+                return ResourceManager.GetString("WB_Shade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to White balance.
         /// </summary>
         public static string WhiteBalance {

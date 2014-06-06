@@ -330,7 +330,44 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            return info; // TODO
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                mCandidates[i] = FromWhiteBalance(info.candidates[i]);
+            }
+            return new Capability<string>
+            {
+                current = FromWhiteBalance(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromWhiteBalance(string val)
+        {
+            switch (val)
+            {
+                case WhiteBalanceMode.Fluorescent_WarmWhite:
+                    return AppResources.WB_Fluorescent_WarmWhite;
+                case WhiteBalanceMode.Fluorescent_CoolWhite:
+                    return AppResources.WB_Fluorescent_CoolWhite;
+                case WhiteBalanceMode.Fluorescent_DayLight:
+                    return AppResources.WB_Fluorescent_DayLight;
+                case WhiteBalanceMode.Fluorescent_DayWhite:
+                    return AppResources.WB_Fluorescent_DayWhite;
+                case WhiteBalanceMode.Incandescent:
+                    return AppResources.WB_Incandescent;
+                case WhiteBalanceMode.Shade:
+                    return AppResources.WB_Shade;
+                case WhiteBalanceMode.Auto:
+                    return AppResources.WB_Auto;
+                case WhiteBalanceMode.Cloudy:
+                    return AppResources.WB_Cloudy;
+                case WhiteBalanceMode.DayLight:
+                    return AppResources.WB_DayLight;
+                case WhiteBalanceMode.Manual:
+                    return AppResources.WB_ColorTemperture;
+            }
+            return val;
         }
 
         private static Capability<string> AsDisabledCapability<T>(Capability<T> info)

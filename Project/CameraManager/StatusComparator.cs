@@ -227,7 +227,10 @@ namespace Kazyx.WPPMM.CameraManager
                     var candidates = new List<string>();
                     foreach (var mode in wb.candidates)
                     {
-                        candidates.Add(mode.WhiteBalanceMode);
+                        if (mode.WhiteBalanceMode != WhiteBalanceMode.Manual) // Currently color temperture is not supported.
+                        {
+                            candidates.Add(mode.WhiteBalanceMode);
+                        }
                     }
                     status.WhiteBalance = new Capability<string> { candidates = candidates.ToArray(), current = wb.current.Mode };
                 }

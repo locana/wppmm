@@ -391,4 +391,34 @@
   <data name="WhiteBalance" xml:space="preserve">
     <value>ホワイトバランス</value>
   </data>
+  <data name="WB_Auto" xml:space="preserve">
+    <value>オート</value>
+  </data>
+  <data name="WB_Cloudy" xml:space="preserve">
+    <value>曇天</value>
+  </data>
+  <data name="WB_ColorTemperture" xml:space="preserve">
+    <value>色温度設定</value>
+  </data>
+  <data name="WB_DayLight" xml:space="preserve">
+    <value>日光</value>
+  </data>
+  <data name="WB_Fluorescent_CoolWhite" xml:space="preserve">
+    <value>蛍光灯: 白色</value>
+  </data>
+  <data name="WB_Fluorescent_DayLight" xml:space="preserve">
+    <value>蛍光灯: 昼光色</value>
+  </data>
+  <data name="WB_Fluorescent_DayWhite" xml:space="preserve">
+    <value>蛍光灯: 昼白色</value>
+  </data>
+  <data name="WB_Fluorescent_WarmWhite" xml:space="preserve">
+    <value>蛍光灯: 温白色</value>
+  </data>
+  <data name="WB_Incandescent" xml:space="preserve">
+    <value>電球</value>
+  </data>
+  <data name="WB_Shade" xml:space="preserve">
+    <value>日陰</value>
+  </data>
 </root>

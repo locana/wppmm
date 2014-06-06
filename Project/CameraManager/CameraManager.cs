@@ -1111,11 +1111,16 @@ namespace Kazyx.WPPMM.CameraManager
 
         public Task SetWhiteBalanceAsync(string mode)
         {
+            return SetWhiteBalanceAsync(mode, -1);
+        }
+
+        public Task SetWhiteBalanceAsync(string mode, int temperture)
+        {
             if (cameraClient == null)
             {
                 throw new InvalidOperationException();
             }
-            return cameraClient.SetWhiteBalanceAsync(new WhiteBalance { Mode = mode, ColorTemperature = -1 }, false);
+            return cameraClient.SetWhiteBalanceAsync(new WhiteBalance { Mode = mode, ColorTemperature = temperture }, temperture != -1);
         }
 
         public async void SetMovieQuality(string value)

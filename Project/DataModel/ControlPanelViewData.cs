@@ -36,6 +36,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableMovieQuality");
                         OnPropertyChanged("CpIsAvailableStillImageSize");
                         OnPropertyChanged("CpIsAvailableWhiteBalance");
+                        OnPropertyChanged("CpIsVisibleColorTemperture");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         break;
@@ -53,14 +54,22 @@ namespace Kazyx.WPPMM.DataModel
                     case "MovieQuality":
                     case "StillImageSize":
                     case "WhiteBalance":
-                        OnPropertyChanged("CpCandidates" + e.PropertyName);
-                        OnPropertyChanged("CpSelectedIndex" + e.PropertyName);
-                        OnPropertyChanged("CpIsAvailable" + e.PropertyName);
+                        GenericPropertyChanged(e.PropertyName);
+                        break;
+                    case "ColorTemperture":
+                        OnPropertyChanged("CpIsVisibleColorTemperture");
                         break;
                     default:
                         break;
                 }
             };
+        }
+
+        private void GenericPropertyChanged(string name)
+        {
+            OnPropertyChanged("CpCandidates" + name);
+            OnPropertyChanged("CpSelectedIndex" + name);
+            OnPropertyChanged("CpIsAvailable" + name);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -381,6 +390,24 @@ namespace Kazyx.WPPMM.DataModel
                     status.WhiteBalance != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public bool CpIsAvailableColorTemperture
+        {
+            get
+            {
+                return CpIsAvailableWhiteBalance &&
+                    status.ColorTempertureCandidates[status.WhiteBalance.current].Length != 0 &&
+                    status.ColorTemperture != -1;
+            }
+        }
+
+        public Visibility CpIsVisibleColorTemperture
+        {
+            get
+            {
+                return CpIsAvailableColorTemperture ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 

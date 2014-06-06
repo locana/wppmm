@@ -368,8 +368,38 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 _WhiteBalance = value;
                 OnPropertyChanged("WhiteBalance");
+                OnPropertyChanged("ColorTemperture");
             }
             get { return _WhiteBalance; }
+        }
+
+        private int? _ColorTemperture = null;
+        public int? ColorTemperture
+        {
+            set
+            {
+                if (value != null && (int)value != -1)
+                {
+                    _ColorTemperture = (int)value;
+                }
+                else
+                {
+                    _ColorTemperture = null;
+                }
+                OnPropertyChanged("ColorTemperture");
+            }
+            get { return _ColorTemperture; }
+        }
+
+        private Dictionary<string, int[]> _ColorTempertureCandidates;
+        public Dictionary<string, int[]> ColorTempertureCandidates
+        {
+            set
+            {
+                _ColorTempertureCandidates = value;
+                OnPropertyChanged("ColorTemperture");
+            }
+            get { return _ColorTempertureCandidates; }
         }
 
         private EvCapability _EvInfo;

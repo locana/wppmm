@@ -40,6 +40,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
             Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
             Panels.Add("setWhiteBalance", CreateStatusPanel("WhiteBalance", AppResources.WhiteBalance, OnWhiteBalanceChanged));
+            Panels.Add("ColorTemperture", CreateColorTemperturePanel());
             Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
             Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
@@ -97,7 +98,8 @@ namespace Kazyx.WPPMM.CameraManager
 
             foreach (var key in Panels.Keys)
             {
-                if (status.IsSupported(key))
+                if (status.IsSupported(key) ||
+                    (key == "ColorTemperture" && status.IsSupported("setWhiteBalance")))
                 {
                     panel.Children.Add(Panels[key]);
                     if (status.IsRestrictedApi(key))
@@ -184,7 +186,6 @@ namespace Kazyx.WPPMM.CameraManager
         private StackPanel CreateIntervalTimeSliderPanel()
         {
             var child = CreatePanel(AppResources.IntervalTime);
-            Debug.WriteLine("create panel: " + AppResources.IntervalTime);
 
             var slider = CreateSlider(5, 30);
             slider.Value = ApplicationSettings.GetInstance().IntervalTime;
@@ -234,6 +235,120 @@ namespace Kazyx.WPPMM.CameraManager
             return child;
         }
 
+        private void ResetColorSlider(Slider slider)
+        {
+            var val = status.ColorTempertureCandidates[status.WhiteBalance.current];
+            slider.Maximum = val[val.Length - 1];
+            slider.Minimum = val[0];
+            if (status.ColorTemperture != null)
+            {
+                slider.Value = status.ColorTemperture.Value;
+            }
+        }
+
+        private int AsValidColorTemperture(int source)
+        {
+            var candidates = status.ColorTempertureCandidates[status.WhiteBalance.current];
+            if (candidates.Length < 2)
+            {
+                return -1;
+            }
+            var step = candidates[1] - candidates[0];
+            var index = source / step;
+            var val = index * step;
+            if (val > candidates[candidates.Length - 1])
+            {
+                return candidates[candidates.Length - 1];
+            }
+            else if (val < candidates[0])
+            {
+                return candidates[0];
+            }
+            else
+            {
+                return val;
+            }
+        }
+
+        Slider colorTmpSlider;
+
+        private StackPanel CreateColorTemperturePanel()
+        {
+            var child = CreatePanel(AppResources.WB_ColorTemperture);
+
+            var slider = CreateSlider(null, null);
+            slider.Value = 0;
+
+            slider.ValueChanged += async (sender, e) =>
+            {
+                try
+                {
+                    await manager.SetWhiteBalanceAsync(status.WhiteBalance.current, AsValidColorTemperture((int)e.NewValue));
+                }
+                catch (RemoteApiException ex)
+                {
+                    Debug.WriteLine("Failed to set color temperture: " + ex.code);
+                }
+            };
+
+            slider.ManipulationCompleted += async (sender, e) =>
+            {
+                var sld = sender as Slider;
+                var target = AsValidColorTemperture((int)sld.Value);
+                sld.Value = target;
+                try
+                {
+                    await manager.SetWhiteBalanceAsync(status.WhiteBalance.current, target);
+                }
+                catch (RemoteApiException ex)
+                {
+                    Debug.WriteLine("Failed to set color temperture: " + ex.code);
+                }
+            };
+
+            var hPanel = new StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var selectedbind = new Binding()
+            {
+                Source = status,
+                Path = new PropertyPath("ColorTemperture"),
+                Mode = BindingMode.TwoWay
+            };
+
+            var visibilityBind = new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsVisibleColorTemperture"),
+                Mode = BindingMode.OneWay
+            };
+
+            var indicator = new TextBlock
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = System.Windows.VerticalAlignment.Top,
+                Style = Application.Current.Resources["PhoneTextSmallStyle"] as Style,
+                Margin = new Thickness(10, 24, 0, 0),
+                Width = 48
+            };
+            indicator.SetBinding(TextBlock.TextProperty, selectedbind);
+            slider.SetBinding(Slider.ValueProperty, selectedbind);
+
+            colorTmpSlider = slider;
+
+            hPanel.Children.Add(indicator);
+            hPanel.Children.Add(slider);
+
+            child.Children.Add(hPanel);
+
+            child.SetBinding(StackPanel.VisibilityProperty, visibilityBind);
+            return child;
+        }
+
         private static ListPicker CreatePicker()
         {
             return new ListPicker
@@ -254,12 +369,12 @@ namespace Kazyx.WPPMM.CameraManager
             };
         }
 
-        private static Slider CreateSlider(int min, int max)
+        private static Slider CreateSlider(int? min, int? max)
         {
             return new Slider
             {
-                Maximum = max,
-                Minimum = min,
+                Maximum = max != null ? max.Value : 1,
+                Minimum = min != null ? min.Value : 0,
                 Margin = new Thickness(5, 12, 10, -36),
                 MinWidth = 185,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -350,7 +465,21 @@ namespace Kazyx.WPPMM.CameraManager
         private async void OnWhiteBalanceChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.WhiteBalance,
-                async (selected) => { await manager.SetWhiteBalanceAsync(selected); });
+                async (selected) =>
+                {
+                    if (status.WhiteBalance.current != WhiteBalanceMode.Manual)
+                    {
+                        status.ColorTemperture = null;
+                        await manager.SetWhiteBalanceAsync(selected);
+                    }
+                    else
+                    {
+                        var min = status.ColorTempertureCandidates[WhiteBalanceMode.Manual][0];
+                        await manager.SetWhiteBalanceAsync(WhiteBalanceMode.Manual, min);
+                        status.ColorTemperture = min;
+                        ResetColorSlider(colorTmpSlider);
+                    }
+                });
         }
 
         private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)

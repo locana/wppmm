@@ -317,7 +317,8 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 Source = status,
                 Path = new PropertyPath("ColorTemperture"),
-                Mode = BindingMode.TwoWay
+                Mode = BindingMode.TwoWay,
+                StringFormat = "{0}K"
             };
 
             var visibilityBind = new Binding()

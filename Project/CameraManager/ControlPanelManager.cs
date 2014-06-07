@@ -279,18 +279,6 @@ namespace Kazyx.WPPMM.CameraManager
             var slider = CreateSlider(null, null);
             slider.Value = 0;
 
-            slider.ValueChanged += async (sender, e) =>
-            {
-                try
-                {
-                    await manager.SetWhiteBalanceAsync(status.WhiteBalance.current, AsValidColorTemperture((int)e.NewValue));
-                }
-                catch (RemoteApiException ex)
-                {
-                    Debug.WriteLine("Failed to set color temperture: " + ex.code);
-                }
-            };
-
             slider.ManipulationCompleted += async (sender, e) =>
             {
                 var sld = sender as Slider;

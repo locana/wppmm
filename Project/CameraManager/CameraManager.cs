@@ -1,8 +1,10 @@
+using Kazyx.DeviceDiscovery;
 using Kazyx.Liveview;
 using Kazyx.RemoteApi;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Xna.Framework.Media;
+using NtImageProcessor;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,8 +12,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using NtImageProcessor;
-using Kazyx.DeviceDiscovery;
 
 namespace Kazyx.WPPMM.CameraManager
 {

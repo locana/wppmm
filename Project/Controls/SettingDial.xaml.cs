@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using System.Diagnostics;
-using System.Windows.Media.Animation;
 using System.Windows.Media;
-using Kazyx.WPPMM.CameraManager;
+using System.Windows.Media.Animation;
 
 namespace Kazyx.WPMMM.Controls
 {
@@ -60,7 +53,8 @@ namespace Kazyx.WPMMM.Controls
             var deltaY = e.DeltaManipulation.Translation.Y;
             double delta = 0;
 
-            switch(position){
+            switch (position)
+            {
                 case DialPosition.RightMid:
                     delta = -deltaY;
                     break;
@@ -124,7 +118,7 @@ namespace Kazyx.WPMMM.Controls
         private void RotateGear(double from, double to)
         {
             var story = new Storyboard();
-            var duration= new TimeSpan(0, 0, 0, 0, 150);
+            var duration = new TimeSpan(0, 0, 0, 0, 150);
             var animation = new DoubleAnimation();
             var rt = new RotateTransform();
 

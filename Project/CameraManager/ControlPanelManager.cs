@@ -136,29 +136,26 @@ namespace Kazyx.WPPMM.CameraManager
         {
             var child = CreatePanel(title);
 
-            var statusbind = new Binding()
+            var picker = CreatePicker();
+            picker.SetBinding(ListPicker.IsEnabledProperty, new Binding()
             {
                 Source = data,
                 Path = new PropertyPath("CpIsAvailable" + id),
                 Mode = BindingMode.OneWay
-            };
-            var selectedbind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpSelectedIndex" + id),
-                Mode = BindingMode.TwoWay
-            };
-            var candidatesbind = new Binding()
+            });
+            picker.SetBinding(ListPicker.ItemsSourceProperty, new Binding()
             {
                 Source = data,
                 Path = new PropertyPath("CpCandidates" + id),
                 Mode = BindingMode.OneWay
-            };
+            });
+            picker.SetBinding(ListPicker.SelectedIndexProperty, new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpSelectedIndex" + id),
+                Mode = BindingMode.TwoWay
+            });
 
-            var picker = CreatePicker();
-            picker.SetBinding(ListPicker.IsEnabledProperty, statusbind);
-            picker.SetBinding(ListPicker.ItemsSourceProperty, candidatesbind);
-            picker.SetBinding(ListPicker.SelectedIndexProperty, selectedbind);
             picker.SelectionChanged += handler;
             child.Children.Add(picker);
             return child;
@@ -169,21 +166,20 @@ namespace Kazyx.WPPMM.CameraManager
             var child = CreatePanel(AppResources.IntervalSetting);
 
             var toggle = CreateToggle();
-            var checkbind = new Binding()
+
+            toggle.SetBinding(ToggleSwitch.IsCheckedProperty, new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
                 Path = new PropertyPath("IsIntervalShootingEnabled"),
                 Mode = BindingMode.TwoWay
-            };
-            toggle.SetBinding(ToggleSwitch.IsCheckedProperty, checkbind);
+            });
 
-            var enableBind = new Binding()
+            toggle.SetBinding(ToggleSwitch.IsEnabledProperty, new Binding()
             {
                 Source = data,
                 Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
                 Mode = BindingMode.OneWay
-            };
-            toggle.SetBinding(ToggleSwitch.IsEnabledProperty, enableBind);
+            });
 
             child.Children.Add(toggle);
             return child;
@@ -201,28 +197,6 @@ namespace Kazyx.WPPMM.CameraManager
                 ApplicationSettings.GetInstance().IntervalTime = (int)e.NewValue;
             };
 
-            var selectedbind = new Binding()
-            {
-                Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("IntervalTime"),
-                Mode = BindingMode.TwoWay
-            };
-
-            var indicatorValueBind = new Binding()
-            {
-                Source = ApplicationSettings.GetInstance(),
-                Path = new PropertyPath("IntervalTime"),
-                Mode = BindingMode.OneWay,
-                StringFormat = "{0} sec."
-            };
-
-            var enableBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
-                Mode = BindingMode.OneWay
-            };
-
             var indicator = new TextBlock
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -230,11 +204,27 @@ namespace Kazyx.WPPMM.CameraManager
                 Margin = new Thickness(10, 22, 0, 0)
             };
 
-            indicator.SetBinding(TextBlock.TextProperty, indicatorValueBind);
+            indicator.SetBinding(TextBlock.TextProperty, new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("IntervalTime"),
+                Mode = BindingMode.OneWay,
+                StringFormat = "{0} sec."
+            });
             (child.Children[0] as StackPanel).Children.Add(indicator);
 
-            slider.SetBinding(Slider.ValueProperty, selectedbind);
-            slider.SetBinding(Slider.IsEnabledProperty, enableBind);
+            slider.SetBinding(Slider.ValueProperty, new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("IntervalTime"),
+                Mode = BindingMode.TwoWay
+            });
+            slider.SetBinding(Slider.IsEnabledProperty, new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsAvailableStillImageFunctions"),
+                Mode = BindingMode.OneWay
+            });
 
             child.Children.Add(slider);
 
@@ -301,46 +291,42 @@ namespace Kazyx.WPPMM.CameraManager
                 }
             };
 
-            var selectedBind = new Binding()
-            {
-                Source = status,
-                Path = new PropertyPath("ColorTemperture"),
-                Mode = BindingMode.TwoWay
-            };
-
-            var visibilityBind = new Binding()
-            {
-                Source = data,
-                Path = new PropertyPath("CpIsVisibleColorTemperture"),
-                Mode = BindingMode.OneWay
-            };
-
             var indicator = new TextBlock
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Style = Application.Current.Resources["PhoneTextSmallStyle"] as Style,
-                Margin = new Thickness(10, 22, 0, 0)
+                Margin = new Thickness(10, 22, 0, 0),
             };
 
-            var indicatorValueBind = new Binding()
+            indicator.SetBinding(TextBlock.TextProperty, new Binding()
             {
                 Source = status,
                 Path = new PropertyPath("ColorTemperture"),
                 Mode = BindingMode.OneWay,
                 StringFormat = "{0}K"
-            };
+            });
 
-            indicator.SetBinding(TextBlock.TextProperty, indicatorValueBind);
             (child.Children[0] as StackPanel).Children.Add(indicator);
 
-            slider.SetBinding(Slider.ValueProperty, selectedBind);
+            slider.SetBinding(Slider.ValueProperty, new Binding()
+            {
+                Source = status,
+                Path = new PropertyPath("ColorTemperture"),
+                Mode = BindingMode.TwoWay
+            });
             slider.MinWidth = 320;
 
             ColorSlider = slider;
 
             child.Children.Add(slider);
 
-            child.SetBinding(StackPanel.VisibilityProperty, visibilityBind);
+            child.SetBinding(StackPanel.VisibilityProperty, new Binding()
+            {
+                Source = data,
+                Path = new PropertyPath("CpIsVisibleColorTemperture"),
+                Mode = BindingMode.OneWay
+            });
+
             return child;
         }
 
@@ -388,9 +374,10 @@ namespace Kazyx.WPPMM.CameraManager
 
             var titlePanel = new StackPanel
             {
-                HorizontalAlignment = HorizontalAlignment.Left
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Orientation = System.Windows.Controls.Orientation.Horizontal
             };
-            titlePanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+
             titlePanel.Children.Add(new TextBlock
                 {
                     Text = title,
@@ -467,9 +454,9 @@ namespace Kazyx.WPPMM.CameraManager
             await OnPickerChanged<string>(sender, status.WhiteBalance,
                 async (selected) =>
                 {
-                    if (status.WhiteBalance.current != WhiteBalanceMode.Manual)
+                    if (selected != WhiteBalanceMode.Manual)
                     {
-                        status.ColorTemperture = null;
+                        status.ColorTemperture = -1;
                         await manager.SetWhiteBalanceAsync(selected);
                     }
                     else
@@ -482,13 +469,10 @@ namespace Kazyx.WPPMM.CameraManager
 
                         if (ColorSlider != null)
                         {
-                            var val = status.ColorTempertureCandidates[status.WhiteBalance.current];
+                            var val = status.ColorTempertureCandidates[selected];
                             ColorSlider.Maximum = val[val.Length - 1];
                             ColorSlider.Minimum = val[0];
-                            if (status.ColorTemperture != null)
-                            {
-                                ColorSlider.Value = status.ColorTemperture.Value;
-                            }
+                            ColorSlider.Value = status.ColorTemperture;
                         }
                     }
                 });
@@ -501,6 +485,7 @@ namespace Kazyx.WPPMM.CameraManager
             var selected = (sender as ListPicker).SelectedIndex;
             if (SettingsValueConverter.GetSelectedIndex(param) != selected)
             {
+                // This change is not from this application, maybe from the camera device.
                 return;
             }
             try

@@ -47,9 +47,9 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
             Panels.Add("setPostviewImageSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
-            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
+            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
@@ -96,6 +96,8 @@ namespace Kazyx.WPPMM.CameraManager
                 FallbackValue = Visibility.Collapsed
             };
 
+            panel.Children.Add(new Border { Height = 32 });
+
             foreach (var key in Panels.Keys)
             {
                 if (status.IsSupported(key) ||
@@ -107,27 +109,23 @@ namespace Kazyx.WPPMM.CameraManager
                         Panels[key].SetBinding(StackPanel.VisibilityProperty, visibility);
                     }
                 }
-            }
-
-            if (status.IsSupported("actTakePicture"))
-            {
-                panel.Children.Add(Panels["IntervalSwitch"]);
-                panel.Children.Add(Panels["IntervalValue"]);
-                Panels["IntervalValue"].SetBinding(StackPanel.VisibilityProperty, new Binding()
+                else if ((key == "IntervalSwitch" || key == "IntervalValue") && status.IsSupported("actTakePicture"))
                 {
-                    Source = ApplicationSettings.GetInstance(),
-                    Path = new PropertyPath("IntervalTimeVisibility"),
-                    Mode = BindingMode.OneWay,
-                    FallbackValue = Visibility.Collapsed
-                });
+                    panel.Children.Add(Panels[key]);
+                }
             }
 
-            Debug.WriteLine("panels has set!");
+            panel.Children.Add(new Border { Height = 96 });
 
-            panel.Margin = new Thickness(8, 24, 4, 24);
+            panel.Margin = new Thickness(8, 0, 4, 0);
             panel.MinWidth = 240;
             panel.Width = double.NaN;
         }
+
+        private readonly StackPanel DummyPanel = new StackPanel
+        {
+            Height = 64
+        };
 
         public void Hide()
         {
@@ -239,6 +237,15 @@ namespace Kazyx.WPPMM.CameraManager
             slider.SetBinding(Slider.IsEnabledProperty, enableBind);
 
             child.Children.Add(slider);
+
+            child.SetBinding(StackPanel.VisibilityProperty, new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("IntervalTimeVisibility"),
+                Mode = BindingMode.OneWay,
+                FallbackValue = Visibility.Collapsed
+            });
+
             return child;
         }
 

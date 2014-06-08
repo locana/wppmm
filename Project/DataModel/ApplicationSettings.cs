@@ -58,6 +58,8 @@ namespace Kazyx.WPPMM.DataModel
                     Preference.SetIntervalShootingEnabled(value);
                     _IsIntervalShootingEnabled = value;
 
+                    OnPropertyChanged("IntervalTimeVisibility");
+
                     // exclusion
                     if (value)
                     {
@@ -72,6 +74,11 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return _IsIntervalShootingEnabled;
             }
+        }
+
+        public Visibility IntervalTimeVisibility
+        {
+            get { return IsIntervalShootingEnabled ? Visibility.Visible : Visibility.Collapsed; }
         }
 
         private int _IntervalTime = 10;

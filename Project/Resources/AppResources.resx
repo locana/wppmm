@@ -231,10 +231,10 @@
     <value>The picture has been captured successfully!</value>
   </data>
   <data name="IntervalSetting" xml:space="preserve">
-    <value>Interval shooting</value>
+    <value>Interval shooting mode</value>
   </data>
   <data name="IntervalTime" xml:space="preserve">
-    <value>Interval (sec.)</value>
+    <value>Interval time</value>
   </data>
   <data name="ErrorMessage_Interval" xml:space="preserve">
     <value>An error has occured. Stopped interval shooting.</value>

@@ -113,11 +113,19 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 panel.Children.Add(Panels["IntervalSwitch"]);
                 panel.Children.Add(Panels["IntervalValue"]);
+                Panels["IntervalValue"].SetBinding(StackPanel.VisibilityProperty, new Binding()
+                {
+                    Source = ApplicationSettings.GetInstance(),
+                    Path = new PropertyPath("IntervalTimeVisibility"),
+                    Mode = BindingMode.OneWay,
+                    FallbackValue = Visibility.Collapsed
+                });
             }
 
             Debug.WriteLine("panels has set!");
 
             panel.Margin = new Thickness(8, 24, 4, 24);
+            panel.MinWidth = 240;
             panel.Width = double.NaN;
         }
 
@@ -195,18 +203,19 @@ namespace Kazyx.WPPMM.CameraManager
                 ApplicationSettings.GetInstance().IntervalTime = (int)e.NewValue;
             };
 
-            var hPanel = new StackPanel
-            {
-                Orientation = System.Windows.Controls.Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
             var selectedbind = new Binding()
             {
                 Source = ApplicationSettings.GetInstance(),
                 Path = new PropertyPath("IntervalTime"),
                 Mode = BindingMode.TwoWay
+            };
+
+            var indicatorValueBind = new Binding()
+            {
+                Source = ApplicationSettings.GetInstance(),
+                Path = new PropertyPath("IntervalTime"),
+                Mode = BindingMode.OneWay,
+                StringFormat = "{0} sec."
             };
 
             var enableBind = new Binding()
@@ -217,21 +226,19 @@ namespace Kazyx.WPPMM.CameraManager
             };
 
             var indicator = new TextBlock
-                {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = System.Windows.VerticalAlignment.Top,
-                    Style = Application.Current.Resources["JumpListStringStyle"] as Style,
-                    Margin = new Thickness(10, 18, 0, 0),
-                    MinWidth = 25
-                };
-            indicator.SetBinding(TextBlock.TextProperty, selectedbind);
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Style = Application.Current.Resources["PhoneTextSmallStyle"] as Style,
+                Margin = new Thickness(10, 22, 0, 0)
+            };
+
+            indicator.SetBinding(TextBlock.TextProperty, indicatorValueBind);
+            (child.Children[0] as StackPanel).Children.Add(indicator);
+
             slider.SetBinding(Slider.ValueProperty, selectedbind);
             slider.SetBinding(Slider.IsEnabledProperty, enableBind);
 
-            hPanel.Children.Add(indicator);
-            hPanel.Children.Add(slider);
-
-            child.Children.Add(hPanel);
+            child.Children.Add(slider);
             return child;
         }
 
@@ -305,7 +312,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Style = Application.Current.Resources["PhoneTextSmallStyle"] as Style,
-                Margin = new Thickness(10, 20, 0, 0)
+                Margin = new Thickness(10, 22, 0, 0)
             };
 
             var indicatorValueBind = new Binding()
@@ -320,7 +327,7 @@ namespace Kazyx.WPPMM.CameraManager
             (child.Children[0] as StackPanel).Children.Add(indicator);
 
             slider.SetBinding(Slider.ValueProperty, selectedBind);
-            slider.Width = 320;
+            slider.MinWidth = 320;
 
             ColorSlider = slider;
 
@@ -356,8 +363,9 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 Maximum = max != null ? max.Value : 1,
                 Minimum = min != null ? min.Value : 0,
-                Margin = new Thickness(5, 12, 10, -36),
+                Margin = new Thickness(5, 0, 10, -40),
                 MinWidth = 185,
+                Width = double.NaN,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Top,
                 Background = Application.Current.Resources["PhoneProgressBarBackgroundBrush"] as Brush

@@ -503,7 +503,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interval shooting.
+        ///   Looks up a localized string similar to Interval shooting mode.
         /// </summary>
         public static string IntervalSetting {
             get {
@@ -512,7 +512,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interval (sec.).
+        ///   Looks up a localized string similar to Interval time.
         /// </summary>
         public static string IntervalTime {
             get {

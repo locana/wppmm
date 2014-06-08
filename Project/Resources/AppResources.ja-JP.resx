@@ -232,10 +232,10 @@
     <value>写真が撮影されました！</value>
   </data>
   <data name="IntervalSetting" xml:space="preserve">
-    <value>インターバル撮影</value>
+    <value>インターバル撮影モード</value>
   </data>
   <data name="IntervalTime" xml:space="preserve">
-    <value>インターバル撮影間隔(秒)</value>
+    <value>インターバル間隔</value>
   </data>
   <data name="ErrorMessage_Interval" xml:space="preserve">
     <value>エラーが発生したため、インターバル撮影を停止しました</value>
@@ -398,7 +398,7 @@
     <value>曇天</value>
   </data>
   <data name="WB_ColorTemperture" xml:space="preserve">
-    <value>色温度設定</value>
+    <value>色温度調整</value>
   </data>
   <data name="WB_DayLight" xml:space="preserve">
     <value>日光</value>

@@ -235,17 +235,11 @@ namespace Kazyx.WPPMM.CameraManager
             return child;
         }
 
-        private void ResetColorSlider(Slider slider)
-        {
-            var val = status.ColorTempertureCandidates[status.WhiteBalance.current];
-            slider.Maximum = val[val.Length - 1];
-            slider.Minimum = val[0];
-            if (status.ColorTemperture != null)
-            {
-                slider.Value = status.ColorTemperture.Value;
-            }
-        }
-
+        /// <summary>
+        /// Convert to the nearest color temperture candidate value.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         private int AsValidColorTemperture(int source)
         {
             var candidates = status.ColorTempertureCandidates[status.WhiteBalance.current];
@@ -254,23 +248,20 @@ namespace Kazyx.WPPMM.CameraManager
                 return -1;
             }
             var step = candidates[1] - candidates[0];
-            var index = source / step;
-            var val = index * step;
-            if (val > candidates[candidates.Length - 1])
+
+            var index_below = (source - candidates[0]) / step;
+            if (index_below == candidates.Length - 1)
             {
-                return candidates[candidates.Length - 1];
+                return candidates[index_below];
             }
-            else if (val < candidates[0])
-            {
-                return candidates[0];
-            }
-            else
-            {
-                return val;
-            }
+
+            var diff_below = source - candidates[index_below];
+            var diff_above = candidates[index_below + 1] - source;
+
+            return diff_below < diff_above ? candidates[index_below] : candidates[index_below + 1];
         }
 
-        Slider colorTmpSlider;
+        private Slider ColorSlider;
 
         private StackPanel CreateColorTemperturePanel()
         {
@@ -286,7 +277,9 @@ namespace Kazyx.WPPMM.CameraManager
                 sld.Value = target;
                 try
                 {
+#if !COLOR_TEMPERTURE_MOCK
                     await manager.SetWhiteBalanceAsync(status.WhiteBalance.current, target);
+#endif
                 }
                 catch (RemoteApiException ex)
                 {
@@ -294,19 +287,11 @@ namespace Kazyx.WPPMM.CameraManager
                 }
             };
 
-            var hPanel = new StackPanel
-            {
-                Orientation = System.Windows.Controls.Orientation.Horizontal,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center
-            };
-
-            var selectedbind = new Binding()
+            var selectedBind = new Binding()
             {
                 Source = status,
                 Path = new PropertyPath("ColorTemperture"),
-                Mode = BindingMode.TwoWay,
-                StringFormat = "{0}K"
+                Mode = BindingMode.TwoWay
             };
 
             var visibilityBind = new Binding()
@@ -318,21 +303,28 @@ namespace Kazyx.WPPMM.CameraManager
 
             var indicator = new TextBlock
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = System.Windows.VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Style = Application.Current.Resources["PhoneTextSmallStyle"] as Style,
-                Margin = new Thickness(10, 24, 0, 0),
-                Width = 48
+                Margin = new Thickness(10, 20, 0, 0)
             };
-            indicator.SetBinding(TextBlock.TextProperty, selectedbind);
-            slider.SetBinding(Slider.ValueProperty, selectedbind);
 
-            colorTmpSlider = slider;
+            var indicatorValueBind = new Binding()
+            {
+                Source = status,
+                Path = new PropertyPath("ColorTemperture"),
+                Mode = BindingMode.OneWay,
+                StringFormat = "{0}K"
+            };
 
-            hPanel.Children.Add(indicator);
-            hPanel.Children.Add(slider);
+            indicator.SetBinding(TextBlock.TextProperty, indicatorValueBind);
+            (child.Children[0] as StackPanel).Children.Add(indicator);
 
-            child.Children.Add(hPanel);
+            slider.SetBinding(Slider.ValueProperty, selectedBind);
+            slider.Width = 320;
+
+            ColorSlider = slider;
+
+            child.Children.Add(slider);
 
             child.SetBinding(StackPanel.VisibilityProperty, visibilityBind);
             return child;
@@ -379,16 +371,20 @@ namespace Kazyx.WPPMM.CameraManager
                 HorizontalAlignment = HorizontalAlignment.Stretch
             };
 
-            child.Children.Add(
-                new TextBlock
+            var titlePanel = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            titlePanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+            titlePanel.Children.Add(new TextBlock
                 {
                     Text = title,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Style = Application.Current.Resources["PhoneTextStyle"] as Style,
                     Margin = new Thickness(5, 20, 0, 0),
-                    Width = 240
-                }
-            );
+                });
+
+            child.Children.Add(titlePanel);
             return child;
         }
 
@@ -464,9 +460,21 @@ namespace Kazyx.WPPMM.CameraManager
                     else
                     {
                         var min = status.ColorTempertureCandidates[WhiteBalanceMode.Manual][0];
+#if !COLOR_TEMPERTURE_MOCK
                         await manager.SetWhiteBalanceAsync(WhiteBalanceMode.Manual, min);
+#endif
                         status.ColorTemperture = min;
-                        ResetColorSlider(colorTmpSlider);
+
+                        if (ColorSlider != null)
+                        {
+                            var val = status.ColorTempertureCandidates[status.WhiteBalance.current];
+                            ColorSlider.Maximum = val[val.Length - 1];
+                            ColorSlider.Minimum = val[0];
+                            if (status.ColorTemperture != null)
+                            {
+                                ColorSlider.Value = status.ColorTemperture.Value;
+                            }
+                        }
                     }
                 });
         }

@@ -248,7 +248,8 @@ namespace Kazyx.WPPMM.CameraManager
                         Debug.WriteLine(builder.ToString());
                     }
 
-                    /* mock date for testing
+                    /* mock date for testing */
+#if COLOR_TEMPERTURE_MOCK
                     candidates.Add(WhiteBalanceMode.Manual);
                     var list = new List<int>();
 
@@ -257,7 +258,8 @@ namespace Kazyx.WPPMM.CameraManager
                         list.Add(i);
                     }
                     tmpCandidates.Add(WhiteBalanceMode.Manual, list.ToArray());
-                    */
+#endif
+                    /**/
 
                     status.WhiteBalance = new Capability<string> { candidates = candidates.ToArray(), current = wb.current.Mode };
                     status.ColorTempertureCandidates = tmpCandidates;

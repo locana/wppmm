@@ -872,7 +872,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Color Temp..
+        ///   Looks up a localized string similar to Color temperture.
         /// </summary>
         public static string WB_ColorTemperture {
             get {

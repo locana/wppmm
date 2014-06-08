@@ -397,7 +397,7 @@ Please check internet connection status</value>
     <value>Cloudy</value>
   </data>
   <data name="WB_ColorTemperture" xml:space="preserve">
-    <value>Color Temp.</value>
+    <value>Color temperture</value>
   </data>
   <data name="WB_DayLight" xml:space="preserve">
     <value>Daylight</value>

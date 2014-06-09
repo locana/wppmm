@@ -455,7 +455,7 @@ namespace Kazyx.WPPMM.Pages
 
             Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
 
-            HistogramRed.Init(WPMMM.Controls.Histogram.ColorType.Red, 1000);
+            HistogramRed.Init(WPMMM.Controls.Histogram.ColorType.White, 1000);
             HistogramGreen.Init(WPMMM.Controls.Histogram.ColorType.Green, 1000);
             HistogramBlue.Init(WPMMM.Controls.Histogram.ColorType.Blue, 1000);
 
@@ -464,7 +464,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void cameraManager_OnHistogramUpdated(int[] r, int[] g, int[] b)
         {
-            HistogramRed.SetHistogramValue(r);
+            HistogramRed.SetHistogramValue(r, g, b);
             HistogramGreen.SetHistogramValue(g);
             HistogramBlue.SetHistogramValue(b);
         }

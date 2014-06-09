@@ -18,6 +18,9 @@
             </Grid.RowDefinitions>
             <Grid Name="BarsGrid" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Polygon x:Name="HistogramPolygon" Fill="White" />
+                <Polygon x:Name="HistogramPolygonR" Fill="Red" Opacity="1" />
+                <Polygon x:Name="HistogramPolygonG" Fill="Green" Opacity="1" />
+                <Polygon x:Name="HistogramPolygonB" Fill="Blue" Opacity="1" />
             </Grid>
             <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="Red"/>
         </Grid>

@@ -60,7 +60,8 @@ namespace Kazyx.WPMMM.Controls
             ColorBar.Fill = colorBarBrush;
         }
 
-        private const int X_SKIP_ORDER = 4;
+        private const int X_SKIP_ORDER = 2;
+        private const int LINE_WIDTH = 2;
 
         public void SetHistogramValue(int[] values)
         {
@@ -91,6 +92,80 @@ namespace Kazyx.WPMMM.Controls
             points.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
 
             HistogramPolygon.Points = points;
+        }
+
+        public void SetHistogramValue(int[] valuesR, int[] valuesG, int[] valuesB)
+        {
+            if (valuesR == null || valuesG == null || valuesB == null)
+            {
+                return;
+            }
+
+            if (!(valuesR.Length == valuesG.Length && valuesG.Length == valuesB.Length))
+            {
+                return;
+            }
+
+            var rate = (int)(valuesR.Length / BarsGrid.ActualWidth * X_SKIP_ORDER);
+
+            var pointsR = new PointCollection();
+            var pointsG = new PointCollection();
+            var pointsB = new PointCollection();
+
+            // Left corner
+            /*
+            pointsR.Add(new Point(0.0, BarsGrid.ActualHeight));
+            pointsG.Add(new Point(0.0, BarsGrid.ActualHeight));
+            pointsB.Add(new Point(0.0, BarsGrid.ActualHeight));
+            */
+
+            var verticalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
+            for (int i = 0; i < verticalResolution; i++)
+            {
+                var index = rate * i;
+
+                if (index > valuesR.Length - 1)
+                {
+                    index = valuesR.Length - 1;
+                }
+                var barHeightR = ScaleFactor * valuesR[index];
+                pointsR.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightR)));
+
+                var barHeightG = ScaleFactor * valuesG[index];
+                pointsG.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightG)));
+
+                var barHeightB = ScaleFactor * valuesB[index];
+                pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightB)));
+            }
+
+            for (int i = (int)verticalResolution - 1; i >= 0; i--)
+            {
+                var index = rate * i;
+
+                if (index > valuesR.Length - 1)
+                {
+                    index = valuesR.Length - 1;
+                }
+                var barHeightR = ScaleFactor * valuesR[index];
+                pointsR.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightR) + LINE_WIDTH));
+
+                var barHeightG = ScaleFactor * valuesG[index];
+                pointsG.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightG) + LINE_WIDTH));
+
+                var barHeightB = ScaleFactor * valuesB[index];
+                pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightB) + LINE_WIDTH));
+            }
+
+            // Right corner
+            /*
+            pointsR.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
+            pointsG.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
+            pointsB.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
+            */
+
+            HistogramPolygonR.Points = pointsR;
+            HistogramPolygonG.Points = pointsG;
+            HistogramPolygonB.Points = pointsB;
         }
     }
 }

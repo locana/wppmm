@@ -160,6 +160,16 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Built-in version of Smart Remote Control app could not be supported by 3rd party applications.
+        ///Please update to the latest at PlayMemories Camera Apps store..
+        /// </summary>
+        public static string BuiltInSRNotSupported {
+            get {
+                return ResourceManager.GetString("BuiltInSRNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected to _ssid_.
         /// </summary>
         public static string ConnectedDevice {

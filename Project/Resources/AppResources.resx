@@ -420,4 +420,8 @@ Please check internet connection status</value>
   <data name="WB_Shade" xml:space="preserve">
     <value>Shade</value>
   </data>
+  <data name="BuiltInSRNotSupported" xml:space="preserve">
+    <value>Built-in version of Smart Remote Control app could not be supported by 3rd party applications.
+Please update to the latest at PlayMemories Camera Apps store.</value>
+  </data>
 </root>

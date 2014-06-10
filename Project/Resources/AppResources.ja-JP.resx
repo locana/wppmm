@@ -421,4 +421,8 @@
   <data name="WB_Shade" xml:space="preserve">
     <value>日陰</value>
   </data>
+  <data name="BuiltInSRNotSupported" xml:space="preserve">
+    <value>サードパーティ製アプリからのコントロールに対応しているスマートリモコンアプリは v2.0 以降です。
+PlayMemories Camera Appsストアで最新版にアップデートしてください。</value>
+  </data>
 </root>

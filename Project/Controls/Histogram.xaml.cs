@@ -51,7 +51,7 @@ namespace Kazyx.WPMMM.Controls
                     colorBarBrush.Color = Color.FromArgb(255, 0, 0, 255);
                     break;
                 case ColorType.White:
-                    colorBarBrush.Color = Color.FromArgb(255, 255, 255, 255);
+                    colorBarBrush.Color = Color.FromArgb(255, 160, 160, 160);
                     break;
                 default:
                     colorBarBrush.Color = Color.FromArgb(255, 0, 0, 0);
@@ -61,7 +61,7 @@ namespace Kazyx.WPMMM.Controls
         }
 
         private const int X_SKIP_ORDER = 2;
-        private const int LINE_WIDTH = 2;
+        private const int HISTOGRAM_PADDING_TOP = 2;
 
         public void SetHistogramValue(int[] values)
         {
@@ -112,14 +112,11 @@ namespace Kazyx.WPMMM.Controls
             var pointsG = new PointCollection();
             var pointsB = new PointCollection();
 
-            // Left corner
-            /*
-            pointsR.Add(new Point(0.0, BarsGrid.ActualHeight));
-            pointsG.Add(new Point(0.0, BarsGrid.ActualHeight));
-            pointsB.Add(new Point(0.0, BarsGrid.ActualHeight));
-            */
-
             var verticalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
+            var maxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
+
+            // pointsBG.Add(new Point(0.0, BarsGrid.ActualHeight));
+
             for (int i = 0; i < verticalResolution; i++)
             {
                 var index = rate * i;
@@ -129,31 +126,13 @@ namespace Kazyx.WPMMM.Controls
                     index = valuesR.Length - 1;
                 }
                 var barHeightR = ScaleFactor * valuesR[index];
-                pointsR.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightR)));
+                pointsR.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightR)));
 
                 var barHeightG = ScaleFactor * valuesG[index];
-                pointsG.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightG)));
+                pointsG.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightG)));
 
                 var barHeightB = ScaleFactor * valuesB[index];
-                pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightB)));
-            }
-
-            for (int i = (int)verticalResolution - 1; i >= 0; i--)
-            {
-                var index = rate * i;
-
-                if (index > valuesR.Length - 1)
-                {
-                    index = valuesR.Length - 1;
-                }
-                var barHeightR = ScaleFactor * valuesR[index];
-                pointsR.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightR) + LINE_WIDTH));
-
-                var barHeightG = ScaleFactor * valuesG[index];
-                pointsG.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightG) + LINE_WIDTH));
-
-                var barHeightB = ScaleFactor * valuesB[index];
-                pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(BarsGrid.ActualHeight, barHeightB) + LINE_WIDTH));
+                pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightB)));
             }
 
             // Right corner
@@ -163,9 +142,10 @@ namespace Kazyx.WPMMM.Controls
             pointsB.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
             */
 
-            HistogramPolygonR.Points = pointsR;
-            HistogramPolygonG.Points = pointsG;
-            HistogramPolygonB.Points = pointsB;
+            HistogramPolylineR.Points = pointsR;
+            HistogramPolylineG.Points = pointsG;
+            HistogramPolylineB.Points = pointsB;
+            
         }
     }
 }

@@ -10,17 +10,17 @@
     d:DesignHeight="200" d:DesignWidth="200">
 
     <Grid x:Name="LayoutRoot" >
-        <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.6" />
+        <Rectangle Fill="Black" Opacity="0.6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="3"/>
             </Grid.RowDefinitions>
             <Grid Name="BarsGrid" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Polygon x:Name="HistogramPolygon" Fill="White" />
-                <Polygon x:Name="HistogramPolygonR" Fill="Red" Opacity="1" />
-                <Polygon x:Name="HistogramPolygonG" Fill="Green" Opacity="1" />
-                <Polygon x:Name="HistogramPolygonB" Fill="Blue" Opacity="1" />
+                <Polygon x:Name="HistogramPolygon" Fill="White" Opacity="0.9" />
+                <Polyline x:Name="HistogramPolylineR" Stroke="#FFFF0000" StrokeThickness="1" />
+                <Polyline x:Name="HistogramPolylineG" Stroke="#FF13FF33" StrokeThickness="1" />
+                <Polyline x:Name="HistogramPolylineB" Stroke="#FF2070FF" StrokeThickness="1" />
             </Grid>
             <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="Red"/>
         </Grid>

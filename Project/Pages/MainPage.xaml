@@ -321,12 +321,8 @@
                         </Grid.ColumnDefinitions>
                         <Image Source="/Assets/Screen/rec.png" Width="80" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 10" Name="RecordingStatus"
                                Visibility="{Binding RecordingStatusVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
-                        <Controls:Histogram Margin="6,6" HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramRed" Width="80" Height="70" 
+                        <Controls:Histogram Margin="6,6" HorizontalAlignment="Left" VerticalAlignment="Center" Name="Histogram" Width="120" Height="90" 
                                             Visibility="{Binding HistogramVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
-                        <Controls:Histogram Margin="6,6" HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramGreen" Width="80" Height="70"
-                                             Visibility="{Binding HistogramVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
-                        <Controls:Histogram Margin="6,6" HorizontalAlignment="Left" VerticalAlignment="Center" Name="HistogramBlue" Width="80" Height="70"
-                                             Visibility="{Binding HistogramVisibility, Mode=OneWay, FallbackValue=Collapsed}"/>
                         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Background="{StaticResource PhoneBackgroundBrush}"
                                     Margin="6,0" Name="IntervalStatusPanel" Opacity="0.6" Width="120" Height="70"
                                     Visibility="{Binding IntervalStatusPanelVisibility, Mode=OneWay, FallbackValue=Collapsed}">

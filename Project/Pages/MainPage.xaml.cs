@@ -455,18 +455,14 @@ namespace Kazyx.WPPMM.Pages
 
             Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
 
-            HistogramRed.Init(WPMMM.Controls.Histogram.ColorType.White, 1000);
-            HistogramGreen.Init(WPMMM.Controls.Histogram.ColorType.Green, 1000);
-            HistogramBlue.Init(WPMMM.Controls.Histogram.ColorType.Blue, 1000);
+            Histogram.Init(WPMMM.Controls.Histogram.ColorType.White, 1000);
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
         }
 
         private void cameraManager_OnHistogramUpdated(int[] r, int[] g, int[] b)
         {
-            HistogramRed.SetHistogramValue(r, g, b);
-            HistogramGreen.SetHistogramValue(g);
-            HistogramBlue.SetHistogramValue(b);
+            Histogram.SetHistogramValue(r, g, b);
         }
 
         void IntervalManager_OnIntervalRecStatusChanged(bool isRunning)
@@ -715,9 +711,7 @@ namespace Kazyx.WPPMM.Pages
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
             ShootButton.DataContext = svd;
             TouchAFPointer.DataContext = svd;
-            HistogramRed.DataContext = ApplicationSettings.GetInstance();
-            HistogramGreen.DataContext = ApplicationSettings.GetInstance();
-            HistogramBlue.DataContext = ApplicationSettings.GetInstance();
+            Histogram.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
         }
@@ -731,9 +725,7 @@ namespace Kazyx.WPPMM.Pages
             ShootButtonWrapper.DataContext = null;
             ShootButton.DataContext = null;
             TouchAFPointer.DataContext = null;
-            HistogramRed.DataContext = null;
-            HistogramGreen.DataContext = null;
-            HistogramBlue.DataContext = null;
+            Histogram.DataContext = null;
             svd = null;
         }
 
@@ -762,14 +754,10 @@ namespace Kazyx.WPPMM.Pages
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
                     OpenSlider.Margin = new Thickness(50, 0, 0, 0);
                     Sliders.Margin = new Thickness(70, 0, 70, 0);
-                    Grid.SetRow(HistogramRed, 1);
-                    Grid.SetRow(HistogramGreen, 2);
-                    Grid.SetRow(HistogramBlue, 3);
-                    Grid.SetRow(IntervalStatusPanel, 1);
-                    Grid.SetColumn(HistogramRed, 0);
-                    Grid.SetColumn(HistogramGreen, 0);
-                    Grid.SetColumn(HistogramBlue, 0);
-                    Grid.SetColumn(IntervalStatusPanel, 1);
+                    Grid.SetRow(Histogram, 1);
+                    Grid.SetColumn(Histogram, 0);
+                    Grid.SetRow(IntervalStatusPanel, 2);
+                    Grid.SetColumn(IntervalStatusPanel, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -781,14 +769,10 @@ namespace Kazyx.WPPMM.Pages
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
                     OpenSlider.Margin = new Thickness(70, 0, 0, 0);
                     Sliders.Margin = new Thickness(70, 0, 70, 0);
-                    Grid.SetRow(HistogramRed, 1);
-                    Grid.SetRow(HistogramGreen, 2);
-                    Grid.SetRow(HistogramBlue, 3);
-                    Grid.SetRow(IntervalStatusPanel, 1);
-                    Grid.SetColumn(HistogramRed, 0);
-                    Grid.SetColumn(HistogramGreen, 0);
-                    Grid.SetColumn(HistogramBlue, 0);
-                    Grid.SetColumn(IntervalStatusPanel, 1);
+                    Grid.SetRow(Histogram, 1);
+                    Grid.SetColumn(Histogram, 0);
+                    Grid.SetRow(IntervalStatusPanel, 2);
+                    Grid.SetColumn(IntervalStatusPanel, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0, 0, 0, 0);
@@ -800,14 +784,10 @@ namespace Kazyx.WPPMM.Pages
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);
                     OpenSlider.Margin = new Thickness(5, 0, 0, 0);
                     Sliders.Margin = new Thickness(5, 0, 0, 0);
-                    Grid.SetRow(HistogramRed, 1);
-                    Grid.SetRow(HistogramGreen, 1);
-                    Grid.SetRow(HistogramBlue, 1);
+                    Grid.SetRow(Histogram, 1);
+                    Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 1);
-                    Grid.SetColumn(HistogramRed, 0);
-                    Grid.SetColumn(HistogramGreen, 1);
-                    Grid.SetColumn(HistogramBlue, 2);
-                    Grid.SetColumn(IntervalStatusPanel, 3);
+                    Grid.SetColumn(IntervalStatusPanel, 1);
                     break;
             }
 

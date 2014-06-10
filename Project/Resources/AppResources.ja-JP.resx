@@ -422,7 +422,7 @@
     <value>日陰</value>
   </data>
   <data name="BuiltInSRNotSupported" xml:space="preserve">
-    <value>サードパーティ製アプリからのコントロールに対応しているスマートリモコンアプリは v2.0 以降です。
+    <value>プリインストール版のスマートリモコンアプリはサードパーティ製アプリからのコントロールに対応していません。
 PlayMemories Camera Appsストアで最新版にアップデートしてください。</value>
   </data>
 </root>

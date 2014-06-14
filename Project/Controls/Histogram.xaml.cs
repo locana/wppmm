@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -115,8 +116,6 @@ namespace Kazyx.WPMMM.Controls
             var verticalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
             var maxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
 
-            // pointsBG.Add(new Point(0.0, BarsGrid.ActualHeight));
-
             for (int i = 0; i < verticalResolution; i++)
             {
                 var index = rate * i;
@@ -135,17 +134,13 @@ namespace Kazyx.WPMMM.Controls
                 pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightB)));
             }
 
-            // Right corner
-            /*
-            pointsR.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
-            pointsG.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
-            pointsB.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight));
-            */
+            Debug.WriteLine("maxlevel: " + maxHistogramLevel);
+            Debug.WriteLine("scale: " + ScaleFactor);
 
             HistogramPolylineR.Points = pointsR;
             HistogramPolylineG.Points = pointsG;
             HistogramPolylineB.Points = pointsB;
-            
+
         }
     }
 }

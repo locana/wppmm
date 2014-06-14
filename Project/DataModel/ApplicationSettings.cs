@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.WPPMM.Utils;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -11,7 +12,6 @@ namespace Kazyx.WPPMM.DataModel
     {
         private static ApplicationSettings sSettings = new ApplicationSettings();
         private CameraManager.CameraManager manager;
-
 
         private ApplicationSettings()
         {
@@ -150,7 +150,6 @@ namespace Kazyx.WPPMM.DataModel
                     Preference.SetHistogramDisplayed(value);
                     _IsHistogramDisplayed = value;
                     OnPropertyChanged("HistogramVisibility");
-
                 }
             }
             get { return _IsHistogramDisplayed; }

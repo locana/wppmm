@@ -78,7 +78,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private bool IsRendering = false;
 
-        internal LocalIntervalShootingManager IntervalManager;
+        internal readonly LocalIntervalShootingManager IntervalManager = new LocalIntervalShootingManager(AppStatus.GetInstance());
 
         private CameraManager()
         {
@@ -195,8 +195,6 @@ namespace Kazyx.WPPMM.CameraManager
                 observer.Stop();
                 observer = null;
             }
-
-            IntervalManager = new LocalIntervalShootingManager(AppStatus.GetInstance());
 
             if (IntervalManager.ActTakePicture == null)
             {

@@ -1080,9 +1080,16 @@ namespace Kazyx.WPPMM.Pages
 
         private void CameraParameters_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            if (!e.Handled && Sliders.Visibility == Visibility.Collapsed)
+            if (!e.Handled)
             {
-                OpenSliderPanel();
+                if (Sliders.Visibility == Visibility.Collapsed)
+                {
+                    OpenSliderPanel();
+                }
+                else
+                {
+                    CloseSliderPanel();
+                }
             }
         }
     }

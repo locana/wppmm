@@ -18,6 +18,8 @@ namespace Kazyx.WPMMM.Controls
 
         private int MaxFrequency;
         private double ScaleFactor;
+        private double VerticalResolution;
+        private double MaxHistogramLevel;
 
         public Histogram()
         {
@@ -34,6 +36,8 @@ namespace Kazyx.WPMMM.Controls
         {
             MaxFrequency = maxFrequency;
             ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 6;
+            VerticalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
+            MaxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
         }
 
         private void InitColorBar(ColorType type)
@@ -113,10 +117,7 @@ namespace Kazyx.WPMMM.Controls
             var pointsG = new PointCollection();
             var pointsB = new PointCollection();
 
-            var verticalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
-            var maxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
-
-            for (int i = 0; i < verticalResolution; i++)
+            for (int i = 0; i < VerticalResolution; i++)
             {
                 var index = rate * i;
 
@@ -124,18 +125,13 @@ namespace Kazyx.WPMMM.Controls
                 {
                     index = valuesR.Length - 1;
                 }
-                var barHeightR = ScaleFactor * valuesR[index];
-                pointsR.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightR)));
 
-                var barHeightG = ScaleFactor * valuesG[index];
-                pointsG.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightG)));
+                var x = i * X_SKIP_ORDER;
 
-                var barHeightB = ScaleFactor * valuesB[index];
-                pointsB.Add(new Point(i * X_SKIP_ORDER, BarsGrid.ActualHeight - Math.Min(maxHistogramLevel, barHeightB)));
+                pointsR.Add(new Point(x, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesR[index])));
+                pointsG.Add(new Point(x, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesG[index])));
+                pointsB.Add(new Point(x, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesB[index])));
             }
-
-            Debug.WriteLine("maxlevel: " + maxHistogramLevel);
-            Debug.WriteLine("scale: " + ScaleFactor);
 
             HistogramPolylineR.Points = pointsR;
             HistogramPolylineG.Points = pointsG;

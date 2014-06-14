@@ -501,6 +501,11 @@ namespace Kazyx.WPPMM.CameraManager
                 Debug.WriteLine("Failed to set: " + e.code);
                 manager.RefreshEventObserver();
             }
+            catch (KeyNotFoundException e)
+            {
+                Debug.WriteLine("Key not found: " + e.Message);
+                manager.RefreshEventObserver();
+            }
         }
 
         private delegate Task AsyncAction<T>(T arg);

@@ -412,8 +412,6 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.PictureNotifier = OnPictureSaved;
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
 
-            cameraManager.IntervalManager.OnIntervalRecStatusChanged += IntervalManager_OnIntervalRecStatusChanged;
-
             if (cameraManager.IsClientReady())
             {
                 cameraManager.OperateInitialProcess();
@@ -463,12 +461,6 @@ namespace Kazyx.WPPMM.Pages
         private void cameraManager_OnHistogramUpdated(int[] r, int[] g, int[] b)
         {
             Histogram.SetHistogramValue(r, g, b);
-        }
-
-        void IntervalManager_OnIntervalRecStatusChanged(bool isRunning)
-        {
-            Debug.WriteLine("Interval changed: " + isRunning);
-            // this.SetPivotIsLocked(isRunning);
         }
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
@@ -589,7 +581,6 @@ namespace Kazyx.WPPMM.Pages
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
-            cameraManager.IntervalManager.OnIntervalRecStatusChanged -= IntervalManager_OnIntervalRecStatusChanged;
 
             if (cpm != null) { cpm.Hide(); }
 

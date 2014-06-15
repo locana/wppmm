@@ -16,7 +16,7 @@ namespace Kazyx.WPMMM.Controls
             White,
         }
 
-        private int MaxFrequency;
+        private int MaxFrequency = 0;
         private double ScaleFactor;
         private double VerticalResolution;
         private double MaxHistogramLevel;
@@ -38,6 +38,7 @@ namespace Kazyx.WPMMM.Controls
             ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 6;
             VerticalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
             MaxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
+            Debug.WriteLine("Freq: " + MaxFrequency + " maxLevel: " + MaxHistogramLevel);
         }
 
         private void InitColorBar(ColorType type)
@@ -137,6 +138,11 @@ namespace Kazyx.WPMMM.Controls
             HistogramPolylineG.Points = pointsG;
             HistogramPolylineB.Points = pointsB;
 
+        }
+
+        private void Rectangle_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            InitBars(MaxFrequency);
         }
     }
 }

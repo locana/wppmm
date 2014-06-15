@@ -456,13 +456,6 @@ namespace Kazyx.WPPMM.Pages
             InitializeHitogram();
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
-            Histogram.LayoutUpdated += HistogramLayoutUpdated;
-        }
-
-        void HistogramLayoutUpdated(object sender, EventArgs e)
-        {
-            Debug.WriteLine("histogram setting changed callback. height: " + Histogram.ActualHeight);
-            this.InitializeHitogram();
         }
 
         private void InitializeHitogram()
@@ -472,7 +465,6 @@ namespace Kazyx.WPPMM.Pages
 
         private void cameraManager_OnHistogramUpdated(int[] r, int[] g, int[] b)
         {
-            Debug.WriteLine("histogram updated: " + r[10]);
             Histogram.SetHistogramValue(r, g, b);
         }
 
@@ -603,7 +595,6 @@ namespace Kazyx.WPPMM.Pages
             }
 
             cameraManager.OnHistogramUpdated -= cameraManager_OnHistogramUpdated;
-            Histogram.LayoutUpdated -= HistogramLayoutUpdated;
         }
 
         private void EntrancePageLoaded()

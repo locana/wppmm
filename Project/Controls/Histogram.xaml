@@ -10,7 +10,7 @@
     d:DesignHeight="200" d:DesignWidth="200">
 
     <Grid x:Name="LayoutRoot" >
-        <Rectangle Fill="Black" Opacity="0.6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Rectangle Fill="Black" Opacity="0.6" SizeChanged="Rectangle_SizeChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -21,7 +21,7 @@
                 <Polyline x:Name="HistogramPolylineR" Stroke="#FFFF0000" StrokeThickness="1" />
                 <Polyline x:Name="HistogramPolylineG" Stroke="#FF13FF33" StrokeThickness="1" />
                 <Polyline x:Name="HistogramPolylineB" Stroke="#FF2070FF" StrokeThickness="1" />
-            </Grid>
+            </Grid>            
             <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="Red"/>
         </Grid>
     </Grid>

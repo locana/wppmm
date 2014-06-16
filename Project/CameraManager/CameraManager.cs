@@ -787,7 +787,9 @@ namespace Kazyx.WPPMM.CameraManager
                 case StatusCode.CameraNotReady:
                     err = AppResources.ErrorMessage_cameraNotReady;
                     break;
-
+                case StatusCode.Forbidden:
+                    err = AppResources.BuiltInSRNotSupported;
+                    break;
                 default:
                     err = AppResources.ErrorMessage_fatal;
                     break;

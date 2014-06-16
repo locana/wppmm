@@ -463,7 +463,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void InitializeHitogram()
         {
-            Histogram.Init(WPMMM.Controls.Histogram.ColorType.White, 2000);
+            Histogram.Init(WPMMM.Controls.Histogram.ColorType.White, 1500);
         }
 
         private void cameraManager_OnHistogramUpdated(int[] r, int[] g, int[] b)

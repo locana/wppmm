@@ -175,7 +175,6 @@ namespace Kazyx.WPPMM.CameraManager
             });
         }
 
-
         public bool IsClientReady()
         {
             return cameraClient != null && cameraStatus.SupportedApis.Count != 0;
@@ -235,6 +234,7 @@ namespace Kazyx.WPPMM.CameraManager
             catch (RemoteApiException e)
             {
                 Debug.WriteLine("CameraManager: failed to get application info. - " + e.code);
+                OnError(e.code);
                 return;
             }
             Debug.WriteLine("Server Info: " + info.name + " ver " + info.version);
@@ -306,9 +306,10 @@ namespace Kazyx.WPPMM.CameraManager
                     Debug.WriteLine("Liveview Connection status: " + res);
                 }
             }
-            catch (RemoteApiException)
+            catch (RemoteApiException e)
             {
                 Debug.WriteLine("Failed to call StartLiveview");
+                OnError(e.code);
             }
             finally
             {
@@ -357,6 +358,9 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
+        private const int FrameSkipRate = 6;
+        private int inc = 0;
+
         // callback methods (liveview)
         //public void OnJpegRetrieved(byte[] data)
         private void OnJpegRetrieved(object sender, JpegEventArgs e)
@@ -376,7 +380,11 @@ namespace Kazyx.WPPMM.CameraManager
                     LiveviewImage.image = ImageSource;
                     if (ApplicationSettings.GetInstance().IsHistogramDisplayed)
                     {
-                        await histogramCreator.CreateHistogram(ImageSource);
+                        if (++inc % FrameSkipRate == 0)
+                        {
+                            inc = 0;
+                            await histogramCreator.CreateHistogram(ImageSource);
+                        }
                     }
                     IsRendering = false;
                 }

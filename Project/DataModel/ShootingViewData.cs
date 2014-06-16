@@ -210,6 +210,7 @@ namespace Kazyx.WPPMM.DataModel
                     case EventParam.Idle:
                     case EventParam.MvRecording:
                     case EventParam.AuRecording:
+                    case EventParam.ItvRecording:
                         return true;
                     default:
                         return false;
@@ -265,8 +266,10 @@ namespace Kazyx.WPPMM.DataModel
                         else
                             return AudioImage;
                     case ShootModeParam.Interval:
+                        if (cameraStatus.Status == EventParam.ItvRecording)
+                            return StopImage;
+                        else
                         return IntervalStillImage;
-
                     default:
                         return null;
                 }

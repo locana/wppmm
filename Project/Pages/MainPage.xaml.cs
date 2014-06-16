@@ -346,6 +346,9 @@ namespace Kazyx.WPPMM.Pages
                 case EventParam.AuRecording:
                     cameraManager.StopAudioRec();
                     break;
+                case EventParam.ItvRecording:
+                    cameraManager.StopIntervalStillRec();
+                    break;
             }
         }
 

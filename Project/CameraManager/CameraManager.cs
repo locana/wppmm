@@ -757,7 +757,8 @@ namespace Kazyx.WPPMM.CameraManager
                 RefreshEventObserver();
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    MessageBox.Show(AppResources.ErrorMessage_Interval, AppResources.MessageCaption_error, MessageBoxButton.OK);
+                    MessageBox.Show(AppResources.ErrorMessage_Interval + Environment.NewLine + Environment.NewLine + "Error code: " + errno,
+                        AppResources.MessageCaption_error, MessageBoxButton.OK);
                 });
                 return;
             }
@@ -784,7 +785,7 @@ namespace Kazyx.WPPMM.CameraManager
                     break;
             }
 
-            err = err + Environment.NewLine + "Error code: " + errno;
+            err = err + Environment.NewLine + Environment.NewLine + "Error code: " + errno;
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {

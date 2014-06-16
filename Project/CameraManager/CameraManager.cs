@@ -564,12 +564,22 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public void OnActTakePictureError(StatusCode err)
+        public async void OnActTakePictureError(StatusCode err)
         {
             if (err == StatusCode.StillCapturingNotFinished)
             {
                 Debug.WriteLine("capturing...");
-                return;
+                try
+                {
+                    var res = await cameraClient.AwaitTakePictureAsync();
+                    OnResultActTakePicture(res);
+                    return;
+                }
+                catch (RemoteApiException e)
+                {
+                    OnActTakePictureError(e.code);
+                    return;
+                }
             }
 
             Debug.WriteLine("Error during taking picture: " + err);

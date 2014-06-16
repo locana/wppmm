@@ -234,6 +234,7 @@ namespace Kazyx.WPPMM.CameraManager
             catch (RemoteApiException e)
             {
                 Debug.WriteLine("CameraManager: failed to get application info. - " + e.code);
+                OnError(e.code);
                 return;
             }
             Debug.WriteLine("Server Info: " + info.name + " ver " + info.version);
@@ -305,9 +306,10 @@ namespace Kazyx.WPPMM.CameraManager
                     Debug.WriteLine("Liveview Connection status: " + res);
                 }
             }
-            catch (RemoteApiException)
+            catch (RemoteApiException e)
             {
                 Debug.WriteLine("Failed to call StartLiveview");
+                OnError(e.code);
             }
             finally
             {

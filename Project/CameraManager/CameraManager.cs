@@ -1139,7 +1139,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 throw new InvalidOperationException();
             }
-            return cameraClient.SetWhiteBalanceAsync(new WhiteBalance { Mode = mode, ColorTemperature = temperture }, temperture != -1);
+            return cameraClient.SetWhiteBalanceAsync(new WhiteBalance { Mode = mode, ColorTemperature = temperture });
         }
 
         public async void SetMovieQuality(string value)

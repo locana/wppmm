@@ -282,7 +282,7 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
 #if !COLOR_TEMPERTURE_MOCK
-                    await manager.SetWhiteBalanceAsync(status.WhiteBalance.current, target);
+                    await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = status.WhiteBalance.current, ColorTemperature = target });
 #endif
                 }
                 catch (RemoteApiException ex)
@@ -398,55 +398,55 @@ namespace Kazyx.WPPMM.CameraManager
         private async void OnShootModeChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.ShootModeInfo,
-                async (selected) => { await manager.SetShootModeAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetShootModeAsync(selected); });
         }
 
         private async void OnSelfTimerChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<int>(sender, status.SelfTimerInfo,
-                async (selected) => { await manager.SetSelfTimerAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetSelfTimerAsync(selected); });
         }
 
         private async void OnPostViewSizeChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.PostviewSizeInfo,
-                async (selected) => { await manager.SetPostViewImageSizeAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetPostviewImageSizeAsync(selected); });
         }
 
         private async void OnExposureModeChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.ExposureMode,
-                async (selected) => { await manager.SetExporeModeAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetExposureModeAsync(selected); });
         }
 
         private async void OnBeepModeChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.BeepMode,
-                async (selected) => { await manager.SetBeepModeAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetBeepModeAsync(selected); });
         }
 
         private async void OnViewAngleChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<int>(sender, status.ViewAngle,
-                async (selected) => { await manager.SetViewAngleAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetViewAngleAsync(selected); });
         }
 
         private async void OnSteadyModeChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.SteadyMode,
-                async (selected) => { await manager.SetSteadyModeAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetSteadyModeAsync(selected); });
         }
 
         private async void OnMovieQualityChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.MovieQuality,
-                async (selected) => { await manager.SetMovieQualityAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetMovieQualityAsync(selected); });
         }
 
         private async void OnStillImageSizeChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<StillImageSize>(sender, status.StillImageSize,
-                async (selected) => { await manager.SetStillImageSizeAsync(selected); });
+                async (selected) => { await manager.CameraApi.SetStillImageSizeAsync(selected); });
         }
 
         private async void OnWhiteBalanceChanged(object sender, SelectionChangedEventArgs arg)
@@ -457,13 +457,13 @@ namespace Kazyx.WPPMM.CameraManager
                     if (selected != WhiteBalanceMode.Manual)
                     {
                         status.ColorTemperture = -1;
-                        await manager.SetWhiteBalanceAsync(selected);
+                        await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = selected });
                     }
                     else
                     {
                         var min = status.ColorTempertureCandidates[WhiteBalanceMode.Manual][0];
 #if !COLOR_TEMPERTURE_MOCK
-                        await manager.SetWhiteBalanceAsync(WhiteBalanceMode.Manual, min);
+                        await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = WhiteBalanceMode.Manual, ColorTemperature = min });
 #endif
                         status.ColorTemperture = min;
 
@@ -492,7 +492,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await action.Invoke(param.candidates[selected]);
             }
-            catch (InvalidOperationException)
+            catch (NullReferenceException)
             {
                 Debug.WriteLine("Not ready to call Web API");
             }

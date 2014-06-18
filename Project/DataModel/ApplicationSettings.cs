@@ -1,6 +1,5 @@
 using Kazyx.RemoteApi;
 using Kazyx.WPPMM.Utils;
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -65,7 +64,7 @@ namespace Kazyx.WPPMM.DataModel
                     {
                         if (manager.cameraStatus.IsAvailable("setSelfTimer") && manager.IntervalManager != null)
                         {
-                            manager.SetSelfTimerAsync(SelfTimerParam.Off);
+                            SetSelfTimerOff();
                         }
                     }
                 }
@@ -73,6 +72,18 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 return _IsIntervalShootingEnabled;
+            }
+        }
+
+        private async void SetSelfTimerOff()
+        {
+            try
+            {
+                await manager.CameraApi.SetSelfTimerAsync(SelfTimerParam.Off);
+            }
+            catch (RemoteApiException e)
+            {
+                Debug.WriteLine("Failed to set selftimer off: " + e.code);
             }
         }
 

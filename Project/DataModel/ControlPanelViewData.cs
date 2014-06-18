@@ -12,12 +12,12 @@ namespace Kazyx.WPPMM.DataModel
     public class ControlPanelViewData : INotifyPropertyChanged
     {
         private readonly CameraStatus status;
-        private CameraManager.CameraManager manager;
+        private readonly CameraManager.CameraManager manager = CameraManager.CameraManager.GetInstance();
+        private readonly ApplicationSettings setting = ApplicationSettings.GetInstance();
 
         public ControlPanelViewData(CameraStatus status)
         {
             this.status = status;
-            this.manager = CameraManager.CameraManager.GetInstance();
 
             status.PropertyChanged += (sender, e) =>
             {
@@ -58,6 +58,18 @@ namespace Kazyx.WPPMM.DataModel
                         break;
                     case "ColorTemperture":
                         OnPropertyChanged("CpIsVisibleColorTemperture");
+                        break;
+                    default:
+                        break;
+                }
+            };
+
+            setting.PropertyChanged += (sender, e) =>
+            {
+                switch (e.PropertyName)
+                {
+                    case "IsIntervalShootingEnabled":
+                        GenericPropertyChanged("SelfTimer");
                         break;
                     default:
                         break;
@@ -125,6 +137,7 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return status.IsAvailable("setSelfTimer") &&
                     status.SelfTimerInfo != null &&
+                    !setting.IsIntervalShootingEnabled &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
             }

@@ -411,6 +411,7 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 return CpIsAvailableWhiteBalance &&
+                    status.ColorTempertureCandidates != null &&
                     status.ColorTempertureCandidates.ContainsKey(status.WhiteBalance.current) &&
                     status.ColorTempertureCandidates[status.WhiteBalance.current].Length != 0 &&
                     status.ColorTemperture != -1;

@@ -243,7 +243,7 @@ namespace Kazyx.WPPMM.CameraManager
                 string previous = null;
                 if (_ShootModeInfo != null)
                 {
-                    previous = _ShootModeInfo.current;
+                    previous = _ShootModeInfo.Current;
                 }
                 _ShootModeInfo = value;
                 if (_ShootModeInfo != null)
@@ -254,9 +254,9 @@ namespace Kazyx.WPPMM.CameraManager
                 OnPropertyChanged("LiveviewScreenVisibility");
                 OnPropertyChanged("AudioScreenVisibility");
 
-                if (value != null && value.current != null & CurrentShootModeNotifier != null)
+                if (value != null && value.Current != null & CurrentShootModeNotifier != null)
                 {
-                    CurrentShootModeNotifier.Invoke(value.current);
+                    CurrentShootModeNotifier.Invoke(value.Current);
                 }
             }
             get { return _ShootModeInfo; }
@@ -498,7 +498,7 @@ namespace Kazyx.WPPMM.CameraManager
                     return Visibility.Collapsed;
                 }
 
-                if (_ShootModeInfo.current == ShootModeParam.Audio)
+                if (_ShootModeInfo.Current == ShootModeParam.Audio)
                 {
                     return Visibility.Collapsed;
                 }
@@ -518,7 +518,7 @@ namespace Kazyx.WPPMM.CameraManager
                     return Visibility.Collapsed;
                 }
 
-                if (_ShootModeInfo.current == ShootModeParam.Audio)
+                if (_ShootModeInfo.Current == ShootModeParam.Audio)
                 {
                     return Visibility.Visible;
                 }
@@ -556,14 +556,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public ExtendedInfo(Capability<T> basic)
         {
-            this.candidates = basic.candidates;
-            this.current = basic.current;
+            this.Candidates = basic.Candidates;
+            this.Current = basic.Current;
         }
 
         public ExtendedInfo(Capability<T> basic, T previous)
         {
-            this.candidates = basic.candidates;
-            this.current = basic.current;
+            this.Candidates = basic.Candidates;
+            this.Current = basic.Current;
             this.previous = previous;
         }
     }

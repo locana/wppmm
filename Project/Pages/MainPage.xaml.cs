@@ -252,7 +252,7 @@ namespace Kazyx.WPPMM.Pages
             if (cameraStatus.ZoomInfo != null)
             {
                 // dumpZoomInfo(cameraStatus.ZoomInfo);
-                double margin_left = cameraStatus.ZoomInfo.position * 156 / 100;
+                double margin_left = cameraStatus.ZoomInfo.Position * 156 / 100;
                 ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
                 Debug.WriteLine("zoom bar display update: " + margin_left);
             }
@@ -310,7 +310,7 @@ namespace Kazyx.WPPMM.Pages
             switch (status.Status)
             {
                 case EventParam.Idle:
-                    switch (status.ShootModeInfo.current)
+                    switch (status.ShootModeInfo.Current)
                     {
                         case ShootModeParam.Still:
                             if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)
@@ -964,9 +964,9 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             FNumberSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.FNumber.candidates.Length)
+            if (value < cameraManager.cameraStatus.FNumber.Candidates.Length)
             {
-                cameraManager.SetFNumber(cameraManager.cameraStatus.FNumber.candidates[value]);
+                cameraManager.SetFNumber(cameraManager.cameraStatus.FNumber.Candidates[value]);
             }
         }
 
@@ -981,9 +981,9 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             ShutterSpeedSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.ShutterSpeed.candidates.Length)
+            if (value < cameraManager.cameraStatus.ShutterSpeed.Candidates.Length)
             {
-                cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.candidates[value]);
+                cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.Candidates[value]);
             }
         }
 
@@ -1016,9 +1016,9 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             IsoSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.ISOSpeedRate.candidates.Length)
+            if (value < cameraManager.cameraStatus.ISOSpeedRate.Candidates.Length)
             {
-                cameraManager.SetIsoSpeedRate(cameraManager.cameraStatus.ISOSpeedRate.candidates[value]);
+                cameraManager.SetIsoSpeedRate(cameraManager.cameraStatus.ISOSpeedRate.Candidates[value]);
             }
         }
 

@@ -221,7 +221,7 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
                     var size = await client.GetAvailableStillSizeAsync();
-                    Array.Sort(size.candidates, CompareStillSize);
+                    Array.Sort(size.Candidates, CompareStillSize);
                     status.StillImageSize = size;
                 }
                 catch (RemoteApiException)
@@ -244,7 +244,7 @@ namespace Kazyx.WPPMM.CameraManager
                     var wb = await client.GetAvailableWhiteBalanceAsync();
                     var candidates = new List<string>();
                     var tmpCandidates = new Dictionary<string, int[]>();
-                    foreach (var mode in wb.candidates)
+                    foreach (var mode in wb.Candidates)
                     {
                         candidates.Add(mode.WhiteBalanceMode);
                         var tmpList = new List<int>();
@@ -279,9 +279,9 @@ namespace Kazyx.WPPMM.CameraManager
 #endif
                     /**/
 
-                    status.WhiteBalance = new Capability<string> { candidates = candidates.ToArray(), current = wb.current.Mode };
+                    status.WhiteBalance = new Capability<string> { Candidates = candidates.ToArray(), Current = wb.Current.Mode };
                     status.ColorTempertureCandidates = tmpCandidates;
-                    status.ColorTemperture = wb.current.ColorTemperature;
+                    status.ColorTemperture = wb.Current.ColorTemperature;
                 }
                 catch (RemoteApiException)
                 {
@@ -292,7 +292,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 if (status.WhiteBalance != null)
                 {
-                    status.WhiteBalance.current = latest.Current.Mode;
+                    status.WhiteBalance.Current = latest.Current.Mode;
                 }
                 status.ColorTemperture = latest.Current.ColorTemperature;
             }

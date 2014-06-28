@@ -247,7 +247,7 @@ namespace Kazyx.WPPMM.CameraManager
         /// <returns></returns>
         private int AsValidColorTemperture(int source)
         {
-            var candidates = status.ColorTempertureCandidates[status.WhiteBalance.current];
+            var candidates = status.ColorTempertureCandidates[status.WhiteBalance.Current];
             if (candidates.Length < 2)
             {
                 return -1;
@@ -283,7 +283,7 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
 #if !COLOR_TEMPERTURE_MOCK
-                    await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = status.WhiteBalance.current, ColorTemperature = target });
+                    await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = status.WhiteBalance.Current, ColorTemperature = target });
 #endif
                 }
                 catch (RemoteApiException ex)
@@ -487,7 +487,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)
         {
-            if (param == null || param.candidates == null || param.candidates.Length == 0)
+            if (param == null || param.Candidates == null || param.Candidates.Length == 0)
                 return;
             var selected = (sender as ListPicker).SelectedIndex;
             if (SettingsValueConverter.GetSelectedIndex(param) != selected)
@@ -497,7 +497,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             try
             {
-                await action.Invoke(param.candidates[selected]);
+                await action.Invoke(param.Candidates[selected]);
             }
             catch (NullReferenceException)
             {

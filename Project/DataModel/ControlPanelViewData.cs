@@ -129,7 +129,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo).candidates;
+                return SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo).Candidates;
             }
         }
 
@@ -161,7 +161,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo).candidates;
+                return SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo).Candidates;
             }
         }
 
@@ -192,7 +192,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromShootMode(status.ShootModeInfo).candidates;
+                return SettingsValueConverter.FromShootMode(status.ShootModeInfo).Candidates;
             }
         }
 
@@ -221,7 +221,7 @@ namespace Kazyx.WPPMM.DataModel
 
         public string[] CpCandidatesExposureMode
         {
-            get { return SettingsValueConverter.FromExposureMode(status.ExposureMode).candidates; }
+            get { return SettingsValueConverter.FromExposureMode(status.ExposureMode).Candidates; }
         }
 
         public bool CpIsAvailableExposureMode
@@ -331,7 +331,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromBeepMode(status.BeepMode).candidates;
+                return SettingsValueConverter.FromBeepMode(status.BeepMode).Candidates;
             }
         }
 
@@ -362,7 +362,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromStillImageSize(status.StillImageSize).candidates;
+                return SettingsValueConverter.FromStillImageSize(status.StillImageSize).Candidates;
             }
         }
 
@@ -393,7 +393,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromWhiteBalance(status.WhiteBalance).candidates;
+                return SettingsValueConverter.FromWhiteBalance(status.WhiteBalance).Candidates;
             }
         }
 
@@ -414,8 +414,8 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return CpIsAvailableWhiteBalance &&
                     status.ColorTempertureCandidates != null &&
-                    status.ColorTempertureCandidates.ContainsKey(status.WhiteBalance.current) &&
-                    status.ColorTempertureCandidates[status.WhiteBalance.current].Length != 0 &&
+                    status.ColorTempertureCandidates.ContainsKey(status.WhiteBalance.Current) &&
+                    status.ColorTempertureCandidates[status.WhiteBalance.Current].Length != 0 &&
                     status.ColorTemperture != -1;
             }
         }
@@ -444,7 +444,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromViewAngle(status.ViewAngle).candidates;
+                return SettingsValueConverter.FromViewAngle(status.ViewAngle).Candidates;
             }
         }
 
@@ -475,7 +475,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromSteadyMode(status.SteadyMode).candidates;
+                return SettingsValueConverter.FromSteadyMode(status.SteadyMode).Candidates;
             }
         }
 
@@ -506,7 +506,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromMovieQuality(status.MovieQuality).candidates;
+                return SettingsValueConverter.FromMovieQuality(status.MovieQuality).Candidates;
             }
         }
 
@@ -537,7 +537,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromFlashMode(status.FlashMode).candidates;
+                return SettingsValueConverter.FromFlashMode(status.FlashMode).Candidates;
             }
         }
 
@@ -560,7 +560,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return false;
                 }
-                return status.ShootModeInfo.current == ShootModeParam.Still &&
+                return status.ShootModeInfo.Current == ShootModeParam.Still &&
                     manager != null && !manager.IntervalManager.IsRunning;
             }
         }
@@ -576,14 +576,14 @@ namespace Kazyx.WPPMM.DataModel
         {
             if (capability != null)
             {
-                if (capability.candidates.Length > index)
+                if (capability.Candidates.Length > index)
                 {
-                    capability.current = capability.candidates[index];
+                    capability.Current = capability.Candidates[index];
                 }
                 else
                 {
 
-                    capability.current = default(T);
+                    capability.Current = default(T);
                 }
             }
         }

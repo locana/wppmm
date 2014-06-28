@@ -10,15 +10,15 @@ namespace Kazyx.WPPMM.Utils
     {
         public static int GetSelectedIndex<T>(Capability<T> info)
         {
-            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            if (info == null || info.Candidates == null || info.Candidates.Length == 0)
             {
                 return 0;
             }
             if (typeof(T) == typeof(string) || typeof(T) == typeof(int))
             {
-                for (int i = 0; i < info.candidates.Length; i++)
+                for (int i = 0; i < info.Candidates.Length; i++)
                 {
-                    if (info.candidates[i].Equals(info.current))
+                    if (info.Candidates[i].Equals(info.Current))
                     {
                         return i;
                     }
@@ -27,10 +27,10 @@ namespace Kazyx.WPPMM.Utils
             else if (typeof(T) == typeof(StillImageSize))
             {
                 var size = info as Capability<StillImageSize>;
-                for (int i = 0; i < info.candidates.Length; i++)
+                for (int i = 0; i < info.Candidates.Length; i++)
                 {
-                    if (size.candidates[i].AspectRatio == size.current.AspectRatio
-                        && size.candidates[i].SizeDefinition == size.current.SizeDefinition)
+                    if (size.Candidates[i].AspectRatio == size.Current.AspectRatio
+                        && size.Candidates[i].SizeDefinition == size.Current.SizeDefinition)
                     {
                         return i;
                     }
@@ -54,15 +54,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromSelfTimer(info.candidates[i]);
+                mCandidates[i] = FromSelfTimer(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromSelfTimer(info.current),
-                candidates = mCandidates
+                Current = FromSelfTimer(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -78,15 +78,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromPostViewSize(info.candidates[i]);
+                mCandidates[i] = FromPostViewSize(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromPostViewSize(info.current),
-                candidates = mCandidates
+                Current = FromPostViewSize(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -109,15 +109,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromShootMode(info.candidates[i]);
+                mCandidates[i] = FromShootMode(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromShootMode(info.current),
-                candidates = mCandidates
+                Current = FromShootMode(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -144,15 +144,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromExposureMode(info.candidates[i]);
+                mCandidates[i] = FromExposureMode(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromExposureMode(info.current),
-                candidates = mCandidates
+                Current = FromExposureMode(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -181,15 +181,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromSteadyMode(info.candidates[i]);
+                mCandidates[i] = FromSteadyMode(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromSteadyMode(info.current),
-                candidates = mCandidates
+                Current = FromSteadyMode(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -212,15 +212,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromBeepMode(info.candidates[i]);
+                mCandidates[i] = FromBeepMode(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromBeepMode(info.current),
-                candidates = mCandidates
+                Current = FromBeepMode(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -245,15 +245,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromViewAngle(info.candidates[i]);
+                mCandidates[i] = FromViewAngle(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromViewAngle(info.current),
-                candidates = mCandidates
+                Current = FromViewAngle(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -268,15 +268,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromMovieQuality(info.candidates[i]);
+                mCandidates[i] = FromMovieQuality(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromMovieQuality(info.current),
-                candidates = mCandidates
+                Current = FromMovieQuality(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -292,14 +292,14 @@ namespace Kazyx.WPPMM.Utils
                 return res;
 
             var mCandidates = new List<string>();
-            foreach (var val in info.candidates)
+            foreach (var val in info.Candidates)
             {
                 mCandidates.Add(FromStillImageSize(val));
             }
             return new Capability<string>
             {
-                current = FromStillImageSize(info.current),
-                candidates = mCandidates.ToArray()
+                Current = FromStillImageSize(info.Current),
+                Candidates = mCandidates.ToArray()
             };
         }
 
@@ -330,15 +330,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromWhiteBalance(info.candidates[i]);
+                mCandidates[i] = FromWhiteBalance(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromWhiteBalance(info.current),
-                candidates = mCandidates
+                Current = FromWhiteBalance(info.Current),
+                Candidates = mCandidates
             };
         }
 
@@ -372,12 +372,12 @@ namespace Kazyx.WPPMM.Utils
 
         private static Capability<string> AsDisabledCapability<T>(Capability<T> info)
         {
-            if (info == null || info.candidates == null || info.candidates.Length == 0)
+            if (info == null || info.Candidates == null || info.Candidates.Length == 0)
             {
                 return new Capability<string>
                 {
-                    candidates = new string[] { AppResources.Disabled },
-                    current = AppResources.Disabled
+                    Candidates = new string[] { AppResources.Disabled },
+                    Current = AppResources.Disabled
                 };
             }
             return null;
@@ -423,15 +423,15 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.candidates.Length];
-            for (int i = 0; i < info.candidates.Length; i++)
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
             {
-                mCandidates[i] = FromFlashMode(info.candidates[i]);
+                mCandidates[i] = FromFlashMode(info.Candidates[i]);
             }
             return new Capability<string>
             {
-                current = FromFlashMode(info.current),
-                candidates = mCandidates
+                Current = FromFlashMode(info.Current),
+                Candidates = mCandidates
             };
         }
 

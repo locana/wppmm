@@ -416,5 +416,44 @@ namespace Kazyx.WPPMM.Utils
                 return "EV +" + strValue;
             }
         }
+
+        public static Capability<string> FromFlashMode(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new string[info.candidates.Length];
+            for (int i = 0; i < info.candidates.Length; i++)
+            {
+                mCandidates[i] = FromFlashMode(info.candidates[i]);
+            }
+            return new Capability<string>
+            {
+                current = FromFlashMode(info.current),
+                candidates = mCandidates
+            };
+        }
+
+        private static string FromFlashMode(string val)
+        {
+            switch (val)
+            {
+                case FlashMode.Auto:
+                    return AppResources.FlashMode_Auto;
+                case FlashMode.On:
+                    return AppResources.On;
+                case FlashMode.Off:
+                    return AppResources.Off;
+                case FlashMode.RearSync:
+                    return AppResources.FlashMode_RearSync;
+                case FlashMode.SlowSync:
+                    return AppResources.FlashMode_SlowSync;
+                case FlashMode.Wireless:
+                    return AppResources.FlashMode_Wireless;
+            }
+            return val;
+        }
+
     }
 }

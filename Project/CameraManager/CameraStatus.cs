@@ -361,6 +361,35 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _StillSize; }
         }
 
+        private Capability<string> _FlashMode;
+        public Capability<string> FlashMode
+        {
+            set
+            {
+                _FlashMode = value;
+                OnPropertyChanged("FlashMode");
+            }
+            get
+            {
+                return _FlashMode;
+            }
+        }
+
+        private Capability<string> _FocusMode;
+        public Capability<string> FocusMode
+        {
+            set
+            {
+                _FocusMode = value;
+                OnPropertyChanged("FocusMode");
+            }
+            get
+            {
+                return _FocusMode;
+            }
+        }
+            
+
         private Capability<string> _WhiteBalance;
         public Capability<string> WhiteBalance
         {

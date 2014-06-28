@@ -234,6 +234,7 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage ExModeImage_A = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_A.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_S = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_S.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_P = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_M = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_M.png", UriKind.Relative));
 
         private static readonly BitmapImage MemoryCard = new BitmapImage(new Uri("/Assets/Screen/memory_card.png", UriKind.Relative));
         private static readonly BitmapImage NoMemoryCard = new BitmapImage(new Uri("/Assets/Screen/no_memory_card.png", UriKind.Relative));
@@ -367,7 +368,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
                 }
-                // Debug.WriteLine("focusStatus: " + cameraStatus.FocusStatus);
+                Debug.WriteLine("focusStatus: " + cameraStatus.FocusStatus);
                 switch (cameraStatus.FocusStatus)
                 {
                     case FocusState.Focused:

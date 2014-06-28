@@ -425,4 +425,19 @@
     <value>プリインストール版のスマートリモコンアプリはサードパーティ製アプリからのコントロールに対応していません。
 PlayMemories Camera Appsストアで最新版にアップデートしてください。</value>
   </data>
+  <data name="FlashMode" xml:space="preserve">
+    <value>フラッシュモード</value>
+  </data>
+  <data name="FlashMode_Auto" xml:space="preserve">
+    <value>オート</value>
+  </data>
+  <data name="FlashMode_RearSync" xml:space="preserve">
+    <value>後幕シンクロ</value>
+  </data>
+  <data name="FlashMode_SlowSync" xml:space="preserve">
+    <value>スローシンクロ</value>
+  </data>
+  <data name="FlashMode_Wireless" xml:space="preserve">
+    <value>ワイヤレス</value>
+  </data>
 </root>

@@ -424,4 +424,19 @@ Please check internet connection status</value>
     <value>Built-in version of Smart Remote Control app could not be supported by 3rd party applications.
 Please update to the latest at PlayMemories Camera Apps store.</value>
   </data>
+  <data name="FlashMode" xml:space="preserve">
+    <value>Flash mode</value>
+  </data>
+  <data name="FlashMode_Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="FlashMode_RearSync" xml:space="preserve">
+    <value>Rear curtain sync.</value>
+  </data>
+  <data name="FlashMode_SlowSync" xml:space="preserve">
+    <value>Slow sync.</value>
+  </data>
+  <data name="FlashMode_Wireless" xml:space="preserve">
+    <value>Wireless</value>
+  </data>
 </root>

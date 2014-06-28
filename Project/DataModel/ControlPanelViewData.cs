@@ -36,6 +36,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableMovieQuality");
                         OnPropertyChanged("CpIsAvailableStillImageSize");
                         OnPropertyChanged("CpIsAvailableWhiteBalance");
+                        OnPropertyChanged("CpIsAvailableFlashMode");
                         OnPropertyChanged("CpIsVisibleColorTemperture");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
@@ -54,6 +55,7 @@ namespace Kazyx.WPPMM.DataModel
                     case "MovieQuality":
                     case "StillImageSize":
                     case "WhiteBalance":
+                    case "FlashMode":
                         GenericPropertyChanged(e.PropertyName);
                         break;
                     case "ColorTemperture":
@@ -519,6 +521,37 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public int CpSelectedIndexFlashMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.FlashMode);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.FlashMode, value);
+            }
+        }
+
+        public string[] CpCandidatesFlashMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromFlashMode(status.FlashMode).candidates;
+            }
+        }
+
+        public bool CpIsAvailableFlashMode
+        {
+            get
+            {
+                return status.IsAvailable("setFlashMode") &&
+                    status.FlashMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
         public bool CpIsAvailableStillImageFunctions
         {
             get
@@ -531,6 +564,8 @@ namespace Kazyx.WPPMM.DataModel
                     manager != null && !manager.IntervalManager.IsRunning;
             }
         }
+
+
 
         public void OnControlPanelPropertyChanged(string name)
         {

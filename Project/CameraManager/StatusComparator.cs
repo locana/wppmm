@@ -192,6 +192,24 @@ namespace Kazyx.WPPMM.CameraManager
             status.PictureUrls = latest;
         }
 
+        internal static void FlashMode(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.FlashMode = latest;
+        }
+
+        internal static void FocusMode(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.FocusMode = latest;
+        }
+
         internal static async void StillSize(CameraStatus status, StillImageSizeEvent latest, CameraApiClient client)
         {
             if (latest == null)

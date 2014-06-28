@@ -47,9 +47,10 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
             Panels.Add("setPostviewImageSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
+            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
+            Panels.Add("setFlashMode", CreateStatusPanel("FlashMode", AppResources.FlashMode, OnFlashModeChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
-            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
@@ -447,6 +448,12 @@ namespace Kazyx.WPPMM.CameraManager
         {
             await OnPickerChanged<StillImageSize>(sender, status.StillImageSize,
                 async (selected) => { await manager.CameraApi.SetStillImageSizeAsync(selected); });
+        }
+
+        private async void OnFlashModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.FlashMode,
+                async (selected) => { await manager.CameraApi.SetFlashModeAsync(selected); });
         }
 
         private async void OnWhiteBalanceChanged(object sender, SelectionChangedEventArgs arg)

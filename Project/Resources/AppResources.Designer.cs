@@ -441,6 +441,51 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flash mode.
+        /// </summary>
+        public static string FlashMode {
+            get {
+                return ResourceManager.GetString("FlashMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string FlashMode_Auto {
+            get {
+                return ResourceManager.GetString("FlashMode_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rear curtain sync..
+        /// </summary>
+        public static string FlashMode_RearSync {
+            get {
+                return ResourceManager.GetString("FlashMode_RearSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slow sync..
+        /// </summary>
+        public static string FlashMode_SlowSync {
+            get {
+                return ResourceManager.GetString("FlashMode_SlowSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wireless.
+        /// </summary>
+        public static string FlashMode_Wireless {
+            get {
+                return ResourceManager.GetString("FlashMode_Wireless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure that SSID of connected access point is that of your camera device&apos;s..
         /// </summary>
         public static string Guide_CantFindDevice {

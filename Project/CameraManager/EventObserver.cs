@@ -206,6 +206,8 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.StillSize(target, data.StillImageSize, client);
 
             StatusUpdater.WhiteBalance(target, data.WhiteBalance, client);
+
+            StatusUpdater.FlashMode(target, data.FlashMode);
         }
 
         private async void Call()

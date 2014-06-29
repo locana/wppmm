@@ -128,6 +128,7 @@ namespace Kazyx.WPPMM.CameraManager
             switch (e.PropertyName)
             {
                 case "FocusStatus":
+                case "TouchFocusStatus":
                     if (OnAfStatusChanged != null)
                     {
                         OnAfStatusChanged(_cameraStatus);

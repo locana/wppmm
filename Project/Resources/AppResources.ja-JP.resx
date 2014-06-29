@@ -443,4 +443,16 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ExposureMode_M" xml:space="preserve">
     <value>マニュアル</value>
   </data>
+  <data name="FocusMode" xml:space="preserve">
+    <value>フォーカスモード</value>
+  </data>
+  <data name="FocusMode_AFC" xml:space="preserve">
+    <value>AF-C</value>
+  </data>
+  <data name="FocusMode_AFS" xml:space="preserve">
+    <value>AF-S</value>
+  </data>
+  <data name="FocusMode_Manual" xml:space="preserve">
+    <value>MF</value>
+  </data>
 </root>

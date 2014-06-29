@@ -39,7 +39,7 @@ namespace Kazyx.WPPMM.CameraManager
             // Key of the Dictionary is the name of setter API in most cases. Uses to check availability.
             Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
             Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
-            Panels.Add("setFocusMode", CreateStatusPanel("FocusMode", "focus mode", OnFocusModeChanged));
+            Panels.Add("setFocusMode", CreateStatusPanel("FocusMode", AppResources.FocusMode, OnFocusModeChanged));
             Panels.Add("setWhiteBalance", CreateStatusPanel("WhiteBalance", AppResources.WhiteBalance, OnWhiteBalanceChanged));
             Panels.Add("ColorTemperture", CreateColorTemperturePanel());
             Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));

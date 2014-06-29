@@ -578,12 +578,6 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                Debug.WriteLine("Focus mode availability: " + (status.IsAvailable("setFocusMode") &&
-                    status.FocusMode != null &&
-                    manager != null &&
-                    !manager.IntervalManager.IsRunning));
-
-
                 return status.IsAvailable("setFocusMode") &&
                     status.FocusMode != null &&
                     manager != null &&

@@ -477,6 +477,15 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromFocusMode(string val)
         {
+            switch (val)
+            {
+                case FocusMode.Continuous:
+                    return AppResources.FocusMode_AFC;
+                case FocusMode.Single:
+                    return AppResources.FocusMode_AFS;
+                case FocusMode.Manual:
+                    return AppResources.FocusMode_Manual;
+            }
             return val;
         }
 

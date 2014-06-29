@@ -495,6 +495,42 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Focus mode.
+        /// </summary>
+        public static string FocusMode {
+            get {
+                return ResourceManager.GetString("FocusMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AF-C.
+        /// </summary>
+        public static string FocusMode_AFC {
+            get {
+                return ResourceManager.GetString("FocusMode_AFC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AF-S.
+        /// </summary>
+        public static string FocusMode_AFS {
+            get {
+                return ResourceManager.GetString("FocusMode_AFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MF.
+        /// </summary>
+        public static string FocusMode_Manual {
+            get {
+                return ResourceManager.GetString("FocusMode_Manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure that SSID of connected access point is that of your camera device&apos;s..
         /// </summary>
         public static string Guide_CantFindDevice {

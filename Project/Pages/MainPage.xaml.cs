@@ -163,7 +163,6 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.RequestCloseLiveView();
             cameraManager.Refresh();
-            //LiveViewInit();
         }
 
         private void StartConnectionSequence(bool connect)
@@ -288,7 +287,6 @@ namespace Kazyx.WPPMM.Pages
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
         {
             RecStartStop();
-
         }
 
         private void RecStartStop()
@@ -390,7 +388,6 @@ namespace Kazyx.WPPMM.Pages
         private void EntrancePageUnloaded()
         {
             EntrancePivot.Opacity = 0;
-            // ApplicationBar = abm.Clear().CreateNew(APPBAR_OPACITY);
             ClearNFCInfo();
         }
 
@@ -400,7 +397,6 @@ namespace Kazyx.WPPMM.Pages
 
             AppStatus.GetInstance().IsInShootingDisplay = true;
             ShootingPivot.Opacity = 1;
-            //ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).CreateNew(APPBAR_OPACITY);
             SetLayoutByOrientation(this.Orientation);
 
             cameraManager.UpdateEvent += LiveViewUpdateListener;
@@ -574,7 +570,6 @@ namespace Kazyx.WPPMM.Pages
 
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
-            // ApplicationBar = abm.Clear().CreateNew(0.0);
             cameraManager.StopEventObserver();
             cameraManager.UpdateEvent -= LiveViewUpdateListener;
             cameraManager.ShowToast -= ShowToast;
@@ -789,7 +784,6 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetColumn(IntervalStatusPanel, 1);
                     break;
             }
-
         }
 
         public void ShowToast(String message)
@@ -820,7 +814,6 @@ namespace Kazyx.WPPMM.Pages
             {
                 Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = false; });
             }
-
         }
 
         private void initNFC()
@@ -836,7 +829,6 @@ namespace Kazyx.WPPMM.Pages
 
             _subscriptionIdNdef = _proximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
             NFCMessage.Visibility = System.Windows.Visibility.Visible;
-
         }
 
         private void NFCMessageReceivedHandler(ProximityDevice sender, ProximityMessage message)
@@ -915,7 +907,6 @@ namespace Kazyx.WPPMM.Pages
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage, CheckBoxSetting.SettingType.postviewImageTransfer));
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayHistogram, AppResources.Guide_Histogram, CheckBoxSetting.SettingType.displayHistogram));
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
-
         }
 
         private void OpenAppSettingPanel()
@@ -1002,7 +993,6 @@ namespace Kazyx.WPPMM.Pages
             {
                 cameraManager.SetExposureCompensation(value);
             }
-
         }
 
         private void IsoSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
@@ -1019,6 +1009,27 @@ namespace Kazyx.WPPMM.Pages
             if (value < cameraManager.cameraStatus.ISOSpeedRate.candidates.Length)
             {
                 cameraManager.SetIsoSpeedRate(cameraManager.cameraStatus.ISOSpeedRate.candidates[value]);
+            }
+        }
+
+        private async void ProgramShiftSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        {
+            if (cameraManager == null || cameraManager.CameraApi == null)
+            {
+                return;
+            }
+            var slider = sender as Slider;
+            var v = slider.Value;
+            var value = (int)Math.Round(v);
+            slider.Value = value;
+
+            try
+            {
+                await cameraManager.CameraApi.SetProgramShiftAsync(value);
+            }
+            catch (RemoteApiException ex)
+            {
+                Debug.WriteLine("Failed to set program shift: " + ex.code);
             }
         }
 
@@ -1057,11 +1068,6 @@ namespace Kazyx.WPPMM.Pages
             OpenSlider.RenderTransform = rt;
             OpenSlider.RenderTransformOrigin = new Point(0.5, 0.5);
             sb.Begin();
-        }
-
-        private void VisualSelector_Selected(object sender, WPMMM.Controls.SelectionEventArgs e)
-        {
-
         }
 
         private void OpenSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)

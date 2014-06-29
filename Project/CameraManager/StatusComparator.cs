@@ -117,7 +117,8 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            status.ProgramShiftActivated = (bool)latest;
+            var activated = latest.Value;
+            status.ProgramShiftActivated = activated;
         }
 
         internal static void FocusStatus(CameraStatus status, string latest)

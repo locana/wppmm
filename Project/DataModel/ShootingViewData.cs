@@ -65,6 +65,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("EvSliderVisibility");
                         OnPropertyChanged("SlidersVisibility");
                         OnPropertyChanged("SliderButtonVisibility");
+                        OnPropertyChanged("ProgramShiftVisibility");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -88,6 +89,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("FnumberVisibility");
                         OnPropertyChanged("FnumberDisplayValue");
                         OnPropertyChanged("SlidersVisibility");
+                        OnPropertyChanged("ProgramShiftVisibility");
                         break;
                     case "ShutterSpeed":
                         OnPropertyChanged("ShutterSpeedVisibility");
@@ -146,6 +148,14 @@ namespace Kazyx.WPPMM.DataModel
                     case "Storages":
                         OnPropertyChanged("StorageImage");
                         OnPropertyChanged("RecordbaleAmount");
+                        break;
+                    case "ProgramShiftRange":
+                        OnPropertyChanged("MaxProgramShift");
+                        OnPropertyChanged("MinProgramShift");
+                        OnPropertyChanged("ProgramShiftVisibility");
+                        break;
+                    case "ProgramShiftActivated":
+                        OnPropertyChanged("ProgramShift");
                         break;
                 }
             };
@@ -269,7 +279,7 @@ namespace Kazyx.WPPMM.DataModel
                         if (cameraStatus.Status == EventParam.ItvRecording)
                             return StopImage;
                         else
-                        return IntervalStillImage;
+                            return IntervalStillImage;
                     default:
                         return null;
                 }
@@ -439,7 +449,6 @@ namespace Kazyx.WPPMM.DataModel
                     }
                 }
             }
-
         }
 
         public Visibility SlidersVisibility
@@ -511,6 +520,50 @@ namespace Kazyx.WPPMM.DataModel
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.current == null) { return "ISO: --"; }
                 else { return "ISO " + cameraStatus.ISOSpeedRate.current; }
+            }
+        }
+
+        public Visibility ProgramShiftVisibility
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ProgramShiftRange == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current != ExposureMode.Program) { return Visibility.Collapsed; }
+                else { return Visibility.Visible; }
+            }
+        }
+
+        private int _ProgramShift = 0;
+        public int ProgramShift
+        {
+            get
+            {
+                if (cameraStatus == null || !cameraStatus.ProgramShiftActivated)
+                {
+                    _ProgramShift = 0;
+                }
+                return _ProgramShift;
+            }
+            set
+            {
+                _ProgramShift = value;
+            }
+        }
+
+        public int MaxProgramShift
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ProgramShiftRange == null) { return 0; }
+                else { return cameraStatus.ProgramShiftRange.Max; }
+            }
+        }
+
+        public int MinProgramShift
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ProgramShiftRange == null) { return 0; }
+                else { return cameraStatus.ProgramShiftRange.Min; }
             }
         }
 

@@ -276,6 +276,21 @@ namespace Kazyx.WPPMM.CameraManager
                 OpenLiveviewConnection();
             }
 
+            if (cameraStatus.IsSupported("setProgramShift") && cameraStatus.IsSupported("getSupportedProgramShift"))
+            {
+                Debug.WriteLine("This device supports ProgramShift API");
+                try
+                {
+                    var range = await _CameraApi.GetSupportedProgramShift();
+                    cameraStatus.ProgramShiftRange = range;
+                    Debug.WriteLine("Max: " + range.Max + " Min: " + range.Min);
+                }
+                catch (RemoteApiException e)
+                {
+                    Debug.WriteLine("Failed to get program shift range: " + e.code);
+                }
+            }
+
             if (_SystemApi != null)
             {
                 try

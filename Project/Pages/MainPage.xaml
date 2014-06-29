@@ -208,6 +208,8 @@
                                     <!--EV-->
                                     <RowDefinition Height="*" />
                                     <!--ISO-->
+                                    <RowDefinition Height="*" />
+                                    <!--ProgramShift-->
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0" Visibility="{Binding ShutterSpeedSliderVisibility}" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
@@ -270,10 +272,24 @@
                                     <TextBlock Text="{Binding MaxIsoLabel}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                     <TextBlock Text="{Binding MinIsoLabel}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
+                                <Grid Grid.Row="4" Visibility="{Binding ProgramShiftVisibility}" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" >
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ISO.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Slider Name="ProgramShiftSlider"  Value="{Binding ProgramShift}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"
+                                        Maximum="{Binding MaxProgramShift}" Minimum="{Binding MinProgramShift}" ManipulationCompleted="ProgramShiftSlider_ManipulationCompleted"
+                                         Background="{StaticResource PhoneProgressBarBackgroundBrush}" VerticalAlignment="Stretch"/>
+                                    <TextBlock Text="{Binding MaxProgramShift}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="{Binding MinProgramShift}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                </Grid>
                             </Grid>
                         </Grid>
-
-
 
                         <Grid x:Name="ShootingProgress" VerticalAlignment="Center" Height="100" Visibility="{Binding ShootingProgressVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" Stroke="{StaticResource PhoneBackgroundBrush}"

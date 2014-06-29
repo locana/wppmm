@@ -439,7 +439,30 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _PictureUrls; }
         }
 
-        public bool ProgramShiftActivated { set; get; }
+        private bool _ProgramShiftActivated = false;
+        public bool ProgramShiftActivated
+        {
+            set
+            {
+                _ProgramShiftActivated = value;
+                OnPropertyChanged("ProgramShiftActivated");
+            }
+            get { return _ProgramShiftActivated; }
+        }
+
+        private ProgramShiftRange _ProgramShiftRange;
+        public ProgramShiftRange ProgramShiftRange
+        {
+            set
+            {
+                _ProgramShiftRange = value;
+                OnPropertyChanged("ProgramShiftRange");
+            }
+            get
+            {
+                return _ProgramShiftRange;
+            }
+        }
 
         public void ClearFocusStatus()
         {

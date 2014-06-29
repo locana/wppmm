@@ -14,8 +14,8 @@
                    Margin="20" Height="10" />
         <Line Name="DynamicBar"   Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="10"
                    Margin="0"  />
-        <Rectangle Name="Cursor" HorizontalAlignment="Left" VerticalAlignment="Center" Height="25" Fill="{StaticResource PhoneForegroundBrush}"
-                   Width="10" />
+        <Rectangle Name="Cursor" HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Fill="{StaticResource PhoneForegroundBrush}"
+                   Width="12" />
         <Rectangle Name="TouchArea" HorizontalAlignment="Center" VerticalAlignment="Stretch" Fill="Transparent" Width="100"
                    ManipulationDelta="TouchArea_ManipulationDelta" ManipulationCompleted="TouchArea_ManipulationCompleted" />
         <TextBlock Name="CurrentValueText" HorizontalAlignment="Left" Text="" VerticalAlignment="Top" Width="100" TextAlignment="Center" Height="30"

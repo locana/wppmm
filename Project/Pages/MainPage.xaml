@@ -137,9 +137,9 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="1.5*" />
                                 <!--row 0: for zoom elements, shoot button-->
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="1.2*" />
                                 <!--row 1: for status display, half press indicator-->
-                                <RowDefinition Height="4.5*" />
+                                <RowDefinition Height="5*" />
                                 <!--row 2: for sliders. -->
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
@@ -282,11 +282,10 @@
                                             <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ProgramShift.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <Controls:PullReleaseBar Name="ProgramShiftBar" HorizontalAlignment="Stretch" Height="90" Grid.Column="1" OnRelease="ProgramShiftBar_OnRelease"
-                                                             Max="{Binding MaxProgramShift, Mode=OneWay}" Min="{Binding MinProgramShift, Mode=OneWay}" Unit="Steps" />
-                                        
-                                    <TextBlock Text="{Binding MaxProgramShift}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
-                                    <TextBlock Text="{Binding MinProgramShift}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <Controls:PullReleaseBar Name="ProgramShiftBar" HorizontalAlignment="Stretch" Height="80" Grid.Column="1" OnRelease="ProgramShiftBar_OnRelease"
+                                                             Max="{Binding MaxProgramShift, Mode=OneWay}" Min="{Binding MinProgramShift, Mode=OneWay}" />
+                                    <TextBlock Text="Open aperture" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
+                                    <TextBlock Text="Longer S/S" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -157,6 +157,7 @@ namespace Kazyx.WPPMM.DataModel
                         break;
                     case "ProgramShiftActivated":
                         OnPropertyChanged("ProgramShift");
+                        OnPropertyChanged("ExposureModeImage");
                         break;
                 }
             };
@@ -246,6 +247,7 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage ExModeImage_S = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_S.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_P = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_M = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_M.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_P_Shift = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P_shift.png", UriKind.Relative));
 
         private static readonly BitmapImage MemoryCard = new BitmapImage(new Uri("/Assets/Screen/memory_card.png", UriKind.Relative));
         private static readonly BitmapImage NoMemoryCard = new BitmapImage(new Uri("/Assets/Screen/no_memory_card.png", UriKind.Relative));
@@ -649,7 +651,14 @@ namespace Kazyx.WPPMM.DataModel
                     case ExposureMode.SS:
                         return ExModeImage_S;
                     case ExposureMode.Program:
-                        return ExModeImage_P;
+                        if (cameraStatus.ProgramShiftActivated)
+                        {
+                            return ExModeImage_P_Shift;
+                        }
+                        else
+                        {
+                            return ExModeImage_P;
+                        }
                     case ExposureMode.Manual:
                         return ExModeImage_M;
                     case ExposureMode.Intelligent:

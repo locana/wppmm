@@ -440,4 +440,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="FlashMode_Wireless" xml:space="preserve">
     <value>ワイヤレス</value>
   </data>
+  <data name="ExposureMode_M" xml:space="preserve">
+    <value>マニュアル</value>
+  </data>
 </root>

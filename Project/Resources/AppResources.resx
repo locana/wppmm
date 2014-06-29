@@ -439,4 +439,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="FlashMode_Wireless" xml:space="preserve">
     <value>Wireless</value>
   </data>
+  <data name="ExposureMode_M" xml:space="preserve">
+    <value>Manual</value>
+  </data>
 </root>

@@ -168,6 +168,8 @@ namespace Kazyx.WPPMM.Utils
                     return AppResources.ExposureMode_P;
                 case ExposureMode.Superior:
                     return AppResources.ExposureMode_sA;
+                case ExposureMode.Manual:
+                    return AppResources.ExposureMode_M;
                 case ExposureMode.Intelligent:
                     return AppResources.ExposureMode_iA;
                 default:

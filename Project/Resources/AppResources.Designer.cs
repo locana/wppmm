@@ -414,6 +414,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual.
+        /// </summary>
+        public static string ExposureMode_M {
+            get {
+                return ResourceManager.GetString("ExposureMode_M", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Program auto.
         /// </summary>
         public static string ExposureMode_P {

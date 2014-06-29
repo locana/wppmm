@@ -528,6 +528,12 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
+            if (Sliders.Visibility == System.Windows.Visibility.Visible)
+            {
+                CloseSliderPanel();
+                return;
+            }
+
             if (!cameraManager.IsTouchAfAvailable())
             {
                 return;

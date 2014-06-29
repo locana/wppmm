@@ -279,7 +279,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" >
                                         <Rectangle.OpacityMask>
-                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ISO.png" />
+                                            <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ProgramShift.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Slider Name="ProgramShiftSlider"  Value="{Binding ProgramShift}" HorizontalAlignment="Stretch" Height="80" Grid.Column="1"

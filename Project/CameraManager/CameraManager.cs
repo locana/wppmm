@@ -137,6 +137,39 @@ namespace Kazyx.WPPMM.CameraManager
                     Debug.WriteLine("Difference detected: zoom");
                     NoticeUpdate();
                     break;
+                case "ExposureMode":
+                    UpdateProgramShiftRange();
+                    break;
+            }
+        }
+
+        private async void UpdateProgramShiftRange()
+        {
+            if (cameraStatus == null
+                || cameraStatus.ProgramShiftRange != null
+                || cameraStatus.ExposureMode == null
+                || cameraStatus.ExposureMode.Current != ExposureMode.Program
+                || _CameraApi == null)
+            {
+                return;
+            }
+
+            if (!cameraStatus.IsSupported("setProgramShift"))
+            {
+                Debug.WriteLine("This device does not support ProgramShift API");
+                return;
+            }
+
+            Debug.WriteLine("This device supports ProgramShift API");
+            try
+            {
+                var range = await _CameraApi.GetSupportedProgramShift();
+                cameraStatus.ProgramShiftRange = range;
+                Debug.WriteLine("Max: " + range.Max + " Min: " + range.Min);
+            }
+            catch (RemoteApiException e)
+            {
+                Debug.WriteLine("Failed to get program shift range: " + e.code);
             }
         }
 
@@ -274,21 +307,6 @@ namespace Kazyx.WPPMM.CameraManager
             else if (cameraStatus.IsAvailable("startLiveview"))
             {
                 OpenLiveviewConnection();
-            }
-
-            if (cameraStatus.IsSupported("setProgramShift") && cameraStatus.IsSupported("getSupportedProgramShift"))
-            {
-                Debug.WriteLine("This device supports ProgramShift API");
-                try
-                {
-                    var range = await _CameraApi.GetSupportedProgramShift();
-                    cameraStatus.ProgramShiftRange = range;
-                    Debug.WriteLine("Max: " + range.Max + " Min: " + range.Min);
-                }
-                catch (RemoteApiException e)
-                {
-                    Debug.WriteLine("Failed to get program shift range: " + e.code);
-                }
             }
 
             if (_SystemApi != null)

@@ -141,6 +141,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("SlidersVisibility");
                         break;
                     case "FocusStatus":
+                    case "TouchFocusStatus":
                         OnPropertyChanged("TouchAFPointerStrokeBrush");
                         OnPropertyChanged("TouchAFPointerVisibility");
                         OnPropertyChanged("HalfPressedAFVisibility");
@@ -374,21 +375,31 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
+                var Focused = (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                var Running = (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                var Failed = (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
+
                 if (cameraStatus == null || cameraStatus.FocusStatus == null)
                 {
-                    return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                    return Running;
                 }
-                Debug.WriteLine("focusStatus: " + cameraStatus.FocusStatus);
+
+                if (cameraStatus.TouchFocusStatus != null &&
+                    cameraStatus.TouchFocusStatus.Focused)
+                {
+                    return Focused;
+                }                    
+                
                 switch (cameraStatus.FocusStatus)
                 {
                     case FocusState.Focused:
-                        return (Brush)Application.Current.Resources["PhoneAccentBrush"];
+                        return Focused;
                     case FocusState.Failed:
-                        return (Brush)Application.Current.Resources["PhoneBackgroundBrush"];
+                        return Failed;
                     case FocusState.Released:
                     case FocusState.InProgress:
                     default:
-                        return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
+                        return Running;
                 }
             }
         }

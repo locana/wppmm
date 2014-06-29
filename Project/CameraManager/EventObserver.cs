@@ -210,6 +210,8 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.FlashMode(target, data.FlashMode);
 
             StatusUpdater.FocusMode(target, data.FocusMode);
+
+            StatusUpdater.TouchFocusStatus(target, data.TouchAFStatus);            
         }
 
         private async void Call()

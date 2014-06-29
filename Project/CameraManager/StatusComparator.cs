@@ -211,6 +211,15 @@ namespace Kazyx.WPPMM.CameraManager
             status.FocusMode = latest;
         }
 
+        internal static void TouchFocusStatus(CameraStatus status, TouchFocusStatus latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.TouchFocusStatus = latest;
+        }
+
         internal static async void StillSize(CameraStatus status, StillImageSizeEvent latest, CameraApiClient client)
         {
             if (latest == null)

@@ -388,7 +388,20 @@ namespace Kazyx.WPPMM.CameraManager
                 return _FocusMode;
             }
         }
-            
+
+        private TouchFocusStatus _TouchFocusStatus;
+        public TouchFocusStatus TouchFocusStatus
+        {
+            set
+            {
+                _TouchFocusStatus = value;
+                OnPropertyChanged("TouchFocusStatus");
+            }
+            get
+            {
+                return _TouchFocusStatus;
+            }
+        }
 
         private Capability<string> _WhiteBalance;
         public Capability<string> WhiteBalance

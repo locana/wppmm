@@ -457,5 +457,28 @@ namespace Kazyx.WPPMM.Utils
             return val;
         }
 
+        public static Capability<string> FromFocusMode(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new string[info.Candidates.Length];
+            for (int i = 0; i < info.Candidates.Length; i++)
+            {
+                mCandidates[i] = FromFocusMode(info.Candidates[i]);
+            }
+            return new Capability<string>
+            {
+                Current = FromFocusMode(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromFocusMode(string val)
+        {
+            return val;
+        }
+
     }
 }

@@ -37,6 +37,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableStillImageSize");
                         OnPropertyChanged("CpIsAvailableWhiteBalance");
                         OnPropertyChanged("CpIsAvailableFlashMode");
+                        OnPropertyChanged("CpIsAvailableFocusMode");
                         OnPropertyChanged("CpIsVisibleColorTemperture");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
@@ -56,6 +57,7 @@ namespace Kazyx.WPPMM.DataModel
                     case "StillImageSize":
                     case "WhiteBalance":
                     case "FlashMode":
+                    case "FocusMode":
                         GenericPropertyChanged(e.PropertyName);
                         break;
                     case "ColorTemperture":
@@ -547,6 +549,43 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return status.IsAvailable("setFlashMode") &&
                     status.FlashMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public int CpSelectedIndexFocusMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.FocusMode);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.FocusMode, value);
+            }
+        }
+
+        public string[] CpCandidatesFocusMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromFocusMode(status.FocusMode).Candidates;
+            }
+        }
+
+        public bool CpIsAvailableFocusMode
+        {
+            get
+            {
+                Debug.WriteLine("Focus mode availability: " + (status.IsAvailable("setFocusMode") &&
+                    status.FocusMode != null &&
+                    manager != null &&
+                    !manager.IntervalManager.IsRunning));
+
+
+                return status.IsAvailable("setFocusMode") &&
+                    status.FocusMode != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
             }

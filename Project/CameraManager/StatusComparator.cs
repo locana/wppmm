@@ -207,6 +207,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
+            Debug.WriteLine("Focus mode update: " + latest.Candidates[0]);
             status.FocusMode = latest;
         }
 

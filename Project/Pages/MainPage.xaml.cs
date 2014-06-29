@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.WPMMM.Controls;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Controls;
@@ -1018,20 +1019,16 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private async void ProgramShiftSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        private async void ProgramShiftBar_OnRelease(object sender, OnReleaseArgs e)
         {
             if (cameraManager == null || cameraManager.CameraApi == null)
             {
                 return;
             }
-            var slider = sender as Slider;
-            var v = slider.Value;
-            var value = (int)Math.Round(v);
-            slider.Value = value;
 
             try
             {
-                await cameraManager.CameraApi.SetProgramShiftAsync(value);
+                await cameraManager.CameraApi.SetProgramShiftAsync(e.Value);
             }
             catch (RemoteApiException ex)
             {

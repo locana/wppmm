@@ -8,11 +8,27 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace Kazyx.WPMMM.Controls
 {
     public partial class PullReleaseBar : UserControl
     {
+        public static readonly DependencyProperty MaxProperty = DependencyProperty.Register(
+            "Max",
+            typeof(int),
+            typeof(PullReleaseBar), 
+            new PropertyMetadata(new PropertyChangedCallback(PullReleaseBar.OnMaxValueChanged)));
+
+        public static readonly DependencyProperty MinProperty = DependencyProperty.Register(
+            "Min",
+            typeof(int),
+            typeof(PullReleaseBar),
+            new PropertyMetadata(new PropertyChangedCallback(PullReleaseBar.OnMinValueChanged)));
+
+        public delegate void OnReleaseHandler(object sender, OnReleaseArgs e);
+        public event OnReleaseHandler OnRelease;
+
         public int Max
         {
             get;
@@ -30,12 +46,26 @@ namespace Kazyx.WPMMM.Controls
             set;
         }
 
+        private static void OnMaxValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // Debug.WriteLine("max updated: " + (int)e.NewValue);
+            (d as PullReleaseBar).Max = (int)e.NewValue;
+        }
+
+        private static void OnMinValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // Debug.WriteLine("min updated: " + (int)e.NewValue);
+            (d as PullReleaseBar).Min = (int)e.NewValue;
+        }
+
+        // public Action<int> OnRelease { get; set; }
+
         private double CurrentValue;
         private Thickness InitialCursorMargin;
         private Thickness InitialLabelMargin;
 
-        public Action<double> ManipulationCompleted { get; set; }
-        
+
+
         public PullReleaseBar()
         {
             InitializeComponent();
@@ -57,7 +87,7 @@ namespace Kazyx.WPMMM.Controls
             // Debug.WriteLine("v: " + vel.LinearVelocity.X);
 
             Cursor.Margin = new Thickness(InitialCursorMargin.Left + accm.Translation.X, 0, 0, 0); ;
-            CurrentValueText.Margin = new Thickness(InitialLabelMargin.Left + accm.Translation.X, 0, 0, 0); 
+            CurrentValueText.Margin = new Thickness(InitialLabelMargin.Left + accm.Translation.X, 0, 0, 0);
             DynamicBar.X2 = LayoutRoot.ActualWidth / 2 + accm.Translation.X;
 
             var length = Math.Abs(DynamicBar.X2 - DynamicBar.X1);
@@ -83,9 +113,9 @@ namespace Kazyx.WPMMM.Controls
             DynamicBar.X2 = DynamicBar.X1;
             CurrentValueText.Text = "";
 
-            if (ManipulationCompleted != null)
+            if (OnRelease != null)
             {
-                ManipulationCompleted(CurrentValue);
+                OnRelease(this, new OnReleaseArgs(){Value = (int)CurrentValue}); 
             }
         }
 
@@ -101,8 +131,13 @@ namespace Kazyx.WPMMM.Controls
                 CurrentValueText.Margin = InitialLabelMargin;
                 DynamicBar.Y2 = DynamicBar.Y1 = LayoutRoot.ActualHeight / 2;
                 DynamicBar.X2 = DynamicBar.X1 = LayoutRoot.ActualWidth / 2;
-                Debug.WriteLine(Max + " " + Min);
+                Debug.WriteLine("Max: " + Max + " Min: " + Min);
             }
         }
+    }
+
+    public class OnReleaseArgs : EventArgs
+    {
+        public int Value { get; set; }
     }
 }

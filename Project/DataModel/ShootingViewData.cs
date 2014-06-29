@@ -616,6 +616,8 @@ namespace Kazyx.WPPMM.DataModel
                         return ExModeImage_S;
                     case ExposureMode.Program:
                         return ExModeImage_P;
+                    case ExposureMode.Manual:
+                        return ExModeImage_M;
                     case ExposureMode.Intelligent:
                         return ExModeImage_IA;
                     case ExposureMode.Superior:

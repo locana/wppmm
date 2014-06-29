@@ -422,36 +422,6 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-        public String ExposureModeDisplayName
-        {
-            get
-            {
-                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.Current == null)
-                {
-                    return "-";
-                }
-                else
-                {
-                    switch (cameraStatus.ExposureMode.Current)
-                    {
-
-                        case ExposureMode.Aperture:
-                            return "A";
-                        case ExposureMode.SS:
-                            return "S";
-                        case ExposureMode.Program:
-                            return "P";
-                        case ExposureMode.Intelligent:
-                            return "iAuto";
-                        case ExposureMode.Superior:
-                            return "iAuto+";
-                        default:
-                            return "-";
-                    }
-                }
-            }
-        }
-
         public Visibility SlidersVisibility
         {
             get
@@ -528,7 +498,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ProgramShiftRange == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current != ExposureMode.Program) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.ProgramShiftRange == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.Current != ExposureMode.Program) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }

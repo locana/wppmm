@@ -372,17 +372,6 @@
                                  Foreground="{StaticResource PhoneForegroundBrush}" 
                                    VerticalAlignment="Center" Name="ToastMessage"/>
                     </Grid>
-                    <Border Name="VisualSelectorRoot" xmlns:src="clr-namespace:Kazyx.WPMMM.Controls"  Visibility="Collapsed" BorderThickness="2" CornerRadius="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Border.BorderBrush>
-                            <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
-                        </Border.BorderBrush>
-                        <Border.Background>
-                            <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
-                        </Border.Background>
-                        <Grid Width="{Binding Width}" Height="{Binding Height}">
-                            <src:VisualSelector Name="VisualSelector" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="16,16,0,16" Selected="VisualSelector_Selected"/>
-                        </Grid>
-                    </Border>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

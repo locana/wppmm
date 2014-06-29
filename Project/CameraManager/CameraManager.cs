@@ -242,10 +242,10 @@ namespace Kazyx.WPPMM.CameraManager
                 OnError(e.code);
                 return;
             }
-            Debug.WriteLine("Server Info: " + info.name + " ver " + info.version);
+            Debug.WriteLine("Server Info: " + info.Name + " ver " + info.Version);
             try
             {
-                cameraStatus.Version = new ServerVersion(info.version);
+                cameraStatus.Version = new ServerVersion(info.Version);
             }
             catch (ArgumentException e)
             {
@@ -423,15 +423,15 @@ namespace Kazyx.WPPMM.CameraManager
                 var list = new Dictionary<string, List<string>>();
                 foreach (MethodType t in methodTypes)
                 {
-                    if (list.ContainsKey(t.name))
+                    if (list.ContainsKey(t.Name))
                     {
-                        list[t.name].Add(t.version);
+                        list[t.Name].Add(t.Version);
                     }
                     else
                     {
                         var versions = new List<string>();
-                        versions.Add(t.version);
-                        list.Add(t.name, versions);
+                        versions.Add(t.Version);
+                        list.Add(t.Name, versions);
                     }
                 }
                 cameraStatus.SupportedApis = list;
@@ -529,7 +529,7 @@ namespace Kazyx.WPPMM.CameraManager
                         String error = "";
                         bool isOriginal = false;
                         if (cameraStatus.PostviewSizeInfo != null
-                            && cameraStatus.PostviewSizeInfo.current == "Original")
+                            && cameraStatus.PostviewSizeInfo.Current == "Original")
                         {
                             isOriginal = true;
                         }
@@ -976,15 +976,15 @@ namespace Kazyx.WPPMM.CameraManager
 
         public void ShiftFNumber(int relativeIndex)
         {
-            if (cameraStatus.FNumber.candidates.Length == 0)
+            if (cameraStatus.FNumber.Candidates.Length == 0)
             {
                 return;
             }
 
             int current = 0;
-            for (int i = 0; i < cameraStatus.FNumber.candidates.Length; i++)
+            for (int i = 0; i < cameraStatus.FNumber.Candidates.Length; i++)
             {
-                if (cameraStatus.FNumber.current == cameraStatus.FNumber.candidates[i])
+                if (cameraStatus.FNumber.Current == cameraStatus.FNumber.Candidates[i])
                 {
                     current = i;
                 }
@@ -995,15 +995,15 @@ namespace Kazyx.WPPMM.CameraManager
 
             if (targetIndex < 0)
             {
-                target = cameraStatus.FNumber.candidates[0];
+                target = cameraStatus.FNumber.Candidates[0];
             }
-            else if (targetIndex >= cameraStatus.FNumber.candidates.Length)
+            else if (targetIndex >= cameraStatus.FNumber.Candidates.Length)
             {
-                target = cameraStatus.FNumber.candidates[cameraStatus.FNumber.candidates.Length - 1];
+                target = cameraStatus.FNumber.Candidates[cameraStatus.FNumber.Candidates.Length - 1];
             }
             else
             {
-                target = cameraStatus.FNumber.candidates[targetIndex];
+                target = cameraStatus.FNumber.Candidates[targetIndex];
             }
 
             this.SetFNumber(target);
@@ -1011,14 +1011,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         public void ShiftShutterSpeed(int relativeIndex)
         {
-            if (cameraStatus.ShutterSpeed.candidates.Length == 0)
+            if (cameraStatus.ShutterSpeed.Candidates.Length == 0)
             {
                 return;
             }
             int current = 0;
-            for (int i = 0; i < cameraStatus.ShutterSpeed.candidates.Length; i++)
+            for (int i = 0; i < cameraStatus.ShutterSpeed.Candidates.Length; i++)
             {
-                if (cameraStatus.ShutterSpeed.current == cameraStatus.ShutterSpeed.candidates[i])
+                if (cameraStatus.ShutterSpeed.Current == cameraStatus.ShutterSpeed.Candidates[i])
                 {
                     current = i;
                 }
@@ -1029,15 +1029,15 @@ namespace Kazyx.WPPMM.CameraManager
 
             if (targetIndex < 0)
             {
-                target = cameraStatus.ShutterSpeed.candidates[0];
+                target = cameraStatus.ShutterSpeed.Candidates[0];
             }
-            else if (targetIndex >= cameraStatus.ShutterSpeed.candidates.Length)
+            else if (targetIndex >= cameraStatus.ShutterSpeed.Candidates.Length)
             {
-                target = cameraStatus.ShutterSpeed.candidates[cameraStatus.ShutterSpeed.candidates.Length - 1];
+                target = cameraStatus.ShutterSpeed.Candidates[cameraStatus.ShutterSpeed.Candidates.Length - 1];
             }
             else
             {
-                target = cameraStatus.ShutterSpeed.candidates[targetIndex];
+                target = cameraStatus.ShutterSpeed.Candidates[targetIndex];
             }
 
             this.SetShutterSpeed(target);

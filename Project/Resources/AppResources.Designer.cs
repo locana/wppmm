@@ -414,6 +414,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual.
+        /// </summary>
+        public static string ExposureMode_M {
+            get {
+                return ResourceManager.GetString("ExposureMode_M", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Program auto.
         /// </summary>
         public static string ExposureMode_P {
@@ -437,6 +446,87 @@ namespace Kazyx.WPMMM.Resources {
         public static string ExposureMode_sA {
             get {
                 return ResourceManager.GetString("ExposureMode_sA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flash mode.
+        /// </summary>
+        public static string FlashMode {
+            get {
+                return ResourceManager.GetString("FlashMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string FlashMode_Auto {
+            get {
+                return ResourceManager.GetString("FlashMode_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rear curtain sync..
+        /// </summary>
+        public static string FlashMode_RearSync {
+            get {
+                return ResourceManager.GetString("FlashMode_RearSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slow sync..
+        /// </summary>
+        public static string FlashMode_SlowSync {
+            get {
+                return ResourceManager.GetString("FlashMode_SlowSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wireless.
+        /// </summary>
+        public static string FlashMode_Wireless {
+            get {
+                return ResourceManager.GetString("FlashMode_Wireless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus mode.
+        /// </summary>
+        public static string FocusMode {
+            get {
+                return ResourceManager.GetString("FocusMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AF-C.
+        /// </summary>
+        public static string FocusMode_AFC {
+            get {
+                return ResourceManager.GetString("FocusMode_AFC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AF-S.
+        /// </summary>
+        public static string FocusMode_AFS {
+            get {
+                return ResourceManager.GetString("FocusMode_AFS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MF.
+        /// </summary>
+        public static string FocusMode_Manual {
+            get {
+                return ResourceManager.GetString("FocusMode_Manual", resourceCulture);
             }
         }
         

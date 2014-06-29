@@ -244,6 +244,7 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage ExModeImage_A = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_A.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_S = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_S.png", UriKind.Relative));
         private static readonly BitmapImage ExModeImage_P = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_P.png", UriKind.Relative));
+        private static readonly BitmapImage ExModeImage_M = new BitmapImage(new Uri("/Assets/Screen/ExposureMode_M.png", UriKind.Relative));
 
         private static readonly BitmapImage MemoryCard = new BitmapImage(new Uri("/Assets/Screen/memory_card.png", UriKind.Relative));
         private static readonly BitmapImage NoMemoryCard = new BitmapImage(new Uri("/Assets/Screen/no_memory_card.png", UriKind.Relative));
@@ -252,7 +253,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
+                if (cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current == null)
                 {
                     return null;
                 }
@@ -261,7 +262,7 @@ namespace Kazyx.WPPMM.DataModel
                     return StopImage;
                 }
 
-                switch (cameraStatus.ShootModeInfo.current)
+                switch (cameraStatus.ShootModeInfo.Current)
                 {
                     case ShootModeParam.Still:
                         return StillImage;
@@ -377,7 +378,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return (Brush)Application.Current.Resources["PhoneForegroundBrush"];
                 }
-                // Debug.WriteLine("focusStatus: " + cameraStatus.FocusStatus);
+                Debug.WriteLine("focusStatus: " + cameraStatus.FocusStatus);
                 switch (cameraStatus.FocusStatus)
                 {
                     case FocusState.Focused:
@@ -416,7 +417,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current == null) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.Current == null) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -425,13 +426,13 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current == null)
+                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.Current == null)
                 {
                     return "-";
                 }
                 else
                 {
-                    switch (cameraStatus.ExposureMode.current)
+                    switch (cameraStatus.ExposureMode.Current)
                     {
 
                         case ExposureMode.Aperture:
@@ -485,7 +486,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.current == null || !cameraStatus.IsAvailable("getShutterSpeed")) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Current == null || !cameraStatus.IsAvailable("getShutterSpeed")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -494,13 +495,13 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.current == null)
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Current == null)
                 {
                     return "--";
                 }
                 else
                 {
-                    return cameraStatus.ShutterSpeed.current;
+                    return cameraStatus.ShutterSpeed.Current;
                 }
             }
         }
@@ -509,7 +510,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.current == null || !cameraStatus.IsAvailable("getIsoSpeedRate")) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Current == null || !cameraStatus.IsAvailable("getIsoSpeedRate")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -518,8 +519,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.current == null) { return "ISO: --"; }
-                else { return "ISO " + cameraStatus.ISOSpeedRate.current; }
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Current == null) { return "ISO: --"; }
+                else { return "ISO " + cameraStatus.ISOSpeedRate.Current; }
             }
         }
 
@@ -571,7 +572,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.current == null || !cameraStatus.IsAvailable("getFNumber")) { return Visibility.Collapsed; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Current == null || !cameraStatus.IsAvailable("getFNumber")) { return Visibility.Collapsed; }
                 else { return Visibility.Visible; }
             }
         }
@@ -580,8 +581,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.current == null) { return "F--"; }
-                else { return "F" + cameraStatus.FNumber.current; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Current == null) { return "F--"; }
+                else { return "F" + cameraStatus.FNumber.Current; }
             }
         }
 
@@ -627,12 +628,12 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
+                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current == null)
                 {
                     return null;
                 }
 
-                switch (cameraStatus.ShootModeInfo.current)
+                switch (cameraStatus.ShootModeInfo.Current)
                 {
                     case ShootModeParam.Still:
                         return PhotoModeImage;
@@ -652,15 +653,15 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current != ShootModeParam.Still)
+                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current != ShootModeParam.Still)
                 {
                     return null;
                 }
-                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.current == null)
+                if (cameraStatus == null || cameraStatus.ExposureMode == null || cameraStatus.ExposureMode.Current == null)
                 {
                     return null;
                 }
-                switch (cameraStatus.ExposureMode.current)
+                switch (cameraStatus.ExposureMode.Current)
                 {
                     case ExposureMode.Aperture:
                         return ExModeImage_A;
@@ -668,6 +669,8 @@ namespace Kazyx.WPPMM.DataModel
                         return ExModeImage_S;
                     case ExposureMode.Program:
                         return ExModeImage_P;
+                    case ExposureMode.Manual:
+                        return ExModeImage_M;
                     case ExposureMode.Intelligent:
                         return ExModeImage_IA;
                     case ExposureMode.Superior:
@@ -821,7 +824,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return 0;
                 }
-                return cameraStatus.FNumber.candidates.Length - 1;
+                return cameraStatus.FNumber.Candidates.Length - 1;
             }
         }
 
@@ -834,9 +837,9 @@ namespace Kazyx.WPPMM.DataModel
                     return 0;
                 }
 
-                for (int i = 0; i < cameraStatus.FNumber.candidates.Length; i++)
+                for (int i = 0; i < cameraStatus.FNumber.Candidates.Length; i++)
                 {
-                    if (cameraStatus.FNumber.current == cameraStatus.FNumber.candidates[i])
+                    if (cameraStatus.FNumber.Current == cameraStatus.FNumber.Candidates[i])
                     {
                         return i;
                     }
@@ -849,8 +852,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.candidates.Length == 0) { return ""; }
-                else { return cameraStatus.FNumber.candidates[cameraStatus.FNumber.candidates.Length - 1]; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Candidates.Length == 0) { return ""; }
+                else { return cameraStatus.FNumber.Candidates[cameraStatus.FNumber.Candidates.Length - 1]; }
             }
         }
 
@@ -858,8 +861,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.candidates.Length == 0) { return ""; }
-                else { return cameraStatus.FNumber.candidates[0]; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Candidates.Length == 0) { return ""; }
+                else { return cameraStatus.FNumber.Candidates[0]; }
             }
         }
 
@@ -871,7 +874,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return 0;
                 }
-                return cameraStatus.ShutterSpeed.candidates.Length - 1;
+                return cameraStatus.ShutterSpeed.Candidates.Length - 1;
             }
         }
 
@@ -884,9 +887,9 @@ namespace Kazyx.WPPMM.DataModel
                     return 0;
                 }
 
-                for (int i = 0; i < cameraStatus.ShutterSpeed.candidates.Length; i++)
+                for (int i = 0; i < cameraStatus.ShutterSpeed.Candidates.Length; i++)
                 {
-                    if (cameraStatus.ShutterSpeed.current == cameraStatus.ShutterSpeed.candidates[i])
+                    if (cameraStatus.ShutterSpeed.Current == cameraStatus.ShutterSpeed.Candidates[i])
                     {
                         return i;
                     }
@@ -899,8 +902,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.candidates.Length == 0) { return ""; }
-                else { return cameraStatus.ShutterSpeed.candidates[cameraStatus.ShutterSpeed.candidates.Length - 1]; }
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Candidates.Length == 0) { return ""; }
+                else { return cameraStatus.ShutterSpeed.Candidates[cameraStatus.ShutterSpeed.Candidates.Length - 1]; }
             }
         }
 
@@ -908,8 +911,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.candidates.Length == 0) { return ""; }
-                else { return cameraStatus.ShutterSpeed.candidates[0]; }
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Candidates.Length == 0) { return ""; }
+                else { return cameraStatus.ShutterSpeed.Candidates[0]; }
             }
         }
 
@@ -979,7 +982,7 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return 0; }
-                return cameraStatus.ISOSpeedRate.candidates.Length - 1;
+                return cameraStatus.ISOSpeedRate.Candidates.Length - 1;
             }
         }
 
@@ -988,9 +991,9 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return 0; }
-                for (int i = 0; i < cameraStatus.ISOSpeedRate.candidates.Length; i++)
+                for (int i = 0; i < cameraStatus.ISOSpeedRate.Candidates.Length; i++)
                 {
-                    if (cameraStatus.ISOSpeedRate.current == cameraStatus.ISOSpeedRate.candidates[i])
+                    if (cameraStatus.ISOSpeedRate.Current == cameraStatus.ISOSpeedRate.Candidates[i])
                     {
                         return i;
                     }
@@ -1003,8 +1006,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.candidates.Length == 0) { return ""; }
-                else return cameraStatus.ISOSpeedRate.candidates[cameraStatus.ISOSpeedRate.candidates.Length - 1];
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Candidates.Length == 0) { return ""; }
+                else return cameraStatus.ISOSpeedRate.Candidates[cameraStatus.ISOSpeedRate.Candidates.Length - 1];
             }
         }
 
@@ -1012,8 +1015,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.candidates.Length == 0) { return ""; }
-                else return cameraStatus.ISOSpeedRate.candidates[0];
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Candidates.Length == 0) { return ""; }
+                else return cameraStatus.ISOSpeedRate.Candidates[0];
             }
         }
 
@@ -1021,7 +1024,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.Storages == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.current == null)
+                if (cameraStatus == null || cameraStatus.Storages == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current == null)
                 {
                     return "";
                 }
@@ -1029,7 +1032,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     if (storage.RecordTarget)
                     {
-                        switch (cameraStatus.ShootModeInfo.current)
+                        switch (cameraStatus.ShootModeInfo.Current)
                         {
                             case ShootModeParam.Still:
                             case ShootModeParam.Interval:

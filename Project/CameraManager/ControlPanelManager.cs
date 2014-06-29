@@ -39,6 +39,7 @@ namespace Kazyx.WPPMM.CameraManager
             // Key of the Dictionary is the name of setter API in most cases. Uses to check availability.
             Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
             Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
+            Panels.Add("setFocusMode", CreateStatusPanel("FocusMode", AppResources.FocusMode, OnFocusModeChanged));
             Panels.Add("setWhiteBalance", CreateStatusPanel("WhiteBalance", AppResources.WhiteBalance, OnWhiteBalanceChanged));
             Panels.Add("ColorTemperture", CreateColorTemperturePanel());
             Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
@@ -47,9 +48,10 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
             Panels.Add("setPostviewImageSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
+            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
+            Panels.Add("setFlashMode", CreateStatusPanel("FlashMode", AppResources.FlashMode, OnFlashModeChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
-            Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
 
             manager.MethodTypesUpdateNotifer += () => { Initialize(); };
         }
@@ -246,7 +248,7 @@ namespace Kazyx.WPPMM.CameraManager
         /// <returns></returns>
         private int AsValidColorTemperture(int source)
         {
-            var candidates = status.ColorTempertureCandidates[status.WhiteBalance.current];
+            var candidates = status.ColorTempertureCandidates[status.WhiteBalance.Current];
             if (candidates.Length < 2)
             {
                 return -1;
@@ -282,7 +284,7 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
 #if !COLOR_TEMPERTURE_MOCK
-                    await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = status.WhiteBalance.current, ColorTemperature = target });
+                    await manager.CameraApi.SetWhiteBalanceAsync(new WhiteBalance { Mode = status.WhiteBalance.Current, ColorTemperature = target });
 #endif
                 }
                 catch (RemoteApiException ex)
@@ -449,6 +451,18 @@ namespace Kazyx.WPPMM.CameraManager
                 async (selected) => { await manager.CameraApi.SetStillImageSizeAsync(selected); });
         }
 
+        private async void OnFlashModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.FlashMode,
+                async (selected) => { await manager.CameraApi.SetFlashModeAsync(selected); });
+        }
+
+        private async void OnFocusModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.FocusMode,
+                async (selected) => { await manager.CameraApi.SetFocusModeAsync(selected); });
+        }
+
         private async void OnWhiteBalanceChanged(object sender, SelectionChangedEventArgs arg)
         {
             await OnPickerChanged<string>(sender, status.WhiteBalance,
@@ -480,7 +494,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)
         {
-            if (param == null || param.candidates == null || param.candidates.Length == 0)
+            if (param == null || param.Candidates == null || param.Candidates.Length == 0)
                 return;
             var selected = (sender as ListPicker).SelectedIndex;
             if (SettingsValueConverter.GetSelectedIndex(param) != selected)
@@ -490,7 +504,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             try
             {
-                await action.Invoke(param.candidates[selected]);
+                await action.Invoke(param.Candidates[selected]);
             }
             catch (NullReferenceException)
             {

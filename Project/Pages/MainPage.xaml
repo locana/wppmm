@@ -281,11 +281,21 @@
                                         <Rectangle.OpacityMask>
                                             <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ProgramShift.png" />
                                         </Rectangle.OpacityMask>
+                                    </Rectangle> 
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Opacity="0.3"
+                                               Width="80" Height="80">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/Slider/Aperture_close.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Opacity="0.3"
+                                               Width="80" Height="80">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/Slider/Aperture_open.png" />
+                                        </Rectangle.OpacityMask>
                                     </Rectangle>
                                     <Controls:PullReleaseBar Name="ProgramShiftBar" HorizontalAlignment="Stretch" Height="80" Grid.Column="1" OnRelease="ProgramShiftBar_OnRelease"
                                                              Max="{Binding MaxProgramShift, Mode=OneWay}" Min="{Binding MinProgramShift, Mode=OneWay}" />
-                                    <TextBlock Text="Open aperture" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
-                                    <TextBlock Text="Longer S/S" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="{StaticResource PhoneFontSizeSmall}" Margin="6,8"/>
                                 </Grid>
                             </Grid>
                         </Grid>

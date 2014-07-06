@@ -307,7 +307,28 @@ namespace Kazyx.WPPMM.DataModel
 
         public Visibility ZoomElementVisibility
         {
-            get { return (cameraStatus.IsAvailable("actZoom")) ? Visibility.Visible : Visibility.Collapsed; }
+            get
+            {
+                if (cameraStatus.IsAvailable("actZoom") && !ZoomElementsTemporaryCollapsed)
+                {
+                    return Visibility.Visible;
+                }
+                else { return Visibility.Collapsed; }
+            }
+        }
+
+        private bool _ZoomElementsTemporaryCollapsed = false;
+        public bool ZoomElementsTemporaryCollapsed
+        {
+            get { return _ZoomElementsTemporaryCollapsed; }
+            set
+            {
+                if (value != _ZoomElementsTemporaryCollapsed)
+                {
+                    _ZoomElementsTemporaryCollapsed = value;
+                    OnPropertyChanged("ZoomElementVisibility");
+                }
+            }
         }
 
 

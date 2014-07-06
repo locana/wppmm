@@ -1040,6 +1040,9 @@ namespace Kazyx.WPPMM.Pages
         {
             Debug.WriteLine("OpenSlider");
             Sliders.Visibility = Visibility.Visible;
+            // make shoot button and zoom bar/buttons invisible.
+            ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = true;
+            if (svd != null) { svd.ZoomElementsTemporaryCollapsed = true; }
             StartOpenSliderAnimation(0, 180);
         }
 
@@ -1047,6 +1050,8 @@ namespace Kazyx.WPPMM.Pages
         {
             Debug.WriteLine("CloseSlider");
             Sliders.Visibility = Visibility.Collapsed;
+            ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = false;
+            if (svd != null) { svd.ZoomElementsTemporaryCollapsed = false; }
             StartOpenSliderAnimation(180, 0);
         }
 

@@ -171,13 +171,27 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (_IsShootButtonDisplayed)
+                if (_IsShootButtonDisplayed && !ShootButtonTemporaryCollapsed)
                 {
                     return Visibility.Visible;
                 }
                 else
                 {
                     return Visibility.Collapsed;
+                }
+            }
+        }
+
+        private bool _ShootButtonTemporaryCollapsed = false;
+        public bool ShootButtonTemporaryCollapsed
+        {
+            get { return _ShootButtonTemporaryCollapsed; }
+            set
+            {
+                if (value != _ShootButtonTemporaryCollapsed)
+                {
+                    _ShootButtonTemporaryCollapsed = value;
+                    OnPropertyChanged("ShootButtonVisibility");
                 }
             }
         }

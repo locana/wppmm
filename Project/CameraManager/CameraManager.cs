@@ -3,6 +3,7 @@ using Kazyx.Liveview;
 using Kazyx.RemoteApi;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
+using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
 using NtImageProcessor;
 using System;
@@ -850,7 +851,15 @@ namespace Kazyx.WPPMM.CameraManager
 
             try
             {
-                await _CameraApi.SetAFPositionAsync(x, y);
+                var result = await _CameraApi.SetAFPositionAsync(x, y);
+                if (!result.Focused && _cameraStatus != null)
+                {
+                    _cameraStatus.FocusStatus = FocusState.Failed;
+                    Scheduler.Dispatcher.Schedule(() =>
+                    {
+                        ReleaseFocusStatus();
+                    }, TimeSpan.FromSeconds(1));
+                }
             }
             catch (RemoteApiException e)
             {
@@ -858,7 +867,19 @@ namespace Kazyx.WPPMM.CameraManager
                 if (_cameraStatus != null)
                 {
                     _cameraStatus.FocusStatus = FocusState.Failed;
+                    Scheduler.Dispatcher.Schedule(() =>
+                    {
+                        ReleaseFocusStatus();
+                    }, TimeSpan.FromSeconds(1));
                 }
+            }
+        }
+
+        private void ReleaseFocusStatus()
+        {
+            if (_cameraStatus != null && _cameraStatus.FocusStatus != null && _cameraStatus.FocusStatus == FocusState.Failed)
+            {
+                _cameraStatus.FocusStatus = FocusState.Released;
             }
         }
 

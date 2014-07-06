@@ -551,7 +551,7 @@ namespace Kazyx.WPPMM.Pages
                 TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
             });
 
-            Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
+            // Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
             Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
 
             cameraManager.RequestTouchAF(posX, posY);

@@ -848,6 +848,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             _cameraStatus.AfType = CameraStatus.AutoFocusType.Touch;
             _cameraStatus.FocusStatus = FocusState.InProgress;
+            _cameraStatus.TouchFocusStatus.Focused = false;
 
             try
             {

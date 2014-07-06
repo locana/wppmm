@@ -22,6 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
+using Windows.Devices.Geolocation;
 using Windows.Networking.Proximity;
 
 namespace Kazyx.WPPMM.Pages
@@ -45,6 +46,8 @@ namespace Kazyx.WPPMM.Pages
         private ProximityDevice _proximitiyDevice;
         private long _subscriptionIdNdef;
 
+        Geoposition _GeoPosition;
+
         private const string AP_NAME_PREFIX = "DIRECT-";
 
         private const bool FilterBySsid = true;
@@ -57,7 +60,9 @@ namespace Kazyx.WPPMM.Pages
 
             this.InitAppSettingPanel();
 
-            abm.SetEvent(Menu.About, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); });
+            abm.SetEvent(Menu.About, (sender, e) => { 
+                NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); 
+            });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
             {
@@ -87,6 +92,7 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
 
             cpm = new ControlPanelManager(ControlPanel);
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -411,7 +417,7 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.PictureNotifier = OnPictureSaved;
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
-
+            
             if (cameraManager.IsClientReady())
             {
                 cameraManager.OperateInitialProcess();
@@ -456,6 +462,8 @@ namespace Kazyx.WPPMM.Pages
             InitializeHitogram();
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
+
+            AcquireGeoPosition();
         }
 
         private void InitializeHitogram()
@@ -1104,6 +1112,41 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                 }
             }
+        }
+
+        private void AcquireGeoPosition()
+        {
+            Debug.WriteLine("Starting to acquire geo location");
+            
+            Geolocator geolocator = new Geolocator();
+            geolocator.DesiredAccuracy = PositionAccuracy.Default;
+            geolocator.MovementThreshold = 50;
+            
+            geolocator.StatusChanged += geolocator_StatusChanged;
+            geolocator.PositionChanged += geolocator_PositionChanged;
+        }
+
+        void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+            Debug.WriteLine("Position changed: " + args.Position.Coordinate.Latitude);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show("Location changed: " + args.Position.Coordinate.Latitude + " from " + args.Position.Coordinate.PositionSource);
+            });
+
+            if (cameraManager != null)
+            {
+                cameraManager._GeoPosition = args.Position;
+            }
+        }
+
+        void geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
+        {
+            Debug.WriteLine("Geo locator status changed: " + args.Status);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MessageBox.Show("Geo locator status changed: " + args.Status);
+            });
         }
     }
 }

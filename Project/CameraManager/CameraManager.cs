@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Windows.Devices.Geolocation;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -50,6 +51,8 @@ namespace Kazyx.WPPMM.CameraManager
         internal HistogramCreator histogramCreator;
 
         internal event Action<ServerVersion> VersionDetected;
+
+        internal Geoposition _GeoPosition { get; set; }
 
         protected void OnVersionDetected()
         {
@@ -243,7 +246,10 @@ namespace Kazyx.WPPMM.CameraManager
             histogramCreator = null;
             histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128);
             histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
+            
+            
         }
+
 
         void histogramCreator_OnHistogramCreated(int[] arg1, int[] arg2, int[] arg3)
         {
@@ -322,6 +328,7 @@ namespace Kazyx.WPPMM.CameraManager
                     Debug.WriteLine("Failed to set current time");
                 }
             }
+
         }
 
         private async void OpenLiveviewConnection(TimeSpan? connectionTimeout = null)
@@ -530,6 +537,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 downloader.DownloadImageFile(
                     new Uri(s),
+                    _GeoPosition,
                     (p) =>
                     {
                         Debug.WriteLine("download succeed");

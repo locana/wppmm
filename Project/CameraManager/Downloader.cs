@@ -2,8 +2,10 @@ using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Windows;
+using Windows.Devices.Geolocation;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -14,7 +16,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
         }
 
-        internal void DownloadImageFile(Uri uri, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
+        internal void DownloadImageFile(Uri uri, Geoposition position, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
         {
             WebRequest request;
             try { request = HttpWebRequest.Create(uri); }
@@ -56,6 +58,26 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 try
                 {
+                    // geo tagging
+                    if (position != null)
+                    {
+
+                        byte[] buf = new byte[1000000];
+
+                        if (strm.CanRead)
+                        {
+                            int read;
+                            read = strm.Read(buf, 0, (int)strm.Length);
+                            if (read > 0)
+                            {
+                                var image = new byte[read];
+                                Array.Copy(buf, image, read);
+                                var NewImage = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(image, position);
+                                return new MediaLibrary().SavePictureToCameraRoll( string.Format("Geo_CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), NewImage);
+                            }
+                        }
+
+                    }
                     var pic = new MediaLibrary().SavePictureToCameraRoll(//
                         string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
                     strm.Dispose();

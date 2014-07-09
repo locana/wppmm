@@ -1114,7 +1114,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private void AcquireGeoPosition()
+        private async void AcquireGeoPosition()
         {
             Debug.WriteLine("Starting to acquire geo location");
             
@@ -1124,6 +1124,15 @@ namespace Kazyx.WPPMM.Pages
             
             geolocator.StatusChanged += geolocator_StatusChanged;
             geolocator.PositionChanged += geolocator_PositionChanged;
+
+            var pos = await geolocator.GetGeopositionAsync(
+                TimeSpan.FromMinutes(15),
+                TimeSpan.FromSeconds(30)
+                );
+            if (cameraManager != null)
+            {
+                cameraManager._GeoPosition = pos;
+            }
         }
 
         void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)

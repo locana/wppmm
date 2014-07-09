@@ -61,26 +61,13 @@ namespace Kazyx.WPPMM.CameraManager
                     // geo tagging
                     if (position != null)
                     {
-
-                        byte[] buf = new byte[1000000];
-
-                        if (strm.CanRead)
-                        {
-                            int read;
-                            read = strm.Read(buf, 0, (int)strm.Length);
-                            if (read > 0)
-                            {
-                                var image = new byte[read];
-                                Array.Copy(buf, image, read);
-                                var NewImage = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(image, position);
-                                return new MediaLibrary().SavePictureToCameraRoll( string.Format("Geo_CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), NewImage);
-                            }
-                        }
+                        strm = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(strm, position);
 
                     }
                     var pic = new MediaLibrary().SavePictureToCameraRoll(//
-                        string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
+                            string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
                     strm.Dispose();
+
                     if (pic == null)
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));
@@ -92,6 +79,7 @@ namespace Kazyx.WPPMM.CameraManager
                     // Some devices throws exception while saving picture to camera roll.
                     // e.g.) HTC 8S
                     Debug.WriteLine("Caught exception at saving picture: " + e.Message);
+                    Debug.WriteLine(e.StackTrace);
                     Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.DeviceInternal));
                     return null;
                 }

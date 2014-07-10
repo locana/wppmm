@@ -412,6 +412,11 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.PictureNotifier = OnPictureSaved;
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
 
+            if (svd != null)
+            {
+                svd.SlidersVisibilityChanged += SlidersVisibilityChanged;
+            }
+
             if (cameraManager.IsClientReady())
             {
                 cameraManager.OperateInitialProcess();
@@ -456,6 +461,14 @@ namespace Kazyx.WPPMM.Pages
             InitializeHitogram();
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
+        }
+
+        private void SlidersVisibilityChanged(System.Windows.Visibility visibility)
+        {
+            if (visibility == System.Windows.Visibility.Collapsed)
+            {
+                CloseSliderPanel();
+            }
         }
 
         private void InitializeHitogram()
@@ -591,6 +604,11 @@ namespace Kazyx.WPPMM.Pages
 
             ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
+
+            if (svd != null)
+            {
+                svd.SlidersVisibilityChanged -= SlidersVisibilityChanged;
+            }
 
             if (cpm != null) { cpm.Hide(); }
 

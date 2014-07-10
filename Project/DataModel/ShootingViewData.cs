@@ -16,6 +16,8 @@ namespace Kazyx.WPPMM.DataModel
 
         private readonly CameraStatus cameraStatus;
 
+        public Action<Visibility> SlidersVisibilityChanged;
+
         public ShootingViewData(AppStatus aStatus, CameraStatus cStatus)
         {
             this.appStatus = aStatus;
@@ -465,14 +467,21 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
+                Visibility visibility;
                 if (ShutterSpeedVisibility == Visibility.Visible || ISOVisibility == Visibility.Visible || FnumberVisibility == Visibility.Visible || EvVisibility == Visibility.Visible)
                 {
-                    return Visibility.Visible;
+
+                    visibility = Visibility.Visible;
                 }
                 else
                 {
-                    return Visibility.Collapsed;
+                    visibility = Visibility.Collapsed;
                 }
+                if (SlidersVisibilityChanged != null)
+                {
+                    SlidersVisibilityChanged(visibility);
+                }
+                return visibility;
             }
         }
 

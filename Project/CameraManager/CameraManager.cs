@@ -1,6 +1,7 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.Liveview;
 using Kazyx.RemoteApi;
+using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Reactive;
@@ -194,6 +195,10 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 DeviceInfo = e.ScalarDevice;
                 Debug.WriteLine("found device: " + DeviceInfo.ModelName + " - " + DeviceInfo.UDN);
+                if (DeviceInfo.FriendlyName == "DSC-QX10")
+                {
+                    cameraStatus.DeviceType = DeviceType.DSC_QX10;
+                }
 
                 if (DeviceInfo.Endpoints.ContainsKey("camera"))
                 {

@@ -5,9 +5,9 @@ namespace Kazyx.WPPMM.CameraManager
 {
     public class ServerVersion
     {
-        readonly uint major;
-        readonly uint minor;
-        readonly uint release;
+        public readonly uint Major;
+        public readonly uint Minor;
+        public readonly uint Release;
 
         public static ServerVersion CreateDefault()
         {
@@ -16,9 +16,9 @@ namespace Kazyx.WPPMM.CameraManager
 
         private ServerVersion()
         {
-            major = 2;
-            minor = 0;
-            release = 0;
+            Major = 2;
+            Minor = 0;
+            Release = 0;
         }
 
         public ServerVersion(string version)
@@ -30,9 +30,9 @@ namespace Kazyx.WPPMM.CameraManager
             }
             try
             {
-                major = uint.Parse(sepa[0]);
-                minor = uint.Parse(sepa[1]);
-                release = uint.Parse(sepa[2]);
+                Major = uint.Parse(sepa[0]);
+                Minor = uint.Parse(sepa[1]);
+                Release = uint.Parse(sepa[2]);
                 Debug.WriteLine("ServerVersion: " + version);
                 if (IsLiberated)
                 {
@@ -51,15 +51,15 @@ namespace Kazyx.WPPMM.CameraManager
 
         private bool CheckLiberated()
         {
-            if (major == 2)
+            if (Major == 2)
             {
-                if (minor == 0)
+                if (Minor == 0)
                 {
-                    return release >= 1;
+                    return Release >= 1;
                 }
                 return true;
             }
-            return major > 2;
+            return Major > 2;
         }
 
         private bool? _IsLeberated;

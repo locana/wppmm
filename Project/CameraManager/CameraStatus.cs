@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.WPMMM.CameraManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,13 @@ namespace Kazyx.WPPMM.CameraManager
         {
             get;
             set;
+        }
+
+        private DeviceType _DeviceType = DeviceType.UNDEFINED;
+        public DeviceType DeviceType
+        {
+            set { _DeviceType = value; }
+            get { return _DeviceType; }
         }
 
         private ServerVersion version = ServerVersion.CreateDefault();
@@ -58,6 +66,10 @@ namespace Kazyx.WPPMM.CameraManager
             get { return (_SupportedApis == null) ? new Dictionary<string, List<string>>() : _SupportedApis; }
             set
             {
+                if (DeviceType == DeviceType.DSC_QX10) // QX10 firmware v3.00 has bug in the response of getMethodTypes.
+                {
+                    value.Remove("setFocusMode");
+                }
                 _SupportedApis = value;
                 OnPropertyChanged("MethodTypes");
             }

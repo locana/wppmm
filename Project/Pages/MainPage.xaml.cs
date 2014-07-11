@@ -483,7 +483,7 @@ namespace Kazyx.WPPMM.Pages
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
         {
-            if (status.AfType == CameraStatus.AutoFocusType.Touch && status.FocusStatus != FocusState.Released)
+            if (status.AfType == CameraStatus.AutoFocusType.Touch && status.FocusStatus == FocusState.Focused)
             {
                 if (!abm.IsEnabled(IconMenu.TouchAfCancel))
                 {

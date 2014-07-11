@@ -61,6 +61,10 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
             {
+                if (abm != null)
+                {
+                    ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(APPBAR_OPACITY);
+                }
                 ApplicationBar.IsVisible = false;
                 if (cameraManager != null)
                 {

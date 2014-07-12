@@ -11,6 +11,8 @@
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
       <Capability Name="ID_CAP_PROXIMITY" />
+      <Capability Name="ID_CAP_LOCATION" />
+      <Capability Name="ID_CAP_SENSORS" />
     </Capabilities>
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="/Pages/MainPage.xaml" />

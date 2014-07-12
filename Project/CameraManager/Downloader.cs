@@ -2,8 +2,10 @@ using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Windows;
+using Windows.Devices.Geolocation;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -14,7 +16,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
         }
 
-        internal void DownloadImageFile(Uri uri, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
+        internal void DownloadImageFile(Uri uri, Geoposition position, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
         {
             WebRequest request;
             try { request = HttpWebRequest.Create(uri); }
@@ -56,9 +58,16 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 try
                 {
+                    // geo tagging
+                    if (position != null)
+                    {
+                        strm = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(strm, position);
+
+                    }
                     var pic = new MediaLibrary().SavePictureToCameraRoll(//
-                        string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
+                            string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
                     strm.Dispose();
+
                     if (pic == null)
                     {
                         Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.Saving));
@@ -70,6 +79,7 @@ namespace Kazyx.WPPMM.CameraManager
                     // Some devices throws exception while saving picture to camera roll.
                     // e.g.) HTC 8S
                     Debug.WriteLine("Caught exception at saving picture: " + e.Message);
+                    Debug.WriteLine(e.StackTrace);
                     Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.DeviceInternal));
                     return null;
                 }

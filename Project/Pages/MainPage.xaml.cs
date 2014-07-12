@@ -1162,7 +1162,7 @@ namespace Kazyx.WPPMM.Pages
             Debug.WriteLine("Position changed: " + args.Position.Coordinate.Latitude);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                MessageBox.Show("Location changed: " + args.Position.Coordinate.Latitude + " from " + args.Position.Coordinate.PositionSource);
+                ShowToast("Location changed: " + args.Position.Coordinate.Latitude + " from " + args.Position.Coordinate.PositionSource);
             });
 
             if (cameraManager != null)
@@ -1176,7 +1176,7 @@ namespace Kazyx.WPPMM.Pages
             Debug.WriteLine("Geo locator status changed: " + args.Status);
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                MessageBox.Show("Geo locator status changed: " + args.Status);
+                ShowToast("Geo locator status changed: " + args.Status);
             });
         }
     }

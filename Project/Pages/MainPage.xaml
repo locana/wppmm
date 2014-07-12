@@ -368,9 +368,10 @@
                     </ScrollViewer>
                     <Grid Name="AppSettingPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" Margin="0" >
                         <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.9" Margin="-20" />
-                        <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-12,64,0,64" >
-
-                        </StackPanel>
+                        <ScrollViewer>
+                            <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-12,64,0,64" >
+                            </StackPanel>
+                        </ScrollViewer>
                     </Grid>
                     <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Top"

@@ -70,6 +70,24 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable geotagging.
+        /// </summary>
+        public static string AddGeotag {
+            get {
+                return ResourceManager.GetString("AddGeotag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add geotag to the photo after retriving it from the camera..
+        /// </summary>
+        public static string AddGeotag_guide {
+            get {
+                return ResourceManager.GetString("AddGeotag_guide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aperture.
         /// </summary>
         public static string Aperture {

@@ -540,15 +540,35 @@ namespace Kazyx.WPPMM.CameraManager
 
             foreach (String s in res)
             {
+                Geoposition pos = null;
+                if (ApplicationSettings.GetInstance().GeotagEnabled)
+                {
+                    if (_GeoPosition != null)
+                    {
+                        pos = _GeoPosition;
+                    }
+                    else
+                    {
+                        // todo: acquire current position
+                    }
+                }
+
                 downloader.DownloadImageFile(
                     new Uri(s),
-                    _GeoPosition,
+                    pos,
                     (p) =>
                     {
                         Debug.WriteLine("download succeed");
                         if (ShowToast != null)
                         {
-                            ShowToast(AppResources.Message_ImageDL_Succeed);
+                            if (ApplicationSettings.GetInstance().GeotagEnabled)
+                            {
+                                // todo: something download message about geotagging.
+                            }
+                            else
+                            {
+                                ShowToast(AppResources.Message_ImageDL_Succeed);
+                            }
                         }
                         AppStatus.GetInstance().IsTakingPicture = false;
                         NoticeUpdate();
@@ -582,6 +602,12 @@ namespace Kazyx.WPPMM.CameraManager
                                 {
                                     error = AppResources.ErrorMessage_ImageDL_Saving;
                                 }
+                                break;
+                            case ImageDLError.GeotagAlreadyExists:
+                                // todo: something error message
+                                break;
+                            case ImageDLError.GeotagAddition:
+                                // todo: unexpected geotagging error.
                                 break;
                             case ImageDLError.Unknown:
                             case ImageDLError.Argument:

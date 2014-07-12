@@ -454,4 +454,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="FocusMode_Manual" xml:space="preserve">
     <value>MF</value>
   </data>
+  <data name="AddGeotag" xml:space="preserve">
+    <value>Enable geotagging</value>
+  </data>
+  <data name="AddGeotag_guide" xml:space="preserve">
+    <value>Add geotag to the photo after retriving it from the camera.</value>
+  </data>
 </root>

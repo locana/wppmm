@@ -13,6 +13,7 @@ namespace Kazyx.WPPMM.Controls
             displayShootbutton,
             postviewImageTransfer,
             displayHistogram,
+            geotagEnable,
         };
 
         public CheckBoxSetting(string title, string guide, SettingType setting)
@@ -52,6 +53,9 @@ namespace Kazyx.WPPMM.Controls
                 case SettingType.displayHistogram:
                     isChecked = ApplicationSettings.GetInstance().IsHistogramDisplayed;
                     break;
+                case SettingType.geotagEnable:
+                    isChecked = ApplicationSettings.GetInstance().GeotagEnabled;
+                    break;
             }
 
             SettingCheckBox.IsChecked = isChecked;
@@ -70,6 +74,9 @@ namespace Kazyx.WPPMM.Controls
                 case SettingType.displayHistogram:
                     ApplicationSettings.GetInstance().IsHistogramDisplayed = false;
                     break;
+                case SettingType.geotagEnable:
+                    ApplicationSettings.GetInstance().GeotagEnabled = false;
+                    break;
             }
         }
 
@@ -85,6 +92,9 @@ namespace Kazyx.WPPMM.Controls
                     break;
                 case SettingType.displayHistogram:
                     ApplicationSettings.GetInstance().IsHistogramDisplayed = true;
+                    break;
+                case SettingType.geotagEnable:
+                    ApplicationSettings.GetInstance().GeotagEnabled = true;
                     break;
             }
         }

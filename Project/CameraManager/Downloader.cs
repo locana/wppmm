@@ -59,14 +59,37 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
                     // geo tagging
+                    ImageDLError GeoTaggingError = ImageDLError.None;
                     if (position != null)
                     {
-                        strm = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(strm, position);
+                        try
+                        {
+                            strm = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(strm, position);
+                        }
+                        catch (NtImageProcessor.MetaData.Misc.GpsInformationAlreadyExistsException e)
+                        {
+                            Debug.WriteLine("Caught GpsInformationAlreadyExistsException.");
+                            GeoTaggingError = ImageDLError.GeotagAlreadyExists;
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine("Caught exception during geotagging");
+                            GeoTaggingError = ImageDLError.GeotagAddition;
+                        }
 
                     }
                     var pic = new MediaLibrary().SavePictureToCameraRoll(//
                             string.Format("CameraRemote{0:yyyyMMdd_HHmmss}.jpg", DateTime.Now), strm);
                     strm.Dispose();
+
+                    if (GeoTaggingError == ImageDLError.GeotagAddition)
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.GeotagAddition));
+                    }
+                    else if (GeoTaggingError == ImageDLError.GeotagAlreadyExists)
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(() => OnError.Invoke(ImageDLError.GeotagAlreadyExists));
+                    }
 
                     if (pic == null)
                     {
@@ -96,6 +119,9 @@ namespace Kazyx.WPPMM.CameraManager
         Saving,
         Argument,
         DeviceInternal,
-        Unknown
+        GeotagAlreadyExists,
+        GeotagAddition,
+        Unknown,
+        None,
     }
 }

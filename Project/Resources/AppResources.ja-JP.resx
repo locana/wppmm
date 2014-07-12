@@ -455,4 +455,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="FocusMode_Manual" xml:space="preserve">
     <value>MF</value>
   </data>
+  <data name="AddGeotag" xml:space="preserve">
+    <value>ジオタグ（位置情報）を付加する</value>
+  </data>
+  <data name="AddGeotag_guide" xml:space="preserve">
+    <value>画像をカメラから受信した後に位置情報を付加します</value>
+  </data>
 </root>

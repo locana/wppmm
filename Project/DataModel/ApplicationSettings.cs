@@ -167,6 +167,21 @@ namespace Kazyx.WPPMM.DataModel
             get { return _IsHistogramDisplayed; }
         }
 
+        private bool _GeotagEnabled = false;
+        public bool GeotagEnabled
+        {
+            set
+            {
+                if (_GeotagEnabled != value)
+                {
+                    Preference.SetGeotagEnabled(value);
+                    _GeotagEnabled = value;
+                    OnPropertyChanged("GeotagEnabled");
+                }
+            }
+            get { return _GeotagEnabled; }
+        }
+
         public Visibility ShootButtonVisibility
         {
             get

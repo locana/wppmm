@@ -11,6 +11,7 @@ namespace Kazyx.WPPMM.Utils
         public const string interval_time_key = "interval_time";
         public const string display_take_image_button_key = "display_take_image_button";
         public const string display_histogram_key = "display_histogram";
+        public const string add_geotag = "add_geotag";
 
         public static bool IsPostviewTransferEnabled()
         {
@@ -122,6 +123,27 @@ namespace Kazyx.WPPMM.Utils
                 settings.Remove(display_histogram_key);
             }
             settings.Add(display_histogram_key, enable);
+        }
+
+        public static bool GeotagEnabled()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(add_geotag))
+            {
+                return (Boolean)settings[add_geotag];
+            }
+            return false;
+        }
+
+        public static void SetGeotagEnabled(bool enable)
+        {
+
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(add_geotag))
+            {
+                settings.Remove(add_geotag);
+            }
+            settings.Add(add_geotag, enable);
         }
 
         public static void SetPreference(string key, bool enable)

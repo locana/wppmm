@@ -563,7 +563,7 @@ namespace Kazyx.WPPMM.CameraManager
                         {
                             if (ApplicationSettings.GetInstance().GeotagEnabled)
                             {
-                                // todo: something download message about geotagging.
+                                ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
                             }
                             else
                             {
@@ -604,10 +604,10 @@ namespace Kazyx.WPPMM.CameraManager
                                 }
                                 break;
                             case ImageDLError.GeotagAlreadyExists:
-                                // todo: something error message
+                                error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
                                 break;
                             case ImageDLError.GeotagAddition:
-                                // todo: unexpected geotagging error.
+                                error = AppResources.ErrorMessage_ImageDL_Geotagging;
                                 break;
                             case ImageDLError.Unknown:
                             case ImageDLError.Argument:

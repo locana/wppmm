@@ -461,4 +461,13 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="AddGeotag_guide" xml:space="preserve">
     <value>画像をカメラから受信した後に位置情報を付加します</value>
   </data>
+  <data name="ErrorMessage_ImageDL_DuplicatedGeotag" xml:space="preserve">
+    <value>既に位置情報が付加されているようです。取得した画像をカメラロールに保存しました。</value>
+  </data>
+  <data name="ErrorMessage_ImageDL_Geotagging" xml:space="preserve">
+    <value>位置情報の付加に失敗しました。元の画像がカメラロールに保存されました。</value>
+  </data>
+  <data name="Message_ImageDL_Succeed_withGeotag" xml:space="preserve">
+    <value>カメラロールに位置情報を付加した画像を保存しました!</value>
+  </data>
 </root>

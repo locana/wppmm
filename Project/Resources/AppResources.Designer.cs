@@ -315,6 +315,24 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It seems the image already has geotag. Original image has been saved..
+        /// </summary>
+        public static string ErrorMessage_ImageDL_DuplicatedGeotag {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_DuplicatedGeotag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to add geotag. Original image has been saved..
+        /// </summary>
+        public static string ErrorMessage_ImageDL_Geotagging {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_Geotagging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network error has occured while downloading your picture..
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {
@@ -689,6 +707,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string Message_ImageDL_Succeed {
             get {
                 return ResourceManager.GetString("Message_ImageDL_Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The picture has been saved and geotagging successfully!.
+        /// </summary>
+        public static string Message_ImageDL_Succeed_withGeotag {
+            get {
+                return ResourceManager.GetString("Message_ImageDL_Succeed_withGeotag", resourceCulture);
             }
         }
         

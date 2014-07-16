@@ -53,8 +53,6 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal event Action<ServerVersion> VersionDetected;
 
-        internal Geoposition _GeoPosition { get; set; }
-
         protected void OnVersionDetected()
         {
             if (VersionDetected != null)
@@ -251,8 +249,8 @@ namespace Kazyx.WPPMM.CameraManager
             histogramCreator = null;
             histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128);
             histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
-            
-            
+
+            GeopositionManager.GetInstance().Enable = true;
         }
 
 
@@ -524,7 +522,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public void OnResultActTakePicture(String[] res)
+        public async void OnResultActTakePicture(String[] res)
         {
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled || IntervalManager.IsRunning)
             {
@@ -543,14 +541,8 @@ namespace Kazyx.WPPMM.CameraManager
                 Geoposition pos = null;
                 if (ApplicationSettings.GetInstance().GeotagEnabled)
                 {
-                    if (_GeoPosition != null)
-                    {
-                        pos = _GeoPosition;
-                    }
-                    else
-                    {
-                        // todo: acquire current position
-                    }
+                    // show progress bar.
+                    pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
                 }
 
                 downloader.DownloadImageFile(
@@ -561,9 +553,13 @@ namespace Kazyx.WPPMM.CameraManager
                         Debug.WriteLine("download succeed");
                         if (ShowToast != null)
                         {
-                            if (ApplicationSettings.GetInstance().GeotagEnabled)
+                            if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
                             {
                                 ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
+                            }
+                            else if (ApplicationSettings.GetInstance().GeotagEnabled)
+                            {
+                                MessageBox.Show("Failed to acquire current location. Image without geotag has been saved.");
                             }
                             else
                             {

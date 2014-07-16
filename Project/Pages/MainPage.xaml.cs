@@ -469,8 +469,6 @@ namespace Kazyx.WPPMM.Pages
             InitializeHitogram();
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
-
-            AcquireGeoPosition();
         }
 
         private void SlidersVisibilityChanged(System.Windows.Visibility visibility)
@@ -1135,50 +1133,6 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                 }
             }
-        }
-
-        private async void AcquireGeoPosition()
-        {
-            Debug.WriteLine("Starting to acquire geo location");
-            
-            Geolocator geolocator = new Geolocator();
-            geolocator.DesiredAccuracy = PositionAccuracy.Default;
-            geolocator.MovementThreshold = 50;
-            
-            geolocator.StatusChanged += geolocator_StatusChanged;
-            geolocator.PositionChanged += geolocator_PositionChanged;
-
-            var pos = await geolocator.GetGeopositionAsync(
-                TimeSpan.FromMinutes(15),
-                TimeSpan.FromSeconds(30)
-                );
-            if (cameraManager != null)
-            {
-                cameraManager._GeoPosition = pos;
-            }
-        }
-
-        void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
-        {
-            Debug.WriteLine("Position changed: " + args.Position.Coordinate.Latitude);
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                ShowToast("Location changed: " + args.Position.Coordinate.Latitude + " from " + args.Position.Coordinate.PositionSource);
-            });
-
-            if (cameraManager != null)
-            {
-                cameraManager._GeoPosition = args.Position;
-            }
-        }
-
-        void geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
-        {
-            Debug.WriteLine("Geo locator status changed: " + args.Status);
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
-            {
-                ShowToast("Geo locator status changed: " + args.Status);
-            });
         }
     }
 }

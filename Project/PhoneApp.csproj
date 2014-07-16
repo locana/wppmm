@@ -98,6 +98,7 @@
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
+    <Compile Include="CameraManager\GeopositionManager.cs" />
     <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />
     <Compile Include="CameraManager\ServerVersion.cs" />
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">

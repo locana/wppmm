@@ -232,6 +232,9 @@
     <Content Include="Assets\Screen\ExposureMode_P_shift.png" />
     <Content Include="Assets\Screen\ExposureMode_S.png" />
     <Content Include="Assets\Screen\focused.png" />
+    <Content Include="Assets\Screen\GeoInfoStatus_NG.png" />
+    <Content Include="Assets\Screen\GeoInfoStatus_OK.png" />
+    <Content Include="Assets\Screen\GeoInfoStatus_Updating.png" />
     <Content Include="Assets\Screen\memory_card.png" />
     <Content Include="Assets\Screen\mode_audio.png" />
     <Content Include="Assets\Screen\mode_interval.png" />

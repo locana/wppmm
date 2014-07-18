@@ -541,7 +541,6 @@ namespace Kazyx.WPPMM.CameraManager
                 Geoposition pos = null;
                 if (ApplicationSettings.GetInstance().GeotagEnabled)
                 {
-                    // show progress bar.
                     pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
                 }
 
@@ -559,7 +558,7 @@ namespace Kazyx.WPPMM.CameraManager
                             }
                             else if (ApplicationSettings.GetInstance().GeotagEnabled)
                             {
-                                MessageBox.Show("Failed to acquire current location. Image without geotag has been saved.");
+                                MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
                             }
                             else
                             {

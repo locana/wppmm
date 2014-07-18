@@ -46,8 +46,6 @@ namespace Kazyx.WPPMM.Pages
         private ProximityDevice _proximitiyDevice;
         private long _subscriptionIdNdef;
 
-        Geoposition _GeoPosition;
-
         private const string AP_NAME_PREFIX = "DIRECT-";
 
         private const bool FilterBySsid = true;

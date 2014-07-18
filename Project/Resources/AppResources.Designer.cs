@@ -306,6 +306,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to get location. Original image has been saved..
+        /// </summary>
+        public static string ErrorMessage_FailedToGetGeoposition {
+            get {
+                return ResourceManager.GetString("ErrorMessage_FailedToGetGeoposition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remote request failed..
         /// </summary>
         public static string ErrorMessage_fatal {

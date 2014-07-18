@@ -469,4 +469,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="Message_ImageDL_Succeed_withGeotag" xml:space="preserve">
     <value>The picture has been saved and geotagging successfully!</value>
   </data>
+  <data name="ErrorMessage_FailedToGetGeoposition" xml:space="preserve">
+    <value>Failed to get location. Original image has been saved.</value>
+  </data>
 </root>

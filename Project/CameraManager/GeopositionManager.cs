@@ -54,14 +54,36 @@ namespace Kazyx.WPMMM.CameraManager
         private async Task _UpdateGeoposition()
         {
             Debug.WriteLine("Starting to acquire geo location");
-
-            LatestPosition = await geolocator.GetGeopositionAsync(
-                TimeSpan.FromMinutes(MaximumAge),
-                TimeSpan.FromSeconds(Timeout)
-                );
             if (GeopositionUpdated != null)
             {
-                GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition });
+                GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Acquiring });
+            }
+            try
+            {
+                LatestPosition = await geolocator.GetGeopositionAsync(
+                    TimeSpan.FromMinutes(MaximumAge),
+                    TimeSpan.FromSeconds(Timeout)
+                    );
+            }
+            catch (Exception ex)
+            {
+                if ((uint)ex.HResult == 0x80004004)
+                {
+                    //  in case of location is turned off.
+                    // todo: show error message
+                }
+                else
+                {
+                    LatestPosition = null;
+                    if (GeopositionUpdated != null)
+                    {
+                        GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Failed });
+                    }
+                }
+            }
+            if (GeopositionUpdated != null)
+            {
+                GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
             }
         }
 
@@ -91,5 +113,14 @@ namespace Kazyx.WPMMM.CameraManager
     internal class GeopositionEventArgs : EventArgs
     {
         public Geoposition UpdatedPosition { get; set; }
+        public GeopositiomManagerStatus Status { get; set; }
     }
+
+    internal enum GeopositiomManagerStatus
+    {
+        Idle,
+        Failed,
+        Acquiring,
+        OK,
+    };
 }

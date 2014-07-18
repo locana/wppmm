@@ -1,9 +1,11 @@
 using Kazyx.RemoteApi;
 using Kazyx.WPPMM.Utils;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Kazyx.WPPMM.DataModel
 {
@@ -177,6 +179,7 @@ namespace Kazyx.WPPMM.DataModel
                     Preference.SetGeotagEnabled(value);
                     _GeotagEnabled = value;
                     OnPropertyChanged("GeotagEnabled");
+                    OnPropertyChanged("GeopositionStatusVisibility");
                 }
             }
             get { return _GeotagEnabled; }
@@ -223,6 +226,15 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return Visibility.Collapsed;
                 }
+            }
+        }
+
+        public Visibility GeopositionStatusVisibility
+        {
+            get
+            {
+                if (GeotagEnabled) { return Visibility.Visible; }
+                else { return Visibility.Collapsed; }
             }
         }
     }

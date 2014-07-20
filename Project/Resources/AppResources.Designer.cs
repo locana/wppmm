@@ -306,7 +306,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to get location. Original image has been saved..
+        ///   Looks up a localized string similar to Failed to get location info. Original file has been saved..
         /// </summary>
         public static string ErrorMessage_FailedToGetGeoposition {
             get {
@@ -324,7 +324,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to It seems the image already has geotag. Original image has been saved..
+        ///   Looks up a localized string similar to Original geotag is prior to that of this app. Original file has been saved..
         /// </summary>
         public static string ErrorMessage_ImageDL_DuplicatedGeotag {
             get {
@@ -333,7 +333,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to add geotag. Original image has been saved..
+        ///   Looks up a localized string similar to Failed to add geotag. Original file has been saved..
         /// </summary>
         public static string ErrorMessage_ImageDL_Geotagging {
             get {
@@ -1004,6 +1004,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string ViewAngleUnit {
             get {
                 return ResourceManager.GetString("ViewAngleUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for location info....
+        /// </summary>
+        public static string WaitingGeoposition {
+            get {
+                return ResourceManager.GetString("WaitingGeoposition", resourceCulture);
             }
         }
         

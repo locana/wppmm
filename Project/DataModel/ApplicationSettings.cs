@@ -22,6 +22,7 @@ namespace Kazyx.WPPMM.DataModel
             IntervalTime = Preference.IntervalTime();
             IsShootButtonDisplayed = Preference.IsShootButtonDisplayed();
             IsHistogramDisplayed = Preference.IsHistogramDisplayed();
+            GeotagEnabled = Preference.GeotagEnabled();
         }
 
         public static ApplicationSettings GetInstance()

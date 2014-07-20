@@ -461,15 +461,18 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Add geotag to the received photos. Be careful of your privacy when you share them.</value>
   </data>
   <data name="ErrorMessage_ImageDL_DuplicatedGeotag" xml:space="preserve">
-    <value>It seems the image already has geotag. Original image has been saved.</value>
+    <value>Original geotag is prior to that of this app. Original file has been saved.</value>
   </data>
   <data name="ErrorMessage_ImageDL_Geotagging" xml:space="preserve">
-    <value>Failed to add geotag. Original image has been saved.</value>
+    <value>Failed to add geotag. Original file has been saved.</value>
   </data>
   <data name="Message_ImageDL_Succeed_withGeotag" xml:space="preserve">
     <value>The picture has been saved with location info!</value>
   </data>
   <data name="ErrorMessage_FailedToGetGeoposition" xml:space="preserve">
-    <value>Failed to get location. Original image has been saved.</value>
+    <value>Failed to get location info. Original file has been saved.</value>
+  </data>
+  <data name="WaitingGeoposition" xml:space="preserve">
+    <value>Waiting for location info...</value>
   </data>
 </root>

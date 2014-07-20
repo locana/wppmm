@@ -541,6 +541,11 @@ namespace Kazyx.WPPMM.CameraManager
                 Geoposition pos = null;
                 if (ApplicationSettings.GetInstance().GeotagEnabled)
                 {
+                    if (GeopositionManager.GetInstance().LatestPosition == null)
+                    {
+                        // takes some more time
+                        ShowToast(AppResources.WaitingGeoposition);
+                    }
                     pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
                 }
 

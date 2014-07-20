@@ -72,14 +72,12 @@ namespace Kazyx.WPMMM.CameraManager
                     //  in case of location is turned off.
                     // todo: show error message
                 }
-                else
+                LatestPosition = null;
+                if (GeopositionUpdated != null)
                 {
-                    LatestPosition = null;
-                    if (GeopositionUpdated != null)
-                    {
-                        GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Failed });
-                    }
+                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Failed });
                 }
+
             }
             if (GeopositionUpdated != null)
             {

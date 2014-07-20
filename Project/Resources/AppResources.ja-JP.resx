@@ -473,4 +473,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ErrorMessage_FailedToGetGeoposition" xml:space="preserve">
     <value>位置情報の取得に失敗しました。元の画像がカメラロールに保存されました。</value>
   </data>
+  <data name="WaitingGeoposition" xml:space="preserve">
+    <value>位置情報を取得しています...</value>
+  </data>
 </root>

@@ -459,7 +459,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>ジオタグ（位置情報）を付加する</value>
   </data>
   <data name="AddGeotag_guide" xml:space="preserve">
-    <value>画像をカメラから受信した後に位置情報を付加します</value>
+    <value>画像をカメラから受信した後に位置情報を付加します。</value>
   </data>
   <data name="ErrorMessage_ImageDL_DuplicatedGeotag" xml:space="preserve">
     <value>既に位置情報が付加されているようです。取得した画像をカメラロールに保存しました。</value>
@@ -468,7 +468,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>位置情報の付加に失敗しました。元の画像がカメラロールに保存されました。</value>
   </data>
   <data name="Message_ImageDL_Succeed_withGeotag" xml:space="preserve">
-    <value>カメラロールに位置情報を付加した画像を保存しました!</value>
+    <value>カメラロールに位置情報を付加した画像を保存しました！</value>
   </data>
   <data name="ErrorMessage_FailedToGetGeoposition" xml:space="preserve">
     <value>位置情報の取得に失敗しました。元の画像がカメラロールに保存されました。</value>

@@ -79,7 +79,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add geotag to the photo after retriving it from the camera..
+        ///   Looks up a localized string similar to Add geotag to the received photos. Be careful of your privacy when you share them..
         /// </summary>
         public static string AddGeotag_guide {
             get {
@@ -720,7 +720,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The picture has been saved and geotagging successfully!.
+        ///   Looks up a localized string similar to The picture has been saved with location info!.
         /// </summary>
         public static string Message_ImageDL_Succeed_withGeotag {
             get {

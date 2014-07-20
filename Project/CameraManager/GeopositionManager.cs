@@ -69,19 +69,24 @@ namespace Kazyx.WPMMM.CameraManager
             {
                 if ((uint)ex.HResult == 0x80004004)
                 {
+                    Debug.WriteLine("Failed due to permission problem.");
                     //  in case of location is turned off.
                     // todo: show error message
                 }
+                Debug.WriteLine("Caught exception from GetGeopositionAsync");
                 LatestPosition = null;
-                if (GeopositionUpdated != null)
-                {
-                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Failed });
-                }
-
             }
+
             if (GeopositionUpdated != null)
             {
-                GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
+                if (LatestPosition == null)
+                {
+                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Failed });
+                }
+                else
+                {
+                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
+                }
             }
         }
 

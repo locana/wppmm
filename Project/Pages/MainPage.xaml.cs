@@ -474,11 +474,12 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
             GeopositionManager.GetInstance().GeopositionUpdated += GeopositionStatusUpdated;
+            GeopositionManager.GetInstance().Enable = true;
         }
 
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)
         {
-
+            Debug.WriteLine("Geoposition status updated: " + args.Status);
             switch (args.Status)
             {
                 case GeopositiomManagerStatus.Acquiring:

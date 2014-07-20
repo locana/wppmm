@@ -318,7 +318,7 @@
                         <Image Name="ModeImage" Margin="6, 0" Width="30" Height="30" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" HorizontalAlignment="Center"/>
                         <Image Name="ExposureModeImage" Width="150" Height="30" Source="{Binding ExposureModeImage, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" />
                         <Image Name="GeopositionStatusImage" Width="32" Visibility="{Binding GeopositionStatusVisibility, Mode=OneWay}" 
-                               Source="/Assets/Screen/GeoInfoStatus_Updating.png" Grid.Column="4" HorizontalAlignment="Center"  />
+                               Source="/Assets/Screen/GeoInfoStatus_Updating.png" Grid.Column="3" HorizontalAlignment="Center"  />
                         <Image Name="StorageImage" Width="42" Height="20" Source="{Binding StorageImage, Mode=OneWay}" Margin="0,6,0,0"
                                Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" Width="70" Height="30" Text="{Binding RecordbaleAmount, Mode=OneWay}" 
@@ -331,7 +331,7 @@
                             </TextBlock.Foreground>
                         </TextBlock>
                         <TextBlock Name="RecordableAmount" FontSize="{StaticResource PhoneFontSizeMedium}" Width="70" Height="30" Text="{Binding RecordbaleAmount, Mode=OneWay}" 
-                                   Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                                   Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" >
                         </TextBlock>
                     </Grid>
                     <Grid Name="UpperLeftElements" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" >

@@ -720,7 +720,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The picture has been saved and geotagging successfully!.
+        ///   Looks up a localized string similar to The picture has been saved and geotagged successfully!.
         /// </summary>
         public static string Message_ImageDL_Succeed_withGeotag {
             get {
@@ -1004,6 +1004,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string ViewAngleUnit {
             get {
                 return ResourceManager.GetString("ViewAngleUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting location....
+        /// </summary>
+        public static string WaitingGeoposition {
+            get {
+                return ResourceManager.GetString("WaitingGeoposition", resourceCulture);
             }
         }
         

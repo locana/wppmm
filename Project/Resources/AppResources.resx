@@ -467,9 +467,12 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Failed to add geotag. Original image has been saved.</value>
   </data>
   <data name="Message_ImageDL_Succeed_withGeotag" xml:space="preserve">
-    <value>The picture has been saved and geotagging successfully!</value>
+    <value>The picture has been saved and geotagged successfully!</value>
   </data>
   <data name="ErrorMessage_FailedToGetGeoposition" xml:space="preserve">
     <value>Failed to get location. Original image has been saved.</value>
+  </data>
+  <data name="WaitingGeoposition" xml:space="preserve">
+    <value>Waiting location...</value>
   </data>
 </root>

@@ -481,27 +481,30 @@ namespace Kazyx.WPPMM.Pages
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)
         {
             Debug.WriteLine("Geoposition status updated: " + args.Status);
-            switch (args.Status)
+            Dispatcher.BeginInvoke(() =>
             {
-                case GeopositiomManagerStatus.Acquiring:
-                    GeopositionStatusImage.Source = GeoInfoStatusImage_Updating;
-                    break;
-                case GeopositiomManagerStatus.OK:
-                    GeopositionStatusImage.Source = GeoInfoStatusImage_OK;
-                    break;
-                case GeopositiomManagerStatus.Failed:
-                    GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
-                    break;
-                case GeopositiomManagerStatus.Unauthorized:
-                    GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
-                    if (geoSetting != null)
-                    {
-                        geoSetting.IsEnabled = false;
-                    }
-                    ActivateGeoTagSetting(false);
-                    // MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
-                    break;
-            }
+                switch (args.Status)
+                {
+                    case GeopositiomManagerStatus.Acquiring:
+                        GeopositionStatusImage.Source = GeoInfoStatusImage_Updating;
+                        break;
+                    case GeopositiomManagerStatus.OK:
+                        GeopositionStatusImage.Source = GeoInfoStatusImage_OK;
+                        break;
+                    case GeopositiomManagerStatus.Failed:
+                        GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
+                        break;
+                    case GeopositiomManagerStatus.Unauthorized:
+                        GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
+                        if (geoSetting != null)
+                        {
+                            geoSetting.IsEnabled = false;
+                        }
+                        ActivateGeoTagSetting(false);
+                        // MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
+                        break;
+                }
+            });
         }
 
         private void SlidersVisibilityChanged(System.Windows.Visibility visibility)

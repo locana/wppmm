@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -63,16 +60,19 @@ namespace Kazyx.WPMMM.CameraManager
             _Geolocator.MovementThreshold = 10;
             _Geolocator.StatusChanged += geolocator_StatusChanged;
             _Geolocator.PositionChanged += geolocator_PositionChanged;
-            UpdateGeoposition(new object(), new EventArgs());
+            Task.Factory.StartNew(async () =>
+            {
+                await UpdateGeoposition();
+            });
             _Timer.Start();
         }
 
-        private async void UpdateGeoposition(object sender, EventArgs e)
+        private async void OnTimerTick(object sender, EventArgs e)
         {
-            await _UpdateGeoposition();
+            await UpdateGeoposition();
         }
 
-        private async Task _UpdateGeoposition()
+        private async Task UpdateGeoposition()
         {
             Debug.WriteLine("Starting to acquire geo location");
             if (GeopositionUpdated != null)
@@ -134,7 +134,7 @@ namespace Kazyx.WPMMM.CameraManager
             {
                 return LatestPosition;
             }
-            await _UpdateGeoposition();
+            await UpdateGeoposition();
             return LatestPosition;
         }
 
@@ -143,7 +143,7 @@ namespace Kazyx.WPMMM.CameraManager
             _Geolocator = new Geolocator();
             _Timer = new DispatcherTimer();
             _Timer.Interval = TimeSpan.FromMinutes(AcquiringInterval);
-            _Timer.Tick += new EventHandler(UpdateGeoposition);
+            _Timer.Tick += new EventHandler(OnTimerTick);
         }
 
         void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)

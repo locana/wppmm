@@ -534,19 +534,19 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
 
+            Geoposition pos = null;
+            if (ApplicationSettings.GetInstance().GeotagEnabled)
+            {
+                if (GeopositionManager.GetInstance().LatestPosition == null)
+                {
+                    // takes some more time
+                    ShowToast(AppResources.WaitingGeoposition);
+                }
+                pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
+            }
+
             foreach (String s in res)
             {
-                Geoposition pos = null;
-                if (ApplicationSettings.GetInstance().GeotagEnabled)
-                {
-                    if (GeopositionManager.GetInstance().LatestPosition == null)
-                    {
-                        // takes some more time
-                        ShowToast(AppResources.WaitingGeoposition);
-                    }
-                    pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
-                }
-
                 downloader.DownloadImageFile(
                     new Uri(s),
                     pos,

@@ -140,7 +140,10 @@ namespace Kazyx.WPMMM.CameraManager
             {
                 return LatestPosition;
             }
-            await UpdateGeoposition();
+            await Task.Factory.StartNew(async () =>
+            {
+                await UpdateGeoposition();
+            });
             return LatestPosition;
         }
 

@@ -246,7 +246,7 @@
     <value>Interval</value>
   </data>
   <data name="Guide_NFC" xml:space="preserve">
-    <value>You can touch your NFC enabled camera to find password.</value>
+    <value>You can touch your NFC enabled camera to detect Wi-Fi SSID and password.</value>
   </data>
   <data name="ErrorMessage_cameraNotReady" xml:space="preserve">
     <value>Camera is under processing. Try again after a while.</value>

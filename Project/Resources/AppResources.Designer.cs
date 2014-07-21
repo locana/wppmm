@@ -612,7 +612,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can touch your NFC enabled camera to find password..
+        ///   Looks up a localized string similar to You can touch your NFC enabled camera to detect Wi-Fi SSID and password..
         /// </summary>
         public static string Guide_NFC {
             get {

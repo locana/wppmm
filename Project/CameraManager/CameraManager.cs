@@ -534,99 +534,102 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
 
-            Geoposition pos = null;
-            if (ApplicationSettings.GetInstance().GeotagEnabled)
+            Deployment.Current.Dispatcher.BeginInvoke(async () =>
             {
-                if (GeopositionManager.GetInstance().LatestPosition == null)
+                Geoposition pos = null;
+                if (ApplicationSettings.GetInstance().GeotagEnabled)
                 {
-                    // takes some more time
-                    ShowToast(AppResources.WaitingGeoposition);
-                }
-                pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
-            }
-
-            foreach (String s in res)
-            {
-                downloader.DownloadImageFile(
-                    new Uri(s),
-                    pos,
-                    (p) =>
+                    if (GeopositionManager.GetInstance().LatestPosition == null)
                     {
-                        Debug.WriteLine("download succeed");
-                        if (ShowToast != null)
-                        {
-                            if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
-                            {
-                                ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
-                            }
-                            else if (ApplicationSettings.GetInstance().GeotagEnabled)
-                            {
-                                MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
-                            }
-                            else
-                            {
-                                ShowToast(AppResources.Message_ImageDL_Succeed);
-                            }
-                        }
-                        AppStatus.GetInstance().IsTakingPicture = false;
-                        NoticeUpdate();
-                        if (PictureNotifier != null)
-                        {
-                            PictureNotifier.Invoke(p);
-                        }
-                    },
-                    (e) =>
-                    {
-                        String error = "";
-                        bool isOriginal = false;
-                        if (cameraStatus.PostviewSizeInfo != null
-                            && cameraStatus.PostviewSizeInfo.Current == "Original")
-                        {
-                            isOriginal = true;
-                        }
-
-                        switch (e)
-                        {
-                            case ImageDLError.Network:
-                                error = AppResources.ErrorMessage_ImageDL_Network;
-                                break;
-                            case ImageDLError.Saving:
-                            case ImageDLError.DeviceInternal:
-                                if (isOriginal)
-                                {
-                                    error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
-                                }
-                                else
-                                {
-                                    error = AppResources.ErrorMessage_ImageDL_Saving;
-                                }
-                                break;
-                            case ImageDLError.GeotagAlreadyExists:
-                                error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
-                                break;
-                            case ImageDLError.GeotagAddition:
-                                error = AppResources.ErrorMessage_ImageDL_Geotagging;
-                                break;
-                            case ImageDLError.Unknown:
-                            case ImageDLError.Argument:
-                            default:
-                                if (isOriginal)
-                                {
-                                    error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
-                                }
-                                else
-                                {
-                                    error = AppResources.ErrorMessage_ImageDL_Other;
-                                }
-                                break;
-                        }
-                        MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
-                        Debug.WriteLine(error);
-                        AppStatus.GetInstance().IsTakingPicture = false;
-                        NoticeUpdate();
+                        // takes some more time
+                        ShowToast(AppResources.WaitingGeoposition);
                     }
-                );
-            }
+                    pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
+                }
+
+                foreach (String s in res)
+                {
+                    downloader.DownloadImageFile(
+                        new Uri(s),
+                        pos,
+                        (p) =>
+                        {
+                            Debug.WriteLine("download succeed");
+                            if (ShowToast != null)
+                            {
+                                if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
+                                {
+                                    ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
+                                }
+                                else if (ApplicationSettings.GetInstance().GeotagEnabled)
+                                {
+                                    MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
+                                }
+                                else
+                                {
+                                    ShowToast(AppResources.Message_ImageDL_Succeed);
+                                }
+                            }
+                            AppStatus.GetInstance().IsTakingPicture = false;
+                            NoticeUpdate();
+                            if (PictureNotifier != null)
+                            {
+                                PictureNotifier.Invoke(p);
+                            }
+                        },
+                        (e) =>
+                        {
+                            String error = "";
+                            bool isOriginal = false;
+                            if (cameraStatus.PostviewSizeInfo != null
+                                && cameraStatus.PostviewSizeInfo.Current == "Original")
+                            {
+                                isOriginal = true;
+                            }
+
+                            switch (e)
+                            {
+                                case ImageDLError.Network:
+                                    error = AppResources.ErrorMessage_ImageDL_Network;
+                                    break;
+                                case ImageDLError.Saving:
+                                case ImageDLError.DeviceInternal:
+                                    if (isOriginal)
+                                    {
+                                        error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
+                                    }
+                                    else
+                                    {
+                                        error = AppResources.ErrorMessage_ImageDL_Saving;
+                                    }
+                                    break;
+                                case ImageDLError.GeotagAlreadyExists:
+                                    error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
+                                    break;
+                                case ImageDLError.GeotagAddition:
+                                    error = AppResources.ErrorMessage_ImageDL_Geotagging;
+                                    break;
+                                case ImageDLError.Unknown:
+                                case ImageDLError.Argument:
+                                default:
+                                    if (isOriginal)
+                                    {
+                                        error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
+                                    }
+                                    else
+                                    {
+                                        error = AppResources.ErrorMessage_ImageDL_Other;
+                                    }
+                                    break;
+                            }
+                            MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
+                            Debug.WriteLine(error);
+                            AppStatus.GetInstance().IsTakingPicture = false;
+                            NoticeUpdate();
+                        }
+                    );
+                }
+            });
         }
 
         public async void OnActTakePictureError(StatusCode err)

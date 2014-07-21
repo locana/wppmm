@@ -17,7 +17,7 @@ namespace Kazyx.WPMMM.CameraManager
 
         private Geolocator _Geolocator;
         private DispatcherTimer _Timer;
-        private const int AcquiringInterval = 5; // min.
+        private const int AcquiringInterval = 1; // min.
         private const int MaximumAge = 15; // min.
         private const int Timeout = 20; // sec.
 
@@ -37,7 +37,13 @@ namespace Kazyx.WPMMM.CameraManager
                 _Enable = value;
                 if (value)
                 {
-                    Start();
+                    Task.Factory.StartNew(() => // Not to await in the set property
+                    {
+                        Deployment.Current.Dispatcher.BeginInvoke(() =>
+                        {
+                            Start(); // this must be called on the UI thread.
+                        });
+                    });
                 }
                 else
                 {
@@ -48,13 +54,13 @@ namespace Kazyx.WPMMM.CameraManager
 
         private void Stop()
         {
-            _Geolocator.StatusChanged -= geolocator_StatusChanged;
-            _Geolocator.PositionChanged -= geolocator_PositionChanged;
+            // _Geolocator.StatusChanged -= geolocator_StatusChanged;
+            // _Geolocator.PositionChanged -= geolocator_PositionChanged;
             _Timer.Stop();
             LatestPosition = null;
         }
 
-        private void Start()
+        private async void Start()
         {
             if (_Timer.IsEnabled)
             {
@@ -63,13 +69,9 @@ namespace Kazyx.WPMMM.CameraManager
             _Geolocator.DesiredAccuracy = PositionAccuracy.Default;
             _Geolocator.MovementThreshold = 10;
             _Geolocator.ReportInterval = 60000;
-            _Geolocator.StatusChanged += geolocator_StatusChanged;
-            _Geolocator.PositionChanged += geolocator_PositionChanged;
-            
-            Task.Factory.StartNew(async () =>
-            {
-                await UpdateGeoposition();
-            });
+            // _Geolocator.StatusChanged += geolocator_StatusChanged;
+            // _Geolocator.PositionChanged += geolocator_PositionChanged;
+            await UpdateGeoposition();
             _Timer.Start();
         }
 
@@ -140,10 +142,7 @@ namespace Kazyx.WPMMM.CameraManager
             {
                 return LatestPosition;
             }
-            await Task.Factory.StartNew(async () =>
-            {
-                await UpdateGeoposition();
-            });
+            await UpdateGeoposition();
             return LatestPosition;
         }
 

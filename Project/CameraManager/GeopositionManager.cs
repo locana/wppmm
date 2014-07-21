@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using Windows.Devices.Geolocation;
+using Windows.Foundation;
 
 namespace Kazyx.WPMMM.CameraManager
 {
@@ -14,17 +16,17 @@ namespace Kazyx.WPMMM.CameraManager
 
         private static GeopositionManager _GeopositionManager = new GeopositionManager();
 
-        
+
         internal Geoposition LatestPosition { get; set; }
         internal Action<GeopositionEventArgs> GeopositionUpdated;
 
         private Geolocator geolocator;
         private DispatcherTimer Timer;
         private const int AcquiringInterval = 5; // min.
-        private const int MaximumAge = 15; // min.
+        private const int MaximumAge = 1; // min.
         private const int Timeout = 20; // sec.
 
-        private bool _Enable;
+        private bool _Enable = false;
         internal bool Enable
         {
             get { return _Enable; }
@@ -58,12 +60,16 @@ namespace Kazyx.WPMMM.CameraManager
             {
                 GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Acquiring });
             }
+
+            IAsyncOperation<Geoposition> locationTask = null;
+
             try
             {
-                LatestPosition = await geolocator.GetGeopositionAsync(
+                locationTask = geolocator.GetGeopositionAsync(
                     TimeSpan.FromMinutes(MaximumAge),
                     TimeSpan.FromSeconds(Timeout)
                     );
+                LatestPosition = await locationTask;
             }
             catch (Exception ex)
             {
@@ -75,6 +81,17 @@ namespace Kazyx.WPMMM.CameraManager
                 }
                 Debug.WriteLine("Caught exception from GetGeopositionAsync");
                 LatestPosition = null;
+            }
+            finally
+            {
+                if (locationTask != null)
+                {
+                    if (locationTask.Status == AsyncStatus.Started)
+                    {
+                        locationTask.Cancel();
+                    }
+                    locationTask.Close();
+                }
             }
 
             if (GeopositionUpdated != null)
@@ -105,6 +122,27 @@ namespace Kazyx.WPMMM.CameraManager
             geolocator = new Geolocator();
             Timer = new DispatcherTimer();
             geolocator.DesiredAccuracy = PositionAccuracy.Default;
+            geolocator.MovementThreshold = 10;
+            geolocator.StatusChanged += geolocator_StatusChanged;
+            geolocator.PositionChanged += geolocator_PositionChanged;
+        }
+
+        void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+            Debug.WriteLine("Position changed: " + args.Position.Coordinate.Latitude);
+            if (GeopositionUpdated != null && LatestPosition != null)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
+                });                
+            }
+            LatestPosition = args.Position;
+        }
+
+        public void geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
+        {
+            Debug.WriteLine("geolocator status changed: " + args.Status);
         }
 
         public static GeopositionManager GetInstance()

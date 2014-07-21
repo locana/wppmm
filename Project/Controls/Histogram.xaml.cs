@@ -107,7 +107,7 @@ namespace Kazyx.WPMMM.Controls
                 return;
             }
 
-            if (!(valuesR.Length == valuesG.Length && valuesG.Length == valuesB.Length))
+            if (!(valuesR.Length == valuesG.Length && valuesG.Length == valuesB.Length) || valuesR.Length <= 0)
             {
                 return;
             }

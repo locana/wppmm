@@ -880,7 +880,16 @@ namespace Kazyx.WPPMM.Pages
         private void initNFC()
         {
             // Initialize NFC
-            _proximitiyDevice = ProximityDevice.GetDefault();
+            try
+            {
+                _proximitiyDevice = ProximityDevice.GetDefault();
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                _proximitiyDevice = null;
+                Debug.WriteLine("Caught ununderstandable exception. ");
+                return;
+            }
 
             if (_proximitiyDevice == null)
             {

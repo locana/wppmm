@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,6 +51,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 DetailImage.Source = null;
             }
+            _bitmap = null;
             SetVisibility(false);
         }
 
@@ -104,17 +106,28 @@ namespace Kazyx.WPPMM.Pages
             progress.IsVisible = true;
             var img = sender as Image;
             var thumb = img.DataContext as ThumbnailData;
-            var strm = thumb.picture.GetImage();
             await Task.Run(() =>
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    _bitmap = new BitmapImage();
-                    _bitmap.SetSource(strm);
-                    InitBitmapBeforeOpen();
-                    DetailImage.Source = _bitmap;
-                    SetVisibility(true);
-                    strm.Dispose();
+                    using (var strm = thumb.picture.GetImage())
+                    {
+                        using (var replica = new MemoryStream())
+                        {
+                            strm.CopyTo(replica); // Copy to the new stream to avoid stream crash issue.
+                            if (replica.Length <= 0)
+                            {
+                                return;
+                            }
+                            replica.Seek(0, SeekOrigin.Begin);
+
+                            _bitmap = new BitmapImage();
+                            _bitmap.SetSource(replica);
+                            InitBitmapBeforeOpen();
+                            DetailImage.Source = _bitmap;
+                            SetVisibility(true);
+                        }
+                    }
                 });
             });
         }

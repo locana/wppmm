@@ -56,6 +56,10 @@ namespace Kazyx.WPMMM.CameraManager
 
         private void Start()
         {
+            if (_Timer.IsEnabled)
+            {
+                return;
+            }
             _Geolocator.DesiredAccuracy = PositionAccuracy.Default;
             _Geolocator.MovementThreshold = 10;
             _Geolocator.StatusChanged += geolocator_StatusChanged;

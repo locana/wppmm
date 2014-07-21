@@ -396,7 +396,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location is turned off. If you want to use geotagging, change the setting..
+        ///   Looks up a localized string similar to Please turn on location service at system settings for geotagging feature..
         /// </summary>
         public static string ErrorMessage_LocationAccessUnauthorized {
             get {

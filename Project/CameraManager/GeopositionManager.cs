@@ -62,8 +62,10 @@ namespace Kazyx.WPMMM.CameraManager
             }
             _Geolocator.DesiredAccuracy = PositionAccuracy.Default;
             _Geolocator.MovementThreshold = 10;
+            _Geolocator.ReportInterval = 60000;
             _Geolocator.StatusChanged += geolocator_StatusChanged;
             _Geolocator.PositionChanged += geolocator_PositionChanged;
+            
             Task.Factory.StartNew(async () =>
             {
                 await UpdateGeoposition();
@@ -153,7 +155,7 @@ namespace Kazyx.WPMMM.CameraManager
         void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
             Debug.WriteLine("Position changed: " + args.Position.Coordinate.Latitude);
-            if (GeopositionUpdated != null && LatestPosition != null)
+            if (GeopositionUpdated != null)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {

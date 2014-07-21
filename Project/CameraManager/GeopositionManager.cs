@@ -23,7 +23,7 @@ namespace Kazyx.WPMMM.CameraManager
         private Geolocator _Geolocator;
         private DispatcherTimer _Timer;
         private const int AcquiringInterval = 5; // min.
-        private const int MaximumAge = 1; // min.
+        private const int MaximumAge = 15; // min.
         private const int Timeout = 20; // sec.
 
         private bool _Enable = false;

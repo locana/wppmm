@@ -20,8 +20,8 @@ namespace Kazyx.WPMMM.CameraManager
         internal Geoposition LatestPosition { get; set; }
         internal Action<GeopositionEventArgs> GeopositionUpdated;
 
-        private Geolocator geolocator;
-        private DispatcherTimer Timer;
+        private Geolocator _Geolocator;
+        private DispatcherTimer _Timer;
         private const int AcquiringInterval = 5; // min.
         private const int MaximumAge = 1; // min.
         private const int Timeout = 20; // sec.
@@ -35,17 +35,36 @@ namespace Kazyx.WPMMM.CameraManager
                 _Enable = value;
                 if (value)
                 {
-                    UpdateGeoposition(new object(), new EventArgs());
-                    Timer.Interval = TimeSpan.FromMinutes(AcquiringInterval);
-                    Timer.Tick += new EventHandler(UpdateGeoposition);
-                    Timer.Start();
+                    Start();
                 }
                 else
                 {
-                    LatestPosition = null;
-                    Timer.Stop();
+                    Stop();
                 }
             }
+        }
+
+        private void Stop()
+        {
+            _Geolocator = null;
+            _Timer.Stop();
+            _Timer = null;
+            LatestPosition = null;
+        }
+
+        private void Start()
+        {
+            _Geolocator = new Geolocator();
+            _Geolocator.DesiredAccuracy = PositionAccuracy.Default;
+            _Geolocator.MovementThreshold = 10;
+            _Geolocator.StatusChanged += geolocator_StatusChanged;
+            _Geolocator.PositionChanged += geolocator_PositionChanged;
+            UpdateGeoposition(new object(), new EventArgs());
+
+            _Timer = new DispatcherTimer();
+            _Timer.Interval = TimeSpan.FromMinutes(AcquiringInterval);
+            _Timer.Tick += new EventHandler(UpdateGeoposition);
+            _Timer.Start();
         }
 
         private async void UpdateGeoposition(object sender, EventArgs e)
@@ -65,7 +84,7 @@ namespace Kazyx.WPMMM.CameraManager
 
             try
             {
-                locationTask = geolocator.GetGeopositionAsync(
+                locationTask = _Geolocator.GetGeopositionAsync(
                     TimeSpan.FromMinutes(MaximumAge),
                     TimeSpan.FromSeconds(Timeout)
                     );
@@ -81,6 +100,10 @@ namespace Kazyx.WPMMM.CameraManager
                 }
                 Debug.WriteLine("Caught exception from GetGeopositionAsync");
                 LatestPosition = null;
+                if (GeopositionUpdated != null)
+                {
+                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Unauthorized });
+                }
             }
             finally
             {
@@ -117,15 +140,7 @@ namespace Kazyx.WPMMM.CameraManager
             return LatestPosition;
         }
 
-        private GeopositionManager()
-        {
-            geolocator = new Geolocator();
-            Timer = new DispatcherTimer();
-            geolocator.DesiredAccuracy = PositionAccuracy.Default;
-            geolocator.MovementThreshold = 10;
-            geolocator.StatusChanged += geolocator_StatusChanged;
-            geolocator.PositionChanged += geolocator_PositionChanged;
-        }
+        private GeopositionManager() { }
 
         void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
@@ -159,7 +174,7 @@ namespace Kazyx.WPMMM.CameraManager
 
     internal enum GeopositiomManagerStatus
     {
-        Idle,
+        Unauthorized,
         Failed,
         Acquiring,
         OK,

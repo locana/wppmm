@@ -396,6 +396,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location is turned off. If you want to use geotagging, change the setting..
+        /// </summary>
+        public static string ErrorMessage_LocationAccessUnauthorized {
+            get {
+                return ResourceManager.GetString("ErrorMessage_LocationAccessUnauthorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to read data from the NFC tag..
         /// </summary>
         public static string ErrorMessage_ParseNFC {

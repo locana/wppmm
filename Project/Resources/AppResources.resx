@@ -475,4 +475,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="WaitingGeoposition" xml:space="preserve">
     <value>Waiting for location info...</value>
   </data>
+  <data name="ErrorMessage_LocationAccessUnauthorized" xml:space="preserve">
+    <value>Location is turned off. If you want to use geotagging, change the setting.</value>
+  </data>
 </root>

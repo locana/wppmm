@@ -476,4 +476,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="WaitingGeoposition" xml:space="preserve">
     <value>位置情報を取得しています...</value>
   </data>
+  <data name="ErrorMessage_LocationAccessUnauthorized" xml:space="preserve">
+    <value>位置情報がオフになっています。ジオタグを使用する場合は、設定を変更してください。</value>
+  </data>
 </root>

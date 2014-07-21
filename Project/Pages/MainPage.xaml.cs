@@ -491,6 +491,10 @@ namespace Kazyx.WPPMM.Pages
                 case GeopositiomManagerStatus.Failed:
                     GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
                     break;
+                case GeopositiomManagerStatus.Unauthorized:
+                    GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
+                    MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
+                    break;
             }
         }
 

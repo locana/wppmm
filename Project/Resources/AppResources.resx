@@ -322,7 +322,7 @@ Please check internet connection status</value>
     <value>OK</value>
   </data>
   <data name="Guide_ReceiveCapturedImage" xml:space="preserve">
-    <value>Recieve pictures soon after taken and register them to Camera Roll. (Disabled while interval recording is going on.)</value>
+    <value>Receive captured images and register them to the camera roll. (Disabled while interval recording is going on.)</value>
   </data>
   <data name="AppBar_ControlPanel" xml:space="preserve">
     <value>Ctrl Panel</value>
@@ -458,7 +458,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Enable geotagging</value>
   </data>
   <data name="AddGeotag_guide" xml:space="preserve">
-    <value>Add geotag to the received photos. Be careful of your privacy when you share them.</value>
+    <value>Add geotag to the received photos. Be careful of your privacy when you share them. Note that cellular network is additionally required to obtain location info in some phone devices.﻿</value>
   </data>
   <data name="ErrorMessage_ImageDL_DuplicatedGeotag" xml:space="preserve">
     <value>Original geotag is prior to that of this app. Original file has been saved.</value>

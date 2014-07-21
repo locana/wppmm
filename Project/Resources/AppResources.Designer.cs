@@ -79,7 +79,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add geotag to the received photos. Be careful of your privacy when you share them..
+        ///   Looks up a localized string similar to Add geotag to the received photos. Be careful of your privacy when you share them. Note that cellular network is additionally required to obtain location info in some phone devices.﻿.
         /// </summary>
         public static string AddGeotag_guide {
             get {
@@ -621,7 +621,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recieve pictures soon after taken and register them to Camera Roll. (Disabled while interval recording is going on.).
+        ///   Looks up a localized string similar to Receive captured images and register them to the camera roll. (Disabled while interval recording is going on.).
         /// </summary>
         public static string Guide_ReceiveCapturedImage {
             get {

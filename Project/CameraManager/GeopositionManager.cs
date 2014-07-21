@@ -64,6 +64,7 @@ namespace Kazyx.WPMMM.CameraManager
         {
             if (_Timer.IsEnabled)
             {
+                await UpdateGeoposition();
                 return;
             }
             _Geolocator.DesiredAccuracy = PositionAccuracy.Default;
@@ -83,10 +84,7 @@ namespace Kazyx.WPMMM.CameraManager
         private async Task UpdateGeoposition()
         {
             Debug.WriteLine("Starting to acquire geo location");
-            if (GeopositionUpdated != null)
-            {
-                GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Acquiring });
-            }
+            OnGeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Acquiring });
 
             IAsyncOperation<Geoposition> locationTask = null;
 
@@ -103,10 +101,7 @@ namespace Kazyx.WPMMM.CameraManager
                 if ((uint)ex.HResult == 0x80004004)
                 {
                     Debug.WriteLine("Failed due to permission problem.");
-                    if (GeopositionUpdated != null)
-                    {
-                        GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Unauthorized });
-                    }
+                    OnGeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Unauthorized });
                 }
                 Debug.WriteLine("Caught exception from GetGeopositionAsync");
                 LatestPosition = null;
@@ -123,16 +118,21 @@ namespace Kazyx.WPMMM.CameraManager
                 }
             }
 
+            if (LatestPosition == null)
+            {
+                OnGeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Failed });
+            }
+            else
+            {
+                OnGeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
+            }
+        }
+
+        protected void OnGeopositionUpdated(GeopositionEventArgs e)
+        {
             if (GeopositionUpdated != null)
             {
-                if (LatestPosition == null)
-                {
-                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Failed });
-                }
-                else
-                {
-                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
-                }
+                GeopositionUpdated(e);
             }
         }
 
@@ -152,24 +152,6 @@ namespace Kazyx.WPMMM.CameraManager
             _Timer = new DispatcherTimer();
             _Timer.Interval = TimeSpan.FromMinutes(AcquiringInterval);
             _Timer.Tick += new EventHandler(OnTimerTick);
-        }
-
-        void geolocator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
-        {
-            Debug.WriteLine("Position changed: " + args.Position.Coordinate.Latitude);
-            if (GeopositionUpdated != null)
-            {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
-                });
-            }
-            LatestPosition = args.Position;
-        }
-
-        public void geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
-        {
-            Debug.WriteLine("geolocator status changed: " + args.Status);
         }
 
         public static GeopositionManager GetInstance()

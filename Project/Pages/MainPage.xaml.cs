@@ -102,7 +102,7 @@ namespace Kazyx.WPPMM.Pages
             cpm = new ControlPanelManager(ControlPanel);
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             Debug.WriteLine(e.Uri);
@@ -476,6 +476,10 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
             GeopositionManager.GetInstance().GeopositionUpdated += GeopositionStatusUpdated;
             GeopositionManager.GetInstance().Enable = ApplicationSettings.GetInstance().GeotagEnabled;
+            if (ApplicationSettings.GetInstance().GeotagEnabled)
+            {
+                await GeopositionManager.GetInstance().AcquireGeoPosition();
+            }
         }
 
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)

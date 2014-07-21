@@ -119,6 +119,7 @@
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
+    <Compile Include="DataModel\AppSettingData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
     <Compile Include="DataModel\VisualSelectorData.cs" />
     <Compile Include="Pages\HiddenPage.xaml.cs">

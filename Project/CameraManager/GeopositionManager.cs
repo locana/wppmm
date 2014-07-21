@@ -13,9 +13,7 @@ namespace Kazyx.WPMMM.CameraManager
 {
     class GeopositionManager
     {
-
         private static GeopositionManager _GeopositionManager = new GeopositionManager();
-
 
         internal Geoposition LatestPosition { get; set; }
         internal Action<GeopositionEventArgs> GeopositionUpdated;
@@ -25,6 +23,13 @@ namespace Kazyx.WPMMM.CameraManager
         private const int AcquiringInterval = 5; // min.
         private const int MaximumAge = 15; // min.
         private const int Timeout = 20; // sec.
+
+        private bool _LocationAllowed = true;
+        internal bool LocationAllowed
+        {
+            set { _LocationAllowed = value; }
+            get { return _LocationAllowed; }
+        }
 
         private bool _Enable = false;
         internal bool Enable
@@ -53,7 +58,7 @@ namespace Kazyx.WPMMM.CameraManager
         }
 
         private void Start()
-        {            
+        {
             _Geolocator.DesiredAccuracy = PositionAccuracy.Default;
             _Geolocator.MovementThreshold = 10;
             _Geolocator.StatusChanged += geolocator_StatusChanged;
@@ -96,7 +101,7 @@ namespace Kazyx.WPMMM.CameraManager
                     }
                 }
                 Debug.WriteLine("Caught exception from GetGeopositionAsync");
-                LatestPosition = null;  
+                LatestPosition = null;
             }
             finally
             {
@@ -149,7 +154,7 @@ namespace Kazyx.WPMMM.CameraManager
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     GeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.OK });
-                });                
+                });
             }
             LatestPosition = args.Position;
         }

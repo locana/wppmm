@@ -24,7 +24,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using Windows.Devices.Geolocation;
 using Windows.Networking.Proximity;
 
 namespace Kazyx.WPPMM.Pages
@@ -64,8 +63,9 @@ namespace Kazyx.WPPMM.Pages
 
             this.InitAppSettingPanel();
 
-            abm.SetEvent(Menu.About, (sender, e) => { 
-                NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative)); 
+            abm.SetEvent(Menu.About, (sender, e) =>
+            {
+                NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative));
             });
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
@@ -100,7 +100,6 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
 
             cpm = new ControlPanelManager(ControlPanel);
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -131,6 +130,8 @@ namespace Kazyx.WPPMM.Pages
                     LiveviewPageLoaded();
                     break;
             }
+
+            ActivateGeoTagSetting(true);
         }
 
         internal void cameraManager_OnDisconnected()
@@ -493,7 +494,12 @@ namespace Kazyx.WPPMM.Pages
                     break;
                 case GeopositiomManagerStatus.Unauthorized:
                     GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
-                    MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
+                    if (geoSetting != null)
+                    {
+                        geoSetting.IsEnabled = false;
+                    }
+                    ActivateGeoTagSetting(false);
+                    // MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
                     break;
             }
         }
@@ -518,9 +524,9 @@ namespace Kazyx.WPPMM.Pages
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
         {
-            if (status.AfType == CameraStatus.AutoFocusType.Touch && 
-                ( ( status.TouchFocusStatus == null && status.FocusStatus != FocusState.Released) ||
-                ( status.TouchFocusStatus != null && status.TouchFocusStatus.Focused )))
+            if (status.AfType == CameraStatus.AutoFocusType.Touch &&
+                ((status.TouchFocusStatus == null && status.FocusStatus != FocusState.Released) ||
+                (status.TouchFocusStatus != null && status.TouchFocusStatus.Focused)))
             {
                 if (!abm.IsEnabled(IconMenu.TouchAfCancel))
                 {
@@ -973,16 +979,38 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
+        private AppSettingData geoSetting;
+
         private void InitAppSettingPanel()
         {
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage, CheckBoxSetting.SettingType.postviewImageTransfer));
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayHistogram, AppResources.Guide_Histogram, CheckBoxSetting.SettingType.displayHistogram));
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.AddGeotag, AppResources.AddGeotag_guide, CheckBoxSetting.SettingType.geotagEnable, (IsChecked) => 
-            {
-                GeopositionManager.GetInstance().Enable = IsChecked;
-            }));
+            AppSettings.Children.Add(new CheckBoxSetting(
+                new AppSettingData(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting,
+                () => { return ApplicationSettings.GetInstance().IsShootButtonDisplayed; },
+                enabled => { ApplicationSettings.GetInstance().IsShootButtonDisplayed = enabled; })));
+            AppSettings.Children.Add(new CheckBoxSetting(
+                new AppSettingData(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage,
+                () => { return ApplicationSettings.GetInstance().IsPostviewTransferEnabled; },
+                enabled => { ApplicationSettings.GetInstance().IsPostviewTransferEnabled = enabled; })));
+            AppSettings.Children.Add(new CheckBoxSetting(
+                new AppSettingData(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
+                () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
+                enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
+
+            geoSetting = new AppSettingData(AppResources.AddGeotag, AppResources.AddGeotag_guide,
+                () => { return ApplicationSettings.GetInstance().GeotagEnabled; },
+                enabled => { ApplicationSettings.GetInstance().GeotagEnabled = enabled; GeopositionManager.GetInstance().Enable = enabled; });
+            AppSettings.Children.Add(new CheckBoxSetting(geoSetting));
+
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
+        }
+
+        private void ActivateGeoTagSetting(bool activate)
+        {
+            if (geoSetting != null)
+            {
+                geoSetting.Guide = activate ? AppResources.AddGeotag_guide : AppResources.ErrorMessage_LocationAccessUnauthorized;
+                geoSetting.IsActive = activate;
+            }
         }
 
         private void OpenAppSettingPanel()
@@ -999,7 +1027,6 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseAppSettingPanel()
         {
-
             HideSettingAnimation.Begin();
             ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).CreateNew(APPBAR_OPACITY);
         }
@@ -1007,7 +1034,6 @@ namespace Kazyx.WPPMM.Pages
         void HideSettingAnimation_Completed(object sender, EventArgs e)
         {
             AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
-
         }
 
         private bool IsAppSettingPanelShowing()
@@ -1174,7 +1200,5 @@ namespace Kazyx.WPPMM.Pages
                 }
             }
         }
-
-
     }
 }

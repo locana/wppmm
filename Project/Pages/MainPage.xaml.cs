@@ -474,7 +474,7 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnHistogramUpdated += cameraManager_OnHistogramUpdated;
             GeopositionManager.GetInstance().GeopositionUpdated += GeopositionStatusUpdated;
-            GeopositionManager.GetInstance().Enable = true;
+            GeopositionManager.GetInstance().Enable = ApplicationSettings.GetInstance().GeotagEnabled;
         }
 
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)
@@ -748,9 +748,7 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                     return;
                 }
-
                 GoToMainPage();
-
             }
             else
             {
@@ -980,7 +978,10 @@ namespace Kazyx.WPPMM.Pages
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting, CheckBoxSetting.SettingType.displayShootbutton));
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage, CheckBoxSetting.SettingType.postviewImageTransfer));
             AppSettings.Children.Add(new CheckBoxSetting(AppResources.DisplayHistogram, AppResources.Guide_Histogram, CheckBoxSetting.SettingType.displayHistogram));
-            AppSettings.Children.Add(new CheckBoxSetting(AppResources.AddGeotag, AppResources.AddGeotag_guide, CheckBoxSetting.SettingType.geotagEnable));
+            AppSettings.Children.Add(new CheckBoxSetting(AppResources.AddGeotag, AppResources.AddGeotag_guide, CheckBoxSetting.SettingType.geotagEnable, (IsChecked) => 
+            {
+                GeopositionManager.GetInstance().Enable = IsChecked;
+            }));
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }
 

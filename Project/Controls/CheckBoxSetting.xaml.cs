@@ -1,4 +1,5 @@
 ﻿using Kazyx.WPPMM.DataModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,6 +8,7 @@ namespace Kazyx.WPPMM.Controls
     public partial class CheckBoxSetting : UserControl
     {
         private SettingType type;
+        private Action<bool> _SettingChanged = null;
 
         public enum SettingType
         {
@@ -16,12 +18,17 @@ namespace Kazyx.WPPMM.Controls
             geotagEnable,
         };
 
-        public CheckBoxSetting(string title, string guide, SettingType setting)
+        public CheckBoxSetting(string title, string guide, SettingType setting, Action<bool> SettingChanged = null)
         {
             InitializeComponent();
 
             SettingGuide.Text = guide;
             _init(title, setting);
+
+            if (SettingChanged != null)
+            {
+                _SettingChanged = SettingChanged;
+            }
         }
 
         public CheckBoxSetting(string title, SettingType setting)
@@ -59,6 +66,11 @@ namespace Kazyx.WPPMM.Controls
             }
 
             SettingCheckBox.IsChecked = isChecked;
+
+            if (_SettingChanged != null)
+            {
+                _SettingChanged(isChecked);
+            }
         }
 
         void SettingCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -78,6 +90,11 @@ namespace Kazyx.WPPMM.Controls
                     ApplicationSettings.GetInstance().GeotagEnabled = false;
                     break;
             }
+
+            if (_SettingChanged != null)
+            {
+                _SettingChanged(false);
+            }
         }
 
         void SettingCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -96,6 +113,10 @@ namespace Kazyx.WPPMM.Controls
                 case SettingType.geotagEnable:
                     ApplicationSettings.GetInstance().GeotagEnabled = true;
                     break;
+            }
+            if (_SettingChanged != null)
+            {
+                _SettingChanged(true);
             }
         }
     }

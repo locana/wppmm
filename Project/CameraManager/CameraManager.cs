@@ -144,6 +144,10 @@ namespace Kazyx.WPPMM.CameraManager
                 case "ExposureMode":
                     UpdateProgramShiftRange();
                     break;
+                case "PictureUrls":
+                    AppStatus.GetInstance().IsTakingPicture = true;
+                    OnResultActTakePicture(_cameraStatus.PictureUrls);
+                    break;
             }
         }
 

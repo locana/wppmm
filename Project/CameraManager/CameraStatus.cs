@@ -534,7 +534,6 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _FocusStatus; }
         }
 
-
         public AutoFocusType AfType { get; set; }
 
         public Visibility LiveviewScreenVisibility

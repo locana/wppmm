@@ -553,7 +553,7 @@ namespace Kazyx.WPPMM.CameraManager
 
                 foreach (String s in res)
                 {
-                    downloader.DownloadImageFile(
+                    downloader.AddDownloadQueue(
                         new Uri(s),
                         pos,
                         (p) =>

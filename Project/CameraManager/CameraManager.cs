@@ -145,8 +145,10 @@ namespace Kazyx.WPPMM.CameraManager
                     UpdateProgramShiftRange();
                     break;
                 case "PictureUrls":
-                    AppStatus.GetInstance().IsTakingPicture = true;
-                    OnResultActTakePicture(_cameraStatus.PictureUrls);
+                    if (_cameraStatus.PictureUrls.Length > 0)
+                    {                        
+                        OnResultActTakePicture(_cameraStatus.PictureUrls);
+                    }
                     break;
             }
         }
@@ -253,6 +255,27 @@ namespace Kazyx.WPPMM.CameraManager
             histogramCreator = null;
             histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128);
             histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
+
+            if (downloader.QueueStatusUpdated == null)
+            {
+                downloader.QueueStatusUpdated += DownloadQueueStatusUpdated;
+            }
+        }
+
+        internal void DownloadQueueStatusUpdated(int DownloadItemAmount)
+        {
+            Debug.WriteLine("Download queue updated: " + DownloadItemAmount);
+
+            if (DownloadItemAmount == 0)
+            {
+                // ShowToast("Download finished.");
+                AppStatus.GetInstance().IsDownloadingImages = false;
+            }
+            else
+            {
+                // ShowToast("Downloading images. (" + DownloadItemAmount + " images are scheduled.)");
+                AppStatus.GetInstance().IsDownloadingImages = true;
+            }
         }
 
 
@@ -526,14 +549,13 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void OnResultActTakePicture(String[] res)
         {
+            AppStatus.GetInstance().IsTakingPicture = false;
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled || IntervalManager.IsRunning)
             {
                 if (ShowToast != null)
                 {
                     ShowToast(AppResources.Message_ImageCapture_Succeed);
-                }
-
-                AppStatus.GetInstance().IsTakingPicture = false;
+                }                
                 NoticeUpdate();
                 return;
             }
@@ -574,7 +596,7 @@ namespace Kazyx.WPPMM.CameraManager
                                     ShowToast(AppResources.Message_ImageDL_Succeed);
                                 }
                             }
-                            AppStatus.GetInstance().IsTakingPicture = false;
+                            // AppStatus.GetInstance().IsTakingPicture = false;
                             NoticeUpdate();
                             if (PictureNotifier != null)
                             {
@@ -628,7 +650,7 @@ namespace Kazyx.WPPMM.CameraManager
                             }
                             MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
                             Debug.WriteLine(error);
-                            AppStatus.GetInstance().IsTakingPicture = false;
+                            // AppStatus.GetInstance().IsTakingPicture = false;
                             NoticeUpdate();
                         }
                     );

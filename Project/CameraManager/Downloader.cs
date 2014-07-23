@@ -15,13 +15,17 @@ namespace Kazyx.WPPMM.CameraManager
         private Task task;
 
         private readonly Queue<DownloadRequest> DownloadQueue = new Queue<DownloadRequest>();
+        internal Action<int> QueueStatusUpdated;
 
         internal void AddDownloadQueue(Uri uri, Geoposition position, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
         {
             var req = new DownloadRequest { Uri = uri, GeoPosition = position, Completed = OnCompleted, Error = OnError };
             Debug.WriteLine("Enqueue " + uri.AbsoluteUri);
             DownloadQueue.Enqueue(req);
-
+            if (QueueStatusUpdated != null)
+            {
+                QueueStatusUpdated(DownloadQueue.Count);
+            }
             ProcessQueueSequentially();
         }
 
@@ -36,6 +40,10 @@ namespace Kazyx.WPPMM.CameraManager
                     {
                         Debug.WriteLine("Dequeue - remaining " + DownloadQueue.Count);
                         await DownloadImage(DownloadQueue.Dequeue());
+                        if (QueueStatusUpdated != null)
+                        {
+                            QueueStatusUpdated(DownloadQueue.Count);
+                        }
                     }
                     Debug.WriteLine("Queue end. Kill task");
                     task = null;

@@ -26,9 +26,8 @@ namespace Kazyx.WPPMM.DataModel
                 switch (e.PropertyName)
                 {
                     case "IsTryingToConnectLiveview":
-                        OnPropertyChanged("ShootingProgressVisibility");
-                        break;
                     case "IsSearchingDevice":
+                    case "IsDownloadingImages":
                         OnPropertyChanged("ShootingProgressVisibility");
                         break;
                     case "IsTakingPicture":
@@ -201,7 +200,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return (appStatus.IsTakingPicture || appStatus.IsTryingToConnectLiveview || appStatus.IsSearchingDevice)
+                return (appStatus.IsTakingPicture || appStatus.IsTryingToConnectLiveview || appStatus.IsSearchingDevice || appStatus.IsDownloadingImages)
                     ? Visibility.Visible : Visibility.Collapsed;
             }
         }

@@ -39,6 +39,7 @@ namespace Kazyx.WPPMM.DataModel
             IsSearchingDevice = false;
             IsTakingPicture = false;
             IsIntervalShootingActivated = false;
+            IsDownloadingImages = false;
         }
 
         private bool _IsTryingToConnectLieview = false;
@@ -112,6 +113,20 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return _IsIntervalShootingActivated;
             }
+        }
+
+        private bool _IsDownloadingImages = false;
+        public bool IsDownloadingImages
+        {
+            set
+            {
+                if (_IsDownloadingImages != value)
+                {
+                    _IsDownloadingImages = value;
+                    OnPropertyChanged("IsDownloadingImages");
+                }
+            }
+            get { return _IsDownloadingImages; }
         }
     }
 }

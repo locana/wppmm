@@ -479,4 +479,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ErrorMessage_LocationAccessUnauthorized" xml:space="preserve">
     <value>有効にするには、システム設定の位置情報サービスをオンにしてください。</value>
   </data>
+  <data name="SettingSection_Display" xml:space="preserve">
+    <value>表示設定</value>
+  </data>
+  <data name="SettingSection_Image" xml:space="preserve">
+    <value>画像設定</value>
+  </data>
 </root>

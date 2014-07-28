@@ -288,7 +288,7 @@
     <value>Application settings</value>
   </data>
   <data name="DisplayTakeImageButtonSetting" xml:space="preserve">
-    <value>Show shutter button on the screen.</value>
+    <value>Display shutter button</value>
   </data>
   <data name="Guide_DisplayTakeImageButtonSetting" xml:space="preserve">
     <value>You can invoke remote shutter with your phone's hardware shutter key.</value>
@@ -379,7 +379,7 @@ Please check internet connection status</value>
     <value>Movie quality</value>
   </data>
   <data name="DisplayHistogram" xml:space="preserve">
-    <value>Show histogram</value>
+    <value>Display histogram</value>
   </data>
   <data name="StillImageSize" xml:space="preserve">
     <value>Picture resolution</value>
@@ -479,7 +479,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Please turn on location service at system settings for geotagging feature.</value>
   </data>
   <data name="SettingSection_Display" xml:space="preserve">
-    <value>Display settings</value>
+    <value>Screen settings</value>
   </data>
   <data name="SettingSection_Image" xml:space="preserve">
     <value>Photo settings</value>

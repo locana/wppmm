@@ -113,8 +113,8 @@
     <Compile Include="Controls\SettingDial.xaml.cs">
       <DependentUpon>SettingDial.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SettingSectionTitle.xaml.cs">
-      <DependentUpon>SettingSectionTitle.xaml</DependentUpon>
+    <Compile Include="Controls\SettingSection.xaml.cs">
+      <DependentUpon>SettingSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\VisualSelector.xaml.cs">
       <DependentUpon>VisualSelector.xaml</DependentUpon>
@@ -176,7 +176,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SettingSectionTitle.xaml">
+    <Page Include="Controls\SettingSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -242,7 +242,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show histogram.
+        ///   Looks up a localized string similar to Display histogram.
         /// </summary>
         public static string DisplayHistogram {
             get {
@@ -251,7 +251,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show shutter button on the screen..
+        ///   Looks up a localized string similar to Display shutter button.
         /// </summary>
         public static string DisplayTakeImageButtonSetting {
             get {
@@ -882,7 +882,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display settings.
+        ///   Looks up a localized string similar to Screen settings.
         /// </summary>
         public static string SettingSection_Display {
             get {

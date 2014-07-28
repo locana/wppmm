@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using Kazyx.WPPMM.DataModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 
 namespace Kazyx.WPMMM.Controls
 {
-    public partial class SettingSectionTitle : UserControl
+    public partial class SettingSection : UserControl
     {
         String Title
         {
@@ -24,10 +19,15 @@ namespace Kazyx.WPMMM.Controls
             }
         }
 
-        public SettingSectionTitle(String SectionTitle)
+        public SettingSection(String SectionTitle)
         {
             InitializeComponent();
             TitleTextBlock.Text = SectionTitle;
+        }
+
+        public void Add(UIElement child)
+        {
+            SettingItems.Children.Add(child);
         }
     }
 }

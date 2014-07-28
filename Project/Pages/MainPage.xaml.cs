@@ -990,8 +990,11 @@ namespace Kazyx.WPPMM.Pages
 
         private void InitAppSettingPanel()
         {
-            AppSettings.Children.Add(new SettingSectionTitle(AppResources.SettingSection_Image));
-            AppSettings.Children.Add(new CheckBoxSetting(
+            var image_settings = new SettingSection(AppResources.SettingSection_Image);
+
+            AppSettings.Children.Add(image_settings);
+
+            image_settings.Add(new CheckBoxSetting(
                 new AppSettingData(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage,
                 () => { return ApplicationSettings.GetInstance().IsPostviewTransferEnabled; },
                 enabled => { ApplicationSettings.GetInstance().IsPostviewTransferEnabled = enabled; })));
@@ -999,18 +1002,22 @@ namespace Kazyx.WPPMM.Pages
             geoSetting = new AppSettingData(AppResources.AddGeotag, AppResources.AddGeotag_guide,
                 () => { return ApplicationSettings.GetInstance().GeotagEnabled; },
                 enabled => { ApplicationSettings.GetInstance().GeotagEnabled = enabled; GeopositionManager.GetInstance().Enable = enabled; });
-            AppSettings.Children.Add(new CheckBoxSetting(geoSetting));
+            image_settings.Add(new CheckBoxSetting(geoSetting));
 
-            AppSettings.Children.Add(new SettingSectionTitle(AppResources.SettingSection_Display));
-            AppSettings.Children.Add(new CheckBoxSetting(
+            var display_settings = new SettingSection(AppResources.SettingSection_Display);
+
+            AppSettings.Children.Add(display_settings);
+
+            display_settings.Add(new CheckBoxSetting(
                 new AppSettingData(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting,
                 () => { return ApplicationSettings.GetInstance().IsShootButtonDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsShootButtonDisplayed = enabled; })));
-            AppSettings.Children.Add(new CheckBoxSetting(
+
+            display_settings.Add(new CheckBoxSetting(
                 new AppSettingData(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
                 () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
-            
+
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }
 

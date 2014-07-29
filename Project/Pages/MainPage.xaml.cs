@@ -11,7 +11,6 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Reactive;
 using Microsoft.Phone.Tasks;
-using Microsoft.Xna.Framework.Media;
 using NtNfcLib;
 using System;
 using System.Collections.Generic;
@@ -102,7 +101,7 @@ namespace Kazyx.WPPMM.Pages
             cpm = new ControlPanelManager(ControlPanel);
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             Debug.WriteLine(e.Uri);
@@ -118,6 +117,7 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
             cameraManager.UpdateEvent += WifiUpdateListener;
+            cameraManager.Downloader.QueueStatusUpdated += OnFetchingImages;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -166,6 +166,7 @@ namespace Kazyx.WPPMM.Pages
         {
             cameraManager.OnDisconnected -= cameraManager_OnDisconnected;
             cameraManager.UpdateEvent -= WifiUpdateListener;
+            cameraManager.Downloader.QueueStatusUpdated -= OnFetchingImages;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -183,6 +184,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void StartConnectionSequence(bool connect)
         {
+            progress.Text = AppResources.ProgressMessageConnecting;
             progress.IsVisible = connect;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
@@ -366,11 +368,6 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private void OnPictureSaved(Picture pic)
-        {
-            ApplicationBar = abm.Enable(IconMenu.CameraRoll).CreateNew(0.0);
-        }
-
         private int PreviousSelectedPivotIndex = -1;
 
         private void MyPivot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -424,7 +421,6 @@ namespace Kazyx.WPPMM.Pages
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
 
-            cameraManager.PictureNotifier = OnPictureSaved;
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
             if (svd != null)
             {
@@ -432,8 +428,11 @@ namespace Kazyx.WPPMM.Pages
             }
             if (cameraManager.IsClientReady())
             {
-                cameraManager.OperateInitialProcess();
+                progress.Text = AppResources.ProgressMessageConnecting;
+                progress.IsVisible = true;
+                await cameraManager.OperateInitialProcess();
                 cameraManager.RunEventObserver();
+                Dispatcher.BeginInvoke(() => { progress.IsVisible = false; });
             }
             else if (FilterBySsid && !GetSSIDName().StartsWith(AP_NAME_PREFIX))
             {
@@ -444,20 +443,28 @@ namespace Kazyx.WPPMM.Pages
             {
                 Debug.WriteLine("Await for async device discovery");
                 AppStatus.GetInstance().IsSearchingDevice = true;
-                progress.IsVisible = true;
+                Dispatcher.BeginInvoke(() =>
+                {
+                    progress.Text = AppResources.ProgressMessageConnecting;
+                    progress.IsVisible = true;
+                });
                 var found = await PrepareConnectionAsync();
-                progress.IsVisible = false;
                 Dispatcher.BeginInvoke(() => { AppStatus.GetInstance().IsSearchingDevice = false; });
 
                 Debug.WriteLine("Async device discovery result: " + found);
                 if (found)
                 {
-                    cameraManager.OperateInitialProcess();
+                    await cameraManager.OperateInitialProcess();
                     cameraManager.RunEventObserver();
+                    Dispatcher.BeginInvoke(() => { progress.IsVisible = false; });
                 }
                 else
                 {
-                    Dispatcher.BeginInvoke(() => { GoToMainPage(); });
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        progress.IsVisible = false;
+                        GoToMainPage();
+                    });
                     return;
                 }
             }
@@ -467,7 +474,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 abm.Enable(IconMenu.ControlPanel);
             }
-            abm.Enable(IconMenu.ApplicationSetting);
+            abm.Enable(IconMenu.ApplicationSetting).Enable(IconMenu.CameraRoll);
 
             Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
 
@@ -480,6 +487,22 @@ namespace Kazyx.WPPMM.Pages
             {
                 await GeopositionManager.GetInstance().AcquireGeoPosition();
             }
+        }
+
+        private void OnFetchingImages(int count)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (count != 0)
+                {
+                    progress.Text = AppResources.ProgressMessageFetching;
+                    progress.IsVisible = true;
+                }
+                else
+                {
+                    progress.IsVisible = false;
+                }
+            });
         }
 
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)
@@ -647,8 +670,6 @@ namespace Kazyx.WPPMM.Pages
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed -= CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased -= CameraButtons_ShutterKeyReleased;
-
-            cameraManager.PictureNotifier = null;
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
 
@@ -1045,7 +1066,7 @@ namespace Kazyx.WPPMM.Pages
         private void CloseAppSettingPanel()
         {
             HideSettingAnimation.Begin();
-            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).CreateNew(APPBAR_OPACITY);
+            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.CameraRoll).CreateNew(APPBAR_OPACITY);
         }
 
         void HideSettingAnimation_Completed(object sender, EventArgs e)

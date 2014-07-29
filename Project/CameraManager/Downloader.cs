@@ -10,7 +10,7 @@ using Windows.Devices.Geolocation;
 
 namespace Kazyx.WPPMM.CameraManager
 {
-    class Downloader
+    public class Downloader
     {
         private Task task;
 

@@ -5,7 +5,6 @@ using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Reactive;
-using Microsoft.Xna.Framework.Media;
 using NtImageProcessor;
 using System;
 using System.Collections.Generic;
@@ -39,7 +38,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private readonly LvStreamProcessor lvProcessor = new LvStreamProcessor();
 
-        private readonly Downloader downloader = new Downloader();
+        public readonly Downloader Downloader = new Downloader();
 
         private readonly CameraStatus _cameraStatus = new CameraStatus();
         public CameraStatus cameraStatus { get { return _cameraStatus; } }
@@ -146,7 +145,7 @@ namespace Kazyx.WPPMM.CameraManager
                     break;
                 case "PictureUrls":
                     if (_cameraStatus.PictureUrls.Length > 0)
-                    {                        
+                    {
                         OnResultActTakePicture(_cameraStatus.PictureUrls);
                     }
                     break;
@@ -256,9 +255,9 @@ namespace Kazyx.WPPMM.CameraManager
             histogramCreator = new HistogramCreator(HistogramCreator.HistogramResolution.Resolution_128);
             histogramCreator.OnHistogramCreated += histogramCreator_OnHistogramCreated;
 
-            if (downloader.QueueStatusUpdated == null)
+            if (Downloader.QueueStatusUpdated == null)
             {
-                downloader.QueueStatusUpdated += DownloadQueueStatusUpdated;
+                Downloader.QueueStatusUpdated += DownloadQueueStatusUpdated;
             }
         }
 
@@ -278,7 +277,6 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-
         void histogramCreator_OnHistogramCreated(int[] arg1, int[] arg2, int[] arg3)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -295,7 +293,7 @@ namespace Kazyx.WPPMM.CameraManager
             return cameraManager;
         }
 
-        public async void OperateInitialProcess()
+        public async Task OperateInitialProcess()
         {
             if (_CameraApi == null)
                 return;
@@ -547,7 +545,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public async void OnResultActTakePicture(String[] res)
+        public void OnResultActTakePicture(String[] res)
         {
             AppStatus.GetInstance().IsTakingPicture = false;
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled || IntervalManager.IsRunning)
@@ -555,7 +553,7 @@ namespace Kazyx.WPPMM.CameraManager
                 if (ShowToast != null)
                 {
                     ShowToast(AppResources.Message_ImageCapture_Succeed);
-                }                
+                }
                 NoticeUpdate();
                 return;
             }
@@ -575,7 +573,7 @@ namespace Kazyx.WPPMM.CameraManager
 
                 foreach (String s in res)
                 {
-                    downloader.AddDownloadQueue(
+                    Downloader.AddDownloadQueue(
                         new Uri(s),
                         pos,
                         (p) =>
@@ -598,10 +596,6 @@ namespace Kazyx.WPPMM.CameraManager
                             }
                             // AppStatus.GetInstance().IsTakingPicture = false;
                             NoticeUpdate();
-                            if (PictureNotifier != null)
-                            {
-                                PictureNotifier.Invoke(p);
-                            }
                         },
                         (e) =>
                         {
@@ -900,8 +894,6 @@ namespace Kazyx.WPPMM.CameraManager
                 }
             });
         }
-
-        public Action<Picture> PictureNotifier;
 
         public Action MethodTypesUpdateNotifer;
 

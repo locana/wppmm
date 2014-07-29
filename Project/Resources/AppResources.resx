@@ -484,4 +484,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="SettingSection_Image" xml:space="preserve">
     <value>Photo settings</value>
   </data>
+  <data name="ProgressMessageConnecting" xml:space="preserve">
+    <value>Preparing connection...</value>
+  </data>
+  <data name="ProgressMessageFetching" xml:space="preserve">
+    <value>Fetching images...</value>
+  </data>
 </root>

@@ -819,6 +819,24 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preparing connection....
+        /// </summary>
+        public static string ProgressMessageConnecting {
+            get {
+                return ResourceManager.GetString("ProgressMessageConnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fetching images....
+        /// </summary>
+        public static string ProgressMessageFetching {
+            get {
+                return ResourceManager.GetString("ProgressMessageFetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/kazyx/WPPMM.
         /// </summary>
         public static string RepoURL {

@@ -1,3 +1,4 @@
+using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
@@ -43,6 +44,67 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
             LoadThumbnails(CameraRoll);
+
+            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
+            cm.Downloader.QueueStatusUpdated += OnFetchingImages;
+            cm.PictureFetched += OnPictureFetched;
+
+            TryRunEventObserver();
+        }
+
+        private async void TryRunEventObserver()
+        {
+            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
+            if (cm.IsClientReady())
+            {
+                return;
+            }
+            cm.RequestSearchDevices(() =>
+            {
+                Debug.WriteLine("Device discovered");
+                cm.RunEventObserver();
+            }, null);
+
+            await Task.Delay(5000);
+            TryRunEventObserver();
+        }
+
+        private void OnPictureFetched(Picture picture)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                var groups = ImageGrid.DataContext as ThumbnailGroup;
+                if (groups == null)
+                {
+                    return;
+                }
+                groups.Group.Insert(0, new ThumbnailData(picture));
+            });
+        }
+
+        private void OnFetchingImages(int count)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (count != 0)
+                {
+                    progress.Text = AppResources.ProgressMessageFetching;
+                    progress.IsVisible = true;
+                }
+                else
+                {
+                    progress.IsVisible = false;
+                }
+            });
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
+            cm.PictureFetched -= OnPictureFetched;
+            cm.Downloader.QueueStatusUpdated -= OnFetchingImages;
+            cm.StopEventObserver();
+            base.OnNavigatedFrom(e);
         }
 
         private void ReleaseDetail()

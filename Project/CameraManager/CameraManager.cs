@@ -5,6 +5,7 @@ using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Reactive;
+using Microsoft.Xna.Framework.Media;
 using NtImageProcessor;
 using System;
 using System.Collections.Generic;
@@ -545,6 +546,15 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
+        public Action<Picture> PictureFetched;
+        protected void OnPictureFetched(Picture picture)
+        {
+            if (PictureFetched != null)
+            {
+                PictureFetched.Invoke(picture);
+            }
+        }
+
         public void OnResultActTakePicture(String[] res)
         {
             AppStatus.GetInstance().IsTakingPicture = false;
@@ -596,6 +606,7 @@ namespace Kazyx.WPPMM.CameraManager
                             }
                             // AppStatus.GetInstance().IsTakingPicture = false;
                             NoticeUpdate();
+                            OnPictureFetched(p);
                         },
                         (e) =>
                         {

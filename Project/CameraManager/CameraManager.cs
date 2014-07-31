@@ -922,6 +922,7 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
 
+            // set values for SR devices.
             _cameraStatus.AfType = CameraStatus.AutoFocusType.Touch;
             _cameraStatus.FocusStatus = FocusState.InProgress;
             _cameraStatus.TouchFocusStatus.Focused = false;
@@ -933,11 +934,13 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     if (result.Focused)
                     {
+                        // touch AF succeed
                         _cameraStatus.TouchFocusStatus.Focused = true;
                         _cameraStatus.FocusStatus = FocusState.Focused;
                     }
                     else
                     {
+                        // failed.
                         _cameraStatus.FocusStatus = FocusState.Failed;
                         Scheduler.Dispatcher.Schedule(() =>
                         {

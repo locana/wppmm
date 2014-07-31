@@ -38,7 +38,7 @@ namespace Kazyx.WPMMM.Controls
             ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 6;
             HorizontalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
             MaxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
-            Debug.WriteLine("Freq: " + MaxFrequency + " maxLevel: " + MaxHistogramLevel);
+            // Debug.WriteLine("Freq: " + MaxFrequency + " maxLevel: " + MaxHistogramLevel);
         }
 
         private void InitColorBar(ColorType type)
@@ -132,13 +132,7 @@ namespace Kazyx.WPMMM.Controls
                 pointsR.Add(new Point(x, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesR[index])));
                 pointsG.Add(new Point(x, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesG[index])));
                 pointsB.Add(new Point(x, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesB[index])));
-                // Debug.WriteLine("width: " + BarsGrid.ActualWidth + " x: " + x + " res: " + HorizontalResolution + " i " + i + " len: " + valuesB.Length + " :index: " + index);
             }
-
-            // to reach lines to right end
-            // pointsR.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesR[valuesR.Length - 1])));
-            // pointsG.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesG[valuesG.Length - 1])));
-            // pointsB.Add(new Point(BarsGrid.ActualWidth, BarsGrid.ActualHeight - Math.Min(MaxHistogramLevel, ScaleFactor * valuesB[valuesB.Length - 1])));
 
             HistogramPolylineR.Points = pointsR;
             HistogramPolylineG.Points = pointsG;

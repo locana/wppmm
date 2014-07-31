@@ -560,9 +560,10 @@ namespace Kazyx.WPPMM.Pages
             }
 
             if (status.AfType == CameraStatus.AutoFocusType.Touch &&
-                ((status.TouchFocusStatus == null && status.FocusStatus != FocusState.Released) || // QX10/100 may not returns TouchFocusStatus record
+                ((status.TouchFocusStatus == null && status.FocusStatus != FocusState.Released) || // QX10/100 may not return TouchFocusStatus record
                 (status.TouchFocusStatus != null && status.TouchFocusStatus.Focused))) // SmartRemote gives TouchFocusStatus
             {
+                // focus locked.
                 if (!abm.IsEnabled(IconMenu.TouchAfCancel))
                 {
                     if (cpm != null && !cpm.IsShowing())
@@ -577,6 +578,7 @@ namespace Kazyx.WPPMM.Pages
             }
             else
             {
+                // touch AF cancelled.
                 if (abm.IsEnabled(IconMenu.TouchAfCancel))
                 {
                     if (cpm != null && !cpm.IsShowing())

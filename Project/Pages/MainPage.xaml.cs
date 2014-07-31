@@ -554,9 +554,14 @@ namespace Kazyx.WPPMM.Pages
 
         void cameraManager_OnAfStatusChanged(CameraStatus status)
         {
+            if (status.FocusStatus == null)
+            {
+                return;
+            }
+
             if (status.AfType == CameraStatus.AutoFocusType.Touch &&
-                ((status.TouchFocusStatus == null && status.FocusStatus != FocusState.Released) ||
-                (status.TouchFocusStatus != null && status.TouchFocusStatus.Focused)))
+                ((status.TouchFocusStatus == null && status.FocusStatus != FocusState.Released) || // QX10/100 may not returns TouchFocusStatus record
+                (status.TouchFocusStatus != null && status.TouchFocusStatus.Focused))) // SmartRemote gives TouchFocusStatus
             {
                 if (!abm.IsEnabled(IconMenu.TouchAfCancel))
                 {

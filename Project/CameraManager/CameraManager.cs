@@ -132,6 +132,13 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 case "FocusStatus":
                 case "TouchFocusStatus":
+                    if (_cameraStatus.FocusStatus == FocusState.Focused &&
+                        _cameraStatus.TouchFocusStatus != null &&
+                        !_cameraStatus.TouchFocusStatus.Focused)
+                    {
+                        Debug.WriteLine("Touch AF is cancelled.");
+                        _cameraStatus.FocusStatus = FocusState.Released;
+                    }
                     if (OnAfStatusChanged != null)
                     {
                         OnAfStatusChanged(_cameraStatus);
@@ -922,13 +929,21 @@ namespace Kazyx.WPPMM.CameraManager
             try
             {
                 var result = await _CameraApi.SetAFPositionAsync(x, y);
-                if (!result.Focused && _cameraStatus != null)
+                if (_cameraStatus != null)
                 {
-                    _cameraStatus.FocusStatus = FocusState.Failed;
-                    Scheduler.Dispatcher.Schedule(() =>
+                    if (result.Focused)
                     {
-                        ReleaseFocusStatus();
-                    }, TimeSpan.FromSeconds(1));
+                        _cameraStatus.TouchFocusStatus.Focused = true;
+                        _cameraStatus.FocusStatus = FocusState.Focused;
+                    }
+                    else
+                    {
+                        _cameraStatus.FocusStatus = FocusState.Failed;
+                        Scheduler.Dispatcher.Schedule(() =>
+                        {
+                            ReleaseFocusStatus();
+                        }, TimeSpan.FromSeconds(1));
+                    }
                 }
             }
             catch (RemoteApiException e)

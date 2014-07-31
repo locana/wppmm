@@ -367,12 +367,10 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FocusStatus == null || cameraStatus.AfType != CameraStatus.AutoFocusType.Touch)
+                if (cameraStatus == null || cameraStatus.FocusStatus == null || cameraStatus.AfType != CameraStatus.AutoFocusType.Touch )
                 {
                     return Visibility.Collapsed;
                 }
-
-                Debug.WriteLine("V focusStatus: " + cameraStatus.FocusStatus);
 
                 if (cameraStatus.IsAvailable("setTouchAFPosition"))
                 {
@@ -407,17 +405,6 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return Running;
                 }
-
-                // Debug.WriteLine("State: " + cameraStatus.FocusStatus + " TouchFocusStatus: " + cameraStatus.TouchFocusStatus.Focused);
-
-                if (cameraStatus.TouchFocusStatus != null)
-                {
-                    // In case of Touch AF is supported (SR 3.0 or later)
-                    if (cameraStatus.TouchFocusStatus.Focused)
-                    {
-                        return Focused;
-                    }
-                }              
                 
                 switch (cameraStatus.FocusStatus)
                 {

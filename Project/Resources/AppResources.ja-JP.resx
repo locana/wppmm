@@ -401,7 +401,7 @@
     <value>色温度調整</value>
   </data>
   <data name="WB_DayLight" xml:space="preserve">
-    <value>日光</value>
+    <value>太陽光</value>
   </data>
   <data name="WB_Fluorescent_CoolWhite" xml:space="preserve">
     <value>蛍光灯: 白色</value>

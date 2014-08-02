@@ -932,7 +932,13 @@ namespace Kazyx.WPPMM.Pages
             {
                 _proximitiyDevice = ProximityDevice.GetDefault();
             }
-            catch (System.IO.FileNotFoundException e)
+            catch (System.IO.FileNotFoundException)
+            {
+                _proximitiyDevice = null;
+                Debug.WriteLine("Caught ununderstandable exception. ");
+                return;
+            }
+            catch (System.Runtime.InteropServices.COMException)
             {
                 _proximitiyDevice = null;
                 Debug.WriteLine("Caught ununderstandable exception. ");

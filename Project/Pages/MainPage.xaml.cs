@@ -815,6 +815,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void PhoneApplicationPage_Unloaded(object sender, RoutedEventArgs e)
         {
+            /*
             ShootingPivot.DataContext = null;
             IntervalStatusPanel.DataContext = null;
             ScreenImageWrapper.DataContext = null;
@@ -825,6 +826,7 @@ namespace Kazyx.WPPMM.Pages
             Histogram.DataContext = null;
             GeopositionStatusImage.DataContext = null;
             svd = null;
+             * */
         }
 
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)

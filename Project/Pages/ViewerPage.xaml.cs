@@ -24,7 +24,7 @@ namespace Kazyx.WPPMM.Pages
 
         private bool IsViewingDetail = false;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             SetVisibility(false);
@@ -49,11 +49,25 @@ namespace Kazyx.WPPMM.Pages
             cm.Downloader.QueueStatusUpdated += OnFetchingImages;
             cm.PictureFetched += OnPictureFetched;
 
+            cm.StopEventObserver();
+            cm.Refresh();
+            await Task.Delay(1000);
             TryRunEventObserver();
         }
 
-        private async void TryRunEventObserver()
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
+            cm.Downloader.QueueStatusUpdated -= OnFetchingImages;
+            cm.PictureFetched -= OnPictureFetched;
+            cm.StopEventObserver();
+            cm.Refresh();
+            base.OnNavigatedFrom(e);
+        }
+
+        private void TryRunEventObserver()
+        {
+            Debug.WriteLine("TryRunEventObserver");
             CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
             if (cm.IsClientReady())
             {
@@ -63,10 +77,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 Debug.WriteLine("Device discovered");
                 cm.RunEventObserver();
-            }, null);
-
-            await Task.Delay(5000);
-            TryRunEventObserver();
+            }, () => { TryRunEventObserver(); });
         }
 
         private void OnPictureFetched(Picture picture)
@@ -96,15 +107,6 @@ namespace Kazyx.WPPMM.Pages
                     progress.IsVisible = false;
                 }
             });
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
-            cm.PictureFetched -= OnPictureFetched;
-            cm.Downloader.QueueStatusUpdated -= OnFetchingImages;
-            cm.StopEventObserver();
-            base.OnNavigatedFrom(e);
         }
 
         private void ReleaseDetail()

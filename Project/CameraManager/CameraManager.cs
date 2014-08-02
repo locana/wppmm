@@ -135,6 +135,7 @@ namespace Kazyx.WPPMM.CameraManager
             PictureSyncManager.Instance.Fetched += OnPictureFetched;
             PictureSyncManager.Instance.Failed += OnFetchFailed;
             PictureSyncManager.Instance.Message += OnShowToast;
+            PictureSyncManager.Instance.Downloader.QueueStatusUpdated += DownloadQueueStatusUpdated;
         }
 
         void cameraStatus_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

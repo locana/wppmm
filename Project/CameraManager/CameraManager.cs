@@ -100,7 +100,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     CloseLiveviewConnection();
                 }
-                else if (!lvProcessor.IsProcessing)
+                else if (!lvProcessor.IsProcessing && AppStatus.GetInstance().IsInShootingDisplay)
                 {
                     OpenLiveviewConnection();
                 }
@@ -109,7 +109,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 Debug.WriteLine("Current shoot mode updated: " + mode);
 
-                if (!lvProcessor.IsProcessing && cameraStatus.IsAvailable("startLiveview"))
+                if (!lvProcessor.IsProcessing && cameraStatus.IsAvailable("startLiveview") && AppStatus.GetInstance().IsInShootingDisplay)
                 {
                     OpenLiveviewConnection();
                 }

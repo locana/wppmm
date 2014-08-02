@@ -22,7 +22,7 @@
                 <Polyline x:Name="HistogramPolylineG" Stroke="#FF13FF33" StrokeThickness="1" />
                 <Polyline x:Name="HistogramPolylineB" Stroke="#FF2070FF" StrokeThickness="1" />
             </Grid>            
-            <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="Red"/>
+            <Rectangle Name="ColorBar" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Fill="#FFA0A0A0"/>
         </Grid>
     </Grid>
 </UserControl>

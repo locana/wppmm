@@ -133,6 +133,8 @@ namespace Kazyx.WPPMM.CameraManager
                 case "FocusStatus":
                 case "TouchFocusStatus":
                     if (_cameraStatus.FocusStatus == FocusState.Focused &&
+                        _cameraStatus.AfType != null &&
+                        _cameraStatus.AfType == CameraStatus.AutoFocusType.Touch &&
                         _cameraStatus.TouchFocusStatus != null &&
                         !_cameraStatus.TouchFocusStatus.Focused)
                     {

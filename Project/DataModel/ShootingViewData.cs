@@ -429,6 +429,7 @@ namespace Kazyx.WPPMM.DataModel
                     return Visibility.Collapsed;
                 }
 
+                Debug.WriteLine("type: " + cameraStatus.AfType + " status: " + cameraStatus.FocusStatus);
                 if (cameraStatus.AfType == CameraStatus.AutoFocusType.HalfPress && cameraStatus.FocusStatus == FocusState.Focused)
                 {
                     return Visibility.Visible;

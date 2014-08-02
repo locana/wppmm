@@ -490,4 +490,19 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ProgressMessageFetching" xml:space="preserve">
     <value>Fetching images...</value>
   </data>
+  <data name="WB_Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="WB_Custom1" xml:space="preserve">
+    <value>Custom 1</value>
+  </data>
+  <data name="WB_Custom2" xml:space="preserve">
+    <value>Custom 2</value>
+  </data>
+  <data name="WB_Custom3" xml:space="preserve">
+    <value>Custom 3</value>
+  </data>
+  <data name="WB_Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
 </root>

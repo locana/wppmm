@@ -368,6 +368,16 @@ namespace Kazyx.WPPMM.Utils
                     return AppResources.WB_DayLight;
                 case WhiteBalanceMode.Manual:
                     return AppResources.WB_ColorTemperture;
+                case WhiteBalanceMode.Flash:
+                    return AppResources.WB_Flash;
+                case WhiteBalanceMode.Custom:
+                    return AppResources.WB_Custom;
+                case WhiteBalanceMode.Custom_1:
+                    return AppResources.WB_Custom1;
+                case WhiteBalanceMode.Custom_2:
+                    return AppResources.WB_Custom2;
+                case WhiteBalanceMode.Custom_3:
+                    return AppResources.WB_Custom3;
             }
             return val;
         }

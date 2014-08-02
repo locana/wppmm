@@ -1,4 +1,8 @@
+using Kazyx.DeviceDiscovery;
+using Kazyx.RemoteApi;
+using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Resources;
+using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
@@ -12,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using Windows.Devices.Geolocation;
 
 namespace Kazyx.WPPMM.Pages
 {
@@ -24,7 +29,13 @@ namespace Kazyx.WPPMM.Pages
 
         private bool IsViewingDetail = false;
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private EventObserver observer;
+
+        private CameraStatus status = new CameraStatus();
+
+        private SoDiscovery discovery = new SoDiscovery();
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             SetVisibility(false);
@@ -45,46 +56,32 @@ namespace Kazyx.WPPMM.Pages
             }
             LoadThumbnails(CameraRoll);
 
-            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
-            cm.Downloader.QueueStatusUpdated += OnFetchingImages;
-            cm.PictureFetched += OnPictureFetched;
+            status.PropertyChanged += status_PropertyChanged;
 
-            cm.StopEventObserver();
-            cm.Refresh();
-            await Task.Delay(1000);
-            TryRunEventObserver();
+            PictureSyncManager.Instance.Failed += OnDLError;
+            PictureSyncManager.Instance.Fetched += OnFetched;
+            PictureSyncManager.Instance.Downloader.QueueStatusUpdated += OnFetchingImages;
+
+            observer = null;
+
+            discovery.ScalarDeviceDiscovered += discovery_ScalarDeviceDiscovered;
+            discovery.Finished += discovery_Finished;
+            discovery.SearchScalarDevices(TimeSpan.FromSeconds(10));
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        void discovery_Finished(object sender, EventArgs e)
         {
-            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
-            cm.Downloader.QueueStatusUpdated -= OnFetchingImages;
-            cm.PictureFetched -= OnPictureFetched;
-            if (e.NavigationMode != NavigationMode.Back)
+            Debug.WriteLine("ViewerPage: discovery Finished");
+            if (observer == null)
             {
-                cm.StopEventObserver();
-                cm.Refresh();
+                Debug.WriteLine("ViewerPage: Retrying discovery");
+                discovery.SearchScalarDevices(TimeSpan.FromSeconds(10));
             }
-            base.OnNavigatedFrom(e);
         }
 
-        private void TryRunEventObserver()
+        private void OnFetched(Picture pic, Geoposition pos)
         {
-            Debug.WriteLine("TryRunEventObserver");
-            CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
-            if (cm.IsClientReady())
-            {
-                return;
-            }
-            cm.RequestSearchDevices(() =>
-            {
-                Debug.WriteLine("Device discovered");
-                cm.RunEventObserver();
-            }, () => { TryRunEventObserver(); });
-        }
-
-        private void OnPictureFetched(Picture picture)
-        {
+            Debug.WriteLine("ViewerPage: OnFetched");
             Dispatcher.BeginInvoke(() =>
             {
                 var groups = ImageGrid.DataContext as ThumbnailGroup;
@@ -92,8 +89,114 @@ namespace Kazyx.WPPMM.Pages
                 {
                     return;
                 }
-                groups.Group.Insert(0, new ThumbnailData(picture));
+                groups.Group.Insert(0, new ThumbnailData(pic));
             });
+        }
+
+        private void OnDLError(ImageDLError error)
+        {
+            Debug.WriteLine("ViewerPage: OnDLError");
+        }
+
+        void status_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("ViewerPage: status_PropertyChanged");
+            switch (e.PropertyName)
+            {
+                case "PictureUrls":
+                    OnPictureUrlsUpdated(status.PictureUrls);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnPictureUrlsUpdated(string[] urls)
+        {
+            Debug.WriteLine("ViewerPage: OnPictureUrlsUpdated");
+            if (urls == null)
+            {
+                return;
+            }
+            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
+            {
+                Debug.WriteLine("Postview transfer is disabled");
+                return;
+            }
+            foreach (var url in urls)
+            {
+                try
+                {
+                    var uri = new Uri(url);
+                    PictureSyncManager.Instance.Enque(uri);
+                }
+                catch (UriFormatException)
+                {
+                    Debug.WriteLine("UriFormatException: " + url);
+                }
+            }
+        }
+
+        async void discovery_ScalarDeviceDiscovered(object sender, ScalarDeviceEventArgs e)
+        {
+            Debug.WriteLine("ViewerPage: ScalarDeviceDiscovered");
+            if (observer != null)
+            {
+                Debug.WriteLine("Already discovered. Ignore this notification");
+                return;
+            }
+
+            if (e.ScalarDevice.Endpoints.ContainsKey("camera"))
+            {
+                var camera = new CameraApiClient(e.ScalarDevice.Endpoints["camera"]);
+                try
+                {
+                    var methods = await camera.GetMethodTypesAsync();
+
+                    var list = new Dictionary<string, List<string>>();
+                    foreach (MethodType t in methods)
+                    {
+                        if (list.ContainsKey(t.Name))
+                        {
+                            list[t.Name].Add(t.Version);
+                        }
+                        else
+                        {
+                            var versions = new List<string>();
+                            versions.Add(t.Version);
+                            list.Add(t.Name, versions);
+                        }
+                    }
+                    status.SupportedApis = list;
+
+                    observer = new EventObserver(camera);
+                    observer.Start(status, () => { }, status.IsSupported("getEvent", "1.1") ? ApiVersion.V1_1 : ApiVersion.V1_0);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("ViewerPage: Caught Excpetion while starting observer");
+                }
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            discovery.ScalarDeviceDiscovered -= discovery_ScalarDeviceDiscovered;
+            discovery.Finished -= discovery_Finished;
+
+            PictureSyncManager.Instance.Failed -= OnDLError;
+            PictureSyncManager.Instance.Fetched -= OnFetched;
+            PictureSyncManager.Instance.Downloader.QueueStatusUpdated -= OnFetchingImages;
+
+            status.PropertyChanged -= status_PropertyChanged;
+
+            if (observer != null)
+            {
+                observer.Stop();
+                observer = null;
+            }
+
+            base.OnNavigatedFrom(e);
         }
 
         private void OnFetchingImages(int count)

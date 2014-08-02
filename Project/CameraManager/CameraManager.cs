@@ -84,6 +84,14 @@ namespace Kazyx.WPPMM.CameraManager
             set;
         }
 
+        private void OnShowToast(string message)
+        {
+            if (ShowToast != null)
+            {
+                ShowToast(message);
+            }
+        }
+
         private bool IsRendering = false;
 
         internal readonly LocalIntervalShootingManager IntervalManager = new LocalIntervalShootingManager(AppStatus.GetInstance());
@@ -124,6 +132,9 @@ namespace Kazyx.WPPMM.CameraManager
             lvProcessor.Closed += OnLvClosed;
             deviceFinder.ScalarDeviceDiscovered += deviceFinder_Discovered;
             deviceFinder.Finished += deviceFinder_Finished;
+            PictureSyncManager.Instance.Fetched += OnPictureFetched;
+            PictureSyncManager.Instance.Failed += OnFetchFailed;
+            PictureSyncManager.Instance.Message += OnShowToast;
         }
 
         void cameraStatus_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -561,10 +572,82 @@ namespace Kazyx.WPPMM.CameraManager
         public Action<Picture> PictureFetched;
         protected void OnPictureFetched(Picture picture)
         {
+        }
+
+        private void OnPictureFetched(Picture p, Geoposition pos)
+        {
+            Debug.WriteLine("download succeed");
+
+            if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
+            {
+                OnShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
+            }
+            else if (ApplicationSettings.GetInstance().GeotagEnabled)
+            {
+                MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
+            }
+            else
+            {
+                OnShowToast(AppResources.Message_ImageDL_Succeed);
+            }
+            // AppStatus.GetInstance().IsTakingPicture = false;
+            NoticeUpdate();
+
             if (PictureFetched != null)
             {
-                PictureFetched.Invoke(picture);
+                PictureFetched.Invoke(p);
             }
+        }
+
+        private void OnFetchFailed(ImageDLError e)
+        {
+            String error = "";
+            bool isOriginal = false;
+            if (cameraStatus.PostviewSizeInfo != null
+                && cameraStatus.PostviewSizeInfo.Current == "Original")
+            {
+                isOriginal = true;
+            }
+
+            switch (e)
+            {
+                case ImageDLError.Network:
+                    error = AppResources.ErrorMessage_ImageDL_Network;
+                    break;
+                case ImageDLError.Saving:
+                case ImageDLError.DeviceInternal:
+                    if (isOriginal)
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
+                    }
+                    else
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_Saving;
+                    }
+                    break;
+                case ImageDLError.GeotagAlreadyExists:
+                    error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
+                    break;
+                case ImageDLError.GeotagAddition:
+                    error = AppResources.ErrorMessage_ImageDL_Geotagging;
+                    break;
+                case ImageDLError.Unknown:
+                case ImageDLError.Argument:
+                default:
+                    if (isOriginal)
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
+                    }
+                    else
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_Other;
+                    }
+                    break;
+            }
+            MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
+            Debug.WriteLine(error);
+            // AppStatus.GetInstance().IsTakingPicture = false;
+            NoticeUpdate();
         }
 
         public void OnResultActTakePicture(String[] res)
@@ -572,107 +655,15 @@ namespace Kazyx.WPPMM.CameraManager
             AppStatus.GetInstance().IsTakingPicture = false;
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled || IntervalManager.IsRunning)
             {
-                if (ShowToast != null)
-                {
-                    ShowToast(AppResources.Message_ImageCapture_Succeed);
-                }
+                OnShowToast(AppResources.Message_ImageCapture_Succeed);
                 NoticeUpdate();
                 return;
             }
 
-            Deployment.Current.Dispatcher.BeginInvoke(async () =>
+            foreach (var s in res)
             {
-                Geoposition pos = null;
-                if (ApplicationSettings.GetInstance().GeotagEnabled)
-                {
-                    if (GeopositionManager.GetInstance().LatestPosition == null)
-                    {
-                        // takes some more time
-                        ShowToast(AppResources.WaitingGeoposition);
-                    }
-                    pos = await GeopositionManager.GetInstance().AcquireGeoPosition();
-                }
-
-                foreach (String s in res)
-                {
-                    Downloader.AddDownloadQueue(
-                        new Uri(s),
-                        pos,
-                        (p) =>
-                        {
-                            Debug.WriteLine("download succeed");
-                            if (ShowToast != null)
-                            {
-                                if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
-                                {
-                                    ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
-                                }
-                                else if (ApplicationSettings.GetInstance().GeotagEnabled)
-                                {
-                                    MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
-                                }
-                                else
-                                {
-                                    ShowToast(AppResources.Message_ImageDL_Succeed);
-                                }
-                            }
-                            // AppStatus.GetInstance().IsTakingPicture = false;
-                            NoticeUpdate();
-                            OnPictureFetched(p);
-                        },
-                        (e) =>
-                        {
-                            String error = "";
-                            bool isOriginal = false;
-                            if (cameraStatus.PostviewSizeInfo != null
-                                && cameraStatus.PostviewSizeInfo.Current == "Original")
-                            {
-                                isOriginal = true;
-                            }
-
-                            switch (e)
-                            {
-                                case ImageDLError.Network:
-                                    error = AppResources.ErrorMessage_ImageDL_Network;
-                                    break;
-                                case ImageDLError.Saving:
-                                case ImageDLError.DeviceInternal:
-                                    if (isOriginal)
-                                    {
-                                        error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
-                                    }
-                                    else
-                                    {
-                                        error = AppResources.ErrorMessage_ImageDL_Saving;
-                                    }
-                                    break;
-                                case ImageDLError.GeotagAlreadyExists:
-                                    error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
-                                    break;
-                                case ImageDLError.GeotagAddition:
-                                    error = AppResources.ErrorMessage_ImageDL_Geotagging;
-                                    break;
-                                case ImageDLError.Unknown:
-                                case ImageDLError.Argument:
-                                default:
-                                    if (isOriginal)
-                                    {
-                                        error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
-                                    }
-                                    else
-                                    {
-                                        error = AppResources.ErrorMessage_ImageDL_Other;
-                                    }
-                                    break;
-                            }
-                            MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
-                            Debug.WriteLine(error);
-                            // AppStatus.GetInstance().IsTakingPicture = false;
-                            NoticeUpdate();
-                        }
-                    );
-                }
-            });
+                PictureSyncManager.Instance.Enque(new Uri(s));
+            }
         }
 
         public async void OnActTakePictureError(StatusCode err)

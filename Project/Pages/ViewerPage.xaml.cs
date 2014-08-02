@@ -60,8 +60,11 @@ namespace Kazyx.WPPMM.Pages
             CameraManager.CameraManager cm = CameraManager.CameraManager.GetInstance();
             cm.Downloader.QueueStatusUpdated -= OnFetchingImages;
             cm.PictureFetched -= OnPictureFetched;
-            cm.StopEventObserver();
-            cm.Refresh();
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                cm.StopEventObserver();
+                cm.Refresh();
+            }
             base.OnNavigatedFrom(e);
         }
 

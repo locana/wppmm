@@ -426,6 +426,9 @@ namespace Kazyx.WPPMM.Pages
             {
                 svd.SlidersVisibilityChanged += SlidersVisibilityChanged;
             }
+
+            await Task.Delay(500);
+
             if (cameraManager.IsClientReady())
             {
                 progress.Text = AppResources.ProgressMessageConnecting;

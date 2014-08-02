@@ -100,6 +100,17 @@ namespace Kazyx.WPPMM.CameraManager
                     Deployment.Current.Dispatcher.BeginInvoke(() => req.Completed.Invoke(pic));
                 }
             }
+            catch (HttpStatusException e)
+            {
+                if (e.StatusCode == HttpStatusCode.Gone)
+                {
+                    Deployment.Current.Dispatcher.BeginInvoke(() => req.Error.Invoke(ImageDLError.Gone));
+                }
+                else
+                {
+                    Deployment.Current.Dispatcher.BeginInvoke(() => req.Error.Invoke(ImageDLError.Network));
+                }
+            }
             catch (WebException e)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() => req.Error.Invoke(ImageDLError.Network));
@@ -139,7 +150,7 @@ namespace Kazyx.WPPMM.CameraManager
                     else
                     {
                         Debug.WriteLine("Http Status Error: " + code);
-                        tcs.TrySetException(new WebException("Status Code is not OK."));
+                        tcs.TrySetException(new HttpStatusException(code));
                     }
                 }
                 catch (WebException e)
@@ -148,17 +159,27 @@ namespace Kazyx.WPPMM.CameraManager
                     if (result != null)
                     {
                         Debug.WriteLine("Http Status Error: " + result.StatusCode);
+                        tcs.TrySetException(new HttpStatusException(result.StatusCode));
                     }
                     else
                     {
                         Debug.WriteLine("WebException: " + e.Status);
+                        tcs.TrySetException(e);
                     }
-                    tcs.TrySetException(e);
                 };
             });
 
             request.BeginGetResponse(ResponseHandler, null);
             return tcs.Task;
+        }
+    }
+
+    class HttpStatusException : Exception
+    {
+        public readonly HttpStatusCode StatusCode;
+        public HttpStatusException(HttpStatusCode code)
+        {
+            this.StatusCode = code;
         }
     }
 
@@ -178,6 +199,7 @@ namespace Kazyx.WPPMM.CameraManager
         DeviceInternal,
         GeotagAlreadyExists,
         GeotagAddition,
+        Gone,
         Unknown,
         None,
     }

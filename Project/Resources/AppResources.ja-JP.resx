@@ -500,4 +500,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="WB_Flash" xml:space="preserve">
     <value>フラッシュ</value>
   </data>
+  <data name="ErrorMessage_ImageDL_Gone" xml:space="preserve">
+    <value>一部の連写画像の取得に失敗しました。</value>
+  </data>
 </root>

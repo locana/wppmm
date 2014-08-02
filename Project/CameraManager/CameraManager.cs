@@ -611,6 +611,9 @@ namespace Kazyx.WPPMM.CameraManager
 
             switch (e)
             {
+                case ImageDLError.Gone:
+                    error = AppResources.ErrorMessage_ImageDL_Gone;
+                    break;
                 case ImageDLError.Network:
                     error = AppResources.ErrorMessage_ImageDL_Network;
                     break;

@@ -342,6 +342,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to fetch some images by limitation of continuous shooting..
+        /// </summary>
+        public static string ErrorMessage_ImageDL_Gone {
+            get {
+                return ResourceManager.GetString("ErrorMessage_ImageDL_Gone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network error has occured while downloading your picture..
         /// </summary>
         public static string ErrorMessage_ImageDL_Network {

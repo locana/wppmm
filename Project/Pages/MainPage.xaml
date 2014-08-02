@@ -317,9 +317,9 @@
                         </Grid.ColumnDefinitions>
                         <Image Name="ModeImage" Margin="6, 0" Width="30" Height="30" Source="{Binding ModeImage, Mode=OneWay}" Grid.Column="0" HorizontalAlignment="Center"/>
                         <Image Name="ExposureModeImage" Width="150" Height="30" Source="{Binding ExposureModeImage, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" />
-                        <Image Name="GeopositionStatusImage" Width="32" Visibility="{Binding GeopositionStatusVisibility, Mode=OneWay}" 
+                        <Image Name="GeopositionStatusImage" Width="32" Visibility="{Binding GeopositionStatusVisibility, Mode=OneWay}" VerticalAlignment="Center"
                                Source="/Assets/Screen/GeoInfoStatus_Updating.png" Grid.Column="3" HorizontalAlignment="Center"  />
-                        <Image Name="StorageImage" Width="42" Height="20" Source="{Binding StorageImage, Mode=OneWay}" Margin="0,6,0,0"
+                        <Image Name="StorageImage" Width="42" Height="25" Source="{Binding StorageImage, Mode=OneWay}" Margin="0"
                                Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock FontSize="{StaticResource PhoneFontSizeMedium}" Width="70" Height="30" Text="{Binding RecordbaleAmount, Mode=OneWay}" 
                                    Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.8" >

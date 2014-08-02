@@ -387,6 +387,10 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     var res = await lvProcessor.OpenConnection(url, connectionTimeout);
                     Debug.WriteLine("Liveview Connection status: " + res);
+                    if (!res)
+                    {
+                        OnError(StatusCode.ServiceUnavailable);
+                    }
                 }
             }
             catch (RemoteApiException e)

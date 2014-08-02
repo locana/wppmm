@@ -1089,11 +1089,56 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string WB_Custom {
+            get {
+                return ResourceManager.GetString("WB_Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom 1.
+        /// </summary>
+        public static string WB_Custom1 {
+            get {
+                return ResourceManager.GetString("WB_Custom1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom 2.
+        /// </summary>
+        public static string WB_Custom2 {
+            get {
+                return ResourceManager.GetString("WB_Custom2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom 3.
+        /// </summary>
+        public static string WB_Custom3 {
+            get {
+                return ResourceManager.GetString("WB_Custom3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Daylight.
         /// </summary>
         public static string WB_DayLight {
             get {
                 return ResourceManager.GetString("WB_DayLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flash.
+        /// </summary>
+        public static string WB_Flash {
+            get {
+                return ResourceManager.GetString("WB_Flash", resourceCulture);
             }
         }
         

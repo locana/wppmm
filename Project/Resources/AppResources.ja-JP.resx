@@ -485,4 +485,19 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="SettingSection_Image" xml:space="preserve">
     <value>画像設定</value>
   </data>
+  <data name="WB_Custom" xml:space="preserve">
+    <value>カスタム</value>
+  </data>
+  <data name="WB_Custom1" xml:space="preserve">
+    <value>カスタム1</value>
+  </data>
+  <data name="WB_Custom2" xml:space="preserve">
+    <value>カスタム2</value>
+  </data>
+  <data name="WB_Custom3" xml:space="preserve">
+    <value>カスタム3</value>
+  </data>
+  <data name="WB_Flash" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
 </root>

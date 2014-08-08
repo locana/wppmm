@@ -394,9 +394,11 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 var url = await _CameraApi.StartLiveviewAsync();
 
+                var uri = new Uri(url);
+
                 if (!lvProcessor.IsProcessing)
                 {
-                    var res = await lvProcessor.OpenConnection(url, connectionTimeout);
+                    var res = await lvProcessor.OpenConnection(uri, connectionTimeout);
                     Debug.WriteLine("Liveview Connection status: " + res);
                     if (!res)
                     {
@@ -408,6 +410,11 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 Debug.WriteLine("Failed to call StartLiveview");
                 OnError(e.code);
+            }
+            catch (UriFormatException e)
+            {
+                Debug.WriteLine("UriFormatException. Failed to open JPEG stream: " + e.StackTrace);
+                OnError(StatusCode.IllegalResponse);
             }
             finally
             {

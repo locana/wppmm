@@ -43,8 +43,8 @@ namespace Kazyx.WPPMM.Pages
         private AppBarManager abm = new AppBarManager();
         private ControlPanelManager cpm;
 
-        private ProximityDevice _proximitiyDevice;
-        private long _subscriptionIdNdef;
+        private ProximityDevice ProximitiyDevice;
+        private long SubscriptionIdNdef;
 
         private const string AP_NAME_PREFIX = "DIRECT-";
 
@@ -116,8 +116,13 @@ namespace Kazyx.WPPMM.Pages
             }
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
-            cameraManager.UpdateEvent += WifiUpdateListener;
+            cameraManager.WifiInfoUpdated += WifiInfoUpdated;
             cameraManager.Downloader.QueueStatusUpdated += OnFetchingImages;
+            cameraManager.OnRemoteClientError += cameraManager_OnRemoteClientError;
+            cameraManager.PictureFetchFailed += cameraManager_PictureFetchFailed;
+            cameraManager.PictureFetchStatusUpdated += cameraManager_PictureFetchStatusUpdated;
+            cameraManager.PictureFetchSucceed += cameraManager_PictureFetchSucceed;
+            cameraManager.OnTakePictureSucceed += cameraManager_OnTakePictureSucceed;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -132,6 +137,133 @@ namespace Kazyx.WPPMM.Pages
             }
 
             ActivateGeoTagSetting(true);
+        }
+
+        void cameraManager_OnTakePictureSucceed()
+        {
+            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled ||
+                cameraManager.IntervalManager.IsRunning)
+            {
+                ShowToast(AppResources.Message_ImageCapture_Succeed);
+                return;
+            }
+        }
+
+        private void cameraManager_PictureFetchSucceed(Windows.Devices.Geolocation.Geoposition pos)
+        {
+            if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
+            {
+                
+                ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
+            }
+            else if (ApplicationSettings.GetInstance().GeotagEnabled)
+            {
+                MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
+            }
+            else
+            {
+                ShowToast(AppResources.Message_ImageDL_Succeed);
+            }
+        }
+
+        void cameraManager_PictureFetchStatusUpdated(int amount)
+        {
+            if (amount == 0)
+            {
+                AppStatus.GetInstance().IsDownloadingImages = false;
+            }
+            else
+            {
+                AppStatus.GetInstance().IsDownloadingImages = true;
+            }
+        }
+
+        void cameraManager_PictureFetchFailed(ImageDLError err)
+        {
+            String error = "";
+            bool isOriginal = false;
+            if (cameraManager.cameraStatus.PostviewSizeInfo != null
+                && cameraManager.cameraStatus.PostviewSizeInfo.Current == "Original")
+            {
+                isOriginal = true;
+            }
+
+            switch (err)
+            {
+                case ImageDLError.Gone:
+                    error = AppResources.ErrorMessage_ImageDL_Gone;
+                    break;
+                case ImageDLError.Network:
+                    error = AppResources.ErrorMessage_ImageDL_Network;
+                    break;
+                case ImageDLError.Saving:
+                case ImageDLError.DeviceInternal:
+                    if (isOriginal)
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
+                    }
+                    else
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_Saving;
+                    }
+                    break;
+                case ImageDLError.GeotagAlreadyExists:
+                    error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
+                    break;
+                case ImageDLError.GeotagAddition:
+                    error = AppResources.ErrorMessage_ImageDL_Geotagging;
+                    break;
+                case ImageDLError.Unknown:
+                case ImageDLError.Argument:
+                default:
+                    if (isOriginal)
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
+                    }
+                    else
+                    {
+                        error = AppResources.ErrorMessage_ImageDL_Other;
+                    }
+                    break;
+            }
+            MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
+            Debug.WriteLine(error);
+        }
+
+        void cameraManager_OnRemoteClientError(StatusCode code)
+        {
+            String err = "";
+
+            if (cameraManager.IntervalManager.IsRunning)
+            {
+                err = AppResources.ErrorMessage_Interval + System.Environment.NewLine + System.Environment.NewLine + "Error code: " + code;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case StatusCode.Any:
+                        err = AppResources.ErrorMessage_fatal;
+                        break;
+                    case StatusCode.Timeout:
+                        err = AppResources.ErrorMessage_timeout;
+                        break;
+                    case StatusCode.ShootingFailure:
+                        err = AppResources.ErrorMessage_shootingFailure;
+                        break;
+                    case StatusCode.CameraNotReady:
+                        err = AppResources.ErrorMessage_cameraNotReady;
+                        break;
+                    case StatusCode.Forbidden:
+                        err = AppResources.BuiltInSRNotSupported;
+                        break;
+                    default:
+                        err = AppResources.ErrorMessage_fatal;
+                        break;
+                }
+            }
+            err = err + System.Environment.NewLine + System.Environment.NewLine + "Error code: " + code;
+            MessageBox.Show(err, AppResources.MessageCaption_error, MessageBoxButton.OK);
         }
 
         internal void cameraManager_OnDisconnected()
@@ -151,7 +283,7 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.Refresh();
             UpdateNetworkStatus();
             LiveViewInit();
-            initNFC();
+            InitializeProximityDevice();
         }
 
         internal void HideControlPanel()
@@ -165,8 +297,13 @@ namespace Kazyx.WPPMM.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             cameraManager.OnDisconnected -= cameraManager_OnDisconnected;
-            cameraManager.UpdateEvent -= WifiUpdateListener;
+            cameraManager.WifiInfoUpdated -= WifiInfoUpdated;
             cameraManager.Downloader.QueueStatusUpdated -= OnFetchingImages;
+            cameraManager.OnRemoteClientError -= cameraManager_OnRemoteClientError;
+            cameraManager.PictureFetchFailed -= cameraManager_PictureFetchFailed;
+            cameraManager.PictureFetchStatusUpdated -= cameraManager_PictureFetchStatusUpdated;
+            cameraManager.PictureFetchSucceed -= cameraManager_PictureFetchSucceed;
+            cameraManager.OnTakePictureSucceed -= cameraManager_OnTakePictureSucceed;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -225,7 +362,6 @@ namespace Kazyx.WPPMM.Pages
                     GuideMessage.Visibility = System.Windows.Visibility.Visible;
                 }
             }
-            // display initialize
 
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
         }
@@ -248,10 +384,8 @@ namespace Kazyx.WPPMM.Pages
             MyPivot.SelectedIndex = 0;
         }
 
-        internal void WifiUpdateListener(CameraStatus cameraStatus)
+        internal void WifiInfoUpdated(CameraStatus cameraStatus)
         {
-            Debug.WriteLine("WifiUpdateLIstener called");
-
             if (cameraStatus.isAvailableConnecting)
             {
                 String modelName = "";
@@ -264,11 +398,10 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        internal void LiveViewUpdateListener(CameraStatus cameraStatus)
+        internal void ZoomInfoUpdated(CameraStatus cameraStatus)
         {
             if (cameraStatus.ZoomInfo != null)
             {
-                // dumpZoomInfo(cameraStatus.ZoomInfo);
                 double margin_left = cameraStatus.ZoomInfo.Position * 156 / 100;
                 ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
                 Debug.WriteLine("zoom bar display update: " + margin_left);
@@ -412,7 +545,7 @@ namespace Kazyx.WPPMM.Pages
             ShootingPivot.Opacity = 1;
             SetLayoutByOrientation(this.Orientation);
 
-            cameraManager.UpdateEvent += LiveViewUpdateListener;
+            cameraManager.ZoomInfoUpdated += ZoomInfoUpdated;
             cameraManager.ShowToast += ShowToast;
             ToastApparance.Completed += ToastApparance_Completed;
             ScreenImage.ManipulationCompleted += ScreenImage_ManipulationCompleted;
@@ -674,7 +807,7 @@ namespace Kazyx.WPPMM.Pages
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
             cameraManager.StopEventObserver();
-            cameraManager.UpdateEvent -= LiveViewUpdateListener;
+            cameraManager.ZoomInfoUpdated -= ZoomInfoUpdated;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
@@ -925,33 +1058,32 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private void initNFC()
+        private void InitializeProximityDevice()
         {
-            // Initialize NFC
             try
             {
-                _proximitiyDevice = ProximityDevice.GetDefault();
+                ProximitiyDevice = ProximityDevice.GetDefault();
             }
             catch (System.IO.FileNotFoundException)
             {
-                _proximitiyDevice = null;
+                ProximitiyDevice = null;
                 Debug.WriteLine("Caught ununderstandable exception. ");
                 return;
             }
             catch (System.Runtime.InteropServices.COMException)
             {
-                _proximitiyDevice = null;
+                ProximitiyDevice = null;
                 Debug.WriteLine("Caught ununderstandable exception. ");
                 return;
             }
 
-            if (_proximitiyDevice == null)
+            if (ProximitiyDevice == null)
             {
                 Debug.WriteLine("It seems this is not NFC available device");
                 return;
             }
 
-            _subscriptionIdNdef = _proximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
+            SubscriptionIdNdef = ProximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
             NFCMessage.Visibility = System.Windows.Visibility.Visible;
         }
 
@@ -1019,7 +1151,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void ClearNFCInfo()
         {
-            if (_proximitiyDevice != null)
+            if (ProximitiyDevice != null)
             {
                 NFCMessage.Visibility = System.Windows.Visibility.Visible;
             }

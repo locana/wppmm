@@ -2,7 +2,6 @@ using Kazyx.DeviceDiscovery;
 using Kazyx.Liveview;
 using Kazyx.RemoteApi;
 using Kazyx.WPMMM.CameraManager;
-using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
@@ -44,7 +43,14 @@ namespace Kazyx.WPPMM.CameraManager
         private readonly CameraStatus _cameraStatus = new CameraStatus();
         public CameraStatus cameraStatus { get { return _cameraStatus; } }
 
-        internal event Action<CameraStatus> UpdateEvent;
+        internal event Action<CameraStatus> ZoomInfoUpdated;
+        internal event Action<CameraStatus> WifiInfoUpdated;
+        internal event Action<int> PictureFetchStatusUpdated;
+        internal event Action<ImageDLError> PictureFetchFailed;
+        internal event Action<Geoposition> PictureFetchSucceed;
+        internal event Action<StatusCode> OnRemoteClientError;
+        internal event Action OnTakePictureSucceed;
+
         internal event Action OnDisconnected;
         internal event Action<CameraStatus> OnAfStatusChanged;
 
@@ -158,7 +164,13 @@ namespace Kazyx.WPPMM.CameraManager
                     }
                     break;
                 case "ZoomInfo":
-                    NoticeUpdate();
+                    Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    {
+                        if (ZoomInfoUpdated != null)
+                        {
+                            ZoomInfoUpdated(_cameraStatus);
+                        }
+                    });
                     break;
                 case "ExposureMode":
                     UpdateProgramShiftRange();
@@ -242,7 +254,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 // TODO be careful, device info is updated to the latest found device.
 
-                NoticeUpdate();
+                NotifyWifiInfoUpdated();
             });
         }
 
@@ -283,17 +295,9 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal void DownloadQueueStatusUpdated(int DownloadItemAmount)
         {
-            Debug.WriteLine("Download queue updated: " + DownloadItemAmount);
-
-            if (DownloadItemAmount == 0)
+            if (PictureFetchStatusUpdated != null)
             {
-                // ShowToast("Download finished.");
-                AppStatus.GetInstance().IsDownloadingImages = false;
-            }
-            else
-            {
-                // ShowToast("Downloading images. (" + DownloadItemAmount + " images are scheduled.)");
-                AppStatus.GetInstance().IsDownloadingImages = true;
+                PictureFetchStatusUpdated(DownloadItemAmount);
             }
         }
 
@@ -447,8 +451,6 @@ namespace Kazyx.WPPMM.CameraManager
         private const int FrameSkipRate = 6;
         private int inc = 0;
 
-        // callback methods (liveview)
-        //public void OnJpegRetrieved(byte[] data)
         private void OnJpegRetrieved(object sender, JpegEventArgs e)
         {
             if (IsRendering)
@@ -529,7 +531,7 @@ namespace Kazyx.WPPMM.CameraManager
                         DeviceDiscovered.Invoke();
                     }
                 });
-                NoticeUpdate();
+
             }
             catch (RemoteApiException e)
             {
@@ -581,20 +583,10 @@ namespace Kazyx.WPPMM.CameraManager
         {
             Debug.WriteLine("download succeed");
 
-            if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
+            if (PictureFetchSucceed != null)
             {
-                OnShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
+                PictureFetchSucceed(pos);
             }
-            else if (ApplicationSettings.GetInstance().GeotagEnabled)
-            {
-                MessageBox.Show(AppResources.ErrorMessage_FailedToGetGeoposition);
-            }
-            else
-            {
-                OnShowToast(AppResources.Message_ImageDL_Succeed);
-            }
-            // AppStatus.GetInstance().IsTakingPicture = false;
-            NoticeUpdate();
 
             if (PictureFetched != null)
             {
@@ -604,65 +596,23 @@ namespace Kazyx.WPPMM.CameraManager
 
         private void OnFetchFailed(ImageDLError e)
         {
-            String error = "";
-            bool isOriginal = false;
-            if (cameraStatus.PostviewSizeInfo != null
-                && cameraStatus.PostviewSizeInfo.Current == "Original")
+            if (PictureFetchFailed != null)
             {
-                isOriginal = true;
+                PictureFetchFailed(e);
             }
-
-            switch (e)
-            {
-                case ImageDLError.Gone:
-                    error = AppResources.ErrorMessage_ImageDL_Gone;
-                    break;
-                case ImageDLError.Network:
-                    error = AppResources.ErrorMessage_ImageDL_Network;
-                    break;
-                case ImageDLError.Saving:
-                case ImageDLError.DeviceInternal:
-                    if (isOriginal)
-                    {
-                        error = AppResources.ErrorMessage_ImageDL_SavingOriginal;
-                    }
-                    else
-                    {
-                        error = AppResources.ErrorMessage_ImageDL_Saving;
-                    }
-                    break;
-                case ImageDLError.GeotagAlreadyExists:
-                    error = AppResources.ErrorMessage_ImageDL_DuplicatedGeotag;
-                    break;
-                case ImageDLError.GeotagAddition:
-                    error = AppResources.ErrorMessage_ImageDL_Geotagging;
-                    break;
-                case ImageDLError.Unknown:
-                case ImageDLError.Argument:
-                default:
-                    if (isOriginal)
-                    {
-                        error = AppResources.ErrorMessage_ImageDL_OtherOriginal;
-                    }
-                    else
-                    {
-                        error = AppResources.ErrorMessage_ImageDL_Other;
-                    }
-                    break;
-            }
-            MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
-            Debug.WriteLine(error);
-            // AppStatus.GetInstance().IsTakingPicture = false;
-            NoticeUpdate();
         }
 
         public void OnResultActTakePicture(String[] res)
         {
             AppStatus.GetInstance().IsTakingPicture = false;
+
+            if (OnTakePictureSucceed != null)
+            {
+                OnTakePictureSucceed.Invoke();
+            }
+
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled || IntervalManager.IsRunning)
             {
-                OnShowToast(AppResources.Message_ImageCapture_Succeed);
-                NoticeUpdate();
                 return;
             }
 
@@ -692,8 +642,6 @@ namespace Kazyx.WPPMM.CameraManager
 
             Debug.WriteLine("Error during taking picture: " + err);
             AppStatus.GetInstance().IsTakingPicture = false;
-            NoticeUpdate();
-
             OnError(err);
         }
 
@@ -799,8 +747,6 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        // ------- zoom
-
         internal async void RequestActZoom(String direction, String movement)
         {
             if (_CameraApi == null)
@@ -817,8 +763,6 @@ namespace Kazyx.WPPMM.CameraManager
                 OnError(e.code);
             }
         }
-
-        // ------- Event Observer
 
         public void RunEventObserver()
         {
@@ -863,54 +807,24 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 IntervalManager.Stop();
                 RefreshEventObserver();
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    MessageBox.Show(AppResources.ErrorMessage_Interval + Environment.NewLine + Environment.NewLine + "Error code: " + errno,
-                        AppResources.MessageCaption_error, MessageBoxButton.OK);
-                });
-                return;
             }
-
-            String err = null;
-
-            switch (errno)
-            {
-                case StatusCode.Any:
-                    err = AppResources.ErrorMessage_fatal;
-                    break;
-                case StatusCode.Timeout:
-                    err = AppResources.ErrorMessage_timeout;
-                    break;
-                case StatusCode.ShootingFailure:
-                    err = AppResources.ErrorMessage_shootingFailure;
-                    break;
-                case StatusCode.CameraNotReady:
-                    err = AppResources.ErrorMessage_cameraNotReady;
-                    break;
-                case StatusCode.Forbidden:
-                    err = AppResources.BuiltInSRNotSupported;
-                    break;
-                default:
-                    err = AppResources.ErrorMessage_fatal;
-                    break;
-            }
-
-            err = err + Environment.NewLine + Environment.NewLine + "Error code: " + errno;
 
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                MessageBox.Show(err, AppResources.MessageCaption_error, MessageBoxButton.OK);
+                if (OnRemoteClientError != null)
+                {
+                    OnRemoteClientError(errno);
+                }
             });
         }
 
-        // Notice update to UI classes
-        internal void NoticeUpdate()
+        internal void NotifyWifiInfoUpdated()
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (UpdateEvent != null)
+                if (WifiInfoUpdated != null)
                 {
-                    UpdateEvent(cameraStatus);
+                    WifiInfoUpdated(cameraStatus);
                 }
             });
         }

@@ -65,12 +65,12 @@ namespace Kazyx.WPPMM.CameraManager
                     {
                         strm = NtImageProcessor.MetaData.MetaDataOperator.AddGeoposition(strm, req.GeoPosition);
                     }
-                    catch (NtImageProcessor.MetaData.Misc.GpsInformationAlreadyExistsException e)
+                    catch (NtImageProcessor.MetaData.Misc.GpsInformationAlreadyExistsException)
                     {
                         Debug.WriteLine("Caught GpsInformationAlreadyExistsException.");
                         GeoTaggingError = ImageDLError.GeotagAlreadyExists;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         Debug.WriteLine("Caught exception during geotagging");
                         GeoTaggingError = ImageDLError.GeotagAddition;
@@ -111,7 +111,7 @@ namespace Kazyx.WPPMM.CameraManager
                     Deployment.Current.Dispatcher.BeginInvoke(() => req.Error.Invoke(ImageDLError.Network));
                 }
             }
-            catch (WebException e)
+            catch (WebException)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() => req.Error.Invoke(ImageDLError.Network));
             }

@@ -158,7 +158,6 @@ namespace Kazyx.WPPMM.CameraManager
                     }
                     break;
                 case "ZoomInfo":
-                    Debug.WriteLine("Difference detected: zoom");
                     NoticeUpdate();
                     break;
                 case "ExposureMode":
@@ -486,8 +485,6 @@ namespace Kazyx.WPPMM.CameraManager
         private Action DeviceDiscovered;
         private Action DiscoveryTimeout;
 
-        // --------- prepare
-
         public void RequestSearchDevices(Action Found, Action Timeout)
         {
             DeviceDiscovered = Found;
@@ -539,8 +536,6 @@ namespace Kazyx.WPPMM.CameraManager
                 OnError(e.code);
             }
         }
-
-        // -------- take picture
 
         public void StartLocalIntervalRec()
         {
@@ -956,7 +951,7 @@ namespace Kazyx.WPPMM.CameraManager
                     }
                 }
             }
-            catch (RemoteApiException e)
+            catch (RemoteApiException)
             {
                 // in case of AF has failed
                 if (_cameraStatus != null)
@@ -991,7 +986,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await _CameraApi.CancelTouchAFAsync();
             }
-            catch (RemoteApiException e) { }
+            catch (RemoteApiException) { }
         }
 
         public bool IsTouchAfAvailable()
@@ -1015,7 +1010,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     await _CameraApi.ActHalfPressShutterAsync();
                 }
-                catch (RemoteApiException e) { }
+                catch (RemoteApiException) { }
             }
         }
 
@@ -1028,7 +1023,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     await _CameraApi.CancelHalfPressShutterAsync();
                 }
-                catch (RemoteApiException e) { }
+                catch (RemoteApiException) { }
             }
         }
 
@@ -1042,7 +1037,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await _CameraApi.SetEvIndexAsync(index);
             }
-            catch (RemoteApiException e) { RefreshEventObserver(); }
+            catch (RemoteApiException) { RefreshEventObserver(); }
         }
 
         public Task SetExposureCompensationAsync(int index)
@@ -1065,7 +1060,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await _CameraApi.SetFNumberAsync(value);
             }
-            catch (RemoteApiException e) { RefreshEventObserver(); }
+            catch (RemoteApiException) { RefreshEventObserver(); }
         }
 
         public async void SetShutterSpeed(string value)
@@ -1078,7 +1073,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await _CameraApi.SetShutterSpeedAsync(value);
             }
-            catch (RemoteApiException e) { RefreshEventObserver(); }
+            catch (RemoteApiException) { RefreshEventObserver(); }
         }
 
         public async void SetIsoSpeedRate(string value)
@@ -1091,91 +1086,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 await _CameraApi.SetISOSpeedAsync(value);
             }
-            catch (RemoteApiException e) { RefreshEventObserver(); }
-        }
-
-        public void ShiftEv(int relativeIndex)
-        {
-            var target = cameraStatus.EvInfo.CurrentIndex + relativeIndex;
-            if (target < cameraStatus.EvInfo.Candidate.MinIndex)
-            {
-                target = cameraStatus.EvInfo.Candidate.MinIndex;
-            }
-            else if (target > cameraStatus.EvInfo.Candidate.MaxIndex)
-            {
-                target = cameraStatus.EvInfo.Candidate.MaxIndex;
-            }
-
-            this.SetExposureCompensation(target);
-        }
-
-        public void ShiftFNumber(int relativeIndex)
-        {
-            if (cameraStatus.FNumber.Candidates.Length == 0)
-            {
-                return;
-            }
-
-            int current = 0;
-            for (int i = 0; i < cameraStatus.FNumber.Candidates.Length; i++)
-            {
-                if (cameraStatus.FNumber.Current == cameraStatus.FNumber.Candidates[i])
-                {
-                    current = i;
-                }
-            }
-
-            var targetIndex = current + relativeIndex;
-            var target = "";
-
-            if (targetIndex < 0)
-            {
-                target = cameraStatus.FNumber.Candidates[0];
-            }
-            else if (targetIndex >= cameraStatus.FNumber.Candidates.Length)
-            {
-                target = cameraStatus.FNumber.Candidates[cameraStatus.FNumber.Candidates.Length - 1];
-            }
-            else
-            {
-                target = cameraStatus.FNumber.Candidates[targetIndex];
-            }
-
-            this.SetFNumber(target);
-        }
-
-        public void ShiftShutterSpeed(int relativeIndex)
-        {
-            if (cameraStatus.ShutterSpeed.Candidates.Length == 0)
-            {
-                return;
-            }
-            int current = 0;
-            for (int i = 0; i < cameraStatus.ShutterSpeed.Candidates.Length; i++)
-            {
-                if (cameraStatus.ShutterSpeed.Current == cameraStatus.ShutterSpeed.Candidates[i])
-                {
-                    current = i;
-                }
-            }
-
-            var targetIndex = current + relativeIndex;
-            var target = "";
-
-            if (targetIndex < 0)
-            {
-                target = cameraStatus.ShutterSpeed.Candidates[0];
-            }
-            else if (targetIndex >= cameraStatus.ShutterSpeed.Candidates.Length)
-            {
-                target = cameraStatus.ShutterSpeed.Candidates[cameraStatus.ShutterSpeed.Candidates.Length - 1];
-            }
-            else
-            {
-                target = cameraStatus.ShutterSpeed.Candidates[targetIndex];
-            }
-
-            this.SetShutterSpeed(target);
+            catch (RemoteApiException) { RefreshEventObserver(); }
         }
     }
 }

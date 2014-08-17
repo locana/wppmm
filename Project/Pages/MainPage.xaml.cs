@@ -1083,7 +1083,17 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            SubscriptionIdNdef = ProximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
+            try
+            {
+                SubscriptionIdNdef = ProximitiyDevice.SubscribeForMessage("NDEF", NFCMessageReceivedHandler);
+            }
+            catch (Exception e)
+            {
+                ProximitiyDevice = null;
+                Debug.WriteLine("Caught ununderstandable exception. " + e.Message + e.StackTrace);
+                return;
+            }
+
             NFCMessage.Visibility = System.Windows.Visibility.Visible;
         }
 

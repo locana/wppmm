@@ -238,6 +238,10 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     Debug.WriteLine("Failed to get still image size capability");
                 }
+                catch (InvalidOperationException)
+                {
+                    Debug.WriteLine("Failed to sort still image size capability");
+                }
             }
         }
 

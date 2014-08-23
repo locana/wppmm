@@ -392,7 +392,7 @@ namespace Kazyx.WPPMM.CameraManager
             return child;
         }
 
-        public void OnControlPanelPropertyChanged(String name)
+        public void OnControlPanelPropertyChanged(string name)
         {
             data.OnControlPanelPropertyChanged(name);
         }

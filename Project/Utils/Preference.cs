@@ -18,7 +18,7 @@ namespace Kazyx.WPPMM.Utils
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(postview_key))
             {
-                return (Boolean)settings[postview_key];
+                return (bool)settings[postview_key];
             }
             else
             {
@@ -41,7 +41,7 @@ namespace Kazyx.WPPMM.Utils
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(interval_enable_key))
             {
-                return (Boolean)settings[interval_enable_key];
+                return (bool)settings[interval_enable_key];
             }
             else
             {
@@ -87,7 +87,7 @@ namespace Kazyx.WPPMM.Utils
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(display_take_image_button_key))
             {
-                return (Boolean)settings[display_take_image_button_key];
+                return (bool)settings[display_take_image_button_key];
             }
             else
             {
@@ -110,7 +110,7 @@ namespace Kazyx.WPPMM.Utils
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(display_histogram_key))
             {
-                return (Boolean)settings[display_histogram_key];
+                return (bool)settings[display_histogram_key];
             }
             return true;
         }
@@ -130,7 +130,7 @@ namespace Kazyx.WPPMM.Utils
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(add_geotag))
             {
-                return (Boolean)settings[add_geotag];
+                return (bool)settings[add_geotag];
             }
             return false;
         }
@@ -161,7 +161,7 @@ namespace Kazyx.WPPMM.Utils
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(key))
             {
-                return (Boolean)settings[key];
+                return (bool)settings[key];
             }
             else
             {

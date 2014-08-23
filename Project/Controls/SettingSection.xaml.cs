@@ -7,7 +7,7 @@ namespace Kazyx.WPMMM.Controls
 {
     public partial class SettingSection : UserControl
     {
-        String Title
+        string Title
         {
             get
             {
@@ -19,7 +19,7 @@ namespace Kazyx.WPMMM.Controls
             }
         }
 
-        public SettingSection(String SectionTitle)
+        public SettingSection(string SectionTitle)
         {
             InitializeComponent();
             TitleTextBlock.Text = SectionTitle;

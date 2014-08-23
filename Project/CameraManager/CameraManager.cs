@@ -747,7 +747,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        internal async void RequestActZoom(String direction, String movement)
+        internal async void RequestActZoom(string direction, string movement)
         {
             if (_CameraApi == null)
             {

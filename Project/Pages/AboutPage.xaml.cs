@@ -18,6 +18,7 @@ namespace Kazyx.WPPMM.Pages
         private static string license = "";
         private static string copyright = "";
         private const string developer = "kazyx and naotaco";
+
         public AboutPage()
         {
             InitializeComponent();
@@ -70,7 +71,7 @@ namespace Kazyx.WPPMM.Pages
             if (text != null && text.Length != 0)
             {
                 char[] separators = { ' ', '\n', '\t', '　' };
-                string[] words = text.Split(separators);
+                var words = text.Split(separators);
                 foreach (var word in words)
                 {
                     if (word.StartsWith("http://") || word.StartsWith("https://"))

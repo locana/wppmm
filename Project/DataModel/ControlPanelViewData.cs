@@ -91,28 +91,28 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                try
                 {
-                    try
+                    if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs(name));
                     }
-                    catch (COMException)
-                    {
-                        Debug.WriteLine("Caught COMException: ControlPanelViewData");
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
-                    }
-                    catch (InvalidOperationException e)
-                    {
-                        Debug.WriteLine(e.StackTrace);
-                    }
-                });
-            }
+                }
+                catch (COMException)
+                {
+                    Debug.WriteLine("Caught COMException: ControlPanelViewData");
+                }
+                catch (NullReferenceException)
+                {
+                    Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
+                }
+                catch (InvalidOperationException e)
+                {
+                    Debug.WriteLine(e.StackTrace);
+                }
+            });
         }
 
         public int CpSelectedIndexSelfTimer

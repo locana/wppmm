@@ -392,7 +392,7 @@ namespace Kazyx.WPPMM.Pages
         {
             if (cameraStatus.isAvailableConnecting)
             {
-                String modelName = "";
+                string modelName = "";
                 if (cameraManager.DeviceInfo != null && cameraManager.DeviceInfo.FriendlyName != null)
                 {
                     modelName = cameraManager.DeviceInfo.FriendlyName;
@@ -1030,7 +1030,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        public void ShowToast(String message)
+        public void ShowToast(string message)
         {
             Dispatcher.BeginInvoke(() =>
             {

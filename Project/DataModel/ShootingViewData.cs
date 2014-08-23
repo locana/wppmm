@@ -167,24 +167,24 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                try
                 {
-                    try
+                    if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs(name));
                     }
-                    catch (COMException)
-                    {
-                        Debug.WriteLine("Caught COMException: ShootingViewData");
-                    }
-                    catch (NullReferenceException e)
-                    {
-                        Debug.WriteLine(e.StackTrace);
-                    }
-                });
-            }
+                }
+                catch (COMException)
+                {
+                    Debug.WriteLine("Caught COMException: ShootingViewData");
+                }
+                catch (NullReferenceException e)
+                {
+                    Debug.WriteLine(e.StackTrace);
+                }
+            });
         }
 
         public Visibility ShootFunctionVisibility
@@ -367,7 +367,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FocusStatus == null || cameraStatus.AfType != CameraStatus.AutoFocusType.Touch )
+                if (cameraStatus == null || cameraStatus.FocusStatus == null || cameraStatus.AfType != CameraStatus.AutoFocusType.Touch)
                 {
                     return Visibility.Collapsed;
                 }
@@ -405,7 +405,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return Running;
                 }
-                
+
                 switch (cameraStatus.FocusStatus)
                 {
                     case FocusState.Focused:
@@ -496,7 +496,7 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-        public String ShutterSpeedDisplayValue
+        public string ShutterSpeedDisplayValue
         {
             get
             {

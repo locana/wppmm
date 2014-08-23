@@ -75,7 +75,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public String IntervalStatusTime
+        public string IntervalStatusTime
         {
             get
             {
@@ -83,7 +83,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public String IntervalStatusCount
+        public string IntervalStatusCount
         {
             get
             {

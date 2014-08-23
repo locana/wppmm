@@ -58,7 +58,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 var strm = await GetResponseStreamAsync(req.Uri);
                 // geo tagging
-                ImageDLError GeoTaggingError = ImageDLError.None;
+                var GeoTaggingError = ImageDLError.None;
                 if (req.GeoPosition != null)
                 {
                     try

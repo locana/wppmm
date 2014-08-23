@@ -584,15 +584,18 @@ namespace Kazyx.WPPMM.CameraManager
         {
 
             // Debug.WriteLine("OnPropertyChanged: " + name);
-            if (PropertyChanged != null)
+            try
             {
-                try
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    Deployment.Current.Dispatcher.BeginInvoke(() => { PropertyChanged(this, new PropertyChangedEventArgs(name)); });
-                }
-                catch (COMException)
-                {
-                }
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs(name));
+                    }
+                });
+            }
+            catch (COMException)
+            {
             }
         }
     }

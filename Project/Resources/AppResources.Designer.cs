@@ -837,6 +837,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detecting connected camera device....
+        /// </summary>
+        public static string ProgressMessageDetectingDevice {
+            get {
+                return ResourceManager.GetString("ProgressMessageDetectingDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fetching images....
         /// </summary>
         public static string ProgressMessageFetching {

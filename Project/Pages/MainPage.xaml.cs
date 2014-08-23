@@ -107,13 +107,6 @@ namespace Kazyx.WPPMM.Pages
             Debug.WriteLine(e.Uri);
             progress.IsVisible = false;
             InitializeApplication();
-            if (FilterBySsid && GetSSIDName().StartsWith(AP_NAME_PREFIX))
-            {
-                if (MyPivot.SelectedIndex != PIVOTINDEX_LIVEVIEW)
-                {
-                    StartConnectionSequence(NavigationMode.New == e.NavigationMode);
-                }
-            }
 
             cameraManager.OnDisconnected += cameraManager_OnDisconnected;
             cameraManager.WifiInfoUpdated += WifiInfoUpdated;
@@ -136,6 +129,14 @@ namespace Kazyx.WPPMM.Pages
                     break;
             }
 
+            if (!FilterBySsid || GetSSIDName().StartsWith(AP_NAME_PREFIX))
+            {
+                if (MyPivot.SelectedIndex != PIVOTINDEX_LIVEVIEW)
+                {
+                    StartConnectionSequence(true);
+                }
+            }
+
             ActivateGeoTagSetting(true);
         }
 
@@ -145,7 +146,6 @@ namespace Kazyx.WPPMM.Pages
                 cameraManager.IntervalManager.IsRunning)
             {
                 ShowToast(AppResources.Message_ImageCapture_Succeed);
-                return;
             }
         }
 
@@ -153,7 +153,6 @@ namespace Kazyx.WPPMM.Pages
         {
             if (ApplicationSettings.GetInstance().GeotagEnabled && pos != null)
             {
-                
                 ShowToast(AppResources.Message_ImageDL_Succeed_withGeotag);
             }
             else if (ApplicationSettings.GetInstance().GeotagEnabled)
@@ -180,8 +179,8 @@ namespace Kazyx.WPPMM.Pages
 
         void cameraManager_PictureFetchFailed(ImageDLError err)
         {
-            String error = "";
-            bool isOriginal = false;
+            var error = "";
+            var isOriginal = false;
             if (cameraManager.cameraStatus.PostviewSizeInfo != null
                 && cameraManager.cameraStatus.PostviewSizeInfo.Current == "Original")
             {
@@ -232,7 +231,7 @@ namespace Kazyx.WPPMM.Pages
 
         void cameraManager_OnRemoteClientError(StatusCode code)
         {
-            String err = "";
+            var err = "";
 
             if (cameraManager.IntervalManager.IsRunning)
             {
@@ -321,8 +320,8 @@ namespace Kazyx.WPPMM.Pages
 
         private void StartConnectionSequence(bool connect)
         {
-            progress.Text = AppResources.ProgressMessageConnecting;
-            progress.IsVisible = connect;
+            progress.Text = AppResources.ProgressMessageDetectingDevice;
+            progress.IsVisible = true;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
                 Debug.WriteLine("DeviceFound -> GoToShootingPage if required.");
@@ -355,12 +354,17 @@ namespace Kazyx.WPPMM.Pages
 
             if (cameraManager.DeviceInfo != null)
             {
-                String modelName = cameraManager.DeviceInfo.FriendlyName;
+                var modelName = cameraManager.DeviceInfo.FriendlyName;
                 if (modelName != null)
                 {
                     NetworkStatus.Text = AppResources.ConnectedDevice.Replace("_ssid_", modelName);
                     GuideMessage.Visibility = System.Windows.Visibility.Visible;
                 }
+            }
+            else
+            {
+                NetworkStatus.Text = AppResources.Guide_CantFindDevice;
+                GuideMessage.Visibility = System.Windows.Visibility.Collapsed;
             }
 
             ProgressBar.Visibility = System.Windows.Visibility.Collapsed;
@@ -412,10 +416,8 @@ namespace Kazyx.WPPMM.Pages
         {
             foreach (var network in new NetworkInterfaceList())
             {
-                if (
-                    (network.InterfaceType == NetworkInterfaceType.Wireless80211) &&
-                    (network.InterfaceState == ConnectState.Connected)
-                    )
+                if ((network.InterfaceType == NetworkInterfaceType.Wireless80211) &&
+                    (network.InterfaceState == ConnectState.Connected))
                 {
                     return network.InterfaceName;
                 }
@@ -768,12 +770,12 @@ namespace Kazyx.WPPMM.Pages
             {
                 return;
             }
-            Image image = sender as Image;
+            var image = sender as Image;
             var touchX = e.ManipulationOrigin.X;
             var touchY = e.ManipulationOrigin.Y;
 
-            double posX = touchX * 100.0 / image.ActualWidth;
-            double posY = touchY * 100.0 / image.ActualHeight;
+            var posX = touchX * 100.0 / image.ActualWidth;
+            var posY = touchY * 100.0 / image.ActualHeight;
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -1042,20 +1044,12 @@ namespace Kazyx.WPPMM.Pages
             Scheduler.Dispatcher.Schedule(() =>
             {
                 ToastDisApparance.Begin();
-            }
-                , TimeSpan.FromSeconds(3));
+            }, TimeSpan.FromSeconds(3));
         }
 
         void SetPivotIsLocked(bool l)
         {
-            if (l)
-            {
-                Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = true; });
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = false; });
-            }
+            Dispatcher.BeginInvoke(() => { MyPivot.IsLocked = l; });
         }
 
         private void InitializeProximityDevice()
@@ -1100,10 +1094,10 @@ namespace Kazyx.WPPMM.Pages
         private void NFCMessageReceivedHandler(ProximityDevice sender, ProximityMessage message)
         {
             var parser = new NdefParser(message);
-            List<NdefRecord> ndefRecords = new List<NdefRecord>();
+            var ndefRecords = new List<NdefRecord>();
 
-            String err = AppResources.ErrorMessage_fatal;
-            String caption = AppResources.MessageCaption_error;
+            var err = AppResources.ErrorMessage_fatal;
+            var caption = AppResources.MessageCaption_error;
 
             try
             {

@@ -508,4 +508,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ErrorMessage_ImageDL_Gone" xml:space="preserve">
     <value>Failed to fetch some images by limitation of continuous shooting.</value>
   </data>
+  <data name="ProgressMessageDetectingDevice" xml:space="preserve">
+    <value>Detecting connected camera device...</value>
+  </data>
 </root>

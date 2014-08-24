@@ -267,6 +267,7 @@ namespace Kazyx.WPPMM.Pages
 
         internal void cameraManager_OnDisconnected()
         {
+            Debug.WriteLine("## Disconnected");
             MessageBox.Show(AppResources.ErrorMessage_Dsconnected, AppResources.MessageCaption_error, MessageBoxButton.OK);
             MyPivot.IsLocked = false;
             if (cpm != null && cpm.IsShowing())
@@ -390,16 +391,7 @@ namespace Kazyx.WPPMM.Pages
 
         internal void WifiInfoUpdated(CameraStatus cameraStatus)
         {
-            if (cameraStatus.isAvailableConnecting)
-            {
-                string modelName = "";
-                if (cameraManager.DeviceInfo != null && cameraManager.DeviceInfo.FriendlyName != null)
-                {
-                    modelName = cameraManager.DeviceInfo.FriendlyName;
-                }
-                NetworkStatus.Text = AppResources.ConnectedDevice.Replace("_ssid_", modelName);
-                GuideMessage.Visibility = System.Windows.Visibility.Visible;
-            }
+            UpdateNetworkStatus();
         }
 
         internal void ZoomInfoUpdated(CameraStatus cameraStatus)

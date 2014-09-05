@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.Resources;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,13 @@ namespace Kazyx.WPPMM.Utils
     {
         public static int GetSelectedIndex<T>(Capability<T> info)
         {
-            if (info == null || info.Candidates == null || info.Candidates.Length == 0)
+            if (info == null || info.Candidates == null || info.Candidates.Count == 0)
             {
                 return 0;
             }
             if (typeof(T) == typeof(string) || typeof(T) == typeof(int))
             {
-                for (int i = 0; i < info.Candidates.Length; i++)
+                for (int i = 0; i < info.Candidates.Count; i++)
                 {
                     if (info.Candidates[i].Equals(info.Current))
                     {
@@ -27,7 +28,7 @@ namespace Kazyx.WPPMM.Utils
             else if (typeof(T) == typeof(StillImageSize))
             {
                 var size = info as Capability<StillImageSize>;
-                for (int i = 0; i < info.Candidates.Length; i++)
+                for (int i = 0; i < info.Candidates.Count; i++)
                 {
                     if (size.Candidates[i].AspectRatio == size.Current.AspectRatio
                         && size.Candidates[i].SizeDefinition == size.Current.SizeDefinition)
@@ -54,10 +55,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromSelfTimer(info.Candidates[i]);
+                mCandidates.Add(FromSelfTimer(val));
             }
             return new Capability<string>
             {
@@ -78,10 +79,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromPostViewSize(info.Candidates[i]);
+                mCandidates.Add(FromPostViewSize(val));
             }
             return new Capability<string>
             {
@@ -109,10 +110,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromShootMode(info.Candidates[i]);
+                mCandidates.Add(FromShootMode(val));
             }
             return new Capability<string>
             {
@@ -144,10 +145,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromExposureMode(info.Candidates[i]);
+                mCandidates.Add(FromExposureMode(val));
             }
             return new Capability<string>
             {
@@ -183,10 +184,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromSteadyMode(info.Candidates[i]);
+                mCandidates.Add(FromSteadyMode(val));
             }
             return new Capability<string>
             {
@@ -214,10 +215,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromBeepMode(info.Candidates[i]);
+                mCandidates.Add(FromBeepMode(val));
             }
             return new Capability<string>
             {
@@ -247,10 +248,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromViewAngle(info.Candidates[i]);
+                mCandidates.Add(FromViewAngle(val));
             }
             return new Capability<string>
             {
@@ -270,11 +271,12 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var cand in info.Candidates)
             {
-                mCandidates[i] = FromMovieQuality(info.Candidates[i]);
+                mCandidates.Add(FromMovieQuality(cand));
             }
+
             return new Capability<string>
             {
                 Current = FromMovieQuality(info.Current),
@@ -301,7 +303,7 @@ namespace Kazyx.WPPMM.Utils
             return new Capability<string>
             {
                 Current = FromStillImageSize(info.Current),
-                Candidates = mCandidates.ToArray()
+                Candidates = mCandidates
             };
         }
 
@@ -332,10 +334,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromWhiteBalance(info.Candidates[i]);
+                mCandidates.Add(FromWhiteBalance(val));
             }
             return new Capability<string>
             {
@@ -384,11 +386,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static Capability<string> AsDisabledCapability<T>(Capability<T> info)
         {
-            if (info == null || info.Candidates == null || info.Candidates.Length == 0)
+            if (info == null || info.Candidates == null || info.Candidates.Count == 0)
             {
+                var list = new List<string>();
+                list.Add(AppResources.Disabled);
+
                 return new Capability<string>
                 {
-                    Candidates = new string[] { AppResources.Disabled },
+                    Candidates = list,
                     Current = AppResources.Disabled
                 };
             }
@@ -435,10 +440,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromFlashMode(info.Candidates[i]);
+                mCandidates.Add(FromFlashMode(val));
             }
             return new Capability<string>
             {
@@ -473,10 +478,10 @@ namespace Kazyx.WPPMM.Utils
             if (res != null)
                 return res;
 
-            var mCandidates = new string[info.Candidates.Length];
-            for (int i = 0; i < info.Candidates.Length; i++)
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
             {
-                mCandidates[i] = FromFocusMode(info.Candidates[i]);
+                mCandidates.Add(FromFocusMode(val));
             }
             return new Capability<string>
             {

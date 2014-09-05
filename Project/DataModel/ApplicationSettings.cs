@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Utils;
 using System;
 using System.ComponentModel;

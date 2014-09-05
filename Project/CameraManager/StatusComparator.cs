@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,13 +8,13 @@ namespace Kazyx.WPPMM.CameraManager
 {
     class StatusUpdater
     {
-        internal static void AvailableApis(CameraStatus status, string[] latest)
+        internal static void AvailableApis(CameraStatus status, List<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.AvailableApis = latest;
+            status.AvailableApis = latest.ToArray();
         }
 
         internal static void CameraStatus(CameraStatus status, string latest)
@@ -166,13 +167,13 @@ namespace Kazyx.WPPMM.CameraManager
             status.MovieQuality = latest;
         }
 
-        internal static void Storages(CameraStatus status, StorageInfo[] latest)
+        internal static void Storages(CameraStatus status, List<StorageInfo> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.Storages = latest;
+            status.Storages = latest.ToArray();
         }
 
         internal static void LiveviewOrientation(CameraStatus status, string latest)
@@ -184,13 +185,13 @@ namespace Kazyx.WPPMM.CameraManager
             status.LiveviewOrientation = latest;
         }
 
-        internal static void PictureUrls(CameraStatus status, string[] latest)
+        internal static void PictureUrls(CameraStatus status, List<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.PictureUrls = latest;
+            status.PictureUrls = latest.ToArray();
         }
 
         internal static void FlashMode(CameraStatus status, Capability<string> latest)
@@ -231,7 +232,7 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
                     var size = await client.GetAvailableStillSizeAsync();
-                    Array.Sort(size.Candidates, CompareStillSize);
+                    size.Candidates.Sort(CompareStillSize);
                     status.StillImageSize = size;
                 }
                 catch (RemoteApiException)
@@ -262,7 +263,7 @@ namespace Kazyx.WPPMM.CameraManager
                     {
                         candidates.Add(mode.WhiteBalanceMode);
                         var tmpList = new List<int>();
-                        if (mode.Candidates.Length == 3)
+                        if (mode.Candidates.Count == 3)
                         {
                             for (int i = mode.Candidates[1]; i <= mode.Candidates[0]; i += mode.Candidates[2])
                             {
@@ -293,7 +294,7 @@ namespace Kazyx.WPPMM.CameraManager
 #endif
                     /**/
 
-                    status.WhiteBalance = new Capability<string> { Candidates = candidates.ToArray(), Current = wb.Current.Mode };
+                    status.WhiteBalance = new Capability<string> { Candidates = candidates, Current = wb.Current.Mode };
                     status.ColorTempertureCandidates = tmpCandidates;
                     status.ColorTemperture = wb.Current.ColorTemperature;
                 }

@@ -1,5 +1,6 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.CameraManager;
@@ -148,13 +149,13 @@ namespace Kazyx.WPPMM.Pages
 
             if (e.ScalarDevice.Endpoints.ContainsKey("camera"))
             {
-                var camera = new CameraApiClient(e.ScalarDevice.Endpoints["camera"]);
+                var camera = new CameraApiClient(new Uri(e.ScalarDevice.Endpoints["camera"]));
                 try
                 {
                     var methods = await camera.GetMethodTypesAsync();
 
                     var list = new Dictionary<string, List<string>>();
-                    foreach (MethodType t in methods)
+                    foreach (var t in methods)
                     {
                         if (list.ContainsKey(t.Name))
                         {

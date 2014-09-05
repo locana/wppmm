@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;

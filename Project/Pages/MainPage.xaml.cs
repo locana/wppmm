@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Controls;
 using Kazyx.WPMMM.Resources;
@@ -1244,7 +1245,7 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             FNumberSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.FNumber.Candidates.Length)
+            if (value < cameraManager.cameraStatus.FNumber.Candidates.Count)
             {
                 cameraManager.SetFNumber(cameraManager.cameraStatus.FNumber.Candidates[value]);
             }
@@ -1261,7 +1262,7 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             ShutterSpeedSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.ShutterSpeed.Candidates.Length)
+            if (value < cameraManager.cameraStatus.ShutterSpeed.Candidates.Count)
             {
                 cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.Candidates[value]);
             }
@@ -1295,7 +1296,7 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             IsoSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.ISOSpeedRate.Candidates.Length)
+            if (value < cameraManager.cameraStatus.ISOSpeedRate.Candidates.Count)
             {
                 cameraManager.SetIsoSpeedRate(cameraManager.cameraStatus.ISOSpeedRate.Candidates[value]);
             }

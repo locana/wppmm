@@ -1,6 +1,8 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.Liveview;
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
+using Kazyx.RemoteApi.System;
 using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Reactive;
@@ -204,7 +206,7 @@ namespace Kazyx.WPPMM.CameraManager
             Debug.WriteLine("This device supports ProgramShift API");
             try
             {
-                var range = await _CameraApi.GetSupportedProgramShift();
+                var range = await _CameraApi.GetSupportedProgramShiftAsync();
                 cameraStatus.ProgramShiftRange = range;
                 Debug.WriteLine("Max: " + range.Max + " Min: " + range.Min);
             }
@@ -240,7 +242,7 @@ namespace Kazyx.WPPMM.CameraManager
 
                 if (DeviceInfo.Endpoints.ContainsKey("camera"))
                 {
-                    _CameraApi = new CameraApiClient(e.ScalarDevice.Endpoints["camera"]);
+                    _CameraApi = new CameraApiClient(new Uri(e.ScalarDevice.Endpoints["camera"], UriKind.Absolute));
                     Debug.WriteLine(e.ScalarDevice.Endpoints["camera"]);
                     GetMethodTypes();
                     cameraStatus.isAvailableConnecting = true;
@@ -249,7 +251,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 if (DeviceInfo.Endpoints.ContainsKey("system"))
                 {
-                    _SystemApi = new SystemApiClient(e.ScalarDevice.Endpoints["system"]);
+                    _SystemApi = new SystemApiClient(new Uri(e.ScalarDevice.Endpoints["system"], UriKind.Absolute));
                     Debug.WriteLine(e.ScalarDevice.Endpoints["system"]);
                 }
                 // TODO be careful, device info is updated to the latest found device.
@@ -566,7 +568,7 @@ namespace Kazyx.WPPMM.CameraManager
             try
             {
                 var urls = await _CameraApi.ActTakePictureAsync();
-                OnResultActTakePicture(urls);
+                OnResultActTakePicture(urls.ToArray());
             }
             catch (RemoteApiException e)
             {
@@ -630,7 +632,7 @@ namespace Kazyx.WPPMM.CameraManager
                 try
                 {
                     var res = await _CameraApi.AwaitTakePictureAsync();
-                    OnResultActTakePicture(res);
+                    OnResultActTakePicture(res.ToArray());
                     return;
                 }
                 catch (RemoteApiException e)

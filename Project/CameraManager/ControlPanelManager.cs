@@ -1,4 +1,5 @@
 ﻿using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
@@ -494,7 +495,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async Task OnPickerChanged<T>(object sender, Capability<T> param, AsyncAction<T> action)
         {
-            if (param == null || param.Candidates == null || param.Candidates.Length == 0)
+            if (param == null || param.Candidates == null || param.Candidates.Count == 0)
                 return;
             var selected = (sender as ListPicker).SelectedIndex;
             if (SettingsValueConverter.GetSelectedIndex(param) != selected)

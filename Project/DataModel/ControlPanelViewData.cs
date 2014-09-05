@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Utils;
 using System;
@@ -131,7 +132,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo).Candidates;
+                return SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo).Candidates.ToArray();
             }
         }
 
@@ -163,7 +164,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo).Candidates;
+                return SettingsValueConverter.FromPostViewSize(status.PostviewSizeInfo).Candidates.ToArray();
             }
         }
 
@@ -194,7 +195,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromShootMode(status.ShootModeInfo).Candidates;
+                return SettingsValueConverter.FromShootMode(status.ShootModeInfo).Candidates.ToArray();
             }
         }
 
@@ -223,7 +224,7 @@ namespace Kazyx.WPPMM.DataModel
 
         public string[] CpCandidatesExposureMode
         {
-            get { return SettingsValueConverter.FromExposureMode(status.ExposureMode).Candidates; }
+            get { return SettingsValueConverter.FromExposureMode(status.ExposureMode).Candidates.ToArray(); }
         }
 
         public bool CpIsAvailableExposureMode
@@ -333,7 +334,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromBeepMode(status.BeepMode).Candidates;
+                return SettingsValueConverter.FromBeepMode(status.BeepMode).Candidates.ToArray();
             }
         }
 
@@ -364,7 +365,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromStillImageSize(status.StillImageSize).Candidates;
+                return SettingsValueConverter.FromStillImageSize(status.StillImageSize).Candidates.ToArray();
             }
         }
 
@@ -395,7 +396,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromWhiteBalance(status.WhiteBalance).Candidates;
+                return SettingsValueConverter.FromWhiteBalance(status.WhiteBalance).Candidates.ToArray();
             }
         }
 
@@ -447,7 +448,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromViewAngle(status.ViewAngle).Candidates;
+                return SettingsValueConverter.FromViewAngle(status.ViewAngle).Candidates.ToArray();
             }
         }
 
@@ -478,7 +479,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromSteadyMode(status.SteadyMode).Candidates;
+                return SettingsValueConverter.FromSteadyMode(status.SteadyMode).Candidates.ToArray();
             }
         }
 
@@ -509,7 +510,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromMovieQuality(status.MovieQuality).Candidates;
+                return SettingsValueConverter.FromMovieQuality(status.MovieQuality).Candidates.ToArray();
             }
         }
 
@@ -540,7 +541,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromFlashMode(status.FlashMode).Candidates;
+                return SettingsValueConverter.FromFlashMode(status.FlashMode).Candidates.ToArray();
             }
         }
 
@@ -571,7 +572,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromFocusMode(status.FocusMode).Candidates;
+                return SettingsValueConverter.FromFocusMode(status.FocusMode).Candidates.ToArray();
             }
         }
 
@@ -610,7 +611,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             if (capability != null)
             {
-                if (capability.Candidates.Length > index)
+                if (capability.Candidates.Count > index)
                 {
                     capability.Current = capability.Candidates[index];
                 }

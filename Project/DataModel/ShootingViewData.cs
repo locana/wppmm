@@ -1,4 +1,5 @@
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
 using System;
 using System.ComponentModel;
@@ -836,7 +837,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return 0;
                 }
-                return cameraStatus.FNumber.Candidates.Length - 1;
+                return cameraStatus.FNumber.Candidates.Count - 1;
             }
         }
 
@@ -849,7 +850,7 @@ namespace Kazyx.WPPMM.DataModel
                     return 0;
                 }
 
-                for (int i = 0; i < cameraStatus.FNumber.Candidates.Length; i++)
+                for (int i = 0; i < cameraStatus.FNumber.Candidates.Count; i++)
                 {
                     if (cameraStatus.FNumber.Current == cameraStatus.FNumber.Candidates[i])
                     {
@@ -864,8 +865,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Candidates.Length == 0) { return ""; }
-                else { return cameraStatus.FNumber.Candidates[cameraStatus.FNumber.Candidates.Length - 1]; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Candidates.Count == 0) { return ""; }
+                else { return cameraStatus.FNumber.Candidates[cameraStatus.FNumber.Candidates.Count - 1]; }
             }
         }
 
@@ -873,7 +874,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Candidates.Length == 0) { return ""; }
+                if (cameraStatus == null || cameraStatus.FNumber == null || cameraStatus.FNumber.Candidates.Count == 0) { return ""; }
                 else { return cameraStatus.FNumber.Candidates[0]; }
             }
         }
@@ -886,7 +887,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     return 0;
                 }
-                return cameraStatus.ShutterSpeed.Candidates.Length - 1;
+                return cameraStatus.ShutterSpeed.Candidates.Count - 1;
             }
         }
 
@@ -899,7 +900,7 @@ namespace Kazyx.WPPMM.DataModel
                     return 0;
                 }
 
-                for (int i = 0; i < cameraStatus.ShutterSpeed.Candidates.Length; i++)
+                for (int i = 0; i < cameraStatus.ShutterSpeed.Candidates.Count; i++)
                 {
                     if (cameraStatus.ShutterSpeed.Current == cameraStatus.ShutterSpeed.Candidates[i])
                     {
@@ -914,8 +915,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Candidates.Length == 0) { return ""; }
-                else { return cameraStatus.ShutterSpeed.Candidates[cameraStatus.ShutterSpeed.Candidates.Length - 1]; }
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Candidates.Count == 0) { return ""; }
+                else { return cameraStatus.ShutterSpeed.Candidates[cameraStatus.ShutterSpeed.Candidates.Count - 1]; }
             }
         }
 
@@ -923,7 +924,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Candidates.Length == 0) { return ""; }
+                if (cameraStatus == null || cameraStatus.ShutterSpeed == null || cameraStatus.ShutterSpeed.Candidates.Count == 0) { return ""; }
                 else { return cameraStatus.ShutterSpeed.Candidates[0]; }
             }
         }
@@ -994,7 +995,7 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return 0; }
-                return cameraStatus.ISOSpeedRate.Candidates.Length - 1;
+                return cameraStatus.ISOSpeedRate.Candidates.Count - 1;
             }
         }
 
@@ -1003,7 +1004,7 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || !cameraStatus.IsAvailable("setIsoSpeedRate")) { return 0; }
-                for (int i = 0; i < cameraStatus.ISOSpeedRate.Candidates.Length; i++)
+                for (int i = 0; i < cameraStatus.ISOSpeedRate.Candidates.Count; i++)
                 {
                     if (cameraStatus.ISOSpeedRate.Current == cameraStatus.ISOSpeedRate.Candidates[i])
                     {
@@ -1018,8 +1019,8 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Candidates.Length == 0) { return ""; }
-                else return cameraStatus.ISOSpeedRate.Candidates[cameraStatus.ISOSpeedRate.Candidates.Length - 1];
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Candidates.Count == 0) { return ""; }
+                else return cameraStatus.ISOSpeedRate.Candidates[cameraStatus.ISOSpeedRate.Candidates.Count - 1];
             }
         }
 
@@ -1027,7 +1028,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Candidates.Length == 0) { return ""; }
+                if (cameraStatus == null || cameraStatus.ISOSpeedRate == null || cameraStatus.ISOSpeedRate.Candidates.Count == 0) { return ""; }
                 else return cameraStatus.ISOSpeedRate.Candidates[0];
             }
         }

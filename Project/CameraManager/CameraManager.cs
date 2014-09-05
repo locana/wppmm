@@ -1,5 +1,5 @@
 using Kazyx.DeviceDiscovery;
-using Kazyx.Liveview;
+using Kazyx.ImageStream;
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.RemoteApi.System;
@@ -38,7 +38,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private SystemApiClient _SystemApi;
 
-        private readonly LvStreamProcessor lvProcessor = new LvStreamProcessor();
+        private readonly StreamProcessor lvProcessor = new StreamProcessor();
 
         public readonly Downloader Downloader = new Downloader();
 
@@ -116,7 +116,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     CloseLiveviewConnection();
                 }
-                else if (!lvProcessor.IsProcessing && AppStatus.GetInstance().IsInShootingDisplay)
+                else if (lvProcessor.ConnectionState == ConnectionState.Closed && AppStatus.GetInstance().IsInShootingDisplay)
                 {
                     OpenLiveviewConnection();
                 }
@@ -125,12 +125,12 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 Debug.WriteLine("Current shoot mode updated: " + mode);
 
-                if (!lvProcessor.IsProcessing && cameraStatus.IsAvailable("startLiveview") && AppStatus.GetInstance().IsInShootingDisplay)
+                if (lvProcessor.ConnectionState == ConnectionState.Closed && cameraStatus.IsAvailable("startLiveview") && AppStatus.GetInstance().IsInShootingDisplay)
                 {
                     OpenLiveviewConnection();
                 }
 
-                if (lvProcessor.IsProcessing && mode == ShootModeParam.Audio)
+                if (lvProcessor.ConnectionState != ConnectionState.Closed && mode == ShootModeParam.Audio)
                 {
                     CloseLiveviewConnection();
                 }
@@ -401,7 +401,7 @@ namespace Kazyx.WPPMM.CameraManager
 
                 var uri = new Uri(url);
 
-                if (!lvProcessor.IsProcessing)
+                if (lvProcessor.ConnectionState == ConnectionState.Closed)
                 {
                     var res = await lvProcessor.OpenConnection(uri, connectionTimeout);
                     Debug.WriteLine("Liveview Connection status: " + res);
@@ -460,10 +460,10 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
             IsRendering = true;
-            var size = e.JpegData.Length;
+            var size = e.Packet.ImageData.Length;
             Deployment.Current.Dispatcher.BeginInvoke(async () =>
             {
-                using (var stream = new MemoryStream(e.JpegData, 0, size))
+                using (var stream = new MemoryStream(e.Packet.ImageData, 0, size))
                 {
                     LiveviewImage.image = null;
                     ImageSource.SetSource(stream);

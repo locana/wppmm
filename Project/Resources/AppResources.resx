@@ -511,4 +511,43 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ProgressMessageDetectingDevice" xml:space="preserve">
     <value>Detecting connected camera device...</value>
   </data>
+  <data name="AutoPowerOff" xml:space="preserve">
+    <value>Auto power off</value>
+  </data>
+  <data name="ColorSetting" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="ContShootingMode" xml:space="preserve">
+    <value>Cont. shooting</value>
+  </data>
+  <data name="ContShootingSpeed" xml:space="preserve">
+    <value>Cont. shooting speed</value>
+  </data>
+  <data name="FlipMode" xml:space="preserve">
+    <value>Flip</value>
+  </data>
+  <data name="ImageQuality" xml:space="preserve">
+    <value>Stilla image quality</value>
+  </data>
+  <data name="IntervalTime1" xml:space="preserve">
+    <value>Interval</value>
+  </data>
+  <data name="IrRemoteControl" xml:space="preserve">
+    <value>IR remote</value>
+  </data>
+  <data name="MovieFormat" xml:space="preserve">
+    <value>Movie format</value>
+  </data>
+  <data name="SceneSelection" xml:space="preserve">
+    <value>Scene</value>
+  </data>
+  <data name="TrackingFocusMode" xml:space="preserve">
+    <value>Tracking Focus</value>
+  </data>
+  <data name="TvColorSystem" xml:space="preserve">
+    <value>TV system</value>
+  </data>
+  <data name="ZoomSetting" xml:space="preserve">
+    <value>Zoom setting</value>
+  </data>
 </root>

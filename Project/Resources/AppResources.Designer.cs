@@ -160,6 +160,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto power off.
+        /// </summary>
+        public static string AutoPowerOff {
+            get {
+                return ResourceManager.GetString("AutoPowerOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System sound.
         /// </summary>
         public static string BeepMode {
@@ -188,6 +197,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Color.
+        /// </summary>
+        public static string ColorSetting {
+            get {
+                return ResourceManager.GetString("ColorSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected to _ssid_.
         /// </summary>
         public static string ConnectedDevice {
@@ -211,6 +229,24 @@ namespace Kazyx.WPMMM.Resources {
         public static string ControlPanel {
             get {
                 return ResourceManager.GetString("ControlPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cont. shooting.
+        /// </summary>
+        public static string ContShootingMode {
+            get {
+                return ResourceManager.GetString("ContShootingMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cont. shooting speed.
+        /// </summary>
+        public static string ContShootingSpeed {
+            get {
+                return ResourceManager.GetString("ContShootingSpeed", resourceCulture);
             }
         }
         
@@ -558,6 +594,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flip.
+        /// </summary>
+        public static string FlipMode {
+            get {
+                return ResourceManager.GetString("FlipMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus mode.
         /// </summary>
         public static string FocusMode {
@@ -657,6 +702,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stilla image quality.
+        /// </summary>
+        public static string ImageQuality {
+            get {
+                return ResourceManager.GetString("ImageQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Count.
         /// </summary>
         public static string IntervalCountPrefix {
@@ -686,9 +740,27 @@ namespace Kazyx.WPMMM.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Interval.
         /// </summary>
+        public static string IntervalTime1 {
+            get {
+                return ResourceManager.GetString("IntervalTime1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interval.
+        /// </summary>
         public static string IntervalTimePrefix {
             get {
                 return ResourceManager.GetString("IntervalTimePrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IR remote.
+        /// </summary>
+        public static string IrRemoteControl {
+            get {
+                return ResourceManager.GetString("IrRemoteControl", resourceCulture);
             }
         }
         
@@ -770,6 +842,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string MessageCaption_NFC_Succeed {
             get {
                 return ResourceManager.GetString("MessageCaption_NFC_Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movie format.
+        /// </summary>
+        public static string MovieFormat {
+            get {
+                return ResourceManager.GetString("MovieFormat", resourceCulture);
             }
         }
         
@@ -887,6 +968,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string Retry {
             get {
                 return ResourceManager.GetString("Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scene.
+        /// </summary>
+        public static string SceneSelection {
+            get {
+                return ResourceManager.GetString("SceneSelection", resourceCulture);
             }
         }
         
@@ -1040,6 +1130,24 @@ namespace Kazyx.WPMMM.Resources {
         public static string Switch {
             get {
                 return ResourceManager.GetString("Switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tracking Focus.
+        /// </summary>
+        public static string TrackingFocusMode {
+            get {
+                return ResourceManager.GetString("TrackingFocusMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TV system.
+        /// </summary>
+        public static string TvColorSystem {
+            get {
+                return ResourceManager.GetString("TvColorSystem", resourceCulture);
             }
         }
         
@@ -1229,6 +1337,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string WifiSettingLauncherButtonText {
             get {
                 return ResourceManager.GetString("WifiSettingLauncherButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom setting.
+        /// </summary>
+        public static string ZoomSetting {
+            get {
+                return ResourceManager.GetString("ZoomSetting", resourceCulture);
             }
         }
     }

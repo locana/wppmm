@@ -503,4 +503,43 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ErrorMessage_ImageDL_Gone" xml:space="preserve">
     <value>一部の連写画像の取得に失敗しました。</value>
   </data>
+  <data name="AutoPowerOff" xml:space="preserve">
+    <value>自動電源オフ</value>
+  </data>
+  <data name="ColorSetting" xml:space="preserve">
+    <value>色合い</value>
+  </data>
+  <data name="ContShootingMode" xml:space="preserve">
+    <value>連写設定</value>
+  </data>
+  <data name="ContShootingSpeed" xml:space="preserve">
+    <value>連写速度</value>
+  </data>
+  <data name="FlipMode" xml:space="preserve">
+    <value>反転</value>
+  </data>
+  <data name="ImageQuality" xml:space="preserve">
+    <value>静止画画質</value>
+  </data>
+  <data name="IntervalTime1" xml:space="preserve">
+    <value>インターバル間隔</value>
+  </data>
+  <data name="IrRemoteControl" xml:space="preserve">
+    <value>赤外線リモコン</value>
+  </data>
+  <data name="MovieFormat" xml:space="preserve">
+    <value>動画フォーマット</value>
+  </data>
+  <data name="SceneSelection" xml:space="preserve">
+    <value>シーン</value>
+  </data>
+  <data name="TrackingFocusMode" xml:space="preserve">
+    <value>追尾フォーカス</value>
+  </data>
+  <data name="TvColorSystem" xml:space="preserve">
+    <value>映像設定</value>
+  </data>
+  <data name="ZoomSetting" xml:space="preserve">
+    <value>ズーム設定</value>
+  </data>
 </root>

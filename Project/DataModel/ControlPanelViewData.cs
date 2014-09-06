@@ -42,24 +42,24 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsVisibleColorTemperture");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
-                                OnPropertyChanged("CpIsAvailableZoomSetting");
-        OnPropertyChanged("CpIsAvailableImageQuality");
-        OnPropertyChanged("CpIsAvailableContShootingMode");
-        OnPropertyChanged("CpIsAvailableContShootingSpeed");
-        OnPropertyChanged("CpIsAvailableContShootingResult");
-        OnPropertyChanged("CpIsAvailableFlipMode");
-        OnPropertyChanged("CpIsAvailableSceneSelection");
-        OnPropertyChanged("CpIsAvailableIntervalTime");
-        OnPropertyChanged("CpIsAvailableColorSetting");
-        OnPropertyChanged("CpIsAvailableMovieFormat");
-        OnPropertyChanged("CpIsAvailableIrRemoteControl");
-        OnPropertyChanged("CpIsAvailableTvColorSystem");
-        OnPropertyChanged("CpIsAvailableTrackingFocusStatus");
-        OnPropertyChanged("CpIsAvailableTrackingFocusMode");
-        OnPropertyChanged("CpIsAvailableBatteryInfo");
-        OnPropertyChanged("CpIsAvailableRecordingTimeSec");
-        OnPropertyChanged("CpIsAvailableNumberOfShots");
-        OnPropertyChanged("CpIsAvailableAutoPowerOff");
+                        OnPropertyChanged("CpIsAvailableZoomSetting");
+                        OnPropertyChanged("CpIsAvailableImageQuality");
+                        OnPropertyChanged("CpIsAvailableContShootingMode");
+                        OnPropertyChanged("CpIsAvailableContShootingSpeed");
+                        OnPropertyChanged("CpIsAvailableContShootingResult");
+                        OnPropertyChanged("CpIsAvailableFlipMode");
+                        OnPropertyChanged("CpIsAvailableSceneSelection");
+                        OnPropertyChanged("CpIsAvailableIntervalTime");
+                        OnPropertyChanged("CpIsAvailableColorSetting");
+                        OnPropertyChanged("CpIsAvailableMovieFormat");
+                        OnPropertyChanged("CpIsAvailableIrRemoteControl");
+                        OnPropertyChanged("CpIsAvailableTvColorSystem");
+                        OnPropertyChanged("CpIsAvailableTrackingFocusStatus");
+                        OnPropertyChanged("CpIsAvailableTrackingFocusMode");
+                        OnPropertyChanged("CpIsAvailableBatteryInfo");
+                        OnPropertyChanged("CpIsAvailableRecordingTimeSec");
+                        OnPropertyChanged("CpIsAvailableNumberOfShots");
+                        OnPropertyChanged("CpIsAvailableAutoPowerOff");
                         break;
                     case "ShootMode":
                         OnPropertyChanged("CpCandidatesShootMode");
@@ -77,6 +77,19 @@ namespace Kazyx.WPPMM.DataModel
                     case "WhiteBalance":
                     case "FlashMode":
                     case "FocusMode":
+                    case "ZoomSetting":
+                    case "ImageQuality":
+                    case "ContShootingMode":
+                    case "ContShootingSpeed":
+                    case "FlipMode":
+                    case "SceneSelection":
+                    case "IntervalTime":
+                    case "ColorSetting":
+                    case "MovieFormat":
+                    case "IrRemoteControl":
+                    case "TvColorSystem":
+                    case "TrackingFocusMode":
+                    case "AutoPowerOff":
                         GenericPropertyChanged(e.PropertyName);
                         break;
                     case "ColorTemperture":

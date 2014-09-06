@@ -42,6 +42,24 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsVisibleColorTemperture");
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
+                                OnPropertyChanged("CpIsAvailableZoomSetting");
+        OnPropertyChanged("CpIsAvailableImageQuality");
+        OnPropertyChanged("CpIsAvailableContShootingMode");
+        OnPropertyChanged("CpIsAvailableContShootingSpeed");
+        OnPropertyChanged("CpIsAvailableContShootingResult");
+        OnPropertyChanged("CpIsAvailableFlipMode");
+        OnPropertyChanged("CpIsAvailableSceneSelection");
+        OnPropertyChanged("CpIsAvailableIntervalTime");
+        OnPropertyChanged("CpIsAvailableColorSetting");
+        OnPropertyChanged("CpIsAvailableMovieFormat");
+        OnPropertyChanged("CpIsAvailableIrRemoteControl");
+        OnPropertyChanged("CpIsAvailableTvColorSystem");
+        OnPropertyChanged("CpIsAvailableTrackingFocusStatus");
+        OnPropertyChanged("CpIsAvailableTrackingFocusMode");
+        OnPropertyChanged("CpIsAvailableBatteryInfo");
+        OnPropertyChanged("CpIsAvailableRecordingTimeSec");
+        OnPropertyChanged("CpIsAvailableNumberOfShots");
+        OnPropertyChanged("CpIsAvailableAutoPowerOff");
                         break;
                     case "ShootMode":
                         OnPropertyChanged("CpCandidatesShootMode");
@@ -584,6 +602,371 @@ namespace Kazyx.WPPMM.DataModel
                     status.FocusMode != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
+            }
+        }
+
+        public bool CpIsAvailableZoomSetting
+        {
+            get
+            {
+                return status.IsAvailable("setZoomSetting") &&
+                status.ZoomSetting != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexZoomSetting
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ZoomSetting);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.ZoomSetting, value);
+            }
+        }
+        public string[] CpCandidatesZoomSetting
+        {
+            get
+            {
+                return SettingsValueConverter.FromZoomSetting(status.ZoomSetting).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableImageQuality
+        {
+            get
+            {
+                return status.IsAvailable("setImageQuality") &&
+                status.ImageQuality != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexImageQuality
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ImageQuality);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.ImageQuality, value);
+            }
+        }
+        public string[] CpCandidatesImageQuality
+        {
+            get
+            {
+                return SettingsValueConverter.FromImageQuality(status.ImageQuality).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableContShootingMode
+        {
+            get
+            {
+                return status.IsAvailable("setContShootingMode") &&
+                status.ContShootingMode != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexContShootingMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ContShootingMode);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.ContShootingMode, value);
+            }
+        }
+        public string[] CpCandidatesContShootingMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromContShootingMode(status.ContShootingMode).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableContShootingSpeed
+        {
+            get
+            {
+                return status.IsAvailable("setContShootingSpeed") &&
+                status.ContShootingSpeed != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexContShootingSpeed
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ContShootingSpeed);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.ContShootingSpeed, value);
+            }
+        }
+        public string[] CpCandidatesContShootingSpeed
+        {
+            get
+            {
+                return SettingsValueConverter.FromContShootingSpeed(status.ContShootingSpeed).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableFlipMode
+        {
+            get
+            {
+                return status.IsAvailable("setFlipMode") &&
+                status.FlipMode != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexFlipMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.FlipMode);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.FlipMode, value);
+            }
+        }
+        public string[] CpCandidatesFlipMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromFlipMode(status.FlipMode).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableSceneSelection
+        {
+            get
+            {
+                return status.IsAvailable("setSceneSelection") &&
+                status.SceneSelection != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexSceneSelection
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.SceneSelection);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.SceneSelection, value);
+            }
+        }
+        public string[] CpCandidatesSceneSelection
+        {
+            get
+            {
+                return SettingsValueConverter.FromSceneSelection(status.SceneSelection).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableIntervalTime
+        {
+            get
+            {
+                return status.IsAvailable("setIntervalTime") &&
+                status.IntervalTime != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexIntervalTime
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.IntervalTime);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.IntervalTime, value);
+            }
+        }
+        public string[] CpCandidatesIntervalTime
+        {
+            get
+            {
+                return SettingsValueConverter.FromIntervalTime(status.IntervalTime).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableColorSetting
+        {
+            get
+            {
+                return status.IsAvailable("setColorSetting") &&
+                status.ColorSetting != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexColorSetting
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.ColorSetting);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.ColorSetting, value);
+            }
+        }
+        public string[] CpCandidatesColorSetting
+        {
+            get
+            {
+                return SettingsValueConverter.FromColorSetting(status.ColorSetting).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableMovieFormat
+        {
+            get
+            {
+                return status.IsAvailable("setMovieFormat") &&
+                status.MovieFormat != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexMovieFormat
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.MovieFormat);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.MovieFormat, value);
+            }
+        }
+        public string[] CpCandidatesMovieFormat
+        {
+            get
+            {
+                return SettingsValueConverter.FromMovieFormat(status.MovieFormat).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableIrRemoteControl
+        {
+            get
+            {
+                return status.IsAvailable("setIrRemoteControl") &&
+                status.IrRemoteControl != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexIrRemoteControl
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.IrRemoteControl);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.IrRemoteControl, value);
+            }
+        }
+        public string[] CpCandidatesIrRemoteControl
+        {
+            get
+            {
+                return SettingsValueConverter.FromIrRemoteControl(status.IrRemoteControl).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableTvColorSystem
+        {
+            get
+            {
+                return status.IsAvailable("setTvColorSystem") &&
+                status.TvColorSystem != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexTvColorSystem
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.TvColorSystem);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.TvColorSystem, value);
+            }
+        }
+        public string[] CpCandidatesTvColorSystem
+        {
+            get
+            {
+                return SettingsValueConverter.FromTvColorSystem(status.TvColorSystem).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableTrackingFocusMode
+        {
+            get
+            {
+                return status.IsAvailable("setTrackingFocusMode") &&
+                status.TrackingFocusMode != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexTrackingFocusMode
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.TrackingFocusMode);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.TrackingFocusMode, value);
+            }
+        }
+        public string[] CpCandidatesTrackingFocusMode
+        {
+            get
+            {
+                return SettingsValueConverter.FromTrackingFocusMode(status.TrackingFocusMode).Candidates.ToArray();
+            }
+        }
+        public bool CpIsAvailableAutoPowerOff
+        {
+            get
+            {
+                return status.IsAvailable("setAutoPowerOff") &&
+                status.AutoPowerOff != null &&
+                manager != null &&
+                !manager.IntervalManager.IsRunning;
+            }
+        }
+        public int CpSelectedIndexAutoPowerOff
+        {
+            get
+            {
+                return SettingsValueConverter.GetSelectedIndex(status.AutoPowerOff);
+            }
+            set
+            {
+                SetSelectedAsCurrent(status.AutoPowerOff, value);
+            }
+        }
+        public string[] CpCandidatesAutoPowerOff
+        {
+            get
+            {
+                return SettingsValueConverter.FromAutoPowerOff(status.AutoPowerOff).Candidates.ToArray();
             }
         }
 

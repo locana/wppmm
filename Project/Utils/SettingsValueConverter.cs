@@ -504,5 +504,304 @@ namespace Kazyx.WPPMM.Utils
             return val;
         }
 
+
+        internal static Capability<string> FromZoomSetting(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromZoomSetting(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromZoomSetting(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromZoomSetting(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromImageQuality(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromImageQuality(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromImageQuality(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromImageQuality(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromContShootingMode(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromContShootingMode(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromContShootingMode(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromContShootingMode(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromContShootingSpeed(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromContShootingSpeed(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromContShootingSpeed(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromContShootingSpeed(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromFlipMode(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromFlipMode(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromFlipMode(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromFlipMode(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromSceneSelection(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromSceneSelection(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromSceneSelection(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromSceneSelection(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromIntervalTime(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromIntervalTime(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromIntervalTime(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromIntervalTime(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromColorSetting(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromColorSetting(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromColorSetting(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromColorSetting(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromMovieFormat(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromMovieFormat(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromMovieFormat(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromMovieFormat(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromIrRemoteControl(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromIrRemoteControl(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromIrRemoteControl(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromIrRemoteControl(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromTvColorSystem(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromTvColorSystem(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromTvColorSystem(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromTvColorSystem(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromTrackingFocusMode(Capability<string> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromTrackingFocusMode(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromTrackingFocusMode(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromTrackingFocusMode(string val)
+        {
+            return "temp_" + val;
+        }
+
+        internal static Capability<string> FromAutoPowerOff(Capability<int> info)
+        {
+            var res = AsDisabledCapability(info);
+            if (res != null)
+                return res;
+
+            var mCandidates = new List<string>();
+            foreach (var val in info.Candidates)
+            {
+                mCandidates.Add(FromAutoPowerOff(val));
+            }
+            return new Capability<string>
+            {
+                Current = FromAutoPowerOff(info.Current),
+                Candidates = mCandidates
+            };
+        }
+
+        private static string FromAutoPowerOff(int val)
+        {
+            return "temp_" + val;
+        }
     }
 }

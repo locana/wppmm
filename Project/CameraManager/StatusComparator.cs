@@ -221,6 +221,143 @@ namespace Kazyx.WPPMM.CameraManager
             status.TouchFocusStatus = latest;
         }
 
+        internal static void ZoomSetting(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.ZoomSetting = latest;
+        }
+        internal static void ImageQuality(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.ImageQuality = latest;
+        }
+        internal static void ContShootingMode(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.ContShootingMode = latest;
+        }
+        internal static void ContShootingSpeed(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.ContShootingSpeed = latest;
+        }
+        internal static void ContShootingResult(CameraStatus status, List<ContShootingResult> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.ContShootingResult = latest;
+        }
+        internal static void FlipMode(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.FlipMode = latest;
+        }
+        internal static void SceneSelection(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.SceneSelection = latest;
+        }
+        internal static void IntervalTime(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.IntervalTime = latest;
+        }
+        internal static void ColorSetting(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.ColorSetting = latest;
+        }
+        internal static void MovieFormat(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.MovieFormat = latest;
+        }
+        internal static void IrRemoteControl(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.IrRemoteControl = latest;
+        }
+        internal static void TvColorSystem(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.TvColorSystem = latest;
+        }
+        internal static void TrackingFocusStatus(CameraStatus status, string latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.TrackingFocusStatus = latest;
+        }
+        internal static void TrackingFocusMode(CameraStatus status, Capability<string> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.TrackingFocusMode = latest;
+        }
+        internal static void BatteryInfo(CameraStatus status, List<BatteryInfo> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.BatteryInfo = latest;
+        }
+        internal static void RecordingTimeSec(CameraStatus status, int latest)
+        {
+            status.RecordingTimeSec = latest;
+        }
+        internal static void NumberOfShots(CameraStatus status, int latest)
+        {
+            status.NumberOfShots = latest;
+        }
+        internal static void AutoPowerOff(CameraStatus status, Capability<int> latest)
+        {
+            if (latest == null)
+            {
+                return;
+            }
+            status.AutoPowerOff = latest;
+        }
+
         internal static async void StillSize(CameraStatus status, StillImageSizeEvent latest, CameraApiClient client)
         {
             if (latest == null)

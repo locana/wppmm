@@ -51,6 +51,19 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
             Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
             Panels.Add("setFlashMode", CreateStatusPanel("FlashMode", AppResources.FlashMode, OnFlashModeChanged));
+            Panels.Add("ZoomSetting", CreateStatusPanel("ZoomSetting", "temp_ZoomSetting", OnZoomSettingChanged));
+            Panels.Add("ImageQuality", CreateStatusPanel("ImageQuality", "temp_ImageQuality", OnImageQualityChanged));
+            Panels.Add("ContShootingMode", CreateStatusPanel("ContShootingMode", "temp_ContShootingMode", OnContShootingModeChanged));
+            Panels.Add("ContShootingSpeed", CreateStatusPanel("ContShootingSpeed", "temp_ContShootingSpeed", OnContShootingSpeedChanged));
+            Panels.Add("FlipMode", CreateStatusPanel("FlipMode", "temp_FlipMode", OnFlipModeChanged));
+            Panels.Add("SceneSelection", CreateStatusPanel("SceneSelection", "temp_SceneSelection", OnSceneSelectionChanged));
+            Panels.Add("IntervalTime", CreateStatusPanel("IntervalTime", "temp_IntervalTime", OnIntervalTimeChanged));
+            Panels.Add("ColorSetting", CreateStatusPanel("ColorSetting", "temp_ColorSetting", OnColorSettingChanged));
+            Panels.Add("MovieFormat", CreateStatusPanel("MovieFormat", "temp_MovieFormat", OnMovieFormatChanged));
+            Panels.Add("IrRemoteControl", CreateStatusPanel("IrRemoteControl", "temp_IrRemoteControl", OnIrRemoteControlChanged));
+            Panels.Add("TvColorSystem", CreateStatusPanel("TvColorSystem", "temp_TvColorSystem", OnTvColorSystemChanged));
+            Panels.Add("TrackingFocusMode", CreateStatusPanel("TrackingFocusMode", "temp_TrackingFocusMode", OnTrackingFocusModeChanged));
+            Panels.Add("AutoPowerOff", CreateStatusPanel("AutoPowerOff", "temp_AutoPowerOff", OnAutoPowerOffChanged));
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
 
@@ -462,6 +475,72 @@ namespace Kazyx.WPPMM.CameraManager
         {
             await OnPickerChanged<string>(sender, status.FocusMode,
                 async (selected) => { await manager.CameraApi.SetFocusModeAsync(selected); });
+        }
+
+        private async void OnZoomSettingChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.ZoomSetting,
+            async (selected) => { await manager.CameraApi.SetZoomSettingAsync(new ZoomSetting { Mode = selected }); });
+        }
+        private async void OnImageQualityChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.ImageQuality,
+            async (selected) => { await manager.CameraApi.SetStillQualityAsync(new ImageQualitySetting { Mode = selected }); });
+        }
+        private async void OnContShootingModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.ContShootingMode,
+            async (selected) => { await manager.CameraApi.SetContShootingModeAsync(new ContinuousShootSetting { Mode = selected }); });
+        }
+        private async void OnContShootingSpeedChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.ContShootingSpeed,
+            async (selected) => { await manager.CameraApi.SetContShootingSpeedAsync(new ContinuousShootSpeedSetting { Mode = selected }); });
+        }
+        private async void OnFlipModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.FlipMode,
+            async (selected) => { await manager.CameraApi.SetFlipSettingAsync(new FlipSetting { Mode = selected }); });
+        }
+        private async void OnSceneSelectionChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.SceneSelection,
+            async (selected) => { await manager.CameraApi.SetSceneSelectionAsync(new SceneSelectionSetting { Mode = selected }); });
+        }
+        private async void OnIntervalTimeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.IntervalTime,
+            async (selected) => { await manager.CameraApi.SetIntervalTimeAsync(new IntervalTimeSetting { TimeInSeconds = selected }); });
+        }
+        private async void OnColorSettingChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.ColorSetting,
+            async (selected) => { await manager.CameraApi.SetColorSettingAsync(new ColorSetting { Mode = selected }); });
+        }
+        private async void OnMovieFormatChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.MovieFormat,
+            async (selected) => { await manager.CameraApi.SetMovieFileFormatAsync(new MovieFormat { Mode = selected }); });
+        }
+        private async void OnIrRemoteControlChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.IrRemoteControl,
+            async (selected) => { await manager.CameraApi.SetInfraredRemoteControlAsync(new InfraredRemoteControl { Mode = selected }); });
+        }
+        private async void OnTvColorSystemChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.TvColorSystem,
+            async (selected) => { await manager.CameraApi.SetTvColorSystemAsync(new TvColorSystem { Mode = selected }); });
+        }
+        private async void OnTrackingFocusModeChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<string>(sender, status.TrackingFocusMode,
+            async (selected) => { await manager.CameraApi.SetTrackingFocusAsync(new TrackingFocusSetting { Mode = selected }); });
+        }
+        private async void OnAutoPowerOffChanged(object sender, SelectionChangedEventArgs arg)
+        {
+            await OnPickerChanged<int>(sender, status.AutoPowerOff,
+            async (selected) => { await manager.CameraApi.SetAutoPowerOffAsync(new AutoPowerOff { TimeInSeconds = selected }); });
         }
 
         private async void OnWhiteBalanceChanged(object sender, SelectionChangedEventArgs arg)

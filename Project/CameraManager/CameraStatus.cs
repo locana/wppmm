@@ -537,6 +537,187 @@ namespace Kazyx.WPPMM.CameraManager
 
         public AutoFocusType AfType { get; set; }
 
+        private Capability<string> _ZoomSetting;
+        public Capability<string> ZoomSetting
+        {
+            set
+            {
+                _ZoomSetting = value;
+                OnPropertyChanged("ZoomSetting");
+            }
+            get { return _ZoomSetting; }
+        }
+        private Capability<string> _ImageQuality;
+        public Capability<string> ImageQuality
+        {
+            set
+            {
+                _ImageQuality = value;
+                OnPropertyChanged("ImageQuality");
+            }
+            get { return _ImageQuality; }
+        }
+        private Capability<string> _ContShootingMode;
+        public Capability<string> ContShootingMode
+        {
+            set
+            {
+                _ContShootingMode = value;
+                OnPropertyChanged("ContShootingMode");
+            }
+            get { return _ContShootingMode; }
+        }
+        private Capability<string> _ContShootingSpeed;
+        public Capability<string> ContShootingSpeed
+        {
+            set
+            {
+                _ContShootingSpeed = value;
+                OnPropertyChanged("ContShootingSpeed");
+            }
+            get { return _ContShootingSpeed; }
+        }
+        private List<ContShootingResult> _ContShootingResult;
+        public List<ContShootingResult> ContShootingResult
+        {
+            set
+            {
+                _ContShootingResult = value;
+                OnPropertyChanged("ContShootingResult");
+            }
+            get { return _ContShootingResult; }
+        }
+        private Capability<string> _FlipMode;
+        public Capability<string> FlipMode
+        {
+            set
+            {
+                _FlipMode = value;
+                OnPropertyChanged("FlipMode");
+            }
+            get { return _FlipMode; }
+        }
+        private Capability<string> _SceneSelection;
+        public Capability<string> SceneSelection
+        {
+            set
+            {
+                _SceneSelection = value;
+                OnPropertyChanged("SceneSelection");
+            }
+            get { return _SceneSelection; }
+        }
+        private Capability<string> _IntervalTime;
+        public Capability<string> IntervalTime
+        {
+            set
+            {
+                _IntervalTime = value;
+                OnPropertyChanged("IntervalTime");
+            }
+            get { return _IntervalTime; }
+        }
+        private Capability<string> _ColorSetting;
+        public Capability<string> ColorSetting
+        {
+            set
+            {
+                _ColorSetting = value;
+                OnPropertyChanged("ColorSetting");
+            }
+            get { return _ColorSetting; }
+        }
+        private Capability<string> _MovieFormat;
+        public Capability<string> MovieFormat
+        {
+            set
+            {
+                _MovieFormat = value;
+                OnPropertyChanged("MovieFormat");
+            }
+            get { return _MovieFormat; }
+        }
+        private Capability<string> _IrRemoteControl;
+        public Capability<string> IrRemoteControl
+        {
+            set
+            {
+                _IrRemoteControl = value;
+                OnPropertyChanged("IrRemoteControl");
+            }
+            get { return _IrRemoteControl; }
+        }
+        private Capability<string> _TvColorSystem;
+        public Capability<string> TvColorSystem
+        {
+            set
+            {
+                _TvColorSystem = value;
+                OnPropertyChanged("TvColorSystem");
+            }
+            get { return _TvColorSystem; }
+        }
+        private string _TrackingFocusStatus;
+        public string TrackingFocusStatus
+        {
+            set
+            {
+                _TrackingFocusStatus = value;
+                OnPropertyChanged("TrackingFocusStatus");
+            }
+            get { return _TrackingFocusStatus; }
+        }
+        private Capability<string> _TrackingFocusMode;
+        public Capability<string> TrackingFocusMode
+        {
+            set
+            {
+                _TrackingFocusMode = value;
+                OnPropertyChanged("TrackingFocusMode");
+            }
+            get { return _TrackingFocusMode; }
+        }
+        private List<BatteryInfo> _BatteryInfo;
+        public List<BatteryInfo> BatteryInfo
+        {
+            set
+            {
+                _BatteryInfo = value;
+                OnPropertyChanged("BatteryInfo");
+            }
+            get { return _BatteryInfo; }
+        }
+        private int _RecordingTimeSec;
+        public int RecordingTimeSec
+        {
+            set
+            {
+                _RecordingTimeSec = value;
+                OnPropertyChanged("RecordingTimeSec");
+            }
+            get { return _RecordingTimeSec; }
+        }
+        private int _NumberOfShots;
+        public int NumberOfShots
+        {
+            set
+            {
+                _RecordingTimeSec = value;
+                OnPropertyChanged("RecordingTimeSec");
+            }
+            get { return _RecordingTimeSec; }
+        }
+        private Capability<int> _AutoPowerOff;
+        public Capability<int> AutoPowerOff
+        {
+            set
+            {
+                _AutoPowerOff = value;
+                OnPropertyChanged("AutoPowerOff");
+            }
+            get { return _AutoPowerOff; }
+        }
+
         public Visibility LiveviewScreenVisibility
         {
             get

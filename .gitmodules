@@ -1,12 +1,3 @@
-[submodule "modules/KzLiveview"]
-	path = modules/KzLiveview
-	url = git@github.com:kazyx/KzLiveview.git
-[submodule "modules/KzSoDiscovery"]
-	path = modules/KzSoDiscovery
-	url = git@github.com:kazyx/KzSoDiscovery.git
-[submodule "modules/KzRemoteApi"]
-	path = modules/KzRemoteApi
-	url = git@github.com:kazyx/KzRemoteApi.git
 [submodule "modules/NtNfcLib"]
 	path = modules/NtNfcLib
 	url = git@github.com:naotaco/NtNfcLib.git
@@ -16,3 +7,12 @@
 [submodule "modules/WP8Toolkit"]
 	path = modules/WP8Toolkit
 	url = git@github.com:kazyx/WP8Toolkit.git
+[submodule "modules/kz-ssdp-discovery"]
+	path = modules/kz-ssdp-discovery
+	url = git@github.com:kazyx/kz-ssdp-discovery.git
+[submodule "modules/kz-remote-api"]
+	path = modules/kz-remote-api
+	url = git@github.com:kazyx/kz-remote-api.git
+[submodule "modules/kz-image-stream"]
+	path = modules/kz-image-stream
+	url = git@github.com:kazyx/kz-image-stream.git

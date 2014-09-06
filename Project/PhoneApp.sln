@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneApp", "PhoneApp.csproj", "{8E9F3BBF-DB1D-478F-8341-DB0D1767FD8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzSoDiscovery", "..\modules\KzSoDiscovery\Project\KzSoDiscovery.csproj", "{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzSoDiscovery", "..\modules\kz-ssdp-discovery\Project\KzSoDiscovery.csproj", "{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A67E8803-81EC-45AA-8C5F-F7BFCD4CE5F4}"
 	ProjectSection(SolutionItems) = preProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A67E88
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzRemoteApi", "..\modules\KzRemoteApi\Project\KzRemoteApi.csproj", "{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzRemoteApi", "..\modules\kz-remote-api\Project\KzRemoteApi.csproj", "{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtNfcLib", "..\modules\NtNfcLib\NtNfcLib\NtNfcLib.csproj", "{536E35B7-F3FF-4ABA-8C78-86E39E6C0B36}"
 EndProject
@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtImageProcessor", "..\modu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Phone.Controls.Toolkit.WP8", "..\modules\WP8Toolkit\Microsoft.Phone.Controls.Toolkit.WP8\Microsoft.Phone.Controls.Toolkit.WP8.csproj", "{486642F0-AB94-4F28-B49C-106CA3134239}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzImageStream", "..\modules\KzLiveview\Project\KzImageStream.csproj", "{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzImageStream", "..\modules\kz-image-stream\Project\KzImageStream.csproj", "{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

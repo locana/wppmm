@@ -201,6 +201,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml">
       <SubType>Designer</SubType>
     </None>
@@ -273,15 +274,15 @@
     <Content Include="Assets\Button\ZoomOut.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\modules\KzLiveview\Project\KzImageStream.csproj">
+    <ProjectReference Include="..\modules\kz-image-stream\Project\KzImageStream.csproj">
       <Project>{7F6C5A7D-9B6F-4F8D-8079-F6B3422B2ED6}</Project>
       <Name>KzImageStream</Name>
     </ProjectReference>
-    <ProjectReference Include="..\modules\KzRemoteApi\Project\KzRemoteApi.csproj">
+    <ProjectReference Include="..\modules\kz-remote-api\Project\KzRemoteApi.csproj">
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>KzRemoteApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\modules\KzSoDiscovery\Project\KzSoDiscovery.csproj">
+    <ProjectReference Include="..\modules\kz-ssdp-discovery\Project\KzSoDiscovery.csproj">
       <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
       <Name>KzSoDiscovery</Name>
     </ProjectReference>
@@ -310,6 +311,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.6.0.4\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

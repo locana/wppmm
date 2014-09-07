@@ -125,7 +125,8 @@ namespace Kazyx.WPPMM.Pages
         {
             Dispatcher.BeginInvoke(() =>
             {
-                NavigationService.GoBack();
+                progress.IsVisible = false;
+                // NavigationService.GoBack();
             });
         }
 

@@ -13,6 +13,7 @@ namespace Kazyx.WPPMM.DataModel
         public RemoteThumbnailData(string uuid, DateInfo date, ContentInfo content)
         {
             GroupTitle = date.Title;
+            Source = content;
             FetchThumbnailData(uuid, content);
         }
 
@@ -27,6 +28,8 @@ namespace Kazyx.WPPMM.DataModel
                 Debug.WriteLine("Failed to fetch thumbnail image: " + content.ThumbnailUrl);
             }
         }
+
+        public ContentInfo Source { private set; get; }
 
         public string GroupTitle { private set; get; }
 

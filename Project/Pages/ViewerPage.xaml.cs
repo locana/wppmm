@@ -35,7 +35,7 @@ namespace Kazyx.WPPMM.Pages
 
         private CameraStatus status = new CameraStatus();
 
-        private SoDiscovery discovery = new SoDiscovery();
+        private SsdpDiscovery discovery = new SsdpDiscovery();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -66,9 +66,9 @@ namespace Kazyx.WPPMM.Pages
 
             observer = null;
 
-            discovery.ScalarDeviceDiscovered += discovery_ScalarDeviceDiscovered;
+            discovery.SonyCameraDeviceDiscovered += discovery_ScalarDeviceDiscovered;
             discovery.Finished += discovery_Finished;
-            discovery.SearchScalarDevices(TimeSpan.FromSeconds(10));
+            discovery.SearchSonyCameraDevices(TimeSpan.FromSeconds(10));
         }
 
         void discovery_Finished(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace Kazyx.WPPMM.Pages
             if (observer == null)
             {
                 Debug.WriteLine("ViewerPage: Retrying discovery");
-                discovery.SearchScalarDevices(TimeSpan.FromSeconds(10));
+                discovery.SearchSonyCameraDevices(TimeSpan.FromSeconds(10));
             }
         }
 
@@ -139,7 +139,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        async void discovery_ScalarDeviceDiscovered(object sender, ScalarDeviceEventArgs e)
+        async void discovery_ScalarDeviceDiscovered(object sender, SonyCameraDeviceEventArgs e)
         {
             Debug.WriteLine("ViewerPage: ScalarDeviceDiscovered");
             if (observer != null)
@@ -183,7 +183,7 @@ namespace Kazyx.WPPMM.Pages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            discovery.ScalarDeviceDiscovered -= discovery_ScalarDeviceDiscovered;
+            discovery.SonyCameraDeviceDiscovered -= discovery_ScalarDeviceDiscovered;
             discovery.Finished -= discovery_Finished;
 
             PictureSyncManager.Instance.Failed -= OnDLError;

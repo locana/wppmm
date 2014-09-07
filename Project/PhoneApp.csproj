@@ -95,10 +95,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\RemoteThumbnailData.cs" />
     <Compile Include="PlaybackMode\PlaybackModeUtility.cs" />
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
+    <Compile Include="PlaybackMode\ThumbnailImageConverter.cs" />
     <Compile Include="Utils\GeopositionManager.cs" />
     <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />
     <Compile Include="Utils\PictureSyncManager.cs" />
@@ -285,9 +287,9 @@
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>KzRemoteApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\modules\kz-ssdp-discovery\Project\KzSoDiscovery.csproj">
+    <ProjectReference Include="..\modules\kz-ssdp-discovery\Project\KzSsdpDiscovery.csproj">
       <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
-      <Name>KzSoDiscovery</Name>
+      <Name>KzSsdpDiscovery</Name>
     </ProjectReference>
     <ProjectReference Include="..\modules\NtImageLib\NtImageProcessor\NtImageProcessor.csproj">
       <Project>{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}</Project>

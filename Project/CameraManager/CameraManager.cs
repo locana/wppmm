@@ -28,9 +28,9 @@ namespace Kazyx.WPPMM.CameraManager
 
         private const int TIMEOUT = 10;
 
-        public ScalarDeviceInfo DeviceInfo;
+        public SonyCameraDeviceInfo DeviceInfo;
 
-        private readonly SoDiscovery deviceFinder = new SoDiscovery();
+        private readonly SsdpDiscovery deviceFinder = new SsdpDiscovery();
 
         private CameraApiClient _CameraApi;
         public CameraApiClient CameraApi
@@ -43,6 +43,13 @@ namespace Kazyx.WPPMM.CameraManager
         private readonly StreamProcessor lvProcessor = new StreamProcessor();
 
         public readonly Downloader Downloader = new Downloader();
+
+        private SonyCameraDeviceInfo _CurrentDeviceInfo = null;
+        public SonyCameraDeviceInfo CurrentDeviceInfo
+        {
+            get { return _CurrentDeviceInfo; }
+            private set { _CurrentDeviceInfo = value; }
+        }
 
         private readonly CameraStatus _cameraStatus = new CameraStatus();
         public CameraStatus cameraStatus { get { return _cameraStatus; } }
@@ -140,7 +147,7 @@ namespace Kazyx.WPPMM.CameraManager
             cameraStatus.PropertyChanged += cameraStatus_PropertyChanged;
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
-            deviceFinder.ScalarDeviceDiscovered += deviceFinder_Discovered;
+            deviceFinder.SonyCameraDeviceDiscovered += deviceFinder_Discovered;
             deviceFinder.Finished += deviceFinder_Finished;
             PictureSyncManager.Instance.Fetched += OnPictureFetched;
             PictureSyncManager.Instance.Failed += OnFetchFailed;
@@ -231,7 +238,7 @@ namespace Kazyx.WPPMM.CameraManager
             });
         }
 
-        void deviceFinder_Discovered(object sender, ScalarDeviceEventArgs e)
+        void deviceFinder_Discovered(object sender, SonyCameraDeviceEventArgs e)
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
@@ -256,6 +263,8 @@ namespace Kazyx.WPPMM.CameraManager
                     _SystemApi = new SystemApiClient(new Uri(e.ScalarDevice.Endpoints["system"], UriKind.Absolute));
                     Debug.WriteLine(e.ScalarDevice.Endpoints["system"]);
                 }
+                CurrentDeviceInfo = e.ScalarDevice;
+
                 // TODO be careful, device info is updated to the latest found device.
 
                 NotifyWifiInfoUpdated();
@@ -495,7 +504,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             DeviceDiscovered = Found;
             DiscoveryTimeout = Timeout;
-            deviceFinder.SearchScalarDevices(TimeSpan.FromSeconds(TIMEOUT));
+            deviceFinder.SearchSonyCameraDevices(TimeSpan.FromSeconds(TIMEOUT));
         }
 
         private async void GetMethodTypes()

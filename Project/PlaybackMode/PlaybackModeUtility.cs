@@ -132,11 +132,11 @@ namespace Kazyx.WPMMM.PlaybackMode
             for (var i = 0; i < loops; i++)
             {
                 var dates = await GetDateListAsync(av, uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP);
-                handler.Invoke(new DateListEventArgs(dates));
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     break;
                 }
+                handler.Invoke(new DateListEventArgs(dates));
             }
         }
 
@@ -175,11 +175,11 @@ namespace Kazyx.WPMMM.PlaybackMode
             for (var i = 0; i < loops; i++)
             {
                 var contents = await GetContentsOfDayAsync(av, date.Uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP, includeMovies);
-                handler.Invoke(new ContentListEventArgs(date, contents));
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     break;
                 }
+                handler.Invoke(new ContentListEventArgs(date, contents));
             }
         }
 

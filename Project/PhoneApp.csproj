@@ -95,13 +95,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CameraManager\PlaybackModeUtility.cs" />
+    <Compile Include="PlaybackMode\PlaybackModeUtility.cs" />
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
-    <Compile Include="CameraManager\GeopositionManager.cs" />
+    <Compile Include="Utils\GeopositionManager.cs" />
     <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />
-    <Compile Include="CameraManager\PictureSyncManager.cs" />
+    <Compile Include="Utils\PictureSyncManager.cs" />
     <Compile Include="CameraManager\ServerVersion.cs" />
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
+    <Compile Include="DataModel\ContentPlaybackData.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
     <Compile Include="DataModel\AppSettingData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Pages\HiddenPage.xaml.cs">
       <DependentUpon>HiddenPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlaybackMode\ThumbnailCacheLoader.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -137,7 +139,7 @@
     </Compile>
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
-    <Compile Include="CameraManager\Downloader.cs" />
+    <Compile Include="Utils\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\CameraStatus.cs" />
     <Compile Include="CameraManager\StatusComparator.cs" />

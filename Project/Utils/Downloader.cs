@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Windows.Devices.Geolocation;
 
-namespace Kazyx.WPPMM.CameraManager
+namespace Kazyx.WPPMM.Utils
 {
     public class Downloader
     {
@@ -125,7 +125,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        private static Task<Stream> GetResponseStreamAsync(Uri uri)
+        public static Task<Stream> GetResponseStreamAsync(Uri uri)
         {
             var tcs = new TaskCompletionSource<Stream>();
 

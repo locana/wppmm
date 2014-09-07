@@ -1,14 +1,16 @@
 ﻿using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPMMM.DataModel;
 using Kazyx.WPPMM.CameraManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kazyx.WPMMM.CameraManager
+namespace Kazyx.WPMMM.PlaybackMode
 {
     public class PlaybackModeUtility
     {
@@ -105,13 +107,34 @@ namespace Kazyx.WPMMM.CameraManager
             return list;
         }
 
-        public static async Task<List<DateInfo>> GetDateListAsync(AvContentApiClient av, string uri)
+        private const int CONTENT_LOOP_STEP = 50;
+
+        public static async Task GetDateListAsEvents(AvContentApiClient av, string uri, Action<DateListEventArgs> handler)
+        {
+            var count = await av.GetContentCountAsync(new CountingTarget
+            {
+                Grouping = ContentGroupingMode.Date,
+                Uri = uri,
+            });
+
+            var loops = count.NumOfContents / CONTENT_LOOP_STEP + (count.NumOfContents % CONTENT_LOOP_STEP == 0 ? 0 : 1);
+
+            for (var i = 0; i < loops; i++)
+            {
+                var dates = await GetDateListAsync(av, uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP);
+                handler.Invoke(new DateListEventArgs(dates));
+            }
+        }
+
+        private static async Task<List<DateInfo>> GetDateListAsync(AvContentApiClient av, string uri, int startFrom, int count)
         {
             var contents = await av.GetContentListAsync(new ContentListTarget
             {
                 Sorting = SortMode.Ascending,
                 Grouping = ContentGroupingMode.Date,
                 Uri = uri,
+                StartIndex = startFrom,
+                MaxContents = count
             });
 
             var list = new List<DateInfo>();
@@ -125,7 +148,24 @@ namespace Kazyx.WPMMM.CameraManager
             return list;
         }
 
-        public static async Task GetContentsOfDay(AvContentApiClient av, string uri, bool includeMovies)
+        public static async Task GetContentsOfDayAsEvents(AvContentApiClient av, DateInfo date, bool includeMovies, Action<ContentListEventArgs> handler)
+        {
+            var count = await av.GetContentCountAsync(new CountingTarget
+            {
+                Grouping = ContentGroupingMode.Date,
+                Uri = date.Uri,
+            });
+
+            var loops = count.NumOfContents / CONTENT_LOOP_STEP + (count.NumOfContents % CONTENT_LOOP_STEP == 0 ? 0 : 1);
+
+            for (var i = 0; i < loops; i++)
+            {
+                var contents = await GetContentsOfDay(av, date.Uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP, includeMovies);
+                handler.Invoke(new ContentListEventArgs(date, contents));
+            }
+        }
+
+        private static async Task<List<ContentInfo>> GetContentsOfDay(AvContentApiClient av, string uri, int startFrom, int count, bool includeMovies)
         {
             var types = new List<string>();
             types.Add(ContentKind.StillImage);
@@ -141,9 +181,11 @@ namespace Kazyx.WPMMM.CameraManager
                 Grouping = ContentGroupingMode.Date,
                 Uri = uri,
                 Types = types,
+                StartIndex = startFrom,
+                MaxContents = count
             });
 
-            var list = new List<ThumbnailInfo>();
+            var list = new List<ContentInfo>();
             foreach (var content in contents)
             {
                 if (content.IsContent == TextBoolean.True
@@ -151,7 +193,7 @@ namespace Kazyx.WPMMM.CameraManager
                     && content.ImageContent.OriginalImages != null
                     && content.ImageContent.OriginalImages.Count > 0)
                 {
-                    list.Add(new ThumbnailInfo
+                    list.Add(new ContentInfo
                     {
                         Name = content.ImageContent.OriginalImages[0].FileName,
                         LargeUrl = content.ImageContent.LargeImageUrl,
@@ -161,6 +203,8 @@ namespace Kazyx.WPMMM.CameraManager
                     });
                 }
             }
+
+            return list;
         }
 
         public static async Task<string> GetMovieStreamUri(AvContentApiClient av, string contentUri)
@@ -171,18 +215,40 @@ namespace Kazyx.WPMMM.CameraManager
         }
     }
 
-    public class DateInfo
+    public class DateListEventArgs : EventArgs
     {
-        public string Title { set; get; }
-        public string Uri { set; get; }
+        private readonly List<DateInfo> dates;
+
+        public DateListEventArgs(List<DateInfo> dates)
+        {
+            this.dates = dates;
+        }
+
+        public List<DateInfo> DateList
+        {
+            get { return dates; }
+        }
     }
 
-    public class ThumbnailInfo
+    public class ContentListEventArgs : EventArgs
     {
-        public string Name { set; get; }
-        public string LargeUrl { set; get; }
-        public string ThumbnailUrl { set; get; }
-        public string Uri { set; get; }
-        public string ContentType { set; get; }
+        private readonly DateInfo date;
+        private readonly List<ContentInfo> contents;
+
+        public ContentListEventArgs(DateInfo date, List<ContentInfo> contents)
+        {
+            this.date = date;
+            this.contents = contents;
+        }
+
+        public DateInfo DateInfo
+        {
+            get { return date; }
+        }
+
+        public List<ContentInfo> ContentList
+        {
+            get { return contents; }
+        }
     }
 }

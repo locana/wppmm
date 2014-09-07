@@ -1,16 +1,18 @@
-﻿using Kazyx.WPMMM.PlaybackMode;
+﻿using Kazyx.WPPMM.PlaybackMode;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace Kazyx.WPMMM.DataModel
+namespace Kazyx.WPPMM.DataModel
 {
     public class RemoteThumbnailData : INotifyPropertyChanged
     {
-        public RemoteThumbnailData(string uuid, ContentInfo content)
+        public RemoteThumbnailData(string uuid, DateInfo date, ContentInfo content)
         {
+            GroupTitle = date.Title;
             FetchThumbnailData(uuid, content);
         }
 
@@ -26,7 +28,9 @@ namespace Kazyx.WPMMM.DataModel
             }
         }
 
-        public string _CachePath = null;
+        public string GroupTitle { private set; get; }
+
+        private string _CachePath = null;
         public string CachePath
         {
             set
@@ -57,6 +61,42 @@ namespace Kazyx.WPMMM.DataModel
                     }
                 }
             });
+        }
+    }
+
+    public class RemoteThumbnailGroup : INotifyPropertyChanged
+    {
+        ObservableCollection<RemoteThumbnailData> _Group = new ObservableCollection<RemoteThumbnailData>();
+
+        public ObservableCollection<RemoteThumbnailData> Group
+        {
+            set
+            {
+                _Group = value;
+                OnPropertyChanged("Group");
+            }
+            get { return _Group; }
+        }
+
+        public void Add(RemoteThumbnailData data)
+        {
+            _Group.Add(data);
+            OnPropertyChanged("Group");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                try
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(name));
+                }
+                catch (COMException)
+                {
+                }
+            }
         }
     }
 }

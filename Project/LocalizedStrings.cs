@@ -1,4 +1,4 @@
-using Kazyx.WPMMM.Resources;
+using Kazyx.WPPMM.Resources;
 
 namespace Kazyx.WPPMM
 {

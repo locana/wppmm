@@ -1,10 +1,9 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.ImageStream;
 using Kazyx.RemoteApi;
+using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.RemoteApi.System;
-using Kazyx.WPMMM.CameraManager;
-using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Reactive;
@@ -39,6 +38,12 @@ namespace Kazyx.WPPMM.CameraManager
         }
 
         private SystemApiClient _SystemApi;
+
+        private AvContentApiClient _AvContentApi;
+        public AvContentApiClient AvContentApi
+        {
+            get { return _AvContentApi; }
+        }
 
         private readonly StreamProcessor lvProcessor = new StreamProcessor();
 
@@ -242,7 +247,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                DeviceInfo = e.ScalarDevice;
+                DeviceInfo = e.SonyCameraDevice;
                 Debug.WriteLine("found device: " + DeviceInfo.ModelName + " - " + DeviceInfo.UDN);
                 if (DeviceInfo.FriendlyName == "DSC-QX10")
                 {
@@ -251,8 +256,8 @@ namespace Kazyx.WPPMM.CameraManager
 
                 if (DeviceInfo.Endpoints.ContainsKey("camera"))
                 {
-                    _CameraApi = new CameraApiClient(new Uri(e.ScalarDevice.Endpoints["camera"], UriKind.Absolute));
-                    Debug.WriteLine(e.ScalarDevice.Endpoints["camera"]);
+                    _CameraApi = new CameraApiClient(new Uri(e.SonyCameraDevice.Endpoints["camera"], UriKind.Absolute));
+                    Debug.WriteLine(e.SonyCameraDevice.Endpoints["camera"]);
                     GetMethodTypes();
                     cameraStatus.isAvailableConnecting = true;
 
@@ -260,10 +265,15 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 if (DeviceInfo.Endpoints.ContainsKey("system"))
                 {
-                    _SystemApi = new SystemApiClient(new Uri(e.ScalarDevice.Endpoints["system"], UriKind.Absolute));
-                    Debug.WriteLine(e.ScalarDevice.Endpoints["system"]);
+                    _SystemApi = new SystemApiClient(new Uri(e.SonyCameraDevice.Endpoints["system"], UriKind.Absolute));
+                    Debug.WriteLine(e.SonyCameraDevice.Endpoints["system"]);
                 }
-                CurrentDeviceInfo = e.ScalarDevice;
+                if (DeviceInfo.Endpoints.ContainsKey("avContent"))
+                {
+                    _AvContentApi = new AvContentApiClient(new Uri(e.SonyCameraDevice.Endpoints["avContent"], UriKind.Absolute));
+                    Debug.WriteLine(e.SonyCameraDevice.Endpoints["avContent"]);
+                }
+                CurrentDeviceInfo = e.SonyCameraDevice;
 
                 // TODO be careful, device info is updated to the latest found device.
 

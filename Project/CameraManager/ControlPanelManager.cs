@@ -1,6 +1,6 @@
 ﻿using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPMMM.Resources;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;

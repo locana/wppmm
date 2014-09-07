@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Kazyx.WPMMM.DataModel
+namespace Kazyx.WPPMM.DataModel
 {
     public class DateInfo
     {

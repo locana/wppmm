@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Kazyx.WPMMM.Controls
+namespace Kazyx.WPPMM.Controls
 {
     public partial class Histogram : UserControl
     {

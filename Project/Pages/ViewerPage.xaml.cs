@@ -1,10 +1,9 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPMMM.Resources;
-using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
@@ -148,9 +147,9 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            if (e.ScalarDevice.Endpoints.ContainsKey("camera"))
+            if (e.SonyCameraDevice.Endpoints.ContainsKey("camera"))
             {
-                var camera = new CameraApiClient(new Uri(e.ScalarDevice.Endpoints["camera"]));
+                var camera = new CameraApiClient(new Uri(e.SonyCameraDevice.Endpoints["camera"]));
                 try
                 {
                     var methods = await camera.GetMethodTypesAsync();

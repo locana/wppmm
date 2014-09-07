@@ -1,7 +1,7 @@
 ﻿using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPMMM.DataModel;
+using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.CameraManager;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kazyx.WPMMM.PlaybackMode
+namespace Kazyx.WPPMM.PlaybackMode
 {
     public class PlaybackModeUtility
     {

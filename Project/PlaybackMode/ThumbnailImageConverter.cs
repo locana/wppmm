@@ -6,7 +6,7 @@ using System.IO.IsolatedStorage;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace Kazyx.WPMMM.PlaybackMode
+namespace Kazyx.WPPMM.PlaybackMode
 {
     public class ThumbnailImageConverter : IValueConverter
     {

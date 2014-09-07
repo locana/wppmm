@@ -1,11 +1,9 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPMMM.Controls;
-using Kazyx.WPMMM.Resources;
-using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Controls;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Devices;
 using Microsoft.Phone.Controls;
@@ -57,6 +55,7 @@ namespace Kazyx.WPPMM.Pages
 
         public MainPage()
         {
+            Debug.WriteLine("MainPage constructor");
             InitializeComponent();
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
@@ -675,7 +674,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void InitializeHitogram()
         {
-            Histogram.Init(WPMMM.Controls.Histogram.ColorType.White, 1500);
+            Histogram.Init(WPPMM.Controls.Histogram.ColorType.White, 1500);
         }
 
         private void cameraManager_OnHistogramUpdated(int[] r, int[] g, int[] b)

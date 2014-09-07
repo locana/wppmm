@@ -1,4 +1,4 @@
-using Kazyx.WPMMM.Resources;
+using Kazyx.WPPMM.Resources;
 using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;

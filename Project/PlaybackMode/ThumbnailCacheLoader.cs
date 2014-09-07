@@ -1,4 +1,4 @@
-﻿using Kazyx.WPMMM.DataModel;
+﻿using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using System;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Threading.Tasks;
 
-namespace Kazyx.WPMMM.PlaybackMode
+namespace Kazyx.WPPMM.PlaybackMode
 {
     public class ThumbnailCacheLoader
     {

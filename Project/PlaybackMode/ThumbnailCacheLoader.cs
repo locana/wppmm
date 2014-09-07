@@ -40,7 +40,8 @@ namespace Kazyx.WPMMM.PlaybackMode
         {
             var uri = new Uri(content.ThumbnailUrl);
             var directory = CACHE_ROOT + "/" + uuid;
-            var filename = directory + "/" + Path.GetFileName(uri.LocalPath);
+            var filename = content.CreatedTime.Replace(":", ".") + "--" + Path.GetFileName(uri.LocalPath);
+            var filepath = directory + "/" + filename;
 
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -51,10 +52,10 @@ namespace Kazyx.WPMMM.PlaybackMode
 
                 lock (this)
                 {
-                    if (store.FileExists(filename))
+                    if (store.FileExists(filepath))
                     {
-                        Debug.WriteLine("Existing thumbnail cache: " + filename);
-                        return filename;
+                        Debug.WriteLine("Existing thumbnail cache: " + filepath);
+                        return filepath;
                     }
                 }
             }
@@ -65,16 +66,16 @@ namespace Kazyx.WPMMM.PlaybackMode
                 {
                     lock (this)
                     {
-                        if (!store.FileExists(filename))
+                        if (!store.FileExists(filepath))
                         {
-                            using (var dst = store.CreateFile(filename))
+                            using (var dst = store.CreateFile(filepath))
                             {
                                 stream.CopyTo(dst);
                             }
                         }
                     }
-                    Debug.WriteLine("New thumbnail cache: " + filename);
-                    return filename;
+                    Debug.WriteLine("New thumbnail cache: " + filepath);
+                    return filepath;
                 }
             }
         }

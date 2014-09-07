@@ -83,6 +83,11 @@ namespace Kazyx.WPMMM.PlaybackMode
             }
         }
 
+        /// <summary>
+        /// Camera devices should support "storage" scheme.
+        /// </summary>
+        /// <param name="av"></param>
+        /// <returns></returns>
         public static async Task<bool> IsStorageSupportedAsync(AvContentApiClient av)
         {
             var schemes = await av.GetSchemeListAsync();
@@ -96,6 +101,11 @@ namespace Kazyx.WPMMM.PlaybackMode
             return false;
         }
 
+        /// <summary>
+        /// Get uri of the storages.
+        /// </summary>
+        /// <param name="av"></param>
+        /// <returns></returns>
         public static async Task<List<string>> GetStoragesUriAsync(AvContentApiClient av)
         {
             var sources = await av.GetSourceListAsync(new UriScheme { Scheme = Scheme.Storage });
@@ -109,7 +119,7 @@ namespace Kazyx.WPMMM.PlaybackMode
 
         private const int CONTENT_LOOP_STEP = 50;
 
-        public static async Task GetDateListAsEvents(AvContentApiClient av, string uri, Action<DateListEventArgs> handler)
+        public static async Task GetDateListAsEventsAsync(AvContentApiClient av, string uri, Action<DateListEventArgs> handler, CancellationTokenSource cancel = null)
         {
             var count = await av.GetContentCountAsync(new CountingTarget
             {
@@ -123,6 +133,10 @@ namespace Kazyx.WPMMM.PlaybackMode
             {
                 var dates = await GetDateListAsync(av, uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP);
                 handler.Invoke(new DateListEventArgs(dates));
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    break;
+                }
             }
         }
 
@@ -148,7 +162,7 @@ namespace Kazyx.WPMMM.PlaybackMode
             return list;
         }
 
-        public static async Task GetContentsOfDayAsEvents(AvContentApiClient av, DateInfo date, bool includeMovies, Action<ContentListEventArgs> handler)
+        public static async Task GetContentsOfDayAsEventsAsync(AvContentApiClient av, DateInfo date, bool includeMovies, Action<ContentListEventArgs> handler, CancellationTokenSource cancel = null)
         {
             var count = await av.GetContentCountAsync(new CountingTarget
             {
@@ -160,12 +174,16 @@ namespace Kazyx.WPMMM.PlaybackMode
 
             for (var i = 0; i < loops; i++)
             {
-                var contents = await GetContentsOfDay(av, date.Uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP, includeMovies);
+                var contents = await GetContentsOfDayAsync(av, date.Uri, i * CONTENT_LOOP_STEP, CONTENT_LOOP_STEP, includeMovies);
                 handler.Invoke(new ContentListEventArgs(date, contents));
+                if (cancel != null && cancel.IsCancellationRequested)
+                {
+                    break;
+                }
             }
         }
 
-        private static async Task<List<ContentInfo>> GetContentsOfDay(AvContentApiClient av, string uri, int startFrom, int count, bool includeMovies)
+        private static async Task<List<ContentInfo>> GetContentsOfDayAsync(AvContentApiClient av, string uri, int startFrom, int count, bool includeMovies)
         {
             var types = new List<string>();
             types.Add(ContentKind.StillImage);
@@ -188,30 +206,69 @@ namespace Kazyx.WPMMM.PlaybackMode
             var list = new List<ContentInfo>();
             foreach (var content in contents)
             {
-                if (content.IsContent == TextBoolean.True
-                    && content.ImageContent != null
-                    && content.ImageContent.OriginalImages != null
-                    && content.ImageContent.OriginalImages.Count > 0)
+                if (content.ImageContent != null
+                    && content.ImageContent.OriginalContents != null
+                    && content.ImageContent.OriginalContents.Count > 0)
                 {
-                    list.Add(new ContentInfo
+                    var contentInfo = new ContentInfo
                     {
-                        Name = content.ImageContent.OriginalImages[0].FileName,
+                        Name = RemoveExtension(content.ImageContent.OriginalContents[0].FileName),
                         LargeUrl = content.ImageContent.LargeImageUrl,
                         ThumbnailUrl = content.ImageContent.ThumbnailUrl,
                         ContentType = content.ContentKind,
                         Uri = content.Uri,
-                    });
+                        CreatedTime = content.CreatedTime,
+                        Protected = content.IsProtected == TextBoolean.True,
+                        RemotePlaybackAvailable = (content.RemotePlayTypes != null && content.RemotePlayTypes.Contains(RemotePlayMode.SimpleStreaming)),
+                    };
+
+                    if (content.ContentKind == ContentKind.StillImage)
+                    {
+                        foreach (var original in content.ImageContent.OriginalContents)
+                        {
+                            if (original.Type == ImageType.Jpeg)
+                            {
+                                contentInfo.OriginalUrl = original.Url;
+                            }
+                        }
+                    }
+
+                    list.Add(contentInfo);
                 }
             }
 
             return list;
         }
 
-        public static async Task<string> GetMovieStreamUri(AvContentApiClient av, string contentUri)
+        public static async Task<string> PrepareMovieStreamingAsync(AvContentApiClient av, string contentUri)
         {
             var uri = await av.SetStreamingContentAsync(new PlaybackContent { Uri = contentUri, RemotePlayType = RemotePlayMode.SimpleStreaming });
             await av.StartStreamingAsync();
             return uri.Url;
+        }
+
+        private static string RemoveExtension(string name)
+        {
+            if (name == null)
+            {
+                return "";
+            }
+            if (!name.Contains("."))
+            {
+                return name;
+            }
+            else
+            {
+                var index = name.LastIndexOf(".");
+                if (index == 0)
+                {
+                    return "";
+                }
+                else
+                {
+                    return name.Substring(0, index);
+                }
+            }
         }
     }
 

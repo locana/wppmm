@@ -1,4 +1,4 @@
-using Kazyx.WPPMM.Resources;
+using Kazyx.WPMMM.Resources;
 using Microsoft.Phone.Controls;
 using System;
 using System.IO;

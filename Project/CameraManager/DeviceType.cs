@@ -1,5 +1,5 @@
 ﻿
-namespace Kazyx.WPPMM.CameraManager
+namespace Kazyx.WPMMM.CameraManager
 {
     public enum DeviceType
     {

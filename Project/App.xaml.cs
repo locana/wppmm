@@ -1,4 +1,4 @@
-using Kazyx.WPPMM.Resources;
+using Kazyx.WPMMM.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Navigation;
 
-namespace Kazyx.WPPMM
+namespace Kazyx.WPMMM
 {
     public partial class App : Application
     {

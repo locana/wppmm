@@ -1,10 +1,10 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPMMM.CameraManager;
+using Kazyx.WPMMM.Resources;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
-using Kazyx.WPPMM.Resources;
-using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
 using System;
@@ -34,7 +34,7 @@ namespace Kazyx.WPPMM.Pages
 
         private CameraStatus status = new CameraStatus();
 
-        private SsdpDiscovery discovery = new SsdpDiscovery();
+        private SoDiscovery discovery = new SoDiscovery();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -65,9 +65,9 @@ namespace Kazyx.WPPMM.Pages
 
             observer = null;
 
-            discovery.SonyCameraDeviceDiscovered += discovery_ScalarDeviceDiscovered;
+            discovery.ScalarDeviceDiscovered += discovery_ScalarDeviceDiscovered;
             discovery.Finished += discovery_Finished;
-            discovery.SearchSonyCameraDevices(TimeSpan.FromSeconds(10));
+            discovery.SearchScalarDevices(TimeSpan.FromSeconds(10));
         }
 
         void discovery_Finished(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace Kazyx.WPPMM.Pages
             if (observer == null)
             {
                 Debug.WriteLine("ViewerPage: Retrying discovery");
-                discovery.SearchSonyCameraDevices(TimeSpan.FromSeconds(10));
+                discovery.SearchScalarDevices(TimeSpan.FromSeconds(10));
             }
         }
 
@@ -138,7 +138,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        async void discovery_ScalarDeviceDiscovered(object sender, SonyCameraDeviceEventArgs e)
+        async void discovery_ScalarDeviceDiscovered(object sender, ScalarDeviceEventArgs e)
         {
             Debug.WriteLine("ViewerPage: ScalarDeviceDiscovered");
             if (observer != null)
@@ -147,9 +147,9 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            if (e.SonyCameraDevice.Endpoints.ContainsKey("camera"))
+            if (e.ScalarDevice.Endpoints.ContainsKey("camera"))
             {
-                var camera = new CameraApiClient(new Uri(e.SonyCameraDevice.Endpoints["camera"]));
+                var camera = new CameraApiClient(new Uri(e.ScalarDevice.Endpoints["camera"]));
                 try
                 {
                     var methods = await camera.GetMethodTypesAsync();
@@ -182,7 +182,7 @@ namespace Kazyx.WPPMM.Pages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            discovery.SonyCameraDeviceDiscovered -= discovery_ScalarDeviceDiscovered;
+            discovery.ScalarDeviceDiscovered -= discovery_ScalarDeviceDiscovered;
             discovery.Finished -= discovery_Finished;
 
             PictureSyncManager.Instance.Failed -= OnDLError;

@@ -10,7 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Kazyx.WPPMM.Controls
+namespace Kazyx.WPMMM.Controls
 {
     public partial class PullReleaseBar : UserControl
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Phone
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneApp", "PhoneApp.csproj", "{8E9F3BBF-DB1D-478F-8341-DB0D1767FD8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzSsdpDiscovery", "..\modules\kz-ssdp-discovery\Project\KzSsdpDiscovery.csproj", "{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KzSoDiscovery", "..\modules\kz-ssdp-discovery\Project\KzSoDiscovery.csproj", "{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A67E8803-81EC-45AA-8C5F-F7BFCD4CE5F4}"
 	ProjectSection(SolutionItems) = preProject

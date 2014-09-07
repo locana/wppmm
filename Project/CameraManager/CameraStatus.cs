@@ -1,6 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPPMM.CameraManager;
+using Kazyx.WPMMM.CameraManager;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -702,10 +702,10 @@ namespace Kazyx.WPPMM.CameraManager
         {
             set
             {
-                _NumberOfShots = value;
+                _RecordingTimeSec = value;
                 OnPropertyChanged("RecordingTimeSec");
             }
-            get { return _NumberOfShots; }
+            get { return _RecordingTimeSec; }
         }
         private Capability<int> _AutoPowerOff;
         public Capability<int> AutoPowerOff

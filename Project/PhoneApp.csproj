@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kazyx.WPPMM</RootNamespace>
+    <RootNamespace>Kazyx.WPMMM</RootNamespace>
     <AssemblyName>Scrap</AssemblyName>
     <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
@@ -20,7 +20,7 @@
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>WPPMM_$(Configuration)_$(Platform).xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>Kazyx.WPPMM.App</SilverlightAppEntry>
+    <SilverlightAppEntry>Kazyx.WPMMM.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
@@ -95,18 +95,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\RemoteThumbnailData.cs" />
-    <Compile Include="Pages\RemoteViewerPage.xaml.cs">
-      <DependentUpon>RemoteViewerPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlaybackMode\PlaybackModeUtility.cs" />
+    <Compile Include="CameraManager\PlaybackModeUtility.cs" />
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
-    <Compile Include="PlaybackMode\ThumbnailImageConverter.cs" />
-    <Compile Include="Utils\GeopositionManager.cs" />
+    <Compile Include="CameraManager\GeopositionManager.cs" />
     <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />
-    <Compile Include="Utils\PictureSyncManager.cs" />
+    <Compile Include="CameraManager\PictureSyncManager.cs" />
     <Compile Include="CameraManager\ServerVersion.cs" />
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
@@ -131,7 +126,6 @@
     </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
-    <Compile Include="DataModel\ContentPlaybackData.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
     <Compile Include="DataModel\AppSettingData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
@@ -139,7 +133,6 @@
     <Compile Include="Pages\HiddenPage.xaml.cs">
       <DependentUpon>HiddenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlaybackMode\ThumbnailCacheLoader.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,7 +140,7 @@
     </Compile>
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
-    <Compile Include="Utils\Downloader.cs" />
+    <Compile Include="CameraManager\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\CameraStatus.cs" />
     <Compile Include="CameraManager\StatusComparator.cs" />
@@ -202,10 +195,6 @@
     <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\RemoteViewerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\HiddenPage.xaml">
       <SubType>Designer</SubType>
@@ -301,9 +290,9 @@
       <Project>{C73325D8-3CBB-4D76-80A4-BCFC1A63263A}</Project>
       <Name>KzRemoteApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\modules\kz-ssdp-discovery\Project\KzSsdpDiscovery.csproj">
+    <ProjectReference Include="..\modules\kz-ssdp-discovery\Project\KzSoDiscovery.csproj">
       <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
-      <Name>KzSsdpDiscovery</Name>
+      <Name>KzSoDiscovery</Name>
     </ProjectReference>
     <ProjectReference Include="..\modules\NtImageLib\NtImageProcessor\NtImageProcessor.csproj">
       <Project>{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}</Project>

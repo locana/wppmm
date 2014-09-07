@@ -6,7 +6,7 @@ using System.Windows.Threading;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 
-namespace Kazyx.WPPMM.Utils
+namespace Kazyx.WPMMM.CameraManager
 {
     class GeopositionManager
     {

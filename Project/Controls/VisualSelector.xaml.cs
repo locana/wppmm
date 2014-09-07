@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-namespace Kazyx.WPPMM.Controls
+namespace Kazyx.WPMMM.Controls
 {
     public partial class VisualSelector : UserControl
     {

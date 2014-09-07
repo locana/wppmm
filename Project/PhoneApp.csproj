@@ -106,6 +106,9 @@
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FramingGrids.xaml.cs">
+      <DependentUpon>FramingGrids.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Histogram.xaml.cs">
       <DependentUpon>Histogram.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Controls\CheckBoxSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FramingGrids.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

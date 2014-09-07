@@ -121,6 +121,7 @@
                               Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
                                    Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
+                            <Controls:FramingGrids HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
                                    HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding TouchAFPointerVisibility, Mode=OneWay, FallbackValue=Collapsed}"
                                        StrokeThickness="2"/>

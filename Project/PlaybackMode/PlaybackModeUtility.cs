@@ -16,15 +16,15 @@ namespace Kazyx.WPMMM.PlaybackMode
     {
         public static async Task<bool> MoveToShootingModeAsync(CameraApiClient camera, CameraStatus status)
         {
-            return await MoveToSpecifiedModeAsync(camera, status, EventParam.Idle);
+            return await MoveToSpecifiedModeAsync(camera, status, CameraFunction.RemoteShooting, EventParam.Idle);
         }
 
         public static async Task<bool> MoveToContentTransferModeAsync(CameraApiClient camera, CameraStatus status)
         {
-            return await MoveToSpecifiedModeAsync(camera, status, EventParam.ContentsTransfer);
+            return await MoveToSpecifiedModeAsync(camera, status, CameraFunction.ContentTransfer, EventParam.ContentsTransfer);
         }
 
-        private static async Task<bool> MoveToSpecifiedModeAsync(CameraApiClient camera, CameraStatus status, string nextState)
+        private static async Task<bool> MoveToSpecifiedModeAsync(CameraApiClient camera, CameraStatus status, string nextFunction, string nextState)
         {
             var tcs = new TaskCompletionSource<bool>();
             var ct = new CancellationTokenSource(10000); // State change timeout 10 sec.
@@ -56,7 +56,7 @@ namespace Kazyx.WPMMM.PlaybackMode
             try
             {
                 status.PropertyChanged += status_observer;
-                await camera.SetCameraFunctionAsync(CameraFunction.ContentTransfer);
+                await camera.SetCameraFunctionAsync(nextFunction);
                 return await tcs.Task;
             }
             catch (RemoteApiException e)

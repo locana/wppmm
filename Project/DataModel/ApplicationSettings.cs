@@ -1,12 +1,10 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Utils;
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace Kazyx.WPPMM.DataModel
 {

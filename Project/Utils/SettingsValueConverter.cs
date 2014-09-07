@@ -1,6 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPMMM.Resources;
+using Kazyx.WPPMM.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

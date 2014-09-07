@@ -1,7 +1,7 @@
-﻿using Kazyx.WPMMM.Controls;
+﻿using Kazyx.WPPMM.Controls;
 using System.Diagnostics;
 
-namespace Kazyx.WPMMM.DataModel
+namespace Kazyx.WPPMM.DataModel
 {
     class VisualSelectorData : ItemGroup
     {

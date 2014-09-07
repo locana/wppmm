@@ -1,15 +1,15 @@
-﻿using Kazyx.WPMMM.Resources;
-using Kazyx.WPPMM.CameraManager;
+﻿using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Utils;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using Windows.Devices.Geolocation;
 
-namespace Kazyx.WPMMM.CameraManager
+namespace Kazyx.WPPMM.Utils
 {
-    class PictureSyncManager
+    public class PictureSyncManager
     {
         private PictureSyncManager()
         {

@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace Kazyx.WPMMM.Controls
+namespace Kazyx.WPPMM.Controls
 {
     public partial class SettingDial : UserControl
     {

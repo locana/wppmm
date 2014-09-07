@@ -1,4 +1,4 @@
-using Kazyx.WPMMM.Resources;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.DataModel;
 using System;
 using System.ComponentModel;

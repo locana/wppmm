@@ -1,0 +1,65 @@
+<phone:PhoneApplicationPage
+    x:Class="Kazyx.WPPMM.Pages.RemoteViewerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:playback="clr-namespace:Kazyx.WPPMM.PlaybackMode"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress" Unloaded="PhoneApplicationPage_Unloaded">
+
+    <phone:PhoneApplicationPage.Resources>
+        <playback:ThumbnailImageConverter x:Key="ThumbnailConverter" />
+
+        <DataTemplate x:Key="ItemTemplate">
+            <StackPanel Height="108" Width="108" Margin="6,6">
+                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="UniformToFill" Tap="ThumbnailImage_Tap">
+                    <Image.Source>
+                        <Binding Path="CachePath" Mode="OneWay" ConverterParameter="108" Converter="{StaticResource ThumbnailConverter}"/>
+                    </Image.Source>
+                </Image>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="HeaderTemplate">
+            <TextBlock Text="{Binding Path=GroupTitle}" Style="{StaticResource PhoneTextSmallStyle}"/>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,14">
+            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}"/>
+            <TextBlock Text="Remote contents" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <phone:LongListSelector
+                Name="ImageGrid"
+                Margin="0"
+                IsGroupingEnabled="True"
+                GroupHeaderTemplate="{StaticResource HeaderTemplate}"
+                LayoutMode="Grid"
+                GridCellSize="112,112"
+                ItemsSource="{Binding Group, Mode=OneWay}"
+                ItemTemplate="{StaticResource ItemTemplate}"
+                Loaded="ImageGrid_Loaded"
+                Unloaded="ImageGrid_Unloaded" >
+            </phone:LongListSelector>
+        </Grid>
+    </Grid>
+
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator x:Name="progress" IsIndeterminate="True" IsVisible="False" />
+    </shell:SystemTray.ProgressIndicator>
+</phone:PhoneApplicationPage>

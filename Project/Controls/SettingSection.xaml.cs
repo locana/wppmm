@@ -3,7 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Kazyx.WPMMM.Controls
+namespace Kazyx.WPPMM.Controls
 {
     public partial class SettingSection : UserControl
     {

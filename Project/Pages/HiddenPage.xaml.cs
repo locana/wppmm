@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace Kazyx.WPMMM.Pages
+namespace Kazyx.WPPMM.Pages
 {
     public partial class HiddenPage : PhoneApplicationPage
     {

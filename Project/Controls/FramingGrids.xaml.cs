@@ -17,8 +17,7 @@ namespace Kazyx.WPMMM.Controls
     {
         public Brush Stroke { get; set; }
         public double StrokeThickness { get; set; }
-
-        private int lastW, lastH = 0;
+        public GridType Type { get; set; }
 
         public FramingGrids()
         {
@@ -26,6 +25,7 @@ namespace Kazyx.WPMMM.Controls
             if (this.Stroke == null){
                 Stroke = new SolidColorBrush() { Color = Color.FromArgb(200, 200, 200, 200) };
             }
+            Type = GridType.RuleOfThirds;
             StrokeThickness = 1.0;
 
 
@@ -89,7 +89,7 @@ namespace Kazyx.WPMMM.Controls
             return value;
         }
 
-        enum GridType{
+        public enum GridType{
             Off,
             RuleOfThirds,
             GoldenRatio,
@@ -100,16 +100,8 @@ namespace Kazyx.WPMMM.Controls
 
         private void Lines_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Debug.WriteLine("size: " + Lines.ActualHeight + " " + Lines.ActualWidth);
-            if (LayoutRoot.ActualHeight == lastH && LayoutRoot.ActualWidth == lastW)
-            {
-                return;
-            }
-
             this.Clear();
-            DrawGridLines(GridType.RuleOfThirds);  
-            lastW = (int)LayoutRoot.ActualWidth;
-            lastH = (int)LayoutRoot.ActualHeight;
+            DrawGridLines(Type);  
         }
     }
 }

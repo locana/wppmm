@@ -17,8 +17,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" Content="Button" HorizontalAlignment="Left" Margin="32,40,0,0" VerticalAlignment="Top" Height="235" Width="416"/>
-            <Line Name="test" X1="10" X2="200" Y1="10" Y2="200" Stroke="Blue" StrokeThickness="5"/>
         </Grid>
     </Grid>
 </UserControl>

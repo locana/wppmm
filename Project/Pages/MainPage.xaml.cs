@@ -1388,5 +1388,17 @@ namespace Kazyx.WPPMM.Pages
                 }
             }
         }
+
+        private void ScreenImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var h = (sender as Image).ActualHeight;
+            var w = (sender as Image).ActualWidth;
+            Debug.WriteLine("image size changed: " + w + " x " + h);
+            var rh = (sender as Image).RenderSize.Height;
+            var rw = (sender as Image).RenderSize.Width;
+            Debug.WriteLine("render size: " + rw + " x " + rh);
+            this.FraimingGrids.Height = rh;
+            this.FraimingGrids.Width = rw;
+        }
     }
 }

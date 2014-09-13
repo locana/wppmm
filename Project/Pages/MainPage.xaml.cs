@@ -543,7 +543,7 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.ZoomInfoUpdated += ZoomInfoUpdated;
             cameraManager.ShowToast += ShowToast;
             ToastApparance.Completed += ToastApparance_Completed;
-            ScreenImage.ManipulationCompleted += ScreenImage_ManipulationCompleted;
+            FraimingGrids.ManipulationCompleted += FraimingGrids_ManipulationCompleted;
 
             CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
@@ -738,7 +738,7 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.RequestHalfPressShutter();
         }
 
-        void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        void FraimingGrids_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             if (cpm.IsShowing())
             {
@@ -763,12 +763,12 @@ namespace Kazyx.WPPMM.Pages
             {
                 return;
             }
-            var image = sender as Image;
+            var grids = sender as FramingGrids;
             var touchX = e.ManipulationOrigin.X;
             var touchY = e.ManipulationOrigin.Y;
 
-            var posX = touchX * 100.0 / image.ActualWidth;
-            var posY = touchY * 100.0 / image.ActualHeight;
+            var posX = touchX * 100.0 / grids.ActualWidth;
+            var posY = touchY * 100.0 / grids.ActualHeight;
 
             Dispatcher.BeginInvoke(() =>
             {
@@ -811,7 +811,7 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
 
-            ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
+            FraimingGrids.ManipulationCompleted -= FraimingGrids_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
 
             if (svd != null)

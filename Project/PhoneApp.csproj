@@ -112,6 +112,9 @@
     <Compile Include="Controls\Histogram.xaml.cs">
       <DependentUpon>Histogram.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ListPickerSetting.xaml.cs">
+      <DependentUpon>ListPickerSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PullReleaseBar.xaml.cs">
       <DependentUpon>PullReleaseBar.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Histogram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListPickerSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

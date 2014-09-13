@@ -2,18 +2,32 @@ using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Utils;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace Kazyx.WPPMM.DataModel
 {
+
     public class ApplicationSettings : INotifyPropertyChanged
     {
+
         private static ApplicationSettings sSettings = new ApplicationSettings();
         private CameraManager.CameraManager manager;
+        
+        private SortedDictionary<string, string> GridTypeSettingNames = new SortedDictionary<string, string>()
+        {
+            { FramingGridTypes.Off, "off" },
+            { FramingGridTypes.RuleOfThirds, "third" },
+            { FramingGridTypes.Square, "square" },
+            { FramingGridTypes.Crosshairs, "cross" },
+            { FramingGridTypes.Fibonacci, "fibo" },
+            { FramingGridTypes.GoldenRatio, "golden" },
+        };
 
         private ApplicationSettings()
         {
@@ -24,6 +38,7 @@ namespace Kazyx.WPPMM.DataModel
             IsShootButtonDisplayed = Preference.IsShootButtonDisplayed();
             IsHistogramDisplayed = Preference.IsHistogramDisplayed();
             GeotagEnabled = Preference.GeotagEnabled();
+            GridType = Preference.FramingGridsType() ?? FramingGridTypes.Off;
         }
 
         public static ApplicationSettings GetInstance()
@@ -187,6 +202,48 @@ namespace Kazyx.WPPMM.DataModel
             get { return _GeotagEnabled; }
         }
 
+        private string _GridType = FramingGridTypes.Off;
+        public string GridType
+        {
+            set
+            {
+                if (_GridType != value)
+                {
+                    Debug.WriteLine("GridType updated: " + value);
+                    Preference.SetFramingGridsType(value);
+                    _GridType = value;
+                    OnPropertyChanged("GridType");
+                }
+            }
+            get { return _GridType; }
+        }
+
+        public int GridTypeIndex
+        {
+            set
+            {
+                GridType = GridTypeSettingNames.ElementAtOrDefault(value).Key;
+            }
+            get
+            {
+                int i = 0;
+                foreach (string type in GridTypeSettingNames.Keys.ToArray<string>())
+                {
+                    if (GridType.Equals(type))
+                    {
+                        return i;
+                    }
+                    i++;
+                }
+                return 0;
+            }
+        }
+
+        public string[] GridTypeCandidates
+        {
+            get { return GridTypeSettingNames.Values.ToArray<string>(); }
+        }
+
         public Visibility ShootButtonVisibility
         {
             get
@@ -239,5 +296,16 @@ namespace Kazyx.WPPMM.DataModel
                 else { return Visibility.Collapsed; }
             }
         }
+
+    }
+
+    public class FramingGridTypes
+    {
+        public const string Off = "00_grid_off";
+        public const string RuleOfThirds = "01_grid_rule_third";
+        public const string GoldenRatio = "02_grid_golden_ratio";
+        public const string Crosshairs = "03_grid_crosshairs";
+        public const string Square = "04_grid_square";
+        public const string Fibonacci = "05_grid_fibonacci";
     }
 }

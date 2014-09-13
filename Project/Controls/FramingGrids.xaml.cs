@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Diagnostics;
+using Kazyx.WPPMM.DataModel;
 
 namespace Kazyx.WPMMM.Controls
 {
@@ -17,15 +18,29 @@ namespace Kazyx.WPMMM.Controls
     {
         public Brush Stroke { get; set; }
         public double StrokeThickness { get; set; }
-        public GridType Type { get; set; }
+        public string Type { get; set; }
+
+        public static readonly DependencyProperty GridTypeProperty = DependencyProperty.Register(
+            "Type",
+            typeof(string),
+            typeof(FramingGrids),
+            new PropertyMetadata(new PropertyChangedCallback(FramingGrids.OnGridTypeChanged)));
+
+        public static void OnGridTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("[FramingGrids]Type changed: " + (string)e.NewValue);
+            (d as FramingGrids).Type = (string)e.NewValue;
+            (d as FramingGrids).DrawGridLines((d as FramingGrids).Type);
+        }
 
         public FramingGrids()
         {
             InitializeComponent();
-            if (this.Stroke == null){
+            if (this.Stroke == null)
+            {
                 Stroke = new SolidColorBrush() { Color = Color.FromArgb(200, 200, 200, 200) };
             }
-            Type = GridType.RuleOfThirds;
+            Type = FramingGridTypes.RuleOfThirds;
             StrokeThickness = 1.0;
 
 
@@ -36,14 +51,16 @@ namespace Kazyx.WPMMM.Controls
             Lines.Children.Clear();
         }
 
-        private void DrawGridLines(GridType t)
+        private void DrawGridLines(string t)
         {
             double w = LayoutRoot.ActualWidth;
             double h = LayoutRoot.ActualHeight;
 
+            this.Clear();
+
             switch (t)
             {
-                case GridType.RuleOfThirds:
+                case FramingGridTypes.RuleOfThirds:
                     DrawLine(w / 3, w / 3, 0, h);
                     DrawLine(2 * w / 3, 2 * w / 3, 0, h);
                     DrawLine(0, w, h / 3, h / 3);
@@ -77,7 +94,7 @@ namespace Kazyx.WPMMM.Controls
                 X2 = x2,
                 Y1 = y1,
                 Y2 = y2,
-                
+
             };
             Lines.Children.Add(line);
         }
@@ -89,19 +106,10 @@ namespace Kazyx.WPMMM.Controls
             return value;
         }
 
-        public enum GridType{
-            Off,
-            RuleOfThirds,
-            GoldenRatio,
-            Crosshairs,
-            Square,
-            Fibonacci,
-        };
-
         private void Lines_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.Clear();
-            DrawGridLines(Type);  
+            DrawGridLines(Type);
         }
     }
 }

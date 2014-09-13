@@ -656,7 +656,7 @@ namespace Kazyx.WPPMM.Pages
                         GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
                         if (geoSetting != null)
                         {
-                            geoSetting.IsEnabled = false;
+                            geoSetting.CurrentSetting = false;
                         }
                         ActivateGeoTagSetting(false);
                         // MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
@@ -940,6 +940,7 @@ namespace Kazyx.WPPMM.Pages
             TouchAFPointer.DataContext = svd;
             Histogram.DataContext = ApplicationSettings.GetInstance();
             GeopositionStatusImage.DataContext = ApplicationSettings.GetInstance();
+            this.FraimingGrids.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
         }
@@ -1157,7 +1158,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private AppSettingData geoSetting;
+        private AppSettingData<bool> geoSetting;
 
         private void InitAppSettingPanel()
         {
@@ -1166,11 +1167,11 @@ namespace Kazyx.WPPMM.Pages
             AppSettings.Children.Add(image_settings);
 
             image_settings.Add(new CheckBoxSetting(
-                new AppSettingData(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage,
+                new AppSettingData<bool>(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage,
                 () => { return ApplicationSettings.GetInstance().IsPostviewTransferEnabled; },
                 enabled => { ApplicationSettings.GetInstance().IsPostviewTransferEnabled = enabled; })));
 
-            geoSetting = new AppSettingData(AppResources.AddGeotag, AppResources.AddGeotag_guide,
+            geoSetting = new AppSettingData<bool>(AppResources.AddGeotag, AppResources.AddGeotag_guide,
                 () => { return ApplicationSettings.GetInstance().GeotagEnabled; },
                 enabled => { ApplicationSettings.GetInstance().GeotagEnabled = enabled; GeopositionManager.GetInstance().Enable = enabled; });
             image_settings.Add(new CheckBoxSetting(geoSetting));
@@ -1180,14 +1181,21 @@ namespace Kazyx.WPPMM.Pages
             AppSettings.Children.Add(display_settings);
 
             display_settings.Add(new CheckBoxSetting(
-                new AppSettingData(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting,
+                new AppSettingData<bool>(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting,
                 () => { return ApplicationSettings.GetInstance().IsShootButtonDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsShootButtonDisplayed = enabled; })));
 
             display_settings.Add(new CheckBoxSetting(
-                new AppSettingData(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
+                new AppSettingData<bool>(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
                 () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
+
+            display_settings.Add(new ListPickerSetting(
+                new AppSettingData<int>("Framing Grids", "framing guide.",
+                    () => { return ApplicationSettings.GetInstance().GridTypeIndex; },
+                    setting => { Debug.WriteLine("setting updated: " + setting); ApplicationSettings.GetInstance().GridTypeIndex = setting; },
+                    ApplicationSettings.GetInstance().GridTypeCandidates
+                    )));
 
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }

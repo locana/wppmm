@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <CheckBox Grid.Column="0" Name="SettingCheckBox" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,-12" IsChecked="{Binding IsEnabled, Mode=TwoWay}" IsEnabled="{Binding IsActive, Mode=OneWay}" />
+            <CheckBox Grid.Column="0" Name="SettingCheckBox" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,-12" IsChecked="{Binding CurrentSetting, Mode=TwoWay}" IsEnabled="{Binding IsActive, Mode=OneWay}" />
             <TextBlock Text="{Binding Title, Mode=OneWay}" Visibility="{Binding GuideVisibility, Mode=OneWay}" Name="SettingName" Grid.Column="1" TextWrapping="Wrap" VerticalAlignment="Center"
                        FontSize="{StaticResource PhoneFontSizeMediumLarge}" Margin="0,6,0,0"/>
         </Grid>

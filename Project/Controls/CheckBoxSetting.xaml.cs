@@ -6,7 +6,7 @@ namespace Kazyx.WPPMM.Controls
 {
     public partial class CheckBoxSetting : UserControl
     {
-        public CheckBoxSetting(AppSettingData data)
+        public CheckBoxSetting(AppSettingData<bool> data)
         {
             InitializeComponent();
             if (data == null)

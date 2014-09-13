@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -6,9 +7,9 @@ using System.Windows;
 
 namespace Kazyx.WPPMM.DataModel
 {
-    public class AppSettingData : INotifyPropertyChanged
+    public class AppSettingData<T> : INotifyPropertyChanged
     {
-        public AppSettingData(string title, string guide, Func<bool> StateChecker, Action<bool> StateChanger)
+        public AppSettingData(string title, string guide, Func<T> StateChecker, Action<T> StateChanger, string[] candidates = null)
         {
             if (StateChecker == null || StateChanger == null)
             {
@@ -16,6 +17,7 @@ namespace Kazyx.WPPMM.DataModel
             }
             Title = title;
             Guide = guide;
+            Candidates = candidates;
             this.StateChecker = StateChecker;
             this.StateChanger = StateChanger;
         }
@@ -43,21 +45,32 @@ namespace Kazyx.WPPMM.DataModel
             get { return _Guide; }
         }
 
+        private string[] _Candidates = null;
+        public string[] Candidates
+        {
+            set
+            {
+                _Candidates = value;
+                OnPropertyChanged("Candidates");
+            }
+            get { return _Candidates; }
+        }
+
         public Visibility GuideVisibility
         {
             get { return Guide == null ? Visibility.Collapsed : Visibility.Visible; }
         }
 
-        private readonly Func<bool> StateChecker;
-        private readonly Action<bool> StateChanger;
+        private readonly Func<T> StateChecker;
+        private readonly Action<T> StateChanger;
 
-        public bool IsEnabled
+        public T CurrentSetting
         {
             get { return StateChecker(); }
             set
             {
                 StateChanger.Invoke(value);
-                OnPropertyChanged("IsEnabled");
+                OnPropertyChanged("CurrentSetting");
             }
         }
 

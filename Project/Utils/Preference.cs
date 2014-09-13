@@ -12,6 +12,7 @@ namespace Kazyx.WPPMM.Utils
         public const string display_take_image_button_key = "display_take_image_button";
         public const string display_histogram_key = "display_histogram";
         public const string add_geotag = "add_geotag";
+        public const string fraiming_grids = "fraiming_grids";
 
         public static bool IsPostviewTransferEnabled()
         {
@@ -137,13 +138,32 @@ namespace Kazyx.WPPMM.Utils
 
         public static void SetGeotagEnabled(bool enable)
         {
-
             var settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains(add_geotag))
             {
                 settings.Remove(add_geotag);
             }
             settings.Add(add_geotag, enable);
+        }
+
+        public static string FramingGridsType()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(fraiming_grids))
+            {
+                return (string)settings[fraiming_grids];
+            }
+            return null;
+        }
+
+        public static void SetFramingGridsType(string type)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(fraiming_grids))
+            {
+                settings.Remove(fraiming_grids);
+            }
+            settings.Add(fraiming_grids, type);
         }
 
         public static void SetPreference(string key, bool enable)
@@ -168,5 +188,8 @@ namespace Kazyx.WPPMM.Utils
                 return false;
             }
         }
+
+
+
     }
 }

@@ -18,7 +18,20 @@ namespace Kazyx.WPMMM.Controls
     {
         public Brush Stroke { get; set; }
         public double StrokeThickness { get; set; }
-        public string Type { get; set; }
+
+        private string _Type = FramingGridTypes.Off;
+        public string Type
+        {
+            get { return _Type; }
+            set
+            {
+                if (value != _Type)
+                {
+                    _Type = value;
+                    this.DrawGridLines(value);
+                }
+            }
+        }
 
         public static readonly DependencyProperty GridTypeProperty = DependencyProperty.Register(
             "Type",
@@ -30,7 +43,6 @@ namespace Kazyx.WPMMM.Controls
         {
             Debug.WriteLine("[FramingGrids]Type changed: " + (string)e.NewValue);
             (d as FramingGrids).Type = (string)e.NewValue;
-            (d as FramingGrids).DrawGridLines((d as FramingGrids).Type);
         }
 
         public FramingGrids()
@@ -40,7 +52,6 @@ namespace Kazyx.WPMMM.Controls
             {
                 Stroke = new SolidColorBrush() { Color = Color.FromArgb(200, 200, 200, 200) };
             }
-            Type = FramingGridTypes.RuleOfThirds;
             StrokeThickness = 1.0;
 
 
@@ -109,7 +120,7 @@ namespace Kazyx.WPMMM.Controls
         private void Lines_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.Clear();
-            DrawGridLines(Type);
+            DrawGridLines(_Type);
         }
     }
 }

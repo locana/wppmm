@@ -87,7 +87,51 @@ namespace Kazyx.WPMMM.Controls
                     DrawLine(0, w, 0, h);
                     DrawLine(0, w, h, 0);
                     break;
+                case FramingGridTypes.Off:
                 case FramingGridTypes.Fibonacci:
+                    if (w > h)
+                    {
+                        var StartPoint = new Point(0, 0);
+                        var EndPoint = new Point();
+                        var dir = SweepDirection.Counterclockwise;
+                        var CurrentH = w;
+                        var NextH = h;
+                        for (int i = 0; i < 8; i++)
+                        {
+                            switch (i % 4)
+                            {
+                                case 0: // to lower right
+                                    EndPoint.X = StartPoint.X + NextH;
+                                    EndPoint.Y = StartPoint.Y + NextH;
+                                    break;
+                                case 1: // upper right
+                                    EndPoint.X = StartPoint.X + NextH;
+                                    EndPoint.Y = StartPoint.Y - NextH;
+                                    break;
+                                case 2: // upper left
+                                    EndPoint.X = StartPoint.X - NextH;
+                                    EndPoint.Y = StartPoint.Y - NextH;
+                                    break;
+                                case 3: // lower left
+                                    EndPoint.X = StartPoint.X - NextH;
+                                    EndPoint.Y = StartPoint.Y + NextH;
+                                    break;
+                            }
+
+                            DrawArcSegment(StartPoint, EndPoint, dir);
+
+                            var tempH = NextH;
+                            NextH = CurrentH * GoldenRatio;
+                            CurrentH = tempH;
+                            Debug.WriteLine("current h: " + CurrentH + " next H: " + NextH);
+                            if (NextH < 0)
+                            {
+                                break;
+                            }
+                            StartPoint.X = EndPoint.X;
+                            StartPoint.Y = EndPoint.Y;
+                        }
+                    }
                     break;
                 case FramingGridTypes.GoldenRatio:
                     DrawLine(w * GoldenRatio, w * GoldenRatio, 0, h);
@@ -109,7 +153,7 @@ namespace Kazyx.WPMMM.Controls
                         DrawLine(h - ((h - w) / 2), h - ((h - w) / 2), 0, w);
                     }
                     break;
-                case FramingGridTypes.Off:
+                
                 default:
                     break;
             }
@@ -140,6 +184,38 @@ namespace Kazyx.WPMMM.Controls
 
             };
             Lines.Children.Add(line);
+        }
+
+        private void DrawArcSegment(Point start, Point end, SweepDirection dir)
+        {
+            Debug.WriteLine("draw arc: " + start.X + " " + start.Y + " " + end.X + " " + end.Y + " " + dir);
+
+            PathFigure pthFigure = new PathFigure();
+            pthFigure.StartPoint = start;
+
+            ArcSegment arcSeg = new ArcSegment();
+            arcSeg.Point = end;
+            arcSeg.Size = new Size(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y));
+            arcSeg.IsLargeArc = false;
+            arcSeg.SweepDirection = dir;
+            arcSeg.RotationAngle = 90;
+
+            PathSegmentCollection myPathSegmentCollection = new PathSegmentCollection();
+            myPathSegmentCollection.Add(arcSeg);
+
+            pthFigure.Segments = myPathSegmentCollection;
+
+            PathFigureCollection pthFigureCollection = new PathFigureCollection();
+            pthFigureCollection.Add(pthFigure);
+
+            PathGeometry pthGeometry = new PathGeometry();
+            pthGeometry.Figures = pthFigureCollection;
+
+            Path arcPath = new Path();
+            arcPath.Stroke = this.Stroke;
+            arcPath.StrokeThickness = this.StrokeThickness;
+            arcPath.Data = pthGeometry;
+            Lines.Children.Add(arcPath);
         }
 
         private static double RoundToRange(double value, double min, double max)

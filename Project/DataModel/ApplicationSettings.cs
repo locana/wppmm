@@ -19,14 +19,15 @@ namespace Kazyx.WPPMM.DataModel
         private static ApplicationSettings sSettings = new ApplicationSettings();
         private CameraManager.CameraManager manager;
         
-        private SortedDictionary<string, string> GridTypeSettingNames = new SortedDictionary<string, string>()
+        internal List<string> GridTypeSettings = new List<string>()
         {
-            { FramingGridTypes.Off, "off" },
-            { FramingGridTypes.RuleOfThirds, "third" },
-            { FramingGridTypes.Square, "square" },
-            { FramingGridTypes.Crosshairs, "cross" },
-            { FramingGridTypes.Fibonacci, "fibo" },
-            { FramingGridTypes.GoldenRatio, "golden" },
+            FramingGridTypes.Off,
+            FramingGridTypes.RuleOfThirds,
+            FramingGridTypes.Diagonal,
+            FramingGridTypes.Square,
+            FramingGridTypes.Crosshairs,
+            FramingGridTypes.Fibonacci,
+            FramingGridTypes.GoldenRatio,
         };
 
         private ApplicationSettings()
@@ -222,12 +223,12 @@ namespace Kazyx.WPPMM.DataModel
         {
             set
             {
-                GridType = GridTypeSettingNames.ElementAtOrDefault(value).Key;
+                GridType = GridTypeSettings[value];
             }
             get
             {
                 int i = 0;
-                foreach (string type in GridTypeSettingNames.Keys.ToArray<string>())
+                foreach (string type in GridTypeSettings)
                 {
                     if (GridType.Equals(type))
                     {
@@ -237,11 +238,6 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 return 0;
             }
-        }
-
-        public string[] GridTypeCandidates
-        {
-            get { return GridTypeSettingNames.Values.ToArray<string>(); }
         }
 
         public Visibility ShootButtonVisibility
@@ -301,11 +297,12 @@ namespace Kazyx.WPPMM.DataModel
 
     public class FramingGridTypes
     {
-        public const string Off = "00_grid_off";
-        public const string RuleOfThirds = "01_grid_rule_third";
-        public const string GoldenRatio = "02_grid_golden_ratio";
-        public const string Crosshairs = "03_grid_crosshairs";
-        public const string Square = "04_grid_square";
-        public const string Fibonacci = "05_grid_fibonacci";
+        public const string Off = "grid_off";
+        public const string RuleOfThirds = "grid_rule_third";
+        public const string Diagonal = "diagonal";
+        public const string GoldenRatio = "grid_golden_ratio";
+        public const string Crosshairs = "grid_crosshairs";
+        public const string Square = "grid_square";
+        public const string Fibonacci = "grid_fibonacci";
     }
 }

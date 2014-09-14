@@ -550,4 +550,28 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ZoomSetting" xml:space="preserve">
     <value>Zoom setting</value>
   </data>
+  <data name="FramingGrids" xml:space="preserve">
+    <value>Framing grids</value>
+  </data>
+  <data name="Grid_Crosshairs" xml:space="preserve">
+    <value>Crosshairs</value>
+  </data>
+  <data name="Grid_Diagonal" xml:space="preserve">
+    <value>Diagonal</value>
+  </data>
+  <data name="Grid_Fibonacci" xml:space="preserve">
+    <value>Fibonacci</value>
+  </data>
+  <data name="Grid_GoldenRatio" xml:space="preserve">
+    <value>Golden ratio</value>
+  </data>
+  <data name="Grid_RuleOfThirds" xml:space="preserve">
+    <value>Rule of thirds</value>
+  </data>
+  <data name="Grid_Square" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="Guide_FramingGrids" xml:space="preserve">
+    <value>Display lines on the screen to help making composition.</value>
+  </data>
 </root>

@@ -1191,10 +1191,10 @@ namespace Kazyx.WPPMM.Pages
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
 
             display_settings.Add(new ListPickerSetting(
-                new AppSettingData<int>("Framing Grids", "framing guide.",
+                new AppSettingData<int>(AppResources.FramingGrids, AppResources.Guide_FramingGrids,
                     () => { return ApplicationSettings.GetInstance().GridTypeIndex; },
-                    setting => { Debug.WriteLine("setting updated: " + setting); ApplicationSettings.GetInstance().GridTypeIndex = setting; },
-                    ApplicationSettings.GetInstance().GridTypeCandidates
+                    setting => { ApplicationSettings.GetInstance().GridTypeIndex = setting; },
+                    SettingsValueConverter.FromFramingGrid(ApplicationSettings.GetInstance().GridTypeSettings.ToArray())
                     )));
 
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;

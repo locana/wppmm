@@ -33,6 +33,8 @@ namespace Kazyx.WPMMM.Controls
             }
         }
 
+        private const double GoldenRatio = 0.382;
+
         public static readonly DependencyProperty GridTypeProperty = DependencyProperty.Register(
             "Type",
             typeof(string),
@@ -77,7 +79,37 @@ namespace Kazyx.WPMMM.Controls
                     DrawLine(0, w, h / 3, h / 3);
                     DrawLine(0, w, 2 * h / 3, 2 * h / 3);
                     break;
-
+                case FramingGridTypes.Crosshairs:
+                    DrawLine(w / 2, w / 2, 0, h);
+                    DrawLine(0, w, h / 2, h / 2);
+                    break;
+                case FramingGridTypes.Diagonal:
+                    DrawLine(0, w, 0, h);
+                    DrawLine(0, w, h, 0);
+                    break;
+                case FramingGridTypes.Fibonacci:
+                    break;
+                case FramingGridTypes.GoldenRatio:
+                    DrawLine(w * GoldenRatio, w * GoldenRatio, 0, h);
+                    DrawLine(w * (1 - GoldenRatio), w * (1 - GoldenRatio), 0, h);
+                    DrawLine(0, w, h * GoldenRatio, h * GoldenRatio);
+                    DrawLine(0, w, h * (1 - GoldenRatio), h * (1 - GoldenRatio));    
+                    break;
+                case FramingGridTypes.Square:
+                    if (w > h)
+                    {
+                        // only vertical lines.
+                        DrawLine((w - h) / 2, (w - h) / 2, 0, h);
+                        DrawLine(w - ((w - h) / 2), w - ((w - h) / 2), 0, h);
+                    }
+                    else if (h > w)
+                    {
+                        // horizontal lines
+                        DrawLine((h - w) / 2, (h - w) / 2, 0, w);
+                        DrawLine(h - ((h - w) / 2), h - ((h - w) / 2), 0, w);
+                    }
+                    break;
+                case FramingGridTypes.Off:
                 default:
                     break;
             }

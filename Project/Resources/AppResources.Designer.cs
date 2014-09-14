@@ -639,6 +639,69 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Framing grids.
+        /// </summary>
+        public static string FramingGrids {
+            get {
+                return ResourceManager.GetString("FramingGrids", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crosshairs.
+        /// </summary>
+        public static string Grid_Crosshairs {
+            get {
+                return ResourceManager.GetString("Grid_Crosshairs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diagonal.
+        /// </summary>
+        public static string Grid_Diagonal {
+            get {
+                return ResourceManager.GetString("Grid_Diagonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fibonacci.
+        /// </summary>
+        public static string Grid_Fibonacci {
+            get {
+                return ResourceManager.GetString("Grid_Fibonacci", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Golden ratio.
+        /// </summary>
+        public static string Grid_GoldenRatio {
+            get {
+                return ResourceManager.GetString("Grid_GoldenRatio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rule of thirds.
+        /// </summary>
+        public static string Grid_RuleOfThirds {
+            get {
+                return ResourceManager.GetString("Grid_RuleOfThirds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Square.
+        /// </summary>
+        public static string Grid_Square {
+            get {
+                return ResourceManager.GetString("Grid_Square", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure that SSID of connected access point is that of your camera device&apos;s..
         /// </summary>
         public static string Guide_CantFindDevice {
@@ -653,6 +716,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string Guide_DisplayTakeImageButtonSetting {
             get {
                 return ResourceManager.GetString("Guide_DisplayTakeImageButtonSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display lines on the screen to help making composition..
+        /// </summary>
+        public static string Guide_FramingGrids {
+            get {
+                return ResourceManager.GetString("Guide_FramingGrids", resourceCulture);
             }
         }
         

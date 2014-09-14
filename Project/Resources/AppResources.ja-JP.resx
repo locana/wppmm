@@ -542,4 +542,28 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ZoomSetting" xml:space="preserve">
     <value>ズーム設定</value>
   </data>
+  <data name="FramingGrids" xml:space="preserve">
+    <value>撮影補助線</value>
+  </data>
+  <data name="Grid_Crosshairs" xml:space="preserve">
+    <value>十字</value>
+  </data>
+  <data name="Grid_Diagonal" xml:space="preserve">
+    <value>対角線</value>
+  </data>
+  <data name="Grid_Fibonacci" xml:space="preserve">
+    <value>フィボナッチ</value>
+  </data>
+  <data name="Grid_GoldenRatio" xml:space="preserve">
+    <value>黄金比</value>
+  </data>
+  <data name="Grid_RuleOfThirds" xml:space="preserve">
+    <value>三分割法</value>
+  </data>
+  <data name="Grid_Square" xml:space="preserve">
+    <value>正方形</value>
+  </data>
+  <data name="Guide_FramingGrids" xml:space="preserve">
+    <value>構図を決めやすくする補助線を表示します</value>
+  </data>
 </root>

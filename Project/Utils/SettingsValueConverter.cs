@@ -4,6 +4,8 @@ using Kazyx.WPMMM.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Kazyx.WPMMM.DataModel;
+using Kazyx.WPPMM.DataModel;
 
 namespace Kazyx.WPPMM.Utils
 {
@@ -802,6 +804,42 @@ namespace Kazyx.WPPMM.Utils
         private static string FromAutoPowerOff(int val)
         {
             return "temp_" + val;
+        }
+
+        internal static string[] FromFramingGrid(string[] keys)
+        {
+            string[] names = new string[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
+            {
+                switch (keys[i])
+                {
+                    case FramingGridTypes.Off:
+                        names[i] = AppResources.Off;
+                        break;
+                    case FramingGridTypes.RuleOfThirds:
+                        names[i] = AppResources.Grid_RuleOfThirds;
+                        break;
+                    case FramingGridTypes.Diagonal:
+                        names[i] = AppResources.Grid_Diagonal;
+                        break;
+                    case FramingGridTypes.Square:
+                        names[i] = AppResources.Grid_Square;
+                        break;
+                    case FramingGridTypes.Crosshairs:
+                        names[i] = AppResources.Grid_Crosshairs;
+                        break;
+                    case FramingGridTypes.Fibonacci:
+                        names[i] = AppResources.Grid_Fibonacci;
+                        break;
+                    case FramingGridTypes.GoldenRatio:
+                        names[i] = AppResources.Grid_GoldenRatio;
+                        break;
+                    default:
+                        names[i] = keys[i];
+                        break;
+                }
+            }
+            return names;
         }
     }
 }

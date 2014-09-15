@@ -18,7 +18,5 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
         </Grid>
-        <!--<Path Stroke="Red" StrokeThickness="3" 
-              Data="M 0,0 C 0,0 0,299 299,320 C 299,320 480,320 480,121 C 480,121, 480,0 368,0 " />-->
     </Grid>
 </UserControl>

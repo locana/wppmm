@@ -87,17 +87,22 @@ namespace Kazyx.WPMMM.Controls
                     DrawLine(0, w, 0, h);
                     DrawLine(0, w, h, 0);
                     break;
+
+                case FramingGridTypes.Off:
                 case FramingGridTypes.Fibonacci:
                     if (w > h)
                     {
-                        DrawFibonacciSpiral(w, h);
+                        DrawFibonacciSpiral(new Point(0, 0), w, h);
+                        //DrawFibonacciSpiral(new Point(w, h), w, h);
+                        //DrawFibonacciSpiral(new Point(w, 0), w, h);
+                        //DrawFibonacciSpiral(new Point(0, h), w, h);
                     }
                     break;
                 case FramingGridTypes.GoldenRatio:
                     DrawLine(w * GoldenRatio, w * GoldenRatio, 0, h);
                     DrawLine(w * (1 - GoldenRatio), w * (1 - GoldenRatio), 0, h);
                     DrawLine(0, w, h * GoldenRatio, h * GoldenRatio);
-                    DrawLine(0, w, h * (1 - GoldenRatio), h * (1 - GoldenRatio));    
+                    DrawLine(0, w, h * (1 - GoldenRatio), h * (1 - GoldenRatio));
                     break;
                 case FramingGridTypes.Square:
                     if (w > h)
@@ -113,25 +118,53 @@ namespace Kazyx.WPMMM.Controls
                         DrawLine(h - ((h - w) / 2), h - ((h - w) / 2), 0, w);
                     }
                     break;
-                case FramingGridTypes.Off:
                 default:
                     break;
             }
         }
 
-        private void DrawFibonacciSpiral(double w, double h)
+        private void DrawFibonacciSpiral(Point StartPoint, double w, double h)
         {
             Debug.WriteLine("draw fibonaci: " + w + " " + h);
 
             PathFigure figure = new PathFigure();
-            figure.StartPoint = new Point(0, 0);
+            figure.StartPoint = StartPoint;
 
+            var FullWidth = w;
+            var FullHeight = h;
+
+            var HorizontallyReversed = false;
+            var VerticallyReversed = false;
+
+            if (StartPoint.X == w)
+            {
+                HorizontallyReversed = true;
+            }
+            else if (StartPoint.X != 0)
+            {
+                Debug.WriteLine("Error: start point must be at corner");
+                return;
+            }
+
+            if (StartPoint.Y == h)
+            {
+                VerticallyReversed = true;
+            }
+            else if (StartPoint.Y != 0)
+            {
+                Debug.WriteLine("Error: start point must be at corner");
+                return;
+            }
+
+            // first control point
             var x1 = 0.0;
             var y1 = 0.0;
 
+            // second contorl point
             var x2 = 0.0;
             var y2 = h;
 
+            // end of line
             var x3 = w * (1 - GoldenRatio);
             var y3 = h;
 
@@ -139,9 +172,31 @@ namespace Kazyx.WPMMM.Controls
             {
                 Debug.WriteLine("Bezier: " + x1 + " " + y1 + " / " + x2 + " " + y2 + " / " + x3 + " " + y3);
                 var seg = new BezierSegment();
-                seg.Point1 = new Point(x1, y1);
-                seg.Point2 = new Point(x2, y2);
-                seg.Point3 = new Point(x3, y3);
+                var tempX1 = x1;
+                var tempY1 = y1;
+                var tempX2 = x2;
+                var tempY2 = y2;
+                var tempX3 = x3;
+                var tempY3 = y3;
+
+                if (HorizontallyReversed)
+                {
+                    tempX1 = FullWidth - tempX1;
+                    tempX2 = FullWidth - tempX2;
+                    tempX3 = FullWidth - tempX3;
+                }
+
+                if (VerticallyReversed)
+                {
+                    tempY1 = FullHeight - tempY1;
+                    tempY2 = FullHeight - tempY2;
+                    tempY3 = FullHeight - tempY3;
+                }
+
+                seg.Point1 = new Point(tempX1, tempY1);
+                seg.Point2 = new Point(tempX2, tempY2);
+                seg.Point3 = new Point(tempX3, tempY3);
+
                 figure.Segments.Add(seg);
 
                 x1 = x3;
@@ -180,7 +235,7 @@ namespace Kazyx.WPMMM.Controls
                 }
 
             }
-            
+
             PathFigureCollection pthFigureCollection = new PathFigureCollection();
             pthFigureCollection.Add(figure);
 

@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Linq;
+using System.Windows.Media;
 
 namespace Kazyx.WPPMM.DataModel
 {
@@ -18,7 +18,7 @@ namespace Kazyx.WPPMM.DataModel
 
         private static ApplicationSettings sSettings = new ApplicationSettings();
         private CameraManager.CameraManager manager;
-        
+
         internal List<string> GridTypeSettings = new List<string>()
         {
             FramingGridTypes.Off,
@@ -28,6 +28,15 @@ namespace Kazyx.WPPMM.DataModel
             FramingGridTypes.Crosshairs,
             FramingGridTypes.Fibonacci,
             FramingGridTypes.GoldenRatio,
+        };
+
+        internal List<string> GridColorSettings = new List<string>()
+        {
+            FramingGridColor.White,
+            FramingGridColor.Black,
+            FramingGridColor.Red,
+            FramingGridColor.Green,
+            FramingGridColor.Blue,
         };
 
         private ApplicationSettings()
@@ -40,6 +49,7 @@ namespace Kazyx.WPPMM.DataModel
             IsHistogramDisplayed = Preference.IsHistogramDisplayed();
             GeotagEnabled = Preference.GeotagEnabled();
             GridType = Preference.FramingGridsType() ?? FramingGridTypes.Off;
+            GridColor = Preference.FramingGridsColor() ?? FramingGridColor.White;
         }
 
         public static ApplicationSettings GetInstance()
@@ -240,6 +250,74 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        private string _GridColor = FramingGridColor.White;
+        public string GridColor
+        {
+            set
+            {
+                if (_GridColor != value)
+                {
+                    Preference.SetFramingGridsColor(value);
+                    _GridColor = value;
+                    OnPropertyChanged("GridColor");
+                    OnPropertyChanged("GridColorBrush");
+                }
+            }
+            get { return _GridColor; }
+        }
+
+        public SolidColorBrush GridColorBrush
+        {
+            get
+            {
+                Color color;
+                switch (this.GridColor)
+                {
+                    case FramingGridColor.White:
+                        color = Color.FromArgb(200, 200, 200, 200);
+                        break;
+                    case FramingGridColor.Black:
+                        color = Color.FromArgb(200, 50, 50, 50);
+                        break;
+                    case FramingGridColor.Red:
+                        color = Color.FromArgb(200, 250, 30, 30);
+                        break;
+                    case FramingGridColor.Green:
+                        color = Color.FromArgb(200, 30, 250, 30);
+                        break;
+                    case FramingGridColor.Blue:
+                        color = Color.FromArgb(200, 30, 30, 250);
+                        break;
+                    default:
+                        color = Color.FromArgb(200, 200, 200, 200);
+                        break;
+
+                }
+                return new SolidColorBrush() { Color = color };
+            }
+        }
+
+        public int GridColorIndex
+        {
+            set
+            {
+                GridColor = GridColorSettings[value];
+            }
+            get
+            {
+                int i = 0;
+                foreach (string color in GridColorSettings)
+                {
+                    if (GridColor.Equals(color))
+                    {
+                        return i;
+                    }
+                    i++;
+                }
+                return 0;
+            }
+        }
+
         public Visibility ShootButtonVisibility
         {
             get
@@ -304,5 +382,14 @@ namespace Kazyx.WPPMM.DataModel
         public const string Crosshairs = "grid_crosshairs";
         public const string Square = "grid_square";
         public const string Fibonacci = "grid_fibonacci";
+    }
+
+    public class FramingGridColor
+    {
+        public const string White = "white";
+        public const string Black = "black";
+        public const string Red = "red";
+        public const string Blue = "blue";
+        public const string Green = "green";
     }
 }

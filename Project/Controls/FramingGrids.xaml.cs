@@ -16,8 +16,38 @@ namespace Kazyx.WPMMM.Controls
 {
     public partial class FramingGrids : UserControl
     {
-        public Brush Stroke { get; set; }
-        public double StrokeThickness { get; set; }
+        private SolidColorBrush _Stroke = new SolidColorBrush() { Color = Color.FromArgb(200, 200, 200, 200) };
+        public SolidColorBrush Stroke
+        {
+            get { return _Stroke; }
+            set
+            {
+                if (!value.Equals(_Stroke))
+                {
+                    _Stroke = value;
+                    Debug.WriteLine("Stroke updated: " + _Stroke.Color.R + " " + _Stroke.Color.G + " " + _Stroke.Color.B);
+                    this.DrawGridLines(_Type);
+                }
+                else
+                {
+                    Debug.WriteLine("skip stroke value updating");
+                }
+            }
+        }
+
+        private double _StrokeThickness = 1;
+        public double StrokeThickness
+        {
+            get { return _StrokeThickness; }
+            set
+            {
+                if (value != _StrokeThickness)
+                {
+                    _StrokeThickness = value;
+                    this.DrawGridLines(_Type);
+                }
+            }
+        }
 
         private string _Type = FramingGridTypes.Off;
         public string Type
@@ -47,16 +77,33 @@ namespace Kazyx.WPMMM.Controls
             (d as FramingGrids).Type = (string)e.NewValue;
         }
 
+        public static readonly DependencyProperty StrokeProperty = DependencyProperty.Register(
+            "Stroke",
+            typeof(SolidColorBrush),
+            typeof(FramingGrids),
+            new PropertyMetadata(new PropertyChangedCallback(FramingGrids.OnStrokeChanged)));
+
+        public static void OnStrokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("[FramingGrids]Stroke changed: " + (e.NewValue as SolidColorBrush).Color.G.ToString());
+            (d as FramingGrids).Stroke = (SolidColorBrush)e.NewValue;
+        }
+
+        public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register(
+            "StrokeThickness",
+            typeof(double),
+            typeof(FramingGrids),
+            new PropertyMetadata(new PropertyChangedCallback(FramingGrids.OnStrokeThicknessChanged)));
+
+        private static void OnStrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("[FramingGrids]Stroke thickness changed: " + e.NewValue);
+            (d as FramingGrids).StrokeThickness = (double)e.NewValue;
+        }
+
         public FramingGrids()
         {
             InitializeComponent();
-            if (this.Stroke == null)
-            {
-                Stroke = new SolidColorBrush() { Color = Color.FromArgb(200, 200, 200, 200) };
-            }
-            StrokeThickness = 1.0;
-
-
         }
 
         private void Clear()
@@ -87,8 +134,6 @@ namespace Kazyx.WPMMM.Controls
                     DrawLine(0, w, 0, h);
                     DrawLine(0, w, h, 0);
                     break;
-
-                case FramingGridTypes.Off:
                 case FramingGridTypes.Fibonacci:
                     if (w > h)
                     {
@@ -118,6 +163,7 @@ namespace Kazyx.WPMMM.Controls
                         DrawLine(h - ((h - w) / 2), h - ((h - w) / 2), 0, w);
                     }
                     break;
+                case FramingGridTypes.Off:
                 default:
                     break;
             }

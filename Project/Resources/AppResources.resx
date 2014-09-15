@@ -560,7 +560,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Diagonal</value>
   </data>
   <data name="Grid_Fibonacci" xml:space="preserve">
-    <value>Fibonacci</value>
+    <value>Fibonacci spiral</value>
   </data>
   <data name="Grid_GoldenRatio" xml:space="preserve">
     <value>Golden ratio</value>
@@ -573,5 +573,26 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   </data>
   <data name="Guide_FramingGrids" xml:space="preserve">
     <value>Display lines on the screen to help making composition.</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="FramingGridColor" xml:space="preserve">
+    <value>Color of grid lines</value>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="Guide_FramingGridColor" xml:space="preserve">
+    <value>You can change color of the grid lines.</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>White</value>
   </data>
 </root>

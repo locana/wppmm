@@ -702,10 +702,10 @@ namespace Kazyx.WPPMM.CameraManager
         {
             set
             {
-                _RecordingTimeSec = value;
-                OnPropertyChanged("RecordingTimeSec");
+                _NumberOfShots = value;
+                OnPropertyChanged("NumberOfShots");
             }
-            get { return _RecordingTimeSec; }
+            get { return _NumberOfShots; }
         }
         private Capability<int> _AutoPowerOff;
         public Capability<int> AutoPowerOff

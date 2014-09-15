@@ -841,5 +841,35 @@ namespace Kazyx.WPPMM.Utils
             }
             return names;
         }
+
+        internal static string[] FromFramingGridColor(string[] keys)
+        {
+            string[] names = new string[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
+            {
+                switch (keys[i])
+                {
+                    case FramingGridColor.White:
+                        names[i] = AppResources.White;
+                        break;
+                    case FramingGridColor.Black:
+                        names[i] = AppResources.Black;
+                        break;
+                    case FramingGridColor.Red:
+                        names[i] = AppResources.Red;
+                        break;
+                    case FramingGridColor.Green:
+                        names[i] = AppResources.Green;
+                        break;
+                    case FramingGridColor.Blue:
+                        names[i] = AppResources.Blue;
+                        break;
+                    default:
+                        names[i] = keys[i];
+                        break;
+                }
+            }
+            return names;
+        }
     }
 }

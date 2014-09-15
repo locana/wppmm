@@ -13,6 +13,7 @@ namespace Kazyx.WPPMM.Utils
         public const string display_histogram_key = "display_histogram";
         public const string add_geotag = "add_geotag";
         public const string fraiming_grids = "fraiming_grids";
+        public const string framing_grids_color = "framing_grids_color";
 
         public static bool IsPostviewTransferEnabled()
         {
@@ -164,6 +165,26 @@ namespace Kazyx.WPPMM.Utils
                 settings.Remove(fraiming_grids);
             }
             settings.Add(fraiming_grids, type);
+        }
+
+        public static string FramingGridsColor()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(framing_grids_color))
+            {
+                return (string)settings[framing_grids_color];
+            }
+            return null;
+        }
+
+        public static void SetFramingGridsColor(string type)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(framing_grids_color))
+            {
+                settings.Remove(framing_grids_color);
+            }
+            settings.Add(framing_grids_color, type);
         }
 
         public static void SetPreference(string key, bool enable)

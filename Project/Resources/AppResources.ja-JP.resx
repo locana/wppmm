@@ -552,7 +552,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>対角線</value>
   </data>
   <data name="Grid_Fibonacci" xml:space="preserve">
-    <value>フィボナッチ</value>
+    <value>フィボナッチの螺旋</value>
   </data>
   <data name="Grid_GoldenRatio" xml:space="preserve">
     <value>黄金比</value>
@@ -565,5 +565,26 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   </data>
   <data name="Guide_FramingGrids" xml:space="preserve">
     <value>構図を決めやすくする補助線を表示します</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>黒</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>青</value>
+  </data>
+  <data name="FramingGridColor" xml:space="preserve">
+    <value>補助線の色</value>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>緑</value>
+  </data>
+  <data name="Guide_FramingGridColor" xml:space="preserve">
+    <value>補助線の色を変えられます</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>赤</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>白</value>
   </data>
 </root>

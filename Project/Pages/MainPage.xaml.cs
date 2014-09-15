@@ -1197,6 +1197,13 @@ namespace Kazyx.WPPMM.Pages
                     SettingsValueConverter.FromFramingGrid(ApplicationSettings.GetInstance().GridTypeSettings.ToArray())
                     )));
 
+            display_settings.Add(new ListPickerSetting(
+                new AppSettingData<int>(AppResources.FramingGridColor, AppResources.Guide_FramingGridColor,
+                    () => { return ApplicationSettings.GetInstance().GridColorIndex; },
+                    setting => { ApplicationSettings.GetInstance().GridColorIndex = setting; },
+                    SettingsValueConverter.FromFramingGridColor(ApplicationSettings.GetInstance().GridColorSettings.ToArray()))
+                    ));
+
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }
 

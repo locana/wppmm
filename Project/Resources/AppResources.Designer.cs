@@ -187,6 +187,24 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Black.
+        /// </summary>
+        public static string Black {
+            get {
+                return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blue.
+        /// </summary>
+        public static string Blue {
+            get {
+                return ResourceManager.GetString("Blue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Built-in version of Smart Remote Control app could not be supported by 3rd party applications.
         ///Please update to the latest at PlayMemories Camera Apps store..
         /// </summary>
@@ -639,11 +657,29 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Color of grid lines.
+        /// </summary>
+        public static string FramingGridColor {
+            get {
+                return ResourceManager.GetString("FramingGridColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Framing grids.
         /// </summary>
         public static string FramingGrids {
             get {
                 return ResourceManager.GetString("FramingGrids", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Green.
+        /// </summary>
+        public static string Green {
+            get {
+                return ResourceManager.GetString("Green", resourceCulture);
             }
         }
         
@@ -666,7 +702,7 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fibonacci.
+        ///   Looks up a localized string similar to Fibonacci spiral.
         /// </summary>
         public static string Grid_Fibonacci {
             get {
@@ -716,6 +752,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string Guide_DisplayTakeImageButtonSetting {
             get {
                 return ResourceManager.GetString("Guide_DisplayTakeImageButtonSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can change color of the grid lines..
+        /// </summary>
+        public static string Guide_FramingGridColor {
+            get {
+                return ResourceManager.GetString("Guide_FramingGridColor", resourceCulture);
             }
         }
         
@@ -1004,6 +1049,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string ProgressMessageFetching {
             get {
                 return ResourceManager.GetString("ProgressMessageFetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Red.
+        /// </summary>
+        public static string Red {
+            get {
+                return ResourceManager.GetString("Red", resourceCulture);
             }
         }
         
@@ -1391,6 +1445,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string WB_Shade {
             get {
                 return ResourceManager.GetString("WB_Shade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White.
+        /// </summary>
+        public static string White {
+            get {
+                return ResourceManager.GetString("White", resourceCulture);
             }
         }
         

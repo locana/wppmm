@@ -87,50 +87,10 @@ namespace Kazyx.WPMMM.Controls
                     DrawLine(0, w, 0, h);
                     DrawLine(0, w, h, 0);
                     break;
-                case FramingGridTypes.Off:
                 case FramingGridTypes.Fibonacci:
                     if (w > h)
                     {
-                        var StartPoint = new Point(0, 0);
-                        var EndPoint = new Point();
-                        var dir = SweepDirection.Counterclockwise;
-                        var CurrentH = w;
-                        var NextH = h;
-                        for (int i = 0; i < 8; i++)
-                        {
-                            switch (i % 4)
-                            {
-                                case 0: // to lower right
-                                    EndPoint.X = StartPoint.X + NextH;
-                                    EndPoint.Y = StartPoint.Y + NextH;
-                                    break;
-                                case 1: // upper right
-                                    EndPoint.X = StartPoint.X + NextH;
-                                    EndPoint.Y = StartPoint.Y - NextH;
-                                    break;
-                                case 2: // upper left
-                                    EndPoint.X = StartPoint.X - NextH;
-                                    EndPoint.Y = StartPoint.Y - NextH;
-                                    break;
-                                case 3: // lower left
-                                    EndPoint.X = StartPoint.X - NextH;
-                                    EndPoint.Y = StartPoint.Y + NextH;
-                                    break;
-                            }
-
-                            DrawArcSegment(StartPoint, EndPoint, dir);
-
-                            var tempH = NextH;
-                            NextH = CurrentH * GoldenRatio;
-                            CurrentH = tempH;
-                            Debug.WriteLine("current h: " + CurrentH + " next H: " + NextH);
-                            if (NextH < 0)
-                            {
-                                break;
-                            }
-                            StartPoint.X = EndPoint.X;
-                            StartPoint.Y = EndPoint.Y;
-                        }
+                        DrawFibonacciSpiral(w, h);
                     }
                     break;
                 case FramingGridTypes.GoldenRatio:
@@ -153,10 +113,85 @@ namespace Kazyx.WPMMM.Controls
                         DrawLine(h - ((h - w) / 2), h - ((h - w) / 2), 0, w);
                     }
                     break;
-                
+                case FramingGridTypes.Off:
                 default:
                     break;
             }
+        }
+
+        private void DrawFibonacciSpiral(double w, double h)
+        {
+            Debug.WriteLine("draw fibonaci: " + w + " " + h);
+
+            PathFigure figure = new PathFigure();
+            figure.StartPoint = new Point(0, 0);
+
+            var x1 = 0.0;
+            var y1 = 0.0;
+
+            var x2 = 0.0;
+            var y2 = h;
+
+            var x3 = w * (1 - GoldenRatio);
+            var y3 = h;
+
+            for (int i = 0; i < 10; i++)
+            {
+                Debug.WriteLine("Bezier: " + x1 + " " + y1 + " / " + x2 + " " + y2 + " / " + x3 + " " + y3);
+                var seg = new BezierSegment();
+                seg.Point1 = new Point(x1, y1);
+                seg.Point2 = new Point(x2, y2);
+                seg.Point3 = new Point(x3, y3);
+                figure.Segments.Add(seg);
+
+                x1 = x3;
+                y1 = y3;
+
+                switch (i % 4)
+                {
+                    case 0: // lower right
+                        w = w * GoldenRatio;
+                        x2 = x1 + w;
+                        y2 = y1;
+                        x3 = x1 + w;
+                        y3 = y1 - h * (1 - GoldenRatio);
+                        break;
+                    case 1:
+                        h = h * GoldenRatio;
+                        x2 = x1;
+                        y2 = y1 - h;
+                        x3 = x1 - w * (1 - GoldenRatio);
+                        y3 = y1 - h;
+                        break;
+                    case 2:
+                        w = w * GoldenRatio;
+                        x2 = x1 - w;
+                        y2 = y1;
+                        x3 = x1 - w;
+                        y3 = y1 + h * (1 - GoldenRatio);
+                        break;
+                    case 3:
+                        h = h * GoldenRatio;
+                        x2 = x1;
+                        y2 = y1 + h;
+                        x3 = x1 + w * (1 - GoldenRatio);
+                        y3 = y1 + h;
+                        break;
+                }
+
+            }
+            
+            PathFigureCollection pthFigureCollection = new PathFigureCollection();
+            pthFigureCollection.Add(figure);
+
+            PathGeometry pthGeometry = new PathGeometry();
+            pthGeometry.Figures = pthFigureCollection;
+
+            Path Fibonacci = new Path();
+            Fibonacci.Stroke = Stroke = this.Stroke;
+            Fibonacci.StrokeThickness = this.StrokeThickness;
+            Fibonacci.Data = pthGeometry;
+            Lines.Children.Add(Fibonacci);
         }
 
         private void DrawLine(double x1, double x2, double y1, double y2)

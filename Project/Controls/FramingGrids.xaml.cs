@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Diagnostics;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Utils;
 
 namespace Kazyx.WPMMM.Controls
 {

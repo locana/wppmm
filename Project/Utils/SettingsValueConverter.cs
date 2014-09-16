@@ -4,8 +4,6 @@ using Kazyx.WPMMM.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Kazyx.WPMMM.DataModel;
-using Kazyx.WPPMM.DataModel;
 
 namespace Kazyx.WPPMM.Utils
 {

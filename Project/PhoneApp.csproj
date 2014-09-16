@@ -141,6 +141,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ApplicationSettingNames.cs" />
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
     <Compile Include="CameraManager\Downloader.cs" />

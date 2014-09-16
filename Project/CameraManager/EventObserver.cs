@@ -163,56 +163,44 @@ namespace Kazyx.WPPMM.CameraManager
         private void UpdateIfRequired(CameraStatus target, Event data)
         {
             StatusUpdater.AvailableApis(target, data.AvailableApis);
-
             StatusUpdater.CameraStatus(target, data.CameraStatus);
-
             StatusUpdater.LiveviewAvailability(target, data.LiveviewAvailable);
-
             StatusUpdater.PostviewSize(target, data.PostviewSizeInfo);
-
             StatusUpdater.SelfTimer(target, data.SelfTimerInfo);
-
             StatusUpdater.ShootMode(target, data.ShootModeInfo);
-
             StatusUpdater.ZoomInfo(target, data.ZoomInfo);
-
             StatusUpdater.ExposureMode(target, data.ExposureMode);
-
             StatusUpdater.FNumber(target, data.FNumber);
-
             StatusUpdater.ShutterSpeed(target, data.ShutterSpeed);
-
             StatusUpdater.ISO(target, data.ISOSpeedRate);
-
             StatusUpdater.EvInfo(target, data.EvInfo);
-
             StatusUpdater.ProgramShift(target, data.ProgramShiftActivated);
-
             StatusUpdater.FocusStatus(target, data.FocusStatus);
-
             StatusUpdater.BeepMode(target, data.BeepMode);
-
             StatusUpdater.SteadyMode(target, data.SteadyMode);
-
             StatusUpdater.ViewAngle(target, data.ViewAngle);
-
             StatusUpdater.MovieQuality(target, data.MovieQuality);
-
             StatusUpdater.Storages(target, data.StorageInfo);
-
             StatusUpdater.LiveviewOrientation(target, data.LiveviewOrientation);
-
             StatusUpdater.PictureUrls(target, data.PictureUrls);
-
             StatusUpdater.StillSize(target, data.StillImageSize, client);
-
             StatusUpdater.WhiteBalance(target, data.WhiteBalance, client);
-
             StatusUpdater.FlashMode(target, data.FlashMode);
-
             StatusUpdater.FocusMode(target, data.FocusMode);
-
-            StatusUpdater.TouchFocusStatus(target, data.TouchAFStatus);            
+            StatusUpdater.TouchFocusStatus(target, data.TouchAFStatus);
+            StatusUpdater.ZoomSetting(target, data.ZoomSetting);
+            StatusUpdater.ImageQuality(target, data.ImageQuality);
+            StatusUpdater.ContShootingMode(target, data.ContShootingMode);
+            StatusUpdater.ContShootingSpeed(target, data.ContShootingSpeed);
+            StatusUpdater.FlipMode(target, data.FlipMode);
+            StatusUpdater.SceneSelection(target, data.SceneSelection);
+            StatusUpdater.IntervalTime(target, data.IntervalTime);
+            StatusUpdater.ColorSetting(target, data.ColorSetting);
+            StatusUpdater.MovieFormat(target, data.MovieFormat);
+            StatusUpdater.IrRemoteControl(target, data.IrRemoteControl);
+            StatusUpdater.TvColorSystem(target, data.TvColorSystem);
+            StatusUpdater.TrackingFocusMode(target, data.TrackingFocusMode);
+            StatusUpdater.AutoPowerOff(target, data.AutoPowerOff);
         }
 
         private async void Call()

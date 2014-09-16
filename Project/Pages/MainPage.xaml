@@ -122,7 +122,7 @@
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
                                    Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded" SizeChanged="ScreenImage_SizeChanged"/>
                             <Controls:FramingGrids HorizontalAlignment="Center" VerticalAlignment="Center" Name="FraimingGrids" Type="{Binding GridType, Mode=OneWay}"
-                                                   Stroke="{Binding GridColorBrush,Mode=OneWay}"/>
+                                                   Stroke="{Binding GridColorBrush,Mode=OneWay}" FibonacciOrigin="{Binding FibonacciLineOrigin, Mode=OneWay}"/>
                             <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
                                    HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding TouchAFPointerVisibility, Mode=OneWay, FallbackValue=Collapsed}"
                                        StrokeThickness="2"/>

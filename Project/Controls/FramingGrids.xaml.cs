@@ -102,6 +102,32 @@ namespace Kazyx.WPMMM.Controls
             (d as FramingGrids).StrokeThickness = (double)e.NewValue;
         }
 
+        private string _FibonacciOrigin = FibonacciLineOrigins.UpperLeft;
+        public string FibonacciOrigin { 
+            get{return _FibonacciOrigin;}
+            set
+            {
+                if (value != _FibonacciOrigin)
+                {
+                    this._FibonacciOrigin = value;
+                    this.DrawGridLines(_Type);
+                }
+            }
+        }
+
+        public static readonly DependencyProperty FibonacciOriginProperty = DependencyProperty.Register(
+            "FibonacciOrigin",
+            typeof(string),
+            typeof(FramingGrids),
+            new PropertyMetadata(new PropertyChangedCallback(FramingGrids.OnFibonacciOriginChanged)));
+
+        private static void OnFibonacciOriginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("fibonacci origin changed: " + e.NewValue);
+            (d as FramingGrids).FibonacciOrigin = (string)e.NewValue;
+        }
+
+
         public FramingGrids()
         {
             InitializeComponent();
@@ -138,10 +164,21 @@ namespace Kazyx.WPMMM.Controls
                 case FramingGridTypes.Fibonacci:
                     if (w > h)
                     {
-                        DrawFibonacciSpiral(new Point(0, 0), w, h);
-                        //DrawFibonacciSpiral(new Point(w, h), w, h);
-                        //DrawFibonacciSpiral(new Point(w, 0), w, h);
-                        //DrawFibonacciSpiral(new Point(0, h), w, h);
+                        switch (FibonacciOrigin)
+                        {
+                            case FibonacciLineOrigins.UpperLeft:
+                                DrawFibonacciSpiral(new Point(0, 0), w, h);
+                                break;
+                            case FibonacciLineOrigins.UpperRight:
+                                DrawFibonacciSpiral(new Point(w, 0), w, h);
+                                break;
+                            case FibonacciLineOrigins.BottomLeft:
+                                DrawFibonacciSpiral(new Point(0, h), w, h);
+                                break;
+                            case FibonacciLineOrigins.BottomRight:
+                                DrawFibonacciSpiral(new Point(w, h), w, h);
+                                break;
+                        }
                     }
                     break;
                 case FramingGridTypes.GoldenRatio:

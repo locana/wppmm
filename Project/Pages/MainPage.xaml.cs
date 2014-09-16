@@ -139,9 +139,8 @@ namespace Kazyx.WPPMM.Pages
             }
 
             ActivateGeoTagSetting(true);
-            ActivateGridColorSetting(ApplicationSettings.GetInstance().GridType != FramingGridTypes.Off);
-
-
+            DisplayGridColorSetting(ApplicationSettings.GetInstance().GridType != FramingGridTypes.Off);
+            DisplayFibonacciOriginSetting(ApplicationSettings.GetInstance().GridType == FramingGridTypes.Fibonacci);
         }
 
         void cameraManager_OnTakePictureSucceed()
@@ -1163,7 +1162,7 @@ namespace Kazyx.WPPMM.Pages
 
         private AppSettingData<bool> geoSetting;
         private AppSettingData<int> gridColorSetting;
-        private AppSettingData<int> gridOrientationSetting;
+        private AppSettingData<int> fibonacciOriginSetting;
 
         private void InitAppSettingPanel()
         {
@@ -1200,7 +1199,8 @@ namespace Kazyx.WPPMM.Pages
                     () => { return ApplicationSettings.GetInstance().GridTypeIndex; },
                     setting => { 
                         ApplicationSettings.GetInstance().GridTypeIndex = setting;
-                        ActivateGridColorSetting(ApplicationSettings.GetInstance().GridTypeSettings[setting] != FramingGridTypes.Off);
+                        DisplayGridColorSetting(ApplicationSettings.GetInstance().GridTypeSettings[setting] != FramingGridTypes.Off);
+                        DisplayFibonacciOriginSetting(ApplicationSettings.GetInstance().GridTypeSettings[setting] == FramingGridTypes.Fibonacci);
                     },
                     SettingsValueConverter.FromFramingGrid(ApplicationSettings.GetInstance().GridTypeSettings.ToArray())
                     )));
@@ -1210,6 +1210,12 @@ namespace Kazyx.WPPMM.Pages
                     setting => { ApplicationSettings.GetInstance().GridColorIndex = setting; },
                     SettingsValueConverter.FromFramingGridColor(ApplicationSettings.GetInstance().GridColorSettings.ToArray()));
             display_settings.Add(new ListPickerSetting(gridColorSetting));
+
+            fibonacciOriginSetting = new AppSettingData<int>(AppResources.FibonacciSpiralOrigin, AppResources.Guide_FibonacciSpiralOrigin,
+                () => { return ApplicationSettings.GetInstance().FibonacciOriginIndex; },
+                setting => { ApplicationSettings.GetInstance().FibonacciOriginIndex = setting; },
+                SettingsValueConverter.FromFibonacciLineOrigin(ApplicationSettings.GetInstance().FibonacciLineOriginSettings.ToArray()));
+            display_settings.Add(new ListPickerSetting(fibonacciOriginSetting));
 
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }
@@ -1223,7 +1229,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private void ActivateGridColorSetting(bool displayed)
+        private void DisplayGridColorSetting(bool displayed)
         {
             if (gridColorSetting != null)
             {
@@ -1234,6 +1240,21 @@ namespace Kazyx.WPPMM.Pages
                 else
                 {
                     gridColorSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void DisplayFibonacciOriginSetting(bool displayed)
+        {
+            if (fibonacciOriginSetting != null)
+            {
+                if (displayed)
+                {
+                    fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
                 }
             }
         }

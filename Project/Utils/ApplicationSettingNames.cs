@@ -24,7 +24,7 @@ namespace Kazyx.WPPMM.Utils
         public const string Green = "green";
     }
 
-    public class FibonacciLineOrigin
+    public class FibonacciLineOrigins
     {
         public const string UpperLeft = "upper_left";
         public const string UpperRight = "upper_right";

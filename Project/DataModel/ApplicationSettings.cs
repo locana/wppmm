@@ -39,6 +39,14 @@ namespace Kazyx.WPPMM.DataModel
             FramingGridColor.Blue,
         };
 
+        internal List<string> FibonacciLineOriginSettings = new List<string>()
+        {
+            FibonacciLineOrigins.UpperLeft,
+            FibonacciLineOrigins.UpperRight,
+            FibonacciLineOrigins.BottomLeft,
+            FibonacciLineOrigins.BottomRight,
+        };
+
         private ApplicationSettings()
         {
             manager = CameraManager.CameraManager.GetInstance();
@@ -50,6 +58,7 @@ namespace Kazyx.WPPMM.DataModel
             GeotagEnabled = Preference.GeotagEnabled();
             GridType = Preference.FramingGridsType() ?? FramingGridTypes.Off;
             GridColor = Preference.FramingGridsColor() ?? FramingGridColor.White;
+
         }
 
         public static ApplicationSettings GetInstance()
@@ -309,6 +318,41 @@ namespace Kazyx.WPPMM.DataModel
                 foreach (string color in GridColorSettings)
                 {
                     if (GridColor.Equals(color))
+                    {
+                        return i;
+                    }
+                    i++;
+                }
+                return 0;
+            }
+        }
+
+        private string _FibonacciLineOrigin = FibonacciLineOrigins.UpperLeft;
+        public string FibonacciLineOrigin
+        {
+            get { return _FibonacciLineOrigin; }
+            set
+            {
+                if (value != _FibonacciLineOrigin)
+                {
+                    this._FibonacciLineOrigin = value;
+                    OnPropertyChanged("FibonacciLineOrigin");
+                }
+            }
+        }
+
+        public int FibonacciOriginIndex
+        {
+            set
+            {
+                FibonacciLineOrigin = FibonacciLineOriginSettings[value];
+            }
+            get
+            {
+                int i = 0;
+                foreach (string f in FibonacciLineOriginSettings)
+                {
+                    if (FibonacciLineOrigin.Equals(f))
                     {
                         return i;
                     }

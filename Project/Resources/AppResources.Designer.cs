@@ -205,6 +205,24 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bottom left.
+        /// </summary>
+        public static string BottomLeft {
+            get {
+                return ResourceManager.GetString("BottomLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom right.
+        /// </summary>
+        public static string BottomRight {
+            get {
+                return ResourceManager.GetString("BottomRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Built-in version of Smart Remote Control app could not be supported by 3rd party applications.
         ///Please update to the latest at PlayMemories Camera Apps store..
         /// </summary>
@@ -567,6 +585,15 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Origin of Fibonacci spiral.
+        /// </summary>
+        public static string FibonacciSpiralOrigin {
+            get {
+                return ResourceManager.GetString("FibonacciSpiralOrigin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flash mode.
         /// </summary>
         public static string FlashMode {
@@ -752,6 +779,15 @@ namespace Kazyx.WPMMM.Resources {
         public static string Guide_DisplayTakeImageButtonSetting {
             get {
                 return ResourceManager.GetString("Guide_DisplayTakeImageButtonSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The spiral will be rotated according to its origin.
+        /// </summary>
+        public static string Guide_FibonacciSpiralOrigin {
+            get {
+                return ResourceManager.GetString("Guide_FibonacciSpiralOrigin", resourceCulture);
             }
         }
         
@@ -1274,6 +1310,24 @@ namespace Kazyx.WPMMM.Resources {
         public static string TvColorSystem {
             get {
                 return ResourceManager.GetString("TvColorSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upper left.
+        /// </summary>
+        public static string UpperLeft {
+            get {
+                return ResourceManager.GetString("UpperLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upper right.
+        /// </summary>
+        public static string UpperRight {
+            get {
+                return ResourceManager.GetString("UpperRight", resourceCulture);
             }
         }
         

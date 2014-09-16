@@ -595,4 +595,22 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="White" xml:space="preserve">
     <value>White</value>
   </data>
+  <data name="BottomLeft" xml:space="preserve">
+    <value>Bottom left</value>
+  </data>
+  <data name="BottomRight" xml:space="preserve">
+    <value>Bottom right</value>
+  </data>
+  <data name="FibonacciSpiralOrigin" xml:space="preserve">
+    <value>Origin of Fibonacci spiral</value>
+  </data>
+  <data name="Guide_FibonacciSpiralOrigin" xml:space="preserve">
+    <value>The spiral will be rotated according to its origin</value>
+  </data>
+  <data name="UpperLeft" xml:space="preserve">
+    <value>Upper left</value>
+  </data>
+  <data name="UpperRight" xml:space="preserve">
+    <value>Upper right</value>
+  </data>
 </root>

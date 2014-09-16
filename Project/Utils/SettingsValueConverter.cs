@@ -869,5 +869,32 @@ namespace Kazyx.WPPMM.Utils
             }
             return names;
         }
+
+        internal static string[] FromFibonacciLineOrigin(string[] keys)
+        {
+            string[] names = new string[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
+            {
+                switch (keys[i])
+                {
+                    case FibonacciLineOrigins.UpperLeft:
+                        names[i] = AppResources.UpperLeft;
+                        break;
+                    case FibonacciLineOrigins.UpperRight:
+                        names[i] = AppResources.UpperRight;
+                        break;
+                    case FibonacciLineOrigins.BottomLeft:
+                        names[i] = AppResources.BottomLeft;
+                        break;
+                    case FibonacciLineOrigins.BottomRight:
+                        names[i] = AppResources.BottomRight;
+                        break;
+                    default:
+                        names[i] = keys[i];
+                        break;
+                }
+            }
+            return names;
+        }
     }
 }

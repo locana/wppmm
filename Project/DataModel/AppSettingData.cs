@@ -88,6 +88,21 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        private Visibility _SettingVisibility = Visibility.Visible;
+        public Visibility SettingVisibility
+        {
+            get { return _SettingVisibility; }
+            set
+            {
+                if (value != _SettingVisibility)
+                {
+                    this._SettingVisibility = value;
+                    Debug.WriteLine("visibility changed: " + _SettingVisibility);
+                    OnPropertyChanged("SettingVisibility");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {

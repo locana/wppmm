@@ -139,6 +139,9 @@ namespace Kazyx.WPPMM.Pages
             }
 
             ActivateGeoTagSetting(true);
+            ActivateGridColorSetting(ApplicationSettings.GetInstance().GridType != FramingGridTypes.Off);
+
+
         }
 
         void cameraManager_OnTakePictureSucceed()
@@ -1159,6 +1162,8 @@ namespace Kazyx.WPPMM.Pages
         }
 
         private AppSettingData<bool> geoSetting;
+        private AppSettingData<int> gridColorSetting;
+        private AppSettingData<int> gridOrientationSetting;
 
         private void InitAppSettingPanel()
         {
@@ -1193,16 +1198,18 @@ namespace Kazyx.WPPMM.Pages
             display_settings.Add(new ListPickerSetting(
                 new AppSettingData<int>(AppResources.FramingGrids, AppResources.Guide_FramingGrids,
                     () => { return ApplicationSettings.GetInstance().GridTypeIndex; },
-                    setting => { ApplicationSettings.GetInstance().GridTypeIndex = setting; },
+                    setting => { 
+                        ApplicationSettings.GetInstance().GridTypeIndex = setting;
+                        ActivateGridColorSetting(ApplicationSettings.GetInstance().GridTypeSettings[setting] != FramingGridTypes.Off);
+                    },
                     SettingsValueConverter.FromFramingGrid(ApplicationSettings.GetInstance().GridTypeSettings.ToArray())
                     )));
 
-            display_settings.Add(new ListPickerSetting(
-                new AppSettingData<int>(AppResources.FramingGridColor, AppResources.Guide_FramingGridColor,
+            gridColorSetting = new AppSettingData<int>(AppResources.FramingGridColor, AppResources.Guide_FramingGridColor,
                     () => { return ApplicationSettings.GetInstance().GridColorIndex; },
                     setting => { ApplicationSettings.GetInstance().GridColorIndex = setting; },
-                    SettingsValueConverter.FromFramingGridColor(ApplicationSettings.GetInstance().GridColorSettings.ToArray()))
-                    ));
+                    SettingsValueConverter.FromFramingGridColor(ApplicationSettings.GetInstance().GridColorSettings.ToArray()));
+            display_settings.Add(new ListPickerSetting(gridColorSetting));
 
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }
@@ -1213,6 +1220,21 @@ namespace Kazyx.WPPMM.Pages
             {
                 geoSetting.Guide = activate ? AppResources.AddGeotag_guide : AppResources.ErrorMessage_LocationAccessUnauthorized;
                 geoSetting.IsActive = activate;
+            }
+        }
+
+        private void ActivateGridColorSetting(bool displayed)
+        {
+            if (gridColorSetting != null)
+            {
+                if (displayed)
+                {
+                    gridColorSetting.SettingVisibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    gridColorSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
+                }
             }
         }
 

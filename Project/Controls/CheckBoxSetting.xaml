@@ -9,12 +9,12 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Visibility="{Binding SettingVisibility,Mode=OneWay, FallbackValue=Visible}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="15,0,0,0">
+        <Grid Grid.Row="0" Margin="15,0,0,0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />

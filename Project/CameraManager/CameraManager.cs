@@ -4,6 +4,7 @@ using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.RemoteApi.System;
 using Kazyx.WPMMM.CameraManager;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.DataModel;
 using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
@@ -110,7 +111,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             cameraStatus.LiveviewAvailabilityNotifier += (available) =>
             {
-                Debug.WriteLine("Liveview Availability changed:" + available);
+                DebugUtil.Log("Liveview Availability changed:" + available);
 
                 if (!available)
                 {
@@ -123,7 +124,7 @@ namespace Kazyx.WPPMM.CameraManager
             };
             cameraStatus.CurrentShootModeNotifier += (mode) =>
             {
-                Debug.WriteLine("Current shoot mode updated: " + mode);
+                DebugUtil.Log("Current shoot mode updated: " + mode);
 
                 if (lvProcessor.ConnectionState == ConnectionState.Closed && cameraStatus.IsAvailable("startLiveview") && AppStatus.GetInstance().IsInShootingDisplay)
                 {
@@ -157,7 +158,7 @@ namespace Kazyx.WPPMM.CameraManager
                         _cameraStatus.TouchFocusStatus != null &&
                         !_cameraStatus.TouchFocusStatus.Focused)
                     {
-                        Debug.WriteLine("Touch AF is cancelled.");
+                        DebugUtil.Log("Touch AF is cancelled.");
                         _cameraStatus.FocusStatus = FocusState.Released;
                     }
                     if (OnAfStatusChanged != null)
@@ -199,31 +200,31 @@ namespace Kazyx.WPPMM.CameraManager
 
             if (!cameraStatus.IsSupported("setProgramShift"))
             {
-                Debug.WriteLine("This device does not support ProgramShift API");
+                DebugUtil.Log("This device does not support ProgramShift API");
                 return;
             }
 
-            Debug.WriteLine("This device supports ProgramShift API");
+            DebugUtil.Log("This device supports ProgramShift API");
             try
             {
                 var range = await _CameraApi.GetSupportedProgramShiftAsync();
                 cameraStatus.ProgramShiftRange = range;
-                Debug.WriteLine("Max: " + range.Max + " Min: " + range.Min);
+                DebugUtil.Log("Max: " + range.Max + " Min: " + range.Min);
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("Failed to get program shift range: " + e.code);
+                DebugUtil.Log("Failed to get program shift range: " + e.code);
             }
         }
 
         void deviceFinder_Finished(object sender, EventArgs e)
         {
-            Debug.WriteLine("deviceFinder_Finished");
+            DebugUtil.Log("deviceFinder_Finished");
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 if (DiscoveryTimeout != null)
                 {
-                    Debug.WriteLine("Invoke DiscoveryTimeout");
+                    DebugUtil.Log("Invoke DiscoveryTimeout");
                     DiscoveryTimeout.Invoke();
                 }
             });
@@ -234,7 +235,7 @@ namespace Kazyx.WPPMM.CameraManager
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 DeviceInfo = e.ScalarDevice;
-                Debug.WriteLine("found device: " + DeviceInfo.ModelName + " - " + DeviceInfo.UDN);
+                DebugUtil.Log("found device: " + DeviceInfo.ModelName + " - " + DeviceInfo.UDN);
                 if (DeviceInfo.FriendlyName == "DSC-QX10")
                 {
                     cameraStatus.DeviceType = DeviceType.DSC_QX10;
@@ -243,7 +244,7 @@ namespace Kazyx.WPPMM.CameraManager
                 if (DeviceInfo.Endpoints.ContainsKey("camera"))
                 {
                     _CameraApi = new CameraApiClient(new Uri(e.ScalarDevice.Endpoints["camera"], UriKind.Absolute));
-                    Debug.WriteLine(e.ScalarDevice.Endpoints["camera"]);
+                    DebugUtil.Log(e.ScalarDevice.Endpoints["camera"]);
                     GetMethodTypes();
                     cameraStatus.isAvailableConnecting = true;
 
@@ -252,7 +253,7 @@ namespace Kazyx.WPPMM.CameraManager
                 if (DeviceInfo.Endpoints.ContainsKey("system"))
                 {
                     _SystemApi = new SystemApiClient(new Uri(e.ScalarDevice.Endpoints["system"], UriKind.Absolute));
-                    Debug.WriteLine(e.ScalarDevice.Endpoints["system"]);
+                    DebugUtil.Log(e.ScalarDevice.Endpoints["system"]);
                 }
                 // TODO be careful, device info is updated to the latest found device.
 
@@ -331,19 +332,19 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("CameraManager: failed to get application info. - " + e.code);
+                DebugUtil.Log("CameraManager: failed to get application info. - " + e.code);
                 OnError(e.code);
                 return;
             }
-            Debug.WriteLine("Server Info: " + info.Name + " ver " + info.Version);
+            DebugUtil.Log("Server Info: " + info.Name + " ver " + info.Version);
             try
             {
                 cameraStatus.Version = new ServerVersion(info.Version);
             }
             catch (ArgumentException e)
             {
-                Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine("Server version is invalid. Treat this as 2.0.0 device");
+                DebugUtil.Log(e.StackTrace);
+                DebugUtil.Log("Server version is invalid. Treat this as 2.0.0 device");
                 cameraStatus.Version = ServerVersion.CreateDefault();
             }
 
@@ -377,7 +378,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 catch (RemoteApiException)
                 {
-                    Debug.WriteLine("Failed to set current time");
+                    DebugUtil.Log("Failed to set current time");
                 }
             }
 
@@ -391,7 +392,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             if (AppStatus.GetInstance().IsTryingToConnectLiveview)
             {
-                Debug.WriteLine("Avoid duplicated liveview opening");
+                DebugUtil.Log("Avoid duplicated liveview opening");
                 return;
             }
             AppStatus.GetInstance().IsTryingToConnectLiveview = true;
@@ -404,7 +405,7 @@ namespace Kazyx.WPPMM.CameraManager
                 if (lvProcessor.ConnectionState == ConnectionState.Closed)
                 {
                     var res = await lvProcessor.OpenConnection(uri, connectionTimeout);
-                    Debug.WriteLine("Liveview Connection status: " + res);
+                    DebugUtil.Log("Liveview Connection status: " + res);
                     if (!res)
                     {
                         OnError(StatusCode.ServiceUnavailable);
@@ -413,12 +414,12 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("Failed to call StartLiveview");
+                DebugUtil.Log("Failed to call StartLiveview");
                 OnError(e.code);
             }
             catch (UriFormatException e)
             {
-                Debug.WriteLine("UriFormatException. Failed to open JPEG stream: " + e.StackTrace);
+                DebugUtil.Log("UriFormatException. Failed to open JPEG stream: " + e.StackTrace);
                 OnError(StatusCode.IllegalResponse);
             }
             finally
@@ -439,11 +440,11 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void OnLvClosed(object sender, EventArgs e)
         {
-            Debug.WriteLine("--- OnLvClosed ---");
+            DebugUtil.Log("--- OnLvClosed ---");
 
             if (AppStatus.GetInstance().IsInShootingDisplay)
             {
-                Debug.WriteLine("--- Retry connection for Liveview Stream ---");
+                DebugUtil.Log("--- Retry connection for Liveview Stream ---");
                 CloseLiveviewConnection();
                 await Task.Delay(1000);
                 OpenLiveviewConnection();
@@ -529,7 +530,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     if (DeviceDiscovered != null)
                     {
-                        Debug.WriteLine("Invoke DeviceDiscovered");
+                        DebugUtil.Log("Invoke DeviceDiscovered");
                         DeviceDiscovered.Invoke();
                     }
                 });
@@ -583,7 +584,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private void OnPictureFetched(Picture p, Geoposition pos)
         {
-            Debug.WriteLine("download succeed");
+            DebugUtil.Log("download succeed");
 
             if (PictureFetchSucceed != null)
             {
@@ -628,7 +629,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             if (err == StatusCode.StillCapturingNotFinished)
             {
-                Debug.WriteLine("capturing...");
+                DebugUtil.Log("capturing...");
                 try
                 {
                     var res = await _CameraApi.AwaitTakePictureAsync();
@@ -642,7 +643,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
             }
 
-            Debug.WriteLine("Error during taking picture: " + err);
+            DebugUtil.Log("Error during taking picture: " + err);
             AppStatus.GetInstance().IsTakingPicture = false;
             OnError(err);
         }
@@ -803,7 +804,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         public void OnError(StatusCode errno)
         {
-            Debug.WriteLine("Error: " + errno);
+            DebugUtil.Log("Error: " + errno);
 
             if (IntervalManager.IsRunning)
             {
@@ -967,7 +968,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async void SetFNumber(string value)
         {
-            Debug.WriteLine("set Fnumber: " + value);
+            DebugUtil.Log("set Fnumber: " + value);
             if (_CameraApi == null)
             {
                 return;

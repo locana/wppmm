@@ -1,6 +1,7 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.Resources;
+using Kazyx.WPMMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -404,7 +405,7 @@ namespace Kazyx.WPPMM.Utils
         {
             if (info == null)
             {
-                Debug.WriteLine("Return null.");
+                DebugUtil.Log("Return null.");
                 return new string[] { AppResources.Disabled };
             }
 
@@ -412,7 +413,7 @@ namespace Kazyx.WPPMM.Utils
             var mCandidates = new string[num];
             for (int i = 0; i < num; i++)
             {
-                Debug.WriteLine("ev: " + i);
+                DebugUtil.Log("ev: " + i);
                 mCandidates[i] = FromExposureCompensation(i + info.Candidate.MinIndex, info.Candidate.IndexStep);
             }
 
@@ -509,7 +510,10 @@ namespace Kazyx.WPPMM.Utils
         {
             var res = AsDisabledCapability(info);
             if (res != null)
+            {
+                DebugUtil.Log("[FromZoomSetting] returns null");
                 return res;
+            }
 
             var mCandidates = new List<string>();
             foreach (var val in info.Candidates)

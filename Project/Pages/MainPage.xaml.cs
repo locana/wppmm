@@ -3,6 +3,7 @@ using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.CameraManager;
 using Kazyx.WPMMM.Controls;
 using Kazyx.WPMMM.Resources;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Controls;
 using Kazyx.WPPMM.DataModel;
@@ -105,7 +106,7 @@ namespace Kazyx.WPPMM.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Debug.WriteLine(e.Uri);
+            DebugUtil.Log(e.Uri.OriginalString);
             progress.IsVisible = false;
             InitializeApplication();
 
@@ -229,7 +230,7 @@ namespace Kazyx.WPPMM.Pages
                     break;
             }
             MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
-            Debug.WriteLine(error);
+            DebugUtil.Log(error);
         }
 
         void cameraManager_OnRemoteClientError(StatusCode code)
@@ -270,7 +271,7 @@ namespace Kazyx.WPPMM.Pages
 
         internal void cameraManager_OnDisconnected()
         {
-            Debug.WriteLine("## Disconnected");
+            DebugUtil.Log("## Disconnected");
             MessageBox.Show(AppResources.ErrorMessage_Dsconnected, AppResources.MessageCaption_error, MessageBoxButton.OK);
             MyPivot.IsLocked = false;
             if (cpm != null && cpm.IsShowing())
@@ -328,25 +329,25 @@ namespace Kazyx.WPPMM.Pages
             progress.IsVisible = true;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
-                Debug.WriteLine("DeviceFound -> GoToShootingPage if required.");
+                DebugUtil.Log("DeviceFound -> GoToShootingPage if required.");
                 progress.IsVisible = false;
                 if (connect) GoToShootingPage();
             }, () =>
             {
-                Debug.WriteLine("Discovery timeout.");
+                DebugUtil.Log("Discovery timeout.");
                 progress.IsVisible = false;
             });
         }
 
         private void HandleError(int code)
         {
-            Debug.WriteLine("Error: " + code);
+            DebugUtil.Log("Error: " + code);
         }
 
         private void UpdateNetworkStatus()
         {
             var ssid = GetSSIDName();
-            Debug.WriteLine("SSID: " + ssid);
+            DebugUtil.Log("SSID: " + ssid);
             if (ssid != null && ssid.StartsWith(AP_NAME_PREFIX))
             {
                 NetworkStatus.Text = AppResources.Guide_CantFindDevice;
@@ -403,7 +404,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 double margin_left = cameraStatus.ZoomInfo.Position * 156 / 100;
                 ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
-                Debug.WriteLine("zoom bar display update: " + margin_left);
+                DebugUtil.Log("zoom bar display update: " + margin_left);
             }
         }
 
@@ -574,7 +575,7 @@ namespace Kazyx.WPPMM.Pages
             }
             else
             {
-                Debug.WriteLine("Await for async device discovery");
+                DebugUtil.Log("Await for async device discovery");
                 AppStatus.GetInstance().IsSearchingDevice = true;
                 Dispatcher.BeginInvoke(() =>
                 {
@@ -584,7 +585,7 @@ namespace Kazyx.WPPMM.Pages
                 var found = await PrepareConnectionAsync();
                 Dispatcher.BeginInvoke(() => { AppStatus.GetInstance().IsSearchingDevice = false; });
 
-                Debug.WriteLine("Async device discovery result: " + found);
+                DebugUtil.Log("Async device discovery result: " + found);
                 if (found)
                 {
                     await cameraManager.OperateInitialProcess();
@@ -640,7 +641,7 @@ namespace Kazyx.WPPMM.Pages
 
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)
         {
-            Debug.WriteLine("Geoposition status updated: " + args.Status);
+            DebugUtil.Log("Geoposition status updated: " + args.Status);
             Dispatcher.BeginInvoke(() =>
             {
                 switch (args.Status)
@@ -777,8 +778,8 @@ namespace Kazyx.WPPMM.Pages
                 TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
             });
 
-            // Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
-            Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
+            // DebugUtil.Log("tx: " + touchX + " ty: " + touchY);
+            DebugUtil.Log("touch position X: " + posX + " Y: " + posY);
 
             cameraManager.RequestTouchAF(posX, posY);
         }
@@ -840,7 +841,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Stop Zoom In (if started)");
+            DebugUtil.Log("Stop Zoom In (if started)");
             if (OnZooming)
             {
                 cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.ActionStop);
@@ -849,7 +850,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomOutClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Stop zoom out (if started)");
+            DebugUtil.Log("Stop zoom out (if started)");
             if (OnZooming)
             {
                 cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.ActionStop);
@@ -858,45 +859,45 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomInHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: Start");
+            DebugUtil.Log("Zoom In: Start");
             cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.ActionStart);
             OnZooming = true;
         }
 
         private void OnZoomOutHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom Out: Start");
+            DebugUtil.Log("Zoom Out: Start");
             cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.ActionStart);
             OnZooming = true;
         }
 
         private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: OneShot");
+            DebugUtil.Log("Zoom In: OneShot");
             cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.Action1Shot);
         }
 
         private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: OneShot");
+            DebugUtil.Log("Zoom In: OneShot");
             cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.Action1Shot);
         }
 
         private void ScreenImage_Loaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("ScreenImage_Loaded");
+            DebugUtil.Log("ScreenImage_Loaded");
             ScreenImage.DataContext = cameraManager.LiveviewImage;
         }
 
         private void ScreenImage_Unloaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("ScreenImage_UnLoaded");
+            DebugUtil.Log("ScreenImage_UnLoaded");
             ScreenImage.DataContext = null;
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            Debug.WriteLine("onbackkey");
+            DebugUtil.Log("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
                 e.Cancel = true;
@@ -922,6 +923,8 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                     return;
                 }
+
+                DebugUtil.GetInstance().ComposeDebugMail();
                 GoToMainPage();
             }
             else
@@ -965,7 +968,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
         {
-            Debug.WriteLine("OrientationChagned: " + e.Orientation);
+            DebugUtil.Log("OrientationChagned: " + e.Orientation);
             if (cameraManager != null)
             {
                 cameraManager.CancelTouchAF();
@@ -1060,19 +1063,19 @@ namespace Kazyx.WPPMM.Pages
             catch (System.IO.FileNotFoundException)
             {
                 ProximitiyDevice = null;
-                Debug.WriteLine("Caught ununderstandable exception. ");
+                DebugUtil.Log("Caught ununderstandable exception. ");
                 return;
             }
             catch (System.Runtime.InteropServices.COMException)
             {
                 ProximitiyDevice = null;
-                Debug.WriteLine("Caught ununderstandable exception. ");
+                DebugUtil.Log("Caught ununderstandable exception. ");
                 return;
             }
 
             if (ProximitiyDevice == null)
             {
-                Debug.WriteLine("It seems this is not NFC available device");
+                DebugUtil.Log("It seems this is not NFC available device");
                 return;
             }
 
@@ -1083,7 +1086,7 @@ namespace Kazyx.WPPMM.Pages
             catch (Exception e)
             {
                 ProximitiyDevice = null;
-                Debug.WriteLine("Caught ununderstandable exception. " + e.Message + e.StackTrace);
+                DebugUtil.Log("Caught ununderstandable exception. " + e.Message + e.StackTrace);
                 return;
             }
 
@@ -1373,13 +1376,13 @@ namespace Kazyx.WPPMM.Pages
             }
             catch (RemoteApiException ex)
             {
-                Debug.WriteLine("Failed to set program shift: " + ex.code);
+                DebugUtil.Log("Failed to set program shift: " + ex.code);
             }
         }
 
         private void OpenSliderPanel()
         {
-            Debug.WriteLine("OpenSlider");
+            DebugUtil.Log("OpenSlider");
             Sliders.Visibility = Visibility.Visible;
             // make shoot button and zoom bar/buttons invisible.
             ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = true;
@@ -1389,7 +1392,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseSliderPanel()
         {
-            Debug.WriteLine("CloseSlider");
+            DebugUtil.Log("CloseSlider");
             Sliders.Visibility = Visibility.Collapsed;
             ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = false;
             if (svd != null) { svd.ZoomElementsTemporaryCollapsed = false; }
@@ -1451,7 +1454,7 @@ namespace Kazyx.WPPMM.Pages
         {
             var rh = (sender as Image).RenderSize.Height;
             var rw = (sender as Image).RenderSize.Width;
-            // Debug.WriteLine("render size: " + rw + " x " + rh);
+            // DebugUtil.Log("render size: " + rw + " x " + rh);
             this.FraimingGrids.Height = rh;
             this.FraimingGrids.Width = rw;
         }

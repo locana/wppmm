@@ -1,3 +1,4 @@
+using Kazyx.WPMMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -97,7 +98,7 @@ namespace Kazyx.WPPMM.DataModel
                 if (value != _SettingVisibility)
                 {
                     this._SettingVisibility = value;
-                    Debug.WriteLine("visibility changed: " + _SettingVisibility);
+                    DebugUtil.Log("visibility changed: " + _SettingVisibility);
                     OnPropertyChanged("SettingVisibility");
                 }
             }
@@ -114,7 +115,7 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: AppSettingData");
+                    DebugUtil.Log("Caught COMException: AppSettingData");
                 }
             }
         }

@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPMMM.Utils;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -44,7 +45,7 @@ namespace Kazyx.WPPMM.CameraManager
         ///
         public async void Start(CameraStatus status, Action OnStop, ApiVersion version)
         {
-            Debug.WriteLine("EventObserver.Start");
+            DebugUtil.Log("EventObserver.Start");
             if (status == null || OnStop == null)
             {
                 throw new ArgumentNullException();
@@ -71,17 +72,17 @@ namespace Kazyx.WPPMM.CameraManager
         /// </summary>
         public void Stop()
         {
-            Debug.WriteLine("EventObserver.Stop");
+            DebugUtil.Log("EventObserver.Stop");
             Deactivate();
         }
 
         public async void Refresh()
         {
-            Debug.WriteLine("EventObserver.Refresh");
+            DebugUtil.Log("EventObserver.Refresh");
             try
             {
                 var res = await client.GetEventAsync(false, version);
-                Debug.WriteLine("GetEvent for refresh success");
+                DebugUtil.Log("GetEvent for refresh success");
                 if (status != null)
                 {
                     UpdateIfRequired(status, res);
@@ -89,7 +90,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (RemoteApiException)
             {
-                Debug.WriteLine("GetEvent failed");
+                DebugUtil.Log("GetEvent failed");
             }
         }
 
@@ -98,7 +99,7 @@ namespace Kazyx.WPPMM.CameraManager
             switch (code)
             {
                 case StatusCode.Timeout:
-                    Debug.WriteLine("GetEvent timeout without any event. Retry for the next event");
+                    DebugUtil.Log("GetEvent timeout without any event. Retry for the next event");
                     Call();
                     return;
                 case StatusCode.NotAcceptable:
@@ -108,17 +109,17 @@ namespace Kazyx.WPPMM.CameraManager
                 case StatusCode.Any:
                     if (failure_count++ < RETRY_LIMIT)
                     {
-                        Debug.WriteLine("GetEvent failed - retry " + failure_count + ", status: " + code);
+                        DebugUtil.Log("GetEvent failed - retry " + failure_count + ", status: " + code);
                         await Task.Delay(TimeSpan.FromSeconds(RETRY_INTERVAL_SEC));
                         Call();
                         return;
                     }
                     break;
                 case StatusCode.DuplicatePolling:
-                    Debug.WriteLine("GetEvent failed duplicate polling");
+                    DebugUtil.Log("GetEvent failed duplicate polling");
                     return;
                 default:
-                    Debug.WriteLine("GetEvent failed with code: " + code);
+                    DebugUtil.Log("GetEvent failed with code: " + code);
                     break;
             }
 
@@ -131,7 +132,7 @@ namespace Kazyx.WPPMM.CameraManager
                 });
             }
 
-            Debug.WriteLine("GetEvent Error limit: deactivate now");
+            DebugUtil.Log("GetEvent Error limit: deactivate now");
             Deactivate();
         }
 
@@ -222,7 +223,7 @@ namespace Kazyx.WPPMM.CameraManager
 
         private void Deactivate()
         {
-            Debug.WriteLine("EventObserver deactivated");
+            DebugUtil.Log("EventObserver deactivated");
             status = null;
             OnStop = null;
             worker.DoWork -= AnalyzeEventData;

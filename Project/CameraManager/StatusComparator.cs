@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPMMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -223,9 +224,16 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal static void ZoomSetting(CameraStatus status, Capability<string> latest)
         {
+            DebugUtil.Log("[Zoomsetting]");
             if (latest == null)
             {
+                DebugUtil.Log("[ZoomSetting] latest is null. Return.");
                 return;
+            }
+            DebugUtil.Log("[ZoomSetting] Update ZoomSetting. current: " + latest.Current);
+            foreach (string s in latest.Candidates)
+            {
+                DebugUtil.Log("[ZoomSetting] Candidate: " + s);
             }
             status.ZoomSetting = latest;
         }
@@ -374,11 +382,11 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 catch (RemoteApiException)
                 {
-                    Debug.WriteLine("Failed to get still image size capability");
+                    DebugUtil.Log("Failed to get still image size capability");
                 }
                 catch (InvalidOperationException)
                 {
-                    Debug.WriteLine("Failed to sort still image size capability");
+                    DebugUtil.Log("Failed to sort still image size capability");
                 }
             }
         }
@@ -409,13 +417,13 @@ namespace Kazyx.WPPMM.CameraManager
                         }
                         tmpCandidates.Add(mode.WhiteBalanceMode, tmpList.ToArray());
 
-                        Debug.WriteLine(mode.WhiteBalanceMode);
+                        DebugUtil.Log(mode.WhiteBalanceMode);
                         var builder = new System.Text.StringBuilder();
                         foreach (var val in mode.Candidates)
                         {
                             builder.Append(val).Append(", ");
                         }
-                        Debug.WriteLine(builder.ToString());
+                        DebugUtil.Log(builder.ToString());
                     }
 
                     /* mock date for testing */
@@ -437,7 +445,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 catch (RemoteApiException)
                 {
-                    Debug.WriteLine("Failed to get white balance capability");
+                    DebugUtil.Log("Failed to get white balance capability");
                 }
             }
             else

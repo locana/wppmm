@@ -1,6 +1,7 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.CameraManager;
+using Kazyx.WPMMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -208,7 +209,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             set
             {
-                Debug.WriteLine("isLiveViewAvailableSet: " + value);
+                DebugUtil.Log("isLiveViewAvailableSet: " + value);
                 if (_IsLiveviewAvailable != value)
                 {
                     OnPropertyChanged("IsLiveviewAvailable");
@@ -543,6 +544,7 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _ZoomSetting = value;
+                DebugUtil.Log("Zoom setting updated. current: " + _ZoomSetting.Current);
                 OnPropertyChanged("ZoomSetting");
             }
             get { return _ZoomSetting; }
@@ -765,7 +767,7 @@ namespace Kazyx.WPPMM.CameraManager
         private void OnPropertyChanged(string name)
         {
 
-            // Debug.WriteLine("OnPropertyChanged: " + name);
+            // DebugUtil.Log("OnPropertyChanged: " + name);
             try
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>

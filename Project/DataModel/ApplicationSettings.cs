@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using Kazyx.WPMMM.Utils;
 
 namespace Kazyx.WPPMM.DataModel
 {
@@ -123,7 +124,8 @@ namespace Kazyx.WPPMM.DataModel
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("Failed to set selftimer off: " + e.code);
+                DebugUtil.Log("Failed to set selftimer off: " + e.code);
+                
             }
         }
 
@@ -142,7 +144,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     Preference.SetIntervalTime(value);
                     _IntervalTime = value;
-                    // Debug.WriteLine("IntervalTime changed: " + value);
+                    // DebugUtil.Log("IntervalTime changed: " + value);
                     OnPropertyChanged("IntervalTime");
                 }
             }
@@ -155,7 +157,7 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            // Debug.WriteLine("OnProperty changed: " + name);
+            // DebugUtil.Log("OnProperty changed: " + name);
             if (PropertyChanged != null)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -166,7 +168,8 @@ namespace Kazyx.WPPMM.DataModel
                     }
                     catch (COMException)
                     {
-                        Debug.WriteLine("Caught COMException: ApplicationSettings");
+                        DebugUtil.Log("Caught COMException: ApplicationSettings");
+                        DebugUtil.GetInstance();
                     }
                 });
             }
@@ -182,7 +185,7 @@ namespace Kazyx.WPPMM.DataModel
                     Preference.SetShootButtonDisplayed(value);
                     _IsShootButtonDisplayed = value;
                     OnPropertyChanged("ShootButtonVisibility");
-                    Debug.WriteLine("ShootbuttonVisibility updated: " + value.ToString());
+                    DebugUtil.Log("ShootbuttonVisibility updated: " + value.ToString());
                 }
             }
             get
@@ -229,7 +232,7 @@ namespace Kazyx.WPPMM.DataModel
             {
                 if (_GridType != value)
                 {
-                    Debug.WriteLine("GridType updated: " + value);
+                    DebugUtil.Log("GridType updated: " + value);
                     Preference.SetFramingGridsType(value);
                     _GridType = value;
                     OnPropertyChanged("GridType");

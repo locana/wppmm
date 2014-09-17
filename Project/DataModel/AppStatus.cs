@@ -1,3 +1,4 @@
+using Kazyx.WPMMM.Utils;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -21,7 +22,7 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: AppStatus");
+                    DebugUtil.Log("Caught COMException: AppStatus");
                 }
             });
         }

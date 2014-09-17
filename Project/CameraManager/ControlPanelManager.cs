@@ -1,6 +1,7 @@
 ﻿using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPMMM.Resources;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
@@ -303,7 +304,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 catch (RemoteApiException ex)
                 {
-                    Debug.WriteLine("Failed to set color temperture: " + ex.code);
+                    DebugUtil.Log("Failed to set color temperture: " + ex.code);
                 }
             };
 
@@ -588,16 +589,16 @@ namespace Kazyx.WPPMM.CameraManager
             }
             catch (NullReferenceException)
             {
-                Debug.WriteLine("Not ready to call Web API");
+                DebugUtil.Log("Not ready to call Web API");
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("Failed to set: " + e.code);
+                DebugUtil.Log("Failed to set: " + e.code);
                 manager.RefreshEventObserver();
             }
             catch (KeyNotFoundException e)
             {
-                Debug.WriteLine("Key not found: " + e.Message);
+                DebugUtil.Log("Key not found: " + e.Message);
                 manager.RefreshEventObserver();
             }
         }

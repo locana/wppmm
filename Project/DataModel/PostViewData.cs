@@ -1,3 +1,4 @@
+using Kazyx.WPMMM.Utils;
 using Microsoft.Xna.Framework.Media;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -48,7 +49,7 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            //Debug.WriteLine("OnPropertyChanged: " + name);
+            //DebugUtil.Log("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
                 try
@@ -57,7 +58,7 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: PostviewData");
+                    DebugUtil.Log("Caught COMException: PostviewData");
                 }
             }
         }

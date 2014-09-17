@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using System;
 using System.ComponentModel;
@@ -179,11 +180,11 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: ShootingViewData");
+                    DebugUtil.Log("Caught COMException: ShootingViewData");
                 }
                 catch (NullReferenceException e)
                 {
-                    Debug.WriteLine(e.StackTrace);
+                    DebugUtil.Log(e.StackTrace);
                 }
             });
         }
@@ -430,7 +431,7 @@ namespace Kazyx.WPPMM.DataModel
                     return Visibility.Collapsed;
                 }
 
-                Debug.WriteLine("type: " + cameraStatus.AfType + " status: " + cameraStatus.FocusStatus);
+                DebugUtil.Log("type: " + cameraStatus.AfType + " status: " + cameraStatus.FocusStatus);
                 if (cameraStatus.AfType == CameraStatus.AutoFocusType.HalfPress && cameraStatus.FocusStatus == FocusState.Focused)
                 {
                     return Visibility.Visible;

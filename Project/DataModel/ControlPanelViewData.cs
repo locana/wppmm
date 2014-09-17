@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPMMM.Utils;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Utils;
 using System;
@@ -134,15 +135,15 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: ControlPanelViewData");
+                    DebugUtil.Log("Caught COMException: ControlPanelViewData");
                 }
                 catch (NullReferenceException)
                 {
-                    Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
+                    DebugUtil.Log("Caught NullReferenceException: ControlPanelViewData");
                 }
                 catch (InvalidOperationException e)
                 {
-                    Debug.WriteLine(e.StackTrace);
+                    DebugUtil.Log(e.StackTrace);
                 }
             });
         }

@@ -127,6 +127,9 @@
     <Compile Include="Controls\VisualSelector.xaml.cs">
       <DependentUpon>VisualSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ZoomBar.xaml.cs">
+      <DependentUpon>ZoomBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
@@ -200,6 +203,10 @@
     </Page>
     <Page Include="Controls\VisualSelector.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ZoomBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>

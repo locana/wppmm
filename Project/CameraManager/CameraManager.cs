@@ -46,7 +46,6 @@ namespace Kazyx.WPPMM.CameraManager
         private readonly CameraStatus _cameraStatus = new CameraStatus();
         public CameraStatus cameraStatus { get { return _cameraStatus; } }
 
-        internal event Action<CameraStatus> ZoomInfoUpdated;
         internal event Action<CameraStatus> WifiInfoUpdated;
         internal event Action<int> PictureFetchStatusUpdated;
         internal event Action<ImageDLError> PictureFetchFailed;
@@ -165,15 +164,6 @@ namespace Kazyx.WPPMM.CameraManager
                     {
                         OnAfStatusChanged(_cameraStatus);
                     }
-                    break;
-                case "ZoomInfo":
-                    Deployment.Current.Dispatcher.BeginInvoke(() =>
-                    {
-                        if (ZoomInfoUpdated != null)
-                        {
-                            ZoomInfoUpdated(_cameraStatus);
-                        }
-                    });
                     break;
                 case "ExposureMode":
                     UpdateProgramShiftRange();

@@ -162,6 +162,11 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ProgramShift");
                         OnPropertyChanged("ExposureModeImage");
                         break;
+                    case "ZoomInfo":
+                        OnPropertyChanged("ZoomPositionInCurrentBox");
+                        OnPropertyChanged("ZoomBoxNum");
+                        OnPropertyChanged("ZoomBoxIndex");
+                        break;
                 }
             };
         }
@@ -1062,6 +1067,42 @@ namespace Kazyx.WPPMM.DataModel
                     }
                 }
                 return "";
+            }
+        }
+
+        public int ZoomBoxNum
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ZoomInfo == null)
+                {
+                    return 1;
+                }
+                return cameraStatus.ZoomInfo.NumberOfBoxes;
+            }
+        }
+
+        public int ZoomBoxIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ZoomInfo == null)
+                {
+                    return 0;
+                }
+                return cameraStatus.ZoomInfo.CurrentBoxIndex;
+            }
+        }
+
+        public int ZoomPositionInCurrentBox
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ZoomInfo == null)
+                {
+                    return 0;
+                }
+                return cameraStatus.ZoomInfo.PositionInCurrentBox;
             }
         }
     }

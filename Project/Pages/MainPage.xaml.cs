@@ -398,16 +398,6 @@ namespace Kazyx.WPPMM.Pages
             UpdateNetworkStatus();
         }
 
-        internal void ZoomInfoUpdated(CameraStatus cameraStatus)
-        {
-            if (cameraStatus.ZoomInfo != null)
-            {
-                double margin_left = cameraStatus.ZoomInfo.Position * 156 / 100;
-                ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
-                DebugUtil.Log("zoom bar display update: " + margin_left);
-            }
-        }
-
         private string GetSSIDName()
         {
             foreach (var network in new NetworkInterfaceList())
@@ -542,8 +532,6 @@ namespace Kazyx.WPPMM.Pages
             AppStatus.GetInstance().IsInShootingDisplay = true;
             ShootingPivot.Opacity = 1;
             SetLayoutByOrientation(this.Orientation);
-
-            cameraManager.ZoomInfoUpdated += ZoomInfoUpdated;
             cameraManager.ShowToast += ShowToast;
             ToastApparance.Completed += ToastApparance_Completed;
             FraimingGrids.ManipulationCompleted += FraimingGrids_ManipulationCompleted;
@@ -805,7 +793,6 @@ namespace Kazyx.WPPMM.Pages
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
             cameraManager.StopEventObserver();
-            cameraManager.ZoomInfoUpdated -= ZoomInfoUpdated;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;

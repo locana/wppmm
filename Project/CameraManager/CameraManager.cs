@@ -773,6 +773,15 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
+            var GetEventVersion = ApiVersion.V1_0;
+            if (cameraStatus.IsSupported("getEvent", "1.1"))
+            {
+                GetEventVersion = ApiVersion.V1_1;
+            }
+            if (cameraStatus.IsSupported("getEvent", "1.2"))
+            {
+                GetEventVersion = ApiVersion.V1_2;
+            }
             observer.Start(cameraStatus,
                 () =>
                 {
@@ -781,7 +790,7 @@ namespace Kazyx.WPPMM.CameraManager
                         this.OnDisconnected();
                     }
                 },
-                cameraStatus.IsSupported("getEvent", "1.1") ? ApiVersion.V1_1 : ApiVersion.V1_0); // Use higher version
+                GetEventVersion);
         }
 
         public void StopEventObserver()

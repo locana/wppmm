@@ -40,8 +40,8 @@ namespace Kazyx.WPPMM.CameraManager
             // shoot settings.
             Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
             Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
-            // Panels.Add("setContShootingMode", CreateStatusPanel("ContShootingMode", AppResources.ContShootingMode, OnContShootingModeChanged));
-            // Panels.Add("setContShootingSpeed", CreateStatusPanel("ContShootingSpeed", AppResources.ContShootingSpeed, OnContShootingSpeedChanged));
+            Panels.Add("setContShootingMode", CreateStatusPanel("ContShootingMode", AppResources.ContShootingMode, OnContShootingModeChanged));
+            Panels.Add("setContShootingSpeed", CreateStatusPanel("ContShootingSpeed", AppResources.ContShootingSpeed, OnContShootingSpeedChanged));
             Panels.Add("setFocusMode", CreateStatusPanel("FocusMode", AppResources.FocusMode, OnFocusModeChanged));
             Panels.Add("setWhiteBalance", CreateStatusPanel("WhiteBalance", AppResources.WhiteBalance, OnWhiteBalanceChanged));
             Panels.Add("ColorTemperture", CreateColorTemperturePanel());
@@ -64,7 +64,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setIntervalTime", CreateStatusPanel("IntervalTime", AppResources.IntervalTime1, OnIntervalTimeChanged));
             Panels.Add("setColorSetting", CreateStatusPanel("ColorSetting", AppResources.ColorSetting, OnColorSettingChanged));
             Panels.Add("setInfraredRemoteControl", CreateStatusPanel("InfraredRemoteControl", AppResources.InfraredRemoteControl, OnInfraredRemoteControlChanged));
-            // Panels.Add("setTvColorSystem", CreateStatusPanel("TvColorSystem", AppResources.TvColorSystem, OnTvColorSystemChanged));
+            Panels.Add("setTvColorSystem", CreateStatusPanel("TvColorSystem", AppResources.TvColorSystem, OnTvColorSystemChanged));
             Panels.Add("setAutoPowerOff", CreateStatusPanel("AutoPowerOff", AppResources.AutoPowerOff, OnAutoPowerOffChanged));
 
             // local interval.

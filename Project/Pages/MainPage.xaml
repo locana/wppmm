@@ -145,7 +145,8 @@
                                 <!--row 2: for sliders. -->
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0" Name="ShootButtonWrapper" Visibility="{Binding ShootButtonVisibility, Mode=OneWay, FallbackValue=Collapsed}" Margin="30,0">
-                                <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="takeImageButton_Click" Background="Black" Opacity="0.8" BorderThickness="1.5"
+                                <Button Name="ShootButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" ManipulationStarted="ShootButton_ManipulationStarted"
+                                        Click="takeImageButton_Click" Background="Black" Opacity="0.8" BorderThickness="1.5"
                                 Padding="10" Visibility="{Binding ShootFunctionVisibility, Mode=OneWay, FallbackValue=Collapsed}" IsEnabled="{Binding ShootButtonStatus, Mode=OneWay}" Width="100" Height="90">
                                     <Image Source="{Binding ShootButtonImage, Mode=OneWay}" />
                                 </Button>

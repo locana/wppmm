@@ -511,7 +511,6 @@ namespace Kazyx.WPPMM.Utils
             var res = AsDisabledCapability(info);
             if (res != null)
             {
-                DebugUtil.Log("[FromZoomSetting] returns null");
                 return res;
             }
 

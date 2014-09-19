@@ -224,16 +224,9 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal static void ZoomSetting(CameraStatus status, Capability<string> latest)
         {
-            DebugUtil.Log("[Zoomsetting]");
             if (latest == null)
             {
-                DebugUtil.Log("[ZoomSetting] latest is null. Return.");
                 return;
-            }
-            DebugUtil.Log("[ZoomSetting] Update ZoomSetting. current: " + latest.Current);
-            foreach (string s in latest.Candidates)
-            {
-                DebugUtil.Log("[ZoomSetting] Candidate: " + s);
             }
             status.ZoomSetting = latest;
         }
@@ -251,7 +244,10 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            status.ContShootingMode = latest;
+            if (status.ContShootingMode == null || IsCapabilityUpdated<string>(status.ContShootingMode, latest))
+            {
+                status.ContShootingMode = latest;
+            }
         }
         internal static void ContShootingSpeed(CameraStatus status, Capability<string> latest)
         {
@@ -456,6 +452,24 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 status.ColorTemperture = latest.Current.ColorTemperature;
             }
+        }
+
+        private static bool IsCapabilityUpdated<T>(Capability<T> current, Capability<T> latest)
+        {
+            if (!current.Current.Equals(latest.Current) ||
+                current.Candidates.Count != latest.Candidates.Count)
+            {
+                return true;
+            }
+
+            for (int i = 0; i < current.Candidates.Count; i++)
+            {
+                if (!current.Candidates[i].Equals(latest.Candidates[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static int CompareStillSize(StillImageSize x, StillImageSize y)

@@ -687,10 +687,13 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.ContShootingMode);
+                var index = SettingsValueConverter.GetSelectedIndex(status.ContShootingMode);
+                DebugUtil.Log("[get] " + index);
+                return index;
             }
             set
             {
+                DebugUtil.Log("[set] " + value);
                 SetSelectedAsCurrent(status.ContShootingMode, value);
             }
         }
@@ -698,7 +701,12 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromContShootingMode(status.ContShootingMode).Candidates.ToArray();
+                var candidates = SettingsValueConverter.FromContShootingMode(status.ContShootingMode).Candidates.ToArray();
+                foreach (string s in candidates)
+                {
+                    DebugUtil.Log(s);
+                }
+                return candidates;
             }
         }
         public bool CpIsAvailableContShootingSpeed
@@ -1008,6 +1016,7 @@ namespace Kazyx.WPPMM.DataModel
             {
                 if (capability.Candidates.Count > index)
                 {
+                    DebugUtil.Log("updated: " + index + " " + capability.Candidates[index]);
                     capability.Current = capability.Candidates[index];
                 }
                 else

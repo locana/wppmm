@@ -428,7 +428,26 @@ namespace Kazyx.WPPMM.Pages
             RecStartStop();
         }
 
-        private void RecStartStop()
+        private void ShootButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            // DebugUtil.Log("TAP!!!!!!");
+        }
+
+        private async void ShootButton_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            if (!cameraManager.IntervalManager.IsRunning &&
+                cameraManager.cameraStatus != null &&
+                cameraManager.cameraStatus.Status == EventParam.Idle &&
+                cameraManager.cameraStatus.ShootModeInfo.Current == ShootModeParam.Still &&
+                (cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                cameraManager.cameraStatus.ContShootingMode .Current == ContinuousShootMode.SpeedPriority)
+                )
+            {
+                await cameraManager.CameraApi.StartContShootingAsync();
+            }
+        }
+
+        private async void RecStartStop()
         {
             if (cameraManager.IntervalManager.IsRunning)
             {
@@ -485,6 +504,13 @@ namespace Kazyx.WPPMM.Pages
                     break;
                 case EventParam.ItvRecording:
                     cameraManager.StopIntervalStillRec();
+                    break;
+                case EventParam.StCapturing:
+                    if (cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
+                    {
+                        await cameraManager.CameraApi.StopContShootingAsync();
+                    }
                     break;
             }
         }
@@ -1479,5 +1505,8 @@ namespace Kazyx.WPPMM.Pages
             this.FraimingGrids.Height = rh;
             this.FraimingGrids.Width = rw;
         }
+
+
+
     }
 }

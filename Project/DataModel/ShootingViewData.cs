@@ -214,7 +214,12 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (appStatus.IsIntervalShootingActivated)
+                return true;
+
+                if (appStatus.IsIntervalShootingActivated ||
+                    (cameraStatus != null && cameraStatus.ContShootingMode != null &&
+                    (cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                    cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)))
                 {
                     return true;
                 }

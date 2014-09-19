@@ -510,7 +510,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>色合い</value>
   </data>
   <data name="ContShootingMode" xml:space="preserve">
-    <value>連写設定</value>
+    <value>ドライブモード</value>
   </data>
   <data name="ContShootingSpeed" xml:space="preserve">
     <value>連写速度</value>
@@ -604,5 +604,74 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   </data>
   <data name="UpperRight" xml:space="preserve">
     <value>右上</value>
+  </data>
+  <data name="ColorMode_Neutral" xml:space="preserve">
+    <value>ニュートラル</value>
+  </data>
+  <data name="ColorMode_Vivid" xml:space="preserve">
+    <value>ビビッド</value>
+  </data>
+  <data name="ContinuousShootMode_Burst" xml:space="preserve">
+    <value>バースト</value>
+  </data>
+  <data name="ContinuousShootMode_Cont" xml:space="preserve">
+    <value>連続撮影</value>
+  </data>
+  <data name="ContinuousShootMode_MotionShot" xml:space="preserve">
+    <value>モーションショット</value>
+  </data>
+  <data name="ContinuousShootMode_Single" xml:space="preserve">
+    <value>1枚撮影</value>
+  </data>
+  <data name="ContinuousShootMode_SpeedPriority" xml:space="preserve">
+    <value>速度優先連写</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_1_25Sec" xml:space="preserve">
+    <value>10枚/1.25秒</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_2Sec" xml:space="preserve">
+    <value>10枚/2秒</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_5Sec" xml:space="preserve">
+    <value>10枚/5秒</value>
+  </data>
+  <data name="ContinuousShootSpeed_High" xml:space="preserve">
+    <value>高速</value>
+  </data>
+  <data name="ContinuousShootSpeed_Low" xml:space="preserve">
+    <value>低速</value>
+  </data>
+  <data name="ImageQuality_Fine" xml:space="preserve">
+    <value>ファイン</value>
+  </data>
+  <data name="ImageQuality_RawAndJpeg" xml:space="preserve">
+    <value>RAW+J</value>
+  </data>
+  <data name="ImageQuality_Standard" xml:space="preserve">
+    <value>スタンダード</value>
+  </data>
+  <data name="MovieFormatMode_MP4" xml:space="preserve">
+    <value>MP4</value>
+  </data>
+  <data name="MovieFormatMode_XAVCS" xml:space="preserve">
+    <value>XAVC S</value>
+  </data>
+  <data name="Scene_Normal" xml:space="preserve">
+    <value>ノーマル</value>
+  </data>
+  <data name="Scene_UnderWater" xml:space="preserve">
+    <value>水中</value>
+  </data>
+  <data name="TvColorSystemMode_NTSC" xml:space="preserve">
+    <value>NTSC</value>
+  </data>
+  <data name="TvColorSystemMode_PAL" xml:space="preserve">
+    <value>PAL</value>
+  </data>
+  <data name="ZoomMode_ClearImageDigital" xml:space="preserve">
+    <value>超解像ズーム</value>
+  </data>
+  <data name="ZoomMode_Optical" xml:space="preserve">
+    <value>光学のみ</value>
   </data>
 </root>

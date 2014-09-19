@@ -39,32 +39,38 @@ namespace Kazyx.WPPMM.CameraManager
             this.panel = panel;
 
             // Key of the Dictionary is the name of setter API in most cases. Uses to check availability.
+
+            // shoot settings.
             Panels.Add("setShootMode", CreateStatusPanel("ShootMode", AppResources.ShootMode, OnShootModeChanged));
             Panels.Add("setExposureMode", CreateStatusPanel("ExposureMode", AppResources.ExposureMode, OnExposureModeChanged));
+            Panels.Add("setContShootingMode", CreateStatusPanel("ContShootingMode", AppResources.ContShootingMode, OnContShootingModeChanged));
+            Panels.Add("setContShootingSpeed", CreateStatusPanel("ContShootingSpeed", AppResources.ContShootingSpeed, OnContShootingSpeedChanged));
             Panels.Add("setFocusMode", CreateStatusPanel("FocusMode", AppResources.FocusMode, OnFocusModeChanged));
             Panels.Add("setWhiteBalance", CreateStatusPanel("WhiteBalance", AppResources.WhiteBalance, OnWhiteBalanceChanged));
             Panels.Add("ColorTemperture", CreateColorTemperturePanel());
-            Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
+            Panels.Add("setFlashMode", CreateStatusPanel("FlashMode", AppResources.FlashMode, OnFlashModeChanged));
+            Panels.Add("setZoomSetting", CreateStatusPanel("ZoomSetting", AppResources.ZoomSetting, OnZoomSettingChanged));
+            Panels.Add("setSceneSelection", CreateStatusPanel("SceneSelection", AppResources.SceneSelection, OnSceneSelectionChanged));
+            Panels.Add("setTrackingFocusMode", CreateStatusPanel("TrackingFocusMode", AppResources.TrackingFocusMode, OnTrackingFocusModeChanged));
             Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
+            Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
+            Panels.Add("setImageQuality", CreateStatusPanel("ImageQuality", AppResources.ImageQuality, OnImageQualityChanged));
+            Panels.Add("setMovieFormat", CreateStatusPanel("MovieFormat", AppResources.MovieFormat, OnMovieFormatChanged));
+
+            // other
             Panels.Add("setPostviewImageSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
             Panels.Add("setViewAngle", CreateStatusPanel("ViewAngle", AppResources.ViewAngle, OnViewAngleChanged));
             Panels.Add("setBeepMode", CreateStatusPanel("BeepMode", AppResources.BeepMode, OnBeepModeChanged));
-            Panels.Add("setFlashMode", CreateStatusPanel("FlashMode", AppResources.FlashMode, OnFlashModeChanged));
-            Panels.Add("setZoomSetting", CreateStatusPanel("ZoomSetting", AppResources.ZoomSetting, OnZoomSettingChanged));
-            Panels.Add("setImageQuality", CreateStatusPanel("ImageQuality", AppResources.ImageQuality, OnImageQualityChanged));
-            Panels.Add("setContShootingMode", CreateStatusPanel("ContShootingMode", AppResources.ContShootingMode, OnContShootingModeChanged));
-            Panels.Add("setContShootingSpeed", CreateStatusPanel("ContShootingSpeed", AppResources.ContShootingSpeed, OnContShootingSpeedChanged));
             Panels.Add("setFlipMode", CreateStatusPanel("FlipMode", AppResources.FlipMode, OnFlipModeChanged));
-            Panels.Add("setSceneSelection", CreateStatusPanel("SceneSelection", AppResources.SceneSelection, OnSceneSelectionChanged));
             Panels.Add("setIntervalTime", CreateStatusPanel("IntervalTime", AppResources.IntervalTime1, OnIntervalTimeChanged));
             Panels.Add("setColorSetting", CreateStatusPanel("ColorSetting", AppResources.ColorSetting, OnColorSettingChanged));
-            Panels.Add("setMovieFormat", CreateStatusPanel("MovieFormat", AppResources.MovieFormat, OnMovieFormatChanged));
             Panels.Add("setIrRemoteControl", CreateStatusPanel("IrRemoteControl", AppResources.IrRemoteControl, OnIrRemoteControlChanged));
             Panels.Add("setTvColorSystem", CreateStatusPanel("TvColorSystem", AppResources.TvColorSystem, OnTvColorSystemChanged));
-            Panels.Add("setTrackingFocusMode", CreateStatusPanel("TrackingFocusMode", AppResources.TrackingFocusMode, OnTrackingFocusModeChanged));
             Panels.Add("setAutoPowerOff", CreateStatusPanel("AutoPowerOff", AppResources.AutoPowerOff, OnAutoPowerOffChanged));
+
+            // local interval.
             Panels.Add("IntervalSwitch", CreateIntervalEnableSettingPanel());
             Panels.Add("IntervalValue", CreateIntervalTimeSliderPanel());
 

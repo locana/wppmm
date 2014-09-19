@@ -529,7 +529,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromZoomSetting(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case ZoomMode.ClearImageDigital:
+                    return AppResources.ZoomMode_ClearImageDigital;
+                case ZoomMode.Optical:
+                    return AppResources.ZoomMode_Optical;
+            }
+            return val;
         }
 
         internal static Capability<string> FromImageQuality(Capability<string> info)
@@ -552,7 +559,16 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromImageQuality(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case ImageQuality.RawAndJpeg:
+                    return AppResources.ImageQuality_RawAndJpeg;
+                case ImageQuality.Fine:
+                    return AppResources.ImageQuality_Fine;
+                case ImageQuality.Standard:
+                    return AppResources.ImageQuality_Standard;
+            }
+            return val;
         }
 
         internal static Capability<string> FromContShootingMode(Capability<string> info)
@@ -575,7 +591,20 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromContShootingMode(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case ContinuousShootMode.Single:
+                    return AppResources.ContinuousShootMode_Single;
+                case ContinuousShootMode.Cont:
+                    return AppResources.ContinuousShootMode_Cont;
+                case ContinuousShootMode.SpeedPriority:
+                    return AppResources.ContinuousShootMode_SpeedPriority;
+                case ContinuousShootMode.Burst:
+                    return AppResources.ContinuousShootMode_Burst;
+                case ContinuousShootMode.MotionShot:
+                    return AppResources.ContinuousShootMode_MotionShot;
+            }
+            return val;
         }
 
         internal static Capability<string> FromContShootingSpeed(Capability<string> info)
@@ -598,7 +627,19 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromContShootingSpeed(string val)
         {
-            return "temp_" + val;
+            switch(val){
+                case ContinuousShootSpeed.FixedFrames_10_In_1_25Sec:
+                    return AppResources.ContinuousShootSpeed_FixedFrames_10_In_1_25Sec;
+                case ContinuousShootSpeed.FixedFrames_10_In_2Sec:
+                    return AppResources.ContinuousShootSpeed_FixedFrames_10_In_2Sec;
+                case ContinuousShootSpeed.FixedFrames_10_In_5Sec:
+                    return AppResources.ContinuousShootSpeed_FixedFrames_10_In_5Sec;
+                case ContinuousShootSpeed.High:
+                    return AppResources.ContinuousShootSpeed_High;
+                case ContinuousShootSpeed.Low:
+                    return AppResources.ContinuousShootSpeed_Low;
+            }
+            return val;
         }
 
         internal static Capability<string> FromFlipMode(Capability<string> info)
@@ -621,7 +662,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromFlipMode(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case FlipMode.On:
+                    return AppResources.On;
+                case FlipMode.Off:
+                    return AppResources.Off;
+            }
+            return val;
         }
 
         internal static Capability<string> FromSceneSelection(Capability<string> info)
@@ -644,7 +692,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromSceneSelection(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case Scene.Normal:
+                    return AppResources.Scene_Normal;
+                case Scene.UnderWater:
+                    return AppResources.Scene_UnderWater;
+            }
+            return val;
         }
 
         internal static Capability<string> FromIntervalTime(Capability<string> info)
@@ -667,7 +722,7 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromIntervalTime(string val)
         {
-            return "temp_" + val;
+            return val + " " + AppResources.Seconds;
         }
 
         internal static Capability<string> FromColorSetting(Capability<string> info)
@@ -690,7 +745,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromColorSetting(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case ColorMode.Neutral:
+                    return AppResources.ColorMode_Neutral;
+                case ColorMode.Vivid:
+                    return AppResources.ColorMode_Vivid;
+            }
+            return val;
         }
 
         internal static Capability<string> FromMovieFormat(Capability<string> info)
@@ -713,7 +775,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromMovieFormat(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case MovieFormatMode.MP4:
+                    return AppResources.MovieFormatMode_MP4;
+                case MovieFormatMode.XAVCS:
+                    return AppResources.MovieFormatMode_XAVCS;
+            }
+            return val;
         }
 
         internal static Capability<string> FromIrRemoteControl(Capability<string> info)
@@ -736,7 +805,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromIrRemoteControl(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case IrRemoteSetting.On:
+                    return AppResources.On;
+                case IrRemoteSetting.Off:
+                    return AppResources.Off;
+            }
+            return val;
         }
 
         internal static Capability<string> FromTvColorSystem(Capability<string> info)
@@ -759,7 +835,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromTvColorSystem(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case TvColorSystemMode.NTSC:
+                    return AppResources.TvColorSystemMode_NTSC;
+                case TvColorSystemMode.PAL:
+                    return AppResources.TvColorSystemMode_PAL;
+            }
+            return val;
         }
 
         internal static Capability<string> FromTrackingFocusMode(Capability<string> info)
@@ -782,7 +865,14 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromTrackingFocusMode(string val)
         {
-            return "temp_" + val;
+            switch (val)
+            {
+                case TrackingFocusMode.On:
+                    return AppResources.On;
+                case TrackingFocusMode.Off:
+                    return AppResources.Off;
+            }
+            return val;
         }
 
         internal static Capability<string> FromAutoPowerOff(Capability<int> info)
@@ -805,7 +895,7 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromAutoPowerOff(int val)
         {
-            return "temp_" + val;
+            return val + " " + AppResources.Seconds;
         }
 
         internal static string[] FromFramingGrid(string[] keys)

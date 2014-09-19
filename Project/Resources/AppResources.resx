@@ -518,7 +518,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Color</value>
   </data>
   <data name="ContShootingMode" xml:space="preserve">
-    <value>Cont. shooting</value>
+    <value>Drive mode</value>
   </data>
   <data name="ContShootingSpeed" xml:space="preserve">
     <value>Cont. shooting speed</value>
@@ -612,5 +612,89 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   </data>
   <data name="UpperRight" xml:space="preserve">
     <value>Upper right</value>
+  </data>
+  <data name="ColorMode_Neutral" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="ColorMode_Vivid" xml:space="preserve">
+    <value>Vivid</value>
+  </data>
+  <data name="ContinuousShootMode_Burst" xml:space="preserve">
+    <value>Burst</value>
+  </data>
+  <data name="ContinuousShootMode_Cont" xml:space="preserve">
+    <value>Cont. shoot.</value>
+  </data>
+  <data name="ContinuousShootMode_MotionShot" xml:space="preserve">
+    <value>MotionShot</value>
+  </data>
+  <data name="ContinuousShootMode_Single" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="ContinuousShootMode_SpeedPriority" xml:space="preserve">
+    <value>Fast cont.</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_1_25Sec" xml:space="preserve">
+    <value>10pic./1.25sec.</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_2Sec" xml:space="preserve">
+    <value>10pic./2sec.</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_5Sec" xml:space="preserve">
+    <value>10pic./5sec.</value>
+  </data>
+  <data name="ContinuousShootSpeed_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="ContinuousShootSpeed_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="FlipMode_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="FlipMode_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="ImageQuality_Fine" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="ImageQuality_RawAndJpeg" xml:space="preserve">
+    <value>RAW+J</value>
+  </data>
+  <data name="ImageQuality_Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="IrRemoteSetting_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="IrRemoteSetting_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="MovieFormatMode_MP4" xml:space="preserve">
+    <value>MP4</value>
+  </data>
+  <data name="MovieFormatMode_XAVCS" xml:space="preserve">
+    <value>XAVC S</value>
+  </data>
+  <data name="Scene_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Scene_UnderWater" xml:space="preserve">
+    <value>Under water</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TvColorSystemMode_NTSC" xml:space="preserve">
+    <value>NTSC</value>
+  </data>
+  <data name="TvColorSystemMode_PAL" xml:space="preserve">
+    <value>PAL</value>
+  </data>
+  <data name="ZoomMode_ClearImageDigital" xml:space="preserve">
+    <value>ClearImage zoom</value>
+  </data>
+  <data name="ZoomMode_Optical" xml:space="preserve">
+    <value>Optical only</value>
   </data>
 </root>

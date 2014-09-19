@@ -627,7 +627,8 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromContShootingSpeed(string val)
         {
-            switch(val){
+            switch (val)
+            {
                 case ContinuousShootSpeed.FixedFrames_10_In_1_25Sec:
                     return AppResources.ContinuousShootSpeed_FixedFrames_10_In_1_25Sec;
                 case ContinuousShootSpeed.FixedFrames_10_In_2Sec:

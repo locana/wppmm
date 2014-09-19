@@ -981,38 +981,11 @@ namespace Kazyx.WPMMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stilla image quality.
+        ///   Looks up a localized string similar to IR remote.
         /// </summary>
-        public static string ImageQuality {
+        public static string InfraredRemoteControl {
             get {
-                return ResourceManager.GetString("ImageQuality", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fine.
-        /// </summary>
-        public static string ImageQuality_Fine {
-            get {
-                return ResourceManager.GetString("ImageQuality_Fine", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RAW+J.
-        /// </summary>
-        public static string ImageQuality_RawAndJpeg {
-            get {
-                return ResourceManager.GetString("ImageQuality_RawAndJpeg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Standard.
-        /// </summary>
-        public static string ImageQuality_Standard {
-            get {
-                return ResourceManager.GetString("ImageQuality_Standard", resourceCulture);
+                return ResourceManager.GetString("InfraredRemoteControl", resourceCulture);
             }
         }
         
@@ -1058,15 +1031,6 @@ namespace Kazyx.WPMMM.Resources {
         public static string IntervalTimePrefix {
             get {
                 return ResourceManager.GetString("IntervalTimePrefix", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to IR remote.
-        /// </summary>
-        public static string IrRemoteControl {
-            get {
-                return ResourceManager.GetString("IrRemoteControl", resourceCulture);
             }
         }
         
@@ -1490,6 +1454,42 @@ namespace Kazyx.WPMMM.Resources {
         public static string StillImageSize {
             get {
                 return ResourceManager.GetString("StillImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stilla image quality.
+        /// </summary>
+        public static string StillQuality {
+            get {
+                return ResourceManager.GetString("StillQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fine.
+        /// </summary>
+        public static string StillQuality_Fine {
+            get {
+                return ResourceManager.GetString("StillQuality_Fine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RAW+Jpeg.
+        /// </summary>
+        public static string StillQuality_RawAndJpeg {
+            get {
+                return ResourceManager.GetString("StillQuality_RawAndJpeg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard.
+        /// </summary>
+        public static string StillQuality_Standard {
+            get {
+                return ResourceManager.GetString("StillQuality_Standard", resourceCulture);
             }
         }
         

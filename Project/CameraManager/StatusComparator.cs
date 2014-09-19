@@ -237,13 +237,13 @@ namespace Kazyx.WPPMM.CameraManager
             }
             status.ZoomSetting = latest;
         }
-        internal static void ImageQuality(CameraStatus status, Capability<string> latest)
+        internal static void StillQuality(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.ImageQuality = latest;
+            status.StillQuality = latest;
         }
         internal static void ContShootingMode(CameraStatus status, Capability<string> latest)
         {
@@ -309,13 +309,13 @@ namespace Kazyx.WPPMM.CameraManager
             }
             status.MovieFormat = latest;
         }
-        internal static void IrRemoteControl(CameraStatus status, Capability<string> latest)
+        internal static void InfraredRemoteControl(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.IrRemoteControl = latest;
+            status.InfraredRemoteControl = latest;
         }
         internal static void TvColorSystem(CameraStatus status, Capability<string> latest)
         {
@@ -333,13 +333,13 @@ namespace Kazyx.WPPMM.CameraManager
             }
             status.TrackingFocusStatus = latest;
         }
-        internal static void TrackingFocusMode(CameraStatus status, Capability<string> latest)
+        internal static void TrackingFocus(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.TrackingFocusMode = latest;
+            status.TrackingFocus = latest;
         }
         internal static void BatteryInfo(CameraStatus status, List<BatteryInfo> latest)
         {

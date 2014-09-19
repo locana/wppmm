@@ -526,13 +526,13 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="FlipMode" xml:space="preserve">
     <value>Flip</value>
   </data>
-  <data name="ImageQuality" xml:space="preserve">
+  <data name="StillQuality" xml:space="preserve">
     <value>Stilla image quality</value>
   </data>
   <data name="IntervalTime1" xml:space="preserve">
     <value>Interval</value>
   </data>
-  <data name="IrRemoteControl" xml:space="preserve">
+  <data name="InfraredRemoteControl" xml:space="preserve">
     <value>IR remote</value>
   </data>
   <data name="MovieFormat" xml:space="preserve">
@@ -655,13 +655,13 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="FlipMode_On" xml:space="preserve">
     <value>On</value>
   </data>
-  <data name="ImageQuality_Fine" xml:space="preserve">
+  <data name="StillQuality_Fine" xml:space="preserve">
     <value>Fine</value>
   </data>
-  <data name="ImageQuality_RawAndJpeg" xml:space="preserve">
-    <value>RAW+J</value>
+  <data name="StillQuality_RawAndJpeg" xml:space="preserve">
+    <value>RAW+Jpeg</value>
   </data>
-  <data name="ImageQuality_Standard" xml:space="preserve">
+  <data name="StillQuality_Standard" xml:space="preserve">
     <value>Standard</value>
   </data>
   <data name="IrRemoteSetting_Off" xml:space="preserve">

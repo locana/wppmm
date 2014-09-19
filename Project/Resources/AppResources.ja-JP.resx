@@ -518,13 +518,13 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="FlipMode" xml:space="preserve">
     <value>反転</value>
   </data>
-  <data name="ImageQuality" xml:space="preserve">
+  <data name="StillQuality" xml:space="preserve">
     <value>静止画画質</value>
   </data>
   <data name="IntervalTime1" xml:space="preserve">
     <value>インターバル間隔</value>
   </data>
-  <data name="IrRemoteControl" xml:space="preserve">
+  <data name="InfraredRemoteControl" xml:space="preserve">
     <value>赤外線リモコン</value>
   </data>
   <data name="MovieFormat" xml:space="preserve">
@@ -641,13 +641,13 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ContinuousShootSpeed_Low" xml:space="preserve">
     <value>低速</value>
   </data>
-  <data name="ImageQuality_Fine" xml:space="preserve">
+  <data name="StillQuality_Fine" xml:space="preserve">
     <value>ファイン</value>
   </data>
-  <data name="ImageQuality_RawAndJpeg" xml:space="preserve">
-    <value>RAW+J</value>
+  <data name="StillQuality_RawAndJpeg" xml:space="preserve">
+    <value>RAW+Jpeg</value>
   </data>
-  <data name="ImageQuality_Standard" xml:space="preserve">
+  <data name="StillQuality_Standard" xml:space="preserve">
     <value>スタンダード</value>
   </data>
   <data name="MovieFormatMode_MP4" xml:space="preserve">

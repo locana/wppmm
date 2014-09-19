@@ -190,7 +190,7 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.FocusMode(target, data.FocusMode);
             StatusUpdater.TouchFocusStatus(target, data.TouchAFStatus);
             StatusUpdater.ZoomSetting(target, data.ZoomSetting);
-            StatusUpdater.ImageQuality(target, data.ImageQuality);
+            StatusUpdater.StillQuality(target, data.ImageQuality);
             StatusUpdater.ContShootingMode(target, data.ContShootingMode);
             StatusUpdater.ContShootingSpeed(target, data.ContShootingSpeed);
             StatusUpdater.FlipMode(target, data.FlipMode);
@@ -198,9 +198,9 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.IntervalTime(target, data.IntervalTime);
             StatusUpdater.ColorSetting(target, data.ColorSetting);
             StatusUpdater.MovieFormat(target, data.MovieFormat);
-            StatusUpdater.IrRemoteControl(target, data.IrRemoteControl);
+            StatusUpdater.InfraredRemoteControl(target, data.IrRemoteControl);
             StatusUpdater.TvColorSystem(target, data.TvColorSystem);
-            StatusUpdater.TrackingFocusMode(target, data.TrackingFocusMode);
+            StatusUpdater.TrackingFocus(target, data.TrackingFocusMode);
             StatusUpdater.AutoPowerOff(target, data.AutoPowerOff);
         }
 

@@ -50,13 +50,13 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setFlashMode", CreateStatusPanel("FlashMode", AppResources.FlashMode, OnFlashModeChanged));
             Panels.Add("setZoomSetting", CreateStatusPanel("ZoomSetting", AppResources.ZoomSetting, OnZoomSettingChanged));
             Panels.Add("setSceneSelection", CreateStatusPanel("SceneSelection", AppResources.SceneSelection, OnSceneSelectionChanged));
-            Panels.Add("setTrackingFocusMode", CreateStatusPanel("TrackingFocusMode", AppResources.TrackingFocusMode, OnTrackingFocusModeChanged));
+            Panels.Add("setTrackingFocus", CreateStatusPanel("TrackingFocus", AppResources.TrackingFocusMode, OnTrackingFocusChanged));
             Panels.Add("setSteadyMode", CreateStatusPanel("SteadyMode", AppResources.SteadyShot, OnSteadyModeChanged));
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
-            Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
-            Panels.Add("setImageQuality", CreateStatusPanel("ImageQuality", AppResources.ImageQuality, OnImageQualityChanged));
+            Panels.Add("setStillQuality", CreateStatusPanel("StillQuality", AppResources.StillQuality, OnStillQualityChanged));
             Panels.Add("setMovieFormat", CreateStatusPanel("MovieFormat", AppResources.MovieFormat, OnMovieFormatChanged));
+            Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
 
             // other
             Panels.Add("setPostviewImageSize", CreateStatusPanel("PostviewSize", AppResources.Setting_PostViewImageSize, OnPostViewSizeChanged));
@@ -65,7 +65,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setFlipMode", CreateStatusPanel("FlipMode", AppResources.FlipMode, OnFlipModeChanged));
             Panels.Add("setIntervalTime", CreateStatusPanel("IntervalTime", AppResources.IntervalTime1, OnIntervalTimeChanged));
             Panels.Add("setColorSetting", CreateStatusPanel("ColorSetting", AppResources.ColorSetting, OnColorSettingChanged));
-            Panels.Add("setIrRemoteControl", CreateStatusPanel("IrRemoteControl", AppResources.IrRemoteControl, OnIrRemoteControlChanged));
+            Panels.Add("setInfraredRemoteControl", CreateStatusPanel("InfraredRemoteControl", AppResources.InfraredRemoteControl, OnInfraredRemoteControlChanged));
             // Panels.Add("setTvColorSystem", CreateStatusPanel("TvColorSystem", AppResources.TvColorSystem, OnTvColorSystemChanged));
             Panels.Add("setAutoPowerOff", CreateStatusPanel("AutoPowerOff", AppResources.AutoPowerOff, OnAutoPowerOffChanged));
 
@@ -488,9 +488,9 @@ namespace Kazyx.WPPMM.CameraManager
             await OnPickerChanged<string>(sender, status.ZoomSetting,
             async (selected) => { await manager.CameraApi.SetZoomSettingAsync(new ZoomSetting { Mode = selected }); });
         }
-        private async void OnImageQualityChanged(object sender, SelectionChangedEventArgs arg)
+        private async void OnStillQualityChanged(object sender, SelectionChangedEventArgs arg)
         {
-            await OnPickerChanged<string>(sender, status.ImageQuality,
+            await OnPickerChanged<string>(sender, status.StillQuality,
             async (selected) => { await manager.CameraApi.SetStillQualityAsync(new ImageQualitySetting { Mode = selected }); });
         }
         private async void OnContShootingModeChanged(object sender, SelectionChangedEventArgs arg)
@@ -528,9 +528,9 @@ namespace Kazyx.WPPMM.CameraManager
             await OnPickerChanged<string>(sender, status.MovieFormat,
             async (selected) => { await manager.CameraApi.SetMovieFileFormatAsync(new MovieFormat { Mode = selected }); });
         }
-        private async void OnIrRemoteControlChanged(object sender, SelectionChangedEventArgs arg)
+        private async void OnInfraredRemoteControlChanged(object sender, SelectionChangedEventArgs arg)
         {
-            await OnPickerChanged<string>(sender, status.IrRemoteControl,
+            await OnPickerChanged<string>(sender, status.InfraredRemoteControl,
             async (selected) => { await manager.CameraApi.SetInfraredRemoteControlAsync(new InfraredRemoteControl { Mode = selected }); });
         }
         private async void OnTvColorSystemChanged(object sender, SelectionChangedEventArgs arg)
@@ -538,9 +538,9 @@ namespace Kazyx.WPPMM.CameraManager
             await OnPickerChanged<string>(sender, status.TvColorSystem,
             async (selected) => { await manager.CameraApi.SetTvColorSystemAsync(new TvColorSystem { Mode = selected }); });
         }
-        private async void OnTrackingFocusModeChanged(object sender, SelectionChangedEventArgs arg)
+        private async void OnTrackingFocusChanged(object sender, SelectionChangedEventArgs arg)
         {
-            await OnPickerChanged<string>(sender, status.TrackingFocusMode,
+            await OnPickerChanged<string>(sender, status.TrackingFocus,
             async (selected) => { await manager.CameraApi.SetTrackingFocusAsync(new TrackingFocusSetting { Mode = selected }); });
         }
         private async void OnAutoPowerOffChanged(object sender, SelectionChangedEventArgs arg)

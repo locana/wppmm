@@ -539,7 +539,7 @@ namespace Kazyx.WPPMM.Utils
             return val;
         }
 
-        internal static Capability<string> FromImageQuality(Capability<string> info)
+        internal static Capability<string> FromStillQuality(Capability<string> info)
         {
             var res = AsDisabledCapability(info);
             if (res != null)
@@ -548,25 +548,25 @@ namespace Kazyx.WPPMM.Utils
             var mCandidates = new List<string>();
             foreach (var val in info.Candidates)
             {
-                mCandidates.Add(FromImageQuality(val));
+                mCandidates.Add(FromStillQuality(val));
             }
             return new Capability<string>
             {
-                Current = FromImageQuality(info.Current),
+                Current = FromStillQuality(info.Current),
                 Candidates = mCandidates
             };
         }
 
-        private static string FromImageQuality(string val)
+        private static string FromStillQuality(string val)
         {
             switch (val)
             {
                 case ImageQuality.RawAndJpeg:
-                    return AppResources.ImageQuality_RawAndJpeg;
+                    return AppResources.StillQuality_RawAndJpeg;
                 case ImageQuality.Fine:
-                    return AppResources.ImageQuality_Fine;
+                    return AppResources.StillQuality_Fine;
                 case ImageQuality.Standard:
-                    return AppResources.ImageQuality_Standard;
+                    return AppResources.StillQuality_Standard;
             }
             return val;
         }
@@ -786,7 +786,7 @@ namespace Kazyx.WPPMM.Utils
             return val;
         }
 
-        internal static Capability<string> FromIrRemoteControl(Capability<string> info)
+        internal static Capability<string> FromInfraredRemoteControl(Capability<string> info)
         {
             var res = AsDisabledCapability(info);
             if (res != null)
@@ -795,16 +795,16 @@ namespace Kazyx.WPPMM.Utils
             var mCandidates = new List<string>();
             foreach (var val in info.Candidates)
             {
-                mCandidates.Add(FromIrRemoteControl(val));
+                mCandidates.Add(FromInfraredRemoteControl(val));
             }
             return new Capability<string>
             {
-                Current = FromIrRemoteControl(info.Current),
+                Current = FromInfraredRemoteControl(info.Current),
                 Candidates = mCandidates
             };
         }
 
-        private static string FromIrRemoteControl(string val)
+        private static string FromInfraredRemoteControl(string val)
         {
             switch (val)
             {
@@ -846,7 +846,7 @@ namespace Kazyx.WPPMM.Utils
             return val;
         }
 
-        internal static Capability<string> FromTrackingFocusMode(Capability<string> info)
+        internal static Capability<string> FromTrackingFocus(Capability<string> info)
         {
             var res = AsDisabledCapability(info);
             if (res != null)
@@ -855,16 +855,16 @@ namespace Kazyx.WPPMM.Utils
             var mCandidates = new List<string>();
             foreach (var val in info.Candidates)
             {
-                mCandidates.Add(FromTrackingFocusMode(val));
+                mCandidates.Add(FromTrackingFocus(val));
             }
             return new Capability<string>
             {
-                Current = FromTrackingFocusMode(info.Current),
+                Current = FromTrackingFocus(info.Current),
                 Candidates = mCandidates
             };
         }
 
-        private static string FromTrackingFocusMode(string val)
+        private static string FromTrackingFocus(string val)
         {
             switch (val)
             {

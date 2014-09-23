@@ -263,6 +263,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Button\ContShootingButton.png" />
     <Content Include="Assets\Button\IntervalStillRecButton.png" />
     <Content Include="Assets\Screen\audio.png" />
     <Content Include="Assets\Button\Camcorder.png" />

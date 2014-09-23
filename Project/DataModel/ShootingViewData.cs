@@ -165,6 +165,9 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ZoomBoxNum");
                         OnPropertyChanged("ZoomBoxIndex");
                         break;
+                    case "ContShootingMode":
+                        OnPropertyChanged("ShootButtonImage");
+                        break;
                 }
             };
         }
@@ -247,6 +250,7 @@ namespace Kazyx.WPPMM.DataModel
         private static readonly BitmapImage AudioImage = new BitmapImage(new Uri("/Assets/Button/Music.png", UriKind.Relative));
         private static readonly BitmapImage StopImage = new BitmapImage(new Uri("/Assets/Button/Stop.png", UriKind.Relative));
         private static readonly BitmapImage IntervalStillImage = new BitmapImage(new Uri("/Assets/Button/IntervalStillRecButton.png", UriKind.Relative));
+        private static readonly BitmapImage ContShootingImage = new BitmapImage(new Uri("/Assets/Button/ContShootingButton.png", UriKind.Relative));
 
         private static readonly BitmapImage PhotoModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_photo.png", UriKind.Relative));
         private static readonly BitmapImage MovieModeImage = new BitmapImage(new Uri("/Assets/Screen/mode_movie.png", UriKind.Relative));
@@ -280,6 +284,10 @@ namespace Kazyx.WPPMM.DataModel
                 switch (cameraStatus.ShootMode.Current)
                 {
                     case ShootModeParam.Still:
+                        if (cameraStatus != null && cameraStatus.ContShootingMode != null &&
+                            (cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                            cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority))
+                        { return ContShootingImage; }
                         return StillImage;
                     case ShootModeParam.Movie:
                         if (cameraStatus.Status == EventParam.MvRecording)

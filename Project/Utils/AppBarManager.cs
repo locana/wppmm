@@ -57,6 +57,18 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton HideHeaderItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.AppBar_HideHeader,
+            IconUri = new Uri("/Assets/AppBar/appBar_Dollar.png", UriKind.Relative)
+        };
+
+        readonly ApplicationBarIconButton ShowHeaderItem = new ApplicationBarIconButton
+        {
+            Text = AppResources.AppBar_ShowHeader,
+            IconUri = new Uri("/Assets/AppBar/appBar_Dollar.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -73,6 +85,8 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.CameraRoll, CameraRollItem);
             IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
+            IconMenuItems.Add(IconMenu.HideHeader, HideHeaderItem);
+            IconMenuItems.Add(IconMenu.ShowHeader, ShowHeaderItem);
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -184,5 +198,7 @@ namespace Kazyx.WPPMM.Utils
         CameraRoll,
         Hidden,
         CloseApplicationSetting,
+        HideHeader,
+        ShowHeader,
     }
 }

@@ -1,35 +1,28 @@
 ﻿using Kazyx.WPPMM.PlaybackMode;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Kazyx.WPPMM.DataModel
 {
-    public class RemoteThumbnailData : INotifyPropertyChanged
+    public class RemoteThumbnail : INotifyPropertyChanged
     {
-        public RemoteThumbnailData(string uuid, DateInfo date, ContentInfo content)
+        public RemoteThumbnail(string uuid, DateInfo date, ContentInfo content)
         {
             GroupTitle = date.Title;
             Source = content;
-            FetchThumbnailData(uuid, content);
-        }
-
-        private async void FetchThumbnailData(string uuid, ContentInfo content)
-        {
-            try
-            {
-                CachePath = await ThumbnailCacheLoader.INSTANCE.GetCachePath(uuid, content);
-            }
-            catch (Exception)
-            {
-                Debug.WriteLine("Failed to fetch thumbnail image: " + content.ThumbnailUrl);
-            }
+            DeviceUuid = uuid;
         }
 
         public ContentInfo Source { private set; get; }
+
+        private string DeviceUuid { set; get; }
 
         public string GroupTitle { private set; get; }
 
@@ -43,7 +36,25 @@ namespace Kazyx.WPPMM.DataModel
             }
             get
             {
-                return CachePath;
+                return _CachePath;
+            }
+        }
+
+        public async Task FetchThumbnailAsync()
+        {
+            if (CachePath != null)
+            {
+                return;
+            }
+
+            try
+            {
+                CachePath = await ThumbnailCacheLoader.INSTANCE.GetCachePathAsync(DeviceUuid, Source);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Failed to fetch thumbnail image: " + Source.ThumbnailUrl);
             }
         }
 
@@ -67,24 +78,29 @@ namespace Kazyx.WPPMM.DataModel
         }
     }
 
-    public class RemoteThumbnailGroup : INotifyPropertyChanged
+    public class DateGroup : List<RemoteThumbnail>, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        ObservableCollection<RemoteThumbnailData> _Group = new ObservableCollection<RemoteThumbnailData>();
+        public string Key { private set; get; }
 
-        public ObservableCollection<RemoteThumbnailData> Group
+        public DateGroup(string key)
         {
-            set
-            {
-                _Group = value;
-                OnPropertyChanged("Group");
-            }
-            get { return _Group; }
+            Key = key;
         }
 
-        public void Add(RemoteThumbnailData data)
+        new public void Add(RemoteThumbnail content)
         {
-            _Group.Add(data);
-            OnPropertyChanged("Group");
+            var previous = Count;
+            base.Add(content);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, content, previous));
+        }
+
+        new public void AddRange(IEnumerable<RemoteThumbnail> contents)
+        {
+            var previous = Count;
+            var list = new List<RemoteThumbnail>(contents);
+            base.AddRange(contents);
+            var e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+            OnCollectionChanged(e);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -92,14 +108,92 @@ namespace Kazyx.WPPMM.DataModel
         {
             if (PropertyChanged != null)
             {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
+            if (CollectionChanged != null)
+            {
                 try
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(name));
+                    CollectionChanged(this, e);
                 }
-                catch (COMException)
+                catch (System.NotSupportedException)
                 {
+                    NotifyCollectionChangedEventArgs alternativeEventArgs =
+                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+                    OnCollectionChanged(alternativeEventArgs);
                 }
             }
+        }
+    }
+
+    public class DateGroupCollection : ObservableCollection<DateGroup>
+    {
+        public void Add(RemoteThumbnail content)
+        {
+            var group = GetGroup(content.GroupTitle);
+            if (group == null)
+            {
+                group = new DateGroup(content.GroupTitle);
+                SortAdd(group);
+            }
+            group.Add(content);
+        }
+
+        public void AddRange(IEnumerable<RemoteThumbnail> contents)
+        {
+            var groups = new Dictionary<string, List<RemoteThumbnail>>();
+            foreach (var content in contents)
+            {
+                if (!groups.ContainsKey(content.GroupTitle))
+                {
+                    groups.Add(content.GroupTitle, new List<RemoteThumbnail>());
+                }
+                groups[content.GroupTitle].Add(content);
+            }
+
+            foreach (var group in groups)
+            {
+                var g = GetGroup(group.Key);
+                if (g == null)
+                {
+                    g = new DateGroup(group.Key);
+                    SortAdd(g);
+                }
+                g.AddRange(group.Value);
+            }
+        }
+
+        private void SortAdd(DateGroup item)
+        {
+            int insertAt = Items.Count;
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (string.CompareOrdinal(Items[i].Key, item.Key) < 0)
+                {
+                    insertAt = i;
+                    break;
+                }
+            }
+            Insert(insertAt, item);
+        }
+
+        private DateGroup GetGroup(string key)
+        {
+            foreach (var item in base.Items)
+            {
+                if (item.Key == key)
+                {
+                    return item;
+                }
+            }
+            return null;
         }
     }
 }

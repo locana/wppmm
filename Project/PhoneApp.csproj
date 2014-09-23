@@ -99,10 +99,12 @@
     <Compile Include="Pages\RemoteViewerPage.xaml.cs">
       <DependentUpon>RemoteViewerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlaybackMode\DummyContentsGenerator.cs" />
     <Compile Include="PlaybackMode\PlaybackModeUtility.cs" />
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
+    <Compile Include="Controls\ScrollDetectableLongListSelector.cs" />
     <Compile Include="PlaybackMode\ThumbnailImageConverter.cs" />
     <Compile Include="Utils\GeopositionManager.cs" />
     <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />

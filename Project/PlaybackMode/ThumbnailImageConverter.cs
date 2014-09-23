@@ -20,10 +20,7 @@ namespace Kazyx.WPPMM.PlaybackMode
                     return null;
                 }
 
-                var size = int.Parse(parameter as string);
                 var bmp = new BitmapImage();
-                bmp.DecodePixelWidth = size;
-                bmp.DecodePixelHeight = size;
                 bmp.CreateOptions = BitmapCreateOptions.DelayCreation;
 
                 using (var store = IsolatedStorageFile.GetUserStoreForApplication())

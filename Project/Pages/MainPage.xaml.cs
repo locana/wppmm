@@ -53,9 +53,10 @@ namespace Kazyx.WPPMM.Pages
         private static readonly BitmapImage GeoInfoStatusImage_NG = new BitmapImage(new Uri("/Assets/Screen/GeoInfoStatus_NG.png", UriKind.Relative));
         private static readonly BitmapImage GeoInfoStatusImage_Updating = new BitmapImage(new Uri("/Assets/Screen/GeoInfoStatus_Updating.png", UriKind.Relative));
 
+        private const string ViewerPageUri = "/Pages/RemoteViewerPage.xaml";
+
         public MainPage()
         {
-            Debug.WriteLine("MainPage constructor");
             InitializeComponent();
 
             MyPivot.SelectionChanged += MyPivot_SelectionChanged;
@@ -94,7 +95,7 @@ namespace Kazyx.WPPMM.Pages
                     cameraManager.CancelTouchAF();
                     cameraManager.CancelHalfPressShutter();
                 }
-                NavigationService.Navigate(new Uri("/Pages/ViewerPage.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri(ViewerPageUri, UriKind.Relative));
             });
             abm.SetEvent(IconMenu.Hidden, (sender, e) => { NavigationService.Navigate(new Uri("/Pages/HiddenPage.xaml", UriKind.Relative)); });
 
@@ -316,7 +317,12 @@ namespace Kazyx.WPPMM.Pages
             }
 
             cameraManager.RequestCloseLiveView();
-            cameraManager.Refresh();
+
+            if (e.NavigationMode != NavigationMode.New || e.Uri.ToString() != ViewerPageUri)
+            {
+                Debug.WriteLine(e.Uri.ToString());
+                cameraManager.Refresh();
+            }
         }
 
         private void StartConnectionSequence(bool connect)
@@ -353,9 +359,9 @@ namespace Kazyx.WPPMM.Pages
                 NetworkStatus.Text = AppResources.Guide_WiFiNotEnabled;
             }
 
-            if (cameraManager.DeviceInfo != null)
+            if (cameraManager.CurrentDeviceInfo != null)
             {
-                var modelName = cameraManager.DeviceInfo.FriendlyName;
+                var modelName = cameraManager.CurrentDeviceInfo.FriendlyName;
                 if (modelName != null)
                 {
                     NetworkStatus.Text = AppResources.ConnectedDevice.Replace("_ssid_", modelName);
@@ -800,7 +806,7 @@ namespace Kazyx.WPPMM.Pages
 
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
-            cameraManager.StopEventObserver();
+            // cameraManager.StopEventObserver();
             cameraManager.ZoomInfoUpdated -= ZoomInfoUpdated;
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;

@@ -7,29 +7,55 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:playback="clr-namespace:Kazyx.WPPMM.PlaybackMode"
+    xmlns:wppmmcontrol="clr-namespace:Kazyx.WPPMM.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress" Unloaded="PhoneApplicationPage_Unloaded">
+    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress" Loaded="PhoneApplicationPage_Loaded">
 
     <phone:PhoneApplicationPage.Resources>
         <playback:ThumbnailImageConverter x:Key="ThumbnailConverter" />
 
         <DataTemplate x:Key="ItemTemplate">
-            <StackPanel Height="108" Width="108" Margin="6,6">
-                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="UniformToFill" Tap="ThumbnailImage_Tap">
+            <Border Height="108" Width="108" Margin="6,6">
+                <Border.Background>
+                    <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
+                </Border.Background>
+                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" >
                     <Image.Source>
-                        <Binding Path="CachePath" Mode="OneWay" ConverterParameter="108" Converter="{StaticResource ThumbnailConverter}"/>
+                        <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
                 </Image>
-            </StackPanel>
+            </Border>
         </DataTemplate>
 
         <DataTemplate x:Key="HeaderTemplate">
-            <TextBlock Text="{Binding Path=GroupTitle}" Style="{StaticResource PhoneTextSmallStyle}"/>
+            <TextBlock Text="{Binding Path=Key}" Style="{StaticResource PhoneTextGroupHeaderStyle}"/>
         </DataTemplate>
+
+        <phone:JumpListItemBackgroundConverter x:Key="BackgroundConverter"/>
+        <phone:JumpListItemForegroundConverter x:Key="ForegroundConverter"/>
+        <Style x:Key="DateGroupJumpListStyle" TargetType="phone:LongListSelector">
+            <Setter Property="LayoutMode" Value="List"/>
+            <Setter Property="ItemTemplate" >
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border Background="{Binding Converter={StaticResource BackgroundConverter}}" Margin="20,6" >
+                            <TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"  Style="{StaticResource PhoneTextGroupHeaderStyle}" Padding="20,0" 
+               Foreground="{Binding Converter={StaticResource ForegroundConverter}}" VerticalAlignment="Bottom"/>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Name="ShowTitleBlockAnimation">
+            <DoubleAnimation Duration="0:0:0.5" From="0.0" To="0.9" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TitleBlock" />
+        </Storyboard>
+        <Storyboard x:Name="HideTitleBlockAnimation">
+            <DoubleAnimation Duration="0:0:0.5" From="109" To="0" Storyboard.TargetProperty="Height" Storyboard.TargetName="TitleBlock" />
+        </Storyboard>
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -37,26 +63,40 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Margin="12,17,0,14">
-            <TextBlock Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}"/>
-            <TextBlock Text="Remote contents" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
-        </StackPanel>
-
+        <Border x:Name="TitleBlock">
+            <StackPanel Grid.Row="0" Margin="12,17,0,14">
+                <TextBlock Name="TitleHeader" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}"/>
+                <TextBlock Text="Remote contents" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+            </StackPanel>
+        </Border>
         <Grid Grid.Row="1">
-            <phone:LongListSelector
+            <wppmmcontrol:ScrollDetectableLongListSelector
                 Name="ImageGrid"
                 Margin="0"
                 IsGroupingEnabled="True"
                 GroupHeaderTemplate="{StaticResource HeaderTemplate}"
                 LayoutMode="Grid"
                 GridCellSize="112,112"
-                ItemsSource="{Binding Group, Mode=OneWay}"
                 ItemTemplate="{StaticResource ItemTemplate}"
+                JumpListStyle="{StaticResource DateGroupJumpListStyle}"
                 Loaded="ImageGrid_Loaded"
-                Unloaded="ImageGrid_Unloaded" >
-            </phone:LongListSelector>
+                Unloaded="ImageGrid_Unloaded" SelectionChanged="ImageGrid_SelectionChanged" ItemRealized="ImageGrid_ItemRealized" >
+            </wppmmcontrol:ScrollDetectableLongListSelector>
         </Grid>
+        <Border x:Name="TouchBlocker" Margin="0" Grid.RowSpan="2" Visibility="Collapsed">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+            </Border.Background>
+        </Border>
+        <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
+            <Canvas x:Name="canvas" >
+                <Image x:Name="DetailImage" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
+                    <Image.RenderTransform>
+                        <ScaleTransform x:Name="xform" />
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+        </ViewportControl>
     </Grid>
 
     <shell:SystemTray.ProgressIndicator>

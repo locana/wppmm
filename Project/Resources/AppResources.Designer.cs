@@ -142,6 +142,24 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide header.
+        /// </summary>
+        public static string AppBar_HideHeader {
+            get {
+                return ResourceManager.GetString("AppBar_HideHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show header.
+        /// </summary>
+        public static string AppBar_ShowHeader {
+            get {
+                return ResourceManager.GetString("AppBar_ShowHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application settings.
         /// </summary>
         public static string ApplicationSettings {

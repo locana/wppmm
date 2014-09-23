@@ -542,4 +542,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ZoomSetting" xml:space="preserve">
     <value>ズーム設定</value>
   </data>
+  <data name="AppBar_HideHeader" xml:space="preserve">
+    <value>ヘッダーを隠す</value>
+  </data>
+  <data name="AppBar_ShowHeader" xml:space="preserve">
+    <value>ヘッダーを表示する</value>
+  </data>
 </root>

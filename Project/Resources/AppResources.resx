@@ -550,4 +550,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ZoomSetting" xml:space="preserve">
     <value>Zoom setting</value>
   </data>
+  <data name="AppBar_HideHeader" xml:space="preserve">
+    <value>Hide header</value>
+  </data>
+  <data name="AppBar_ShowHeader" xml:space="preserve">
+    <value>Show header</value>
+  </data>
 </root>

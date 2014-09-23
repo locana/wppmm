@@ -581,8 +581,9 @@ namespace Kazyx.WPPMM.CameraManager
             if (param == null || param.Candidates == null || param.Candidates.Count == 0)
                 return;
             var selected = (sender as ListPicker).SelectedIndex;
+            DebugUtil.Log("[OnPickerChanged][ListPicker]  " + selected + " / " + (sender as ListPicker).Items.Count);
             var selectedIndex = SettingsValueConverter.GetSelectedIndex(param);
-            DebugUtil.Log("[OnPickerChanged] currentIndex: " + selectedIndex + " current: " + param.Current + " selected: " + selected);
+            DebugUtil.Log("[OnPickerChanged][Capability] " + selectedIndex + " " + param.Candidates.Count);
             if (selectedIndex != selected)
             {
                 // This change is not from this application, maybe from the camera device.

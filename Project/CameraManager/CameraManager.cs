@@ -195,6 +195,19 @@ namespace Kazyx.WPPMM.CameraManager
                         OnResultActTakePicture(_cameraStatus.PictureUrls);
                     }
                     break;
+                case "ContShootingResult":
+                    if (_cameraStatus.ContShootingResult != null &&
+                        _cameraStatus.ContShootingResult.Count > 0)
+                    {
+                        List<string> urls = new List<string>();
+                        foreach (ContShootingResult result in _cameraStatus.ContShootingResult.ToArray())
+                        {
+                            DebugUtil.Log("Cont shot url: " + result.PostviewUrl);
+                            urls.Add(result.PostviewUrl);
+                        }
+                        OnResultActTakePicture(urls.ToArray());
+                    }
+                    break;
             }
         }
 

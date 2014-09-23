@@ -244,10 +244,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            if (status.ContShootingMode == null || IsCapabilityUpdated<string>(status.ContShootingMode, latest))
-            {
-                status.ContShootingMode = latest;
-            }
+            status.ContShootingMode = latest;
         }
         internal static void ContShootingSpeed(CameraStatus status, Capability<string> latest)
         {

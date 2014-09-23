@@ -544,7 +544,6 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _ZoomSetting = value;
-                DebugUtil.Log("Zoom setting updated. current: " + _ZoomSetting.Current);
                 OnPropertyChanged("ZoomSetting");
             }
             get { return _ZoomSetting; }

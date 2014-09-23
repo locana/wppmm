@@ -193,6 +193,7 @@ namespace Kazyx.WPPMM.CameraManager
             StatusUpdater.StillQuality(target, data.ImageQuality);
             StatusUpdater.ContShootingMode(target, data.ContShootingMode);
             StatusUpdater.ContShootingSpeed(target, data.ContShootingSpeed);
+            StatusUpdater.ContShootingResult(target, data.ContShootingResult);
             StatusUpdater.FlipMode(target, data.FlipMode);
             StatusUpdater.SceneSelection(target, data.SceneSelection);
             StatusUpdater.IntervalTime(target, data.IntervalTime);

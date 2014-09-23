@@ -674,4 +674,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ZoomMode_Optical" xml:space="preserve">
     <value>光学のみ</value>
   </data>
+  <data name="Minute_Unit" xml:space="preserve">
+    <value>分</value>
+  </data>
 </root>

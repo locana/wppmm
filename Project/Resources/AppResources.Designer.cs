@@ -1134,6 +1134,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to min..
+        /// </summary>
+        public static string Minute_Unit {
+            get {
+                return ResourceManager.GetString("Minute_Unit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movie format.
         /// </summary>
         public static string MovieFormat {

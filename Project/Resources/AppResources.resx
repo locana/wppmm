@@ -697,4 +697,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ZoomMode_Optical" xml:space="preserve">
     <value>Optical only</value>
   </data>
+  <data name="Minute_Unit" xml:space="preserve">
+    <value>min.</value>
+  </data>
 </root>

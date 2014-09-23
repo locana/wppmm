@@ -1,6 +1,7 @@
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Utils;
+using Kazyx.WPMMM.Resources;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -1072,7 +1073,7 @@ namespace Kazyx.WPPMM.DataModel
                             case ShootModeParam.Movie:
                             case ShootModeParam.Audio:
                                 if (storage.RecordableMovieLength == -1) { return ""; }
-                                return storage.RecordableMovieLength.ToString();
+                                return storage.RecordableMovieLength.ToString() + AppResources.Minute_Unit;
                             default:
                                 break;
                         }

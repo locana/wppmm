@@ -417,10 +417,30 @@ namespace Kazyx.WPPMM.Pages
             OnZooming = false;
         }
 
-        void CameraButtons_ShutterKeyPressed(object sender, EventArgs e)
+        private async void CameraButtons_ShutterKeyPressed(object sender, EventArgs e)
         {
             if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
+            if (StartContShootingAvailable())
+            {
+                await cameraManager.CameraApi.StartContShootingAsync();
+                return;
+            }
             RecStartStop();
+        }
+
+        private async void CameraButtons_ShutterKeyReleased(object sender, EventArgs e)
+        {
+            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
+            if (StopContShootingAvailable())
+            { await cameraManager.CameraApi.StopContShootingAsync(); }
+            cameraManager.CancelHalfPressShutter();
+        }
+
+        void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
+        {
+            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
+
+            cameraManager.RequestHalfPressShutter();
         }
 
         private void takeImageButton_Click(object sender, RoutedEventArgs e)
@@ -428,23 +448,37 @@ namespace Kazyx.WPPMM.Pages
             RecStartStop();
         }
 
-        private void ShootButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            // DebugUtil.Log("TAP!!!!!!");
-        }
-
-        private async void ShootButton_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        private bool StartContShootingAvailable()
         {
             if (!cameraManager.IntervalManager.IsRunning &&
                 cameraManager.cameraStatus != null &&
                 cameraManager.cameraStatus.Status == EventParam.Idle &&
                 cameraManager.cameraStatus.ShootModeInfo.Current == ShootModeParam.Still &&
-                (cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
-                cameraManager.cameraStatus.ContShootingMode .Current == ContinuousShootMode.SpeedPriority)
+                (
+                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
                 )
-            {
-                await cameraManager.CameraApi.StartContShootingAsync();
-            }
+            { return true; }
+            return false;
+        }
+
+        private bool StopContShootingAvailable()
+        {
+            if (!cameraManager.IntervalManager.IsRunning &&
+                cameraManager.cameraStatus != null &&
+                cameraManager.cameraStatus.Status == EventParam.StCapturing &&
+                cameraManager.cameraStatus.ShootModeInfo.Current == ShootModeParam.Still &&
+                (
+                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
+                )
+            { return true; }
+            return false;
+        }
+
+        private async void ShootButton_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            if (StartContShootingAvailable()) { await cameraManager.CameraApi.StartContShootingAsync(); }
         }
 
         private async void RecStartStop()
@@ -751,19 +785,7 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        void CameraButtons_ShutterKeyReleased(object sender, EventArgs e)
-        {
-            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
 
-            cameraManager.CancelHalfPressShutter();
-        }
-
-        void CameraButtons_ShutterKeyHalfPressed(object sender, EventArgs e)
-        {
-            if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
-
-            cameraManager.RequestHalfPressShutter();
-        }
 
         void FraimingGrids_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {

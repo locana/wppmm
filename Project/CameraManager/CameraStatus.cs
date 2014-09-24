@@ -1,6 +1,7 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -208,7 +209,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             set
             {
-                Debug.WriteLine("isLiveViewAvailableSet: " + value);
+                DebugUtil.Log("isLiveViewAvailableSet: " + value);
                 if (_IsLiveviewAvailable != value)
                 {
                     OnPropertyChanged("IsLiveviewAvailable");
@@ -543,19 +544,20 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _ZoomSetting = value;
+                DebugUtil.Log("Zoom setting updated. current: " + _ZoomSetting.Current);
                 OnPropertyChanged("ZoomSetting");
             }
             get { return _ZoomSetting; }
         }
-        private Capability<string> _ImageQuality;
-        public Capability<string> ImageQuality
+        private Capability<string> _StillQuality;
+        public Capability<string> StillQuality
         {
             set
             {
-                _ImageQuality = value;
-                OnPropertyChanged("ImageQuality");
+                _StillQuality = value;
+                OnPropertyChanged("StillQuality");
             }
-            get { return _ImageQuality; }
+            get { return _StillQuality; }
         }
         private Capability<string> _ContShootingMode;
         public Capability<string> ContShootingMode
@@ -637,15 +639,15 @@ namespace Kazyx.WPPMM.CameraManager
             }
             get { return _MovieFormat; }
         }
-        private Capability<string> _IrRemoteControl;
-        public Capability<string> IrRemoteControl
+        private Capability<string> _InfraredRemoteControl;
+        public Capability<string> InfraredRemoteControl
         {
             set
             {
-                _IrRemoteControl = value;
-                OnPropertyChanged("IrRemoteControl");
+                _InfraredRemoteControl = value;
+                OnPropertyChanged("InfraredRemoteControl");
             }
-            get { return _IrRemoteControl; }
+            get { return _InfraredRemoteControl; }
         }
         private Capability<string> _TvColorSystem;
         public Capability<string> TvColorSystem
@@ -667,15 +669,15 @@ namespace Kazyx.WPPMM.CameraManager
             }
             get { return _TrackingFocusStatus; }
         }
-        private Capability<string> _TrackingFocusMode;
-        public Capability<string> TrackingFocusMode
+        private Capability<string> _TrackingFocus;
+        public Capability<string> TrackingFocus
         {
             set
             {
-                _TrackingFocusMode = value;
-                OnPropertyChanged("TrackingFocusMode");
+                _TrackingFocus = value;
+                OnPropertyChanged("TrackingFocus");
             }
-            get { return _TrackingFocusMode; }
+            get { return _TrackingFocus; }
         }
         private List<BatteryInfo> _BatteryInfo;
         public List<BatteryInfo> BatteryInfo
@@ -703,7 +705,7 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _NumberOfShots = value;
-                OnPropertyChanged("RecordingTimeSec");
+                OnPropertyChanged("NumberOfShots");
             }
             get { return _NumberOfShots; }
         }
@@ -765,7 +767,7 @@ namespace Kazyx.WPPMM.CameraManager
         private void OnPropertyChanged(string name)
         {
 
-            // Debug.WriteLine("OnPropertyChanged: " + name);
+            // DebugUtil.Log("OnPropertyChanged: " + name);
             try
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>

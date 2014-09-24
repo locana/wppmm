@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
+using Kazyx.WPPMM.Utils;
 
 namespace Kazyx.WPPMM.CameraManager
 {
@@ -70,7 +71,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             get
             {
-                Debug.WriteLine("get interval panel visibility: " + this.IsRunning);
+                DebugUtil.Log("get interval panel visibility: " + this.IsRunning);
                 return this.IsRunning ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -162,12 +163,12 @@ namespace Kazyx.WPPMM.CameraManager
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            // Debug.WriteLine("OnPropertyChanged(interval): " + name);
+            // DebugUtil.Log("OnPropertyChanged(interval): " + name);
             if (PropertyChanged != null)
             {
                 try
                 {
-                    // Debug.WriteLine("calling OnPropertyChanged(interval): " + name);
+                    // DebugUtil.Log("calling OnPropertyChanged(interval): " + name);
                     Deployment.Current.Dispatcher.BeginInvoke(() => { PropertyChanged(this, new PropertyChangedEventArgs(name)); });
                 }
                 catch (COMException)

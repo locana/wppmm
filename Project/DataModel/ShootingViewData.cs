@@ -1,9 +1,8 @@
-using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
@@ -161,6 +160,11 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("ProgramShift");
                         OnPropertyChanged("ExposureModeImage");
                         break;
+                    case "ZoomInfo":
+                        OnPropertyChanged("ZoomPositionInCurrentBox");
+                        OnPropertyChanged("ZoomBoxNum");
+                        OnPropertyChanged("ZoomBoxIndex");
+                        break;
                 }
             };
         }
@@ -179,11 +183,11 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: ShootingViewData");
+                    DebugUtil.Log("Caught COMException: ShootingViewData");
                 }
                 catch (NullReferenceException e)
                 {
-                    Debug.WriteLine(e.StackTrace);
+                    DebugUtil.Log(e.StackTrace);
                 }
             });
         }
@@ -430,7 +434,7 @@ namespace Kazyx.WPPMM.DataModel
                     return Visibility.Collapsed;
                 }
 
-                Debug.WriteLine("type: " + cameraStatus.AfType + " status: " + cameraStatus.FocusStatus);
+                DebugUtil.Log("type: " + cameraStatus.AfType + " status: " + cameraStatus.FocusStatus);
                 if (cameraStatus.AfType == CameraStatus.AutoFocusType.HalfPress && cameraStatus.FocusStatus == FocusState.Focused)
                 {
                     return Visibility.Visible;
@@ -1061,6 +1065,42 @@ namespace Kazyx.WPPMM.DataModel
                     }
                 }
                 return "";
+            }
+        }
+
+        public int ZoomBoxNum
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ZoomInfo == null)
+                {
+                    return 1;
+                }
+                return cameraStatus.ZoomInfo.NumberOfBoxes;
+            }
+        }
+
+        public int ZoomBoxIndex
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ZoomInfo == null)
+                {
+                    return 0;
+                }
+                return cameraStatus.ZoomInfo.CurrentBoxIndex;
+            }
+        }
+
+        public int ZoomPositionInCurrentBox
+        {
+            get
+            {
+                if (cameraStatus == null || cameraStatus.ZoomInfo == null)
+                {
+                    return 0;
+                }
+                return cameraStatus.ZoomInfo.PositionInCurrentBox;
             }
         }
     }

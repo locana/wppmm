@@ -6,7 +6,6 @@ using Microsoft.Phone.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -90,7 +89,7 @@ namespace Kazyx.WPPMM.Pages
 
             if (cm.AvContentApi == null)
             {
-                Debug.WriteLine("AvContent service is not supported");
+                DebugUtil.Log("AvContent service is not supported");
                 UpdateTitleHeader("AvContent service is not supported");
                 GoBack();
                 return;
@@ -104,7 +103,7 @@ namespace Kazyx.WPPMM.Pages
                 ChangeProgressText("Checking storage capability...");
                 if (!await PlaybackModeUtility.IsStorageSupportedAsync(cm.AvContentApi))
                 {
-                    Debug.WriteLine("storage scheme is not supported");
+                    DebugUtil.Log("storage scheme is not supported");
                     UpdateTitleHeader("storage scheme is not supported");
                     GoBack();
                     return;
@@ -114,7 +113,7 @@ namespace Kazyx.WPPMM.Pages
                 var storages = await PlaybackModeUtility.GetStoragesUriAsync(cm.AvContentApi);
                 if (storages.Count == 0)
                 {
-                    Debug.WriteLine("No storages");
+                    DebugUtil.Log("No storages");
                     UpdateTitleHeader("No storages");
                     GoBack();
                     return;
@@ -128,14 +127,14 @@ namespace Kazyx.WPPMM.Pages
             catch (Exception e)
             {
                 UpdateTitleHeader(e.GetType().ToString());
-                Debug.WriteLine(e.StackTrace);
+                DebugUtil.Log(e.StackTrace);
                 GoBack();
             }
         }
 
         private void UpdateTitleHeader(string text)
         {
-            Debug.WriteLine(text);
+            DebugUtil.Log(text);
             Dispatcher.BeginInvoke(() =>
             {
                 TitleHeader.Text = text;
@@ -155,7 +154,7 @@ namespace Kazyx.WPPMM.Pages
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.StackTrace);
+                    DebugUtil.Log(e.StackTrace);
                     GoBack();
                 }
             }
@@ -188,7 +187,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void ChangeProgressText(string text)
         {
-            Debug.WriteLine(text);
+            DebugUtil.Log(text);
             Dispatcher.BeginInvoke(() =>
             {
                 progress.Text = text;
@@ -294,7 +293,7 @@ namespace Kazyx.WPPMM.Pages
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine(ex.StackTrace);
+                            DebugUtil.Log(ex.StackTrace);
                             UpdateTitleHeader("Failed to fetch detail image");
                             HideProgress();
                         }
@@ -329,7 +328,7 @@ namespace Kazyx.WPPMM.Pages
 
         void InitBitmapBeforeOpen()
         {
-            Debug.WriteLine("Before open");
+            DebugUtil.Log("Before open");
             _scale = 0;
             CoerceScale(true);
             _scale = _coercedScale;
@@ -438,11 +437,11 @@ namespace Kazyx.WPPMM.Pages
                 var minY = viewport.ActualHeight / _bitmap.PixelHeight;
 
                 _minScale = Math.Min(minX, minY);
-                Debug.WriteLine("Minimum scale: " + _minScale);
+                DebugUtil.Log("Minimum scale: " + _minScale);
             }
 
             _coercedScale = Math.Min(MaxScale, Math.Max(_scale, _minScale));
-            //Debug.WriteLine("Coerced scale: " + _coercedScale);
+            //DebugUtil.Log("Coerced scale: " + _coercedScale);
         }
 
         private void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
@@ -488,7 +487,7 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            Debug.WriteLine("TranslationY: " + e.DeltaManipulation.Translation.Y);
+            DebugUtil.Log("TranslationY: " + e.DeltaManipulation.Translation.Y);
 
             if (e.DeltaManipulation.Translation.Y > 0 && TitleBarState == TitleBarState.Hidden)
             {
@@ -539,7 +538,7 @@ namespace Kazyx.WPPMM.Pages
 
             story.Completed += (sender, e) =>
             {
-                Debug.WriteLine("TitleBar animation completed: " + nextState);
+                DebugUtil.Log("TitleBar animation completed: " + nextState);
                 TitleBarState = nextState;
             };
             story.Begin();
@@ -553,7 +552,7 @@ namespace Kazyx.WPPMM.Pages
         /*
         private void ImageGrid_InnerManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            Debug.WriteLine("InnerManipulationDelta");
+            DebugUtil.Log("InnerManipulationDelta");
             ImageGrid_ManipulationDelta(sender, e);
         }
 
@@ -563,13 +562,13 @@ namespace Kazyx.WPPMM.Pages
             switch (lls.ManipulationState)
             {
                 case ManipulationState.Idle:
-                    Debug.WriteLine("InnerManipulationState: Idle");
+                    DebugUtil.Log("InnerManipulationState: Idle");
                     break;
                 case ManipulationState.Manipulating:
-                    Debug.WriteLine("InnerManipulationState: Manipulating");
+                    DebugUtil.Log("InnerManipulationState: Manipulating");
                     break;
                 case ManipulationState.Animating:
-                    Debug.WriteLine("InnerManipulationState: Animating");
+                    DebugUtil.Log("InnerManipulationState: Animating");
                     break;
             }
         }

@@ -1,10 +1,10 @@
 ﻿using Kazyx.WPPMM.PlaybackMode;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,8 +53,8 @@ namespace Kazyx.WPPMM.DataModel
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine("Failed to fetch thumbnail image: " + Source.ThumbnailUrl);
+                DebugUtil.Log(e.StackTrace);
+                DebugUtil.Log("Failed to fetch thumbnail image: " + Source.ThumbnailUrl);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Kazyx.WPPMM.DataModel
                     }
                     catch (COMException)
                     {
-                        Debug.WriteLine("Caught COMException: RemoteThumbnailData");
+                        DebugUtil.Log("Caught COMException: RemoteThumbnailData");
                     }
                 }
             });

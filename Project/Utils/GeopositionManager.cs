@@ -83,7 +83,7 @@ namespace Kazyx.WPPMM.Utils
 
         private async Task UpdateGeoposition()
         {
-            Debug.WriteLine("Starting to acquire geo location");
+            DebugUtil.Log("Starting to acquire geo location");
             OnGeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = LatestPosition, Status = GeopositiomManagerStatus.Acquiring });
 
             IAsyncOperation<Geoposition> locationTask = null;
@@ -100,10 +100,10 @@ namespace Kazyx.WPPMM.Utils
             {
                 if ((uint)ex.HResult == 0x80004004)
                 {
-                    Debug.WriteLine("Failed due to permission problem.");
+                    DebugUtil.Log("Failed due to permission problem.");
                     OnGeopositionUpdated(new GeopositionEventArgs() { UpdatedPosition = null, Status = GeopositiomManagerStatus.Unauthorized });
                 }
-                Debug.WriteLine("Caught exception from GetGeopositionAsync");
+                DebugUtil.Log("Caught exception from GetGeopositionAsync");
                 LatestPosition = null;
             }
             finally

@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace Kazyx.WPPMM.Controls
 {
-    public partial class CheckBoxSetting : UserControl
+    public partial class ListPickerSetting : UserControl
     {
-        public CheckBoxSetting(AppSettingData<bool> data)
+        public ListPickerSetting(AppSettingData<int> data)
         {
             InitializeComponent();
             if (data == null)

@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\ContentPlaybackData.cs" />
     <Compile Include="DataModel\RemoteThumbnailData.cs" />
     <Compile Include="Pages\RemoteViewerPage.xaml.cs">
       <DependentUpon>RemoteViewerPage.xaml</DependentUpon>
@@ -105,16 +106,23 @@
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
     <Compile Include="Controls\ScrollDetectableLongListSelector.cs" />
+    <Compile Include="PlaybackMode\ThumbnailCacheLoader.cs" />
     <Compile Include="PlaybackMode\ThumbnailImageConverter.cs" />
+    <Compile Include="Utils\Downloader.cs" />
     <Compile Include="Utils\GeopositionManager.cs" />
     <Compile Include="CameraManager\LocalIntervalShootingManager.cs" />
-    <Compile Include="Utils\PictureSyncManager.cs" />
     <Compile Include="CameraManager\ServerVersion.cs" />
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FramingGrids.xaml.cs">
+      <DependentUpon>FramingGrids.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Histogram.xaml.cs">
       <DependentUpon>Histogram.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListPickerSetting.xaml.cs">
+      <DependentUpon>ListPickerSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PullReleaseBar.xaml.cs">
       <DependentUpon>PullReleaseBar.xaml</DependentUpon>
@@ -128,9 +136,11 @@
     <Compile Include="Controls\VisualSelector.xaml.cs">
       <DependentUpon>VisualSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ZoomBar.xaml.cs">
+      <DependentUpon>ZoomBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ApplicationSettings.cs" />
     <Compile Include="DataModel\AppStatus.cs" />
-    <Compile Include="DataModel\ContentPlaybackData.cs" />
     <Compile Include="DataModel\ControlPanelViewData.cs" />
     <Compile Include="DataModel\AppSettingData.cs" />
     <Compile Include="DataModel\ShootingViewData.cs" />
@@ -138,15 +148,16 @@
     <Compile Include="Pages\HiddenPage.xaml.cs">
       <DependentUpon>HiddenPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlaybackMode\ThumbnailCacheLoader.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ApplicationSettingNames.cs" />
+    <Compile Include="Utils\DebugUtil.cs" />
+    <Compile Include="Utils\PictureSyncManager.cs" />
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />
-    <Compile Include="Utils\Downloader.cs" />
     <Compile Include="CameraManager\EventObserver.cs" />
     <Compile Include="CameraManager\CameraStatus.cs" />
     <Compile Include="CameraManager\StatusComparator.cs" />
@@ -175,7 +186,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\FramingGrids.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Histogram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ListPickerSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,19 +213,22 @@
     <Page Include="Controls\VisualSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\AboutPage.xaml">
+    <Page Include="Controls\ZoomBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\RemoteViewerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\HiddenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RemoteViewerPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\ViewerPage.xaml">
@@ -298,7 +320,7 @@
     </ProjectReference>
     <ProjectReference Include="..\modules\kz-ssdp-discovery\Project\KzSsdpDiscovery.csproj">
       <Project>{D00C8BED-9BE9-47FF-BB28-80FDC7227CC6}</Project>
-      <Name>KzSsdpDiscovery</Name>
+      <Name>KzSoDiscovery</Name>
     </ProjectReference>
     <ProjectReference Include="..\modules\NtImageLib\NtImageProcessor\NtImageProcessor.csproj">
       <Project>{8D3A6E47-AAC2-47DB-984F-04A24638F0E8}</Project>

@@ -110,7 +110,7 @@ namespace Kazyx.WPPMM.Controls
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            //Debug.WriteLine("OnPropertyChanged: " + name);
+            //DebugUtil.Log("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
                 try
@@ -157,7 +157,7 @@ namespace Kazyx.WPPMM.Controls
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            //Debug.WriteLine("OnPropertyChanged: " + name);
+            //DebugUtil.Log("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
                 try

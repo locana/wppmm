@@ -1,6 +1,5 @@
 ﻿using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.DataModel;
-using Kazyx.WPPMM.Utils;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Diagnostics;
@@ -32,7 +31,7 @@ namespace Kazyx.WPPMM.Utils
 
         protected void OnMessage(string message)
         {
-            Debug.WriteLine("PictureSyncManager: OnMessage" + message);
+            DebugUtil.Log("PictureSyncManager: OnMessage" + message);
             if (Message != null)
             {
                 Message(message);
@@ -41,7 +40,7 @@ namespace Kazyx.WPPMM.Utils
 
         protected void OnFetched(Picture picture, Geoposition pos)
         {
-            Debug.WriteLine("PictureSyncManager: OnFetched");
+            DebugUtil.Log("PictureSyncManager: OnFetched");
             if (Fetched != null)
             {
                 Fetched(picture, pos);
@@ -50,7 +49,7 @@ namespace Kazyx.WPPMM.Utils
 
         protected void OnFailed(ImageDLError error)
         {
-            Debug.WriteLine("PictureSyncManager: OnFailed" + error);
+            DebugUtil.Log("PictureSyncManager: OnFailed" + error);
             if (Failed != null)
             {
                 Failed(error);
@@ -59,7 +58,7 @@ namespace Kazyx.WPPMM.Utils
 
         internal void Enque(Uri uri)
         {
-            Debug.WriteLine("PictureSyncManager: Enque " + uri.AbsolutePath);
+            DebugUtil.Log("PictureSyncManager: Enque " + uri.AbsolutePath);
             Deployment.Current.Dispatcher.BeginInvoke(async () =>
             {
                 Geoposition pos = null;

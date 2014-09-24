@@ -510,7 +510,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>色合い</value>
   </data>
   <data name="ContShootingMode" xml:space="preserve">
-    <value>連写設定</value>
+    <value>ドライブモード</value>
   </data>
   <data name="ContShootingSpeed" xml:space="preserve">
     <value>連写速度</value>
@@ -518,13 +518,13 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="FlipMode" xml:space="preserve">
     <value>反転</value>
   </data>
-  <data name="ImageQuality" xml:space="preserve">
+  <data name="StillQuality" xml:space="preserve">
     <value>静止画画質</value>
   </data>
   <data name="IntervalTime1" xml:space="preserve">
     <value>インターバル間隔</value>
   </data>
-  <data name="IrRemoteControl" xml:space="preserve">
+  <data name="InfraredRemoteControl" xml:space="preserve">
     <value>赤外線リモコン</value>
   </data>
   <data name="MovieFormat" xml:space="preserve">
@@ -547,5 +547,137 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   </data>
   <data name="AppBar_ShowHeader" xml:space="preserve">
     <value>ヘッダーを表示する</value>
+  </data>
+  <data name="FramingGrids" xml:space="preserve">
+    <value>撮影補助線</value>
+  </data>
+  <data name="Grid_Crosshairs" xml:space="preserve">
+    <value>十字</value>
+  </data>
+  <data name="Grid_Diagonal" xml:space="preserve">
+    <value>対角線</value>
+  </data>
+  <data name="Grid_Fibonacci" xml:space="preserve">
+    <value>フィボナッチの螺旋</value>
+  </data>
+  <data name="Grid_GoldenRatio" xml:space="preserve">
+    <value>黄金比</value>
+  </data>
+  <data name="Grid_RuleOfThirds" xml:space="preserve">
+    <value>三分割法</value>
+  </data>
+  <data name="Grid_Square" xml:space="preserve">
+    <value>正方形</value>
+  </data>
+  <data name="Guide_FramingGrids" xml:space="preserve">
+    <value>構図を決めやすくする補助線を表示します</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>黒</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>青</value>
+  </data>
+  <data name="FramingGridColor" xml:space="preserve">
+    <value>補助線の色</value>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>緑</value>
+  </data>
+  <data name="Guide_FramingGridColor" xml:space="preserve">
+    <value>補助線の色を変えられます</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>赤</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>白</value>
+  </data>
+  <data name="BottomLeft" xml:space="preserve">
+    <value>左下</value>
+  </data>
+  <data name="BottomRight" xml:space="preserve">
+    <value>右下</value>
+  </data>
+  <data name="FibonacciSpiralOrigin" xml:space="preserve">
+    <value>フィボナッチ螺旋の出発点</value>
+  </data>
+  <data name="Guide_FibonacciSpiralOrigin" xml:space="preserve">
+    <value>出発点によって螺旋の向きが変わります</value>
+  </data>
+  <data name="UpperLeft" xml:space="preserve">
+    <value>左上</value>
+  </data>
+  <data name="UpperRight" xml:space="preserve">
+    <value>右上</value>
+  </data>
+  <data name="ColorMode_Neutral" xml:space="preserve">
+    <value>ニュートラル</value>
+  </data>
+  <data name="ColorMode_Vivid" xml:space="preserve">
+    <value>ビビッド</value>
+  </data>
+  <data name="ContinuousShootMode_Burst" xml:space="preserve">
+    <value>バースト</value>
+  </data>
+  <data name="ContinuousShootMode_Cont" xml:space="preserve">
+    <value>連続撮影</value>
+  </data>
+  <data name="ContinuousShootMode_MotionShot" xml:space="preserve">
+    <value>モーションショット</value>
+  </data>
+  <data name="ContinuousShootMode_Single" xml:space="preserve">
+    <value>1枚撮影</value>
+  </data>
+  <data name="ContinuousShootMode_SpeedPriority" xml:space="preserve">
+    <value>速度優先連写</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_1_25Sec" xml:space="preserve">
+    <value>10枚/1.25秒</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_2Sec" xml:space="preserve">
+    <value>10枚/2秒</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_5Sec" xml:space="preserve">
+    <value>10枚/5秒</value>
+  </data>
+  <data name="ContinuousShootSpeed_High" xml:space="preserve">
+    <value>高速</value>
+  </data>
+  <data name="ContinuousShootSpeed_Low" xml:space="preserve">
+    <value>低速</value>
+  </data>
+  <data name="StillQuality_Fine" xml:space="preserve">
+    <value>ファイン</value>
+  </data>
+  <data name="StillQuality_RawAndJpeg" xml:space="preserve">
+    <value>RAW+Jpeg</value>
+  </data>
+  <data name="StillQuality_Standard" xml:space="preserve">
+    <value>スタンダード</value>
+  </data>
+  <data name="MovieFormatMode_MP4" xml:space="preserve">
+    <value>MP4</value>
+  </data>
+  <data name="MovieFormatMode_XAVCS" xml:space="preserve">
+    <value>XAVC S</value>
+  </data>
+  <data name="Scene_Normal" xml:space="preserve">
+    <value>ノーマル</value>
+  </data>
+  <data name="Scene_UnderWater" xml:space="preserve">
+    <value>水中</value>
+  </data>
+  <data name="TvColorSystemMode_NTSC" xml:space="preserve">
+    <value>NTSC</value>
+  </data>
+  <data name="TvColorSystemMode_PAL" xml:space="preserve">
+    <value>PAL</value>
+  </data>
+  <data name="ZoomMode_ClearImageDigital" xml:space="preserve">
+    <value>超解像ズーム</value>
+  </data>
+  <data name="ZoomMode_Optical" xml:space="preserve">
+    <value>光学のみ</value>
   </data>
 </root>

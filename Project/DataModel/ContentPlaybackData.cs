@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-
+﻿
 namespace Kazyx.WPPMM.DataModel
 {
     public class DateInfo

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kazyx.WPPMM.Utils;
+using System;
 using System.Diagnostics;
 
 namespace Kazyx.WPPMM.CameraManager
@@ -33,14 +34,14 @@ namespace Kazyx.WPPMM.CameraManager
                 Major = uint.Parse(sepa[0]);
                 Minor = uint.Parse(sepa[1]);
                 Release = uint.Parse(sepa[2]);
-                Debug.WriteLine("ServerVersion: " + version);
+                DebugUtil.Log("ServerVersion: " + version);
                 if (IsLiberated)
                 {
-                    Debug.WriteLine("This is liberated version!!");
+                    DebugUtil.Log("This is liberated version!!");
                 }
                 else
                 {
-                    Debug.WriteLine("This is restricted version...");
+                    DebugUtil.Log("This is restricted version...");
                 }
             }
             catch (Exception)

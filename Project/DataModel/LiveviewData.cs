@@ -1,9 +1,7 @@
+using Kazyx.WPPMM.Utils;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace Kazyx.WPPMM.DataModel
 {
@@ -23,7 +21,7 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            //Debug.WriteLine("OnPropertyChanged: " + name);
+            //DebugUtil.Log("OnPropertyChanged: " + name);
             if (PropertyChanged != null)
             {
                 // No need to switch to the UI thread. Already on.
@@ -33,7 +31,7 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: LiveviewData");
+                    DebugUtil.Log("Caught COMException: LiveviewData");
                 }
             }
         }

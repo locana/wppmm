@@ -20,7 +20,7 @@ namespace Kazyx.WPPMM.Utils
         internal void AddDownloadQueue(Uri uri, Geoposition position, Action<Picture> OnCompleted, Action<ImageDLError> OnError)
         {
             var req = new DownloadRequest { Uri = uri, GeoPosition = position, Completed = OnCompleted, Error = OnError };
-            Debug.WriteLine("Enqueue " + uri.AbsoluteUri);
+            DebugUtil.Log("Enqueue " + uri.AbsoluteUri);
             DownloadQueue.Enqueue(req);
             if (QueueStatusUpdated != null)
             {
@@ -33,19 +33,19 @@ namespace Kazyx.WPPMM.Utils
         {
             if (task == null)
             {
-                Debug.WriteLine("Create new task");
+                DebugUtil.Log("Create new task");
                 task = Task.Factory.StartNew(async () =>
                 {
                     while (DownloadQueue.Count != 0)
                     {
-                        Debug.WriteLine("Dequeue - remaining " + DownloadQueue.Count);
+                        DebugUtil.Log("Dequeue - remaining " + DownloadQueue.Count);
                         await DownloadImage(DownloadQueue.Dequeue());
                         if (QueueStatusUpdated != null)
                         {
                             QueueStatusUpdated(DownloadQueue.Count);
                         }
                     }
-                    Debug.WriteLine("Queue end. Kill task");
+                    DebugUtil.Log("Queue end. Kill task");
                     task = null;
                 });
             }
@@ -53,7 +53,7 @@ namespace Kazyx.WPPMM.Utils
 
         private async Task DownloadImage(DownloadRequest req)
         {
-            Debug.WriteLine("Run DownloadImage task");
+            DebugUtil.Log("Run DownloadImage task");
             try
             {
                 var strm = await GetResponseStreamAsync(req.Uri);
@@ -67,12 +67,12 @@ namespace Kazyx.WPPMM.Utils
                     }
                     catch (NtImageProcessor.MetaData.Misc.GpsInformationAlreadyExistsException)
                     {
-                        Debug.WriteLine("Caught GpsInformationAlreadyExistsException.");
+                        DebugUtil.Log("Caught GpsInformationAlreadyExistsException.");
                         GeoTaggingError = ImageDLError.GeotagAlreadyExists;
                     }
                     catch (Exception)
                     {
-                        Debug.WriteLine("Caught exception during geotagging");
+                        DebugUtil.Log("Caught exception during geotagging");
                         GeoTaggingError = ImageDLError.GeotagAddition;
                     }
 
@@ -119,8 +119,8 @@ namespace Kazyx.WPPMM.Utils
             {
                 // Some devices throws exception while saving picture to camera roll.
                 // e.g.) HTC 8S
-                Debug.WriteLine("Caught exception at saving picture: " + e.Message);
-                Debug.WriteLine(e.StackTrace);
+                DebugUtil.Log("Caught exception at saving picture: " + e.Message);
+                DebugUtil.Log(e.StackTrace);
                 Deployment.Current.Dispatcher.BeginInvoke(() => req.Error.Invoke(ImageDLError.DeviceInternal));
             }
         }
@@ -149,7 +149,7 @@ namespace Kazyx.WPPMM.Utils
                     }
                     else
                     {
-                        Debug.WriteLine("Http Status Error: " + code);
+                        DebugUtil.Log("Http Status Error: " + code);
                         tcs.TrySetException(new HttpStatusException(code));
                     }
                 }
@@ -158,12 +158,12 @@ namespace Kazyx.WPPMM.Utils
                     var result = e.Response as HttpWebResponse;
                     if (result != null)
                     {
-                        Debug.WriteLine("Http Status Error: " + result.StatusCode);
+                        DebugUtil.Log("Http Status Error: " + result.StatusCode);
                         tcs.TrySetException(new HttpStatusException(result.StatusCode));
                     }
                     else
                     {
-                        Debug.WriteLine("WebException: " + e.Status);
+                        DebugUtil.Log("WebException: " + e.Status);
                         tcs.TrySetException(e);
                     }
                 };

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Kazyx.WPPMM.Utils;
+using System;
 using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -35,7 +35,7 @@ namespace Kazyx.WPPMM.PlaybackMode
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.StackTrace);
+                DebugUtil.Log(e.StackTrace);
                 return null;
             }
         }

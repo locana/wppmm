@@ -1,7 +1,6 @@
 ﻿using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Threading.Tasks;
@@ -64,7 +63,7 @@ namespace Kazyx.WPPMM.PlaybackMode
                     DeleteDirectoryReqursive(store, directory + dir + "\\");
                 }
                 store.DeleteDirectory(directory.TrimEnd('\\'));
-                Debug.WriteLine("Deleted directory: " + directory);
+                DebugUtil.Log("Deleted directory: " + directory);
             }
         }
 
@@ -97,7 +96,7 @@ namespace Kazyx.WPPMM.PlaybackMode
 
                 if (store.FileExists(filepath))
                 {
-                    // Debug.WriteLine("Existing thumbnail cache: " + filepath);
+                    // DebugUtil.Log("Existing thumbnail cache: " + filepath);
                     return filepath;
                 }
 
@@ -156,8 +155,8 @@ namespace Kazyx.WPPMM.PlaybackMode
                             using (var writeTo = store.CreateFile(resizedPath))
                             {
                                 wbmp.SaveJpeg(writeTo, (int)(original.PixelWidth * scale), (int)(original.PixelHeight * scale), 0, 96);
-                                // Debug.WriteLine("Saved resized image: " + resizedPath + " - " + (int)(tmp.PixelWidth * scale) + "x" + (int)(tmp.PixelHeight * scale));
-                                Debug.WriteLine("New thumbnail cache: " + resizedPath);
+                                // DebugUtil.Log("Saved resized image: " + resizedPath + " - " + (int)(tmp.PixelWidth * scale) + "x" + (int)(tmp.PixelHeight * scale));
+                                DebugUtil.Log("New thumbnail cache: " + resizedPath);
                                 tcs.TrySetResult(resizedPath);
                             }
                         }
@@ -165,7 +164,7 @@ namespace Kazyx.WPPMM.PlaybackMode
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.StackTrace);
+                    DebugUtil.Log(e.StackTrace);
                     tcs.TrySetException(e);
                 }
             });

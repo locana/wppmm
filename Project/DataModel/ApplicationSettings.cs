@@ -1,17 +1,48 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Utils;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Kazyx.WPPMM.DataModel
 {
+
     public class ApplicationSettings : INotifyPropertyChanged
     {
+
         private static ApplicationSettings sSettings = new ApplicationSettings();
         private CameraManager.CameraManager manager;
+
+        internal List<string> GridTypeSettings = new List<string>()
+        {
+            FramingGridTypes.Off,
+            FramingGridTypes.RuleOfThirds,
+            FramingGridTypes.Diagonal,
+            FramingGridTypes.Square,
+            FramingGridTypes.Crosshairs,
+            FramingGridTypes.Fibonacci,
+            FramingGridTypes.GoldenRatio,
+        };
+
+        internal List<string> GridColorSettings = new List<string>()
+        {
+            FramingGridColor.White,
+            FramingGridColor.Black,
+            FramingGridColor.Red,
+            FramingGridColor.Green,
+            FramingGridColor.Blue,
+        };
+
+        internal List<string> FibonacciLineOriginSettings = new List<string>()
+        {
+            FibonacciLineOrigins.UpperLeft,
+            FibonacciLineOrigins.UpperRight,
+            FibonacciLineOrigins.BottomLeft,
+            FibonacciLineOrigins.BottomRight,
+        };
 
         private ApplicationSettings()
         {
@@ -22,6 +53,9 @@ namespace Kazyx.WPPMM.DataModel
             IsShootButtonDisplayed = Preference.IsShootButtonDisplayed();
             IsHistogramDisplayed = Preference.IsHistogramDisplayed();
             GeotagEnabled = Preference.GeotagEnabled();
+            GridType = Preference.FramingGridsType() ?? FramingGridTypes.Off;
+            GridColor = Preference.FramingGridsColor() ?? FramingGridColor.White;
+
         }
 
         public static ApplicationSettings GetInstance()
@@ -86,7 +120,8 @@ namespace Kazyx.WPPMM.DataModel
             }
             catch (RemoteApiException e)
             {
-                Debug.WriteLine("Failed to set selftimer off: " + e.code);
+                DebugUtil.Log("Failed to set selftimer off: " + e.code);
+
             }
         }
 
@@ -105,7 +140,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     Preference.SetIntervalTime(value);
                     _IntervalTime = value;
-                    // Debug.WriteLine("IntervalTime changed: " + value);
+                    // DebugUtil.Log("IntervalTime changed: " + value);
                     OnPropertyChanged("IntervalTime");
                 }
             }
@@ -118,7 +153,7 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            // Debug.WriteLine("OnProperty changed: " + name);
+            // DebugUtil.Log("OnProperty changed: " + name);
             if (PropertyChanged != null)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
@@ -129,7 +164,8 @@ namespace Kazyx.WPPMM.DataModel
                     }
                     catch (COMException)
                     {
-                        Debug.WriteLine("Caught COMException: ApplicationSettings");
+                        DebugUtil.Log("Caught COMException: ApplicationSettings");
+                        DebugUtil.GetInstance();
                     }
                 });
             }
@@ -145,7 +181,7 @@ namespace Kazyx.WPPMM.DataModel
                     Preference.SetShootButtonDisplayed(value);
                     _IsShootButtonDisplayed = value;
                     OnPropertyChanged("ShootButtonVisibility");
-                    Debug.WriteLine("ShootbuttonVisibility updated: " + value.ToString());
+                    DebugUtil.Log("ShootbuttonVisibility updated: " + value.ToString());
                 }
             }
             get
@@ -183,6 +219,146 @@ namespace Kazyx.WPPMM.DataModel
                 }
             }
             get { return _GeotagEnabled; }
+        }
+
+        private string _GridType = FramingGridTypes.Off;
+        public string GridType
+        {
+            set
+            {
+                if (_GridType != value)
+                {
+                    DebugUtil.Log("GridType updated: " + value);
+                    Preference.SetFramingGridsType(value);
+                    _GridType = value;
+                    OnPropertyChanged("GridType");
+                }
+            }
+            get { return _GridType; }
+        }
+
+        public int GridTypeIndex
+        {
+            set
+            {
+                GridType = GridTypeSettings[value];
+            }
+            get
+            {
+                int i = 0;
+                foreach (string type in GridTypeSettings)
+                {
+                    if (GridType.Equals(type))
+                    {
+                        return i;
+                    }
+                    i++;
+                }
+                return 0;
+            }
+        }
+
+        private string _GridColor = FramingGridColor.White;
+        public string GridColor
+        {
+            set
+            {
+                if (_GridColor != value)
+                {
+                    Preference.SetFramingGridsColor(value);
+                    _GridColor = value;
+                    OnPropertyChanged("GridColor");
+                    OnPropertyChanged("GridColorBrush");
+                }
+            }
+            get { return _GridColor; }
+        }
+
+        public SolidColorBrush GridColorBrush
+        {
+            get
+            {
+                Color color;
+                switch (this.GridColor)
+                {
+                    case FramingGridColor.White:
+                        color = Color.FromArgb(200, 200, 200, 200);
+                        break;
+                    case FramingGridColor.Black:
+                        color = Color.FromArgb(200, 50, 50, 50);
+                        break;
+                    case FramingGridColor.Red:
+                        color = Color.FromArgb(200, 250, 30, 30);
+                        break;
+                    case FramingGridColor.Green:
+                        color = Color.FromArgb(200, 30, 250, 30);
+                        break;
+                    case FramingGridColor.Blue:
+                        color = Color.FromArgb(200, 30, 30, 250);
+                        break;
+                    default:
+                        color = Color.FromArgb(200, 200, 200, 200);
+                        break;
+
+                }
+                return new SolidColorBrush() { Color = color };
+            }
+        }
+
+        public int GridColorIndex
+        {
+            set
+            {
+                GridColor = GridColorSettings[value];
+            }
+            get
+            {
+                int i = 0;
+                foreach (string color in GridColorSettings)
+                {
+                    if (GridColor.Equals(color))
+                    {
+                        return i;
+                    }
+                    i++;
+                }
+                return 0;
+            }
+        }
+
+        private string _FibonacciLineOrigin = FibonacciLineOrigins.UpperLeft;
+        public string FibonacciLineOrigin
+        {
+            get { return _FibonacciLineOrigin; }
+            set
+            {
+                if (value != _FibonacciLineOrigin)
+                {
+                    this._FibonacciLineOrigin = value;
+                    OnPropertyChanged("FibonacciLineOrigin");
+                }
+            }
+        }
+
+        public int FibonacciOriginIndex
+        {
+            set
+            {
+                FibonacciLineOrigin = FibonacciLineOriginSettings[value];
+            }
+            get
+            {
+                int i = 0;
+                foreach (string f in FibonacciLineOriginSettings)
+                {
+                    if (FibonacciLineOrigin.Equals(f))
+                    {
+                        return i;
+                    }
+                    i++;
+                }
+                return 0;
+            }
         }
 
         public Visibility ShootButtonVisibility
@@ -237,5 +413,7 @@ namespace Kazyx.WPPMM.DataModel
                 else { return Visibility.Collapsed; }
             }
         }
+
     }
+
 }

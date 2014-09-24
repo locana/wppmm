@@ -4,7 +4,6 @@ using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.Utils;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -43,7 +42,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpDisplayValueExposureCompensation");
                         OnPropertyChanged("CpSelectedIndexExposureCompensation");
                         OnPropertyChanged("CpIsAvailableZoomSetting");
-                        OnPropertyChanged("CpIsAvailableImageQuality");
+                        OnPropertyChanged("CpIsAvailableStillQuality");
                         OnPropertyChanged("CpIsAvailableContShootingMode");
                         OnPropertyChanged("CpIsAvailableContShootingSpeed");
                         OnPropertyChanged("CpIsAvailableContShootingResult");
@@ -52,10 +51,10 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableIntervalTime");
                         OnPropertyChanged("CpIsAvailableColorSetting");
                         OnPropertyChanged("CpIsAvailableMovieFormat");
-                        OnPropertyChanged("CpIsAvailableIrRemoteControl");
+                        OnPropertyChanged("CpIsAvailableInfraredRemoteControl");
                         OnPropertyChanged("CpIsAvailableTvColorSystem");
                         OnPropertyChanged("CpIsAvailableTrackingFocusStatus");
-                        OnPropertyChanged("CpIsAvailableTrackingFocusMode");
+                        OnPropertyChanged("CpIsAvailableTrackingFocus");
                         OnPropertyChanged("CpIsAvailableBatteryInfo");
                         OnPropertyChanged("CpIsAvailableRecordingTimeSec");
                         OnPropertyChanged("CpIsAvailableNumberOfShots");
@@ -78,7 +77,7 @@ namespace Kazyx.WPPMM.DataModel
                     case "FlashMode":
                     case "FocusMode":
                     case "ZoomSetting":
-                    case "ImageQuality":
+                    case "StillQuality":
                     case "ContShootingMode":
                     case "ContShootingSpeed":
                     case "FlipMode":
@@ -86,9 +85,9 @@ namespace Kazyx.WPPMM.DataModel
                     case "IntervalTime":
                     case "ColorSetting":
                     case "MovieFormat":
-                    case "IrRemoteControl":
+                    case "InfraredRemoteControl":
                     case "TvColorSystem":
-                    case "TrackingFocusMode":
+                    case "TrackingFocus":
                     case "AutoPowerOff":
                         GenericPropertyChanged(e.PropertyName);
                         break;
@@ -134,15 +133,15 @@ namespace Kazyx.WPPMM.DataModel
                 }
                 catch (COMException)
                 {
-                    Debug.WriteLine("Caught COMException: ControlPanelViewData");
+                    DebugUtil.Log("Caught COMException: ControlPanelViewData");
                 }
                 catch (NullReferenceException)
                 {
-                    Debug.WriteLine("Caught NullReferenceException: ControlPanelViewData");
+                    DebugUtil.Log("Caught NullReferenceException: ControlPanelViewData");
                 }
                 catch (InvalidOperationException e)
                 {
-                    Debug.WriteLine(e.StackTrace);
+                    DebugUtil.Log(e.StackTrace);
                 }
             });
         }
@@ -646,32 +645,32 @@ namespace Kazyx.WPPMM.DataModel
                 return SettingsValueConverter.FromZoomSetting(status.ZoomSetting).Candidates.ToArray();
             }
         }
-        public bool CpIsAvailableImageQuality
+        public bool CpIsAvailableStillQuality
         {
             get
             {
-                return status.IsAvailable("setImageQuality") &&
-                status.ImageQuality != null &&
+                return status.IsAvailable("setStillQuality") &&
+                status.StillQuality != null &&
                 manager != null &&
                 !manager.IntervalManager.IsRunning;
             }
         }
-        public int CpSelectedIndexImageQuality
+        public int CpSelectedIndexStillQuality
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.ImageQuality);
+                return SettingsValueConverter.GetSelectedIndex(status.StillQuality);
             }
             set
             {
-                SetSelectedAsCurrent(status.ImageQuality, value);
+                SetSelectedAsCurrent(status.StillQuality, value);
             }
         }
-        public string[] CpCandidatesImageQuality
+        public string[] CpCandidatesStillQuality
         {
             get
             {
-                return SettingsValueConverter.FromImageQuality(status.ImageQuality).Candidates.ToArray();
+                return SettingsValueConverter.FromStillQuality(status.StillQuality).Candidates.ToArray();
             }
         }
         public bool CpIsAvailableContShootingMode
@@ -870,32 +869,32 @@ namespace Kazyx.WPPMM.DataModel
                 return SettingsValueConverter.FromMovieFormat(status.MovieFormat).Candidates.ToArray();
             }
         }
-        public bool CpIsAvailableIrRemoteControl
+        public bool CpIsAvailableInfraredRemoteControl
         {
             get
             {
-                return status.IsAvailable("setIrRemoteControl") &&
-                status.IrRemoteControl != null &&
+                return status.IsAvailable("setInfraredRemoteControl") &&
+                status.InfraredRemoteControl != null &&
                 manager != null &&
                 !manager.IntervalManager.IsRunning;
             }
         }
-        public int CpSelectedIndexIrRemoteControl
+        public int CpSelectedIndexInfraredRemoteControl
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.IrRemoteControl);
+                return SettingsValueConverter.GetSelectedIndex(status.InfraredRemoteControl);
             }
             set
             {
-                SetSelectedAsCurrent(status.IrRemoteControl, value);
+                SetSelectedAsCurrent(status.InfraredRemoteControl, value);
             }
         }
-        public string[] CpCandidatesIrRemoteControl
+        public string[] CpCandidatesInfraredRemoteControl
         {
             get
             {
-                return SettingsValueConverter.FromIrRemoteControl(status.IrRemoteControl).Candidates.ToArray();
+                return SettingsValueConverter.FromInfraredRemoteControl(status.InfraredRemoteControl).Candidates.ToArray();
             }
         }
         public bool CpIsAvailableTvColorSystem
@@ -926,32 +925,32 @@ namespace Kazyx.WPPMM.DataModel
                 return SettingsValueConverter.FromTvColorSystem(status.TvColorSystem).Candidates.ToArray();
             }
         }
-        public bool CpIsAvailableTrackingFocusMode
+        public bool CpIsAvailableTrackingFocus
         {
             get
             {
-                return status.IsAvailable("setTrackingFocusMode") &&
-                status.TrackingFocusMode != null &&
+                return status.IsAvailable("setTrackingFocus") &&
+                status.TrackingFocus != null &&
                 manager != null &&
                 !manager.IntervalManager.IsRunning;
             }
         }
-        public int CpSelectedIndexTrackingFocusMode
+        public int CpSelectedIndexTrackingFocus
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.TrackingFocusMode);
+                return SettingsValueConverter.GetSelectedIndex(status.TrackingFocus);
             }
             set
             {
-                SetSelectedAsCurrent(status.TrackingFocusMode, value);
+                SetSelectedAsCurrent(status.TrackingFocus, value);
             }
         }
-        public string[] CpCandidatesTrackingFocusMode
+        public string[] CpCandidatesTrackingFocus
         {
             get
             {
-                return SettingsValueConverter.FromTrackingFocusMode(status.TrackingFocusMode).Candidates.ToArray();
+                return SettingsValueConverter.FromTrackingFocus(status.TrackingFocus).Candidates.ToArray();
             }
         }
         public bool CpIsAvailableAutoPowerOff

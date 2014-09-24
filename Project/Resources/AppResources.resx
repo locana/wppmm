@@ -518,7 +518,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Color</value>
   </data>
   <data name="ContShootingMode" xml:space="preserve">
-    <value>Cont. shooting</value>
+    <value>Drive mode</value>
   </data>
   <data name="ContShootingSpeed" xml:space="preserve">
     <value>Cont. shooting speed</value>
@@ -526,13 +526,13 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="FlipMode" xml:space="preserve">
     <value>Flip</value>
   </data>
-  <data name="ImageQuality" xml:space="preserve">
+  <data name="StillQuality" xml:space="preserve">
     <value>Stilla image quality</value>
   </data>
   <data name="IntervalTime1" xml:space="preserve">
     <value>Interval</value>
   </data>
-  <data name="IrRemoteControl" xml:space="preserve">
+  <data name="InfraredRemoteControl" xml:space="preserve">
     <value>IR remote</value>
   </data>
   <data name="MovieFormat" xml:space="preserve">
@@ -555,5 +555,152 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   </data>
   <data name="AppBar_ShowHeader" xml:space="preserve">
     <value>Show header</value>
+  </data>
+  <data name="FramingGrids" xml:space="preserve">
+    <value>Framing grids</value>
+  </data>
+  <data name="Grid_Crosshairs" xml:space="preserve">
+    <value>Crosshairs</value>
+  </data>
+  <data name="Grid_Diagonal" xml:space="preserve">
+    <value>Diagonal</value>
+  </data>
+  <data name="Grid_Fibonacci" xml:space="preserve">
+    <value>Fibonacci spiral</value>
+  </data>
+  <data name="Grid_GoldenRatio" xml:space="preserve">
+    <value>Golden ratio</value>
+  </data>
+  <data name="Grid_RuleOfThirds" xml:space="preserve">
+    <value>Rule of thirds</value>
+  </data>
+  <data name="Grid_Square" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="Guide_FramingGrids" xml:space="preserve">
+    <value>Display lines on the screen to help making composition.</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="FramingGridColor" xml:space="preserve">
+    <value>Color of grid lines</value>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="Guide_FramingGridColor" xml:space="preserve">
+    <value>You can change color of the grid lines.</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="BottomLeft" xml:space="preserve">
+    <value>Bottom left</value>
+  </data>
+  <data name="BottomRight" xml:space="preserve">
+    <value>Bottom right</value>
+  </data>
+  <data name="FibonacciSpiralOrigin" xml:space="preserve">
+    <value>Origin of Fibonacci spiral</value>
+  </data>
+  <data name="Guide_FibonacciSpiralOrigin" xml:space="preserve">
+    <value>The spiral will be rotated according to its origin</value>
+  </data>
+  <data name="UpperLeft" xml:space="preserve">
+    <value>Upper left</value>
+  </data>
+  <data name="UpperRight" xml:space="preserve">
+    <value>Upper right</value>
+  </data>
+  <data name="ColorMode_Neutral" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="ColorMode_Vivid" xml:space="preserve">
+    <value>Vivid</value>
+  </data>
+  <data name="ContinuousShootMode_Burst" xml:space="preserve">
+    <value>Burst</value>
+  </data>
+  <data name="ContinuousShootMode_Cont" xml:space="preserve">
+    <value>Cont. shoot.</value>
+  </data>
+  <data name="ContinuousShootMode_MotionShot" xml:space="preserve">
+    <value>MotionShot</value>
+  </data>
+  <data name="ContinuousShootMode_Single" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="ContinuousShootMode_SpeedPriority" xml:space="preserve">
+    <value>Fast cont.</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_1_25Sec" xml:space="preserve">
+    <value>10pic./1.25sec.</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_2Sec" xml:space="preserve">
+    <value>10pic./2sec.</value>
+  </data>
+  <data name="ContinuousShootSpeed_FixedFrames_10_In_5Sec" xml:space="preserve">
+    <value>10pic./5sec.</value>
+  </data>
+  <data name="ContinuousShootSpeed_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="ContinuousShootSpeed_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="FlipMode_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="FlipMode_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="StillQuality_Fine" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="StillQuality_RawAndJpeg" xml:space="preserve">
+    <value>RAW+Jpeg</value>
+  </data>
+  <data name="StillQuality_Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="IrRemoteSetting_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="IrRemoteSetting_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="MovieFormatMode_MP4" xml:space="preserve">
+    <value>MP4</value>
+  </data>
+  <data name="MovieFormatMode_XAVCS" xml:space="preserve">
+    <value>XAVC S</value>
+  </data>
+  <data name="Scene_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Scene_UnderWater" xml:space="preserve">
+    <value>Under water</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TvColorSystemMode_NTSC" xml:space="preserve">
+    <value>NTSC</value>
+  </data>
+  <data name="TvColorSystemMode_PAL" xml:space="preserve">
+    <value>PAL</value>
+  </data>
+  <data name="ZoomMode_ClearImageDigital" xml:space="preserve">
+    <value>ClearImage zoom</value>
+  </data>
+  <data name="ZoomMode_Optical" xml:space="preserve">
+    <value>Optical only</value>
   </data>
 </root>

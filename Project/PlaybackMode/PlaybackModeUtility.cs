@@ -1,12 +1,12 @@
 ﻿using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.CameraManager;
+using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,15 +38,15 @@ namespace Kazyx.WPPMM.PlaybackMode
                         var current = (sender as CameraStatus).Status;
                         if (nextState == current)
                         {
-                            Debug.WriteLine("Camera state changed to " + nextState + " successfully.");
+                            DebugUtil.Log("Camera state changed to " + nextState + " successfully.");
                             tcs.TrySetResult(true);
                         }
                         else if (EventParam.NotReady != current)
                         {
-                            Debug.WriteLine("Unfortunately camera state changed to " + current);
+                            DebugUtil.Log("Unfortunately camera state changed to " + current);
                             tcs.TrySetResult(false);
                         }
-                        Debug.WriteLine("It might be in transitioning state...");
+                        DebugUtil.Log("It might be in transitioning state...");
                         break;
                     default:
                         break;
@@ -63,7 +63,7 @@ namespace Kazyx.WPPMM.PlaybackMode
             {
                 if (e.code != StatusCode.IllegalState)
                 {
-                    Debug.WriteLine("Failed to change camera state.");
+                    DebugUtil.Log("Failed to change camera state.");
                     return false;
                 }
             }
@@ -74,7 +74,7 @@ namespace Kazyx.WPPMM.PlaybackMode
 
             try
             {
-                Debug.WriteLine("Failed to change camera state. Check current state...");
+                DebugUtil.Log("Failed to change camera state. Check current state...");
                 return nextState == await camera.GetCameraFunctionAsync();
             }
             catch (RemoteApiException)

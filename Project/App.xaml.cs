@@ -1,4 +1,5 @@
 using Kazyx.WPPMM.Resources;
+using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System;
@@ -26,17 +27,17 @@ namespace Kazyx.WPPMM
             // キャッチできない例外のグローバル ハンドラーです。
             UnhandledException += Application_UnhandledException;
 
-            Debug.WriteLine("Initialize Component");
+            DebugUtil.Log("Initialize Component");
             // 標準 XAML の初期化
             InitializeComponent();
-            Debug.WriteLine("Component Initialized");
+            DebugUtil.Log("Component Initialized");
             // Phone 固有の初期化
             InitializePhoneApplication();
-            Debug.WriteLine("Component PhoneApplication Initialized");
+            DebugUtil.Log("Component PhoneApplication Initialized");
 
             // 言語表示の初期化
             InitializeLanguage();
-            Debug.WriteLine("Language Initialized");
+            DebugUtil.Log("Language Initialized");
 
             // デバッグ中にグラフィックスのプロファイル情報を表示します。
             if (Debugger.IsAttached)
@@ -99,8 +100,8 @@ namespace Kazyx.WPPMM
         {
             if (Debugger.IsAttached)
             {
-                Debug.WriteLine(e.ExceptionObject.StackTrace);
-                Debug.WriteLine(e.ExceptionObject.Message);
+                DebugUtil.Log(e.ExceptionObject.StackTrace);
+                DebugUtil.Log(e.ExceptionObject.Message);
                 // ハンドルされない例外が発生しました。デバッガーで中断します。
                 Debugger.Break();
             }

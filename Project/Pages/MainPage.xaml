@@ -120,7 +120,9 @@
                         <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Center" VerticalAlignment="Center"
                               Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay, FallbackValue=Collapsed}">
                             <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
-                                   Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded"/>
+                                   Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded" SizeChanged="ScreenImage_SizeChanged"/>
+                            <Controls:FramingGrids HorizontalAlignment="Center" VerticalAlignment="Center" Name="FraimingGrids" Type="{Binding GridType, Mode=OneWay}"
+                                                   Stroke="{Binding GridColorBrush,Mode=OneWay}" FibonacciOrigin="{Binding FibonacciLineOrigin, Mode=OneWay}"/>
                             <Rectangle Name="TouchAFPointer" Width="50" Height="50" Stroke="{Binding TouchAFPointerStrokeBrush, Mode=OneWay}" 
                                    HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding TouchAFPointerVisibility, Mode=OneWay, FallbackValue=Collapsed}"
                                        StrokeThickness="2"/>
@@ -158,8 +160,9 @@
                                     <RowDefinition Height="65" />
                                 </Grid.RowDefinitions>
 
-                                <Rectangle Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Fill="#ffffff" HorizontalAlignment="Stretch" Height="13" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="175"/>
-                                <Rectangle Name="ZoomCursor" Grid.ColumnSpan="2" Grid.Row="0" Fill="#888888" HorizontalAlignment="Left" Height="9" Margin="15,2,0,0" Stroke="Black" VerticalAlignment="Top" Width="15"/>
+                                <Controls:ZoomBar Name="ZoomBar" Grid.ColumnSpan="2" Grid.Row="0" Height="13" Margin="0,0,0,0"  VerticalAlignment="Top" Width="175"
+                                                  PositionInCurrentBox="{Binding ZoomPositionInCurrentBox, Mode=OneWay, FallbackValue=0}" CurrentBoxIndex="{Binding ZoomBoxIndex, Mode=OneWay, FallbackValue=0}"
+                                                  TotalBoxNum="{Binding ZoomBoxNum, Mode=OneWay, FallbackValue=1}" />
                                 <Button Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Black" Opacity="0.8" VerticalAlignment="Stretch" Grid.Column="0" Click="OnZoomOutClick" Padding="10,3" 
                                         Hold="OnZoomOutHold" Tap="OnZoomOutTap" Name="ZoomOutButton" BorderThickness="1" >
                                     <Image Source="/Assets/Button/ZoomOut.png" Margin="0" />
@@ -281,7 +284,7 @@
                                         <Rectangle.OpacityMask>
                                             <ImageBrush Stretch="Uniform" ImageSource="/Assets/Slider/ProgramShift.png" />
                                         </Rectangle.OpacityMask>
-                                    </Rectangle> 
+                                    </Rectangle>
                                     <Rectangle Fill="{StaticResource PhoneForegroundBrush}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Opacity="0.3"
                                                Width="80" Height="80">
                                         <Rectangle.OpacityMask>

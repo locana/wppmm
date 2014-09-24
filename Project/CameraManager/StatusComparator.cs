@@ -1,5 +1,6 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -223,19 +224,26 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal static void ZoomSetting(CameraStatus status, Capability<string> latest)
         {
+            DebugUtil.Log("[Zoomsetting]");
             if (latest == null)
             {
+                DebugUtil.Log("[ZoomSetting] latest is null. Return.");
                 return;
+            }
+            DebugUtil.Log("[ZoomSetting] Update ZoomSetting. current: " + latest.Current);
+            foreach (string s in latest.Candidates)
+            {
+                DebugUtil.Log("[ZoomSetting] Candidate: " + s);
             }
             status.ZoomSetting = latest;
         }
-        internal static void ImageQuality(CameraStatus status, Capability<string> latest)
+        internal static void StillQuality(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.ImageQuality = latest;
+            status.StillQuality = latest;
         }
         internal static void ContShootingMode(CameraStatus status, Capability<string> latest)
         {
@@ -301,13 +309,13 @@ namespace Kazyx.WPPMM.CameraManager
             }
             status.MovieFormat = latest;
         }
-        internal static void IrRemoteControl(CameraStatus status, Capability<string> latest)
+        internal static void InfraredRemoteControl(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.IrRemoteControl = latest;
+            status.InfraredRemoteControl = latest;
         }
         internal static void TvColorSystem(CameraStatus status, Capability<string> latest)
         {
@@ -325,13 +333,13 @@ namespace Kazyx.WPPMM.CameraManager
             }
             status.TrackingFocusStatus = latest;
         }
-        internal static void TrackingFocusMode(CameraStatus status, Capability<string> latest)
+        internal static void TrackingFocus(CameraStatus status, Capability<string> latest)
         {
             if (latest == null)
             {
                 return;
             }
-            status.TrackingFocusMode = latest;
+            status.TrackingFocus = latest;
         }
         internal static void BatteryInfo(CameraStatus status, List<BatteryInfo> latest)
         {
@@ -374,11 +382,11 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 catch (RemoteApiException)
                 {
-                    Debug.WriteLine("Failed to get still image size capability");
+                    DebugUtil.Log("Failed to get still image size capability");
                 }
                 catch (InvalidOperationException)
                 {
-                    Debug.WriteLine("Failed to sort still image size capability");
+                    DebugUtil.Log("Failed to sort still image size capability");
                 }
             }
         }
@@ -409,13 +417,13 @@ namespace Kazyx.WPPMM.CameraManager
                         }
                         tmpCandidates.Add(mode.WhiteBalanceMode, tmpList.ToArray());
 
-                        Debug.WriteLine(mode.WhiteBalanceMode);
+                        DebugUtil.Log(mode.WhiteBalanceMode);
                         var builder = new System.Text.StringBuilder();
                         foreach (var val in mode.Candidates)
                         {
                             builder.Append(val).Append(", ");
                         }
-                        Debug.WriteLine(builder.ToString());
+                        DebugUtil.Log(builder.ToString());
                     }
 
                     /* mock date for testing */
@@ -437,7 +445,7 @@ namespace Kazyx.WPPMM.CameraManager
                 }
                 catch (RemoteApiException)
                 {
-                    Debug.WriteLine("Failed to get white balance capability");
+                    DebugUtil.Log("Failed to get white balance capability");
                 }
             }
             else

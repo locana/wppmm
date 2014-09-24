@@ -1,16 +1,15 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
-using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,24 +64,24 @@ namespace Kazyx.WPPMM.Pages
 
             observer = null;
 
-            discovery.SonyCameraDeviceDiscovered += discovery_ScalarDeviceDiscovered;
+            discovery.SonyCameraDeviceDiscovered += discovery_SonyCameraDeviceDiscovered;
             discovery.Finished += discovery_Finished;
             discovery.SearchSonyCameraDevices(TimeSpan.FromSeconds(10));
         }
 
         void discovery_Finished(object sender, EventArgs e)
         {
-            Debug.WriteLine("ViewerPage: discovery Finished");
+            DebugUtil.Log("ViewerPage: discovery Finished");
             if (observer == null)
             {
-                Debug.WriteLine("ViewerPage: Retrying discovery");
+                DebugUtil.Log("ViewerPage: Retrying discovery");
                 discovery.SearchSonyCameraDevices(TimeSpan.FromSeconds(10));
             }
         }
 
         private void OnFetched(Picture pic, Geoposition pos)
         {
-            Debug.WriteLine("ViewerPage: OnFetched");
+            DebugUtil.Log("ViewerPage: OnFetched");
             Dispatcher.BeginInvoke(() =>
             {
                 var groups = ImageGrid.DataContext as ThumbnailGroup;
@@ -96,12 +95,12 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnDLError(ImageDLError error)
         {
-            Debug.WriteLine("ViewerPage: OnDLError");
+            DebugUtil.Log("ViewerPage: OnDLError");
         }
 
         void status_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Debug.WriteLine("ViewerPage: status_PropertyChanged");
+            DebugUtil.Log("ViewerPage: status_PropertyChanged");
             switch (e.PropertyName)
             {
                 case "PictureUrls":
@@ -114,14 +113,14 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnPictureUrlsUpdated(string[] urls)
         {
-            Debug.WriteLine("ViewerPage: OnPictureUrlsUpdated");
+            DebugUtil.Log("ViewerPage: OnPictureUrlsUpdated");
             if (urls == null)
             {
                 return;
             }
             if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
             {
-                Debug.WriteLine("Postview transfer is disabled");
+                DebugUtil.Log("Postview transfer is disabled");
                 return;
             }
             foreach (var url in urls)
@@ -133,17 +132,17 @@ namespace Kazyx.WPPMM.Pages
                 }
                 catch (UriFormatException)
                 {
-                    Debug.WriteLine("UriFormatException: " + url);
+                    DebugUtil.Log("UriFormatException: " + url);
                 }
             }
         }
 
-        async void discovery_ScalarDeviceDiscovered(object sender, SonyCameraDeviceEventArgs e)
+        async void discovery_SonyCameraDeviceDiscovered(object sender, SonyCameraDeviceEventArgs e)
         {
-            Debug.WriteLine("ViewerPage: ScalarDeviceDiscovered");
+            DebugUtil.Log("ViewerPage: SonyCameraDeviceDiscovered");
             if (observer != null)
             {
-                Debug.WriteLine("Already discovered. Ignore this notification");
+                DebugUtil.Log("Already discovered. Ignore this notification");
                 return;
             }
 
@@ -175,14 +174,14 @@ namespace Kazyx.WPPMM.Pages
                 }
                 catch (Exception)
                 {
-                    Debug.WriteLine("ViewerPage: Caught Excpetion while starting observer");
+                    DebugUtil.Log("ViewerPage: Caught Excpetion while starting observer");
                 }
             }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            discovery.SonyCameraDeviceDiscovered -= discovery_ScalarDeviceDiscovered;
+            discovery.SonyCameraDeviceDiscovered -= discovery_SonyCameraDeviceDiscovered;
             discovery.Finished -= discovery_Finished;
 
             PictureSyncManager.Instance.Failed -= OnDLError;
@@ -305,7 +304,7 @@ namespace Kazyx.WPPMM.Pages
 
         void InitBitmapBeforeOpen()
         {
-            Debug.WriteLine("Before open");
+            DebugUtil.Log("Before open");
             _scale = 0;
             CoerceScale(true);
             _scale = _coercedScale;
@@ -429,11 +428,11 @@ namespace Kazyx.WPPMM.Pages
                 var minY = viewport.ActualHeight / _bitmap.PixelHeight;
 
                 _minScale = Math.Min(minX, minY);
-                Debug.WriteLine("Minimum scale: " + _minScale);
+                DebugUtil.Log("Minimum scale: " + _minScale);
             }
 
             _coercedScale = Math.Min(MaxScale, Math.Max(_scale, _minScale));
-            //Debug.WriteLine("Coerced scale: " + _coercedScale);
+            //DebugUtil.Log("Coerced scale: " + _coercedScale);
         }
     }
 }

@@ -18,6 +18,6 @@
             <TextBlock Name="TitleTextBlock" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="{StaticResource PhoneFontSizeMediumLarge}" 
                    Foreground="{StaticResource PhoneAccentBrush}" Text="" Margin="25,5" />
         </Border>
-        <StackPanel Name="SettingItems" Grid.Row="1"></StackPanel>
+        <StackPanel Name="SettingItems" Grid.Row="1" Margin="0,0,0,20"></StackPanel>
     </Grid>
 </UserControl>

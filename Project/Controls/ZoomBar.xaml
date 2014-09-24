@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Kazyx.WPPMM.Controls.ZoomBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="13" d:DesignWidth="175">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Rectangle Name="Background" Fill="{StaticResource PhoneBackgroundBrush}" HorizontalAlignment="Stretch" Margin="0,0,0,0"  Opacity="0.8"
+                   Stroke="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Stretch" StrokeThickness="1" />
+        <Grid Name="SeparatorLines" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.8" />
+        <Rectangle Name="Cursor" Fill="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" 
+                   Height="9" Margin="15,1,0,0" Stroke="Black" VerticalAlignment="Top" Width="9"/>
+    </Grid>
+</UserControl>

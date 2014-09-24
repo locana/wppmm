@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Kazyx.WPPMM.Utils;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -45,9 +45,9 @@ namespace Kazyx.WPPMM.Controls
         private void Gear_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
             var accm = e.CumulativeManipulation;
-            // Debug.WriteLine("accm: " + accm.Translation.Y);
+            // DebugUtil.Log("accm: " + accm.Translation.Y);
             var vel = e.Velocities;
-            // Debug.WriteLine("v: " + vel.LinearVelocity.Y);
+            // DebugUtil.Log("v: " + vel.LinearVelocity.Y);
 
             var deltaX = e.DeltaManipulation.Translation.X;
             var deltaY = e.DeltaManipulation.Translation.Y;
@@ -77,7 +77,7 @@ namespace Kazyx.WPPMM.Controls
 
             if (OperationCount > TH_SETTING)
             {
-                Debug.WriteLine("Going UP");
+                DebugUtil.Log("Going UP");
                 // do animation: up
                 RotateGear(GearAngle, GearAngle + GEAR_SPEED);
                 GearAngle += GEAR_SPEED;
@@ -91,7 +91,7 @@ namespace Kazyx.WPPMM.Controls
 
             if (OperationCount < (-TH_SETTING))
             {
-                Debug.WriteLine("Going DOWN");
+                DebugUtil.Log("Going DOWN");
                 RotateGear(GearAngle, GearAngle -= GEAR_SPEED);
                 GearAngle -= GEAR_SPEED;
 

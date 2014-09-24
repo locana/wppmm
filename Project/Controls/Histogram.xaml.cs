@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -38,7 +37,7 @@ namespace Kazyx.WPPMM.Controls
             ScaleFactor = BarsGrid.ActualHeight / (double)maxFrequency * 6;
             HorizontalResolution = BarsGrid.ActualWidth / X_SKIP_ORDER;
             MaxHistogramLevel = BarsGrid.ActualHeight - HISTOGRAM_PADDING_TOP;
-            // Debug.WriteLine("Freq: " + MaxFrequency + " maxLevel: " + MaxHistogramLevel);
+            // DebugUtil.Log("Freq: " + MaxFrequency + " maxLevel: " + MaxHistogramLevel);
         }
 
         private void InitColorBar(ColorType type)

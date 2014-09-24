@@ -13,7 +13,6 @@ using Microsoft.Phone.Tasks;
 using NtNfcLib;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,7 +52,8 @@ namespace Kazyx.WPPMM.Pages
         private static readonly BitmapImage GeoInfoStatusImage_NG = new BitmapImage(new Uri("/Assets/Screen/GeoInfoStatus_NG.png", UriKind.Relative));
         private static readonly BitmapImage GeoInfoStatusImage_Updating = new BitmapImage(new Uri("/Assets/Screen/GeoInfoStatus_Updating.png", UriKind.Relative));
 
-        private const string ViewerPageUri = "/Pages/RemoteViewerPage.xaml";
+        // private const string ViewerPageUri = "/Pages/RemoteViewerPage.xaml";
+        private const string ViewerPageUri = "/Pages/ViewerPage.xaml";
 
         public MainPage()
         {
@@ -105,7 +105,7 @@ namespace Kazyx.WPPMM.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Debug.WriteLine(e.Uri);
+            DebugUtil.Log(e.Uri.OriginalString);
             progress.IsVisible = false;
             InitializeApplication();
 
@@ -139,6 +139,8 @@ namespace Kazyx.WPPMM.Pages
             }
 
             ActivateGeoTagSetting(true);
+            DisplayGridColorSetting(ApplicationSettings.GetInstance().GridType != FramingGridTypes.Off);
+            DisplayFibonacciOriginSetting(ApplicationSettings.GetInstance().GridType == FramingGridTypes.Fibonacci);
         }
 
         void cameraManager_OnTakePictureSucceed()
@@ -227,7 +229,7 @@ namespace Kazyx.WPPMM.Pages
                     break;
             }
             MessageBox.Show(error, AppResources.MessageCaption_error, MessageBoxButton.OK);
-            Debug.WriteLine(error);
+            DebugUtil.Log(error);
         }
 
         void cameraManager_OnRemoteClientError(StatusCode code)
@@ -268,7 +270,7 @@ namespace Kazyx.WPPMM.Pages
 
         internal void cameraManager_OnDisconnected()
         {
-            Debug.WriteLine("## Disconnected");
+            DebugUtil.Log("## Disconnected");
             MessageBox.Show(AppResources.ErrorMessage_Dsconnected, AppResources.MessageCaption_error, MessageBoxButton.OK);
             MyPivot.IsLocked = false;
             if (cpm != null && cpm.IsShowing())
@@ -320,7 +322,7 @@ namespace Kazyx.WPPMM.Pages
 
             if (e.NavigationMode != NavigationMode.New || e.Uri.ToString() != ViewerPageUri)
             {
-                Debug.WriteLine(e.Uri.ToString());
+                DebugUtil.Log(e.Uri.ToString());
                 cameraManager.Refresh();
             }
         }
@@ -331,25 +333,25 @@ namespace Kazyx.WPPMM.Pages
             progress.IsVisible = true;
             CameraManager.CameraManager.GetInstance().RequestSearchDevices(() =>
             {
-                Debug.WriteLine("DeviceFound -> GoToShootingPage if required.");
+                DebugUtil.Log("DeviceFound -> GoToShootingPage if required.");
                 progress.IsVisible = false;
                 if (connect) GoToShootingPage();
             }, () =>
             {
-                Debug.WriteLine("Discovery timeout.");
+                DebugUtil.Log("Discovery timeout.");
                 progress.IsVisible = false;
             });
         }
 
         private void HandleError(int code)
         {
-            Debug.WriteLine("Error: " + code);
+            DebugUtil.Log("Error: " + code);
         }
 
         private void UpdateNetworkStatus()
         {
             var ssid = GetSSIDName();
-            Debug.WriteLine("SSID: " + ssid);
+            DebugUtil.Log("SSID: " + ssid);
             if (ssid != null && ssid.StartsWith(AP_NAME_PREFIX))
             {
                 NetworkStatus.Text = AppResources.Guide_CantFindDevice;
@@ -398,16 +400,6 @@ namespace Kazyx.WPPMM.Pages
         internal void WifiInfoUpdated(CameraStatus cameraStatus)
         {
             UpdateNetworkStatus();
-        }
-
-        internal void ZoomInfoUpdated(CameraStatus cameraStatus)
-        {
-            if (cameraStatus.ZoomInfo != null)
-            {
-                double margin_left = cameraStatus.ZoomInfo.Position * 156 / 100;
-                ZoomCursor.Margin = new Thickness(15 + margin_left, 2, 0, 0);
-                Debug.WriteLine("zoom bar display update: " + margin_left);
-            }
         }
 
         private string GetSSIDName()
@@ -544,11 +536,9 @@ namespace Kazyx.WPPMM.Pages
             AppStatus.GetInstance().IsInShootingDisplay = true;
             ShootingPivot.Opacity = 1;
             SetLayoutByOrientation(this.Orientation);
-
-            cameraManager.ZoomInfoUpdated += ZoomInfoUpdated;
             cameraManager.ShowToast += ShowToast;
             ToastApparance.Completed += ToastApparance_Completed;
-            ScreenImage.ManipulationCompleted += ScreenImage_ManipulationCompleted;
+            FraimingGrids.ManipulationCompleted += FraimingGrids_ManipulationCompleted;
 
             CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
@@ -577,7 +567,7 @@ namespace Kazyx.WPPMM.Pages
             }
             else
             {
-                Debug.WriteLine("Await for async device discovery");
+                DebugUtil.Log("Await for async device discovery");
                 AppStatus.GetInstance().IsSearchingDevice = true;
                 Dispatcher.BeginInvoke(() =>
                 {
@@ -587,7 +577,7 @@ namespace Kazyx.WPPMM.Pages
                 var found = await PrepareConnectionAsync();
                 Dispatcher.BeginInvoke(() => { AppStatus.GetInstance().IsSearchingDevice = false; });
 
-                Debug.WriteLine("Async device discovery result: " + found);
+                DebugUtil.Log("Async device discovery result: " + found);
                 if (found)
                 {
                     await cameraManager.OperateInitialProcess();
@@ -643,7 +633,7 @@ namespace Kazyx.WPPMM.Pages
 
         internal void GeopositionStatusUpdated(GeopositionEventArgs args)
         {
-            Debug.WriteLine("Geoposition status updated: " + args.Status);
+            DebugUtil.Log("Geoposition status updated: " + args.Status);
             Dispatcher.BeginInvoke(() =>
             {
                 switch (args.Status)
@@ -661,7 +651,7 @@ namespace Kazyx.WPPMM.Pages
                         GeopositionStatusImage.Source = GeoInfoStatusImage_NG;
                         if (geoSetting != null)
                         {
-                            geoSetting.IsEnabled = false;
+                            geoSetting.CurrentSetting = false;
                         }
                         ActivateGeoTagSetting(false);
                         // MessageBox.Show(AppResources.ErrorMessage_LocationAccessUnauthorized);
@@ -743,7 +733,7 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.RequestHalfPressShutter();
         }
 
-        void ScreenImage_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+        void FraimingGrids_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             if (cpm.IsShowing())
             {
@@ -768,20 +758,20 @@ namespace Kazyx.WPPMM.Pages
             {
                 return;
             }
-            var image = sender as Image;
+            var grids = sender as FramingGrids;
             var touchX = e.ManipulationOrigin.X;
             var touchY = e.ManipulationOrigin.Y;
 
-            var posX = touchX * 100.0 / image.ActualWidth;
-            var posY = touchY * 100.0 / image.ActualHeight;
+            var posX = touchX * 100.0 / grids.ActualWidth;
+            var posY = touchY * 100.0 / grids.ActualHeight;
 
             Dispatcher.BeginInvoke(() =>
             {
                 TouchAFPointer.Margin = new Thickness(touchX - TouchAFPointer.Width / 2, touchY - TouchAFPointer.Height / 2, 0, 0);
             });
 
-            // Debug.WriteLine("tx: " + touchX + " ty: " + touchY);
-            Debug.WriteLine("touch position X: " + posX + " Y: " + posY);
+            // DebugUtil.Log("tx: " + touchX + " ty: " + touchY);
+            DebugUtil.Log("touch position X: " + posX + " Y: " + posY);
 
             cameraManager.RequestTouchAF(posX, posY);
         }
@@ -806,8 +796,10 @@ namespace Kazyx.WPPMM.Pages
 
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
+
+            cameraManager.StopEventObserver();
             // cameraManager.StopEventObserver();
-            cameraManager.ZoomInfoUpdated -= ZoomInfoUpdated;
+
             cameraManager.ShowToast -= ShowToast;
             ToastApparance.Completed -= ToastApparance_Completed;
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
@@ -816,7 +808,7 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
 
-            ScreenImage.ManipulationCompleted -= ScreenImage_ManipulationCompleted;
+            FraimingGrids.ManipulationCompleted -= FraimingGrids_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
 
             if (svd != null)
@@ -843,7 +835,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomInClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Stop Zoom In (if started)");
+            DebugUtil.Log("Stop Zoom In (if started)");
             if (OnZooming)
             {
                 cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.ActionStop);
@@ -852,7 +844,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomOutClick(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Stop zoom out (if started)");
+            DebugUtil.Log("Stop zoom out (if started)");
             if (OnZooming)
             {
                 cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.ActionStop);
@@ -861,45 +853,45 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnZoomInHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: Start");
+            DebugUtil.Log("Zoom In: Start");
             cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.ActionStart);
             OnZooming = true;
         }
 
         private void OnZoomOutHold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom Out: Start");
+            DebugUtil.Log("Zoom Out: Start");
             cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.ActionStart);
             OnZooming = true;
         }
 
         private void OnZoomInTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: OneShot");
+            DebugUtil.Log("Zoom In: OneShot");
             cameraManager.RequestActZoom(ZoomParam.DirectionIn, ZoomParam.Action1Shot);
         }
 
         private void OnZoomOutTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Debug.WriteLine("Zoom In: OneShot");
+            DebugUtil.Log("Zoom In: OneShot");
             cameraManager.RequestActZoom(ZoomParam.DirectionOut, ZoomParam.Action1Shot);
         }
 
         private void ScreenImage_Loaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("ScreenImage_Loaded");
+            DebugUtil.Log("ScreenImage_Loaded");
             ScreenImage.DataContext = cameraManager.LiveviewImage;
         }
 
         private void ScreenImage_Unloaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("ScreenImage_UnLoaded");
+            DebugUtil.Log("ScreenImage_UnLoaded");
             ScreenImage.DataContext = null;
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            Debug.WriteLine("onbackkey");
+            DebugUtil.Log("onbackkey");
             if (MyPivot.SelectedIndex == PIVOTINDEX_LIVEVIEW)
             {
                 e.Cancel = true;
@@ -925,6 +917,8 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                     return;
                 }
+
+                DebugUtil.GetInstance().ComposeDebugMail();
                 GoToMainPage();
             }
             else
@@ -945,6 +939,7 @@ namespace Kazyx.WPPMM.Pages
             TouchAFPointer.DataContext = svd;
             Histogram.DataContext = ApplicationSettings.GetInstance();
             GeopositionStatusImage.DataContext = ApplicationSettings.GetInstance();
+            this.FraimingGrids.DataContext = ApplicationSettings.GetInstance();
 
             cpm.ReplacePanel(ControlPanel);
         }
@@ -967,7 +962,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
         {
-            Debug.WriteLine("OrientationChagned: " + e.Orientation);
+            DebugUtil.Log("OrientationChagned: " + e.Orientation);
             if (cameraManager != null)
             {
                 cameraManager.CancelTouchAF();
@@ -1062,19 +1057,19 @@ namespace Kazyx.WPPMM.Pages
             catch (System.IO.FileNotFoundException)
             {
                 ProximitiyDevice = null;
-                Debug.WriteLine("Caught ununderstandable exception. ");
+                DebugUtil.Log("Caught ununderstandable exception. ");
                 return;
             }
             catch (System.Runtime.InteropServices.COMException)
             {
                 ProximitiyDevice = null;
-                Debug.WriteLine("Caught ununderstandable exception. ");
+                DebugUtil.Log("Caught ununderstandable exception. ");
                 return;
             }
 
             if (ProximitiyDevice == null)
             {
-                Debug.WriteLine("It seems this is not NFC available device");
+                DebugUtil.Log("It seems this is not NFC available device");
                 return;
             }
 
@@ -1085,7 +1080,7 @@ namespace Kazyx.WPPMM.Pages
             catch (Exception e)
             {
                 ProximitiyDevice = null;
-                Debug.WriteLine("Caught ununderstandable exception. " + e.Message + e.StackTrace);
+                DebugUtil.Log("Caught ununderstandable exception. " + e.Message + e.StackTrace);
                 return;
             }
 
@@ -1162,7 +1157,9 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private AppSettingData geoSetting;
+        private AppSettingData<bool> geoSetting;
+        private AppSettingData<int> gridColorSetting;
+        private AppSettingData<int> fibonacciOriginSetting;
 
         private void InitAppSettingPanel()
         {
@@ -1171,11 +1168,11 @@ namespace Kazyx.WPPMM.Pages
             AppSettings.Children.Add(image_settings);
 
             image_settings.Add(new CheckBoxSetting(
-                new AppSettingData(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage,
+                new AppSettingData<bool>(AppResources.PostviewTransferSetting, AppResources.Guide_ReceiveCapturedImage,
                 () => { return ApplicationSettings.GetInstance().IsPostviewTransferEnabled; },
                 enabled => { ApplicationSettings.GetInstance().IsPostviewTransferEnabled = enabled; })));
 
-            geoSetting = new AppSettingData(AppResources.AddGeotag, AppResources.AddGeotag_guide,
+            geoSetting = new AppSettingData<bool>(AppResources.AddGeotag, AppResources.AddGeotag_guide,
                 () => { return ApplicationSettings.GetInstance().GeotagEnabled; },
                 enabled => { ApplicationSettings.GetInstance().GeotagEnabled = enabled; GeopositionManager.GetInstance().Enable = enabled; });
             image_settings.Add(new CheckBoxSetting(geoSetting));
@@ -1185,14 +1182,38 @@ namespace Kazyx.WPPMM.Pages
             AppSettings.Children.Add(display_settings);
 
             display_settings.Add(new CheckBoxSetting(
-                new AppSettingData(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting,
+                new AppSettingData<bool>(AppResources.DisplayTakeImageButtonSetting, AppResources.Guide_DisplayTakeImageButtonSetting,
                 () => { return ApplicationSettings.GetInstance().IsShootButtonDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsShootButtonDisplayed = enabled; })));
 
             display_settings.Add(new CheckBoxSetting(
-                new AppSettingData(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
+                new AppSettingData<bool>(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
                 () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
+
+            display_settings.Add(new ListPickerSetting(
+                new AppSettingData<int>(AppResources.FramingGrids, AppResources.Guide_FramingGrids,
+                    () => { return ApplicationSettings.GetInstance().GridTypeIndex; },
+                    setting =>
+                    {
+                        ApplicationSettings.GetInstance().GridTypeIndex = setting;
+                        DisplayGridColorSetting(ApplicationSettings.GetInstance().GridTypeSettings[setting] != FramingGridTypes.Off);
+                        DisplayFibonacciOriginSetting(ApplicationSettings.GetInstance().GridTypeSettings[setting] == FramingGridTypes.Fibonacci);
+                    },
+                    SettingsValueConverter.FromFramingGrid(ApplicationSettings.GetInstance().GridTypeSettings.ToArray())
+                    )));
+
+            gridColorSetting = new AppSettingData<int>(AppResources.FramingGridColor, AppResources.Guide_FramingGridColor,
+                    () => { return ApplicationSettings.GetInstance().GridColorIndex; },
+                    setting => { ApplicationSettings.GetInstance().GridColorIndex = setting; },
+                    SettingsValueConverter.FromFramingGridColor(ApplicationSettings.GetInstance().GridColorSettings.ToArray()));
+            display_settings.Add(new ListPickerSetting(gridColorSetting));
+
+            fibonacciOriginSetting = new AppSettingData<int>(AppResources.FibonacciSpiralOrigin, AppResources.Guide_FibonacciSpiralOrigin,
+                () => { return ApplicationSettings.GetInstance().FibonacciOriginIndex; },
+                setting => { ApplicationSettings.GetInstance().FibonacciOriginIndex = setting; },
+                SettingsValueConverter.FromFibonacciLineOrigin(ApplicationSettings.GetInstance().FibonacciLineOriginSettings.ToArray()));
+            display_settings.Add(new ListPickerSetting(fibonacciOriginSetting));
 
             HideSettingAnimation.Completed += HideSettingAnimation_Completed;
         }
@@ -1203,6 +1224,36 @@ namespace Kazyx.WPPMM.Pages
             {
                 geoSetting.Guide = activate ? AppResources.AddGeotag_guide : AppResources.ErrorMessage_LocationAccessUnauthorized;
                 geoSetting.IsActive = activate;
+            }
+        }
+
+        private void DisplayGridColorSetting(bool displayed)
+        {
+            if (gridColorSetting != null)
+            {
+                if (displayed)
+                {
+                    gridColorSetting.SettingVisibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    gridColorSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void DisplayFibonacciOriginSetting(bool displayed)
+        {
+            if (fibonacciOriginSetting != null)
+            {
+                if (displayed)
+                {
+                    fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
+                }
             }
         }
 
@@ -1320,13 +1371,13 @@ namespace Kazyx.WPPMM.Pages
             }
             catch (RemoteApiException ex)
             {
-                Debug.WriteLine("Failed to set program shift: " + ex.code);
+                DebugUtil.Log("Failed to set program shift: " + ex.code);
             }
         }
 
         private void OpenSliderPanel()
         {
-            Debug.WriteLine("OpenSlider");
+            DebugUtil.Log("OpenSlider");
             Sliders.Visibility = Visibility.Visible;
             // make shoot button and zoom bar/buttons invisible.
             ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = true;
@@ -1336,7 +1387,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseSliderPanel()
         {
-            Debug.WriteLine("CloseSlider");
+            DebugUtil.Log("CloseSlider");
             Sliders.Visibility = Visibility.Collapsed;
             ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = false;
             if (svd != null) { svd.ZoomElementsTemporaryCollapsed = false; }
@@ -1392,6 +1443,15 @@ namespace Kazyx.WPPMM.Pages
                     CloseSliderPanel();
                 }
             }
+        }
+
+        private void ScreenImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var rh = (sender as Image).RenderSize.Height;
+            var rw = (sender as Image).RenderSize.Width;
+            // DebugUtil.Log("render size: " + rw + " x " + rh);
+            this.FraimingGrids.Height = rh;
+            this.FraimingGrids.Width = rw;
         }
     }
 }

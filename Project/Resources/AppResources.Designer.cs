@@ -205,12 +205,66 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Black.
+        /// </summary>
+        public static string Black {
+            get {
+                return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blue.
+        /// </summary>
+        public static string Blue {
+            get {
+                return ResourceManager.GetString("Blue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom left.
+        /// </summary>
+        public static string BottomLeft {
+            get {
+                return ResourceManager.GetString("BottomLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom right.
+        /// </summary>
+        public static string BottomRight {
+            get {
+                return ResourceManager.GetString("BottomRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Built-in version of Smart Remote Control app could not be supported by 3rd party applications.
         ///Please update to the latest at PlayMemories Camera Apps store..
         /// </summary>
         public static string BuiltInSRNotSupported {
             get {
                 return ResourceManager.GetString("BuiltInSRNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neutral.
+        /// </summary>
+        public static string ColorMode_Neutral {
+            get {
+                return ResourceManager.GetString("ColorMode_Neutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vivid.
+        /// </summary>
+        public static string ColorMode_Vivid {
+            get {
+                return ResourceManager.GetString("ColorMode_Vivid", resourceCulture);
             }
         }
         
@@ -242,6 +296,96 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Burst.
+        /// </summary>
+        public static string ContinuousShootMode_Burst {
+            get {
+                return ResourceManager.GetString("ContinuousShootMode_Burst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cont. shoot..
+        /// </summary>
+        public static string ContinuousShootMode_Cont {
+            get {
+                return ResourceManager.GetString("ContinuousShootMode_Cont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MotionShot.
+        /// </summary>
+        public static string ContinuousShootMode_MotionShot {
+            get {
+                return ResourceManager.GetString("ContinuousShootMode_MotionShot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Single.
+        /// </summary>
+        public static string ContinuousShootMode_Single {
+            get {
+                return ResourceManager.GetString("ContinuousShootMode_Single", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fast cont..
+        /// </summary>
+        public static string ContinuousShootMode_SpeedPriority {
+            get {
+                return ResourceManager.GetString("ContinuousShootMode_SpeedPriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10pic./1.25sec..
+        /// </summary>
+        public static string ContinuousShootSpeed_FixedFrames_10_In_1_25Sec {
+            get {
+                return ResourceManager.GetString("ContinuousShootSpeed_FixedFrames_10_In_1_25Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10pic./2sec..
+        /// </summary>
+        public static string ContinuousShootSpeed_FixedFrames_10_In_2Sec {
+            get {
+                return ResourceManager.GetString("ContinuousShootSpeed_FixedFrames_10_In_2Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10pic./5sec..
+        /// </summary>
+        public static string ContinuousShootSpeed_FixedFrames_10_In_5Sec {
+            get {
+                return ResourceManager.GetString("ContinuousShootSpeed_FixedFrames_10_In_5Sec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string ContinuousShootSpeed_High {
+            get {
+                return ResourceManager.GetString("ContinuousShootSpeed_High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string ContinuousShootSpeed_Low {
+            get {
+                return ResourceManager.GetString("ContinuousShootSpeed_Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Control Panel.
         /// </summary>
         public static string ControlPanel {
@@ -251,7 +395,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cont. shooting.
+        ///   Looks up a localized string similar to Drive mode.
         /// </summary>
         public static string ContShootingMode {
             get {
@@ -567,6 +711,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Origin of Fibonacci spiral.
+        /// </summary>
+        public static string FibonacciSpiralOrigin {
+            get {
+                return ResourceManager.GetString("FibonacciSpiralOrigin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flash mode.
         /// </summary>
         public static string FlashMode {
@@ -621,6 +774,24 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string FlipMode_Off {
+            get {
+                return ResourceManager.GetString("FlipMode_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string FlipMode_On {
+            get {
+                return ResourceManager.GetString("FlipMode_On", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus mode.
         /// </summary>
         public static string FocusMode {
@@ -657,6 +828,87 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Color of grid lines.
+        /// </summary>
+        public static string FramingGridColor {
+            get {
+                return ResourceManager.GetString("FramingGridColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Framing grids.
+        /// </summary>
+        public static string FramingGrids {
+            get {
+                return ResourceManager.GetString("FramingGrids", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Green.
+        /// </summary>
+        public static string Green {
+            get {
+                return ResourceManager.GetString("Green", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crosshairs.
+        /// </summary>
+        public static string Grid_Crosshairs {
+            get {
+                return ResourceManager.GetString("Grid_Crosshairs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Diagonal.
+        /// </summary>
+        public static string Grid_Diagonal {
+            get {
+                return ResourceManager.GetString("Grid_Diagonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fibonacci spiral.
+        /// </summary>
+        public static string Grid_Fibonacci {
+            get {
+                return ResourceManager.GetString("Grid_Fibonacci", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Golden ratio.
+        /// </summary>
+        public static string Grid_GoldenRatio {
+            get {
+                return ResourceManager.GetString("Grid_GoldenRatio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rule of thirds.
+        /// </summary>
+        public static string Grid_RuleOfThirds {
+            get {
+                return ResourceManager.GetString("Grid_RuleOfThirds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Square.
+        /// </summary>
+        public static string Grid_Square {
+            get {
+                return ResourceManager.GetString("Grid_Square", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the devide. Make sure that SSID of connected access point is that of your camera device&apos;s..
         /// </summary>
         public static string Guide_CantFindDevice {
@@ -671,6 +923,33 @@ namespace Kazyx.WPPMM.Resources {
         public static string Guide_DisplayTakeImageButtonSetting {
             get {
                 return ResourceManager.GetString("Guide_DisplayTakeImageButtonSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The spiral will be rotated according to its origin.
+        /// </summary>
+        public static string Guide_FibonacciSpiralOrigin {
+            get {
+                return ResourceManager.GetString("Guide_FibonacciSpiralOrigin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can change color of the grid lines..
+        /// </summary>
+        public static string Guide_FramingGridColor {
+            get {
+                return ResourceManager.GetString("Guide_FramingGridColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display lines on the screen to help making composition..
+        /// </summary>
+        public static string Guide_FramingGrids {
+            get {
+                return ResourceManager.GetString("Guide_FramingGrids", resourceCulture);
             }
         }
         
@@ -720,11 +999,11 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stilla image quality.
+        ///   Looks up a localized string similar to IR remote.
         /// </summary>
-        public static string ImageQuality {
+        public static string InfraredRemoteControl {
             get {
-                return ResourceManager.GetString("ImageQuality", resourceCulture);
+                return ResourceManager.GetString("InfraredRemoteControl", resourceCulture);
             }
         }
         
@@ -774,11 +1053,20 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IR remote.
+        ///   Looks up a localized string similar to Off.
         /// </summary>
-        public static string IrRemoteControl {
+        public static string IrRemoteSetting_Off {
             get {
-                return ResourceManager.GetString("IrRemoteControl", resourceCulture);
+                return ResourceManager.GetString("IrRemoteSetting_Off", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string IrRemoteSetting_On {
+            get {
+                return ResourceManager.GetString("IrRemoteSetting_On", resourceCulture);
             }
         }
         
@@ -873,6 +1161,24 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MP4.
+        /// </summary>
+        public static string MovieFormatMode_MP4 {
+            get {
+                return ResourceManager.GetString("MovieFormatMode_MP4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XAVC S.
+        /// </summary>
+        public static string MovieFormatMode_XAVCS {
+            get {
+                return ResourceManager.GetString("MovieFormatMode_XAVCS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Movie quality.
         /// </summary>
         public static string MovieQuality {
@@ -954,6 +1260,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Red.
+        /// </summary>
+        public static string Red {
+            get {
+                return ResourceManager.GetString("Red", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/kazyx/WPPMM.
         /// </summary>
         public static string RepoURL {
@@ -986,6 +1301,24 @@ namespace Kazyx.WPPMM.Resources {
         public static string Retry {
             get {
                 return ResourceManager.GetString("Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal.
+        /// </summary>
+        public static string Scene_Normal {
+            get {
+                return ResourceManager.GetString("Scene_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Under water.
+        /// </summary>
+        public static string Scene_UnderWater {
+            get {
+                return ResourceManager.GetString("Scene_UnderWater", resourceCulture);
             }
         }
         
@@ -1143,6 +1476,51 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stilla image quality.
+        /// </summary>
+        public static string StillQuality {
+            get {
+                return ResourceManager.GetString("StillQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fine.
+        /// </summary>
+        public static string StillQuality_Fine {
+            get {
+                return ResourceManager.GetString("StillQuality_Fine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RAW+Jpeg.
+        /// </summary>
+        public static string StillQuality_RawAndJpeg {
+            get {
+                return ResourceManager.GetString("StillQuality_RawAndJpeg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard.
+        /// </summary>
+        public static string StillQuality_Standard {
+            get {
+                return ResourceManager.GetString("StillQuality_Standard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Switch.
         /// </summary>
         public static string Switch {
@@ -1166,6 +1544,42 @@ namespace Kazyx.WPPMM.Resources {
         public static string TvColorSystem {
             get {
                 return ResourceManager.GetString("TvColorSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NTSC.
+        /// </summary>
+        public static string TvColorSystemMode_NTSC {
+            get {
+                return ResourceManager.GetString("TvColorSystemMode_NTSC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PAL.
+        /// </summary>
+        public static string TvColorSystemMode_PAL {
+            get {
+                return ResourceManager.GetString("TvColorSystemMode_PAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upper left.
+        /// </summary>
+        public static string UpperLeft {
+            get {
+                return ResourceManager.GetString("UpperLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upper right.
+        /// </summary>
+        public static string UpperRight {
+            get {
+                return ResourceManager.GetString("UpperRight", resourceCulture);
             }
         }
         
@@ -1341,6 +1755,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to White.
+        /// </summary>
+        public static string White {
+            get {
+                return ResourceManager.GetString("White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to White balance.
         /// </summary>
         public static string WhiteBalance {
@@ -1355,6 +1778,24 @@ namespace Kazyx.WPPMM.Resources {
         public static string WifiSettingLauncherButtonText {
             get {
                 return ResourceManager.GetString("WifiSettingLauncherButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ClearImage zoom.
+        /// </summary>
+        public static string ZoomMode_ClearImageDigital {
+            get {
+                return ResourceManager.GetString("ZoomMode_ClearImageDigital", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical only.
+        /// </summary>
+        public static string ZoomMode_Optical {
+            get {
+                return ResourceManager.GetString("ZoomMode_Optical", resourceCulture);
             }
         }
         

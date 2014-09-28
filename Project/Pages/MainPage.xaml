@@ -372,7 +372,7 @@
                         </ScrollViewer.Background>
                         <StackPanel x:Name="ControlPanel" VerticalAlignment="Center" Margin="10" />
                     </ScrollViewer>
-                    <Grid Name="AppSettingPanel" Margin="0,-36,0,24" >
+                    <Grid Name="AppSettingPanel" >
                         <Rectangle Fill="{StaticResource PhoneBackgroundBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.9" Margin="-12,-36" />
                         <ScrollViewer Margin="0,-12,0,-24">
                             <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-12,0,0,0" >

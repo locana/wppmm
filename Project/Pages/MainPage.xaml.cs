@@ -980,6 +980,7 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
                     AppSettings.Margin = new Thickness(20, 64, 40, 64);
+                    AppSettingPanel.Margin = new Thickness(0, -36, 0, 24);
                     BottomElements.Margin = new Thickness(0);
                     ZoomElements.Margin = new Thickness(50, 0, 0, 0);
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
@@ -996,6 +997,7 @@ namespace Kazyx.WPPMM.Pages
                     UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
                     AppSettings.Margin = new Thickness(36, 64, 16, 64);
+                    AppSettingPanel.Margin = new Thickness(0, -36, 0, 24);
                     BottomElements.Margin = new Thickness(0);
                     ZoomElements.Margin = new Thickness(90, 0, 0, 0);
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
@@ -1011,7 +1013,8 @@ namespace Kazyx.WPPMM.Pages
                     AppTitle.Margin = new Thickness(0);
                     UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
                     StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
-                    AppSettings.Margin = new Thickness(-12, 64, 0, 64);
+                    AppSettings.Margin = new Thickness(-12, 64, 0, 74);
+                    AppSettingPanel.Margin = new Thickness(0, -36, 0, 90);
                     BottomElements.Margin = new Thickness(0, 0, 0, 70);
                     ZoomElements.Margin = new Thickness(20, 0, 0, 0);
                     ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);

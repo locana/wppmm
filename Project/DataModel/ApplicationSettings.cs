@@ -55,7 +55,7 @@ namespace Kazyx.WPPMM.DataModel
             GeotagEnabled = Preference.GeotagEnabled();
             GridType = Preference.FramingGridsType() ?? FramingGridTypes.Off;
             GridColor = Preference.FramingGridsColor() ?? FramingGridColor.White;
-
+            FibonacciLineOrigin = Preference.FibonacciOrigin() ?? FibonacciLineOrigins.UpperLeft;
         }
 
         public static ApplicationSettings GetInstance()
@@ -334,6 +334,7 @@ namespace Kazyx.WPPMM.DataModel
             {
                 if (value != _FibonacciLineOrigin)
                 {
+                    Preference.SetFibonacciOrigin(value);
                     this._FibonacciLineOrigin = value;
                     OnPropertyChanged("FibonacciLineOrigin");
                 }

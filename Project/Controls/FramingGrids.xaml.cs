@@ -18,12 +18,12 @@ namespace Kazyx.WPPMM.Controls
                 if (!value.Equals(_Stroke))
                 {
                     _Stroke = value;
-                    DebugUtil.Log("Stroke updated: " + _Stroke.Color.R + " " + _Stroke.Color.G + " " + _Stroke.Color.B);
+                    // DebugUtil.Log("Stroke updated: " + _Stroke.Color.R + " " + _Stroke.Color.G + " " + _Stroke.Color.B);
                     this.DrawGridLines(_Type);
                 }
                 else
                 {
-                    DebugUtil.Log("skip stroke value updating");
+                    // DebugUtil.Log("skip stroke value updating");
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace Kazyx.WPPMM.Controls
 
         public static void OnGridTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DebugUtil.Log("[FramingGrids]Type changed: " + (string)e.NewValue);
+            // DebugUtil.Log("[FramingGrids]Type changed: " + (string)e.NewValue);
             (d as FramingGrids).Type = (string)e.NewValue;
         }
 
@@ -78,7 +78,7 @@ namespace Kazyx.WPPMM.Controls
 
         public static void OnStrokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DebugUtil.Log("[FramingGrids]Stroke changed: " + (e.NewValue as SolidColorBrush).Color.G.ToString());
+            // DebugUtil.Log("[FramingGrids]Stroke changed: " + (e.NewValue as SolidColorBrush).Color.G.ToString());
             (d as FramingGrids).Stroke = (SolidColorBrush)e.NewValue;
         }
 
@@ -90,7 +90,7 @@ namespace Kazyx.WPPMM.Controls
 
         private static void OnStrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DebugUtil.Log("[FramingGrids]Stroke thickness changed: " + e.NewValue);
+            // DebugUtil.Log("[FramingGrids]Stroke thickness changed: " + e.NewValue);
             (d as FramingGrids).StrokeThickness = (double)e.NewValue;
         }
 
@@ -116,7 +116,7 @@ namespace Kazyx.WPPMM.Controls
 
         private static void OnFibonacciOriginChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DebugUtil.Log("fibonacci origin changed: " + e.NewValue);
+            // DebugUtil.Log("fibonacci origin changed: " + e.NewValue);
             (d as FramingGrids).FibonacciOrigin = (string)e.NewValue;
         }
 
@@ -202,7 +202,7 @@ namespace Kazyx.WPPMM.Controls
 
         private void DrawFibonacciSpiral(Point StartPoint, double w, double h)
         {
-            DebugUtil.Log("draw fibonaci: " + w + " " + h);
+            // DebugUtil.Log("draw fibonaci: " + w + " " + h);
 
             PathFigure figure = new PathFigure();
             figure.StartPoint = StartPoint;
@@ -247,7 +247,7 @@ namespace Kazyx.WPPMM.Controls
 
             for (int i = 0; i < 10; i++)
             {
-                DebugUtil.Log("Bezier: " + x1 + " " + y1 + " / " + x2 + " " + y2 + " / " + x3 + " " + y3);
+                // DebugUtil.Log("Bezier: " + x1 + " " + y1 + " / " + x2 + " " + y2 + " / " + x3 + " " + y3);
                 var seg = new BezierSegment();
                 var tempX1 = x1;
                 var tempY1 = y1;
@@ -328,7 +328,7 @@ namespace Kazyx.WPPMM.Controls
 
         private void DrawLine(double x1, double x2, double y1, double y2)
         {
-            DebugUtil.Log("draw line: " + x1 + " " + x2 + " " + y1 + " " + y2);
+            // DebugUtil.Log("draw line: " + x1 + " " + x2 + " " + y1 + " " + y2);
 
             double minX = StrokeThickness / 2;
             double maxX = LayoutRoot.ActualWidth - minX;
@@ -355,7 +355,7 @@ namespace Kazyx.WPPMM.Controls
 
         private void DrawArcSegment(Point start, Point end, SweepDirection dir)
         {
-            DebugUtil.Log("draw arc: " + start.X + " " + start.Y + " " + end.X + " " + end.Y + " " + dir);
+            // DebugUtil.Log("draw arc: " + start.X + " " + start.Y + " " + end.X + " " + end.Y + " " + dir);
 
             PathFigure pthFigure = new PathFigure();
             pthFigure.StartPoint = start;

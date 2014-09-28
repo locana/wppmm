@@ -195,6 +195,7 @@ namespace Kazyx.WPPMM.Utils
             {
                 return (string)settings[fibonacci_origin];
             }
+            DebugUtil.Log("Fibonacci origin returns null.");
             return null;
         }
 

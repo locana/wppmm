@@ -587,10 +587,12 @@ namespace Kazyx.WPPMM.CameraManager
             if (selectedIndex != selected)
             {
                 // This change is not from this application, maybe from the camera device.
+                DebugUtil.Log("[OnPickerChanged] Skip API calling.");
                 return;
             }
             try
             {
+                DebugUtil.Log("[OnPickerChanged] API calling." + param.Candidates[selected]);
                 await action.Invoke(param.Candidates[selected]);
             }
             catch (NullReferenceException)

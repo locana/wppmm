@@ -659,10 +659,12 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
+                if (status.StillQuality != null) { DebugUtil.Log("[get] " + status.StillQuality.Current); }
                 return SettingsValueConverter.GetSelectedIndex(status.StillQuality);
             }
             set
             {
+                DebugUtil.Log("[set] " + value);
                 SetSelectedAsCurrent(status.StillQuality, value);
             }
         }

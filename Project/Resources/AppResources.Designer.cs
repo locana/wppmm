@@ -223,7 +223,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bottom left.
+        ///   Looks up a localized string similar to Bottom left corner.
         /// </summary>
         public static string BottomLeft {
             get {
@@ -232,7 +232,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bottom right.
+        ///   Looks up a localized string similar to Bottom right corner.
         /// </summary>
         public static string BottomRight {
             get {
@@ -828,7 +828,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Color of grid lines.
+        ///   Looks up a localized string similar to Color of assist lines.
         /// </summary>
         public static string FramingGridColor {
             get {
@@ -837,7 +837,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Framing grids.
+        ///   Looks up a localized string similar to Composition assist.
         /// </summary>
         public static string FramingGrids {
             get {
@@ -927,25 +927,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The spiral will be rotated according to its origin.
-        /// </summary>
-        public static string Guide_FibonacciSpiralOrigin {
-            get {
-                return ResourceManager.GetString("Guide_FibonacciSpiralOrigin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You can change color of the grid lines..
-        /// </summary>
-        public static string Guide_FramingGridColor {
-            get {
-                return ResourceManager.GetString("Guide_FramingGridColor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Display lines on the screen to help making composition..
+        ///   Looks up a localized string similar to Draw lines to assist photo composition..
         /// </summary>
         public static string Guide_FramingGrids {
             get {
@@ -1476,7 +1458,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stilla image quality.
+        ///   Looks up a localized string similar to Still image quality.
         /// </summary>
         public static string StillQuality {
             get {
@@ -1566,7 +1548,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upper left.
+        ///   Looks up a localized string similar to Top left corner.
         /// </summary>
         public static string UpperLeft {
             get {
@@ -1575,7 +1557,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upper right.
+        ///   Looks up a localized string similar to Top right corner.
         /// </summary>
         public static string UpperRight {
             get {

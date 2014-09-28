@@ -1206,13 +1206,13 @@ namespace Kazyx.WPPMM.Pages
                     SettingsValueConverter.FromFramingGrid(ApplicationSettings.GetInstance().GridTypeSettings.ToArray())
                     )));
 
-            gridColorSetting = new AppSettingData<int>(AppResources.FramingGridColor, AppResources.Guide_FramingGridColor,
+            gridColorSetting = new AppSettingData<int>(AppResources.FramingGridColor, null,
                     () => { return ApplicationSettings.GetInstance().GridColorIndex; },
                     setting => { ApplicationSettings.GetInstance().GridColorIndex = setting; },
                     SettingsValueConverter.FromFramingGridColor(ApplicationSettings.GetInstance().GridColorSettings.ToArray()));
             display_settings.Add(new ListPickerSetting(gridColorSetting));
 
-            fibonacciOriginSetting = new AppSettingData<int>(AppResources.FibonacciSpiralOrigin, AppResources.Guide_FibonacciSpiralOrigin,
+            fibonacciOriginSetting = new AppSettingData<int>(AppResources.FibonacciSpiralOrigin, null,
                 () => { return ApplicationSettings.GetInstance().FibonacciOriginIndex; },
                 setting => { ApplicationSettings.GetInstance().FibonacciOriginIndex = setting; },
                 SettingsValueConverter.FromFibonacciLineOrigin(ApplicationSettings.GetInstance().FibonacciLineOriginSettings.ToArray()));
@@ -1234,6 +1234,8 @@ namespace Kazyx.WPPMM.Pages
         {
             if (gridColorSetting != null)
             {
+                gridColorSetting.IsActive = displayed;
+                /*
                 if (displayed)
                 {
                     gridColorSetting.SettingVisibility = System.Windows.Visibility.Visible;
@@ -1242,6 +1244,7 @@ namespace Kazyx.WPPMM.Pages
                 {
                     gridColorSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
                 }
+                 * */
             }
         }
 
@@ -1249,6 +1252,8 @@ namespace Kazyx.WPPMM.Pages
         {
             if (fibonacciOriginSetting != null)
             {
+                fibonacciOriginSetting.IsActive = displayed;
+                /*
                 if (displayed)
                 {
                     fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Visible;
@@ -1257,6 +1262,7 @@ namespace Kazyx.WPPMM.Pages
                 {
                     fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
                 }
+                 * */
             }
         }
 

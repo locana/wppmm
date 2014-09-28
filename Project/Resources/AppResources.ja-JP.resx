@@ -584,9 +584,6 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="Green" xml:space="preserve">
     <value>緑</value>
   </data>
-  <data name="Guide_FramingGridColor" xml:space="preserve">
-    <value>補助線の色を変えられます</value>
-  </data>
   <data name="Red" xml:space="preserve">
     <value>赤</value>
   </data>
@@ -601,9 +598,6 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   </data>
   <data name="FibonacciSpiralOrigin" xml:space="preserve">
     <value>フィボナッチ螺旋の出発点</value>
-  </data>
-  <data name="Guide_FibonacciSpiralOrigin" xml:space="preserve">
-    <value>出発点によって螺旋の向きが変わります</value>
   </data>
   <data name="UpperLeft" xml:space="preserve">
     <value>左上</value>

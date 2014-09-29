@@ -14,13 +14,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Text="{Binding Title, Mode=OneWay}" Name="SettingName" TextWrapping="Wrap" 
                        VerticalAlignment="Center" Grid.Row="0" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Margin="35, 15, 10,5"/>
-        <toolkit:ListPicker Name="Picker" Grid.Row="1" BorderThickness="1" Margin="50,0,40,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding IsActive, Mode=OneWay}" 
+        <toolkit:ListPicker Name="Picker" Grid.Row="2" BorderThickness="1" Margin="50,0,40,5" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding IsActive, Mode=OneWay}" 
                             ItemsSource="{Binding Candidates, Mode=OneWay}" SelectedIndex="{Binding CurrentSetting, Mode=TwoWay}" />
-        <TextBlock Grid.Row="2"  TextWrapping="Wrap" 
+        <TextBlock Grid.Row="1"  TextWrapping="Wrap" 
                    Name="SettingGuide" Text="{Binding Guide, Mode=OneWay}" Margin="50, 0, 0,0"  Style="{StaticResource PhoneTextSubtleStyle}" Visibility="{Binding GuideVisibility, Mode=OneWay}"/>
     </Grid>
 </UserControl>

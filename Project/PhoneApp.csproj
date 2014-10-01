@@ -118,6 +118,9 @@
     <Compile Include="Controls\CheckBoxSetting.xaml.cs">
       <DependentUpon>CheckBoxSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FocusFrames.xaml.cs">
+      <DependentUpon>FocusFrames.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FramingGrids.xaml.cs">
       <DependentUpon>FramingGrids.xaml</DependentUpon>
     </Compile>

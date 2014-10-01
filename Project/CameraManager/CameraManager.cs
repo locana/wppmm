@@ -69,6 +69,7 @@ namespace Kazyx.WPPMM.CameraManager
         internal event Action<StatusCode> OnRemoteClientError;
         internal event Action OnTakePictureSucceed;
         internal event Action<string> OnExposureModeChanged;
+        internal event Action<FocusFramePacket> OnFocusFrameRetrived;
 
         internal event Action OnDisconnected;
         internal event Action<CameraStatus> OnAfStatusChanged;
@@ -156,11 +157,24 @@ namespace Kazyx.WPPMM.CameraManager
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
             deviceFinder.SonyCameraDeviceDiscovered += deviceFinder_Discovered;
+            lvProcessor.FocusFrameRetrieved += lvProcessor_FocusFrameRetrieved;
             deviceFinder.Finished += deviceFinder_Finished;
             PictureSyncManager.Instance.Fetched += OnPictureFetched;
             PictureSyncManager.Instance.Failed += OnFetchFailed;
             PictureSyncManager.Instance.Message += OnShowToast;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated += DownloadQueueStatusUpdated;
+        }
+
+        void lvProcessor_FocusFrameRetrieved(object sender, FocusFrameEventArgs e)
+        {
+            DebugUtil.Log("[Focus Frame] Retrived " + e.Packet.FocusFrames.Count + " frames.");
+            if (OnFocusFrameRetrived != null)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    OnFocusFrameRetrived(e.Packet);
+                });
+            }
         }
 
         void cameraStatus_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -483,6 +497,19 @@ namespace Kazyx.WPPMM.CameraManager
             finally
             {
                 AppStatus.GetInstance().IsTryingToConnectLiveview = false;
+            }
+
+            try
+            {
+                if (_cameraStatus.IsSupported("setLiveviewFrameInfo"))
+                {
+                    DebugUtil.Log("Set liveview frame info true");
+                    await _CameraApi.SetLiveviewFrameInfo(new FrameInfoSetting() { TransferFrameInfo = true });
+                }
+            }
+            catch (RemoteApiException e)
+            {
+                DebugUtil.Log("Failed to call setLiveviewFrameInfo" + e.StackTrace);
             }
         }
 

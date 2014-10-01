@@ -67,7 +67,7 @@ namespace Kazyx.WPPMM.Controls
                 double y1 = (double)info.TopLeft_Y / 10000 * LayoutRoot.ActualHeight;
                 double y2 = (double)info.BottomRight_Y / 10000 * LayoutRoot.ActualHeight;
 
-                DebugUtil.Log("FocusFrame update" + x1 + " " + x2 + " " + y1 + " " + y2);
+                // DebugUtil.Log("FocusFrame update" + x1 + " " + x2 + " " + y1 + " " + y2);
 
                 switch (info.Category)
                 {

@@ -244,7 +244,7 @@ namespace Kazyx.WPPMM.CameraManager
             set
             {
                 _SelfTimerInfo = value;
-                OnPropertyChanged("SelfTimer");
+                OnPropertyChanged("SelfTimerInfo");
             }
             get { return _SelfTimerInfo; }
         }
@@ -264,7 +264,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     _ShootModeInfo.previous = previous;
                 }
-                OnPropertyChanged("ShootMode");
+                OnPropertyChanged("ShootModeInfo");
                 OnPropertyChanged("LiveviewScreenVisibility");
                 OnPropertyChanged("AudioScreenVisibility");
 

@@ -60,13 +60,13 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableNumberOfShots");
                         OnPropertyChanged("CpIsAvailableAutoPowerOff");
                         break;
-                    case "ShootMode":
+                    case "ShootModeInfo":
                         OnPropertyChanged("CpCandidatesShootMode");
                         OnPropertyChanged("CpSelectedIndexShootMode");
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                     case "PostviewSize":
-                    case "SelfTimer":
+                    case "SelfTimerInfo":
                     case "ExposureMode":
                     case "BeepMode":
                     case "SteadyMode":

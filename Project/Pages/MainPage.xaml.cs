@@ -80,9 +80,10 @@ namespace Kazyx.WPPMM.Pages
                     cameraManager.CancelTouchAF();
                     cameraManager.CancelHalfPressShutter();
                 }
-                if (Sliders.Visibility == System.Windows.Visibility.Visible){
+                if (Sliders.Visibility == System.Windows.Visibility.Visible)
+                {
                     CloseSliderPanel();
-                    }
+                }
                 cpm.Show();
             });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { this.OpenAppSettingPanel(); });
@@ -540,6 +541,7 @@ namespace Kazyx.WPPMM.Pages
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
 
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
+            cameraManager.OnExposureModeChanged += cameraManager_OnExposureModeChanged;
             if (svd != null)
             {
                 svd.SlidersVisibilityChanged += SlidersVisibilityChanged;
@@ -607,6 +609,14 @@ namespace Kazyx.WPPMM.Pages
             if (ApplicationSettings.GetInstance().GeotagEnabled)
             {
                 await GeopositionManager.GetInstance().AcquireGeoPosition();
+            }
+        }
+
+        void cameraManager_OnExposureModeChanged(string obj)
+        {
+            if (Sliders.Visibility == System.Windows.Visibility.Visible)
+            {
+                this.CloseSliderPanel();
             }
         }
 
@@ -803,6 +813,7 @@ namespace Kazyx.WPPMM.Pages
             CameraButtons.ShutterKeyReleased -= CameraButtons_ShutterKeyReleased;
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
+            cameraManager.OnExposureModeChanged -= cameraManager_OnExposureModeChanged;
 
             FraimingGrids.ManipulationCompleted -= FraimingGrids_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();

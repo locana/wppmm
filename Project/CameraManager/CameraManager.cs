@@ -68,6 +68,7 @@ namespace Kazyx.WPPMM.CameraManager
         internal event Action<Geoposition> PictureFetchSucceed;
         internal event Action<StatusCode> OnRemoteClientError;
         internal event Action OnTakePictureSucceed;
+        internal event Action<string> OnExposureModeChanged;
 
         internal event Action OnDisconnected;
         internal event Action<CameraStatus> OnAfStatusChanged;
@@ -183,6 +184,10 @@ namespace Kazyx.WPPMM.CameraManager
                     break;
                 case "ExposureMode":
                     UpdateProgramShiftRange();
+                    if (OnExposureModeChanged != null && _cameraStatus != null && _cameraStatus.ExposureMode != null)
+                    {
+                        OnExposureModeChanged(_cameraStatus.ExposureMode.Current);
+                    }
                     break;
                 case "PictureUrls":
                     if (_cameraStatus.PictureUrls.Length > 0)

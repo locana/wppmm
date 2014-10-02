@@ -447,7 +447,7 @@ namespace Kazyx.WPPMM.Pages
             switch (status.Status)
             {
                 case EventParam.Idle:
-                    switch (status.ShootModeInfo.Current)
+                    switch (status.ShootMode.Current)
                     {
                         case ShootModeParam.Still:
                             if (ApplicationSettings.GetInstance().IsIntervalShootingEnabled)

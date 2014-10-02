@@ -60,13 +60,13 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableNumberOfShots");
                         OnPropertyChanged("CpIsAvailableAutoPowerOff");
                         break;
-                    case "ShootModeInfo":
+                    case "ShootMode":
                         OnPropertyChanged("CpCandidatesShootMode");
                         OnPropertyChanged("CpSelectedIndexShootMode");
                         OnPropertyChanged("CpIsAvailableStillImageFunctions");
                         break;
                     case "PostviewSize":
-                    case "SelfTimerInfo":
+                    case "SelfTimer":
                     case "ExposureMode":
                     case "BeepMode":
                     case "SteadyMode":
@@ -150,11 +150,11 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.SelfTimerInfo);
+                return SettingsValueConverter.GetSelectedIndex(status.SelfTimer);
             }
             set
             {
-                SetSelectedAsCurrent(status.SelfTimerInfo, value);
+                SetSelectedAsCurrent(status.SelfTimer, value);
             }
         }
 
@@ -162,7 +162,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromSelfTimer(status.SelfTimerInfo).Candidates.ToArray();
+                return SettingsValueConverter.FromSelfTimer(status.SelfTimer).Candidates.ToArray();
             }
         }
 
@@ -171,7 +171,7 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 return status.IsAvailable("setSelfTimer") &&
-                    status.SelfTimerInfo != null &&
+                    status.SelfTimer != null &&
                     !setting.IsIntervalShootingEnabled &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
@@ -213,11 +213,11 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.ShootModeInfo);
+                return SettingsValueConverter.GetSelectedIndex(status.ShootMode);
             }
             set
             {
-                SetSelectedAsCurrent(status.ShootModeInfo, value);
+                SetSelectedAsCurrent(status.ShootMode, value);
             }
         }
 
@@ -225,7 +225,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                return SettingsValueConverter.FromShootMode(status.ShootModeInfo).Candidates.ToArray();
+                return SettingsValueConverter.FromShootMode(status.ShootMode).Candidates.ToArray();
             }
         }
 
@@ -234,7 +234,7 @@ namespace Kazyx.WPPMM.DataModel
             get
             {
                 return status.IsAvailable("setShootMode") &&
-                    status.ShootModeInfo != null &&
+                    status.ShootMode != null &&
                     manager != null &&
                     !manager.IntervalManager.IsRunning;
             }
@@ -986,11 +986,11 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (status == null || status.ShootModeInfo == null)
+                if (status == null || status.ShootMode == null)
                 {
                     return false;
                 }
-                return status.ShootModeInfo.Current == ShootModeParam.Still &&
+                return status.ShootMode.Current == ShootModeParam.Still &&
                     manager != null && !manager.IntervalManager.IsRunning;
             }
         }

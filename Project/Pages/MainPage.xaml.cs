@@ -80,6 +80,9 @@ namespace Kazyx.WPPMM.Pages
                     cameraManager.CancelTouchAF();
                     cameraManager.CancelHalfPressShutter();
                 }
+                if (Sliders.Visibility == System.Windows.Visibility.Visible){
+                    CloseSliderPanel();
+                    }
                 cpm.Show();
             });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { this.OpenAppSettingPanel(); });
@@ -287,14 +290,6 @@ namespace Kazyx.WPPMM.Pages
             UpdateNetworkStatus();
             LiveViewInit();
             InitializeProximityDevice();
-        }
-
-        internal void HideControlPanel()
-        {
-            if (cpm != null && cpm.IsShowing())
-            {
-                cpm.Hide();
-            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -662,6 +657,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void SlidersVisibilityChanged(System.Windows.Visibility visibility)
         {
+            DebugUtil.Log("Slider visibility changed: " + visibility);
             if (visibility == System.Windows.Visibility.Collapsed)
             {
                 CloseSliderPanel();
@@ -904,11 +900,7 @@ namespace Kazyx.WPPMM.Pages
 
                 if (cpm != null && cpm.IsShowing())
                 {
-                    cpm.Hide();
-                    if (ApplicationBar != null)
-                    {
-                        ApplicationBar.IsVisible = true;
-                    }
+                    CloseControlPanel();
                     return;
                 }
 
@@ -924,6 +916,18 @@ namespace Kazyx.WPPMM.Pages
             else
             {
                 e.Cancel = false;
+            }
+        }
+
+        private void CloseControlPanel()
+        {
+            if (cpm != null)
+            {
+                cpm.Hide();
+            }
+            if (ApplicationBar != null)
+            {
+                ApplicationBar.IsVisible = true;
             }
         }
 
@@ -1386,7 +1390,10 @@ namespace Kazyx.WPPMM.Pages
 
         private void OpenSliderPanel()
         {
-            DebugUtil.Log("OpenSlider");
+            if (cpm.IsShowing())
+            {
+                CloseControlPanel();
+            }
             Sliders.Visibility = Visibility.Visible;
             // make shoot button and zoom bar/buttons invisible.
             ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = true;
@@ -1396,7 +1403,6 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseSliderPanel()
         {
-            DebugUtil.Log("CloseSlider");
             Sliders.Visibility = Visibility.Collapsed;
             ApplicationSettings.GetInstance().ShootButtonTemporaryCollapsed = false;
             if (svd != null) { svd.ZoomElementsTemporaryCollapsed = false; }

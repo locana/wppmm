@@ -56,7 +56,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            status.SelfTimerInfo = latest;
+            status.SelfTimer = latest;
         }
 
         internal static void ShootMode(CameraStatus status, Capability<string> latest)
@@ -65,7 +65,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            status.ShootModeInfo = new ExtendedInfo<string>(latest);
+            status.ShootMode = new ExtendedInfo<string>(latest);
         }
 
         internal static void ExposureMode(CameraStatus status, Capability<string> latest)

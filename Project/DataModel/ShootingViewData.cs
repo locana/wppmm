@@ -74,7 +74,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("RecordingStatusVisibility");
                         OnPropertyChanged("TouchAFPointerVisibility");
                         break;
-                    case "ShootModeInfo":
+                    case "ShootMode":
                         OnPropertyChanged("ShootFunctionVisibility");
                         OnPropertyChanged("ShootButtonImage");
                         OnPropertyChanged("ModeImage");
@@ -262,7 +262,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current == null)
+                if (cameraStatus.ShootMode == null || cameraStatus.ShootMode.Current == null)
                 {
                     return null;
                 }
@@ -271,7 +271,7 @@ namespace Kazyx.WPPMM.DataModel
                     return StopImage;
                 }
 
-                switch (cameraStatus.ShootModeInfo.Current)
+                switch (cameraStatus.ShootMode.Current)
                 {
                     case ShootModeParam.Still:
                         return StillImage;
@@ -638,12 +638,12 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current == null)
+                if (cameraStatus == null || cameraStatus.ShootMode == null || cameraStatus.ShootMode.Current == null)
                 {
                     return null;
                 }
 
-                switch (cameraStatus.ShootModeInfo.Current)
+                switch (cameraStatus.ShootMode.Current)
                 {
                     case ShootModeParam.Still:
                         return PhotoModeImage;
@@ -663,7 +663,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current != ShootModeParam.Still)
+                if (cameraStatus == null || cameraStatus.ShootMode == null || cameraStatus.ShootMode.Current != ShootModeParam.Still)
                 {
                     return null;
                 }
@@ -1041,7 +1041,7 @@ namespace Kazyx.WPPMM.DataModel
         {
             get
             {
-                if (cameraStatus == null || cameraStatus.Storages == null || cameraStatus.ShootModeInfo == null || cameraStatus.ShootModeInfo.Current == null)
+                if (cameraStatus == null || cameraStatus.Storages == null || cameraStatus.ShootMode == null || cameraStatus.ShootMode.Current == null)
                 {
                     return "";
                 }
@@ -1049,7 +1049,7 @@ namespace Kazyx.WPPMM.DataModel
                 {
                     if (storage.RecordTarget)
                     {
-                        switch (cameraStatus.ShootModeInfo.Current)
+                        switch (cameraStatus.ShootMode.Current)
                         {
                             case ShootModeParam.Still:
                             case ShootModeParam.Interval:

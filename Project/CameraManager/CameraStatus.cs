@@ -111,8 +111,8 @@ namespace Kazyx.WPPMM.CameraManager
             ISOSpeedRate = null;
             ShutterSpeed = null;
             ExposureMode = null;
-            ShootModeInfo = null;
-            SelfTimerInfo = null;
+            ShootMode = null;
+            SelfTimer = null;
             PostviewSizeInfo = null;
             FocusStatus = null;
             IsLiveviewAvailable = false;
@@ -238,33 +238,33 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _PostviewSizeInfo; }
         }
 
-        private Capability<int> _SelfTimerInfo;
-        public Capability<int> SelfTimerInfo
+        private Capability<int> _SelfTimer;
+        public Capability<int> SelfTimer
         {
             set
             {
-                _SelfTimerInfo = value;
-                OnPropertyChanged("SelfTimerInfo");
+                _SelfTimer = value;
+                OnPropertyChanged("SelfTimer");
             }
-            get { return _SelfTimerInfo; }
+            get { return _SelfTimer; }
         }
 
-        private ExtendedInfo<string> _ShootModeInfo;
-        public ExtendedInfo<string> ShootModeInfo
+        private ExtendedInfo<string> _ShootMode;
+        public ExtendedInfo<string> ShootMode
         {
             set
             {
                 string previous = null;
-                if (_ShootModeInfo != null)
+                if (_ShootMode != null)
                 {
-                    previous = _ShootModeInfo.Current;
+                    previous = _ShootMode.Current;
                 }
-                _ShootModeInfo = value;
-                if (_ShootModeInfo != null)
+                _ShootMode = value;
+                if (_ShootMode != null)
                 {
-                    _ShootModeInfo.previous = previous;
+                    _ShootMode.previous = previous;
                 }
-                OnPropertyChanged("ShootModeInfo");
+                OnPropertyChanged("ShootMode");
                 OnPropertyChanged("LiveviewScreenVisibility");
                 OnPropertyChanged("AudioScreenVisibility");
 
@@ -273,7 +273,7 @@ namespace Kazyx.WPPMM.CameraManager
                     CurrentShootModeNotifier.Invoke(value.Current);
                 }
             }
-            get { return _ShootModeInfo; }
+            get { return _ShootMode; }
         }
 
         private Capability<string> _ExposureMode;
@@ -724,12 +724,12 @@ namespace Kazyx.WPPMM.CameraManager
         {
             get
             {
-                if (_ShootModeInfo == null)
+                if (_ShootMode == null)
                 {
                     return Visibility.Collapsed;
                 }
 
-                if (_ShootModeInfo.Current == ShootModeParam.Audio)
+                if (_ShootMode.Current == ShootModeParam.Audio)
                 {
                     return Visibility.Collapsed;
                 }
@@ -744,12 +744,12 @@ namespace Kazyx.WPPMM.CameraManager
         {
             get
             {
-                if (_ShootModeInfo == null)
+                if (_ShootMode == null)
                 {
                     return Visibility.Collapsed;
                 }
 
-                if (_ShootModeInfo.Current == ShootModeParam.Audio)
+                if (_ShootMode.Current == ShootModeParam.Audio)
                 {
                     return Visibility.Visible;
                 }

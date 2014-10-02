@@ -417,13 +417,13 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void OnShootModeChanged(object sender, SelectionChangedEventArgs arg)
         {
-            await OnPickerChanged<string>(sender, status.ShootModeInfo,
+            await OnPickerChanged<string>(sender, status.ShootMode,
                 async (selected) => { await manager.CameraApi.SetShootModeAsync(selected); });
         }
 
         private async void OnSelfTimerChanged(object sender, SelectionChangedEventArgs arg)
         {
-            await OnPickerChanged<int>(sender, status.SelfTimerInfo,
+            await OnPickerChanged<int>(sender, status.SelfTimer,
                 async (selected) => { await manager.CameraApi.SetSelfTimerAsync(selected); });
         }
 

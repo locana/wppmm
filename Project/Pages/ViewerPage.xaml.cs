@@ -1,9 +1,9 @@
 using Kazyx.DeviceDiscovery;
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework.Media;

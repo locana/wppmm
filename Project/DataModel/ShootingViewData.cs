@@ -1,7 +1,7 @@
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
-using Kazyx.WPPMM.Utils;
 using Kazyx.WPPMM.Resources;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;

@@ -1,10 +1,8 @@
 using Kazyx.RemoteApi;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Resources;
-using Kazyx.WPPMM.Utils;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Kazyx.WPPMM.Utils
 {

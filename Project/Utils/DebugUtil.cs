@@ -1,6 +1,4 @@
-﻿using Microsoft.Phone.Tasks;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 
 namespace Kazyx.WPPMM.Utils
 {
@@ -30,7 +28,7 @@ namespace Kazyx.WPPMM.Utils
         private void AppendLog(string s)
         {
 #if DEBUG
-            Debug.WriteLine(s);
+            System.Diagnostics.Debug.WriteLine(s);
             LogBuilder.Append(s);
             LogBuilder.Append("\n");
 #endif
@@ -55,7 +53,7 @@ namespace Kazyx.WPPMM.Utils
         public void ComposeDebugMail()
         {
 #if DEBUG
-            EmailComposeTask emailComposeTask = new EmailComposeTask();
+            Microsoft.Phone.Tasks.EmailComposeTask emailComposeTask = new Microsoft.Phone.Tasks.EmailComposeTask();
             emailComposeTask.Subject = "debug messages.";
             emailComposeTask.Body = "Debug logs are here:\n\n" + this.GetLog();
             emailComposeTask.To = "";

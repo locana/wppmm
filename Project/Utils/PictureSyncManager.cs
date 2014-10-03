@@ -1,8 +1,7 @@
-﻿using Kazyx.WPPMM.Resources;
-using Kazyx.WPPMM.DataModel;
+﻿using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Resources;
 using Microsoft.Xna.Framework.Media;
 using System;
-using System.Diagnostics;
 using System.Windows;
 using Windows.Devices.Geolocation;
 

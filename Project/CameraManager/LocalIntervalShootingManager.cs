@@ -1,12 +1,11 @@
-using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.Resources;
+using Kazyx.WPPMM.Utils;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
-using Kazyx.WPPMM.Utils;
 
 namespace Kazyx.WPPMM.CameraManager
 {

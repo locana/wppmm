@@ -3,7 +3,6 @@ using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Utils;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 

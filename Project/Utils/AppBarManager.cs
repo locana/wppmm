@@ -21,6 +21,13 @@ namespace Kazyx.WPPMM.Utils
             // IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
+#if DEBUG
+        readonly ApplicationBarMenuItem LogMenuItem = new ApplicationBarMenuItem
+        {
+            Text = "Log Viewer",
+        };
+#endif
+
         readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
         {
             Text = AppResources.AppBar_ControlPanel,
@@ -87,6 +94,9 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
             IconMenuItems.Add(IconMenu.HideHeader, HideHeaderItem);
             IconMenuItems.Add(IconMenu.ShowHeader, ShowHeaderItem);
+#if DEBUG
+            MenuItems.Add(Menu.Log, LogMenuItem);
+#endif
         }
 
         public AppBarManager SetEvent(Menu type, EventHandler handler)
@@ -186,7 +196,10 @@ namespace Kazyx.WPPMM.Utils
 
     public enum Menu
     {
-        About
+        About,
+#if DEBUG
+        Log,
+#endif
     }
 
     public enum IconMenu

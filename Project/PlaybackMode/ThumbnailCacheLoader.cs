@@ -18,14 +18,8 @@ namespace Kazyx.WPPMM.PlaybackMode
         {
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                if (!store.DirectoryExists(CACHE_ROOT))
-                {
-                    store.CreateDirectory(CACHE_ROOT);
-                }
-                if (!store.DirectoryExists(CACHE_ROOT_TMP))
-                {
-                    store.CreateDirectory(CACHE_ROOT_TMP);
-                }
+                StorageUtil.ConfirmDirectoryCreated(store, CACHE_ROOT);
+                StorageUtil.ConfirmDirectoryCreated(store, CACHE_ROOT_TMP);
             }
         }
 
@@ -45,25 +39,8 @@ namespace Kazyx.WPPMM.PlaybackMode
 
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                DeleteDirectoryReqursive(store, directory);
-                DeleteDirectoryReqursive(store, directory_tmp);
-            }
-        }
-
-        private static void DeleteDirectoryReqursive(IsolatedStorageFile store, string directory)
-        {
-            if (store.DirectoryExists(directory))
-            {
-                foreach (var file in store.GetFileNames(directory))
-                {
-                    store.DeleteFile(directory + file);
-                }
-                foreach (var dir in store.GetDirectoryNames(directory))
-                {
-                    DeleteDirectoryReqursive(store, directory + dir + "\\");
-                }
-                store.DeleteDirectory(directory.TrimEnd('\\'));
-                DebugUtil.Log("Deleted directory: " + directory);
+                StorageUtil.DeleteDirectoryReqursive(store, directory);
+                StorageUtil.DeleteDirectoryReqursive(store, directory_tmp);
             }
         }
 
@@ -84,15 +61,8 @@ namespace Kazyx.WPPMM.PlaybackMode
 
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                if (!store.DirectoryExists(directory))
-                {
-                    store.CreateDirectory(directory);
-                }
-
-                if (!store.DirectoryExists(directory_tmp))
-                {
-                    store.CreateDirectory(directory_tmp);
-                }
+                StorageUtil.ConfirmDirectoryCreated(store, directory);
+                StorageUtil.ConfirmDirectoryCreated(store, directory_tmp);
 
                 if (store.FileExists(filepath))
                 {

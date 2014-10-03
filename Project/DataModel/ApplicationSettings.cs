@@ -165,7 +165,6 @@ namespace Kazyx.WPPMM.DataModel
                     catch (COMException)
                     {
                         DebugUtil.Log("Caught COMException: ApplicationSettings");
-                        DebugUtil.GetInstance();
                     }
                 });
             }

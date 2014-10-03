@@ -1,18 +1,28 @@
-﻿using System.Text;
+﻿#if DEBUG
+using Microsoft.Phone.Tasks;
+using System.Diagnostics;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Text;
+#endif
 
 namespace Kazyx.WPPMM.Utils
 {
     public class DebugUtil
     {
-        private static DebugUtil sDebugUtil = new DebugUtil();
-        private StringBuilder LogBuilder = new StringBuilder();
+#if DEBUG
+        private static StringBuilder LogBuilder = new StringBuilder();
 
-        private DebugUtil() { }
+        private const string LOG_ROOT = "/log_store/";
 
-        public static DebugUtil GetInstance()
-        {
-            return sDebugUtil;
-        }
+        private const string LOG_FILE = "console_log";
+
+        private const string LOG_EXTENSION = ".txt";
+
+        private const int MaxLength = 200 * 1000; // Byte
+
+        private static readonly object Lock = new object();
+#endif
 
         /// <summary>
         /// Show given string on Debug log and keep to local instance.
@@ -21,43 +31,79 @@ namespace Kazyx.WPPMM.Utils
         public static void Log(string s)
         {
 #if DEBUG
-            DebugUtil.GetInstance().AppendLog(s);
+            lock (Lock)
+            {
+                Debug.WriteLine(s);
+                LogBuilder.Append(s);
+                LogBuilder.Append("\n");
+                if (LogBuilder.Length > MaxLength)
+                {
+                    Flush();
+                }
+            }
 #endif
         }
 
-        private void AppendLog(string s)
-        {
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine(s);
-            LogBuilder.Append(s);
-            LogBuilder.Append("\n");
-#endif
+        private static void Flush()
+        {
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
+                var count = store.GetFileNames(LOG_ROOT + "*").Length;
+                var filename = LOG_ROOT + LOG_FILE + count + LOG_EXTENSION;
+                Debug.WriteLine("\n\nFlush log file: {0}\n\n", filename);
+
+                using (var str = store.CreateFile(filename))
+                {
+                    using (var writer = new StreamWriter(str))
+                    {
+                        writer.Write(LogBuilder.ToString());
+                    }
+                }
+            }
+            LogBuilder.Clear();
         }
 
-        /// <summary>
-        /// Get entire log.
-        /// </summary>
-        /// <returns>Log message</returns>
-        public string GetLog()
+        public static string[] LogFiles()
         {
-#if DEBUG
-            return LogBuilder.ToString();
-#else
-            return "";
-#endif
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
+                return store.GetFileNames(LOG_ROOT + "*");
+            }
         }
+
+        public static string GetFile(string filename)
+        {
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
+                using (var str = store.OpenFile(LOG_ROOT + filename, FileMode.Open))
+                {
+                    using (var reader = new StreamReader(str))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                }
+            }
+        }
+#endif
 
         /// <summary>
         /// Export all logs to email application.
         /// </summary>
-        public void ComposeDebugMail()
+        public static void ComposeDebugMail(string message)
         {
 #if DEBUG
-            Microsoft.Phone.Tasks.EmailComposeTask emailComposeTask = new Microsoft.Phone.Tasks.EmailComposeTask();
-            emailComposeTask.Subject = "debug messages.";
-            emailComposeTask.Body = "Debug logs are here:\n\n" + this.GetLog();
-            emailComposeTask.To = "";
-            emailComposeTask.Show();
+            lock (Lock)
+            {
+                EmailComposeTask emailComposeTask = new EmailComposeTask();
+                emailComposeTask.Subject = "debug messages.";
+                emailComposeTask.Body = "Debug logs are here:\n\n" + message;
+                emailComposeTask.To = "";
+                emailComposeTask.Show();
+            }
 #endif
         }
     }

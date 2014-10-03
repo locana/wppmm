@@ -1,0 +1,40 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Kazyx.WPPMM.Pages.LogViewerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False">
+
+    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <phone:Panorama >
+
+            <!--Panorama item one-->
+            <phone:PanoramaItem Margin="0">
+                <phone:PanoramaItem.Header>
+                    <TextBlock Text="LogFiles" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                </phone:PanoramaItem.Header>
+                <ListBox x:Name="FileListBox" SelectionChanged="ListBox_SelectionChanged" Margin="0,-24,0,0" />
+            </phone:PanoramaItem>
+
+            <!--Panorama item two-->
+            <phone:PanoramaItem Margin="0">
+                <phone:PanoramaItem.Header>
+                    <TextBlock x:Name="ContentHeader" Text="Content" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                </phone:PanoramaItem.Header>
+                <ScrollViewer Margin="0,-24,0,0" HorizontalContentAlignment="Left" VerticalContentAlignment="Top">
+                    <TextBlock x:Name="LogContent" Tap="LogContent_Tap" TextWrapping="Wrap" />
+                </ScrollViewer>
+            </phone:PanoramaItem>
+        </phone:Panorama>
+    </Grid>
+
+</phone:PhoneApplicationPage>

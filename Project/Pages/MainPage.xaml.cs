@@ -453,7 +453,7 @@ namespace Kazyx.WPPMM.Pages
             if (!cameraManager.IntervalManager.IsRunning &&
                 cameraManager.cameraStatus != null &&
                 cameraManager.cameraStatus.Status == EventParam.Idle &&
-                cameraManager.cameraStatus.ShootModeInfo.Current == ShootModeParam.Still &&
+                cameraManager.cameraStatus.ShootMode.Current == ShootModeParam.Still &&
                 (
                     cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
                     cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
@@ -467,7 +467,7 @@ namespace Kazyx.WPPMM.Pages
             if (!cameraManager.IntervalManager.IsRunning &&
                 cameraManager.cameraStatus != null &&
                 cameraManager.cameraStatus.Status == EventParam.StCapturing &&
-                cameraManager.cameraStatus.ShootModeInfo.Current == ShootModeParam.Still &&
+                cameraManager.cameraStatus.ShootMode.Current == ShootModeParam.Still &&
                 (
                     cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
                     cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)

@@ -95,6 +95,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FocusFrames.xaml.cs">
+      <DependentUpon>FocusFrames.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ContentPlaybackData.cs" />
     <Compile Include="DataModel\RemoteThumbnailData.cs" />
     <Compile Include="Pages\RemoteViewerPage.xaml.cs">
@@ -183,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Controls\CheckBoxSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FocusFrames.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

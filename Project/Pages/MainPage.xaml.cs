@@ -593,6 +593,7 @@ namespace Kazyx.WPPMM.Pages
             ShootingPivot.Opacity = 1;
             SetLayoutByOrientation(this.Orientation);
             cameraManager.ShowToast += ShowToast;
+            cameraManager.OnFocusFrameRetrived += cameraManager_OnFocusFrameRetrived;
             ToastApparance.Completed += ToastApparance_Completed;
             FraimingGrids.ManipulationCompleted += FraimingGrids_ManipulationCompleted;
 
@@ -670,6 +671,11 @@ namespace Kazyx.WPPMM.Pages
             {
                 await GeopositionManager.GetInstance().AcquireGeoPosition();
             }
+        }
+
+        private void cameraManager_OnFocusFrameRetrived(ImageStream.FocusFramePacket p)
+        {
+            FocusFrames.SetFocusFrames(p.FocusFrames);
         }
 
         void cameraManager_OnExposureModeChanged(string obj)
@@ -855,6 +861,7 @@ namespace Kazyx.WPPMM.Pages
             // cameraManager.StopEventObserver();
 
             cameraManager.ShowToast -= ShowToast;
+            cameraManager.OnFocusFrameRetrived -= cameraManager_OnFocusFrameRetrived;
             ToastApparance.Completed -= ToastApparance_Completed;
             CameraButtons.ShutterKeyPressed -= CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed -= CameraButtons_ShutterKeyHalfPressed;

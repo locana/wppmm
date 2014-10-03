@@ -82,6 +82,7 @@ namespace Kazyx.WPPMM.Controls
                             case Status.Normal:
                                 this.AddFrame(x1, x2, y1, y2, NormalBrush, info.AdditionalStatus == AdditionalStatus.LargeFrame);
                                 break;
+
                         }
                         break;
                     case Category.Face:

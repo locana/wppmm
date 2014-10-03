@@ -599,9 +599,9 @@ namespace Kazyx.WPPMM.Pages
             CameraButtons.ShutterKeyPressed += CameraButtons_ShutterKeyPressed;
             CameraButtons.ShutterKeyHalfPressed += CameraButtons_ShutterKeyHalfPressed;
             CameraButtons.ShutterKeyReleased += CameraButtons_ShutterKeyReleased;
+
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
             cameraManager.OnExposureModeChanged += cameraManager_OnExposureModeChanged;
-            cameraManager.OnFocusFrameRetrived += cameraManager_OnFocusFrameRetrived;
             if (svd != null)
             {
                 svd.SlidersVisibilityChanged += SlidersVisibilityChanged;
@@ -678,11 +678,6 @@ namespace Kazyx.WPPMM.Pages
             {
                 this.CloseSliderPanel();
             }
-        }
-
-        void cameraManager_OnFocusFrameRetrived(ImageStream.FocusFramePacket p)
-        {
-            FocusFrames.SetFocusFrames(p.FocusFrames);
         }
 
         private void OnFetchingImages(int count)
@@ -867,7 +862,6 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
             cameraManager.OnExposureModeChanged -= cameraManager_OnExposureModeChanged;
-            cameraManager.OnFocusFrameRetrived -= cameraManager_OnFocusFrameRetrived;
 
             FraimingGrids.ManipulationCompleted -= FraimingGrids_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();

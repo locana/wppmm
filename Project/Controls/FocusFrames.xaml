@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 ﻿<UserControl x:Class="Kazyx.WPPMM.Controls.FocusFrames"
-=======
-﻿<UserControl x:Class="Kazyx.WPMMM.Controls.FocusFrames"
->>>>>>> e3c20c3... Support focus frame display.
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,6 +8,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
+
     <Grid x:Name="LayoutRoot" Background="Transparent">
 
     </Grid>

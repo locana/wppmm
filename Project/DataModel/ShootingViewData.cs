@@ -392,12 +392,6 @@ namespace Kazyx.WPPMM.DataModel
                     return Visibility.Collapsed;
                 }
 
-                if (cameraStatus.IsSupported("setLiveviewFrameInfo"))
-                {
-                    // In case frame display from stream packet is available, this local frame should not be displayed.
-                    return Visibility.Collapsed;
-                }
-
                 if (cameraStatus.IsAvailable("setTouchAFPosition"))
                 {
                     switch (cameraStatus.FocusStatus)

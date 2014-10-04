@@ -64,38 +64,35 @@ namespace Kazyx.WPPMM.Controls
                 double y1 = (double)info.TopLeft_Y / 10000 * LayoutRoot.ActualHeight;
                 double y2 = (double)info.BottomRight_Y / 10000 * LayoutRoot.ActualHeight;
 
-                var brush = NormalBrush;
                 switch (info.Category)
                 {
                     case Category.ContrastAF:
                     case Category.Tracking:
                     case Category.PhaseDetectionAF:
-                        
+
                         switch (info.Status)
                         {
                             case Status.Focused:
-                                brush = FocusedBrush;
+                                this.AddFrame(x1, x2, y1, y2, FocusedBrush, FrameStrokeThickness, info.AdditionalStatus == AdditionalStatus.LargeFrame);
                                 break;
                             case Status.Normal:
-                                brush = NormalBrush;
+                                this.AddFrame(x1, x2, y1, y2, NormalBrush, FrameStrokeThickness, info.AdditionalStatus == AdditionalStatus.LargeFrame);
                                 break;
                         }
-                        this.AddFrame(x1, x2, y1, y2, brush, FrameStrokeThickness, info.AdditionalStatus == AdditionalStatus.LargeFrame);
                         break;
                     case Category.Face:
                         switch (info.Status)
                         {
                             case Status.Focused:
-                                brush = FocusedBrush;
+                                this.AddFrame(x1, x2, y1, y2, FocusedBrush, FaceFrameStrokeThickness);
                                 break;
                             case Status.Main:
-                                brush = MainBrush;
+                                this.AddFrame(x1, x2, y1, y2, MainBrush, FaceFrameStrokeThickness);
                                 break;
                             case Status.Sub:
-                                brush = SubBrush;
+                                this.AddFrame(x1, x2, y1, y2, SubBrush, FaceFrameStrokeThickness);
                                 break;
                         }
-                        this.AddFrame(x1, x2, y1, y2, brush, FaceFrameStrokeThickness);
                         break;
                 }
             }

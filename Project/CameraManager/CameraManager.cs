@@ -165,14 +165,14 @@ namespace Kazyx.WPPMM.CameraManager
 
         private void lvProcessor_FocusFrameRetrieved(object sender, FocusFrameEventArgs e)
         {
-            DebugUtil.Log("[Focus Frame] Retrived " + e.Packet.FocusFrames.Count + " frames.");
-            if (OnFocusFrameRetrived != null)
+            // DebugUtil.Log("[Focus Frame] Retrived " + e.Packet.FocusFrames.Count + " frames.");
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                if (OnFocusFrameRetrived != null)
                 {
                     OnFocusFrameRetrived(e.Packet);
-                });
-            }
+                }
+            });
         }
 
         void cameraStatus_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -51,7 +51,7 @@ namespace Kazyx.WPPMM.Utils
                 using (var store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
                     StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
-                    var time = DateTimeOffset.Now.ToLocalTime().ToString("yyyyMMdd-hhmmss");
+                    var time = DateTimeOffset.Now.ToLocalTime().ToString("yyyyMMdd-HHmmss");
                     var filename = LOG_ROOT + time + LOG_EXTENSION;
                     Debug.WriteLine("\n\nFlush log file: {0}\n\n", filename);
 

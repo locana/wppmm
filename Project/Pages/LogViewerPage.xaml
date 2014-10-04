@@ -13,19 +13,16 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="False">
 
-    <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot">
         <phone:Panorama >
 
-            <!--Panorama item one-->
             <phone:PanoramaItem Margin="0">
                 <phone:PanoramaItem.Header>
-                    <TextBlock Text="LogFiles" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                    <TextBlock Text="Log Files" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PanoramaItem.Header>
                 <ListBox x:Name="FileListBox" SelectionChanged="ListBox_SelectionChanged" Margin="0,-24,0,0" />
             </phone:PanoramaItem>
 
-            <!--Panorama item two-->
             <phone:PanoramaItem Margin="0">
                 <phone:PanoramaItem.Header>
                     <TextBlock x:Name="ContentHeader" Text="Content" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
@@ -34,6 +31,7 @@
                     <TextBlock x:Name="LogContent" Tap="LogContent_Tap" TextWrapping="Wrap" />
                 </ScrollViewer>
             </phone:PanoramaItem>
+
         </phone:Panorama>
     </Grid>
 

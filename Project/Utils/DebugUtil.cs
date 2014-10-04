@@ -44,7 +44,7 @@ namespace Kazyx.WPPMM.Utils
         }
 
 #if DEBUG
-        public static void Flush()
+        public static void Flush(bool crash = false)
         {
             lock (Lock)
             {
@@ -52,7 +52,7 @@ namespace Kazyx.WPPMM.Utils
                 {
                     StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
                     var time = DateTimeOffset.Now.ToLocalTime().ToString("yyyyMMdd-HHmmss");
-                    var filename = LOG_ROOT + time + LOG_EXTENSION;
+                    var filename = LOG_ROOT + time + (crash ? "_crash" : "") + LOG_EXTENSION;
                     Debug.WriteLine("\n\nFlush log file: {0}\n\n", filename);
 
                     using (var str = store.CreateFile(filename))

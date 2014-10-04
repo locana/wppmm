@@ -98,10 +98,11 @@ namespace Kazyx.WPPMM
         // ハンドルされない例外の発生時に実行されるコード
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+            DebugUtil.Log(e.ExceptionObject.StackTrace);
+            DebugUtil.Log(e.ExceptionObject.Message);
+            DebugUtil.Flush(true);
             if (Debugger.IsAttached)
             {
-                DebugUtil.Log(e.ExceptionObject.StackTrace);
-                DebugUtil.Log(e.ExceptionObject.Message);
                 // ハンドルされない例外が発生しました。デバッガーで中断します。
                 Debugger.Break();
             }

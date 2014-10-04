@@ -800,8 +800,6 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-
-
         void FraimingGrids_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
             if (cpm.IsShowing())

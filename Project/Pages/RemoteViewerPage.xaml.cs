@@ -86,7 +86,7 @@ namespace Kazyx.WPPMM.Pages
 
             LoadLocalContents();
 
-            AddDummyContentsAsync();
+            // AddDummyContentsAsync();
 
             CameraManager.CameraManager.GetInstance().Status.PropertyChanged += status_PropertyChanged;
             PictureSyncManager.Instance.Failed += OnDLError;

@@ -21,6 +21,11 @@ namespace Kazyx.WPPMM.Utils
             // IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarMenuItem SelectItemsMenuItem = new ApplicationBarMenuItem
+        {
+            Text = "Select items to sync",
+        };
+
 #if DEBUG
         readonly ApplicationBarMenuItem LogMenuItem = new ApplicationBarMenuItem
         {
@@ -64,6 +69,12 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton SyncItem = new ApplicationBarIconButton
+        {
+            Text = "Sync",
+            IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -80,6 +91,8 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.CameraRoll, CameraRollItem);
             IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
+            IconMenuItems.Add(IconMenu.SyncContents, SyncItem);
+            MenuItems.Add(Menu.SelectItems, SelectItemsMenuItem);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
 #endif
@@ -183,6 +196,7 @@ namespace Kazyx.WPPMM.Utils
     public enum Menu
     {
         About,
+        SelectItems,
 #if DEBUG
         Log,
 #endif
@@ -197,5 +211,6 @@ namespace Kazyx.WPPMM.Utils
         CameraRoll,
         Hidden,
         CloseApplicationSetting,
+        SyncContents,
     }
 }

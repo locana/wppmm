@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:playback="clr-namespace:Kazyx.WPPMM.PlaybackMode"
     xmlns:wppmmcontrol="clr-namespace:Kazyx.WPPMM.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -23,7 +24,7 @@
                 <Border.Background>
                     <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
                 </Border.Background>
-                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" >
+                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
                     <Image.Source>
                         <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
@@ -89,7 +90,7 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="Phone storage" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PivotItem.Header>
-                <wppmmcontrol:ScrollDetectableLongListSelector
+                <phone:LongListSelector
                 Name="LocalImageGrid"
                 Margin="0"
                 IsGroupingEnabled="False"
@@ -97,7 +98,7 @@
                 GridCellSize="112,112"
                 ItemsSource="{Binding Group, Mode=OneWay}"
                 ItemTemplate="{StaticResource LocalItemTemplate}" >
-                </wppmmcontrol:ScrollDetectableLongListSelector>
+                </phone:LongListSelector>
             </phone:PivotItem>
 
             <phone:PivotItem x:Name="RemotePivot" Margin="0,14,0,0">
@@ -105,7 +106,8 @@
                     <TextBlock x:Name="TitleBlock" Text="Camera storage" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PivotItem.Header>
                 <Grid>
-                    <wppmmcontrol:ScrollDetectableLongListSelector
+                    <TextBlock x:Name="UnsupportedMessage" Text="Access to the camera storage seems to be allowed only on the latest models..." TextWrapping="Wrap" VerticalAlignment="Center" Margin="36,0" Style="{StaticResource PhoneTextTitle3Style}"/>
+                    <toolkit:LongListMultiSelector
                         Name="RemoteImageGrid"
                         Margin="0"
                         IsGroupingEnabled="True"
@@ -115,9 +117,8 @@
                         ItemTemplate="{StaticResource ItemTemplate}"
                         JumpListStyle="{StaticResource DateGroupJumpListStyle}"
                         Loaded="ImageGrid_Loaded"
-                        Unloaded="ImageGrid_Unloaded" SelectionChanged="ImageGrid_SelectionChanged" ItemRealized="ImageGrid_ItemRealized" >
-                    </wppmmcontrol:ScrollDetectableLongListSelector>
-                    <TextBlock x:Name="UnsupportedMessage" Text="Access to the camera storage seems to be allowed only on the latest models..." TextWrapping="Wrap" VerticalAlignment="Center" Margin="36,0" Style="{StaticResource PhoneTextTitle3Style}"/>
+                        Unloaded="ImageGrid_Unloaded" SelectionChanged="ImageGrid_SelectionChanged" ItemRealized="ImageGrid_ItemRealized" IsSelectionEnabledChanged="RemoteImageGrid_IsSelectionEnabledChanged" >
+                    </toolkit:LongListMultiSelector>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

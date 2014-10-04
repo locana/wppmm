@@ -1242,7 +1242,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fetching images....
+        ///   Looks up a localized string similar to Fetching... {0} images to complete..
         /// </summary>
         public static string ProgressMessageFetching {
             get {

@@ -31,6 +31,10 @@ namespace Kazyx.WPPMM.Utils
         {
             Text = "Log Viewer",
         };
+        readonly ApplicationBarMenuItem ContentsMenuItem = new ApplicationBarMenuItem
+        {
+            Text = "Short cut to contents",
+        };
 #endif
 
         readonly ApplicationBarIconButton ControlPanelItem = new ApplicationBarIconButton
@@ -95,6 +99,7 @@ namespace Kazyx.WPPMM.Utils
             MenuItems.Add(Menu.SelectItems, SelectItemsMenuItem);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
+            MenuItems.Add(Menu.Contents, ContentsMenuItem);
 #endif
         }
 
@@ -199,6 +204,7 @@ namespace Kazyx.WPPMM.Utils
         SelectItems,
 #if DEBUG
         Log,
+        Contents,
 #endif
     }
 

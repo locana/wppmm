@@ -71,6 +71,10 @@ namespace Kazyx.WPPMM.Pages
             {
                 NavigationService.Navigate(new Uri("/Pages/LogViewerPage.xaml", UriKind.Relative));
             });
+            abm.SetEvent(Menu.Contents, (sender, e) =>
+            {
+                NavigationService.Navigate(new Uri(ViewerPageUri, UriKind.Relative));
+            });
 #endif
             abm.SetEvent(IconMenu.WiFi, (sender, e) => { var task = new ConnectionSettingsTask { ConnectionSettingsType = ConnectionSettingsType.WiFi }; task.Show(); });
             abm.SetEvent(IconMenu.ControlPanel, (sender, e) =>
@@ -895,7 +899,7 @@ namespace Kazyx.WPPMM.Pages
         {
             EntrancePivot.Opacity = 1;
 #if DEBUG
-            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(Menu.Log).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(Menu.Log).Enable(Menu.Contents).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(0.0);
 #else
             ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(0.0);
 #endif

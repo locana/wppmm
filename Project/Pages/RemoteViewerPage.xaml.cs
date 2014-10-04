@@ -86,8 +86,9 @@ namespace Kazyx.WPPMM.Pages
 
             LoadLocalContents();
 
+#if DEBUG
             // AddDummyContentsAsync();
-
+#endif
             CameraManager.CameraManager.GetInstance().Status.PropertyChanged += status_PropertyChanged;
             PictureSyncManager.Instance.Failed += OnDLError;
             PictureSyncManager.Instance.Fetched += OnFetched;
@@ -142,6 +143,7 @@ namespace Kazyx.WPPMM.Pages
 
         private string CurrentUuid { set; get; }
 
+#if DEBUG
         private async void AddDummyContentsAsync()
         {
             if (CurrentUuid == null)
@@ -170,6 +172,7 @@ namespace Kazyx.WPPMM.Pages
                 await Task.Delay(500);
             }
         }
+#endif
 
         private CancellationTokenSource Canceller;
 
@@ -386,7 +389,7 @@ namespace Kazyx.WPPMM.Pages
         {
             if (count != 0)
             {
-                ChangeProgressText(AppResources.ProgressMessageFetching);
+                ChangeProgressText(string.Format(AppResources.ProgressMessageFetching, count));
             }
             else
             {

@@ -52,8 +52,7 @@ namespace Kazyx.WPPMM.Pages
         private static readonly BitmapImage GeoInfoStatusImage_NG = new BitmapImage(new Uri("/Assets/Screen/GeoInfoStatus_NG.png", UriKind.Relative));
         private static readonly BitmapImage GeoInfoStatusImage_Updating = new BitmapImage(new Uri("/Assets/Screen/GeoInfoStatus_Updating.png", UriKind.Relative));
 
-        // private const string ViewerPageUri = "/Pages/RemoteViewerPage.xaml";
-        private const string ViewerPageUri = "/Pages/ViewerPage.xaml";
+        private const string ViewerPageUri = "/Pages/RemoteViewerPage.xaml";
 
         public MainPage()
         {
@@ -194,8 +193,8 @@ namespace Kazyx.WPPMM.Pages
         {
             var error = "";
             var isOriginal = false;
-            if (cameraManager.cameraStatus.PostviewSizeInfo != null
-                && cameraManager.cameraStatus.PostviewSizeInfo.Current == "Original")
+            if (cameraManager.Status.PostviewSizeInfo != null
+                && cameraManager.Status.PostviewSizeInfo.Current == "Original")
             {
                 isOriginal = true;
             }
@@ -457,12 +456,12 @@ namespace Kazyx.WPPMM.Pages
         private bool StartContShootingAvailable()
         {
             if (!cameraManager.IntervalManager.IsRunning &&
-                cameraManager.cameraStatus != null &&
-                cameraManager.cameraStatus.Status == EventParam.Idle &&
-                cameraManager.cameraStatus.ShootMode.Current == ShootModeParam.Still &&
+                cameraManager.Status != null &&
+                cameraManager.Status.Status == EventParam.Idle &&
+                cameraManager.Status.ShootMode.Current == ShootModeParam.Still &&
                 (
-                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
-                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
+                    cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                    cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
                 )
             { return true; }
             return false;
@@ -471,12 +470,12 @@ namespace Kazyx.WPPMM.Pages
         private bool StopContShootingAvailable()
         {
             if (!cameraManager.IntervalManager.IsRunning &&
-                cameraManager.cameraStatus != null &&
-                cameraManager.cameraStatus.Status == EventParam.StCapturing &&
-                cameraManager.cameraStatus.ShootMode.Current == ShootModeParam.Still &&
+                cameraManager.Status != null &&
+                cameraManager.Status.Status == EventParam.StCapturing &&
+                cameraManager.Status.ShootMode.Current == ShootModeParam.Still &&
                 (
-                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
-                    cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
+                    cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                    cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
                 )
             { return true; }
             return false;
@@ -502,7 +501,7 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            var status = cameraManager.cameraStatus;
+            var status = cameraManager.Status;
             switch (status.Status)
             {
                 case EventParam.Idle:
@@ -546,8 +545,8 @@ namespace Kazyx.WPPMM.Pages
                     cameraManager.StopIntervalStillRec();
                     break;
                 case EventParam.StCapturing:
-                    if (cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.Cont ||
-                cameraManager.cameraStatus.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
+                    if (cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
                     {
                         await cameraManager.CameraApi.StopContShootingAsync();
                     }
@@ -863,9 +862,6 @@ namespace Kazyx.WPPMM.Pages
             AppStatus.GetInstance().IsInShootingDisplay = false;
             ShootingPivot.Opacity = 0;
 
-            cameraManager.StopEventObserver();
-            // cameraManager.StopEventObserver();
-
             cameraManager.ShowToast -= ShowToast;
             cameraManager.OnFocusFrameRetrived -= cameraManager_OnFocusFrameRetrived;
             ToastApparance.Completed -= ToastApparance_Completed;
@@ -1008,11 +1004,11 @@ namespace Kazyx.WPPMM.Pages
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            svd = new ShootingViewData(AppStatus.GetInstance(), cameraManager.cameraStatus);
+            svd = new ShootingViewData(AppStatus.GetInstance(), cameraManager.Status);
             ShootingPivot.DataContext = svd;
             IntervalStatusPanel.DataContext = cameraManager.IntervalManager;
-            ScreenImageWrapper.DataContext = cameraManager.cameraStatus;
-            AudioScreenImage.DataContext = cameraManager.cameraStatus;
+            ScreenImageWrapper.DataContext = cameraManager.Status;
+            AudioScreenImage.DataContext = cameraManager.Status;
             ShootButtonWrapper.DataContext = ApplicationSettings.GetInstance();
             ShootButton.DataContext = svd;
             TouchAFPointer.DataContext = svd;
@@ -1380,7 +1376,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void FNumberSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.FNumber == null)
+            if (cameraManager == null || cameraManager.Status == null || cameraManager.Status.FNumber == null)
             {
                 return;
             }
@@ -1389,15 +1385,15 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             FNumberSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.FNumber.Candidates.Count)
+            if (value < cameraManager.Status.FNumber.Candidates.Count)
             {
-                cameraManager.SetFNumber(cameraManager.cameraStatus.FNumber.Candidates[value]);
+                cameraManager.SetFNumber(cameraManager.Status.FNumber.Candidates[value]);
             }
         }
 
         private void ShutterSpeedSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.ShutterSpeed == null)
+            if (cameraManager == null || cameraManager.Status == null || cameraManager.Status.ShutterSpeed == null)
             {
                 return;
             }
@@ -1406,15 +1402,15 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             ShutterSpeedSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.ShutterSpeed.Candidates.Count)
+            if (value < cameraManager.Status.ShutterSpeed.Candidates.Count)
             {
-                cameraManager.SetShutterSpeed(cameraManager.cameraStatus.ShutterSpeed.Candidates[value]);
+                cameraManager.SetShutterSpeed(cameraManager.Status.ShutterSpeed.Candidates[value]);
             }
         }
 
         private void EvSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.EvInfo == null)
+            if (cameraManager == null || cameraManager.Status == null || cameraManager.Status.EvInfo == null)
             {
                 return;
             }
@@ -1423,7 +1419,7 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             EvSlider.Value = value;
 
-            if (value >= cameraManager.cameraStatus.EvInfo.Candidate.MinIndex && value <= cameraManager.cameraStatus.EvInfo.Candidate.MaxIndex)
+            if (value >= cameraManager.Status.EvInfo.Candidate.MinIndex && value <= cameraManager.Status.EvInfo.Candidate.MaxIndex)
             {
                 cameraManager.SetExposureCompensation(value);
             }
@@ -1431,7 +1427,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void IsoSlider_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            if (cameraManager == null || cameraManager.cameraStatus == null || cameraManager.cameraStatus.ISOSpeedRate == null)
+            if (cameraManager == null || cameraManager.Status == null || cameraManager.Status.ISOSpeedRate == null)
             {
                 return;
             }
@@ -1440,9 +1436,9 @@ namespace Kazyx.WPPMM.Pages
             var value = (int)Math.Round(v);
             IsoSlider.Value = value;
 
-            if (value < cameraManager.cameraStatus.ISOSpeedRate.Candidates.Count)
+            if (value < cameraManager.Status.ISOSpeedRate.Candidates.Count)
             {
-                cameraManager.SetIsoSpeedRate(cameraManager.cameraStatus.ISOSpeedRate.Candidates[value]);
+                cameraManager.SetIsoSpeedRate(cameraManager.Status.ISOSpeedRate.Candidates[value]);
             }
         }
 

@@ -69,6 +69,7 @@ namespace Kazyx.WPPMM.Controls
                     case Category.ContrastAF:
                     case Category.Tracking:
                     case Category.PhaseDetectionAF:
+
                         switch (info.Status)
                         {
                             case Status.Focused:

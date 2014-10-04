@@ -29,6 +29,7 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.SyncContents, (sender, e) =>
             {
                 DebugUtil.Log("Sync clicked");
+
                 SwitchAppBar(ViewerState.Sync);
                 ChangeProgressText("Downloading selected images...");
                 FetchSelectedImages();
@@ -661,6 +662,11 @@ namespace Kazyx.WPPMM.Pages
         private void FetchSelectedImages()
         {
             var items = RemoteImageGrid.SelectedItems;
+            if (items.Count == 0)
+            {
+                HideProgress();
+                return;
+            }
             foreach (var item in items)
             {
                 try

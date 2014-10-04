@@ -13,6 +13,7 @@ namespace Kazyx.WPPMM.Pages
         {
             InitializeComponent();
 #if DEBUG
+            DebugUtil.Flush();
             files = new List<string>(DebugUtil.LogFiles());
             FileListBox.ItemsSource = files;
 #endif

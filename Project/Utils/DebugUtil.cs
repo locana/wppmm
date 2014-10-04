@@ -1,5 +1,6 @@
 ﻿#if DEBUG
 using Microsoft.Phone.Tasks;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -14,8 +15,6 @@ namespace Kazyx.WPPMM.Utils
         private static StringBuilder LogBuilder = new StringBuilder();
 
         private const string LOG_ROOT = "/log_store/";
-
-        private const string LOG_FILE = "console_log";
 
         private const string LOG_EXTENSION = ".txt";
 
@@ -45,24 +44,27 @@ namespace Kazyx.WPPMM.Utils
         }
 
 #if DEBUG
-        private static void Flush()
+        public static void Flush()
         {
-            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            lock (Lock)
             {
-                StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
-                var count = store.GetFileNames(LOG_ROOT + "*").Length;
-                var filename = LOG_ROOT + LOG_FILE + count + LOG_EXTENSION;
-                Debug.WriteLine("\n\nFlush log file: {0}\n\n", filename);
-
-                using (var str = store.CreateFile(filename))
+                using (var store = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    using (var writer = new StreamWriter(str))
+                    StorageUtil.ConfirmDirectoryCreated(store, LOG_ROOT);
+                    var time = DateTimeOffset.Now.ToLocalTime().ToString("yyyyMMdd-hhmmss");
+                    var filename = LOG_ROOT + time + LOG_EXTENSION;
+                    Debug.WriteLine("\n\nFlush log file: {0}\n\n", filename);
+
+                    using (var str = store.CreateFile(filename))
                     {
-                        writer.Write(LogBuilder.ToString());
+                        using (var writer = new StreamWriter(str))
+                        {
+                            writer.Write(LogBuilder.ToString());
+                        }
                     }
                 }
+                LogBuilder.Clear();
             }
-            LogBuilder.Clear();
         }
 
         public static string[] LogFiles()

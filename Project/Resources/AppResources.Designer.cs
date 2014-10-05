@@ -792,6 +792,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display focus frame.
+        /// </summary>
+        public static string FocusFrameDisplay {
+            get {
+                return ResourceManager.GetString("FocusFrameDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus mode.
         /// </summary>
         public static string FocusMode {
@@ -923,6 +932,15 @@ namespace Kazyx.WPPMM.Resources {
         public static string Guide_DisplayTakeImageButtonSetting {
             get {
                 return ResourceManager.GetString("Guide_DisplayTakeImageButtonSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request to the camera to send focus frame information. This may cause performance issue on some devices..
+        /// </summary>
+        public static string Guide_FocusFrameDisplay {
+            get {
+                return ResourceManager.GetString("Guide_FocusFrameDisplay", resourceCulture);
             }
         }
         

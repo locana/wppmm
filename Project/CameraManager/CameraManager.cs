@@ -152,6 +152,7 @@ namespace Kazyx.WPPMM.CameraManager
                     CloseLiveviewConnection();
                 }
             };
+            Status.FocusFrameAvailablityNotifier += FocusFrameAvailablityChanged;
             Status.PropertyChanged += cameraStatus_PropertyChanged;
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
@@ -162,6 +163,41 @@ namespace Kazyx.WPPMM.CameraManager
             PictureSyncManager.Instance.Failed += OnFetchFailed;
             PictureSyncManager.Instance.Message += OnShowToast;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated += DownloadQueueStatusUpdated;
+        }
+
+        private async void FocusFrameAvailablityChanged(bool available)
+        {
+            DebugUtil.Log("FocusFrame availablity changed: " + available);
+            if (available)
+            {
+                await SetFocusFrameInfo(ApplicationSettings.GetInstance().RequestFocusFrameInfo);
+            }
+        }
+
+        internal async void FocusFrameSettingChanged(bool setting)
+        {
+            DebugUtil.Log("FocusFrame setting changed: " + setting);
+            if (_cameraStatus.IsAvailable("setLiveviewFrameInfo"))
+            {
+                await SetFocusFrameInfo(setting);
+            }
+        }
+
+        internal async Task SetFocusFrameInfo(bool setting)
+        {
+            try
+            {
+                if (_cameraStatus.IsSupported("setLiveviewFrameInfo"))
+                {
+                    DebugUtil.Log("Set liveview frame info true");
+                    await CameraApi.SetLiveviewFrameInfo(new FrameInfoSetting() { TransferFrameInfo = setting });
+                }
+            }
+            catch (RemoteApiException e)
+            {
+                DebugUtil.Log("Failed to call setLiveviewFrameInfo. fallback to previous setting. " + e.StackTrace);
+                ApplicationSettings.GetInstance().RequestFocusFrameInfo = !setting;
+            }
         }
 
         private void lvProcessor_FocusFrameRetrieved(object sender, FocusFrameEventArgs e)
@@ -458,19 +494,6 @@ namespace Kazyx.WPPMM.CameraManager
                 catch (RemoteApiException)
                 {
                     DebugUtil.Log("Failed to set current time");
-                }
-
-                try
-                {
-                    if (_cameraStatus.IsSupported("setLiveviewFrameInfo"))
-                    {
-                        DebugUtil.Log("Set liveview frame info true");
-                        await CameraApi.SetLiveviewFrameInfo(new FrameInfoSetting() { TransferFrameInfo = true });
-                    }
-                }
-                catch (RemoteApiException e)
-                {
-                    DebugUtil.Log("Failed to call setLiveviewFrameInfo" + e.StackTrace);
                 }
             }
         }

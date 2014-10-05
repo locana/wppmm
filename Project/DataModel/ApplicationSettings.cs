@@ -56,6 +56,7 @@ namespace Kazyx.WPPMM.DataModel
             GridType = Preference.FramingGridsType() ?? FramingGridTypes.Off;
             GridColor = Preference.FramingGridsColor() ?? FramingGridColor.White;
             FibonacciLineOrigin = Preference.FibonacciOrigin() ?? FibonacciLineOrigins.UpperLeft;
+            RequestFocusFrameInfo = Preference.RequestFocusFrameInfo();
         }
 
         public static ApplicationSettings GetInstance()
@@ -218,6 +219,24 @@ namespace Kazyx.WPPMM.DataModel
                 }
             }
             get { return _GeotagEnabled; }
+        }
+
+        private bool _RequestFocusFrameInfo = true;
+        public bool RequestFocusFrameInfo
+        {
+            set
+            {
+                if (_RequestFocusFrameInfo != value)
+                {
+                    Preference.SetRequestFocusFrameInfo(value);
+                    _RequestFocusFrameInfo = value;
+                    OnPropertyChanged("RequestFocusFrameInfo");
+                }
+            }
+            get
+            {
+                return _RequestFocusFrameInfo;
+            }
         }
 
         private string _GridType = FramingGridTypes.Off;

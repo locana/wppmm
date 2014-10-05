@@ -113,8 +113,7 @@ namespace Kazyx.WPPMM.Pages
         private void OnStorageInfoChanged(CameraStatus status)
         {
             DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged");
-            IsRemoteInitialized = false;
-            GridSource.Clear();
+
 
             if (status.Status != EventParam.ContentsTransfer)
             {
@@ -125,21 +124,24 @@ namespace Kazyx.WPPMM.Pages
 
             if (!IsStorageAvailable())
             {
+                IsRemoteInitialized = false;
+                GridSource.Clear();
                 DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - No Storage available");
                 ShowToast("Memory card storage seems to be detached");
             }
             else
             {
-                DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - " + storages.Count);
-                if (PivotRoot.SelectedIndex == 1 && CheckRemoteCapability())
-                {
-                    if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
-                    {
-                        ShowToast("Refresh contents");
-                        InitializeRemote();
-                    }
-                }
+                //DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - " + storages.Count);
+                //if (PivotRoot.SelectedIndex == 1 && CheckRemoteCapability())
+                //{
+                //    if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
+                //    {
+                //        ShowToast("Refresh contents");
+                //        InitializeRemote();
+                //    }
+                //}
             }
+
         }
 
         ThumbnailGroup groups = null;

@@ -13,6 +13,7 @@ namespace Kazyx.WPPMM.Utils
         public const string fraiming_grids = "fraiming_grids";
         public const string framing_grids_color = "framing_grids_color";
         public const string fibonacci_origin = "fibonacci_origin";
+        public const string request_focus_frame_info = "request_focus_frame_info";
 
         public static bool IsPostviewTransferEnabled()
         {
@@ -193,7 +194,6 @@ namespace Kazyx.WPPMM.Utils
             {
                 return (string)settings[fibonacci_origin];
             }
-            DebugUtil.Log("Fibonacci origin returns null.");
             return null;
         }
 
@@ -205,6 +205,26 @@ namespace Kazyx.WPPMM.Utils
                 settings.Remove(fibonacci_origin);
             }
             settings.Add(fibonacci_origin, type);
+        }
+
+        public static bool RequestFocusFrameInfo()
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(request_focus_frame_info))
+            {
+                return (bool)settings[request_focus_frame_info];
+            }
+            return true;
+        }
+
+        public static void SetRequestFocusFrameInfo(bool setting)
+        {
+            var settings = IsolatedStorageSettings.ApplicationSettings;
+            if (settings.Contains(request_focus_frame_info))
+            {
+                settings.Remove(request_focus_frame_info);
+            }
+            settings.Add(request_focus_frame_info, setting);
         }
 
         public static void SetPreference(string key, bool enable)

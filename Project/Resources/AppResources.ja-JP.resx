@@ -677,4 +677,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="Minute_Unit" xml:space="preserve">
     <value>分</value>
   </data>
+  <data name="FocusFrameDisplay" xml:space="preserve">
+    <value>フォーカス枠表示</value>
+  </data>
+  <data name="Guide_FocusFrameDisplay" xml:space="preserve">
+    <value>フォーカス枠情報を送信するようカメラに要求します。機器によってはアプリのパフォーマンスに影響する場合があります。</value>
+  </data>
 </root>

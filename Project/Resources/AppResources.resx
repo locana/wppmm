@@ -700,4 +700,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="Minute_Unit" xml:space="preserve">
     <value>min.</value>
   </data>
+  <data name="FocusFrameDisplay" xml:space="preserve">
+    <value>Display focus frame</value>
+  </data>
+  <data name="Guide_FocusFrameDisplay" xml:space="preserve">
+    <value>Request to the camera to send focus frame information. This may cause performance issue on some devices.</value>
+  </data>
 </root>

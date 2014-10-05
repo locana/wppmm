@@ -1234,6 +1234,7 @@ namespace Kazyx.WPPMM.Pages
         private AppSettingData<bool> geoSetting;
         private AppSettingData<int> gridColorSetting;
         private AppSettingData<int> fibonacciOriginSetting;
+        private AppSettingData<bool> RequestFocusFrame;
 
         private void InitAppSettingPanel()
         {
@@ -1264,6 +1265,14 @@ namespace Kazyx.WPPMM.Pages
                 new AppSettingData<bool>(AppResources.DisplayHistogram, AppResources.Guide_Histogram,
                 () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
+
+            RequestFocusFrame = new AppSettingData<bool>(AppResources.FocusFrameDisplay, AppResources.Guide_FocusFrameDisplay,
+                () => { return ApplicationSettings.GetInstance().RequestFocusFrameInfo; },
+                enabled => { 
+                    ApplicationSettings.GetInstance().RequestFocusFrameInfo = enabled;
+                    cameraManager.FocusFrameSettingChanged(enabled);
+                });
+            display_settings.Add(new CheckBoxSetting(RequestFocusFrame));
 
             display_settings.Add(new ListPickerSetting(
                 new AppSettingData<int>(AppResources.FramingGrids, AppResources.Guide_FramingGrids,

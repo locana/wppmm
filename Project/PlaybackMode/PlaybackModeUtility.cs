@@ -26,6 +26,21 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         private static async Task<bool> MoveToSpecifiedModeAsync(CameraApiClient camera, CameraStatus status, string nextFunction, string nextState)
         {
+            try
+            {
+                DebugUtil.Log("Check current state...");
+                if (nextState == await camera.GetCameraFunctionAsync())
+                {
+                    DebugUtil.Log("Already in specified mode: " + nextState);
+                    return true;
+                }
+            }
+            catch (RemoteApiException)
+            {
+                DebugUtil.Log("Failed to get current state");
+                return false;
+            }
+
             var tcs = new TaskCompletionSource<bool>();
             var ct = new CancellationTokenSource(10000); // State change timeout 10 sec.
             ct.Token.Register(() => tcs.TrySetCanceled(), useSynchronizationContext: false);
@@ -72,15 +87,8 @@ namespace Kazyx.WPPMM.PlaybackMode
                 status.PropertyChanged -= status_observer;
             }
 
-            try
-            {
-                DebugUtil.Log("Failed to change camera state. Check current state...");
-                return nextState == await camera.GetCameraFunctionAsync();
-            }
-            catch (RemoteApiException)
-            {
-                return false;
-            }
+            DebugUtil.Log("Failed to change camera state...");
+            return false;
         }
 
         /// <summary>

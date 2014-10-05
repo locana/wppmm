@@ -851,7 +851,7 @@ namespace Kazyx.WPPMM.Pages
                             ChangeProgressText("Wating for movie playback stream...");
                             try
                             {
-                                var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent { Uri = content.Source.Uri });
+                                var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent { Uri = content.Source.Uri, RemotePlayType = RemotePlayMode.SimpleStreaming });
                                 if (!started)
                                 {
                                     ShowToast("Failed playback movie content");

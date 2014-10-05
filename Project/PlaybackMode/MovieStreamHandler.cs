@@ -59,6 +59,7 @@ namespace Kazyx.WPPMM.PlaybackMode
             }
             catch (Exception e)
             {
+                DebugUtil.Log(e.StackTrace);
                 AvContent = null;
                 return false;
             }

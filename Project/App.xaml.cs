@@ -1,3 +1,4 @@
+using Kazyx.WPPMM.PlaybackMode;
 using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
@@ -65,24 +66,28 @@ namespace Kazyx.WPPMM
         // このコードは、アプリケーションが再アクティブ化済みの場合には実行されません
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            ThumbnailCacheLoader.INSTANCE.DeleteCache();
         }
 
         // アプリケーションがアクティブになった (前面に表示された) ときに実行されるコード
         // このコードは、アプリケーションの初回起動時には実行されません
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            ThumbnailCacheLoader.INSTANCE.DeleteCache();
         }
 
         // アプリケーションが非アクティブになった (バックグラウンドに送信された) ときに実行されるコード
         // このコードは、アプリケーションの終了時には実行されません
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            CameraManager.CameraManager.GetInstance().Refresh();
         }
 
         // (たとえば、ユーザーが戻るボタンを押して) アプリケーションが終了するときに実行されるコード
         // このコードは、アプリケーションが非アクティブになっているときには実行されません
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            CameraManager.CameraManager.GetInstance().Refresh();
         }
 
         // ナビゲーションに失敗した場合に実行されるコード

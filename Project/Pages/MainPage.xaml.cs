@@ -324,12 +324,6 @@ namespace Kazyx.WPPMM.Pages
             }
 
             cameraManager.RequestCloseLiveView();
-
-            if (e.NavigationMode != NavigationMode.New || e.Uri.ToString() != ViewerPageUri)
-            {
-                DebugUtil.Log(e.Uri.ToString());
-                cameraManager.Refresh();
-            }
         }
 
         private void StartConnectionSequence(bool connect)

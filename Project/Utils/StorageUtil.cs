@@ -6,7 +6,7 @@ namespace Kazyx.WPPMM.Utils
     {
         private StorageUtil() { }
 
-        public static void DeleteDirectoryReqursive(IsolatedStorageFile store, string directory)
+        public static void DeleteDirectoryReqursive(IsolatedStorageFile store, string directory, bool includeThis = true)
         {
             if (store.DirectoryExists(directory))
             {
@@ -16,10 +16,13 @@ namespace Kazyx.WPPMM.Utils
                 }
                 foreach (var dir in store.GetDirectoryNames(directory))
                 {
-                    DeleteDirectoryReqursive(store, directory + dir + "\\");
+                    DeleteDirectoryReqursive(store, directory + dir + "/");
                 }
-                store.DeleteDirectory(directory.TrimEnd('\\'));
-                DebugUtil.Log("Deleted directory: " + directory);
+
+                if (includeThis)
+                {
+                    store.DeleteDirectory(directory);
+                }
             }
         }
 

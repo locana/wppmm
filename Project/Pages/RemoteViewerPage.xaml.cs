@@ -1,4 +1,6 @@
 using Kazyx.RemoteApi.AvContent;
+using Kazyx.RemoteApi.Camera;
+using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.PlaybackMode;
 using Kazyx.WPPMM.Resources;
@@ -95,6 +97,49 @@ namespace Kazyx.WPPMM.Pages
             PictureSyncManager.Instance.Failed += OnDLError;
             PictureSyncManager.Instance.Fetched += OnFetched;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated += OnFetchingImages;
+            CameraManager.CameraManager.GetInstance().Status.PropertyChanged += Status_PropertyChanged;
+        }
+
+        void Status_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Storages":
+                    OnStorageInfoChanged(sender as CameraStatus);
+                    break;
+            }
+        }
+
+        private void OnStorageInfoChanged(CameraStatus status)
+        {
+            DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged");
+            IsRemoteInitialized = false;
+            GridSource.Clear();
+
+            if (status.Status != EventParam.ContentsTransfer)
+            {
+                return;
+            }
+
+            var storages = status.Storages;
+
+            if (!IsStorageAvailable())
+            {
+                DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - No Storage available");
+                ShowToast("Memory card storage seems to be detached");
+            }
+            else
+            {
+                DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - " + storages.Count);
+                if (PivotRoot.SelectedIndex == 1 && CheckRemoteCapability())
+                {
+                    if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
+                    {
+                        ShowToast("Refresh contents");
+                        InitializeRemote();
+                    }
+                }
+            }
         }
 
         ThumbnailGroup groups = null;
@@ -199,6 +244,14 @@ namespace Kazyx.WPPMM.Pages
             return true;
         }
 
+        private bool IsStorageAvailable()
+        {
+            var cm = CameraManager.CameraManager.GetInstance();
+            var storages = cm.Status.Storages;
+
+            return storages != null && storages.Count != 0 && storages[0].StorageID != StorageId.NoMedia;
+        }
+
         private async void InitializeRemote()
         {
             IsRemoteInitialized = true;
@@ -293,6 +346,7 @@ namespace Kazyx.WPPMM.Pages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            CameraManager.CameraManager.GetInstance().Status.PropertyChanged -= Status_PropertyChanged;
             PictureSyncManager.Instance.Failed -= OnDLError;
             PictureSyncManager.Instance.Fetched -= OnFetched;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated -= OnFetchingImages;
@@ -314,16 +368,7 @@ namespace Kazyx.WPPMM.Pages
 
             HideProgress();
 
-            if (CurrentUuid != null)
-            {
-                ThumbnailCacheLoader.INSTANCE.DeleteCacheDirectory(CurrentUuid);
-            }
             CurrentUuid = null;
-
-            if (e.NavigationMode != NavigationMode.Back)
-            {
-                CameraManager.CameraManager.GetInstance().Refresh();
-            }
 
             base.OnNavigatedFrom(e);
         }
@@ -615,7 +660,14 @@ namespace Kazyx.WPPMM.Pages
                         SwitchAppBar(ViewerState.RemoteSingle);
                         if (!IsRemoteInitialized)
                         {
-                            InitializeRemote();
+                            if (IsStorageAvailable())
+                            {
+                                InitializeRemote();
+                            }
+                            else
+                            {
+                                ShowToast("No storage seems to be attached");
+                            }
                         }
                     }
                     else

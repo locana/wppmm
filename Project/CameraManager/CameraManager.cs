@@ -5,6 +5,7 @@ using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.RemoteApi.System;
 using Kazyx.WPPMM.DataModel;
+using Kazyx.WPPMM.PlaybackMode;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
@@ -219,6 +220,9 @@ namespace Kazyx.WPPMM.CameraManager
                         }
                         OnResultActTakePicture(urls.ToArray());
                     }
+                    break;
+                case "Storages":
+                    ThumbnailCacheLoader.INSTANCE.DeleteCache(CurrentDeviceInfo.UDN);
                     break;
             }
         }

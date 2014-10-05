@@ -174,7 +174,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            status.Storages = latest.ToArray();
+            status.Storages = latest;
         }
 
         internal static void LiveviewOrientation(CameraStatus status, string latest)

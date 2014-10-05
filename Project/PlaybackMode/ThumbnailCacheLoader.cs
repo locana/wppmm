@@ -32,15 +32,29 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         private const int THUMBNAIL_SIZE = 240;
 
-        public void DeleteCacheDirectory(string uuid)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uuid">Specify uuid to delete directory for the device, otherwise delete all of stored cache.</param>
+        public void DeleteCache(string uuid = null)
         {
-            var directory = CACHE_ROOT + uuid.Replace(":", "-") + "/";
-            var directory_tmp = CACHE_ROOT_TMP + uuid.Replace(":", "-") + "/";
-
             using (var store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                StorageUtil.DeleteDirectoryReqursive(store, directory);
-                StorageUtil.DeleteDirectoryReqursive(store, directory_tmp);
+                if (uuid == null)
+                {
+                    DebugUtil.Log("Delete all of thumbnail cache.");
+                    StorageUtil.DeleteDirectoryReqursive(store, CACHE_ROOT, false);
+                    StorageUtil.DeleteDirectoryReqursive(store, CACHE_ROOT_TMP, false);
+                }
+                else
+                {
+                    DebugUtil.Log("Delete thumbnail cache of " + uuid);
+                    var directory = CACHE_ROOT + uuid.Replace(":", "-") + "/";
+                    var directory_tmp = CACHE_ROOT_TMP + uuid.Replace(":", "-") + "/";
+
+                    StorageUtil.DeleteDirectoryReqursive(store, directory);
+                    StorageUtil.DeleteDirectoryReqursive(store, directory_tmp);
+                }
             }
         }
 

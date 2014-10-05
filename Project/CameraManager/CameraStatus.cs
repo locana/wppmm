@@ -460,8 +460,8 @@ namespace Kazyx.WPPMM.CameraManager
             get { return _EvInfo; }
         }
 
-        private StorageInfo[] _Storages;
-        public StorageInfo[] Storages
+        private List<StorageInfo> _Storages;
+        public List<StorageInfo> Storages
         {
             set
             {

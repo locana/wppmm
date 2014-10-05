@@ -18,12 +18,6 @@ namespace Kazyx.WPPMM.Utils
         readonly ApplicationBarMenuItem AboutMenuItem = new ApplicationBarMenuItem
         {
             Text = AppResources.About,
-            // IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
-        };
-
-        readonly ApplicationBarMenuItem SelectItemsMenuItem = new ApplicationBarMenuItem
-        {
-            Text = "Select items to sync",
         };
 
 #if DEBUG
@@ -102,7 +96,6 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
             IconMenuItems.Add(IconMenu.SyncContents, SyncItem);
-            MenuItems.Add(Menu.SelectItems, SelectItemsMenuItem);
             IconMenuItems.Add(IconMenu.SelectItems, MultipleSelectItem);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
@@ -208,7 +201,6 @@ namespace Kazyx.WPPMM.Utils
     public enum Menu
     {
         About,
-        SelectItems,
 #if DEBUG
         Log,
         Contents,

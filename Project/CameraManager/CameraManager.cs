@@ -222,7 +222,10 @@ namespace Kazyx.WPPMM.CameraManager
                     }
                     break;
                 case "Storages":
-                    ThumbnailCacheLoader.INSTANCE.DeleteCache(CurrentDeviceInfo.UDN);
+                    if (CurrentDeviceInfo != null && CurrentDeviceInfo.UDN != null)
+                    {
+                        ThumbnailCacheLoader.INSTANCE.DeleteCache(CurrentDeviceInfo.UDN);
+                    }
                     break;
             }
         }

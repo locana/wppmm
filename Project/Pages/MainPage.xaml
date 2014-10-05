@@ -119,7 +119,7 @@
                     <Grid x:Name="LiveViewScreen" Margin="-15,0">
                         <Grid x:Name="ScreenImageWrapper" HorizontalAlignment="Center" VerticalAlignment="Center"
                               Visibility="{Binding LiveviewScreenVisibility, Mode=OneWay, FallbackValue=Collapsed}">
-                            <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding image, Mode=OneWay}"
+                            <Image Name="ScreenImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Image, Mode=OneWay}"
                                    Loaded="ScreenImage_Loaded" Unloaded="ScreenImage_Unloaded" SizeChanged="ScreenImage_SizeChanged"/>
                             <Controls:FocusFrames Name="FocusFrames" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             <Controls:FramingGrids HorizontalAlignment="Center" VerticalAlignment="Center" Name="FraimingGrids" Type="{Binding GridType, Mode=OneWay}"

@@ -580,9 +580,9 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 using (var stream = new MemoryStream(e.Packet.ImageData, 0, size))
                 {
-                    LiveviewImage.image = null;
+                    LiveviewImage.Image = null;
                     ImageSource.SetSource(stream);
-                    LiveviewImage.image = ImageSource;
+                    LiveviewImage.Image = ImageSource;
                     if (ApplicationSettings.GetInstance().IsHistogramDisplayed)
                     {
                         if (++inc % FrameSkipRate == 0)

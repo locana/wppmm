@@ -107,6 +107,7 @@
       <DependentUpon>RemoteViewerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlaybackMode\DummyContentsGenerator.cs" />
+    <Compile Include="PlaybackMode\MovieStreamHandler.cs" />
     <Compile Include="PlaybackMode\PlaybackModeUtility.cs" />
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />

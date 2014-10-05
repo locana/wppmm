@@ -20,16 +20,25 @@
         <playback:ThumbnailImageConverter x:Key="ThumbnailConverter" />
 
         <DataTemplate x:Key="ItemTemplate">
-            <Border Height="108" Width="108" Margin="6,6">
-                <Border.Background>
+            <Grid Height="108" Width="108" Margin="6,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="48"/>
+                </Grid.RowDefinitions>
+                <Grid.Background>
                     <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
-                </Border.Background>
-                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
+                </Grid.Background>
+                <Image Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
                     <Image.Source>
                         <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
                 </Image>
-            </Border>
+                <Image Grid.Row="1" Grid.Column="1" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="LocalItemTemplate">
@@ -137,6 +146,12 @@
                 </Image>
             </Canvas>
         </ViewportControl>
+        <Border x:Name="MovieDrawer" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+            </Border.Background>
+            <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Image, Mode=OneWay}" Margin="12" />
+        </Border>
         <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">

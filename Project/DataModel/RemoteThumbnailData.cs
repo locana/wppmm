@@ -1,4 +1,5 @@
-﻿using Kazyx.WPPMM.PlaybackMode;
+﻿using Kazyx.RemoteApi.AvContent;
+using Kazyx.WPPMM.PlaybackMode;
 using Kazyx.WPPMM.Utils;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,25 @@ namespace Kazyx.WPPMM.DataModel
         }
 
         public ContentInfo Source { private set; get; }
+
+        public Visibility MovieIconVisibility
+        {
+            get
+            {
+                if (Source == null)
+                {
+                    return Visibility.Collapsed;
+                }
+                switch (Source.ContentType)
+                {
+                    case ContentKind.MovieMp4:
+                    case ContentKind.MovieXavcS:
+                        return Visibility.Visible;
+                    default:
+                        return Visibility.Collapsed;
+                }
+            }
+        }
 
         private string DeviceUuid { set; get; }
 

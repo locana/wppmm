@@ -1,3 +1,4 @@
+using Kazyx.ImageStream;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.CameraManager;
@@ -87,6 +88,9 @@ namespace Kazyx.WPPMM.Pages
             groups = new ThumbnailGroup();
             LocalImageGrid.DataContext = groups;
 
+            CloseMovieStream();
+            MovieDrawer.DataContext = MovieStreamHandler.INSTANCE.MovieFrame;
+
             SetVisibility(false);
 
             LoadLocalContents();
@@ -98,6 +102,43 @@ namespace Kazyx.WPPMM.Pages
             PictureSyncManager.Instance.Fetched += OnFetched;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated += OnFetchingImages;
             CameraManager.CameraManager.GetInstance().Status.PropertyChanged += Status_PropertyChanged;
+            MovieStreamHandler.INSTANCE.StreamClosed += MovieStreamHandler_StreamClosed;
+            MovieStreamHandler.INSTANCE.PlaybackInfoRetrieved += MovieStream_PlaybackInfoRetrieved;
+            MovieStreamHandler.INSTANCE.StatusChanged += MovieStream_StatusChanged;
+        }
+
+        void MovieStream_StatusChanged(object sender, StreamingStatusEventArgs e)
+        {
+            DebugUtil.Log("StreamStatusChanged: " + e.Status.Status + " - " + e.Status.Factor);
+            switch (e.Status.Factor)
+            {
+                case StreamStatusChangeFactor.FileError:
+                case StreamStatusChangeFactor.MediaError:
+                case StreamStatusChangeFactor.OtherError:
+                case StreamStatusChangeFactor.Unknown:
+                    ShowToast("Stream is closed by external error.");
+                    CloseMovieStream();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CloseMovieStream()
+        {
+            MovieDrawer.Visibility = Visibility.Collapsed;
+            MovieStreamHandler.INSTANCE.Finish();
+        }
+
+        void MovieStream_PlaybackInfoRetrieved(object sender, PlaybackInfoEventArgs e)
+        {
+            DebugUtil.Log("PlaybackInfoRetrieved: " + e.Packet.CurrentPosition + " / " + e.Packet.Duration);
+        }
+
+        void MovieStreamHandler_StreamClosed(object sender, EventArgs e)
+        {
+            DebugUtil.Log("StreamClosed");
+            CloseMovieStream();
         }
 
         void Status_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -348,10 +389,17 @@ namespace Kazyx.WPPMM.Pages
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            MovieStreamHandler.INSTANCE.StreamClosed -= MovieStreamHandler_StreamClosed;
+            MovieStreamHandler.INSTANCE.PlaybackInfoRetrieved -= MovieStream_PlaybackInfoRetrieved;
+            MovieStreamHandler.INSTANCE.StatusChanged -= MovieStream_StatusChanged;
             CameraManager.CameraManager.GetInstance().Status.PropertyChanged -= Status_PropertyChanged;
             PictureSyncManager.Instance.Failed -= OnDLError;
             PictureSyncManager.Instance.Fetched -= OnFetched;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated -= OnFetchingImages;
+
+            CloseMovieStream();
+            MovieDrawer.DataContext = null;
+
             if (Canceller != null)
             {
                 Canceller.Cancel();
@@ -621,6 +669,11 @@ namespace Kazyx.WPPMM.Pages
                 ReleaseDetail();
                 e.Cancel = true;
             }
+            if (MovieDrawer.Visibility == Visibility.Visible || MovieStreamHandler.INSTANCE.IsProcessing)
+            {
+                CloseMovieStream();
+                e.Cancel = true;
+            }
         }
 
         private void ReleaseDetail()
@@ -789,10 +842,45 @@ namespace Kazyx.WPPMM.Pages
                             HideProgress();
                         }
                         break;
+                    case ContentKind.MovieMp4:
+                    case ContentKind.MovieXavcS:
+                        var av = CameraManager.CameraManager.GetInstance().AvContentApi;
+                        if (!MovieStreamHandler.INSTANCE.IsProcessing && av != null)
+                        {
+                            MovieDrawer.Visibility = Visibility.Visible;
+                            ChangeProgressText("Wating for movie playback stream...");
+                            try
+                            {
+                                var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent { Uri = content.Source.Uri });
+                                if (!started)
+                                {
+                                    ShowToast("Failed playback movie content");
+                                    CloseMovieStream();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                DebugUtil.Log(ex.StackTrace);
+                                ShowToast("Failed playback movie content");
+                                CloseMovieStream();
+                            }
+                            HideProgress();
+                        }
+                        else
+                        {
+                            DebugUtil.Log("Not ready to start stream: " + content.Source.Uri);
+                            ShowToast("Failed playback movie content");
+                        }
+                        break;
                     default:
                         break;
                 }
             }
+        }
+
+        private void StartMovieStreaming()
+        {
+
         }
     }
 

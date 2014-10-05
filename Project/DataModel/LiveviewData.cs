@@ -8,7 +8,7 @@ namespace Kazyx.WPPMM.DataModel
     public class LiveviewData : INotifyPropertyChanged
     {
         BitmapImage _image = null;
-        public BitmapImage image
+        public BitmapImage Image
         {
             set
             {

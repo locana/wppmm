@@ -47,6 +47,8 @@ namespace Kazyx.WPPMM.Pages
             {
                 case ViewerState.Local:
                 case ViewerState.Sync:
+                case ViewerState.RemoteUnsupported:
+                case ViewerState.RemoteMulti:
                     ApplicationBar = null;
                     break;
                 case ViewerState.RemoteSelecting:
@@ -413,6 +415,14 @@ namespace Kazyx.WPPMM.Pages
                 DebugUtil.Log("SelectionChanged in multi mode");
                 var contents = selector.SelectedItems;
                 DebugUtil.Log("Selected Items: " + contents.Count);
+                if (contents.Count > 0)
+                {
+                    SwitchAppBar(ViewerState.RemoteSelecting);
+                }
+                else
+                {
+                    SwitchAppBar(ViewerState.RemoteMulti);
+                }
             }
         }
 
@@ -600,9 +610,9 @@ namespace Kazyx.WPPMM.Pages
                     SwitchAppBar(ViewerState.Local);
                     break;
                 case 1:
-                    SwitchAppBar(ViewerState.RemoteSingle);
                     if (CheckRemoteCapability())
                     {
+                        SwitchAppBar(ViewerState.RemoteSingle);
                         if (!IsRemoteInitialized)
                         {
                             InitializeRemote();
@@ -610,6 +620,7 @@ namespace Kazyx.WPPMM.Pages
                     }
                     else
                     {
+                        SwitchAppBar(ViewerState.RemoteUnsupported);
                         ShowToast("Storage access is not supported\nby your camera device");
                         UnsupportedMessage.Visibility = Visibility.Visible;
                     }
@@ -666,7 +677,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 if (selector.IsSelectionEnabled)
                 {
-                    SwitchAppBar(ViewerState.RemoteSelecting);
+                    SwitchAppBar(ViewerState.RemoteMulti);
                 }
                 else
                 {
@@ -734,7 +745,9 @@ namespace Kazyx.WPPMM.Pages
     public enum ViewerState
     {
         Local,
+        RemoteUnsupported,
         RemoteSingle,
+        RemoteMulti,
         RemoteSelecting,
         Sync,
     }

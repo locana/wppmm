@@ -107,7 +107,8 @@ namespace Kazyx.WPPMM.PlaybackMode
                             RunLoop();
                             return;
                         default:
-                            Finish();
+                            DebugUtil.Log("RequestToNotifyStreamingStatus finished with unexpected error: " + e.code);
+                            // Finish();
                             break;
                     }
                 }
@@ -130,6 +131,7 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         void StreamProcessor_Closed(object sender, EventArgs e)
         {
+            DebugUtil.Log("StreamClosed. Finish MovieStreamHandler");
             Finish();
             if (StreamClosed != null)
             {

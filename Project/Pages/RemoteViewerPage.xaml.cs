@@ -115,7 +115,6 @@ namespace Kazyx.WPPMM.Pages
                 case StreamStatusChangeFactor.FileError:
                 case StreamStatusChangeFactor.MediaError:
                 case StreamStatusChangeFactor.OtherError:
-                case StreamStatusChangeFactor.Unknown:
                     ShowToast("Stream is closed by external error.");
                     CloseMovieStream();
                     break;
@@ -126,8 +125,11 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseMovieStream()
         {
-            MovieDrawer.Visibility = Visibility.Collapsed;
             MovieStreamHandler.INSTANCE.Finish();
+            Dispatcher.BeginInvoke(() =>
+            {
+                MovieDrawer.Visibility = Visibility.Collapsed;
+            });
         }
 
         void MovieStream_PlaybackInfoRetrieved(object sender, PlaybackInfoEventArgs e)
@@ -154,7 +156,6 @@ namespace Kazyx.WPPMM.Pages
         private void OnStorageInfoChanged(CameraStatus status)
         {
             DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged");
-
 
             if (status.Status != EventParam.ContentsTransfer)
             {
@@ -733,7 +734,6 @@ namespace Kazyx.WPPMM.Pages
                     }
                     break;
             }
-
         }
 
         private void FetchSelectedImages()
@@ -844,43 +844,45 @@ namespace Kazyx.WPPMM.Pages
                         break;
                     case ContentKind.MovieMp4:
                     case ContentKind.MovieXavcS:
-                        var av = CameraManager.CameraManager.GetInstance().AvContentApi;
-                        if (!MovieStreamHandler.INSTANCE.IsProcessing && av != null)
+                        if (MovieStreamHandler.INSTANCE.IsProcessing)
                         {
-                            MovieDrawer.Visibility = Visibility.Visible;
-                            ChangeProgressText("Wating for movie playback stream...");
-                            try
+                            MovieStreamHandler.INSTANCE.Finish();
+                        }
+                        var av = CameraManager.CameraManager.GetInstance().AvContentApi;
+
+                        if (av != null)
+                        {
+                            if (content.Source.RemotePlaybackAvailable)
                             {
-                                var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent { Uri = content.Source.Uri, RemotePlayType = RemotePlayMode.SimpleStreaming });
+                                MovieDrawer.Visibility = Visibility.Visible;
+                                ChangeProgressText("Wating for movie playback stream...");
+                                var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
+                                    {
+                                        Uri = content.Source.Uri,
+                                        RemotePlayType = RemotePlayMode.SimpleStreaming
+                                    });
                                 if (!started)
                                 {
                                     ShowToast("Failed playback movie content");
                                     CloseMovieStream();
                                 }
+                                HideProgress();
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                DebugUtil.Log(ex.StackTrace);
-                                ShowToast("Failed playback movie content");
-                                CloseMovieStream();
+                                ShowToast("This content is not playable");
                             }
-                            HideProgress();
                         }
                         else
                         {
                             DebugUtil.Log("Not ready to start stream: " + content.Source.Uri);
-                            ShowToast("Failed playback movie content");
+                            ShowToast("Not ready to start stream");
                         }
                         break;
                     default:
                         break;
                 }
             }
-        }
-
-        private void StartMovieStreaming()
-        {
-
         }
     }
 

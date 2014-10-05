@@ -18,7 +18,7 @@ namespace Kazyx.WPPMM.Utils
 
         private const string LOG_EXTENSION = ".txt";
 
-        private const int MaxLength = 63 * 1024; // Byte
+        private const int MaxLength = 48 * 1024; // Byte
 
         private static readonly object Lock = new object();
 #endif

@@ -90,7 +90,6 @@ namespace Kazyx.WPPMM.Pages
 #if DEBUG
             // AddDummyContentsAsync();
 #endif
-            CameraManager.CameraManager.GetInstance().Status.PropertyChanged += status_PropertyChanged;
             PictureSyncManager.Instance.Failed += OnDLError;
             PictureSyncManager.Instance.Fetched += OnFetched;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated += OnFetchingImages;
@@ -295,7 +294,6 @@ namespace Kazyx.WPPMM.Pages
             PictureSyncManager.Instance.Failed -= OnDLError;
             PictureSyncManager.Instance.Fetched -= OnFetched;
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated -= OnFetchingImages;
-            CameraManager.CameraManager.GetInstance().Status.PropertyChanged -= status_PropertyChanged;
             if (Canceller != null)
             {
                 Canceller.Cancel();
@@ -345,45 +343,6 @@ namespace Kazyx.WPPMM.Pages
         private void OnDLError(ImageDLError error)
         {
             DebugUtil.Log("ViewerPage: OnDLError");
-        }
-
-        void status_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            DebugUtil.Log("ViewerPage: status_PropertyChanged");
-            switch (e.PropertyName)
-            {
-                case "PictureUrls":
-                    OnPictureUrlsUpdated(CameraManager.CameraManager.GetInstance().Status.PictureUrls);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void OnPictureUrlsUpdated(string[] urls)
-        {
-            DebugUtil.Log("ViewerPage: OnPictureUrlsUpdated");
-            if (urls == null)
-            {
-                return;
-            }
-            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
-            {
-                DebugUtil.Log("Postview transfer is disabled");
-                return;
-            }
-            foreach (var url in urls)
-            {
-                try
-                {
-                    var uri = new Uri(url);
-                    PictureSyncManager.Instance.Enque(uri);
-                }
-                catch (UriFormatException)
-                {
-                    DebugUtil.Log("UriFormatException: " + url);
-                }
-            }
         }
 
         private void OnFetchingImages(int count)

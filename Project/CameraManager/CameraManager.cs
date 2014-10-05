@@ -689,9 +689,14 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public void OnResultActTakePicture(String[] res)
+        public void OnResultActTakePicture(string[] res)
         {
             AppStatus.GetInstance().IsTakingPicture = false;
+
+            if (res == null)
+            {
+                return;
+            }
 
             if (OnTakePictureSucceed != null)
             {
@@ -705,7 +710,14 @@ namespace Kazyx.WPPMM.CameraManager
 
             foreach (var s in res)
             {
-                PictureSyncManager.Instance.Enque(new Uri(s));
+                try
+                {
+                    PictureSyncManager.Instance.Enque(new Uri(s));
+                }
+                catch (UriFormatException)
+                {
+                    DebugUtil.Log("UriFormatException: " + s);
+                }
             }
         }
 

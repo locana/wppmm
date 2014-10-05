@@ -13,7 +13,7 @@ namespace Kazyx.WPPMM.DataModel
             set
             {
                 _image = value;
-                OnPropertyChanged("image");
+                OnPropertyChanged("Image");
             }
             get { return _image; }
         }

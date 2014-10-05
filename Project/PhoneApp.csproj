@@ -260,6 +260,7 @@
     <Content Include="Assets\AppBar\appBar_Dollar.png" />
     <Content Include="Assets\AppBar\appBar_ok.png" />
     <Content Include="Assets\AppBar\appBar_playback.png" />
+    <Content Include="Assets\AppBar\appBar_selection.png" />
     <Content Include="Assets\AppBar\appBar_wifi.png" />
     <Content Include="Assets\AppBar\ControlPanel.png" />
     <Content Include="Assets\AppBar\feature.settings.png">

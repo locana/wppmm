@@ -34,7 +34,7 @@ namespace Kazyx.WPPMM.Pages
                 ChangeProgressText("Downloading selected images...");
                 FetchSelectedImages();
             });
-            abm.SetEvent(Menu.SelectItems, (sender, e) =>
+            abm.SetEvent(IconMenu.SelectItems, (sender, e) =>
             {
                 DebugUtil.Log("Select items clicked");
                 RemoteImageGrid.IsSelectionEnabled = true;
@@ -53,7 +53,7 @@ namespace Kazyx.WPPMM.Pages
                     ApplicationBar = abm.Clear().Enable(IconMenu.SyncContents).CreateNew(0.5);
                     break;
                 case ViewerState.RemoteSingle:
-                    ApplicationBar = abm.Clear().Enable(Menu.SelectItems).CreateNew(0.5);
+                    ApplicationBar = abm.Clear().Enable(IconMenu.SelectItems).CreateNew(0.5);
                     break;
             }
         }

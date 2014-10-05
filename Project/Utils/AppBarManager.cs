@@ -79,6 +79,12 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton MultipleSelectItem = new ApplicationBarIconButton
+        {
+            Text = "Select",
+            IconUri = new Uri("/Assets/AppBar/appBar_selection.png", UriKind.Relative)
+        };
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -97,6 +103,7 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
             IconMenuItems.Add(IconMenu.SyncContents, SyncItem);
             MenuItems.Add(Menu.SelectItems, SelectItemsMenuItem);
+            IconMenuItems.Add(IconMenu.SelectItems, MultipleSelectItem);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
             MenuItems.Add(Menu.Contents, ContentsMenuItem);
@@ -218,5 +225,6 @@ namespace Kazyx.WPPMM.Utils
         Hidden,
         CloseApplicationSetting,
         SyncContents,
+        SelectItems,
     }
 }

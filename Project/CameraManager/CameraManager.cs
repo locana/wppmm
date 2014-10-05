@@ -58,7 +58,7 @@ namespace Kazyx.WPPMM.CameraManager
         }
 
         private readonly CameraStatus _cameraStatus = new CameraStatus();
-        public CameraStatus cameraStatus { get { return _cameraStatus; } }
+        public CameraStatus Status { get { return _cameraStatus; } }
 
         internal event Action<CameraStatus> WifiInfoUpdated;
         internal event Action<int> PictureFetchStatusUpdated;
@@ -83,7 +83,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    VersionDetected.Invoke(cameraStatus.Version);
+                    VersionDetected.Invoke(Status.Version);
                 });
             }
         }
@@ -124,7 +124,7 @@ namespace Kazyx.WPPMM.CameraManager
         {
             Refresh();
 
-            cameraStatus.LiveviewAvailabilityNotifier += (available) =>
+            Status.LiveviewAvailabilityNotifier += (available) =>
             {
                 DebugUtil.Log("Liveview Availability changed:" + available);
 
@@ -137,11 +137,11 @@ namespace Kazyx.WPPMM.CameraManager
                     OpenLiveviewConnection();
                 }
             };
-            cameraStatus.CurrentShootModeNotifier += (mode) =>
+            Status.CurrentShootModeNotifier += (mode) =>
             {
                 DebugUtil.Log("Current shoot mode updated: " + mode);
 
-                if (lvProcessor.ConnectionState == ConnectionState.Closed && cameraStatus.IsAvailable("startLiveview") && AppStatus.GetInstance().IsInShootingDisplay)
+                if (lvProcessor.ConnectionState == ConnectionState.Closed && Status.IsAvailable("startLiveview") && AppStatus.GetInstance().IsInShootingDisplay)
                 {
                     OpenLiveviewConnection();
                 }
@@ -151,7 +151,7 @@ namespace Kazyx.WPPMM.CameraManager
                     CloseLiveviewConnection();
                 }
             };
-            cameraStatus.PropertyChanged += cameraStatus_PropertyChanged;
+            Status.PropertyChanged += cameraStatus_PropertyChanged;
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
             deviceFinder.SonyCameraDeviceDiscovered += deviceFinder_Discovered;
@@ -225,16 +225,16 @@ namespace Kazyx.WPPMM.CameraManager
 
         private async void UpdateProgramShiftRange()
         {
-            if (cameraStatus == null
-                || cameraStatus.ProgramShiftRange != null
-                || cameraStatus.ExposureMode == null
-                || cameraStatus.ExposureMode.Current != ExposureMode.Program
+            if (Status == null
+                || Status.ProgramShiftRange != null
+                || Status.ExposureMode == null
+                || Status.ExposureMode.Current != ExposureMode.Program
                 || CameraApi == null)
             {
                 return;
             }
 
-            if (!cameraStatus.IsSupported("setProgramShift"))
+            if (!Status.IsSupported("setProgramShift"))
             {
                 DebugUtil.Log("This device does not support ProgramShift API");
                 return;
@@ -244,7 +244,7 @@ namespace Kazyx.WPPMM.CameraManager
             try
             {
                 var range = await CameraApi.GetSupportedProgramShiftAsync();
-                cameraStatus.ProgramShiftRange = range;
+                Status.ProgramShiftRange = range;
                 DebugUtil.Log("Max: " + range.Max + " Min: " + range.Min);
             }
             catch (RemoteApiException e)
@@ -274,7 +274,7 @@ namespace Kazyx.WPPMM.CameraManager
                 DebugUtil.Log("found device: " + CurrentDeviceInfo.ModelName + " - " + CurrentDeviceInfo.UDN);
                 if (CurrentDeviceInfo.FriendlyName == "DSC-QX10")
                 {
-                    cameraStatus.DeviceType = DeviceType.DSC_QX10;
+                    Status.DeviceType = DeviceType.DSC_QX10;
                 }
 
                 if (CurrentDeviceInfo.Endpoints.ContainsKey("camera"))
@@ -283,7 +283,7 @@ namespace Kazyx.WPPMM.CameraManager
                     DebugUtil.Log(e.SonyCameraDevice.Endpoints["camera"]);
 
                     GetMethodTypes();
-                    cameraStatus.isAvailableConnecting = true;
+                    Status.isAvailableConnecting = true;
 
                     observer = new EventObserver(CameraApi);
                 }
@@ -305,11 +305,12 @@ namespace Kazyx.WPPMM.CameraManager
 
         public bool IsClientReady()
         {
-            return CameraApi != null && cameraStatus.SupportedApis.Count != 0;
+            return CameraApi != null && Status.SupportedApis.Count != 0;
         }
 
         public void Refresh()
         {
+            DebugUtil.Log("CameraManager Refresh");
             CloseLiveviewConnection();
             watch = new Stopwatch();
             watch.Start();
@@ -319,8 +320,8 @@ namespace Kazyx.WPPMM.CameraManager
             SystemApi = null;
             AvContentApi = null;
 
-            cameraStatus.Init();
-            cameraStatus.InitEventParams();
+            Status.Init();
+            Status.InitEventParams();
             if (observer != null)
             {
                 observer.Stop();
@@ -387,13 +388,13 @@ namespace Kazyx.WPPMM.CameraManager
 
             try
             {
-                cameraStatus.Version = new ServerVersion(info.Version);
+                Status.Version = new ServerVersion(info.Version);
             }
             catch (ArgumentException e)
             {
                 DebugUtil.Log(e.StackTrace);
                 DebugUtil.Log("Server version is invalid. Treat this as 2.0.0 device");
-                cameraStatus.Version = ServerVersion.CreateDefault();
+                Status.Version = ServerVersion.CreateDefault();
             }
 
             OnVersionDetected();
@@ -404,7 +405,7 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     if (await CameraApi.GetCameraFunctionAsync() != CameraFunction.RemoteShooting)
                     {
-                        if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, cameraStatus))
+                        if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status))
                         {
                             DebugUtil.Log("Failed to move to shooting mode");
                             return;
@@ -421,12 +422,12 @@ namespace Kazyx.WPPMM.CameraManager
                     OnError(StatusCode.Timeout);
                 }
             }
-            if (cameraStatus.IsSupported("startRecMode"))
+            if (Status.IsSupported("startRecMode"))
             {
                 try
                 {
                     await CameraApi.StartRecModeAsync();
-                    if (cameraStatus.IsAvailable("startLiveview"))
+                    if (Status.IsAvailable("startLiveview"))
                     {
                         OpenLiveviewConnection();
                     }
@@ -436,7 +437,7 @@ namespace Kazyx.WPPMM.CameraManager
                     OnError(e.code);
                 }
             }
-            else if (cameraStatus.IsAvailable("startLiveview"))
+            else if (Status.IsAvailable("startLiveview"))
             {
                 OpenLiveviewConnection();
             }
@@ -604,7 +605,7 @@ namespace Kazyx.WPPMM.CameraManager
                         list.Add(t.Name, versions);
                     }
                 }
-                cameraStatus.SupportedApis = list;
+                Status.SupportedApis = list;
                 if (MethodTypesUpdateNotifer != null)
                 {
                     MethodTypesUpdateNotifer.Invoke(); // Notify before call OnFound to update contents of control panel.
@@ -857,15 +858,15 @@ namespace Kazyx.WPPMM.CameraManager
                 return;
             }
             var GetEventVersion = ApiVersion.V1_0;
-            if (cameraStatus.IsSupported("getEvent", "1.1"))
+            if (Status.IsSupported("getEvent", "1.1"))
             {
                 GetEventVersion = ApiVersion.V1_1;
             }
-            if (cameraStatus.IsSupported("getEvent", "1.2"))
+            if (Status.IsSupported("getEvent", "1.2"))
             {
                 GetEventVersion = ApiVersion.V1_2;
             }
-            observer.Start(cameraStatus,
+            observer.Start(Status,
                 () =>
                 {
                     if (this.OnDisconnected != null)
@@ -919,7 +920,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 if (WifiInfoUpdated != null)
                 {
-                    WifiInfoUpdated(cameraStatus);
+                    WifiInfoUpdated(Status);
                 }
             });
         }

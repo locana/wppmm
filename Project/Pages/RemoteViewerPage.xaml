@@ -8,12 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:playback="clr-namespace:Kazyx.WPPMM.PlaybackMode"
     xmlns:wppmmcontrol="clr-namespace:Kazyx.WPPMM.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress" Loaded="PhoneApplicationPage_Loaded">
+    shell:SystemTray.IsVisible="True" BackKeyPress="PhoneApplicationPage_BackKeyPress">
 
     <phone:PhoneApplicationPage.Resources>
         <playback:ThumbnailImageConverter x:Key="ThumbnailConverter" />
@@ -23,12 +24,20 @@
                 <Border.Background>
                     <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
                 </Border.Background>
-                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" >
+                <Image x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
                     <Image.Source>
                         <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
                 </Image>
             </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LocalItemTemplate">
+            <StackPanel Height="108" Width="108" Margin="6,6">
+                <Image x:Name="ThumbnailImage" Width="108" Height="108"
+                       Stretch="UniformToFill"
+                       Source="{Binding RowImage, Mode=OneWay}" Tap="ThumbnailImage_Tap" />
+            </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="HeaderTemplate">
@@ -59,30 +68,61 @@
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Border x:Name="TitleBlock">
-            <StackPanel Grid.Row="0" Margin="12,17,0,14">
-                <TextBlock Name="TitleHeader" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}"/>
-                <TextBlock Text="Remote contents" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
-            </StackPanel>
-        </Border>
-        <Grid Grid.Row="1">
-            <wppmmcontrol:ScrollDetectableLongListSelector
-                Name="ImageGrid"
+        <Grid.Resources>
+            <Storyboard x:Name="ToastApparance" Completed="ToastApparance_Completed">
+                <DoubleAnimation Storyboard.TargetName="Toast"
+                                             Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" 
+                                             Duration="0:0:0.2" AutoReverse="False" />
+            </Storyboard>
+            <Storyboard x:Name="ToastDisApparance">
+                <DoubleAnimation Storyboard.TargetName="Toast"
+                                             Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" 
+                                             Duration="0:0:0.2" AutoReverse="False" />
+            </Storyboard>
+        </Grid.Resources>
+
+        <phone:Pivot x:Name="PivotRoot" SelectionChanged="Pivot_SelectionChanged">
+            <phone:Pivot.Title>
+                <TextBlock x:Name="TitleHeader" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" />
+            </phone:Pivot.Title>
+
+            <phone:PivotItem Margin="0,14,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock Text="Phone storage" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                </phone:PivotItem.Header>
+                <phone:LongListSelector
+                Name="LocalImageGrid"
                 Margin="0"
-                IsGroupingEnabled="True"
-                GroupHeaderTemplate="{StaticResource HeaderTemplate}"
+                IsGroupingEnabled="False"
                 LayoutMode="Grid"
                 GridCellSize="112,112"
-                ItemTemplate="{StaticResource ItemTemplate}"
-                JumpListStyle="{StaticResource DateGroupJumpListStyle}"
-                Loaded="ImageGrid_Loaded"
-                Unloaded="ImageGrid_Unloaded" SelectionChanged="ImageGrid_SelectionChanged" ItemRealized="ImageGrid_ItemRealized" >
-            </wppmmcontrol:ScrollDetectableLongListSelector>
-        </Grid>
+                ItemsSource="{Binding Group, Mode=OneWay}"
+                ItemTemplate="{StaticResource LocalItemTemplate}" >
+                </phone:LongListSelector>
+            </phone:PivotItem>
+
+            <phone:PivotItem x:Name="RemotePivot" Margin="0,14,0,0">
+                <phone:PivotItem.Header>
+                    <TextBlock x:Name="TitleBlock" Text="Camera storage" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                </phone:PivotItem.Header>
+                <Grid>
+                    <TextBlock x:Name="UnsupportedMessage" Text="Access to the camera storage seems to be allowed only on the latest models..." TextWrapping="Wrap" VerticalAlignment="Center" Margin="36,0" Style="{StaticResource PhoneTextTitle3Style}"/>
+                    <toolkit:LongListMultiSelector
+                        Name="RemoteImageGrid"
+                        Margin="0"
+                        IsGroupingEnabled="True"
+                        GroupHeaderTemplate="{StaticResource HeaderTemplate}"
+                        LayoutMode="Grid"
+                        GridCellSize="112,112"
+                        ItemTemplate="{StaticResource ItemTemplate}"
+                        JumpListStyle="{StaticResource DateGroupJumpListStyle}"
+                        Loaded="ImageGrid_Loaded"
+                        Unloaded="ImageGrid_Unloaded" SelectionChanged="ImageGrid_SelectionChanged" ItemRealized="ImageGrid_ItemRealized" IsSelectionEnabledChanged="RemoteImageGrid_IsSelectionEnabledChanged" >
+                    </toolkit:LongListMultiSelector>
+                </Grid>
+            </phone:PivotItem>
+        </phone:Pivot>
+
         <Border x:Name="TouchBlocker" Margin="0" Grid.RowSpan="2" Visibility="Collapsed">
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
@@ -97,6 +137,16 @@
                 </Image>
             </Canvas>
         </ViewportControl>
+        <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                          Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
+            <TextBlock HorizontalAlignment="Center" Grid.Row="0" 
+                                   TextWrapping="Wrap" Padding="5,5" Height="auto"
+                                 Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
+                                 Foreground="{StaticResource PhoneForegroundBrush}" 
+                                   VerticalAlignment="Center" Name="ToastMessage"/>
+        </Grid>
+
     </Grid>
 
     <shell:SystemTray.ProgressIndicator>

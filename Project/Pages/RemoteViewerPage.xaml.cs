@@ -1,49 +1,150 @@
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.PlaybackMode;
+using Kazyx.WPPMM.Resources;
 using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Reactive;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using Windows.Devices.Geolocation;
 
 namespace Kazyx.WPPMM.Pages
 {
     public partial class RemoteViewerPage : PhoneApplicationPage
     {
-        private AppBarManager abm = new AppBarManager();
-
         public RemoteViewerPage()
         {
             InitializeComponent();
-            abm.SetEvent(IconMenu.HideHeader, (sender, e) => { SwitchHeader(); });
-            abm.SetEvent(IconMenu.ShowHeader, (sender, e) => { SwitchHeader(); });
+            abm.SetEvent(IconMenu.SyncContents, (sender, e) =>
+            {
+                DebugUtil.Log("Sync clicked");
+
+                SwitchAppBar(ViewerState.Sync);
+                ChangeProgressText("Downloading selected images...");
+                FetchSelectedImages();
+            });
+            abm.SetEvent(Menu.SelectItems, (sender, e) =>
+            {
+                DebugUtil.Log("Select items clicked");
+                RemoteImageGrid.IsSelectionEnabled = true;
+            });
         }
+
+        private void SwitchAppBar(ViewerState state)
+        {
+            switch (state)
+            {
+                case ViewerState.Local:
+                case ViewerState.Sync:
+                    ApplicationBar = null;
+                    break;
+                case ViewerState.RemoteSelecting:
+                    ApplicationBar = abm.Clear().Enable(IconMenu.SyncContents).CreateNew(0.5);
+                    break;
+                case ViewerState.RemoteSingle:
+                    ApplicationBar = abm.Clear().Enable(Menu.SelectItems).CreateNew(0.5);
+                    break;
+            }
+        }
+
+        private readonly AppBarManager abm = new AppBarManager();
+
+        private bool IsRemoteInitialized = false;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            if (e.NavigationMode != NavigationMode.New)
+            {
+                NavigationService.GoBack();
+                return;
+            }
+
+            SwitchAppBar(ViewerState.Local);
+
+            IsRemoteInitialized = false;
+            UnsupportedMessage.Visibility = Visibility.Collapsed;
+
             GridSource = new DateGroupCollection();
-            ImageGrid.ItemsSource = GridSource;
+            RemoteImageGrid.ItemsSource = GridSource;
+
+            groups = new ThumbnailGroup();
+            LocalImageGrid.DataContext = groups;
 
             SetVisibility(false);
 
-            Initialize();
+            LoadLocalContents();
 
-            AddDummyContentsAsync();
+#if DEBUG
+            // AddDummyContentsAsync();
+#endif
+            CameraManager.CameraManager.GetInstance().Status.PropertyChanged += status_PropertyChanged;
+            PictureSyncManager.Instance.Failed += OnDLError;
+            PictureSyncManager.Instance.Fetched += OnFetched;
+            PictureSyncManager.Instance.Downloader.QueueStatusUpdated += OnFetchingImages;
+        }
+
+        ThumbnailGroup groups = null;
+
+        private void LoadLocalContents()
+        {
+            var lib = new MediaLibrary();
+            PictureAlbum CameraRoll = null;
+            foreach (var album in lib.RootPictureAlbum.Albums)
+            {
+                if (album.Name == "Camera Roll")
+                {
+                    CameraRoll = album;
+                    break;
+                }
+            }
+            if (CameraRoll == null)
+            {
+                DebugUtil.Log("No camera roll. Going back");
+                NavigationService.GoBack();
+                return;
+            }
+            LoadThumbnails(CameraRoll);
+        }
+
+        private async void LoadThumbnails(PictureAlbum album)
+        {
+            ChangeProgressText("Loading camera roll images...");
+            var group = new List<ThumbnailData>();
+            await Task.Run(() =>
+            {
+                foreach (var pic in album.Pictures)
+                {
+                    group.Add(new ThumbnailData(pic));
+                }
+            });
+            group.Reverse();
+
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (group != null)
+                {
+                    groups.Group = new ObservableCollection<ThumbnailData>(group);
+                }
+            });
+            HideProgress();
         }
 
         private string CurrentUuid { set; get; }
 
+#if DEBUG
         private async void AddDummyContentsAsync()
         {
             if (CurrentUuid == null)
@@ -72,40 +173,45 @@ namespace Kazyx.WPPMM.Pages
                 await Task.Delay(500);
             }
         }
+#endif
 
         private CancellationTokenSource Canceller;
 
         private DateGroupCollection GridSource;
 
-        private async void Initialize()
+        private bool CheckRemoteCapability()
         {
             var cm = CameraManager.CameraManager.GetInstance();
             if (cm.CurrentDeviceInfo == null)
             {
-                UpdateTitleHeader("Device not found");
-                return;
+                DebugUtil.Log("Device not found");
+                return false;
             }
             CurrentUuid = cm.CurrentDeviceInfo.UDN;
 
             if (cm.AvContentApi == null)
             {
                 DebugUtil.Log("AvContent service is not supported");
-                UpdateTitleHeader("AvContent service is not supported");
-                GoBack();
-                return;
+                return false;
             }
 
+            return true;
+        }
+
+        private async void InitializeRemote()
+        {
+            IsRemoteInitialized = true;
+            var cm = CameraManager.CameraManager.GetInstance();
             try
             {
                 ChangeProgressText("Chaging camera state...");
-                await PlaybackModeUtility.MoveToContentTransferModeAsync(cm.CameraApi, cm.cameraStatus);
+                await PlaybackModeUtility.MoveToContentTransferModeAsync(cm.CameraApi, cm.Status);
 
                 ChangeProgressText("Checking storage capability...");
                 if (!await PlaybackModeUtility.IsStorageSupportedAsync(cm.AvContentApi))
                 {
                     DebugUtil.Log("storage scheme is not supported");
-                    UpdateTitleHeader("storage scheme is not supported");
-                    GoBack();
+                    //GoBack();
                     return;
                 }
 
@@ -114,8 +220,7 @@ namespace Kazyx.WPPMM.Pages
                 if (storages.Count == 0)
                 {
                     DebugUtil.Log("No storages");
-                    UpdateTitleHeader("No storages");
-                    GoBack();
+                    //GoBack();
                     return;
                 }
 
@@ -126,19 +231,9 @@ namespace Kazyx.WPPMM.Pages
             }
             catch (Exception e)
             {
-                UpdateTitleHeader(e.GetType().ToString());
                 DebugUtil.Log(e.StackTrace);
-                GoBack();
+                //GoBack();
             }
-        }
-
-        private void UpdateTitleHeader(string text)
-        {
-            DebugUtil.Log(text);
-            Dispatcher.BeginInvoke(() =>
-            {
-                TitleHeader.Text = text;
-            });
         }
 
         private async void OnDateListUpdated(DateListEventArgs args)
@@ -155,7 +250,7 @@ namespace Kazyx.WPPMM.Pages
                 catch (Exception e)
                 {
                     DebugUtil.Log(e.StackTrace);
-                    GoBack();
+                    //GoBack();
                 }
             }
         }
@@ -195,23 +290,28 @@ namespace Kazyx.WPPMM.Pages
             });
         }
 
-        private void GoBack()
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                // progress.IsVisible = false;
-                // NavigationService.GoBack();
-            });
-        }
-
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            PictureSyncManager.Instance.Failed -= OnDLError;
+            PictureSyncManager.Instance.Fetched -= OnFetched;
+            PictureSyncManager.Instance.Downloader.QueueStatusUpdated -= OnFetchingImages;
+            CameraManager.CameraManager.GetInstance().Status.PropertyChanged -= status_PropertyChanged;
             if (Canceller != null)
             {
                 Canceller.Cancel();
             }
-            GridSource.Clear();
-            GridSource = null;
+            if (GridSource != null)
+            {
+                GridSource.Clear();
+                GridSource = null;
+            }
+
+            if (groups != null && groups.Group != null)
+            {
+                groups.Group.Clear();
+                groups = null;
+            }
+
             HideProgress();
 
             if (CurrentUuid != null)
@@ -228,79 +328,132 @@ namespace Kazyx.WPPMM.Pages
             base.OnNavigatedFrom(e);
         }
 
-        private void ThumbnailImage_Tap(object sender, GestureEventArgs e)
+        private void OnFetched(Picture pic, Geoposition pos)
         {
-            progress.IsVisible = true;
+            DebugUtil.Log("ViewerPage: OnFetched");
+            Dispatcher.BeginInvoke(() =>
+            {
+                var groups = LocalImageGrid.DataContext as ThumbnailGroup;
+                if (groups == null)
+                {
+                    return;
+                }
+                groups.Group.Insert(0, new ThumbnailData(pic));
+            });
+        }
+
+        private void OnDLError(ImageDLError error)
+        {
+            DebugUtil.Log("ViewerPage: OnDLError");
+        }
+
+        void status_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            DebugUtil.Log("ViewerPage: status_PropertyChanged");
+            switch (e.PropertyName)
+            {
+                case "PictureUrls":
+                    OnPictureUrlsUpdated(CameraManager.CameraManager.GetInstance().Status.PictureUrls);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void OnPictureUrlsUpdated(string[] urls)
+        {
+            DebugUtil.Log("ViewerPage: OnPictureUrlsUpdated");
+            if (urls == null)
+            {
+                return;
+            }
+            if (!ApplicationSettings.GetInstance().IsPostviewTransferEnabled)
+            {
+                DebugUtil.Log("Postview transfer is disabled");
+                return;
+            }
+            foreach (var url in urls)
+            {
+                try
+                {
+                    var uri = new Uri(url);
+                    PictureSyncManager.Instance.Enque(uri);
+                }
+                catch (UriFormatException)
+                {
+                    DebugUtil.Log("UriFormatException: " + url);
+                }
+            }
+        }
+
+        private void OnFetchingImages(int count)
+        {
+            if (count != 0)
+            {
+                ChangeProgressText(string.Format(AppResources.ProgressMessageFetching, count));
+            }
+            else
+            {
+                HideProgress();
+            }
+        }
+
+        private async void ThumbnailImage_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (IsViewingDetail)
+            {
+                return;
+            }
+            ChangeProgressText("Opening images...");
             var img = sender as Image;
-            var data = img.DataContext as RemoteThumbnail;
-            UpdateTitleHeader(data.Source.Name + " - " + data.Source.ContentType);
+            var thumb = img.DataContext as ThumbnailData;
+            await Task.Run(() =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    using (var strm = thumb.picture.GetImage())
+                    {
+                        using (var replica = new MemoryStream())
+                        {
+                            strm.CopyTo(replica); // Copy to the new stream to avoid stream crash issue.
+                            if (replica.Length <= 0)
+                            {
+                                return;
+                            }
+                            replica.Seek(0, SeekOrigin.Begin);
+
+                            _bitmap = new BitmapImage();
+                            _bitmap.SetSource(replica);
+                            InitBitmapBeforeOpen();
+                            DetailImage.Source = _bitmap;
+                            SetVisibility(true);
+                        }
+                    }
+                });
+            });
         }
 
         private void ImageGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            var selector = sender as LongListSelector;
+            var selector = sender as LongListMultiSelector;
             selector.ItemsSource = GridSource;
+            selector.IsSelectionEnabled = true;
         }
 
         private void ImageGrid_Unloaded(object sender, RoutedEventArgs e)
         {
-            var selector = sender as LongListSelector;
+            var selector = sender as LongListMultiSelector;
             selector.ItemsSource = null;
         }
 
-        private async void ImageGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ImageGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var content = (sender as LongListSelector).SelectedItem as RemoteThumbnail;
-            if (content != null)
+            var selector = sender as LongListMultiSelector;
+            if (selector.IsSelectionEnabled)
             {
-                UpdateTitleHeader(content.Source.Name + " - " + content.Source.ContentType);
-                switch (content.Source.ContentType)
-                {
-                    case ContentKind.StillImage:
-                        ChangeProgressText("Fetching detail image...");
-                        try
-                        {
-                            using (var strm = await Downloader.GetResponseStreamAsync(new Uri(content.Source.LargeUrl)))
-                            {
-                                var replica = new MemoryStream();
-
-                                strm.CopyTo(replica); // Copy to the new stream to avoid stream crash issue.
-                                if (replica.Length <= 0)
-                                {
-                                    return;
-                                }
-                                replica.Seek(0, SeekOrigin.Begin);
-
-                                Dispatcher.BeginInvoke(() =>
-                                {
-                                    try
-                                    {
-                                        _bitmap = new BitmapImage();
-                                        _bitmap.SetSource(replica);
-                                        InitBitmapBeforeOpen();
-                                        DetailImage.Source = _bitmap;
-                                        SetVisibility(true);
-                                    }
-                                    finally
-                                    {
-                                        if (replica != null)
-                                        {
-                                            replica.Dispose();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            DebugUtil.Log(ex.StackTrace);
-                            UpdateTitleHeader("Failed to fetch detail image");
-                            HideProgress();
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                DebugUtil.Log("SelectionChanged in multi mode");
+                var contents = selector.SelectedItems;
+                DebugUtil.Log("Selected Items: " + contents.Count);
             }
         }
 
@@ -313,7 +466,8 @@ namespace Kazyx.WPPMM.Pages
                 viewport.Visibility = Visibility.Visible;
                 DetailImage.Visibility = Visibility.Visible;
                 TouchBlocker.Visibility = Visibility.Visible;
-                ImageGrid.IsEnabled = false;
+                RemoteImageGrid.IsEnabled = false;
+                LocalImageGrid.IsEnabled = false;
             }
             else
             {
@@ -322,7 +476,8 @@ namespace Kazyx.WPPMM.Pages
                 DetailImage.Visibility = Visibility.Collapsed;
                 TouchBlocker.Visibility = Visibility.Collapsed;
                 viewport.Visibility = Visibility.Collapsed;
-                ImageGrid.IsEnabled = true;
+                RemoteImageGrid.IsEnabled = true;
+                LocalImageGrid.IsEnabled = true;
             }
         }
 
@@ -441,7 +596,6 @@ namespace Kazyx.WPPMM.Pages
             }
 
             _coercedScale = Math.Min(MaxScale, Math.Max(_scale, _minScale));
-            //DebugUtil.Log("Coerced scale: " + _coercedScale);
         }
 
         private void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
@@ -477,108 +631,152 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private TitleBarState TitleBarState = TitleBarState.Displayed;
-
-        /*
-        private void ImageGrid_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TitleBarState == TitleBarState.Translating)
+            RemoteImageGrid.IsSelectionEnabled = false;
+            var pivot = sender as Pivot;
+            switch (pivot.SelectedIndex)
             {
+                case 0:
+                    SwitchAppBar(ViewerState.Local);
+                    break;
+                case 1:
+                    SwitchAppBar(ViewerState.RemoteSingle);
+                    if (CheckRemoteCapability())
+                    {
+                        if (!IsRemoteInitialized)
+                        {
+                            InitializeRemote();
+                        }
+                    }
+                    else
+                    {
+                        ShowToast("Storage access is not supported\nby your camera device");
+                        UnsupportedMessage.Visibility = Visibility.Visible;
+                    }
+                    break;
+            }
+
+        }
+
+        private void FetchSelectedImages()
+        {
+            var items = RemoteImageGrid.SelectedItems;
+            if (items.Count == 0)
+            {
+                HideProgress();
                 return;
             }
-
-            DebugUtil.Log("TranslationY: " + e.DeltaManipulation.Translation.Y);
-
-            if (e.DeltaManipulation.Translation.Y > 0 && TitleBarState == TitleBarState.Hidden)
+            foreach (var item in items)
             {
-                TranslateElementY(0, 109, TitleBarState.Displayed);
+                try
+                {
+                    var data = item as RemoteThumbnail;
+                    var uri = new Uri(data.Source.LargeUrl);
+                    PictureSyncManager.Instance.Enque(uri);
+                }
+                catch (Exception e)
+                {
+                    DebugUtil.Log(e.StackTrace);
+                }
             }
-            else if (e.DeltaManipulation.Translation.Y < 0 && TitleBarState == TitleBarState.Displayed)
+            RemoteImageGrid.IsSelectionEnabled = false;
+        }
+
+        private void ShowToast(string message)
+        {
+            Dispatcher.BeginInvoke(() =>
             {
-                TranslateElementY(109, 0, TitleBarState.Hidden);
-            }
+                ToastMessage.Text = message;
+                ToastApparance.Begin();
+            });
         }
-         * */
 
-        private void SwitchHeader()
+        private void ToastApparance_Completed(object sender, EventArgs e)
         {
-            switch (TitleBarState)
+            Scheduler.Dispatcher.Schedule(() =>
             {
-                case TitleBarState.Displayed:
-                    TranslateElementY(109, 0, TitleBarState.Hidden);
-                    ApplicationBar = abm.Clear().Enable(IconMenu.ShowHeader).CreateNew(0.0);
-                    break;
-                case TitleBarState.Hidden:
-                    TranslateElementY(0, 109, TitleBarState.Displayed);
-                    ApplicationBar = abm.Clear().Enable(IconMenu.HideHeader).CreateNew(0.0);
-                    break;
-                case TitleBarState.Translating:
-                    break;
-            }
+                ToastDisApparance.Begin();
+            }, TimeSpan.FromSeconds(3));
         }
 
-        private void TranslateElementY(double from, double to, TitleBarState nextState)
+        private void RemoteImageGrid_IsSelectionEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            TitleBarState = TitleBarState.Translating;
-
-            var duration = new Duration(TimeSpan.FromSeconds(0.3));
-            var story = new Storyboard();
-            story.Duration = duration;
-            var animation = new DoubleAnimation();
-            animation.Duration = duration;
-            animation.From = from;
-            animation.To = to;
-            animation.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn, Exponent = 3.0 };
-
-            TitleBlock.RenderTransform = new CompositeTransform();
-            Storyboard.SetTarget(animation, TitleBlock);
-            Storyboard.SetTargetProperty(animation, new PropertyPath("UIElement.Height"));
-
-            story.Children.Add(animation);
-
-            story.Completed += (sender, e) =>
+            var selector = (sender as LongListMultiSelector);
+            if (PivotRoot.SelectedIndex == 1)
             {
-                DebugUtil.Log("TitleBar animation completed: " + nextState);
-                TitleBarState = nextState;
-            };
-            story.Begin();
-        }
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            ApplicationBar = abm.Clear().Enable(IconMenu.HideHeader).CreateNew(0.0);
-        }
-
-        /*
-        private void ImageGrid_InnerManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        {
-            DebugUtil.Log("InnerManipulationDelta");
-            ImageGrid_ManipulationDelta(sender, e);
-        }
-
-        private void ImageGrid_InnerManipulationStateChanged(object sender, System.Windows.Controls.Primitives.ManipulationStateChangedEventArgs e)
-        {
-            var lls = sender as ViewportControl;
-            switch (lls.ManipulationState)
-            {
-                case ManipulationState.Idle:
-                    DebugUtil.Log("InnerManipulationState: Idle");
-                    break;
-                case ManipulationState.Manipulating:
-                    DebugUtil.Log("InnerManipulationState: Manipulating");
-                    break;
-                case ManipulationState.Animating:
-                    DebugUtil.Log("InnerManipulationState: Animating");
-                    break;
+                if (selector.IsSelectionEnabled)
+                {
+                    SwitchAppBar(ViewerState.RemoteSelecting);
+                }
+                else
+                {
+                    SwitchAppBar(ViewerState.RemoteSingle);
+                }
             }
         }
-         * */
+
+        private async void RemoteThumbnail_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var image = sender as Image;
+            var content = image.DataContext as RemoteThumbnail;
+            if (content != null)
+            {
+                switch (content.Source.ContentType)
+                {
+                    case ContentKind.StillImage:
+                        ChangeProgressText("Fetching detail image...");
+                        try
+                        {
+                            using (var strm = await Downloader.GetResponseStreamAsync(new Uri(content.Source.LargeUrl)))
+                            {
+                                var replica = new MemoryStream();
+
+                                strm.CopyTo(replica); // Copy to the new stream to avoid stream crash issue.
+                                if (replica.Length <= 0)
+                                {
+                                    return;
+                                }
+                                replica.Seek(0, SeekOrigin.Begin);
+
+                                Dispatcher.BeginInvoke(() =>
+                                {
+                                    try
+                                    {
+                                        _bitmap = new BitmapImage();
+                                        _bitmap.SetSource(replica);
+                                        InitBitmapBeforeOpen();
+                                        DetailImage.Source = _bitmap;
+                                        SetVisibility(true);
+                                    }
+                                    finally
+                                    {
+                                        if (replica != null)
+                                        {
+                                            replica.Dispose();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            DebugUtil.Log(ex.StackTrace);
+                            HideProgress();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
-    enum TitleBarState
+    public enum ViewerState
     {
-        Displayed,
-        Hidden,
-        Translating
+        Local,
+        RemoteSingle,
+        RemoteSelecting,
+        Sync,
     }
 }

@@ -177,9 +177,6 @@
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ViewerPage.xaml.cs">
-      <DependentUpon>ViewerPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AppBarManager.cs" />
     <Compile Include="Utils\StorageUtil.cs" />
@@ -245,10 +242,6 @@
     </Page>
     <Page Include="Pages\RemoteViewerPage.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\ViewerPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

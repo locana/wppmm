@@ -32,7 +32,7 @@ namespace Kazyx.WPPMM.CameraManager
         public ControlPanelManager(StackPanel panel)
         {
             this.manager = CameraManager.GetInstance();
-            this.status = manager.cameraStatus;
+            this.status = manager.Status;
             this.data = new ControlPanelViewData(status);
             this.panel = panel;
 

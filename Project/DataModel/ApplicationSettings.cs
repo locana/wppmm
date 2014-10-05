@@ -99,7 +99,7 @@ namespace Kazyx.WPPMM.DataModel
                     // exclusion
                     if (value)
                     {
-                        if (manager.cameraStatus.IsAvailable("setSelfTimer") && manager.IntervalManager != null)
+                        if (manager.Status.IsAvailable("setSelfTimer") && manager.IntervalManager != null)
                         {
                             SetSelfTimerOff();
                         }

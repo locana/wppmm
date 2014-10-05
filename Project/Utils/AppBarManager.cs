@@ -21,10 +21,19 @@ namespace Kazyx.WPPMM.Utils
             // IconUri = new Uri("/Assets/AppBar/questionmark.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarMenuItem SelectItemsMenuItem = new ApplicationBarMenuItem
+        {
+            Text = "Select items to sync",
+        };
+
 #if DEBUG
         readonly ApplicationBarMenuItem LogMenuItem = new ApplicationBarMenuItem
         {
             Text = "Log Viewer",
+        };
+        readonly ApplicationBarMenuItem ContentsMenuItem = new ApplicationBarMenuItem
+        {
+            Text = "Short cut to contents",
         };
 #endif
 
@@ -64,16 +73,10 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton HideHeaderItem = new ApplicationBarIconButton
+        readonly ApplicationBarIconButton SyncItem = new ApplicationBarIconButton
         {
-            Text = AppResources.AppBar_HideHeader,
-            IconUri = new Uri("/Assets/AppBar/appBar_Dollar.png", UriKind.Relative)
-        };
-
-        readonly ApplicationBarIconButton ShowHeaderItem = new ApplicationBarIconButton
-        {
-            Text = AppResources.AppBar_ShowHeader,
-            IconUri = new Uri("/Assets/AppBar/appBar_Dollar.png", UriKind.Relative)
+            Text = "Sync",
+            IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
@@ -92,10 +95,11 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.CameraRoll, CameraRollItem);
             IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
-            IconMenuItems.Add(IconMenu.HideHeader, HideHeaderItem);
-            IconMenuItems.Add(IconMenu.ShowHeader, ShowHeaderItem);
+            IconMenuItems.Add(IconMenu.SyncContents, SyncItem);
+            MenuItems.Add(Menu.SelectItems, SelectItemsMenuItem);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
+            MenuItems.Add(Menu.Contents, ContentsMenuItem);
 #endif
         }
 
@@ -197,8 +201,10 @@ namespace Kazyx.WPPMM.Utils
     public enum Menu
     {
         About,
+        SelectItems,
 #if DEBUG
         Log,
+        Contents,
 #endif
     }
 
@@ -211,7 +217,6 @@ namespace Kazyx.WPPMM.Utils
         CameraRoll,
         Hidden,
         CloseApplicationSetting,
-        HideHeader,
-        ShowHeader,
+        SyncContents,
     }
 }

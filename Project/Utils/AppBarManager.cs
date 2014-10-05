@@ -76,7 +76,7 @@ namespace Kazyx.WPPMM.Utils
         readonly ApplicationBarIconButton SyncItem = new ApplicationBarIconButton
         {
             Text = "Sync",
-            IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
+            IconUri = new Uri("/Assets/AppBar/sync.png", UriKind.Relative)
         };
 
         readonly ApplicationBarIconButton MultipleSelectItem = new ApplicationBarIconButton

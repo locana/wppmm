@@ -152,7 +152,7 @@ namespace Kazyx.WPPMM.PlaybackMode
         {
             var contents = await av.GetContentListAsync(new ContentListTarget
             {
-                Sorting = SortMode.Ascending,
+                Sorting = SortMode.Descending,
                 Grouping = ContentGroupingMode.Date,
                 Uri = uri,
                 StartIndex = startFrom,

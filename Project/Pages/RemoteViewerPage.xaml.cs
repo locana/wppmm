@@ -303,7 +303,7 @@ namespace Kazyx.WPPMM.Pages
             try
             {
                 ChangeProgressText("Chaging camera state...");
-                await PlaybackModeUtility.MoveToContentTransferModeAsync(cm.CameraApi, cm.Status);
+                await PlaybackModeUtility.MoveToContentTransferModeAsync(cm.CameraApi, cm.Status, 20000);
 
                 ChangeProgressText("Checking storage capability...");
                 if (!await PlaybackModeUtility.IsStorageSupportedAsync(cm.AvContentApi))

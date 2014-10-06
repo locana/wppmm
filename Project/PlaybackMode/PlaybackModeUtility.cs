@@ -14,17 +14,17 @@ namespace Kazyx.WPPMM.PlaybackMode
 {
     public class PlaybackModeUtility
     {
-        public static async Task<bool> MoveToShootingModeAsync(CameraApiClient camera, CameraStatus status)
+        public static async Task<bool> MoveToShootingModeAsync(CameraApiClient camera, CameraStatus status, int timeoutMsec = 10000)
         {
-            return await MoveToSpecifiedModeAsync(camera, status, CameraFunction.RemoteShooting, EventParam.Idle);
+            return await MoveToSpecifiedModeAsync(camera, status, CameraFunction.RemoteShooting, EventParam.Idle, timeoutMsec);
         }
 
-        public static async Task<bool> MoveToContentTransferModeAsync(CameraApiClient camera, CameraStatus status)
+        public static async Task<bool> MoveToContentTransferModeAsync(CameraApiClient camera, CameraStatus status, int timeoutMsec = 10000)
         {
-            return await MoveToSpecifiedModeAsync(camera, status, CameraFunction.ContentTransfer, EventParam.ContentsTransfer);
+            return await MoveToSpecifiedModeAsync(camera, status, CameraFunction.ContentTransfer, EventParam.ContentsTransfer, timeoutMsec);
         }
 
-        private static async Task<bool> MoveToSpecifiedModeAsync(CameraApiClient camera, CameraStatus status, string nextFunction, string nextState)
+        private static async Task<bool> MoveToSpecifiedModeAsync(CameraApiClient camera, CameraStatus status, string nextFunction, string nextState, int timeoutMsec)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Kazyx.WPPMM.PlaybackMode
             }
 
             var tcs = new TaskCompletionSource<bool>();
-            var ct = new CancellationTokenSource(10000); // State change timeout 10 sec.
+            var ct = new CancellationTokenSource(timeoutMsec); // State change timeout 10 sec.
             ct.Token.Register(() => tcs.TrySetCanceled(), useSynchronizationContext: false);
 
             PropertyChangedEventHandler status_observer = (sender, e) =>

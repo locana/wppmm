@@ -303,7 +303,10 @@ namespace Kazyx.WPPMM.Pages
             {
                 var notify = value != _StorageAvailable;
                 _StorageAvailable = value;
-                OnStorageAvailabilityChanged(value);
+                if (notify)
+                {
+                    OnStorageAvailabilityChanged(value);
+                }
             }
             get { return _StorageAvailable; }
         }

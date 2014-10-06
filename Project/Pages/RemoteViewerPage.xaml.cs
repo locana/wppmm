@@ -46,21 +46,25 @@ namespace Kazyx.WPPMM.Pages
 
         private void SwitchAppBar(ViewerState state)
         {
-            switch (state)
+            Dispatcher.BeginInvoke(() =>
             {
-                case ViewerState.Local:
-                case ViewerState.Sync:
-                case ViewerState.RemoteUnsupported:
-                case ViewerState.RemoteMulti:
-                    ApplicationBar = null;
-                    break;
-                case ViewerState.RemoteSelecting:
-                    ApplicationBar = abm.Clear().Enable(IconMenu.SyncContents).CreateNew(0.5);
-                    break;
-                case ViewerState.RemoteSingle:
-                    ApplicationBar = abm.Clear().Enable(IconMenu.SelectItems).CreateNew(0.5);
-                    break;
-            }
+                switch (state)
+                {
+                    case ViewerState.Local:
+                    case ViewerState.Sync:
+                    case ViewerState.RemoteUnsupported:
+                    case ViewerState.RemoteMulti:
+                    case ViewerState.RemoteNoMedia:
+                        ApplicationBar = null;
+                        break;
+                    case ViewerState.RemoteSelecting:
+                        ApplicationBar = abm.Clear().Enable(IconMenu.SyncContents).CreateNew(0.5);
+                        break;
+                    case ViewerState.RemoteSingle:
+                        ApplicationBar = abm.Clear().Enable(IconMenu.SelectItems).CreateNew(0.5);
+                        break;
+                }
+            });
         }
 
         private readonly AppBarManager abm = new AppBarManager();
@@ -80,6 +84,7 @@ namespace Kazyx.WPPMM.Pages
             SwitchAppBar(ViewerState.Local);
 
             IsRemoteInitialized = false;
+            UpdateStorageInfo();
             UnsupportedMessage.Visibility = Visibility.Collapsed;
 
             GridSource = new DateGroupCollection();
@@ -148,42 +153,15 @@ namespace Kazyx.WPPMM.Pages
             switch (e.PropertyName)
             {
                 case "Storages":
-                    OnStorageInfoChanged(sender as CameraStatus);
+                    UpdateStorageInfo();
                     break;
             }
         }
 
-        private void OnStorageInfoChanged(CameraStatus status)
+        private void UpdateStorageInfo()
         {
-            DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged");
-
-            if (status.Status != EventParam.ContentsTransfer)
-            {
-                return;
-            }
-
-            var storages = status.Storages;
-
-            if (!IsStorageAvailable())
-            {
-                IsRemoteInitialized = false;
-                GridSource.Clear();
-                DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - No Storage available");
-                ShowToast("Memory card storage seems to be detached");
-            }
-            else
-            {
-                //DebugUtil.Log("RemoteViewerPage: OnStorageInfoChanged - " + storages.Count);
-                //if (PivotRoot.SelectedIndex == 1 && CheckRemoteCapability())
-                //{
-                //    if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
-                //    {
-                //        ShowToast("Refresh contents");
-                //        InitializeRemote();
-                //    }
-                //}
-            }
-
+            var storages = CameraManager.CameraManager.GetInstance().Status.Storages;
+            StorageAvailable = storages != null && storages.Count != 0 && storages[0].StorageID != StorageId.NoMedia;
         }
 
         ThumbnailGroup groups = null;
@@ -288,12 +266,41 @@ namespace Kazyx.WPPMM.Pages
             return true;
         }
 
-        private bool IsStorageAvailable()
+        private void OnStorageAvailabilityChanged(bool availability)
         {
-            var cm = CameraManager.CameraManager.GetInstance();
-            var storages = cm.Status.Storages;
+            DebugUtil.Log("RemoteViewerPage: OnStorageAvailabilityChanged - " + availability);
 
-            return storages != null && storages.Count != 0 && storages[0].StorageID != StorageId.NoMedia;
+            if (availability)
+            {
+                if (PivotRoot.SelectedIndex == 1 && CheckRemoteCapability())
+                {
+                    var storages = CameraManager.CameraManager.GetInstance().Status.Storages;
+                    if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
+                    {
+                        ShowToast("Refresh contents");
+                        InitializeRemote();
+                    }
+                }
+            }
+            else
+            {
+                IsRemoteInitialized = false;
+                Dispatcher.BeginInvoke(() => { GridSource.Clear(); });
+                ShowToast("Memory card storage seems to be detached");
+                SwitchAppBar(ViewerState.RemoteNoMedia);
+            }
+        }
+
+        private bool _StorageAvailable = false;
+        private bool StorageAvailable
+        {
+            set
+            {
+                var notify = value != _StorageAvailable;
+                _StorageAvailable = value;
+                OnStorageAvailabilityChanged(value);
+            }
+            get { return _StorageAvailable; }
         }
 
         private async void InitializeRemote()
@@ -713,16 +720,21 @@ namespace Kazyx.WPPMM.Pages
                 case 1:
                     if (CheckRemoteCapability())
                     {
-                        SwitchAppBar(ViewerState.RemoteSingle);
-                        if (!IsRemoteInitialized)
+                        if (IsRemoteInitialized)
                         {
-                            if (IsStorageAvailable())
+                            SwitchAppBar(ViewerState.RemoteSingle);
+                        }
+                        else
+                        {
+                            if (StorageAvailable)
                             {
+                                SwitchAppBar(ViewerState.RemoteSingle);
                                 InitializeRemote();
                             }
                             else
                             {
                                 ShowToast("No storage seems to be attached");
+                                SwitchAppBar(ViewerState.RemoteNoMedia);
                             }
                         }
                     }
@@ -890,6 +902,7 @@ namespace Kazyx.WPPMM.Pages
     {
         Local,
         RemoteUnsupported,
+        RemoteNoMedia,
         RemoteSingle,
         RemoteMulti,
         RemoteSelecting,

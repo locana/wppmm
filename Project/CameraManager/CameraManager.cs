@@ -257,12 +257,6 @@ namespace Kazyx.WPPMM.CameraManager
                         OnResultActTakePicture(urls.ToArray());
                     }
                     break;
-                case "Storages":
-                    if (CurrentDeviceInfo != null && CurrentDeviceInfo.UDN != null)
-                    {
-                        ThumbnailCacheLoader.INSTANCE.DeleteCache(CurrentDeviceInfo.UDN);
-                    }
-                    break;
             }
         }
 

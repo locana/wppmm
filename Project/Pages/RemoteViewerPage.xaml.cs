@@ -288,6 +288,11 @@ namespace Kazyx.WPPMM.Pages
                 Dispatcher.BeginInvoke(() => { GridSource.Clear(); });
                 ShowToast("Memory card storage seems to be detached");
                 SwitchAppBar(ViewerState.RemoteNoMedia);
+                var device = CameraManager.CameraManager.GetInstance().CurrentDeviceInfo;
+                if (device != null && device.UDN != null)
+                {
+                    ThumbnailCacheLoader.INSTANCE.DeleteCache(device.UDN);
+                }
             }
         }
 

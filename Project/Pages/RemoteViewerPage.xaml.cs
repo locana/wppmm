@@ -483,23 +483,30 @@ namespace Kazyx.WPPMM.Pages
             {
                 Dispatcher.BeginInvoke(() =>
                 {
-                    using (var strm = thumb.picture.GetImage())
+                    try
                     {
-                        using (var replica = new MemoryStream())
+                        using (var strm = thumb.picture.GetImage())
                         {
-                            strm.CopyTo(replica); // Copy to the new stream to avoid stream crash issue.
-                            if (replica.Length <= 0)
+                            using (var replica = new MemoryStream())
                             {
-                                return;
-                            }
-                            replica.Seek(0, SeekOrigin.Begin);
+                                strm.CopyTo(replica); // Copy to the new stream to avoid stream crash issue.
+                                if (replica.Length <= 0)
+                                {
+                                    return;
+                                }
+                                replica.Seek(0, SeekOrigin.Begin);
 
-                            _bitmap = new BitmapImage();
-                            _bitmap.SetSource(replica);
-                            InitBitmapBeforeOpen();
-                            DetailImage.Source = _bitmap;
-                            SetVisibility(true);
+                                _bitmap = new BitmapImage();
+                                _bitmap.SetSource(replica);
+                                InitBitmapBeforeOpen();
+                                DetailImage.Source = _bitmap;
+                                SetVisibility(true);
+                            }
                         }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        ShowToast("Failed to open detail image...");
                     }
                 });
             });

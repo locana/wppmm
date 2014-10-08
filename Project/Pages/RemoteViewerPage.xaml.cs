@@ -139,6 +139,7 @@ namespace Kazyx.WPPMM.Pages
             MovieStreamHandler.INSTANCE.Finish();
             Dispatcher.BeginInvoke(() =>
             {
+                PivotRoot.IsLocked = false;
                 MoviePlaybackScreen.Reset();
                 MovieDrawer.Visibility = Visibility.Collapsed;
             });
@@ -888,6 +889,7 @@ namespace Kazyx.WPPMM.Pages
                         {
                             if (content.Source.RemotePlaybackAvailable)
                             {
+                                PivotRoot.IsLocked = true;
                                 MovieDrawer.Visibility = Visibility.Visible;
                                 ChangeProgressText("Wating for movie playback stream...");
                                 var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
@@ -916,6 +918,23 @@ namespace Kazyx.WPPMM.Pages
                     default:
                         break;
                 }
+            }
+        }
+
+        private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            DebugUtil.Log("Orientation changed: " + e.Orientation);
+            switch (e.Orientation)
+            {
+                case PageOrientation.LandscapeLeft:
+                    MoviePlaybackScreen.Margin = new Thickness(12, 12, 72, 12);
+                    break;
+                case PageOrientation.LandscapeRight:
+                    MoviePlaybackScreen.Margin = new Thickness(72, 12, 12, 12);
+                    break;
+                case PageOrientation.Portrait:
+                    MoviePlaybackScreen.Margin = new Thickness(12);
+                    break;
             }
         }
     }

@@ -26,21 +26,6 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         private static async Task<bool> MoveToSpecifiedModeAsync(CameraApiClient camera, CameraStatus status, string nextFunction, string nextState, int timeoutMsec)
         {
-            try
-            {
-                DebugUtil.Log("Check current state...");
-                if (nextState == await camera.GetCameraFunctionAsync())
-                {
-                    DebugUtil.Log("Already in specified mode: " + nextState);
-                    return true;
-                }
-            }
-            catch (RemoteApiException)
-            {
-                DebugUtil.Log("Failed to get current state");
-                return false;
-            }
-
             var tcs = new TaskCompletionSource<bool>();
             var ct = new CancellationTokenSource(timeoutMsec); // State change timeout 10 sec.
             ct.Token.Register(() => tcs.TrySetCanceled(), useSynchronizationContext: false);
@@ -76,10 +61,9 @@ namespace Kazyx.WPPMM.PlaybackMode
             }
             catch (RemoteApiException e)
             {
-                if (e.code != StatusCode.IllegalState)
+                if (e.code == StatusCode.IllegalState)
                 {
-                    DebugUtil.Log("Failed to change camera state.");
-                    return false;
+                    return true;
                 }
             }
             finally
@@ -87,7 +71,24 @@ namespace Kazyx.WPPMM.PlaybackMode
                 status.PropertyChanged -= status_observer;
             }
 
-            DebugUtil.Log("Failed to change camera state...");
+            DebugUtil.Log("Failed to change camera state.");
+
+            try
+            {
+                DebugUtil.Log("Check current state...");
+                if (nextState == await camera.GetCameraFunctionAsync())
+                {
+                    DebugUtil.Log("Already in specified mode: " + nextState);
+                    return true;
+                }
+            }
+            catch (RemoteApiException e)
+            {
+                DebugUtil.Log("Failed to get current state");
+                return false;
+            }
+
+            DebugUtil.Log("Not in specified state...");
             return false;
         }
 

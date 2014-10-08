@@ -440,13 +440,10 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 try
                 {
-                    if (await CameraApi.GetCameraFunctionAsync() != CameraFunction.RemoteShooting)
+                    if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status, 20000))
                     {
-                        if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status, 20000))
-                        {
-                            DebugUtil.Log("Failed to move to shooting mode");
-                            return;
-                        }
+                        DebugUtil.Log("Failed to move to shooting mode");
+                        return;
                     }
                 }
                 catch (RemoteApiException e)

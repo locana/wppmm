@@ -42,6 +42,12 @@ namespace Kazyx.WPPMM.Pages
                 DebugUtil.Log("Select items clicked");
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
+
+            
+            // TODO: If seek is supported, set vallback of seek bar and enable it.
+            //MoviePlaybackScreen.SeekOperated += (NewValue) =>
+            //{
+            //};
         }
 
         private void SwitchAppBar(ViewerState state)
@@ -133,6 +139,7 @@ namespace Kazyx.WPPMM.Pages
             MovieStreamHandler.INSTANCE.Finish();
             Dispatcher.BeginInvoke(() =>
             {
+                MoviePlaybackScreen.Reset();
                 MovieDrawer.Visibility = Visibility.Collapsed;
             });
         }

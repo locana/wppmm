@@ -4,10 +4,13 @@ using Kazyx.RemoteApi.AvContent;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using System;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Kazyx.WPPMM.PlaybackMode
 {
@@ -24,8 +27,8 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         private AvContentApiClient AvContent = null;
 
-        private LiveviewData _MovieFrame = new LiveviewData();
-        public LiveviewData MovieFrame { get { return _MovieFrame; } }
+        private MoviePlaybackData _MovieFrame = new MoviePlaybackData();
+        public MoviePlaybackData MovieFrame { get { return _MovieFrame; } }
 
         private readonly StreamProcessor StreamProcessor = new StreamProcessor();
 
@@ -144,6 +147,10 @@ namespace Kazyx.WPPMM.PlaybackMode
             if (PlaybackInfoRetrieved != null)
             {
                 PlaybackInfoRetrieved(sender, e);
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    MovieFrame.PlaybackPosition = e.Packet.CurrentPosition.TotalMilliseconds / e.Packet.Duration.TotalMilliseconds * 100;
+                });                
             }
         }
 
@@ -178,5 +185,28 @@ namespace Kazyx.WPPMM.PlaybackMode
     public class StreamingStatusEventArgs : EventArgs
     {
         public StreamingStatus Status { get; internal set; }
+    }
+
+    public class MoviePlaybackData : LiveviewData
+    {
+        public MoviePlaybackData() { }
+
+        private double _PlaybackPosition;
+        /// <summary>
+        /// Current position of the movie. From 0 to 100.
+        /// </summary>
+        public double PlaybackPosition
+        {
+            get { return _PlaybackPosition; }
+            set
+            {
+                if (value != _PlaybackPosition)
+                {
+                    _PlaybackPosition = value;
+                    base.OnPropertyChanged("PlaybackPosition");
+                }
+            }
+        }
+
     }
 }

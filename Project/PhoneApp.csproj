@@ -98,6 +98,9 @@
     <Compile Include="Controls\FocusFrames.xaml.cs">
       <DependentUpon>FocusFrames.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MoviePlaybackScreen.xaml.cs">
+      <DependentUpon>MoviePlaybackScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModel\ContentPlaybackData.cs" />
     <Compile Include="DataModel\RemoteThumbnailData.cs" />
     <Compile Include="Pages\LogViewerPage.xaml.cs">
@@ -204,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ListPickerSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MoviePlaybackScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

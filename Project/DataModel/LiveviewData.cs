@@ -19,7 +19,7 @@ namespace Kazyx.WPPMM.DataModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string name)
+        protected void OnPropertyChanged(string name)
         {
             //DebugUtil.Log("OnPropertyChanged: " + name);
             if (PropertyChanged != null)

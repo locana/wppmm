@@ -114,7 +114,7 @@ namespace Kazyx.WPPMM.CameraManager
             PostviewSizeInfo = null;
             FocusStatus = null;
             IsLiveviewAvailable = false;
-            IsFocusFrameInfoAvailable = false;
+            IsLiveviewFrameInfoAvailable = false;
             ZoomInfo = null;
             Status = EventParam.NotReady;
             AvailableApis = null;
@@ -163,6 +163,14 @@ namespace Kazyx.WPPMM.CameraManager
                     AvailableApiList = new List<string>();
 
                 OnPropertyChanged("AvailableApis");
+                if (IsAvailable("setLiveviewFrameInfo"))
+                {
+                    this.IsLiveviewFrameInfoAvailable = true;
+                }
+                else
+                {
+                    this.IsLiveviewFrameInfoAvailable = false;
+                }
             }
             get { return _AvailableApis; }
         }
@@ -227,10 +235,11 @@ namespace Kazyx.WPPMM.CameraManager
         public Action<bool> LiveviewAvailabilityNotifier;
 
         private bool _IsFocusFrameInfoAvailable = false;
-        public bool IsFocusFrameInfoAvailable
+        public bool IsLiveviewFrameInfoAvailable
         {
             set
             {
+                DebugUtil.Log("IsFocusFrameInfoAvailable set: " + value);
                 if (_IsFocusFrameInfoAvailable != value)
                 {
                     _IsFocusFrameInfoAvailable = value;

@@ -451,6 +451,11 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
+        internal static void LiveviewFrameInfoAvailability(CameraStatus status, bool latest)
+        {
+            status.IsLiveviewFrameInfoAvailable = latest;
+        }
+
         private static bool IsCapabilityUpdated<T>(Capability<T> current, Capability<T> latest)
         {
             if (!current.Current.Equals(latest.Current) ||

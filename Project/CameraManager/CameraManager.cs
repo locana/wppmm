@@ -152,7 +152,7 @@ namespace Kazyx.WPPMM.CameraManager
                     CloseLiveviewConnection();
                 }
             };
-            Status.FocusFrameAvailablityNotifier += FocusFrameAvailablityChanged;
+            Status.LiveviewFrameAvailablityNotifier += FocusFrameAvailablityChanged;
             Status.PropertyChanged += cameraStatus_PropertyChanged;
             lvProcessor.JpegRetrieved += OnJpegRetrieved;
             lvProcessor.Closed += OnLvClosed;
@@ -176,22 +176,15 @@ namespace Kazyx.WPPMM.CameraManager
 
         internal async void FocusFrameSettingChanged(bool setting)
         {
-            DebugUtil.Log("FocusFrame setting changed: " + setting);
-            if (_cameraStatus.IsAvailable("setLiveviewFrameInfo"))
-            {
-                await SetFocusFrameInfo(setting);
-            }
+            await SetFocusFrameInfo(setting);
         }
 
         internal async Task SetFocusFrameInfo(bool setting)
         {
             try
             {
-                if (_cameraStatus.IsSupported("setLiveviewFrameInfo"))
-                {
-                    DebugUtil.Log("Set liveview frame info true");
-                    await CameraApi.SetLiveviewFrameInfo(new FrameInfoSetting() { TransferFrameInfo = setting });
-                }
+                DebugUtil.Log("Set liveview frame info true");
+                await CameraApi.SetLiveviewFrameInfo(new FrameInfoSetting() { TransferFrameInfo = setting });
             }
             catch (RemoteApiException e)
             {

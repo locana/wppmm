@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -130,6 +131,7 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.PictureFetchStatusUpdated += cameraManager_PictureFetchStatusUpdated;
             cameraManager.PictureFetchSucceed += cameraManager_PictureFetchSucceed;
             cameraManager.OnTakePictureSucceed += cameraManager_OnTakePictureSucceed;
+            cameraManager.MethodTypesUpdateNotifer += SupportedApiUpdated;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -312,6 +314,7 @@ namespace Kazyx.WPPMM.Pages
             cameraManager.PictureFetchStatusUpdated -= cameraManager_PictureFetchStatusUpdated;
             cameraManager.PictureFetchSucceed -= cameraManager_PictureFetchSucceed;
             cameraManager.OnTakePictureSucceed -= cameraManager_OnTakePictureSucceed;
+            cameraManager.MethodTypesUpdateNotifer -= SupportedApiUpdated;
 
             switch (MyPivot.SelectedIndex)
             {
@@ -608,6 +611,7 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnAfStatusChanged += cameraManager_OnAfStatusChanged;
             cameraManager.OnExposureModeChanged += cameraManager_OnExposureModeChanged;
+
             if (svd != null)
             {
                 svd.SlidersVisibilityChanged += SlidersVisibilityChanged;
@@ -675,6 +679,21 @@ namespace Kazyx.WPPMM.Pages
             if (ApplicationSettings.GetInstance().GeotagEnabled)
             {
                 await GeopositionManager.GetInstance().AcquireGeoPosition();
+            }
+        }
+
+        private void SupportedApiUpdated()
+        {
+            var available = cameraManager.Status.IsSupported("setLiveviewFrameInfo");
+            DebugUtil.Log("Focus frame setting visibility: " + available);
+            if (FocusFrameSetting == null) { return; }
+            if (available)
+            {
+                FocusFrameSetting.SettingVisibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                FocusFrameSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -869,7 +888,6 @@ namespace Kazyx.WPPMM.Pages
 
             cameraManager.OnAfStatusChanged -= cameraManager_OnAfStatusChanged;
             cameraManager.OnExposureModeChanged -= cameraManager_OnExposureModeChanged;
-
             FraimingGrids.ManipulationCompleted -= FraimingGrids_ManipulationCompleted;
             cameraManager.IntervalManager.Stop();
 
@@ -1236,6 +1254,7 @@ namespace Kazyx.WPPMM.Pages
         private AppSettingData<bool> geoSetting;
         private AppSettingData<int> gridColorSetting;
         private AppSettingData<int> fibonacciOriginSetting;
+        private AppSettingData<bool> FocusFrameSetting;
 
         private void InitAppSettingPanel()
         {
@@ -1267,20 +1286,14 @@ namespace Kazyx.WPPMM.Pages
                 () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
 
-            var FocusFrameCheckbox = new CheckBoxSetting(new AppSettingData<bool>(AppResources.FocusFrameDisplay, AppResources.Guide_FocusFrameDisplay,
+            FocusFrameSetting = new AppSettingData<bool>(AppResources.FocusFrameDisplay, AppResources.Guide_FocusFrameDisplay,
                 () => { return ApplicationSettings.GetInstance().RequestFocusFrameInfo; },
                 enabled =>
                 {
                     ApplicationSettings.GetInstance().RequestFocusFrameInfo = enabled;
                     cameraManager.FocusFrameSettingChanged(enabled);
-                }));
-            FocusFrameCheckbox.SetBinding(CheckBoxSetting.IsVisibleProperty, new System.Windows.Data.Binding()
-            {
-                Source = svd,
-                Path = new PropertyPath("LiveviewFrameSettingVisibility"),
-                Mode = System.Windows.Data.BindingMode.OneWay,
-            });
-            display_settings.Add(FocusFrameCheckbox);
+                });
+            display_settings.Add(new CheckBoxSetting(FocusFrameSetting));
 
             display_settings.Add(new ListPickerSetting(
                 new AppSettingData<int>(AppResources.FramingGrids, AppResources.Guide_FramingGrids,
@@ -1323,16 +1336,6 @@ namespace Kazyx.WPPMM.Pages
             if (gridColorSetting != null)
             {
                 gridColorSetting.IsActive = displayed;
-                /*
-                if (displayed)
-                {
-                    gridColorSetting.SettingVisibility = System.Windows.Visibility.Visible;
-                }
-                else
-                {
-                    gridColorSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
-                }
-                 * */
             }
         }
 
@@ -1341,16 +1344,6 @@ namespace Kazyx.WPPMM.Pages
             if (fibonacciOriginSetting != null)
             {
                 fibonacciOriginSetting.IsActive = displayed;
-                /*
-                if (displayed)
-                {
-                    fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Visible;
-                }
-                else
-                {
-                    fibonacciOriginSetting.SettingVisibility = System.Windows.Visibility.Collapsed;
-                }
-                 * */
             }
         }
 

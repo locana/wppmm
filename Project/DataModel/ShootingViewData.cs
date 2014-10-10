@@ -68,6 +68,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("SlidersVisibility");
                         OnPropertyChanged("SliderButtonVisibility");
                         OnPropertyChanged("ProgramShiftVisibility");
+                        OnPropertyChanged("LiveviewFrameSettingVisibility");
                         break;
                     case "Status":
                         OnPropertyChanged("ShootButtonImage");
@@ -1122,6 +1123,18 @@ namespace Kazyx.WPPMM.DataModel
                     return 0;
                 }
                 return cameraStatus.ZoomInfo.PositionInCurrentBox;
+            }
+        }
+
+        public Visibility LiveviewFrameSettingVisibility
+        {
+            get
+            {
+                if (cameraStatus != null && cameraStatus.IsSupported("setLiveviewFrameInfo"))
+                {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
     }

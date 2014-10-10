@@ -244,9 +244,9 @@ namespace Kazyx.WPPMM.CameraManager
                 {
                     _IsFocusFrameInfoAvailable = value;
                     OnPropertyChanged("IsFocusFrameInfoAvailable");
-                    if (FocusFrameAvailablityNotifier != null)
+                    if (LiveviewFrameAvailablityNotifier != null)
                     {
-                        FocusFrameAvailablityNotifier.Invoke(value);
+                        LiveviewFrameAvailablityNotifier.Invoke(value);
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace Kazyx.WPPMM.CameraManager
             }
         }
 
-        public Action<bool> FocusFrameAvailablityNotifier;
+        public Action<bool> LiveviewFrameAvailablityNotifier;
 
         private Capability<string> _PostviewSizeInfo;
         public Capability<string> PostviewSizeInfo

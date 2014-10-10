@@ -457,6 +457,7 @@ namespace Kazyx.WPPMM.Pages
                 cameraManager.Status != null &&
                 cameraManager.Status.Status == EventParam.Idle &&
                 cameraManager.Status.ShootMode.Current == ShootModeParam.Still &&
+                cameraManager.Status.ContShootingMode != null &&
                 (
                     cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
                     cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
@@ -471,6 +472,7 @@ namespace Kazyx.WPPMM.Pages
                 cameraManager.Status != null &&
                 cameraManager.Status.Status == EventParam.StCapturing &&
                 cameraManager.Status.ShootMode.Current == ShootModeParam.Still &&
+                cameraManager.Status.ContShootingMode != null &&
                 (
                     cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
                     cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
@@ -1234,7 +1236,6 @@ namespace Kazyx.WPPMM.Pages
         private AppSettingData<bool> geoSetting;
         private AppSettingData<int> gridColorSetting;
         private AppSettingData<int> fibonacciOriginSetting;
-        private AppSettingData<bool> RequestFocusFrame;
 
         private void InitAppSettingPanel()
         {
@@ -1266,13 +1267,20 @@ namespace Kazyx.WPPMM.Pages
                 () => { return ApplicationSettings.GetInstance().IsHistogramDisplayed; },
                 enabled => { ApplicationSettings.GetInstance().IsHistogramDisplayed = enabled; })));
 
-            RequestFocusFrame = new AppSettingData<bool>(AppResources.FocusFrameDisplay, AppResources.Guide_FocusFrameDisplay,
+            var FocusFrameCheckbox = new CheckBoxSetting(new AppSettingData<bool>(AppResources.FocusFrameDisplay, AppResources.Guide_FocusFrameDisplay,
                 () => { return ApplicationSettings.GetInstance().RequestFocusFrameInfo; },
-                enabled => { 
+                enabled =>
+                {
                     ApplicationSettings.GetInstance().RequestFocusFrameInfo = enabled;
                     cameraManager.FocusFrameSettingChanged(enabled);
-                });
-            display_settings.Add(new CheckBoxSetting(RequestFocusFrame));
+                }));
+            FocusFrameCheckbox.SetBinding(CheckBoxSetting.IsVisibleProperty, new System.Windows.Data.Binding()
+            {
+                Source = svd,
+                Path = new PropertyPath("LiveviewFrameSettingVisibility"),
+                Mode = System.Windows.Data.BindingMode.OneWay,
+            });
+            display_settings.Add(FocusFrameCheckbox);
 
             display_settings.Add(new ListPickerSetting(
                 new AppSettingData<int>(AppResources.FramingGrids, AppResources.Guide_FramingGrids,

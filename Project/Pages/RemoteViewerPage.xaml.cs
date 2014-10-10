@@ -61,6 +61,8 @@ namespace Kazyx.WPPMM.Pages
                     case ViewerState.RemoteUnsupported:
                     case ViewerState.RemoteMulti:
                     case ViewerState.RemoteNoMedia:
+                    case ViewerState.RemoteStillPlayback:
+                    case ViewerState.RemoteMoviePlayback:
                         ApplicationBar = null;
                         break;
                     case ViewerState.RemoteSelecting:
@@ -136,6 +138,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseMovieStream()
         {
+            SwitchAppBar(ViewerState.RemoteSingle);
             MovieStreamHandler.INSTANCE.Finish();
             Dispatcher.BeginInvoke(() =>
             {
@@ -563,6 +566,7 @@ namespace Kazyx.WPPMM.Pages
                 TouchBlocker.Visibility = Visibility.Visible;
                 RemoteImageGrid.IsEnabled = false;
                 LocalImageGrid.IsEnabled = false;
+                SwitchAppBar(ViewerState.RemoteStillPlayback);
             }
             else
             {
@@ -573,6 +577,7 @@ namespace Kazyx.WPPMM.Pages
                 viewport.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
                 LocalImageGrid.IsEnabled = true;
+                SwitchAppBar(ViewerState.RemoteSingle);
             }
         }
 
@@ -890,6 +895,7 @@ namespace Kazyx.WPPMM.Pages
                             if (content.Source.RemotePlaybackAvailable)
                             {
                                 PivotRoot.IsLocked = true;
+                                SwitchAppBar(ViewerState.RemoteMoviePlayback);
                                 MovieDrawer.Visibility = Visibility.Visible;
                                 ChangeProgressText("Wating for movie playback stream...");
                                 var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
@@ -948,5 +954,7 @@ namespace Kazyx.WPPMM.Pages
         RemoteMulti,
         RemoteSelecting,
         Sync,
+        RemoteStillPlayback,
+        RemoteMoviePlayback,
     }
 }

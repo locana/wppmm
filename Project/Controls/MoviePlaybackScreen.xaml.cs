@@ -20,6 +20,31 @@ namespace Kazyx.WPPMM.Controls
             typeof(MoviePlaybackScreen),
             new PropertyMetadata(new PropertyChangedCallback(MoviePlaybackScreen.OnPlaybackPositionChanged)));
 
+        public TimeSpan CurrentPosition { get; set; }
+        public static readonly DependencyProperty CurrentPositionProperty = DependencyProperty.Register(
+            "Type",
+            typeof(TimeSpan),
+            typeof(MoviePlaybackScreen),
+            new PropertyMetadata(new PropertyChangedCallback(MoviePlaybackScreen.OnCurrentPositionChanged)));
+
+        private static void OnCurrentPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DebugUtil.Log("Position updated: " + ((TimeSpan)e.NewValue).TotalSeconds);
+        }
+
+        public TimeSpan Duration { get; set; }
+        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(
+            "Type",
+            typeof(TimeSpan),
+            typeof(MoviePlaybackScreen),
+            new PropertyMetadata(new PropertyChangedCallback(MoviePlaybackScreen.OnDurationChanged)));
+
+        private static void OnDurationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DebugUtil.Log("Duration updated: " + ((TimeSpan)e.NewValue).TotalSeconds);
+        }
+
+
         private bool _SeekAvailable = false;
         public bool SeekAvailable
         {

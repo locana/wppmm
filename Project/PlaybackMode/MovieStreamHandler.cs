@@ -150,6 +150,8 @@ namespace Kazyx.WPPMM.PlaybackMode
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
                     MovieFrame.PlaybackPosition = e.Packet.CurrentPosition.TotalMilliseconds / e.Packet.Duration.TotalMilliseconds * 100;
+                    MovieFrame.CurrentPosition = e.Packet.CurrentPosition;
+                    MovieFrame.Duration = e.Packet.Duration;
                 });                
             }
         }
@@ -205,6 +207,28 @@ namespace Kazyx.WPPMM.PlaybackMode
                     _PlaybackPosition = value;
                     base.OnPropertyChanged("PlaybackPosition");
                 }
+            }
+        }
+
+        private TimeSpan _CurrentPosition;
+        public TimeSpan CurrentPosition
+        {
+            get { return _CurrentPosition; }
+            set
+            {
+                _CurrentPosition = value;
+                OnPropertyChanged("CurrentPosition");
+            }
+        }
+
+        private TimeSpan _Duration;
+        public TimeSpan Duration
+        {
+            get { return _Duration; }
+            set
+            {
+                _Duration = value;
+                OnPropertyChanged("Duration");
             }
         }
 

@@ -149,7 +149,6 @@ namespace Kazyx.WPPMM.PlaybackMode
                 PlaybackInfoRetrieved(sender, e);
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    MovieFrame.PlaybackPosition = e.Packet.CurrentPosition.TotalMilliseconds / e.Packet.Duration.TotalMilliseconds * 100;
                     MovieFrame.CurrentPosition = e.Packet.CurrentPosition;
                     MovieFrame.Duration = e.Packet.Duration;
                 });                
@@ -192,23 +191,6 @@ namespace Kazyx.WPPMM.PlaybackMode
     public class MoviePlaybackData : LiveviewData
     {
         public MoviePlaybackData() { }
-
-        private double _PlaybackPosition;
-        /// <summary>
-        /// Current position of the movie. From 0 to 100.
-        /// </summary>
-        public double PlaybackPosition
-        {
-            get { return _PlaybackPosition; }
-            set
-            {
-                if (value != _PlaybackPosition)
-                {
-                    _PlaybackPosition = value;
-                    base.OnPropertyChanged("PlaybackPosition");
-                }
-            }
-        }
 
         private TimeSpan _CurrentPosition;
         public TimeSpan CurrentPosition

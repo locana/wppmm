@@ -706,4 +706,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="Guide_FocusFrameDisplay" xml:space="preserve">
     <value>Request to the camera to send focus frame information. This may cause performance issue on some devices.</value>
   </data>
+  <data name="InvalidDuration" xml:space="preserve">
+    <value>--:--:--</value>
+  </data>
 </root>

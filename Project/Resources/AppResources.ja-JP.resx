@@ -683,4 +683,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="Guide_FocusFrameDisplay" xml:space="preserve">
     <value>フォーカス枠情報を送信するようカメラに要求します。機器によってはアプリのパフォーマンスに影響する場合があります。</value>
   </data>
+  <data name="InvalidDuration" xml:space="preserve">
+    <value>--:--:--</value>
+  </data>
 </root>

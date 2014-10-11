@@ -12,10 +12,25 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="18"/>
+            <RowDefinition Height="32"/>
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Name="Screen" Source="{Binding Image}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <ProgressBar Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="ProgressBar" />
-        <Slider Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="SeekBar" Visibility="Collapsed" ValueChanged="SeekBar_ValueChanged" />
+        <Slider Grid.Row="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="SeekBar" Visibility="Collapsed" ValueChanged="SeekBar_ValueChanged" />
+        <Grid Grid.Row="2" Name="PlaybackInfo" Visibility="Collapsed" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="PositionText" Foreground="{StaticResource PhoneForegroundBrush}" 
+                   FontSize="{StaticResource PhoneFontSizeSmall}"/>
+            <TextBlock Grid.Column="2" Text="/" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="TimeSeparator" Foreground="{StaticResource PhoneForegroundBrush}" 
+                   FontSize="{StaticResource PhoneFontSizeSmall}"/>
+            <TextBlock Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="DurationText" Foreground="{StaticResource PhoneForegroundBrush}" 
+                   FontSize="{StaticResource PhoneFontSizeSmall}"/>
+        </Grid>        
     </Grid>
 </UserControl>

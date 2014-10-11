@@ -1053,6 +1053,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to --:--:--.
+        /// </summary>
+        public static string InvalidDuration {
+            get {
+                return ResourceManager.GetString("InvalidDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Off.
         /// </summary>
         public static string IrRemoteSetting_Off {

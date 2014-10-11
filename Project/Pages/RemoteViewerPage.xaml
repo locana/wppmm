@@ -158,8 +158,8 @@
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
             </Border.Background>
-            <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" PlaybackPosition="{Binding PlaybackPosition}"
-                                              CurrentPosition="{Binding CurrentPosition}"/>
+            <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" 
+                                              CurrentPosition="{Binding CurrentPosition}" Duration="{Binding Duration}"/>
         </Border>
         <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Top"

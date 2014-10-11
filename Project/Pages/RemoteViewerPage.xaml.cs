@@ -1,7 +1,6 @@
 using Kazyx.ImageStream;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
-using Kazyx.WPPMM.CameraManager;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.PlaybackMode;
 using Kazyx.WPPMM.Resources;
@@ -43,7 +42,7 @@ namespace Kazyx.WPPMM.Pages
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
 
-            
+
             // TODO: If seek is supported, set vallback of seek bar and enable it.
             //MoviePlaybackScreen.SeekOperated += (NewValue) =>
             //{
@@ -833,10 +832,39 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private async void RemoteThumbnail_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            DebugUtil.Log("Orientation changed: " + e.Orientation);
+            switch (e.Orientation)
+            {
+                case PageOrientation.LandscapeLeft:
+                    MoviePlaybackScreen.Margin = new Thickness(12, 12, 72, 12);
+                    break;
+                case PageOrientation.LandscapeRight:
+                    MoviePlaybackScreen.Margin = new Thickness(72, 12, 12, 12);
+                    break;
+                case PageOrientation.Portrait:
+                    MoviePlaybackScreen.Margin = new Thickness(12);
+                    break;
+            }
+        }
+
+        private void RemoteThumbnail_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var image = sender as Image;
             var content = image.DataContext as RemoteThumbnail;
+            PlaybackContent(content);
+        }
+
+        private void Playback_Click(object sender, RoutedEventArgs e)
+        {
+            var item = sender as MenuItem;
+            var content = item.DataContext as RemoteThumbnail;
+            PlaybackContent(content);
+        }
+
+        private async void PlaybackContent(RemoteThumbnail content)
+        {
             if (content != null)
             {
                 switch (content.Source.ContentType)
@@ -899,10 +927,10 @@ namespace Kazyx.WPPMM.Pages
                                 MovieDrawer.Visibility = Visibility.Visible;
                                 ChangeProgressText("Wating for movie playback stream...");
                                 var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
-                                    {
-                                        Uri = content.Source.Uri,
-                                        RemotePlayType = RemotePlayMode.SimpleStreaming
-                                    });
+                                {
+                                    Uri = content.Source.Uri,
+                                    RemotePlayType = RemotePlayMode.SimpleStreaming
+                                });
                                 if (!started)
                                 {
                                     ShowToast("Failed playback movie content");
@@ -927,21 +955,47 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
-        private void PhoneApplicationPage_OrientationChanged(object sender, OrientationChangedEventArgs e)
+        private void CopyToPhone_Click(object sender, RoutedEventArgs e)
         {
-            DebugUtil.Log("Orientation changed: " + e.Orientation);
-            switch (e.Orientation)
+            var item = sender as MenuItem;
+            var data = item.DataContext as RemoteThumbnail;
+            try
             {
-                case PageOrientation.LandscapeLeft:
-                    MoviePlaybackScreen.Margin = new Thickness(12, 12, 72, 12);
-                    break;
-                case PageOrientation.LandscapeRight:
-                    MoviePlaybackScreen.Margin = new Thickness(72, 12, 12, 12);
-                    break;
-                case PageOrientation.Portrait:
-                    MoviePlaybackScreen.Margin = new Thickness(12);
-                    break;
+                var uri = new Uri(data.Source.LargeUrl);
+                PictureSyncManager.Instance.Enque(uri);
             }
+            catch (Exception ex)
+            {
+                DebugUtil.Log(ex.StackTrace);
+            }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            var item = sender as MenuItem;
+            var data = item.DataContext as RemoteThumbnail;
+
+            var contents = new TargetContents();
+            contents.ContentUris = new List<string>();
+            contents.ContentUris.Add(data.Source.Uri);
+            DeleteContents(contents);
+        }
+
+        private async void DeleteContents(TargetContents contents)
+        {
+            var av = CameraManager.CameraManager.GetInstance().AvContentApi;
+            if (av != null && contents != null)
+            {
+                try
+                {
+                    await av.DeleteContentAsync(contents);
+                }
+                catch (Exception e)
+                {
+                    DebugUtil.Log("Failed to delete contents");
+                }
+            }
+            DebugUtil.Log("Not ready to delete contents");
         }
     }
 

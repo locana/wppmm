@@ -39,6 +39,13 @@
                     </Image.Source>
                 </Image>
                 <Image Grid.Row="1" Grid.Column="1" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <toolkit:ContextMenuService.ContextMenu>
+                    <toolkit:ContextMenu IsZoomEnabled="True">
+                        <toolkit:MenuItem x:Name="Playback" Header="Playback" Click="Playback_Click" />
+                        <toolkit:MenuItem x:Name="CopyToPhone" Header="Copy to phone storage" Click="CopyToPhone_Click" />
+                        <toolkit:MenuItem x:Name="Delete" Header="Delete" Click="Delete_Click" />
+                    </toolkit:ContextMenu>
+                </toolkit:ContextMenuService.ContextMenu>
             </Grid>
         </DataTemplate>
 

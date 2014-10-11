@@ -42,6 +42,11 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
+        public Visibility CopyToPhoneVisibility
+        {
+            get { if (MovieIconVisibility == Visibility.Collapsed) { return Visibility.Visible; } else { return Visibility.Collapsed; } }
+        }
+
         private string DeviceUuid { set; get; }
 
         public string GroupTitle { private set; get; }

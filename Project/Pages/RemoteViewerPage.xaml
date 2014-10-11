@@ -42,7 +42,7 @@
                 <toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu IsZoomEnabled="True">
                         <toolkit:MenuItem x:Name="Playback" Header="Playback" Click="Playback_Click" />
-                        <toolkit:MenuItem x:Name="CopyToPhone" Header="Copy to phone storage" Click="CopyToPhone_Click" />
+                        <toolkit:MenuItem x:Name="CopyToPhone" Header="Copy to phone storage" Click="CopyToPhone_Click" Visibility="{Binding CopyToPhoneVisibility}"/>
                         <toolkit:MenuItem x:Name="Delete" Header="Delete" Click="Delete_Click" />
                     </toolkit:ContextMenu>
                 </toolkit:ContextMenuService.ContextMenu>

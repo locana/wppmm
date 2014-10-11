@@ -718,6 +718,12 @@ namespace Kazyx.WPPMM.Pages
                 CloseMovieStream();
                 e.Cancel = true;
             }
+
+            if (RemoteImageGrid.IsSelectionEnabled)
+            {
+                RemoteImageGrid.IsSelectionEnabled = false;
+                e.Cancel = true;
+            }
         }
 
         private void ReleaseDetail()

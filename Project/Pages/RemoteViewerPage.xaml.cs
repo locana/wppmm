@@ -90,7 +90,7 @@ namespace Kazyx.WPPMM.Pages
 
             SwitchAppBar(ViewerState.Local);
 
-            IsRemoteInitialized = false;
+            DeleteRemoteGridFacially();
             UpdateStorageInfo();
             UnsupportedMessage.Visibility = Visibility.Collapsed;
 
@@ -294,8 +294,7 @@ namespace Kazyx.WPPMM.Pages
             }
             else
             {
-                IsRemoteInitialized = false;
-                Dispatcher.BeginInvoke(() => { GridSource.Clear(); });
+                DeleteRemoteGridFacially();
                 ShowToast("Memory card storage seems to be detached");
                 SwitchAppBar(ViewerState.RemoteNoMedia);
                 var device = CameraManager.CameraManager.GetInstance().CurrentDeviceInfo;
@@ -304,6 +303,12 @@ namespace Kazyx.WPPMM.Pages
                     ThumbnailCacheLoader.INSTANCE.DeleteCache(device.UDN);
                 }
             }
+        }
+
+        private void DeleteRemoteGridFacially()
+        {
+            IsRemoteInitialized = false;
+            Dispatcher.BeginInvoke(() => { GridSource.Clear(); });
         }
 
         private bool _StorageAvailable = false;
@@ -989,6 +994,11 @@ namespace Kazyx.WPPMM.Pages
                 try
                 {
                     await av.DeleteContentAsync(contents);
+                    DeleteRemoteGridFacially();
+                    if (PivotRoot.SelectedIndex == 1)
+                    {
+                        InitializeRemote();
+                    }
                 }
                 catch (Exception e)
                 {

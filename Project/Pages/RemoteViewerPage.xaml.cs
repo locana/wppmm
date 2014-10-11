@@ -28,18 +28,22 @@ namespace Kazyx.WPPMM.Pages
         public RemoteViewerPage()
         {
             InitializeComponent();
-            abm.SetEvent(IconMenu.SyncContents, (sender, e) =>
+            abm.SetEvent(IconMenu.DownloadItem, (sender, e) =>
             {
-                DebugUtil.Log("Sync clicked");
-
+                DebugUtil.Log("Download clicked");
                 SwitchAppBar(ViewerState.Sync);
-                ChangeProgressText("Downloading selected images...");
                 FetchSelectedImages();
             });
             abm.SetEvent(IconMenu.SelectItems, (sender, e) =>
             {
                 DebugUtil.Log("Select items clicked");
                 RemoteImageGrid.IsSelectionEnabled = true;
+            });
+            abm.SetEvent(IconMenu.DeleteItem, (sender, e) =>
+            {
+                DebugUtil.Log("Delete clicked");
+                SwitchAppBar(ViewerState.RemoteSingle);
+                DeleteSelectedImages();
             });
 
 
@@ -65,7 +69,7 @@ namespace Kazyx.WPPMM.Pages
                         ApplicationBar = null;
                         break;
                     case ViewerState.RemoteSelecting:
-                        ApplicationBar = abm.Clear().Enable(IconMenu.SyncContents).CreateNew(0.5);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadItem).Enable(IconMenu.DeleteItem).CreateNew(0.5);
                         break;
                     case ViewerState.RemoteSingle:
                         ApplicationBar = abm.Clear().Enable(IconMenu.SelectItems).CreateNew(0.5);
@@ -780,6 +784,25 @@ namespace Kazyx.WPPMM.Pages
             }
         }
 
+        private void DeleteSelectedImages()
+        {
+            var items = RemoteImageGrid.SelectedItems;
+            if (items.Count == 0)
+            {
+                HideProgress();
+                return;
+            }
+            var contents = new TargetContents();
+            contents.ContentUris = new List<string>();
+            foreach (var item in items)
+            {
+                var data = item as RemoteThumbnail;
+                contents.ContentUris.Add(data.Source.Uri);
+            }
+            DeleteContents(contents);
+            RemoteImageGrid.IsSelectionEnabled = false;
+        }
+
         private void FetchSelectedImages()
         {
             var items = RemoteImageGrid.SelectedItems;
@@ -991,6 +1014,7 @@ namespace Kazyx.WPPMM.Pages
             var av = CameraManager.CameraManager.GetInstance().AvContentApi;
             if (av != null && contents != null)
             {
+                ChangeProgressText("Deleting selected images...");
                 try
                 {
                     await av.DeleteContentAsync(contents);
@@ -1004,6 +1028,7 @@ namespace Kazyx.WPPMM.Pages
                 {
                     DebugUtil.Log("Failed to delete contents");
                 }
+                HideProgress();
             }
             DebugUtil.Log("Not ready to delete contents");
         }

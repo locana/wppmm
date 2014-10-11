@@ -105,7 +105,7 @@ namespace Kazyx.WPPMM.Pages
             LocalImageGrid.DataContext = groups;
 
             CloseMovieStream();
-            MovieDrawer.DataContext = MovieStreamHandler.INSTANCE.MovieFrame;
+            MovieDrawer.DataContext = MovieStreamHandler.INSTANCE.MoviePlaybackData;
 
             SetVisibility(false);
 
@@ -964,7 +964,7 @@ namespace Kazyx.WPPMM.Pages
                                 {
                                     Uri = content.Source.Uri,
                                     RemotePlayType = RemotePlayMode.SimpleStreaming
-                                });
+                                }, content.Source.Name);
                                 if (!started)
                                 {
                                     ShowToast("Failed playback movie content");

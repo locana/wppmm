@@ -102,8 +102,7 @@ namespace Kazyx.WPPMM.Controls
             DebugUtil.Log("Duration updated: " + ((TimeSpan)e.NewValue).TotalSeconds);
             (d as MoviePlaybackScreen).Duration = (TimeSpan)e.NewValue;
         }
-
-
+        
         private bool _SeekAvailable = false;
         public bool SeekAvailable
         {

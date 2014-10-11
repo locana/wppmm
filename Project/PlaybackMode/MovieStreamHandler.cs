@@ -27,8 +27,8 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         private AvContentApiClient AvContent = null;
 
-        private MoviePlaybackData _MovieFrame = new MoviePlaybackData();
-        public MoviePlaybackData MovieFrame { get { return _MovieFrame; } }
+        private MoviePlaybackData _MoviePlaybackData = new MoviePlaybackData();
+        public MoviePlaybackData MoviePlaybackData { get { return _MoviePlaybackData; } }
 
         private readonly StreamProcessor StreamProcessor = new StreamProcessor();
 
@@ -39,7 +39,7 @@ namespace Kazyx.WPPMM.PlaybackMode
             StreamProcessor.Closed += StreamProcessor_Closed;
         }
 
-        public async Task<bool> Start(AvContentApiClient api, PlaybackContent content)
+        public async Task<bool> Start(AvContentApiClient api, PlaybackContent content, string name)
         {
             if (IsProcessing)
             {
@@ -58,6 +58,7 @@ namespace Kazyx.WPPMM.PlaybackMode
                 {
                     AvContent = null;
                 }
+                MoviePlaybackData.FileName = name;
                 return success;
             }
             catch (Exception e)
@@ -146,11 +147,12 @@ namespace Kazyx.WPPMM.PlaybackMode
         {
             if (PlaybackInfoRetrieved != null)
             {
+                DebugUtil.Log(MoviePlaybackData.FileName + " " + e.Packet.Duration.TotalSeconds);
                 PlaybackInfoRetrieved(sender, e);
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    MovieFrame.CurrentPosition = e.Packet.CurrentPosition;
-                    MovieFrame.Duration = e.Packet.Duration;
+                    MoviePlaybackData.CurrentPosition = e.Packet.CurrentPosition;
+                    MoviePlaybackData.Duration = e.Packet.Duration;
                 });                
             }
         }
@@ -172,9 +174,9 @@ namespace Kazyx.WPPMM.PlaybackMode
             {
                 using (var stream = new MemoryStream(e.Packet.ImageData, 0, size))
                 {
-                    MovieFrame.Image = null;
+                    MoviePlaybackData.Image = null;
                     ImageSource.SetSource(stream);
-                    MovieFrame.Image = ImageSource;
+                    MoviePlaybackData.Image = ImageSource;
                     IsRendering = false;
                 }
             });
@@ -214,5 +216,18 @@ namespace Kazyx.WPPMM.PlaybackMode
             }
         }
 
+        private string _FileName;
+        public string FileName
+        {
+            get { return _FileName; }
+            set
+            {
+                if (_FileName != value)
+                {
+                    _FileName = value;
+                    OnPropertyChanged("FileName");
+                }
+            }
+        }
     }
 }

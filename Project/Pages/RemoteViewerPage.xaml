@@ -154,11 +154,11 @@
                 </Image>
             </Canvas>
         </ViewportControl>
-        <Border x:Name="MovieDrawer" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+        <Border x:Name="MovieDrawer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
             </Border.Background>
-            <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" 
+            <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" 
                                               CurrentPosition="{Binding CurrentPosition}" Duration="{Binding Duration}"/>
         </Border>
         <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 

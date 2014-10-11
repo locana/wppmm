@@ -73,6 +73,18 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/sync.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton DownloadItem = new ApplicationBarIconButton
+        {
+            Text = "Download",
+            IconUri = new Uri("/Assets/AppBar/appBar_download.png", UriKind.Relative)
+        };
+
+        readonly ApplicationBarIconButton DeleteItem = new ApplicationBarIconButton
+        {
+            Text = "Delete",
+            IconUri = new Uri("/Assets/AppBar/appBar_delete.png", UriKind.Relative)
+        };
+
         readonly ApplicationBarIconButton MultipleSelectItem = new ApplicationBarIconButton
         {
             Text = "Select",
@@ -97,6 +109,8 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
             IconMenuItems.Add(IconMenu.SyncContents, SyncItem);
             IconMenuItems.Add(IconMenu.SelectItems, MultipleSelectItem);
+            IconMenuItems.Add(IconMenu.DeleteItem, DeleteItem);
+            IconMenuItems.Add(IconMenu.DownloadItem, DownloadItem);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
             MenuItems.Add(Menu.Contents, ContentsMenuItem);
@@ -218,5 +232,7 @@ namespace Kazyx.WPPMM.Utils
         CloseApplicationSetting,
         SyncContents,
         SelectItems,
+        DeleteItem,
+        DownloadItem,
     }
 }

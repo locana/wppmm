@@ -31,13 +31,19 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.DownloadMultiple, (sender, e) =>
             {
                 DebugUtil.Log("Download clicked");
-                GridSource.SelectivityFactor = SelectivityFactor.CopyToPhone;
+                if (GridSource != null)
+                {
+                    GridSource.SelectivityFactor = SelectivityFactor.CopyToPhone;
+                }
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
             abm.SetEvent(IconMenu.DeleteMultiple, (sender, e) =>
             {
                 DebugUtil.Log("Delete clicked");
-                GridSource.SelectivityFactor = SelectivityFactor.Delete;
+                if (GridSource != null)
+                {
+                    GridSource.SelectivityFactor = SelectivityFactor.Delete;
+                }
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
             abm.SetEvent(IconMenu.Ok, (sender, e) =>
@@ -866,6 +872,10 @@ namespace Kazyx.WPPMM.Pages
         private void RemoteImageGrid_IsSelectionEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var selector = (sender as LongListMultiSelector);
+            if (!selector.IsSelectionEnabled && GridSource != null)
+            {
+                GridSource.SelectivityFactor = SelectivityFactor.None;
+            }
             if (PivotRoot.SelectedIndex == 1)
             {
                 if (selector.IsSelectionEnabled)

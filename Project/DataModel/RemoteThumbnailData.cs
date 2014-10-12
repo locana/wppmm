@@ -56,6 +56,14 @@ namespace Kazyx.WPPMM.DataModel
             get { if (ProtectedIconVisibility == Visibility.Collapsed) { return Visibility.Visible; } else { return Visibility.Collapsed; } }
         }
 
+        public Visibility UnselectableMaskVisibility
+        {
+            get
+            {
+                return IsSelectable ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
         private SelectivityFactor factor = SelectivityFactor.None;
         public SelectivityFactor SelectivityFactor
         {
@@ -63,6 +71,7 @@ namespace Kazyx.WPPMM.DataModel
             {
                 factor = value;
                 OnPropertyChanged("IsSelectable");
+                OnPropertyChanged("UnselectableMaskVisibility");
             }
             get { return factor; }
         }

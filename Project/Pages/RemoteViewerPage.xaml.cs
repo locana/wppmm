@@ -131,7 +131,7 @@ namespace Kazyx.WPPMM.Pages
             LoadLocalContents();
 
 #if DEBUG
-            // AddDummyContentsAsync();
+            AddDummyContentsAsync();
 #endif
             PictureSyncManager.Instance.Failed += OnDLError;
             PictureSyncManager.Instance.Fetched += OnFetched;
@@ -150,7 +150,7 @@ namespace Kazyx.WPPMM.Pages
                 case StreamStatusChangeFactor.FileError:
                 case StreamStatusChangeFactor.MediaError:
                 case StreamStatusChangeFactor.OtherError:
-                    ShowToast("Stream is closed by external error.");
+                    ShowToast(AppResources.Viewer_StreamClosedByExternalCause);
                     CloseMovieStream();
                     break;
                 default:
@@ -222,7 +222,7 @@ namespace Kazyx.WPPMM.Pages
 
         private async void LoadThumbnails(PictureAlbum album)
         {
-            ChangeProgressText("Loading camera roll images...");
+            ChangeProgressText(AppResources.Progress_LoadingLocalContents);
             var group = new List<ThumbnailData>();
             await Task.Run(() =>
             {
@@ -310,7 +310,7 @@ namespace Kazyx.WPPMM.Pages
                     var storages = CameraManager.CameraManager.GetInstance().Status.Storages;
                     if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
                     {
-                        ShowToast("Refresh contents");
+                        ShowToast(AppResources.Viewer_RefreshAutomatically);
                         InitializeRemote();
                     }
                 }
@@ -318,7 +318,7 @@ namespace Kazyx.WPPMM.Pages
             else
             {
                 DeleteRemoteGridFacially();
-                ShowToast("Memory card storage seems to be detached");
+                ShowToast(AppResources.Viewer_StorageDetached);
                 SwitchAppBar(ViewerState.RemoteNoMedia);
                 var device = CameraManager.CameraManager.GetInstance().CurrentDeviceInfo;
                 if (device != null && device.UDN != null)
@@ -355,10 +355,10 @@ namespace Kazyx.WPPMM.Pages
             var cm = CameraManager.CameraManager.GetInstance();
             try
             {
-                ChangeProgressText("Chaging camera state...");
+                ChangeProgressText(AppResources.Progress_ChangingCameraState);
                 await PlaybackModeUtility.MoveToContentTransferModeAsync(cm.CameraApi, cm.Status, 20000);
 
-                ChangeProgressText("Checking storage capability...");
+                ChangeProgressText(AppResources.Progress_CheckingStorage);
                 if (!await PlaybackModeUtility.IsStorageSupportedAsync(cm.AvContentApi))
                 {
                     DebugUtil.Log("storage scheme is not supported");
@@ -366,7 +366,6 @@ namespace Kazyx.WPPMM.Pages
                     return;
                 }
 
-                ChangeProgressText("Checking storage uri...");
                 var storages = await PlaybackModeUtility.GetStoragesUriAsync(cm.AvContentApi);
                 if (storages.Count == 0)
                 {
@@ -377,7 +376,7 @@ namespace Kazyx.WPPMM.Pages
 
                 Canceller = new CancellationTokenSource();
 
-                ChangeProgressText("Fetching date list...");
+                ChangeProgressText(AppResources.Progress_FetchingContents);
                 await PlaybackModeUtility.GetDateListAsEventsAsync(cm.AvContentApi, storages[0], OnDateListUpdated, Canceller);
             }
             catch (Exception e)
@@ -393,7 +392,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 try
                 {
-                    ChangeProgressText("Fetching contents...");
+                    ChangeProgressText(AppResources.Progress_FetchingContents);
                     await PlaybackModeUtility.GetContentsOfDayAsEventsAsync(
                         CameraManager.CameraManager.GetInstance().AvContentApi, date, true, OnContentListUpdated, Canceller);
                     HideProgress();
@@ -514,7 +513,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 return;
             }
-            ChangeProgressText("Opening images...");
+            ChangeProgressText(AppResources.Progress_OpeningDetailImage);
             var img = sender as Image;
             var thumb = img.DataContext as ThumbnailData;
             await Task.Run(() =>
@@ -544,7 +543,7 @@ namespace Kazyx.WPPMM.Pages
                     }
                     catch (InvalidOperationException)
                     {
-                        ShowToast("Failed to open detail image...");
+                        ShowToast(AppResources.Viewer_FailedToOpenDetail);
                     }
                 });
             });
@@ -793,7 +792,7 @@ namespace Kazyx.WPPMM.Pages
                             }
                             else
                             {
-                                ShowToast("No storage seems to be attached");
+                                ShowToast(AppResources.Viewer_NoStorage);
                                 SwitchAppBar(ViewerState.RemoteNoMedia);
                             }
                         }
@@ -801,7 +800,7 @@ namespace Kazyx.WPPMM.Pages
                     else
                     {
                         SwitchAppBar(ViewerState.RemoteUnsupported);
-                        ShowToast("Storage access is not supported\nby your camera device");
+                        ShowToast(AppResources.Viewer_StorageAccessNotSupported);
                         UnsupportedMessage.Visibility = Visibility.Visible;
                     }
                     break;
@@ -882,11 +881,11 @@ namespace Kazyx.WPPMM.Pages
                 switch (GridSource.SelectivityFactor)
                 {
                     case SelectivityFactor.CopyToPhone:
-                        HeaderBlockerText.Text = "Selecting contents to download";
+                        HeaderBlockerText.Text = AppResources.Viewer_Header_SelectingToDownload;
                         HeaderBlocker.Visibility = Visibility.Visible;
                         break;
                     case SelectivityFactor.Delete:
-                        HeaderBlockerText.Text = "Selecting contents to delete";
+                        HeaderBlockerText.Text = AppResources.Viewer_Header_SelectingToDelete;
                         HeaderBlocker.Visibility = Visibility.Visible;
                         break;
                 }
@@ -949,7 +948,7 @@ namespace Kazyx.WPPMM.Pages
                 switch (content.Source.ContentType)
                 {
                     case ContentKind.StillImage:
-                        ChangeProgressText("Fetching detail image...");
+                        ChangeProgressText(AppResources.Progress_OpeningDetailImage);
                         try
                         {
                             using (var strm = await Downloader.GetResponseStreamAsync(new Uri(content.Source.LargeUrl)))
@@ -1004,7 +1003,7 @@ namespace Kazyx.WPPMM.Pages
                                 PivotRoot.IsLocked = true;
                                 SwitchAppBar(ViewerState.RemoteMoviePlayback);
                                 MovieDrawer.Visibility = Visibility.Visible;
-                                ChangeProgressText("Wating for movie playback stream...");
+                                ChangeProgressText(AppResources.Progress_OpeningMovieStream);
                                 var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
                                 {
                                     Uri = content.Source.Uri,
@@ -1012,20 +1011,20 @@ namespace Kazyx.WPPMM.Pages
                                 }, content.Source.Name);
                                 if (!started)
                                 {
-                                    ShowToast("Failed playback movie content");
+                                    ShowToast(AppResources.Viewer_FailedPlaybackMovie);
                                     CloseMovieStream();
                                 }
                                 HideProgress();
                             }
                             else
                             {
-                                ShowToast("This content is not playable");
+                                ShowToast(AppResources.Viewer_UnplayableContent);
                             }
                         }
                         else
                         {
                             DebugUtil.Log("Not ready to start stream: " + content.Source.Uri);
-                            ShowToast("Not ready to start stream");
+                            ShowToast(AppResources.Viewer_NoAvContentApi);
                         }
                         break;
                     default:
@@ -1065,7 +1064,7 @@ namespace Kazyx.WPPMM.Pages
             var av = CameraManager.CameraManager.GetInstance().AvContentApi;
             if (av != null && contents != null)
             {
-                ChangeProgressText("Deleting selected images...");
+                ChangeProgressText(AppResources.Progress_DeletingSelectedContents);
                 try
                 {
                     await av.DeleteContentAsync(contents);

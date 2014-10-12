@@ -133,6 +133,24 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string AppBar_Delete {
+            get {
+                return ResourceManager.GetString("AppBar_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download.
+        /// </summary>
+        public static string AppBar_Download {
+            get {
+                return ResourceManager.GetString("AppBar_Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string AppBar_Exit {
@@ -147,6 +165,15 @@ namespace Kazyx.WPPMM.Resources {
         public static string AppBar_HideHeader {
             get {
                 return ResourceManager.GetString("AppBar_HideHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string AppBar_Refresh {
+            get {
+                return ResourceManager.GetString("AppBar_Refresh", resourceCulture);
             }
         }
         
@@ -1251,6 +1278,69 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Changing camera state....
+        /// </summary>
+        public static string Progress_ChangingCameraState {
+            get {
+                return ResourceManager.GetString("Progress_ChangingCameraState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checking storage information....
+        /// </summary>
+        public static string Progress_CheckingStorage {
+            get {
+                return ResourceManager.GetString("Progress_CheckingStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting selected contents....
+        /// </summary>
+        public static string Progress_DeletingSelectedContents {
+            get {
+                return ResourceManager.GetString("Progress_DeletingSelectedContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fetching contents....
+        /// </summary>
+        public static string Progress_FetchingContents {
+            get {
+                return ResourceManager.GetString("Progress_FetchingContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading camera roll images....
+        /// </summary>
+        public static string Progress_LoadingLocalContents {
+            get {
+                return ResourceManager.GetString("Progress_LoadingLocalContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening detail image....
+        /// </summary>
+        public static string Progress_OpeningDetailImage {
+            get {
+                return ResourceManager.GetString("Progress_OpeningDetailImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening movie stream....
+        /// </summary>
+        public static string Progress_OpeningMovieStream {
+            get {
+                return ResourceManager.GetString("Progress_OpeningMovieStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Preparing connection....
         /// </summary>
         public static string ProgressMessageConnecting {
@@ -1625,6 +1715,161 @@ namespace Kazyx.WPPMM.Resources {
         public static string ViewAngleUnit {
             get {
                 return ResourceManager.GetString("ViewAngleUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to playback movie content.
+        /// </summary>
+        public static string Viewer_FailedPlaybackMovie {
+            get {
+                return ResourceManager.GetString("Viewer_FailedPlaybackMovie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open detail image.
+        /// </summary>
+        public static string Viewer_FailedToOpenDetail {
+            get {
+                return ResourceManager.GetString("Viewer_FailedToOpenDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selecting contents to delete.
+        /// </summary>
+        public static string Viewer_Header_SelectingToDelete {
+            get {
+                return ResourceManager.GetString("Viewer_Header_SelectingToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selecting contents to download.
+        /// </summary>
+        public static string Viewer_Header_SelectingToDownload {
+            get {
+                return ResourceManager.GetString("Viewer_Header_SelectingToDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to phone storage.
+        /// </summary>
+        public static string Viewer_MenuCopyToPhone {
+            get {
+                return ResourceManager.GetString("Viewer_MenuCopyToPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Viewer_MenuDelete {
+            get {
+                return ResourceManager.GetString("Viewer_MenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Playback.
+        /// </summary>
+        public static string Viewer_MenuPlayback {
+            get {
+                return ResourceManager.GetString("Viewer_MenuPlayback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unavailable to access the function now.
+        ///Please restart from shooting screen again..
+        /// </summary>
+        public static string Viewer_NoAvContentApi {
+            get {
+                return ResourceManager.GetString("Viewer_NoAvContentApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No storage seems to be attached.
+        /// </summary>
+        public static string Viewer_NoStorage {
+            get {
+                return ResourceManager.GetString("Viewer_NoStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading contents from new storage.
+        /// </summary>
+        public static string Viewer_RefreshAutomatically {
+            get {
+                return ResourceManager.GetString("Viewer_RefreshAutomatically", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage access is not supported
+        ///by your camera device.
+        /// </summary>
+        public static string Viewer_StorageAccessNotSupported {
+            get {
+                return ResourceManager.GetString("Viewer_StorageAccessNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access to the camera storage seems to be allowed only on the latest models....
+        /// </summary>
+        public static string Viewer_StorageAccessNotSupportedDetail {
+            get {
+                return ResourceManager.GetString("Viewer_StorageAccessNotSupportedDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera storage.
+        /// </summary>
+        public static string Viewer_StorageCamera {
+            get {
+                return ResourceManager.GetString("Viewer_StorageCamera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memory card storage seems to be detached.
+        /// </summary>
+        public static string Viewer_StorageDetached {
+            get {
+                return ResourceManager.GetString("Viewer_StorageDetached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone storage.
+        /// </summary>
+        public static string Viewer_StoragePhone {
+            get {
+                return ResourceManager.GetString("Viewer_StoragePhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream is closed by external error.
+        /// </summary>
+        public static string Viewer_StreamClosedByExternalCause {
+            get {
+                return ResourceManager.GetString("Viewer_StreamClosedByExternalCause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This content is not playable.
+        /// </summary>
+        public static string Viewer_UnplayableContent {
+            get {
+                return ResourceManager.GetString("Viewer_UnplayableContent", resourceCulture);
             }
         }
         

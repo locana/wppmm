@@ -69,26 +69,20 @@ namespace Kazyx.WPPMM.Utils
 
         readonly ApplicationBarIconButton Refresh = new ApplicationBarIconButton
         {
-            Text = "Sync",
+            Text = AppResources.AppBar_Refresh,
             IconUri = new Uri("/Assets/AppBar/sync.png", UriKind.Relative)
         };
 
         readonly ApplicationBarIconButton DownloadMultiple = new ApplicationBarIconButton
         {
-            Text = "Download",
+            Text = AppResources.AppBar_Download,
             IconUri = new Uri("/Assets/AppBar/appBar_download.png", UriKind.Relative)
         };
 
         readonly ApplicationBarIconButton DeleteMultiple = new ApplicationBarIconButton
         {
-            Text = "Delete",
+            Text = AppResources.AppBar_Delete,
             IconUri = new Uri("/Assets/AppBar/appBar_delete.png", UriKind.Relative)
-        };
-
-        readonly ApplicationBarIconButton MultipleSelectItem = new ApplicationBarIconButton
-        {
-            Text = "Select",
-            IconUri = new Uri("/Assets/AppBar/appBar_selection.png", UriKind.Relative)
         };
 
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
@@ -108,7 +102,6 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
             IconMenuItems.Add(IconMenu.Ok, OkItem);
             IconMenuItems.Add(IconMenu.Refresh, Refresh);
-            IconMenuItems.Add(IconMenu.SelectItems, MultipleSelectItem);
             IconMenuItems.Add(IconMenu.DeleteMultiple, DeleteMultiple);
             IconMenuItems.Add(IconMenu.DownloadMultiple, DownloadMultiple);
 #if DEBUG
@@ -231,7 +224,6 @@ namespace Kazyx.WPPMM.Utils
         Hidden,
         Ok,
         Refresh,
-        SelectItems,
         DeleteMultiple,
         DownloadMultiple,
     }

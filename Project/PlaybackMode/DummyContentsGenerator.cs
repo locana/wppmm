@@ -42,9 +42,15 @@ namespace Kazyx.WPPMM.PlaybackMode
                     Name = FileName(),
                     CreatedTime = CreatedTime(),
                     LargeUrl = "http://upload.wikimedia.org/wikipedia/commons/e/e5/Earth_.jpg",
+                    Protected = Protected(),
                 });
             }
             return list;
+        }
+
+        public static bool Protected()
+        {
+            return INSTANCE.random.Next(0, 100) > 80; // protected is 20%.
         }
 
         public static string RandomUuid()

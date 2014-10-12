@@ -37,6 +37,7 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.SelectItems, (sender, e) =>
             {
                 DebugUtil.Log("Select items clicked");
+                GridSource.SelectivityFactor = SelectivityFactor.CopyToPhone;
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
             abm.SetEvent(IconMenu.DeleteItem, (sender, e) =>
@@ -885,6 +886,12 @@ namespace Kazyx.WPPMM.Pages
 
         private void RemoteThumbnail_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            if (RemoteImageGrid.IsSelectionEnabled)
+            {
+                DebugUtil.Log("Ignore tap in multi-selection mode.");
+                return;
+            }
+
             var image = sender as Image;
             var content = image.DataContext as RemoteThumbnail;
             PlaybackContent(content);

@@ -115,7 +115,6 @@
     <Compile Include="CameraManager\DeviceType.cs" />
     <Compile Include="CameraManager\CameraManager.cs" />
     <Compile Include="CameraManager\ControlPanelManager.cs" />
-    <Compile Include="Controls\ScrollDetectableLongListSelector.cs" />
     <Compile Include="PlaybackMode\ThumbnailCacheLoader.cs" />
     <Compile Include="PlaybackMode\ThumbnailImageConverter.cs" />
     <Compile Include="Utils\Downloader.cs" />

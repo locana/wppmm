@@ -127,6 +127,7 @@
                     <toolkit:LongListMultiSelector
                         Name="RemoteImageGrid"
                         Margin="0"
+                        IsSelectionEnabled="False"
                         IsGroupingEnabled="True"
                         GroupHeaderTemplate="{StaticResource HeaderTemplate}"
                         LayoutMode="Grid"

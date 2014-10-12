@@ -212,10 +212,13 @@ namespace Kazyx.WPPMM.DataModel
 
     public class DateGroupCollection : ObservableCollection<DateGroup>
     {
+        private SelectivityFactor _SelectivityFactor = SelectivityFactor.None;
         public SelectivityFactor SelectivityFactor
         {
+            get { return _SelectivityFactor; }
             set
             {
+                _SelectivityFactor = value;
                 foreach (var group in this)
                 {
                     group.SelectivityFactor = value;

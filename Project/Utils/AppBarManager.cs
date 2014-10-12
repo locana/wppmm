@@ -61,25 +61,25 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_Dollar.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton CloseSettingItem = new ApplicationBarIconButton
+        readonly ApplicationBarIconButton OkItem = new ApplicationBarIconButton
         {
             Text = AppResources.AppBar_Exit,
             IconUri = new Uri("/Assets/AppBar/appBar_ok.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton SyncItem = new ApplicationBarIconButton
+        readonly ApplicationBarIconButton Refresh = new ApplicationBarIconButton
         {
             Text = "Sync",
             IconUri = new Uri("/Assets/AppBar/sync.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton DownloadItem = new ApplicationBarIconButton
+        readonly ApplicationBarIconButton DownloadMultiple = new ApplicationBarIconButton
         {
             Text = "Download",
             IconUri = new Uri("/Assets/AppBar/appBar_download.png", UriKind.Relative)
         };
 
-        readonly ApplicationBarIconButton DeleteItem = new ApplicationBarIconButton
+        readonly ApplicationBarIconButton DeleteMultiple = new ApplicationBarIconButton
         {
             Text = "Delete",
             IconUri = new Uri("/Assets/AppBar/appBar_delete.png", UriKind.Relative)
@@ -106,11 +106,11 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.TouchAfCancel, TouchAfCancelItem);
             IconMenuItems.Add(IconMenu.CameraRoll, CameraRollItem);
             IconMenuItems.Add(IconMenu.Hidden, HiddenMenuItem);
-            IconMenuItems.Add(IconMenu.CloseApplicationSetting, CloseSettingItem);
-            IconMenuItems.Add(IconMenu.SyncContents, SyncItem);
+            IconMenuItems.Add(IconMenu.Ok, OkItem);
+            IconMenuItems.Add(IconMenu.Refresh, Refresh);
             IconMenuItems.Add(IconMenu.SelectItems, MultipleSelectItem);
-            IconMenuItems.Add(IconMenu.DeleteItem, DeleteItem);
-            IconMenuItems.Add(IconMenu.DownloadItem, DownloadItem);
+            IconMenuItems.Add(IconMenu.DeleteMultiple, DeleteMultiple);
+            IconMenuItems.Add(IconMenu.DownloadMultiple, DownloadMultiple);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
             MenuItems.Add(Menu.Contents, ContentsMenuItem);
@@ -229,10 +229,10 @@ namespace Kazyx.WPPMM.Utils
         TouchAfCancel,
         CameraRoll,
         Hidden,
-        CloseApplicationSetting,
-        SyncContents,
+        Ok,
+        Refresh,
         SelectItems,
-        DeleteItem,
-        DownloadItem,
+        DeleteMultiple,
+        DownloadMultiple,
     }
 }

@@ -28,23 +28,35 @@ namespace Kazyx.WPPMM.Pages
         public RemoteViewerPage()
         {
             InitializeComponent();
-            abm.SetEvent(IconMenu.DownloadItem, (sender, e) =>
+            abm.SetEvent(IconMenu.DownloadMultiple, (sender, e) =>
             {
                 DebugUtil.Log("Download clicked");
-                SwitchAppBar(ViewerState.Sync);
-                FetchSelectedImages();
-            });
-            abm.SetEvent(IconMenu.SelectItems, (sender, e) =>
-            {
-                DebugUtil.Log("Select items clicked");
                 GridSource.SelectivityFactor = SelectivityFactor.CopyToPhone;
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
-            abm.SetEvent(IconMenu.DeleteItem, (sender, e) =>
+            abm.SetEvent(IconMenu.DeleteMultiple, (sender, e) =>
             {
                 DebugUtil.Log("Delete clicked");
-                SwitchAppBar(ViewerState.RemoteSingle);
-                DeleteSelectedImages();
+                GridSource.SelectivityFactor = SelectivityFactor.Delete;
+                RemoteImageGrid.IsSelectionEnabled = true;
+            });
+            abm.SetEvent(IconMenu.Ok, (sender, e) =>
+            {
+                DebugUtil.Log("Ok clicked");
+                switch (GridSource.SelectivityFactor)
+                {
+                    case SelectivityFactor.CopyToPhone:
+                        SwitchAppBar(ViewerState.Sync);
+                        FetchSelectedImages();
+                        break;
+                    case SelectivityFactor.Delete:
+                        SwitchAppBar(ViewerState.RemoteSingle);
+                        DeleteSelectedImages();
+                        break;
+                    default:
+                        DebugUtil.Log("Nothing to do for current SelectivityFactor");
+                        break;
+                }
             });
 
 
@@ -70,10 +82,10 @@ namespace Kazyx.WPPMM.Pages
                         ApplicationBar = null;
                         break;
                     case ViewerState.RemoteSelecting:
-                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadItem).Enable(IconMenu.DeleteItem).CreateNew(0.5);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(0.5);
                         break;
                     case ViewerState.RemoteSingle:
-                        ApplicationBar = abm.Clear().Enable(IconMenu.SelectItems).CreateNew(0.5);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadMultiple).Enable(IconMenu.DeleteMultiple).CreateNew(0.5);
                         break;
                 }
             });

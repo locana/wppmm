@@ -97,7 +97,7 @@ namespace Kazyx.WPPMM.Pages
                 cpm.Show();
             });
             abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) => { this.OpenAppSettingPanel(); });
-            abm.SetEvent(IconMenu.CloseApplicationSetting, (sender, e) => { this.CloseAppSettingPanel(); });
+            abm.SetEvent(IconMenu.Ok, (sender, e) => { this.CloseAppSettingPanel(); });
             abm.SetEvent(IconMenu.TouchAfCancel, (sender, e) =>
             {
                 if (cameraManager != null) { cameraManager.CancelTouchAF(); }
@@ -1355,7 +1355,7 @@ namespace Kazyx.WPPMM.Pages
                 cameraManager.CancelHalfPressShutter();
             }
             AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
-            ApplicationBar = abm.Clear().Enable(IconMenu.CloseApplicationSetting).CreateNew(APPBAR_OPACITY);
+            ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(APPBAR_OPACITY);
             ShowSettingAnimation.Begin();
         }
 

@@ -8,16 +8,20 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="640" d:DesignWidth="480">
-    
+
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Image Name="Image" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12,36,12,12" Source="{Binding Image}"/>
-        <ScrollViewer Name="DetailInfoPanel" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12">
+        <ScrollViewer Name="DetailInfoPanel" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" Visibility="{Binding DetailInfoVisibility}">
             <Grid Name="DetailInfoGrid">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -26,12 +30,16 @@
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="6*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="ISO" />
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding IsoValue}" />
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="F number" />
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding FValue}" />
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Shutter speed" />
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ShutterSpeedValue}" />
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="File name" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding FileNameValue}" />
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="ISO" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding IsoValue}" />
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="F number" />
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding FValue}" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Shutter speed" />
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ShutterSpeedValue}" />
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="Resolution" />
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding ImageSizeValue}" />
             </Grid>
         </ScrollViewer>
     </Grid>

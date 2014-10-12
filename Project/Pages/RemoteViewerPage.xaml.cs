@@ -9,6 +9,7 @@ using Kazyx.WPPMM.Utils;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Reactive;
 using Microsoft.Xna.Framework.Media;
+using NtImageProcessor.MetaData.Misc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -541,7 +542,15 @@ namespace Kazyx.WPPMM.Pages
                                 InitBitmapBeforeOpen();
                                 // DetailImage.Source = _bitmap;
                                 PhotoData.Image = _bitmap;
-                                PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
+                                try
+                                {
+                                    PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
+                                }
+                                catch (UnsupportedFileFormatException)
+                                {
+                                    PhotoData.MetaData = null;
+                                    PhotoData.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
+                                }
                                 SetStillDetailVisibility(true);
                             }
                         }
@@ -983,7 +992,15 @@ namespace Kazyx.WPPMM.Pages
                                         _bitmap.SetSource(replica);
                                         InitBitmapBeforeOpen();
                                         PhotoData.Image = _bitmap;
-                                        PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
+                                        try
+                                        {
+                                            PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
+                                        }
+                                        catch (UnsupportedFileFormatException)
+                                        {
+                                            PhotoData.MetaData = null;
+                                            PhotoData.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
+                                        }
                                         SetStillDetailVisibility(true);
                                     }
                                     finally

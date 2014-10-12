@@ -1,14 +1,9 @@
 ﻿using Kazyx.WPPMM.Utils;
 using NtImageProcessor.MetaData.Structure;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace Kazyx.WPPMM.DataModel
@@ -39,49 +34,77 @@ namespace Kazyx.WPPMM.DataModel
                 OnPropertyChanged("IsoValue");
                 OnPropertyChanged("FValue");
                 OnPropertyChanged("ShutterSpeedValue");
+                OnPropertyChanged("ImageSizeValue");
             }
         }
 
         public string IsoValue { get { return GetIntValue(0x0083); } }
         public string FValue { get { return GetDoubleValue(0x829D); } }
         public string ShutterSpeedValue { get { return GetDoubleValue(0x829A); } }
+        public string FileNameValue { get { return "name"; } }
+        public string ImageSizeValue
+        {
+            get
+            {
+                return GetIntValue(0x0100) + "x" + GetIntValue(0x0101);
+            }
+        }
+
+        string GetStringValue(uint key)
+        {
+            if (MetaData == null) { return "--"; }
+            var entry = FindFirstEntry(key);
+            if (entry == null) { return "--"; }
+            else { return entry.StringValue; }
+        }
 
         string GetIntValue(uint key)
         {
             if (MetaData == null) { return "--"; }
-
-            if (MetaData.PrimaryIfd != null && MetaData.PrimaryIfd.Entries.ContainsKey(key))
-            {
-                return MetaData.PrimaryIfd.Entries[key].IntValues[0].ToString();
-            }
-            else if (MetaData.ExifIfd != null && MetaData.ExifIfd.Entries.ContainsKey(key))
-            {
-                return MetaData.ExifIfd.Entries[key].IntValues[0].ToString();
-            }
-            else if (MetaData.GpsIfd != null && MetaData.GpsIfd.Entries.ContainsKey(key))
-            {
-                return MetaData.GpsIfd.Entries[key].IntValues[0].ToString();
-            }
-            return "--";
+            var entry = FindFirstEntry(key);
+            if (entry == null) { return "--"; }
+            else { return entry.IntValues[0].ToString(); }
         }
 
         string GetDoubleValue(uint key)
         {
             if (MetaData == null) { return "--"; }
+            var entry = FindFirstEntry(key);
+            if (entry == null) { return "--"; }
+            else { return entry.DoubleValues[0].ToString(); }
+        }
+
+        Entry FindFirstEntry(uint key)
+        {
+            if (MetaData == null) { return null; }
 
             if (MetaData.PrimaryIfd != null && MetaData.PrimaryIfd.Entries.ContainsKey(key))
             {
-                return MetaData.PrimaryIfd.Entries[key].DoubleValues[0].ToString();
+                return MetaData.PrimaryIfd.Entries[key];
             }
             else if (MetaData.ExifIfd != null && MetaData.ExifIfd.Entries.ContainsKey(key))
             {
-                return MetaData.ExifIfd.Entries[key].DoubleValues[0].ToString();
+                return MetaData.ExifIfd.Entries[key];
             }
             else if (MetaData.GpsIfd != null && MetaData.GpsIfd.Entries.ContainsKey(key))
             {
-                return MetaData.GpsIfd.Entries[key].DoubleValues[0].ToString();
+                return MetaData.GpsIfd.Entries[key];
             }
-            return "--";
+            return null;
+        }
+
+        private Visibility _DetailInfoVisibility = Visibility.Visible;
+        public Visibility DetailInfoVisibility
+        {
+            get { return _DetailInfoVisibility; }
+            set
+            {
+                if (_DetailInfoVisibility != value)
+                {
+                    _DetailInfoVisibility = value;
+                    OnPropertyChanged("DetailInfoVisibility");
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

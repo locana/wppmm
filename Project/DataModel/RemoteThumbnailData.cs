@@ -51,6 +51,11 @@ namespace Kazyx.WPPMM.DataModel
             get { if (MovieIconVisibility == Visibility.Collapsed) { return Visibility.Visible; } else { return Visibility.Collapsed; } }
         }
 
+        public Visibility DeleteMenuVisiblity
+        {
+            get { if (ProtectedIconVisibility == Visibility.Collapsed) { return Visibility.Visible; } else { return Visibility.Collapsed; } }
+        }
+
         private SelectivityFactor factor = SelectivityFactor.None;
         public SelectivityFactor SelectivityFactor
         {

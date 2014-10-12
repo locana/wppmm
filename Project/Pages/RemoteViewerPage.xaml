@@ -23,6 +23,7 @@
         <DataTemplate x:Key="ItemTemplate">
             <Grid Height="108" Width="108" Margin="6,6">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="48"/>
                 </Grid.ColumnDefinitions>
@@ -33,17 +34,18 @@
                 <Grid.Background>
                     <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
                 </Grid.Background>
-                <Image Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
+                <Image Grid.ColumnSpan="3" Grid.RowSpan="2" x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
                     <Image.Source>
                         <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
                 </Image>
-                <Image Grid.Row="1" Grid.Column="1" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <Image Grid.Row="1" Grid.Column="0" Source="/Assets/Screen/no_memory_card.png" Visibility="{Binding ProtectedIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <Image Grid.Row="1" Grid.Column="2" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
                 <toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu IsZoomEnabled="True">
                         <toolkit:MenuItem x:Name="Playback" Header="Playback" Click="Playback_Click" />
                         <toolkit:MenuItem x:Name="CopyToPhone" Header="Copy to phone storage" Click="CopyToPhone_Click" Visibility="{Binding CopyToPhoneVisibility}"/>
-                        <toolkit:MenuItem x:Name="Delete" Header="Delete" Click="Delete_Click" />
+                        <toolkit:MenuItem x:Name="Delete" Header="Delete" Click="Delete_Click" Visibility="{Binding DeleteMenuVisiblity}" />
                     </toolkit:ContextMenu>
                 </toolkit:ContextMenuService.ContextMenu>
             </Grid>

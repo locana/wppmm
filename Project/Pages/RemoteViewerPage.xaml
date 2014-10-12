@@ -106,9 +106,6 @@
         </Grid.Resources>
 
         <phone:Pivot x:Name="PivotRoot" SelectionChanged="Pivot_SelectionChanged">
-            <phone:Pivot.Title>
-                <TextBlock x:Name="TitleHeader" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" />
-            </phone:Pivot.Title>
 
             <phone:PivotItem Margin="0,14,0,0">
                 <phone:PivotItem.Header>
@@ -152,6 +149,12 @@
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
             </Border.Background>
+        </Border>
+        <Border x:Name="HeaderBlocker" Height="74" VerticalAlignment="Top" Visibility="Collapsed">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
+            </Border.Background>
+            <TextBlock x:Name="HeaderBlockerText" VerticalAlignment="Center" Style="{StaticResource PhoneTextTitle2Style}" />
         </Border>
         <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
             <Canvas x:Name="canvas" >

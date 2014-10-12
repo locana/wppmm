@@ -554,7 +554,6 @@ namespace Kazyx.WPPMM.Pages
         {
             var selector = sender as LongListMultiSelector;
             selector.ItemsSource = GridSource;
-            selector.IsSelectionEnabled = true;
         }
 
         private void ImageGrid_Unloaded(object sender, RoutedEventArgs e)
@@ -875,6 +874,23 @@ namespace Kazyx.WPPMM.Pages
             if (!selector.IsSelectionEnabled && GridSource != null)
             {
                 GridSource.SelectivityFactor = SelectivityFactor.None;
+                HeaderBlocker.Visibility = Visibility.Collapsed;
+                PivotRoot.IsLocked = false;
+            }
+            if (selector.IsSelectionEnabled && GridSource != null)
+            {
+                switch (GridSource.SelectivityFactor)
+                {
+                    case SelectivityFactor.CopyToPhone:
+                        HeaderBlockerText.Text = "Selecting contents to download";
+                        HeaderBlocker.Visibility = Visibility.Visible;
+                        break;
+                    case SelectivityFactor.Delete:
+                        HeaderBlockerText.Text = "Selecting contents to delete";
+                        HeaderBlocker.Visibility = Visibility.Visible;
+                        break;
+                }
+                PivotRoot.IsLocked = true;
             }
             if (PivotRoot.SelectedIndex == 1)
             {

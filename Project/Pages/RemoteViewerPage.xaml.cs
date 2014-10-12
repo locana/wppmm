@@ -52,11 +52,11 @@ namespace Kazyx.WPPMM.Pages
                 switch (GridSource.SelectivityFactor)
                 {
                     case SelectivityFactor.CopyToPhone:
-                        SwitchAppBar(ViewerState.Sync);
+                        UpdateInnerState(ViewerState.Sync);
                         FetchSelectedImages();
                         break;
                     case SelectivityFactor.Delete:
-                        SwitchAppBar(ViewerState.RemoteSingle);
+                        UpdateInnerState(ViewerState.RemoteSingle);
                         DeleteSelectedImages();
                         break;
                     default:
@@ -72,13 +72,14 @@ namespace Kazyx.WPPMM.Pages
             //};
         }
 
-        private void SwitchAppBar(ViewerState state)
+        private void UpdateInnerState(ViewerState state)
         {
             Dispatcher.BeginInvoke(() =>
             {
                 switch (state)
                 {
                     case ViewerState.Local:
+                    case ViewerState.LocalStillPlayback:
                     case ViewerState.Sync:
                     case ViewerState.RemoteUnsupported:
                     case ViewerState.RemoteMulti:
@@ -111,7 +112,7 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            SwitchAppBar(ViewerState.Local);
+            UpdateInnerState(ViewerState.Local);
 
             DeleteRemoteGridFacially();
             UpdateStorageInfo();
@@ -126,12 +127,12 @@ namespace Kazyx.WPPMM.Pages
             CloseMovieStream();
             MovieDrawer.DataContext = MovieStreamHandler.INSTANCE.MoviePlaybackData;
 
-            SetVisibility(false);
+            SetStillDetailVisibility(false);
 
             LoadLocalContents();
 
 #if DEBUG
-            AddDummyContentsAsync();
+            // AddDummyContentsAsync();
 #endif
             PictureSyncManager.Instance.Failed += OnDLError;
             PictureSyncManager.Instance.Fetched += OnFetched;
@@ -160,7 +161,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseMovieStream()
         {
-            SwitchAppBar(ViewerState.RemoteSingle);
+            UpdateInnerState(ViewerState.RemoteSingle);
             MovieStreamHandler.INSTANCE.Finish();
             Dispatcher.BeginInvoke(() =>
             {
@@ -319,7 +320,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 DeleteRemoteGridFacially();
                 ShowToast(AppResources.Viewer_StorageDetached);
-                SwitchAppBar(ViewerState.RemoteNoMedia);
+                UpdateInnerState(ViewerState.RemoteNoMedia);
                 var device = CameraManager.CameraManager.GetInstance().CurrentDeviceInfo;
                 if (device != null && device.UDN != null)
                 {
@@ -537,7 +538,7 @@ namespace Kazyx.WPPMM.Pages
                                 _bitmap.SetSource(replica);
                                 InitBitmapBeforeOpen();
                                 DetailImage.Source = _bitmap;
-                                SetVisibility(true);
+                                SetStillDetailVisibility(true);
                             }
                         }
                     }
@@ -571,16 +572,16 @@ namespace Kazyx.WPPMM.Pages
                 DebugUtil.Log("Selected Items: " + contents.Count);
                 if (contents.Count > 0)
                 {
-                    SwitchAppBar(ViewerState.RemoteSelecting);
+                    UpdateInnerState(ViewerState.RemoteSelecting);
                 }
                 else
                 {
-                    SwitchAppBar(ViewerState.RemoteMulti);
+                    UpdateInnerState(ViewerState.RemoteMulti);
                 }
             }
         }
 
-        private void SetVisibility(bool visible)
+        private void SetStillDetailVisibility(bool visible)
         {
             if (visible)
             {
@@ -591,7 +592,14 @@ namespace Kazyx.WPPMM.Pages
                 TouchBlocker.Visibility = Visibility.Visible;
                 RemoteImageGrid.IsEnabled = false;
                 LocalImageGrid.IsEnabled = false;
-                SwitchAppBar(ViewerState.RemoteStillPlayback);
+                if (PivotRoot.SelectedIndex == 0)
+                {
+                    UpdateInnerState(ViewerState.LocalStillPlayback);
+                }
+                else if (PivotRoot.SelectedIndex == 1)
+                {
+                    UpdateInnerState(ViewerState.RemoteStillPlayback);
+                }
             }
             else
             {
@@ -602,7 +610,10 @@ namespace Kazyx.WPPMM.Pages
                 viewport.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
                 LocalImageGrid.IsEnabled = true;
-                SwitchAppBar(ViewerState.RemoteSingle);
+                if (PivotRoot.SelectedIndex == 1)
+                {
+                    UpdateInnerState(ViewerState.RemoteSingle);
+                }
             }
         }
 
@@ -750,7 +761,7 @@ namespace Kazyx.WPPMM.Pages
                 DetailImage.Source = null;
             }
             _bitmap = null;
-            SetVisibility(false);
+            SetStillDetailVisibility(false);
         }
 
         private bool IsViewingDetail = false;
@@ -774,32 +785,32 @@ namespace Kazyx.WPPMM.Pages
             switch (pivot.SelectedIndex)
             {
                 case 0:
-                    SwitchAppBar(ViewerState.Local);
+                    UpdateInnerState(ViewerState.Local);
                     break;
                 case 1:
                     if (CheckRemoteCapability())
                     {
                         if (IsRemoteInitialized)
                         {
-                            SwitchAppBar(ViewerState.RemoteSingle);
+                            UpdateInnerState(ViewerState.RemoteSingle);
                         }
                         else
                         {
                             if (StorageAvailable)
                             {
-                                SwitchAppBar(ViewerState.RemoteSingle);
+                                UpdateInnerState(ViewerState.RemoteSingle);
                                 InitializeRemote();
                             }
                             else
                             {
                                 ShowToast(AppResources.Viewer_NoStorage);
-                                SwitchAppBar(ViewerState.RemoteNoMedia);
+                                UpdateInnerState(ViewerState.RemoteNoMedia);
                             }
                         }
                     }
                     else
                     {
-                        SwitchAppBar(ViewerState.RemoteUnsupported);
+                        UpdateInnerState(ViewerState.RemoteUnsupported);
                         ShowToast(AppResources.Viewer_StorageAccessNotSupported);
                         UnsupportedMessage.Visibility = Visibility.Visible;
                     }
@@ -895,11 +906,11 @@ namespace Kazyx.WPPMM.Pages
             {
                 if (selector.IsSelectionEnabled)
                 {
-                    SwitchAppBar(ViewerState.RemoteMulti);
+                    UpdateInnerState(ViewerState.RemoteMulti);
                 }
                 else
                 {
-                    SwitchAppBar(ViewerState.RemoteSingle);
+                    UpdateInnerState(ViewerState.RemoteSingle);
                 }
             }
         }
@@ -970,7 +981,7 @@ namespace Kazyx.WPPMM.Pages
                                         _bitmap.SetSource(replica);
                                         InitBitmapBeforeOpen();
                                         DetailImage.Source = _bitmap;
-                                        SetVisibility(true);
+                                        SetStillDetailVisibility(true);
                                     }
                                     finally
                                     {
@@ -1001,7 +1012,7 @@ namespace Kazyx.WPPMM.Pages
                             if (content.Source.RemotePlaybackAvailable)
                             {
                                 PivotRoot.IsLocked = true;
-                                SwitchAppBar(ViewerState.RemoteMoviePlayback);
+                                UpdateInnerState(ViewerState.RemoteMoviePlayback);
                                 MovieDrawer.Visibility = Visibility.Visible;
                                 ChangeProgressText(AppResources.Progress_OpeningMovieStream);
                                 var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
@@ -1087,6 +1098,7 @@ namespace Kazyx.WPPMM.Pages
     public enum ViewerState
     {
         Local,
+        LocalStillPlayback,
         RemoteUnsupported,
         RemoteNoMedia,
         RemoteSingle,

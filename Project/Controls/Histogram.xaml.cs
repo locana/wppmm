@@ -120,7 +120,7 @@ namespace Kazyx.WPPMM.Controls
             for (int i = 0; i < HorizontalResolution; i++)
             {
                 var index = rate * i + X_SKIP_ORDER;
-
+                if (index < 0) { return; }
                 if (index > valuesR.Length - 1)
                 {
                     index = valuesR.Length - 1;

@@ -146,14 +146,9 @@
             </Border.Background>
         </Border>
         <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
-            <Canvas x:Name="canvas" >
-                <Image x:Name="DetailImage" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
-                    <Image.RenderTransform>
-                        <ScaleTransform x:Name="xform" />
-                    </Image.RenderTransform>
-                </Image>
-            </Canvas>
+            
         </ViewportControl>
+        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" Width="480" Height="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" />
         <Border x:Name="MovieDrawer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>

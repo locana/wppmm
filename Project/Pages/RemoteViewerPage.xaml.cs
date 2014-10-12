@@ -1,6 +1,7 @@
 using Kazyx.ImageStream;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
+using Kazyx.WPPMM.Controls;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.PlaybackMode;
 using Kazyx.WPPMM.Resources;
@@ -81,6 +82,7 @@ namespace Kazyx.WPPMM.Pages
         private readonly AppBarManager abm = new AppBarManager();
 
         private bool IsRemoteInitialized = false;
+        internal PhotoPlaybackData PhotoData = new PhotoPlaybackData();
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -106,6 +108,8 @@ namespace Kazyx.WPPMM.Pages
 
             CloseMovieStream();
             MovieDrawer.DataContext = MovieStreamHandler.INSTANCE.MoviePlaybackData;
+
+            PhotoPlaybackScreen.DataContext = PhotoData;
 
             SetVisibility(false);
 
@@ -518,7 +522,9 @@ namespace Kazyx.WPPMM.Pages
                                 _bitmap = new BitmapImage();
                                 _bitmap.SetSource(replica);
                                 InitBitmapBeforeOpen();
-                                DetailImage.Source = _bitmap;
+                                // DetailImage.Source = _bitmap;
+                                PhotoData.Image = _bitmap;
+                                PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
                                 SetVisibility(true);
                             }
                         }
@@ -570,7 +576,7 @@ namespace Kazyx.WPPMM.Pages
                 progress.IsVisible = false;
                 IsViewingDetail = true;
                 viewport.Visibility = Visibility.Visible;
-                DetailImage.Visibility = Visibility.Visible;
+                PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Visible;
                 TouchBlocker.Visibility = Visibility.Visible;
                 RemoteImageGrid.IsEnabled = false;
                 LocalImageGrid.IsEnabled = false;
@@ -580,7 +586,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 progress.IsVisible = false;
                 IsViewingDetail = false;
-                DetailImage.Visibility = Visibility.Collapsed;
+                PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Collapsed;
                 TouchBlocker.Visibility = Visibility.Collapsed;
                 viewport.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
@@ -628,10 +634,10 @@ namespace Kazyx.WPPMM.Pages
                 {
                     _pinching = true;
                     var center = e.PinchManipulation.Original.Center;
-                    _relativeMidpoint = new Point(center.X / DetailImage.ActualWidth, center.Y / DetailImage.ActualHeight);
+                    // _relativeMidpoint = new Point(center.X / DetailImage.ActualWidth, center.Y / DetailImage.ActualHeight);
 
-                    var xform = DetailImage.TransformToVisual(viewport);
-                    _screenMidpoint = xform.Transform(center);
+                    // var xform = DetailImage.TransformToVisual(viewport);
+                    // _screenMidpoint = xform.Transform(center);
                 }
 
                 _scale = _originalScale * e.PinchManipulation.CumulativeScale;
@@ -667,10 +673,12 @@ namespace Kazyx.WPPMM.Pages
         {
             if (_coercedScale != 0 && _bitmap != null)
             {
-                double newWidth = canvas.Width = Math.Round(_bitmap.PixelWidth * _coercedScale);
-                double newHeight = canvas.Height = Math.Round(_bitmap.PixelHeight * _coercedScale);
+                // double newWidth = canvas.Width = Math.Round(_bitmap.PixelWidth * _coercedScale);
+                double newWidth = 0;
+                // double newHeight = canvas.Height = Math.Round(_bitmap.PixelHeight * _coercedScale);
+                double newHeight = 0;
 
-                xform.ScaleX = xform.ScaleY = _coercedScale;
+                // // xform.ScaleX = xform.ScaleY = _coercedScale;
 
                 viewport.Bounds = new Rect(0, 0, newWidth, newHeight);
 
@@ -728,10 +736,6 @@ namespace Kazyx.WPPMM.Pages
 
         private void ReleaseDetail()
         {
-            if (DetailImage.Source != null)
-            {
-                DetailImage.Source = null;
-            }
             _bitmap = null;
             SetVisibility(false);
         }
@@ -925,7 +929,8 @@ namespace Kazyx.WPPMM.Pages
                                         _bitmap = new BitmapImage();
                                         _bitmap.SetSource(replica);
                                         InitBitmapBeforeOpen();
-                                        DetailImage.Source = _bitmap;
+                                        PhotoData.Image = _bitmap;
+                                        PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
                                         SetVisibility(true);
                                     }
                                     finally

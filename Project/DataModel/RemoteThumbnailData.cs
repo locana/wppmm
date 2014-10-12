@@ -23,14 +23,18 @@ namespace Kazyx.WPPMM.DataModel
 
         public ContentInfo Source { private set; get; }
 
+        public Visibility ProtectedIconVisibility
+        {
+            get
+            {
+                return Source.Protected ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public Visibility MovieIconVisibility
         {
             get
             {
-                if (Source == null)
-                {
-                    return Visibility.Collapsed;
-                }
                 switch (Source.ContentType)
                 {
                     case ContentKind.MovieMp4:
@@ -47,6 +51,50 @@ namespace Kazyx.WPPMM.DataModel
             get { if (MovieIconVisibility == Visibility.Collapsed) { return Visibility.Visible; } else { return Visibility.Collapsed; } }
         }
 
+        public Visibility DeleteMenuVisiblity
+        {
+            get { if (ProtectedIconVisibility == Visibility.Collapsed) { return Visibility.Visible; } else { return Visibility.Collapsed; } }
+        }
+
+        public Visibility UnselectableMaskVisibility
+        {
+            get
+            {
+                return IsSelectable ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        private SelectivityFactor factor = SelectivityFactor.None;
+        public SelectivityFactor SelectivityFactor
+        {
+            set
+            {
+                factor = value;
+                OnPropertyChanged("IsSelectable");
+                OnPropertyChanged("UnselectableMaskVisibility");
+            }
+            get { return factor; }
+        }
+
+        public bool IsSelectable
+        {
+            get
+            {
+                switch (SelectivityFactor)
+                {
+                    case SelectivityFactor.None:
+                        return true;
+                    case SelectivityFactor.CopyToPhone:
+                        return MovieIconVisibility == Visibility.Collapsed;
+                    case SelectivityFactor.Delete:
+                        return ProtectedIconVisibility == Visibility.Collapsed;
+                    default:
+                        throw new NotImplementedException("Unknown SelectivityFactor");
+                }
+            }
+            //get { return MovieIconVisibility == Visibility.Collapsed; }
+        }
+
         private string DeviceUuid { set; get; }
 
         public string GroupTitle { private set; get; }
@@ -57,7 +105,10 @@ namespace Kazyx.WPPMM.DataModel
             set
             {
                 _CachePath = value;
-                OnPropertyChanged("CachePath");
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    OnPropertyChanged("CachePath");
+                });
             }
             get
             {
@@ -86,26 +137,41 @@ namespace Kazyx.WPPMM.DataModel
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string name)
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            if (PropertyChanged != null)
             {
-                if (PropertyChanged != null)
+                try
                 {
-                    try
-                    {
-                        PropertyChanged(this, new PropertyChangedEventArgs(name));
-                    }
-                    catch (COMException)
-                    {
-                        DebugUtil.Log("Caught COMException: RemoteThumbnailData");
-                    }
+                    PropertyChanged(this, new PropertyChangedEventArgs(name));
                 }
-            });
+                catch (COMException)
+                {
+                    DebugUtil.Log("Caught COMException: RemoteThumbnailData");
+                }
+            }
         }
+    }
+
+    public enum SelectivityFactor
+    {
+        None,
+        CopyToPhone,
+        Delete,
     }
 
     public class DateGroup : List<RemoteThumbnail>, INotifyPropertyChanged, INotifyCollectionChanged
     {
         public string Key { private set; get; }
+
+        public SelectivityFactor SelectivityFactor
+        {
+            set
+            {
+                foreach (var thumb in this)
+                {
+                    thumb.SelectivityFactor = value;
+                }
+            }
+        }
 
         public DateGroup(string key)
         {
@@ -160,6 +226,20 @@ namespace Kazyx.WPPMM.DataModel
 
     public class DateGroupCollection : ObservableCollection<DateGroup>
     {
+        private SelectivityFactor _SelectivityFactor = SelectivityFactor.None;
+        public SelectivityFactor SelectivityFactor
+        {
+            get { return _SelectivityFactor; }
+            set
+            {
+                _SelectivityFactor = value;
+                foreach (var group in this)
+                {
+                    group.SelectivityFactor = value;
+                }
+            }
+        }
+
         public void Add(RemoteThumbnail content)
         {
             var group = GetGroup(content.GroupTitle);

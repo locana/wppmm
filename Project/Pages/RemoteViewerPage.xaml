@@ -23,6 +23,7 @@
         <DataTemplate x:Key="ItemTemplate">
             <Grid Height="108" Width="108" Margin="6,6">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="48"/>
                 </Grid.ColumnDefinitions>
@@ -33,17 +34,23 @@
                 <Grid.Background>
                     <SolidColorBrush Color="{StaticResource PhoneChromeColor}"/>
                 </Grid.Background>
-                <Image Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
+                <Image Grid.ColumnSpan="3" Grid.RowSpan="2" x:Name="ThumbnailImage" Width="108" Height="108" Stretch="Uniform" Tap="RemoteThumbnail_Tap" >
                     <Image.Source>
                         <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
                 </Image>
-                <Image Grid.Row="1" Grid.Column="1" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <Image Grid.Row="1" Grid.Column="0" Source="/Assets/Screen/no_memory_card.png" Visibility="{Binding ProtectedIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <Image Grid.Row="1" Grid.Column="2" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <Border Grid.RowSpan="2" Grid.ColumnSpan="3" Visibility="{Binding UnselectableMaskVisibility, FallbackValue=Collapsed}">
+                    <Border.Background>
+                        <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+                    </Border.Background>
+                </Border>
                 <toolkit:ContextMenuService.ContextMenu>
                     <toolkit:ContextMenu IsZoomEnabled="True">
-                        <toolkit:MenuItem x:Name="Playback" Header="Playback" Click="Playback_Click" />
-                        <toolkit:MenuItem x:Name="CopyToPhone" Header="Copy to phone storage" Click="CopyToPhone_Click" Visibility="{Binding CopyToPhoneVisibility}"/>
-                        <toolkit:MenuItem x:Name="Delete" Header="Delete" Click="Delete_Click" />
+                        <toolkit:MenuItem x:Name="Playback" Header="{Binding LocalizedResources.Viewer_MenuPlayback, Source={StaticResource LocalizedStrings}}" Click="Playback_Click" />
+                        <toolkit:MenuItem x:Name="CopyToPhone" Header="{Binding LocalizedResources.Viewer_MenuCopyToPhone, Source={StaticResource LocalizedStrings}}" Click="CopyToPhone_Click" Visibility="{Binding CopyToPhoneVisibility}"/>
+                        <toolkit:MenuItem x:Name="Delete" Header="{Binding LocalizedResources.Viewer_MenuDelete, Source={StaticResource LocalizedStrings}}" Click="Delete_Click" Visibility="{Binding DeleteMenuVisiblity}" />
                     </toolkit:ContextMenu>
                 </toolkit:ContextMenuService.ContextMenu>
             </Grid>
@@ -99,13 +106,9 @@
         </Grid.Resources>
 
         <phone:Pivot x:Name="PivotRoot" SelectionChanged="Pivot_SelectionChanged">
-            <phone:Pivot.Title>
-                <TextBlock x:Name="TitleHeader" Text="{Binding Path=LocalizedResources.ApplicationTitle, Source={StaticResource LocalizedStrings}}" />
-            </phone:Pivot.Title>
-
             <phone:PivotItem Margin="0,14,0,0">
                 <phone:PivotItem.Header>
-                    <TextBlock Text="Phone storage" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding LocalizedResources.Viewer_StoragePhone, Source={StaticResource LocalizedStrings}}" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PivotItem.Header>
                 <phone:LongListSelector
                 Name="LocalImageGrid"
@@ -120,13 +123,14 @@
 
             <phone:PivotItem x:Name="RemotePivot" Margin="0,14,0,0">
                 <phone:PivotItem.Header>
-                    <TextBlock x:Name="TitleBlock" Text="Camera storage" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
+                    <TextBlock x:Name="TitleBlock" Text="{Binding LocalizedResources.Viewer_StorageCamera, Source={StaticResource LocalizedStrings}}" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PivotItem.Header>
                 <Grid>
-                    <TextBlock x:Name="UnsupportedMessage" Text="Access to the camera storage seems to be allowed only on the latest models..." TextWrapping="Wrap" VerticalAlignment="Center" Margin="36,0" Style="{StaticResource PhoneTextTitle3Style}"/>
+                    <TextBlock x:Name="UnsupportedMessage" Text="{Binding LocalizedResources.Viewer_StorageAccessNotSupportedDetail, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="36,0" Style="{StaticResource PhoneTextTitle3Style}"/>
                     <toolkit:LongListMultiSelector
                         Name="RemoteImageGrid"
                         Margin="0"
+                        IsSelectionEnabled="False"
                         IsGroupingEnabled="True"
                         GroupHeaderTemplate="{StaticResource HeaderTemplate}"
                         LayoutMode="Grid"
@@ -145,6 +149,12 @@
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
             </Border.Background>
         </Border>
+        <Border x:Name="HeaderBlocker" Height="74" VerticalAlignment="Top" Visibility="Collapsed">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
+            </Border.Background>
+            <TextBlock x:Name="HeaderBlockerText" VerticalAlignment="Center" Style="{StaticResource PhoneTextTitle2Style}" />
+        </Border>
         <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
             
         </ViewportControl>
@@ -161,7 +171,6 @@
                           Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
             <TextBlock HorizontalAlignment="Center" Grid.Row="0" 
                                    TextWrapping="Wrap" Padding="5,5" Height="auto"
-                                 Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
                                  Foreground="{StaticResource PhoneForegroundBrush}" 
                                    VerticalAlignment="Center" Name="ToastMessage"/>
         </Grid>

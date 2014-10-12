@@ -29,22 +29,41 @@ namespace Kazyx.WPPMM.Pages
         public RemoteViewerPage()
         {
             InitializeComponent();
-            abm.SetEvent(IconMenu.DownloadItem, (sender, e) =>
+            abm.SetEvent(IconMenu.DownloadMultiple, (sender, e) =>
             {
                 DebugUtil.Log("Download clicked");
-                SwitchAppBar(ViewerState.Sync);
-                FetchSelectedImages();
-            });
-            abm.SetEvent(IconMenu.SelectItems, (sender, e) =>
-            {
-                DebugUtil.Log("Select items clicked");
+                if (GridSource != null)
+                {
+                    GridSource.SelectivityFactor = SelectivityFactor.CopyToPhone;
+                }
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
-            abm.SetEvent(IconMenu.DeleteItem, (sender, e) =>
+            abm.SetEvent(IconMenu.DeleteMultiple, (sender, e) =>
             {
                 DebugUtil.Log("Delete clicked");
-                SwitchAppBar(ViewerState.RemoteSingle);
-                DeleteSelectedImages();
+                if (GridSource != null)
+                {
+                    GridSource.SelectivityFactor = SelectivityFactor.Delete;
+                }
+                RemoteImageGrid.IsSelectionEnabled = true;
+            });
+            abm.SetEvent(IconMenu.Ok, (sender, e) =>
+            {
+                DebugUtil.Log("Ok clicked");
+                switch (GridSource.SelectivityFactor)
+                {
+                    case SelectivityFactor.CopyToPhone:
+                        UpdateInnerState(ViewerState.Sync);
+                        FetchSelectedImages();
+                        break;
+                    case SelectivityFactor.Delete:
+                        UpdateInnerState(ViewerState.RemoteSingle);
+                        DeleteSelectedImages();
+                        break;
+                    default:
+                        DebugUtil.Log("Nothing to do for current SelectivityFactor");
+                        break;
+                }
             });
 
 
@@ -54,13 +73,14 @@ namespace Kazyx.WPPMM.Pages
             //};
         }
 
-        private void SwitchAppBar(ViewerState state)
+        private void UpdateInnerState(ViewerState state)
         {
             Dispatcher.BeginInvoke(() =>
             {
                 switch (state)
                 {
                     case ViewerState.Local:
+                    case ViewerState.LocalStillPlayback:
                     case ViewerState.Sync:
                     case ViewerState.RemoteUnsupported:
                     case ViewerState.RemoteMulti:
@@ -70,10 +90,10 @@ namespace Kazyx.WPPMM.Pages
                         ApplicationBar = null;
                         break;
                     case ViewerState.RemoteSelecting:
-                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadItem).Enable(IconMenu.DeleteItem).CreateNew(0.5);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(0.5);
                         break;
                     case ViewerState.RemoteSingle:
-                        ApplicationBar = abm.Clear().Enable(IconMenu.SelectItems).CreateNew(0.5);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadMultiple).Enable(IconMenu.DeleteMultiple).CreateNew(0.5);
                         break;
                 }
             });
@@ -94,7 +114,7 @@ namespace Kazyx.WPPMM.Pages
                 return;
             }
 
-            SwitchAppBar(ViewerState.Local);
+            UpdateInnerState(ViewerState.Local);
 
             DeleteRemoteGridFacially();
             UpdateStorageInfo();
@@ -110,9 +130,7 @@ namespace Kazyx.WPPMM.Pages
             MovieDrawer.DataContext = MovieStreamHandler.INSTANCE.MoviePlaybackData;
 
             PhotoPlaybackScreen.DataContext = PhotoData;
-
-            SetVisibility(false);
-
+            SetStillDetailVisibility(false);
             LoadLocalContents();
 
 #if DEBUG
@@ -135,7 +153,7 @@ namespace Kazyx.WPPMM.Pages
                 case StreamStatusChangeFactor.FileError:
                 case StreamStatusChangeFactor.MediaError:
                 case StreamStatusChangeFactor.OtherError:
-                    ShowToast("Stream is closed by external error.");
+                    ShowToast(AppResources.Viewer_StreamClosedByExternalCause);
                     CloseMovieStream();
                     break;
                 default:
@@ -145,7 +163,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void CloseMovieStream()
         {
-            SwitchAppBar(ViewerState.RemoteSingle);
+            UpdateInnerState(ViewerState.RemoteSingle);
             MovieStreamHandler.INSTANCE.Finish();
             Dispatcher.BeginInvoke(() =>
             {
@@ -207,7 +225,7 @@ namespace Kazyx.WPPMM.Pages
 
         private async void LoadThumbnails(PictureAlbum album)
         {
-            ChangeProgressText("Loading camera roll images...");
+            ChangeProgressText(AppResources.Progress_LoadingLocalContents);
             var group = new List<ThumbnailData>();
             await Task.Run(() =>
             {
@@ -295,7 +313,7 @@ namespace Kazyx.WPPMM.Pages
                     var storages = CameraManager.CameraManager.GetInstance().Status.Storages;
                     if (storages[0].RecordableImages != -1 || storages[0].RecordableMovieLength != -1)
                     {
-                        ShowToast("Refresh contents");
+                        ShowToast(AppResources.Viewer_RefreshAutomatically);
                         InitializeRemote();
                     }
                 }
@@ -303,8 +321,8 @@ namespace Kazyx.WPPMM.Pages
             else
             {
                 DeleteRemoteGridFacially();
-                ShowToast("Memory card storage seems to be detached");
-                SwitchAppBar(ViewerState.RemoteNoMedia);
+                ShowToast(AppResources.Viewer_StorageDetached);
+                UpdateInnerState(ViewerState.RemoteNoMedia);
                 var device = CameraManager.CameraManager.GetInstance().CurrentDeviceInfo;
                 if (device != null && device.UDN != null)
                 {
@@ -340,10 +358,10 @@ namespace Kazyx.WPPMM.Pages
             var cm = CameraManager.CameraManager.GetInstance();
             try
             {
-                ChangeProgressText("Chaging camera state...");
+                ChangeProgressText(AppResources.Progress_ChangingCameraState);
                 await PlaybackModeUtility.MoveToContentTransferModeAsync(cm.CameraApi, cm.Status, 20000);
 
-                ChangeProgressText("Checking storage capability...");
+                ChangeProgressText(AppResources.Progress_CheckingStorage);
                 if (!await PlaybackModeUtility.IsStorageSupportedAsync(cm.AvContentApi))
                 {
                     DebugUtil.Log("storage scheme is not supported");
@@ -351,7 +369,6 @@ namespace Kazyx.WPPMM.Pages
                     return;
                 }
 
-                ChangeProgressText("Checking storage uri...");
                 var storages = await PlaybackModeUtility.GetStoragesUriAsync(cm.AvContentApi);
                 if (storages.Count == 0)
                 {
@@ -362,7 +379,7 @@ namespace Kazyx.WPPMM.Pages
 
                 Canceller = new CancellationTokenSource();
 
-                ChangeProgressText("Fetching date list...");
+                ChangeProgressText(AppResources.Progress_FetchingContents);
                 await PlaybackModeUtility.GetDateListAsEventsAsync(cm.AvContentApi, storages[0], OnDateListUpdated, Canceller);
             }
             catch (Exception e)
@@ -378,7 +395,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 try
                 {
-                    ChangeProgressText("Fetching contents...");
+                    ChangeProgressText(AppResources.Progress_FetchingContents);
                     await PlaybackModeUtility.GetContentsOfDayAsEventsAsync(
                         CameraManager.CameraManager.GetInstance().AvContentApi, date, true, OnContentListUpdated, Canceller);
                     HideProgress();
@@ -499,7 +516,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 return;
             }
-            ChangeProgressText("Opening images...");
+            ChangeProgressText(AppResources.Progress_OpeningDetailImage);
             var img = sender as Image;
             var thumb = img.DataContext as ThumbnailData;
             await Task.Run(() =>
@@ -525,13 +542,13 @@ namespace Kazyx.WPPMM.Pages
                                 // DetailImage.Source = _bitmap;
                                 PhotoData.Image = _bitmap;
                                 PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
-                                SetVisibility(true);
+                                SetStillDetailVisibility(true);
                             }
                         }
                     }
                     catch (InvalidOperationException)
                     {
-                        ShowToast("Failed to open detail image...");
+                        ShowToast(AppResources.Viewer_FailedToOpenDetail);
                     }
                 });
             });
@@ -541,7 +558,6 @@ namespace Kazyx.WPPMM.Pages
         {
             var selector = sender as LongListMultiSelector;
             selector.ItemsSource = GridSource;
-            selector.IsSelectionEnabled = true;
         }
 
         private void ImageGrid_Unloaded(object sender, RoutedEventArgs e)
@@ -560,16 +576,16 @@ namespace Kazyx.WPPMM.Pages
                 DebugUtil.Log("Selected Items: " + contents.Count);
                 if (contents.Count > 0)
                 {
-                    SwitchAppBar(ViewerState.RemoteSelecting);
+                    UpdateInnerState(ViewerState.RemoteSelecting);
                 }
                 else
                 {
-                    SwitchAppBar(ViewerState.RemoteMulti);
+                    UpdateInnerState(ViewerState.RemoteMulti);
                 }
             }
         }
 
-        private void SetVisibility(bool visible)
+        private void SetStillDetailVisibility(bool visible)
         {
             if (visible)
             {
@@ -580,7 +596,14 @@ namespace Kazyx.WPPMM.Pages
                 TouchBlocker.Visibility = Visibility.Visible;
                 RemoteImageGrid.IsEnabled = false;
                 LocalImageGrid.IsEnabled = false;
-                SwitchAppBar(ViewerState.RemoteStillPlayback);
+                if (PivotRoot.SelectedIndex == 0)
+                {
+                    UpdateInnerState(ViewerState.LocalStillPlayback);
+                }
+                else if (PivotRoot.SelectedIndex == 1)
+                {
+                    UpdateInnerState(ViewerState.RemoteStillPlayback);
+                }
             }
             else
             {
@@ -591,7 +614,10 @@ namespace Kazyx.WPPMM.Pages
                 viewport.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
                 LocalImageGrid.IsEnabled = true;
-                SwitchAppBar(ViewerState.RemoteSingle);
+                if (PivotRoot.SelectedIndex == 1)
+                {
+                    UpdateInnerState(ViewerState.RemoteSingle);
+                }
             }
         }
 
@@ -737,7 +763,7 @@ namespace Kazyx.WPPMM.Pages
         private void ReleaseDetail()
         {
             _bitmap = null;
-            SetVisibility(false);
+            SetStillDetailVisibility(false);
         }
 
         private bool IsViewingDetail = false;
@@ -761,33 +787,33 @@ namespace Kazyx.WPPMM.Pages
             switch (pivot.SelectedIndex)
             {
                 case 0:
-                    SwitchAppBar(ViewerState.Local);
+                    UpdateInnerState(ViewerState.Local);
                     break;
                 case 1:
                     if (CheckRemoteCapability())
                     {
                         if (IsRemoteInitialized)
                         {
-                            SwitchAppBar(ViewerState.RemoteSingle);
+                            UpdateInnerState(ViewerState.RemoteSingle);
                         }
                         else
                         {
                             if (StorageAvailable)
                             {
-                                SwitchAppBar(ViewerState.RemoteSingle);
+                                UpdateInnerState(ViewerState.RemoteSingle);
                                 InitializeRemote();
                             }
                             else
                             {
-                                ShowToast("No storage seems to be attached");
-                                SwitchAppBar(ViewerState.RemoteNoMedia);
+                                ShowToast(AppResources.Viewer_NoStorage);
+                                UpdateInnerState(ViewerState.RemoteNoMedia);
                             }
                         }
                     }
                     else
                     {
-                        SwitchAppBar(ViewerState.RemoteUnsupported);
-                        ShowToast("Storage access is not supported\nby your camera device");
+                        UpdateInnerState(ViewerState.RemoteUnsupported);
+                        ShowToast(AppResources.Viewer_StorageAccessNotSupported);
                         UnsupportedMessage.Visibility = Visibility.Visible;
                     }
                     break;
@@ -857,15 +883,36 @@ namespace Kazyx.WPPMM.Pages
         private void RemoteImageGrid_IsSelectionEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var selector = (sender as LongListMultiSelector);
+            if (!selector.IsSelectionEnabled && GridSource != null)
+            {
+                GridSource.SelectivityFactor = SelectivityFactor.None;
+                HeaderBlocker.Visibility = Visibility.Collapsed;
+                PivotRoot.IsLocked = false;
+            }
+            if (selector.IsSelectionEnabled && GridSource != null)
+            {
+                switch (GridSource.SelectivityFactor)
+                {
+                    case SelectivityFactor.CopyToPhone:
+                        HeaderBlockerText.Text = AppResources.Viewer_Header_SelectingToDownload;
+                        HeaderBlocker.Visibility = Visibility.Visible;
+                        break;
+                    case SelectivityFactor.Delete:
+                        HeaderBlockerText.Text = AppResources.Viewer_Header_SelectingToDelete;
+                        HeaderBlocker.Visibility = Visibility.Visible;
+                        break;
+                }
+                PivotRoot.IsLocked = true;
+            }
             if (PivotRoot.SelectedIndex == 1)
             {
                 if (selector.IsSelectionEnabled)
                 {
-                    SwitchAppBar(ViewerState.RemoteMulti);
+                    UpdateInnerState(ViewerState.RemoteMulti);
                 }
                 else
                 {
-                    SwitchAppBar(ViewerState.RemoteSingle);
+                    UpdateInnerState(ViewerState.RemoteSingle);
                 }
             }
         }
@@ -889,6 +936,12 @@ namespace Kazyx.WPPMM.Pages
 
         private void RemoteThumbnail_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            if (RemoteImageGrid.IsSelectionEnabled)
+            {
+                DebugUtil.Log("Ignore tap in multi-selection mode.");
+                return;
+            }
+
             var image = sender as Image;
             var content = image.DataContext as RemoteThumbnail;
             PlaybackContent(content);
@@ -908,7 +961,7 @@ namespace Kazyx.WPPMM.Pages
                 switch (content.Source.ContentType)
                 {
                     case ContentKind.StillImage:
-                        ChangeProgressText("Fetching detail image...");
+                        ChangeProgressText(AppResources.Progress_OpeningDetailImage);
                         try
                         {
                             using (var strm = await Downloader.GetResponseStreamAsync(new Uri(content.Source.LargeUrl)))
@@ -931,7 +984,7 @@ namespace Kazyx.WPPMM.Pages
                                         InitBitmapBeforeOpen();
                                         PhotoData.Image = _bitmap;
                                         PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
-                                        SetVisibility(true);
+                                        SetStillDetailVisibility(true);
                                     }
                                     finally
                                     {
@@ -962,9 +1015,9 @@ namespace Kazyx.WPPMM.Pages
                             if (content.Source.RemotePlaybackAvailable)
                             {
                                 PivotRoot.IsLocked = true;
-                                SwitchAppBar(ViewerState.RemoteMoviePlayback);
+                                UpdateInnerState(ViewerState.RemoteMoviePlayback);
                                 MovieDrawer.Visibility = Visibility.Visible;
-                                ChangeProgressText("Wating for movie playback stream...");
+                                ChangeProgressText(AppResources.Progress_OpeningMovieStream);
                                 var started = await MovieStreamHandler.INSTANCE.Start(av, new PlaybackContent
                                 {
                                     Uri = content.Source.Uri,
@@ -972,20 +1025,20 @@ namespace Kazyx.WPPMM.Pages
                                 }, content.Source.Name);
                                 if (!started)
                                 {
-                                    ShowToast("Failed playback movie content");
+                                    ShowToast(AppResources.Viewer_FailedPlaybackMovie);
                                     CloseMovieStream();
                                 }
                                 HideProgress();
                             }
                             else
                             {
-                                ShowToast("This content is not playable");
+                                ShowToast(AppResources.Viewer_UnplayableContent);
                             }
                         }
                         else
                         {
                             DebugUtil.Log("Not ready to start stream: " + content.Source.Uri);
-                            ShowToast("Not ready to start stream");
+                            ShowToast(AppResources.Viewer_NoAvContentApi);
                         }
                         break;
                     default:
@@ -1025,7 +1078,7 @@ namespace Kazyx.WPPMM.Pages
             var av = CameraManager.CameraManager.GetInstance().AvContentApi;
             if (av != null && contents != null)
             {
-                ChangeProgressText("Deleting selected images...");
+                ChangeProgressText(AppResources.Progress_DeletingSelectedContents);
                 try
                 {
                     await av.DeleteContentAsync(contents);
@@ -1048,6 +1101,7 @@ namespace Kazyx.WPPMM.Pages
     public enum ViewerState
     {
         Local,
+        LocalStillPlayback,
         RemoteUnsupported,
         RemoteNoMedia,
         RemoteSingle,

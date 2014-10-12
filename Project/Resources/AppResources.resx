@@ -709,4 +709,87 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="InvalidDuration" xml:space="preserve">
     <value>--:--:--</value>
   </data>
+  <data name="AppBar_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AppBar_Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="AppBar_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Progress_ChangingCameraState" xml:space="preserve">
+    <value>Changing camera state...</value>
+  </data>
+  <data name="Progress_CheckingStorage" xml:space="preserve">
+    <value>Checking storage information...</value>
+  </data>
+  <data name="Progress_DeletingSelectedContents" xml:space="preserve">
+    <value>Deleting selected contents...</value>
+  </data>
+  <data name="Progress_FetchingContents" xml:space="preserve">
+    <value>Fetching contents...</value>
+  </data>
+  <data name="Progress_LoadingLocalContents" xml:space="preserve">
+    <value>Loading camera roll images...</value>
+  </data>
+  <data name="Progress_OpeningDetailImage" xml:space="preserve">
+    <value>Opening detail image...</value>
+  </data>
+  <data name="Progress_OpeningMovieStream" xml:space="preserve">
+    <value>Opening movie stream...</value>
+  </data>
+  <data name="Viewer_FailedPlaybackMovie" xml:space="preserve">
+    <value>Failed to playback movie content</value>
+  </data>
+  <data name="Viewer_FailedToOpenDetail" xml:space="preserve">
+    <value>Failed to open detail image</value>
+  </data>
+  <data name="Viewer_Header_SelectingToDelete" xml:space="preserve">
+    <value>Selecting contents to delete</value>
+  </data>
+  <data name="Viewer_Header_SelectingToDownload" xml:space="preserve">
+    <value>Selecting contents to download</value>
+  </data>
+  <data name="Viewer_MenuCopyToPhone" xml:space="preserve">
+    <value>Copy to phone storage</value>
+  </data>
+  <data name="Viewer_MenuDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Viewer_MenuPlayback" xml:space="preserve">
+    <value>Playback</value>
+  </data>
+  <data name="Viewer_NoAvContentApi" xml:space="preserve">
+    <value>Unavailable to access the function now.
+Please restart from shooting screen again.</value>
+  </data>
+  <data name="Viewer_NoStorage" xml:space="preserve">
+    <value>No storage seems to be attached</value>
+  </data>
+  <data name="Viewer_RefreshAutomatically" xml:space="preserve">
+    <value>Loading contents from new storage</value>
+  </data>
+  <data name="Viewer_StorageAccessNotSupported" xml:space="preserve">
+    <value>Storage access is not supported
+by your camera device</value>
+  </data>
+  <data name="Viewer_StorageAccessNotSupportedDetail" xml:space="preserve">
+    <value>Access to the camera storage seems to be allowed only on the latest models...</value>
+  </data>
+  <data name="Viewer_StorageCamera" xml:space="preserve">
+    <value>Camera storage</value>
+  </data>
+  <data name="Viewer_StorageDetached" xml:space="preserve">
+    <value>Memory card storage seems to be detached</value>
+  </data>
+  <data name="Viewer_StoragePhone" xml:space="preserve">
+    <value>Phone storage</value>
+  </data>
+  <data name="Viewer_StreamClosedByExternalCause" xml:space="preserve">
+    <value>Stream is closed by external error</value>
+  </data>
+  <data name="Viewer_UnplayableContent" xml:space="preserve">
+    <value>This content is not playable</value>
+  </data>
 </root>

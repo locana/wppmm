@@ -910,4 +910,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="Setting_PrioritizeOriginalSize" xml:space="preserve">
     <value>Prioritize original size images</value>
   </data>
+  <data name="HideDetailInfo" xml:space="preserve">
+    <value>Hide info.</value>
+  </data>
+  <data name="ShowDetailInfo" xml:space="preserve">
+    <value>Show info.</value>
+  </data>
 </root>

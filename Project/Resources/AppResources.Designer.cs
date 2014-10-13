@@ -1305,6 +1305,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide info..
+        /// </summary>
+        public static string HideDetailInfo {
+            get {
+                return ResourceManager.GetString("HideDetailInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IR remote.
         /// </summary>
         public static string InfraredRemoteControl {
@@ -1895,6 +1904,15 @@ namespace Kazyx.WPPMM.Resources {
         public static string ShootModeStill {
             get {
                 return ResourceManager.GetString("ShootModeStill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show info..
+        /// </summary>
+        public static string ShowDetailInfo {
+            get {
+                return ResourceManager.GetString("ShowDetailInfo", resourceCulture);
             }
         }
         

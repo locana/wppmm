@@ -863,4 +863,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="Viewer_UnplayableContent" xml:space="preserve">
     <value>このコンテンツは再生することができません</value>
   </data>
+  <data name="HideDetailInfo" xml:space="preserve">
+    <value>情報を隠す</value>
+  </data>
+  <data name="ShowDetailInfo" xml:space="preserve">
+    <value>情報を表示</value>
+  </data>
 </root>

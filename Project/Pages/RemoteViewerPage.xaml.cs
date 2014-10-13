@@ -47,6 +47,17 @@ namespace Kazyx.WPPMM.Pages
                 }
                 RemoteImageGrid.IsSelectionEnabled = true;
             });
+            abm.SetEvent(IconMenu.ShowDetailInfo, (sender, e) =>
+            {
+                PhotoPlaybackScreen.DetailInfoVisibility = System.Windows.Visibility.Visible;
+                ApplicationBar = abm.Clear().Enable(IconMenu.HideDetailInfo).CreateNew(0.5);
+            });
+            abm.SetEvent(IconMenu.HideDetailInfo, (sender, e) =>
+            {
+                PhotoPlaybackScreen.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
+                ApplicationBar = abm.Clear().Enable(IconMenu.ShowDetailInfo).CreateNew(0.5);
+            });
+
             abm.SetEvent(IconMenu.Ok, (sender, e) =>
             {
                 DebugUtil.Log("Ok clicked");
@@ -107,12 +118,10 @@ namespace Kazyx.WPPMM.Pages
                 switch (InnerState)
                 {
                     case ViewerState.Local:
-                    case ViewerState.LocalStillPlayback:
                     case ViewerState.Sync:
                     case ViewerState.RemoteUnsupported:
                     case ViewerState.RemoteMulti:
                     case ViewerState.RemoteNoMedia:
-                    case ViewerState.RemoteStillPlayback:
                     case ViewerState.RemoteMoviePlayback:
                         ApplicationBar = null;
                         break;
@@ -124,6 +133,17 @@ namespace Kazyx.WPPMM.Pages
                         break;
                     case ViewerState.AppSettings:
                         ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(0.5);
+                        break;
+                    case ViewerState.LocalStillPlayback:
+                    case ViewerState.RemoteStillPlayback:
+                        if (PhotoPlaybackScreen.DetailInfoVisibility == System.Windows.Visibility.Visible)
+                        {
+                            ApplicationBar = abm.Clear().Enable(IconMenu.HideDetailInfo).CreateNew(0.5);
+                        }
+                        else
+                        {
+                            ApplicationBar = abm.Clear().Enable(IconMenu.ShowDetailInfo).CreateNew(0.5);
+                        }
                         break;
                 }
             });

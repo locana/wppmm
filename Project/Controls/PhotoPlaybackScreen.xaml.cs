@@ -14,6 +14,12 @@ namespace Kazyx.WPPMM.Controls
             InitializeComponent();
         }
 
+        public Visibility DetailInfoVisibility
+        {
+            get { return DetailInfoPanel.Visibility; }
+            set { DetailInfoPanel.Visibility = value; }
+        }
+
         public static readonly DependencyProperty MinProperty = DependencyProperty.Register(
             "SourceBitmap",
             typeof(BitmapImage),
@@ -31,7 +37,7 @@ namespace Kazyx.WPPMM.Controls
             {
                 case PageOrientation.LandscapeLeft:
                 case PageOrientation.LandscapeRight:
-                    viewport.Margin = new Thickness(6, 12, 6, 6);
+                    viewport.Margin = new Thickness(6, 12, 32, 6);
                     Grid.SetColumnSpan(viewport, 2);
                     Grid.SetRowSpan(viewport, 2);
                     DetailInfoPanel.Margin = new Thickness(0);

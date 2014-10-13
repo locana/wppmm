@@ -85,6 +85,19 @@ namespace Kazyx.WPPMM.Utils
             IconUri = new Uri("/Assets/AppBar/appBar_delete.png", UriKind.Relative)
         };
 
+        readonly ApplicationBarIconButton ShowDetailInfo = new ApplicationBarIconButton
+        {
+            Text = AppResources.ShowDetailInfo,
+            IconUri = new Uri("/Assets/AppBar/appBar_display_info.png", UriKind.Relative)
+        };
+
+        readonly ApplicationBarIconButton HideDetailInfo = new ApplicationBarIconButton
+        {
+            Text = AppResources.HideDetailInfo,
+            IconUri = new Uri("/Assets/AppBar/appBar_close_display.png", UriKind.Relative)
+        };
+
+
         readonly Dictionary<Menu, ApplicationBarMenuItem> MenuItems = new Dictionary<Menu, ApplicationBarMenuItem>();
         readonly Dictionary<IconMenu, ApplicationBarIconButton> IconMenuItems = new Dictionary<IconMenu, ApplicationBarIconButton>();
 
@@ -104,6 +117,8 @@ namespace Kazyx.WPPMM.Utils
             IconMenuItems.Add(IconMenu.Refresh, Refresh);
             IconMenuItems.Add(IconMenu.DeleteMultiple, DeleteMultiple);
             IconMenuItems.Add(IconMenu.DownloadMultiple, DownloadMultiple);
+            IconMenuItems.Add(IconMenu.ShowDetailInfo, ShowDetailInfo);
+            IconMenuItems.Add(IconMenu.HideDetailInfo, HideDetailInfo);
 #if DEBUG
             MenuItems.Add(Menu.Log, LogMenuItem);
             MenuItems.Add(Menu.Contents, ContentsMenuItem);
@@ -226,5 +241,7 @@ namespace Kazyx.WPPMM.Utils
         Refresh,
         DeleteMultiple,
         DownloadMultiple,
+        ShowDetailInfo,
+        HideDetailInfo,
     }
 }

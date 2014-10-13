@@ -166,7 +166,6 @@ namespace Kazyx.WPPMM.PlaybackMode
             {
                 using (var stream = new MemoryStream(e.Packet.ImageData, 0, size))
                 {
-                    MoviePlaybackData.Image = null;
                     ImageSource.SetSource(stream);
                     MoviePlaybackData.Image = ImageSource;
                     IsRendering = false;

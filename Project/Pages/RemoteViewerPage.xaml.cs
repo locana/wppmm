@@ -173,7 +173,6 @@ namespace Kazyx.WPPMM.Pages
             PictureSyncManager.Instance.Downloader.QueueStatusUpdated += OnFetchingImages;
             CameraManager.CameraManager.GetInstance().Status.PropertyChanged += Status_PropertyChanged;
             MovieStreamHandler.INSTANCE.StreamClosed += MovieStreamHandler_StreamClosed;
-            MovieStreamHandler.INSTANCE.PlaybackInfoRetrieved += MovieStream_PlaybackInfoRetrieved;
             MovieStreamHandler.INSTANCE.StatusChanged += MovieStream_StatusChanged;
         }
 
@@ -203,11 +202,6 @@ namespace Kazyx.WPPMM.Pages
                 MoviePlaybackScreen.Reset();
                 MovieDrawer.Visibility = Visibility.Collapsed;
             });
-        }
-
-        void MovieStream_PlaybackInfoRetrieved(object sender, PlaybackInfoEventArgs e)
-        {
-            DebugUtil.Log("PlaybackInfoRetrieved: " + e.Packet.CurrentPosition + " / " + e.Packet.Duration);
         }
 
         void MovieStreamHandler_StreamClosed(object sender, EventArgs e)
@@ -283,6 +277,9 @@ namespace Kazyx.WPPMM.Pages
 #if DEBUG
         private async void AddDummyContentsAsync()
         {
+            CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported = true;
+            PivotRoot.IsLocked = false;
+
             if (CurrentUuid == null)
             {
                 CurrentUuid = DummyContentsGenerator.RandomUuid();
@@ -478,7 +475,6 @@ namespace Kazyx.WPPMM.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             MovieStreamHandler.INSTANCE.StreamClosed -= MovieStreamHandler_StreamClosed;
-            MovieStreamHandler.INSTANCE.PlaybackInfoRetrieved -= MovieStream_PlaybackInfoRetrieved;
             MovieStreamHandler.INSTANCE.StatusChanged -= MovieStream_StatusChanged;
             CameraManager.CameraManager.GetInstance().Status.PropertyChanged -= Status_PropertyChanged;
             PictureSyncManager.Instance.Failed -= OnDLError;
@@ -1174,6 +1170,12 @@ namespace Kazyx.WPPMM.Pages
         void HideSettingAnimation_Completed(object sender, EventArgs e)
         {
             AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void PivotRoot_Loaded(object sender, RoutedEventArgs e)
+        {
+            var pivot = sender as Pivot;
+            pivot.IsLocked = !CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported;
         }
     }
 

@@ -111,7 +111,7 @@
             </Storyboard>
         </Grid.Resources>
 
-        <phone:Pivot x:Name="PivotRoot" SelectionChanged="Pivot_SelectionChanged">
+        <phone:Pivot x:Name="PivotRoot" SelectionChanged="Pivot_SelectionChanged" Loaded="PivotRoot_Loaded">
             <phone:PivotItem Margin="0,14,0,0">
                 <phone:PivotItem.Header>
                     <TextBlock Text="{Binding LocalizedResources.Viewer_StoragePhone, Source={StaticResource LocalizedStrings}}" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>

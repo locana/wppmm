@@ -70,6 +70,11 @@ namespace Kazyx.WPPMM.PlaybackMode
         {
             StreamProcessor.CloseConnection();
 
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                MoviePlaybackData.Image = null;
+            });
+
             if (AvContent == null)
             {
                 return;

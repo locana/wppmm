@@ -1,4 +1,3 @@
-using Kazyx.ImageStream;
 using Kazyx.RemoteApi.AvContent;
 using Kazyx.RemoteApi.Camera;
 using Kazyx.WPPMM.Controls;
@@ -19,7 +18,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Windows.Devices.Geolocation;
@@ -564,7 +562,7 @@ namespace Kazyx.WPPMM.Pages
                                 }
                                 replica.Seek(0, SeekOrigin.Begin);
 
-                                _bitmap = new BitmapImage();
+                                var _bitmap = new BitmapImage();
                                 _bitmap.SetSource(replica);
                                 InitBitmapBeforeOpen();
                                 // DetailImage.Source = _bitmap;
@@ -627,7 +625,6 @@ namespace Kazyx.WPPMM.Pages
             {
                 progress.IsVisible = false;
                 IsViewingDetail = true;
-                viewport.Visibility = Visibility.Visible;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Visible;
                 TouchBlocker.Visibility = Visibility.Visible;
                 RemoteImageGrid.IsEnabled = false;
@@ -647,7 +644,6 @@ namespace Kazyx.WPPMM.Pages
                 IsViewingDetail = false;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Collapsed;
                 TouchBlocker.Visibility = Visibility.Collapsed;
-                viewport.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
                 LocalImageGrid.IsEnabled = true;
                 if (PivotRoot.SelectedIndex == 1)
@@ -660,120 +656,22 @@ namespace Kazyx.WPPMM.Pages
         void InitBitmapBeforeOpen()
         {
             DebugUtil.Log("Before open");
-            _scale = 0;
-            CoerceScale(true);
-            _scale = _coercedScale;
-
-            ResizeImage(true);
+            PhotoPlaybackScreen.Init();
         }
-        const double MaxScale = 1.0;
-
-        double _scale = 1.0;
-        double _minScale;
-        double _coercedScale;
-        double _originalScale;
-
-        Size _viewportSize;
-        bool _pinching;
-        Point _screenMidpoint;
-        Point _relativeMidpoint;
-
-        BitmapImage _bitmap;
 
         private void viewport_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            _pinching = false;
-            _originalScale = _scale;
+            PhotoPlaybackScreen.viewport_ManipulationStarted(sender, e);
         }
 
         private void viewport_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            if (e.PinchManipulation != null)
-            {
-                e.Handled = true;
-
-                if (!_pinching)
-                {
-                    _pinching = true;
-                    var center = e.PinchManipulation.Original.Center;
-                    // _relativeMidpoint = new Point(center.X / DetailImage.ActualWidth, center.Y / DetailImage.ActualHeight);
-
-                    // var xform = DetailImage.TransformToVisual(viewport);
-                    // _screenMidpoint = xform.Transform(center);
-                }
-
-                _scale = _originalScale * e.PinchManipulation.CumulativeScale;
-
-                CoerceScale(false);
-                ResizeImage(false);
-            }
-            else if (_pinching)
-            {
-                _pinching = false;
-                _originalScale = _scale = _coercedScale;
-            }
+            PhotoPlaybackScreen.viewport_ManipulationDelta(sender, e);
         }
 
         private void viewport_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
         {
-            _pinching = false;
-            _scale = _coercedScale;
-        }
-
-        private void viewport_ViewportChanged(object sender, System.Windows.Controls.Primitives.ViewportChangedEventArgs e)
-        {
-            var newSize = new Size(viewport.Viewport.Width, viewport.Viewport.Height);
-            if (newSize != _viewportSize)
-            {
-                _viewportSize = newSize;
-                CoerceScale(true);
-                ResizeImage(false);
-            }
-        }
-
-        void ResizeImage(bool center)
-        {
-            if (_coercedScale != 0 && _bitmap != null)
-            {
-                // double newWidth = canvas.Width = Math.Round(_bitmap.PixelWidth * _coercedScale);
-                double newWidth = 0;
-                // double newHeight = canvas.Height = Math.Round(_bitmap.PixelHeight * _coercedScale);
-                double newHeight = 0;
-
-                // // xform.ScaleX = xform.ScaleY = _coercedScale;
-
-                viewport.Bounds = new Rect(0, 0, newWidth, newHeight);
-
-                if (center)
-                {
-                    viewport.SetViewportOrigin(
-                        new Point(
-                            Math.Round((newWidth - viewport.ActualWidth) / 2),
-                            Math.Round((newHeight - viewport.ActualHeight) / 2)
-                            ));
-                }
-                else
-                {
-                    var newImgMid = new Point(newWidth * _relativeMidpoint.X, newHeight * _relativeMidpoint.Y);
-                    var origin = new Point(newImgMid.X - _screenMidpoint.X, newImgMid.Y - _screenMidpoint.Y);
-                    viewport.SetViewportOrigin(origin);
-                }
-            }
-        }
-
-        void CoerceScale(bool recompute)
-        {
-            if (recompute && _bitmap != null && viewport != null)
-            {
-                // Calculate the minimum scale to fit the viewport 
-                var minX = viewport.ActualWidth / _bitmap.PixelWidth;
-                var minY = viewport.ActualHeight / _bitmap.PixelHeight;
-
-                _minScale = Math.Min(minX, minY);
-                DebugUtil.Log("Minimum scale: " + _minScale);
-            }
-
-            _coercedScale = Math.Min(MaxScale, Math.Max(_scale, _minScale));
+            PhotoPlaybackScreen.viewport_ManipulationCompleted(sender, e);
         }
 
         private void PhoneApplicationPage_BackKeyPress(object sender, CancelEventArgs e)
@@ -804,7 +702,7 @@ namespace Kazyx.WPPMM.Pages
 
         private void ReleaseDetail()
         {
-            _bitmap = null;
+            PhotoPlaybackScreen.ReleaseImage();
             SetStillDetailVisibility(false);
         }
 
@@ -1030,7 +928,7 @@ namespace Kazyx.WPPMM.Pages
                                 {
                                     try
                                     {
-                                        _bitmap = new BitmapImage();
+                                        var _bitmap = new BitmapImage();
                                         _bitmap.SetSource(replica);
                                         InitBitmapBeforeOpen();
                                         PhotoData.Image = _bitmap;

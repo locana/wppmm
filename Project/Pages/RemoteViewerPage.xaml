@@ -161,16 +161,14 @@
             </Border.Background>
             <TextBlock x:Name="HeaderBlockerText" VerticalAlignment="Center" Style="{StaticResource PhoneTextTitle2Style}" />
         </Border>
-        <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
 
-        </ViewportControl>
-        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" Width="480" Height="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" />
+        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" Width="480" Height="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" SourceBitmap="{Binding Image}"
+                                          ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" />
         <Border x:Name="MovieDrawer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
             </Border.Background>
-            <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" 
-                                              CurrentPosition="{Binding CurrentPosition}" Duration="{Binding Duration}"/>
+            <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" CurrentPosition="{Binding CurrentPosition}" Duration="{Binding Duration}"/>
         </Border>
 
         <Grid Name="AppSettingPanel" Visibility="Collapsed" >
@@ -183,15 +181,9 @@
             </ScrollViewer>
         </Grid>
 
-        <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
-                          HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                          Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
-            <TextBlock HorizontalAlignment="Center" Grid.Row="0" 
-                                   TextWrapping="Wrap" Padding="5,5" Height="auto"
-                                 Foreground="{StaticResource PhoneForegroundBrush}" 
-                                   VerticalAlignment="Center" Name="ToastMessage"/>
+        <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
+            <TextBlock HorizontalAlignment="Center" Grid.Row="0" TextWrapping="Wrap" Padding="5,5" Height="auto" Foreground="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Center" Name="ToastMessage"/>
         </Grid>
-
     </Grid>
 
     <shell:SystemTray.ProgressIndicator>

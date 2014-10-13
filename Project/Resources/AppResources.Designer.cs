@@ -160,29 +160,11 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide header.
-        /// </summary>
-        public static string AppBar_HideHeader {
-            get {
-                return ResourceManager.GetString("AppBar_HideHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string AppBar_Refresh {
             get {
                 return ResourceManager.GetString("AppBar_Refresh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show header.
-        /// </summary>
-        public static string AppBar_ShowHeader {
-            get {
-                return ResourceManager.GetString("AppBar_ShowHeader", resourceCulture);
             }
         }
         
@@ -2169,8 +2151,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unavailable to access the function now.
-        ///Please restart from shooting screen again..
+        ///   Looks up a localized string similar to Unavailable to access the function now. Please restart from shooting screen again..
         /// </summary>
         public static string Viewer_NoAvContentApi {
             get {
@@ -2197,21 +2178,11 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Storage access is not supported
-        ///by your camera device.
+        ///   Looks up a localized string similar to Storage access is not supported by your camera device.
         /// </summary>
         public static string Viewer_StorageAccessNotSupported {
             get {
                 return ResourceManager.GetString("Viewer_StorageAccessNotSupported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Access to the camera storage seems to be allowed only on the latest models....
-        /// </summary>
-        public static string Viewer_StorageAccessNotSupportedDetail {
-            get {
-                return ResourceManager.GetString("Viewer_StorageAccessNotSupportedDetail", resourceCulture);
             }
         }
         

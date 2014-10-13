@@ -431,6 +431,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             if (AvContentApi != null)
             {
+                Status.StorageAccessSupported = true;
                 try
                 {
                     if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status, 20000))
@@ -726,7 +727,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 try
                 {
-                    PictureSyncManager.Instance.Enque(new Uri(s));
+                    PictureSyncManager.Instance.Enqueue(new Uri(s));
                 }
                 catch (UriFormatException)
                 {

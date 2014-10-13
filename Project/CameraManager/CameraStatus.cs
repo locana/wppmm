@@ -99,6 +99,7 @@ namespace Kazyx.WPPMM.CameraManager
         private void _init()
         {
             isAvailableConnecting = false;
+            StorageAccessSupported = false;
             SupportedApis = new Dictionary<string, List<string>>();
         }
 
@@ -748,6 +749,18 @@ namespace Kazyx.WPPMM.CameraManager
                 OnPropertyChanged("AutoPowerOff");
             }
             get { return _AutoPowerOff; }
+        }
+
+        private bool _StorageAccessSupported = false;
+        public bool StorageAccessSupported
+        {
+            set
+            {
+                _StorageAccessSupported = value;
+                OnPropertyChanged("StorageAccessSupported");
+                OnPropertyChanged("StorageAccessVisibility");
+            }
+            get { return _StorageAccessSupported; }
         }
 
         public Visibility LiveviewScreenVisibility

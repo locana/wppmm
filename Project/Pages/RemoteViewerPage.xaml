@@ -89,6 +89,12 @@
         <Storyboard x:Name="HideTitleBlockAnimation">
             <DoubleAnimation Duration="0:0:0.5" From="109" To="0" Storyboard.TargetProperty="Height" Storyboard.TargetName="TitleBlock" />
         </Storyboard>
+        <Storyboard x:Name="ShowSettingAnimation">
+            <DoubleAnimation Duration="0:0:0.1" From="0.0" To="0.9" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
+        </Storyboard>
+        <Storyboard x:Name="HideSettingAnimation">
+            <DoubleAnimation Duration="0:0:0.1" From="0.9" To="0.0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="AppSettings" />
+        </Storyboard>
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -156,7 +162,7 @@
             <TextBlock x:Name="HeaderBlockerText" VerticalAlignment="Center" Style="{StaticResource PhoneTextTitle2Style}" />
         </Border>
         <ViewportControl x:Name="viewport" Grid.RowSpan="2" Margin="10" ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
-            
+
         </ViewportControl>
         <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" Width="480" Height="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" />
         <Border x:Name="MovieDrawer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
@@ -166,6 +172,17 @@
             <wppmmcontrol:MoviePlaybackScreen Name="MoviePlaybackScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" 
                                               CurrentPosition="{Binding CurrentPosition}" Duration="{Binding Duration}"/>
         </Border>
+
+        <Grid Name="AppSettingPanel" Visibility="Collapsed" >
+            <Grid.Background>
+                <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
+            </Grid.Background>
+            <ScrollViewer >
+                <StackPanel Name="AppSettings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-12,0,0,0" >
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
         <Grid Name="Toast" Opacity="0.0" Visibility="Visible" Height="auto" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Top"
                           Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">

@@ -55,7 +55,7 @@ namespace Kazyx.WPPMM.Utils
             }
         }
 
-        internal void Enque(Uri uri)
+        internal void Enqueue(Uri uri)
         {
             DebugUtil.Log("PictureSyncManager: Enque " + uri.AbsolutePath);
             Deployment.Current.Dispatcher.BeginInvoke(async () =>

@@ -162,7 +162,7 @@
             <TextBlock x:Name="HeaderBlockerText" VerticalAlignment="Center" Style="{StaticResource PhoneTextTitle2Style}" />
         </Border>
 
-        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" Width="480" Height="640" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12" SourceBitmap="{Binding Image}"
+        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" SourceBitmap="{Binding Image}"
                                           ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" />
         <Border x:Name="MovieDrawer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Border.Background>

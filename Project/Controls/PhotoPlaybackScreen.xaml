@@ -11,10 +11,10 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        <ViewportControl x:Name="viewport" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12,36,12,12" ViewportChanged="viewport_ViewportChanged">
+        <ViewportControl x:Name="viewport" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6" ViewportChanged="viewport_ViewportChanged">
             <Canvas x:Name="canvas" >
                 <Image Name="Image" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
                     <Image.RenderTransform>
@@ -24,8 +24,8 @@
             </Canvas>
         </ViewportControl>
         
-        <ScrollViewer Name="DetailInfoPanel" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" Visibility="{Binding DetailInfoVisibility}">
-            <ListBox x:Name="DetailInfoList" Margin="6" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}" >
+        <ScrollViewer Name="DetailInfoPanel" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" Visibility="{Binding DetailInfoVisibility}" >
+            <ListBox x:Name="DetailInfoList" Margin="6" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}" SelectionMode="Extended" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
@@ -33,7 +33,7 @@
                                 <ColumnDefinition Width="4*"/>
                                 <ColumnDefinition Width="6*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="220" Margin="0"/>
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="220" Margin="0" />
                             <TextBlock Grid.Column="1" Text="{Binding Value}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="230" Margin="0" />
                         </Grid>
                     </DataTemplate>

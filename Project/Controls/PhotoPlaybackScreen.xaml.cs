@@ -1,4 +1,5 @@
 ﻿using Kazyx.WPPMM.Utils;
+using Microsoft.Phone.Controls;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,37 @@ namespace Kazyx.WPPMM.Controls
         private static void OnSourceBitmapUpdated(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (d as PhotoPlaybackScreen).SourceBitmap = (BitmapImage)e.NewValue;
+        }
+
+        public void OrientationChanged(PageOrientation orientation)
+        {
+            switch (orientation)
+            {
+                case PageOrientation.LandscapeLeft:
+                case PageOrientation.LandscapeRight:
+                    viewport.Margin = new Thickness(6, 12, 6, 6);
+                    Grid.SetColumnSpan(viewport, 2);
+                    Grid.SetRowSpan(viewport, 2);
+                    DetailInfoPanel.Margin = new Thickness(0);
+                    DetailInfoList.Margin = new Thickness(0, 70, 0, 0);
+                    Grid.SetColumnSpan(DetailInfoPanel, 1);
+                    Grid.SetColumn(DetailInfoPanel, 1);
+                    Grid.SetRow(DetailInfoPanel, 0);
+                    Grid.SetRowSpan(DetailInfoPanel, 2);
+                    break;
+                case PageOrientation.PortraitUp:
+                case PageOrientation.PortraitDown:
+                    viewport.Margin = new Thickness(6);
+                    Grid.SetColumnSpan(viewport, 2);
+                    Grid.SetRowSpan(viewport, 1);
+                    DetailInfoPanel.Margin = new Thickness(0, 60, 0, 0);
+                    DetailInfoList.Margin = new Thickness(0);
+                    Grid.SetColumnSpan(DetailInfoPanel, 2);
+                    Grid.SetColumn(DetailInfoPanel, 0);
+                    Grid.SetRow(DetailInfoPanel, 1);
+                    Grid.SetRowSpan(DetailInfoPanel, 1);
+                    break;
+            }
         }
 
         const double MaxScale = 1.0;
@@ -154,6 +186,10 @@ namespace Kazyx.WPPMM.Controls
         {
             this.Image.Source = null;
             _SourceBitmap = null;
+        }
+
+        private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
         }
     }
 }

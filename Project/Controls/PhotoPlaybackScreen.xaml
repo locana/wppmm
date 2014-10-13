@@ -9,12 +9,16 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="640" d:DesignWidth="480">
 
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" SizeChanged="LayoutRoot_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        <ViewportControl x:Name="viewport" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6" ViewportChanged="viewport_ViewportChanged">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <ViewportControl x:Name="viewport" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="6" ViewportChanged="viewport_ViewportChanged">
             <Canvas x:Name="canvas" >
                 <Image Name="Image" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
                     <Image.RenderTransform>
@@ -23,9 +27,10 @@
                 </Image>
             </Canvas>
         </ViewportControl>
-        
-        <ScrollViewer Name="DetailInfoPanel" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" Visibility="{Binding DetailInfoVisibility}" >
-            <ListBox x:Name="DetailInfoList" Margin="6" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}" SelectionMode="Extended" >
+
+        <ScrollViewer Name="DetailInfoPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2" Margin="12" 
+                      Visibility="{Binding DetailInfoVisibility}" Background="{StaticResource PhoneSemitransparentBrush}" >
+            <ListBox x:Name="DetailInfoList" Margin="6" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}" SelectionMode="Extended" IsHitTestVisible="False" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" >

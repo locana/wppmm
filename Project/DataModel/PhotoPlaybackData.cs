@@ -1,6 +1,8 @@
 ﻿using Kazyx.WPPMM.Utils;
 using NtImageProcessor.MetaData.Structure;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -11,6 +13,16 @@ namespace Kazyx.WPPMM.DataModel
     public class PhotoPlaybackData : INotifyPropertyChanged
     {
         public PhotoPlaybackData() { }
+        private ObservableCollection<EntryViewData> _EntryList = new ObservableCollection<EntryViewData>();
+        public ObservableCollection<EntryViewData> EntryList
+        {
+            get { return _EntryList; }
+            set
+            {
+                _EntryList = value;
+                OnPropertyChanged("EntryList");
+            }
+        }
 
         private BitmapImage _Image = null;
         public BitmapImage Image
@@ -30,65 +42,104 @@ namespace Kazyx.WPPMM.DataModel
             set
             {
                 _MetaData = value;
-                OnPropertyChanged("MetaData");
-                OnPropertyChanged("IsoValue");
-                OnPropertyChanged("FValue");
-                OnPropertyChanged("ShutterSpeedValue");
-                OnPropertyChanged("ImageSizeValue");
+                UpdateEntryList(value);
             }
         }
 
-        public string IsoValue { get { return GetIntValue(0x0083); } }
-        public string FValue { get { return GetDoubleValue(0x829D); } }
-        public string ShutterSpeedValue { get { return GetDoubleValue(0x829A); } }
-        public string FileNameValue { get { return "name"; } }
-        public string ImageSizeValue
+        Dictionary<uint, string> MetaDataNames = new Dictionary<uint, string>(){
+            {ExifKeys.FocalLength, "Focal length"},
+            {ExifKeys.Fnumber, "F number"},
+            {ExifKeys.ExposureTime, "Shutter Speed"},
+            {ExifKeys.Iso, "ISO"},
+            {ExifKeys.CameraModel, "Camera"},
+        };
+
+        uint[] GeneralMetaDataKeys = new uint[] 
+        { 
+            ExifKeys.Fnumber,
+            ExifKeys.Iso,
+            ExifKeys.CameraModel,
+        };
+
+        private void UpdateEntryList(JpegMetaData metadata)
         {
-            get
+            EntryList.Clear();
+
+            var ssEntry = FindFirstEntry(metadata, ExifKeys.ExposureTime);
+            if (ssEntry != null)
             {
-                return GetIntValue(0x0100) + "x" + GetIntValue(0x0101);
+                EntryList.Add(new EntryViewData()
+                {
+                    Name = MetaDataNames[ExifKeys.ExposureTime],
+                    Value = ssEntry.UFractionValues[0].Numerator + "/" + ssEntry.UFractionValues[0].Denominator + " sec.",
+                });
+            }
+
+            var focalLengthEntry = FindFirstEntry(metadata, ExifKeys.FocalLength);
+            if (focalLengthEntry != null)
+            {
+                EntryList.Add(new EntryViewData()
+                {
+                    Name = MetaDataNames[ExifKeys.FocalLength],
+                    Value = GetStringValue(metadata, ExifKeys.FocalLength) + "mm",
+                });
+            }
+
+            foreach (uint key in GeneralMetaDataKeys)
+            {
+                EntryList.Add(new EntryViewData() { Name = MetaDataNames[key], Value = GetStringValue(metadata, key) });
+            }
+
+            var heightEntry = FindFirstEntry(metadata, ExifKeys.ImageHeight);
+            var widthEntry = FindFirstEntry(metadata, ExifKeys.ImageWidth);
+            if (heightEntry != null && widthEntry != null)
+            {
+                EntryList.Add(new EntryViewData()
+                {
+                    Name = "Image size",
+                    Value = widthEntry.UIntValues[0] + " x " + heightEntry.UIntValues[0],
+                });
             }
         }
 
-        string GetStringValue(uint key)
+        string GetStringValue(JpegMetaData metadata, uint key)
         {
-            if (MetaData == null) { return "--"; }
-            var entry = FindFirstEntry(key);
-            if (entry == null) { return "--"; }
-            else { return entry.StringValue; }
-        }
-
-        string GetIntValue(uint key)
-        {
-            if (MetaData == null) { return "--"; }
-            var entry = FindFirstEntry(key);
-            if (entry == null) { return "--"; }
-            else { return entry.IntValues[0].ToString(); }
-        }
-
-        string GetDoubleValue(uint key)
-        {
-            if (MetaData == null) { return "--"; }
-            var entry = FindFirstEntry(key);
-            if (entry == null) { return "--"; }
-            else { return entry.DoubleValues[0].ToString(); }
-        }
-
-        Entry FindFirstEntry(uint key)
-        {
-            if (MetaData == null) { return null; }
-
-            if (MetaData.PrimaryIfd != null && MetaData.PrimaryIfd.Entries.ContainsKey(key))
+            var entry = FindFirstEntry(metadata, key);
+            if (entry == null) { return "null"; }
+            switch (entry.Type)
             {
-                return MetaData.PrimaryIfd.Entries[key];
+                case Entry.EntryType.Ascii:
+                    return entry.StringValue;
+                case Entry.EntryType.Byte:
+                    return entry.value.ToString();
+                case Entry.EntryType.Long:
+                case Entry.EntryType.Short:
+                    return entry.UIntValues[0].ToString();
+                case Entry.EntryType.SLong:
+                case Entry.EntryType.SShort:
+                    return entry.IntValues[0].ToString();
+                case Entry.EntryType.Rational:
+                case Entry.EntryType.SRational:
+                    return entry.DoubleValues[0].ToString();
             }
-            else if (MetaData.ExifIfd != null && MetaData.ExifIfd.Entries.ContainsKey(key))
+            return "--";
+        }
+
+        Entry FindFirstEntry(JpegMetaData metadata, uint key)
+        {
+            if (metadata == null) { return null; }
+
+            if (metadata.PrimaryIfd != null && metadata.PrimaryIfd.Entries.ContainsKey(key))
             {
-                return MetaData.ExifIfd.Entries[key];
+                return metadata.PrimaryIfd.Entries[key];
             }
-            else if (MetaData.GpsIfd != null && MetaData.GpsIfd.Entries.ContainsKey(key))
+            else if (metadata.ExifIfd != null && metadata.ExifIfd.Entries.ContainsKey(key))
             {
-                return MetaData.GpsIfd.Entries[key];
+                return metadata.ExifIfd.Entries[key];
+            }
+            else if (metadata.GpsIfd != null && metadata.GpsIfd.Entries.ContainsKey(key))
+            {
+                return metadata.GpsIfd.Entries[key];
             }
             return null;
         }
@@ -130,5 +181,22 @@ namespace Kazyx.WPPMM.DataModel
                 }
             });
         }
+    }
+
+    public class EntryViewData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
+    public static class ExifKeys
+    {
+        public const uint Fnumber = 0x829D;
+        public const uint ExposureTime = 0x829A;
+        public const uint Iso = 0x8827;
+        public const uint FocalLength = 0x920A;
+        public const uint CameraModel = 0x0110;
+        public const uint ImageWidth = 0xA002;
+        public const uint ImageHeight = 0xA003;
     }
 }

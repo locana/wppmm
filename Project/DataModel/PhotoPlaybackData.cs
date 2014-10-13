@@ -1,7 +1,7 @@
-﻿using Kazyx.WPPMM.Utils;
+﻿using Kazyx.WPPMM.Resources;
+using Kazyx.WPPMM.Utils;
 using NtImageProcessor.MetaData.Structure;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -46,31 +46,35 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-        Dictionary<uint, string> MetaDataNames = new Dictionary<uint, string>(){
-            {ExifKeys.FocalLength, "Focal length"},
-            {ExifKeys.Fnumber, "F number"},
-            {ExifKeys.ExposureTime, "Shutter Speed"},
-            {ExifKeys.Iso, "ISO"},
-            {ExifKeys.CameraModel, "Camera"},
-        };
+
 
         uint[] GeneralMetaDataKeys = new uint[] 
         { 
             ExifKeys.Fnumber,
             ExifKeys.Iso,
-            ExifKeys.CameraModel,
+            ExifKeys.DateTime,
         };
 
         private void UpdateEntryList(JpegMetaData metadata)
         {
             EntryList.Clear();
 
+            var exposureModeEntry = FindFirstEntry(metadata, ExifKeys.ExposureProgram);
+            if (exposureModeEntry != null)
+            {
+                EntryList.Add(new EntryViewData()
+                {
+                    Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.ExposureProgram),
+                    Value = MetaDataValueConverter.ExposuteProgramName(exposureModeEntry.UIntValues[0]),
+                });
+            }
+
             var ssEntry = FindFirstEntry(metadata, ExifKeys.ExposureTime);
             if (ssEntry != null)
             {
                 EntryList.Add(new EntryViewData()
                 {
-                    Name = MetaDataNames[ExifKeys.ExposureTime],
+                    Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.ExposureTime),
                     Value = ssEntry.UFractionValues[0].Numerator + "/" + ssEntry.UFractionValues[0].Denominator + " sec.",
                 });
             }
@@ -80,14 +84,34 @@ namespace Kazyx.WPPMM.DataModel
             {
                 EntryList.Add(new EntryViewData()
                 {
-                    Name = MetaDataNames[ExifKeys.FocalLength],
+                    Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.FocalLength),
                     Value = GetStringValue(metadata, ExifKeys.FocalLength) + "mm",
                 });
             }
 
             foreach (uint key in GeneralMetaDataKeys)
             {
-                EntryList.Add(new EntryViewData() { Name = MetaDataNames[key], Value = GetStringValue(metadata, key) });
+                EntryList.Add(new EntryViewData()
+                {
+                    Name = MetaDataValueConverter.MetaDataEntryName(key),
+                    Value = GetStringValue(metadata, key)
+                });
+            }
+
+            var wbEntry = FindFirstEntry(metadata, ExifKeys.WhiteBalanceMode);
+            var wbDetailEntry = FindFirstEntry(metadata, ExifKeys.WhiteBalanceDetailType);
+            if (wbEntry != null && wbDetailEntry != null)
+            {
+                string value;
+                if (wbEntry.UIntValues[0] == 0x0)
+                {
+                    value = AppResources.WB_Auto;
+                }
+                else
+                {
+                    value = MetaDataValueConverter.WhitebalanceName(wbDetailEntry.UIntValues[0]);
+                }
+                EntryList.Add(new EntryViewData() { Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.WhiteBalanceMode), Value = value });
             }
 
             var heightEntry = FindFirstEntry(metadata, ExifKeys.ImageHeight);
@@ -96,8 +120,19 @@ namespace Kazyx.WPPMM.DataModel
             {
                 EntryList.Add(new EntryViewData()
                 {
-                    Name = "Image size",
+                    Name = AppResources.MetaDataName_ImageSize,
                     Value = widthEntry.UIntValues[0] + " x " + heightEntry.UIntValues[0],
+                });
+            }
+
+            var makerEntry = FindFirstEntry(metadata, ExifKeys.CameraMaker);
+            var modelEntry = FindFirstEntry(metadata, ExifKeys.CameraModel);
+            if (makerEntry != null && modelEntry != null)
+            {
+                EntryList.Add(new EntryViewData()
+                {
+                    Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.CameraModel),
+                    Value = makerEntry.StringValue + " " + modelEntry.StringValue,
                 });
             }
         }
@@ -196,7 +231,12 @@ namespace Kazyx.WPPMM.DataModel
         public const uint Iso = 0x8827;
         public const uint FocalLength = 0x920A;
         public const uint CameraModel = 0x0110;
+        public const uint CameraMaker = 0x010F;
         public const uint ImageWidth = 0xA002;
         public const uint ImageHeight = 0xA003;
+        public const uint DateTime = 0x9003;
+        public const uint ExposureProgram = 0x8822;
+        public const uint WhiteBalanceMode = 0xA403;
+        public const uint WhiteBalanceDetailType = 0x9208;
     }
 }

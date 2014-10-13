@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Utils\ApplicationSettingNames.cs" />
     <Compile Include="Utils\DebugUtil.cs" />
+    <Compile Include="Utils\MetaDataValueConverter.cs" />
     <Compile Include="Utils\PictureSyncManager.cs" />
     <Compile Include="Utils\Preference.cs" />
     <Compile Include="Utils\SettingsValueConverter.cs" />

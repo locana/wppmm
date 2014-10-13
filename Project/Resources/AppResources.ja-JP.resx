@@ -686,4 +686,124 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="InvalidDuration" xml:space="preserve">
     <value>--:--:--</value>
   </data>
+  <data name="ExifWBValue_Cloudy" xml:space="preserve">
+    <value>曇天</value>
+  </data>
+  <data name="ExifWBValue_CoolWhiteFluorescent" xml:space="preserve">
+    <value>蛍光灯: 白色</value>
+  </data>
+  <data name="ExifWBValue_D50" xml:space="preserve">
+    <value>D50</value>
+  </data>
+  <data name="ExifWBValue_D55" xml:space="preserve">
+    <value>D55</value>
+  </data>
+  <data name="ExifWBValue_D65" xml:space="preserve">
+    <value>D65</value>
+  </data>
+  <data name="ExifWBValue_D75" xml:space="preserve">
+    <value>D75</value>
+  </data>
+  <data name="ExifWBValue_Daylight" xml:space="preserve">
+    <value>太陽光</value>
+  </data>
+  <data name="ExifWBValue_DaylightFluorescent" xml:space="preserve">
+    <value>蛍光灯: 昼光色</value>
+  </data>
+  <data name="ExifWBValue_DayWhiteFluorescent" xml:space="preserve">
+    <value>蛍光灯: 昼白色</value>
+  </data>
+  <data name="ExifWBValue_FineWeather" xml:space="preserve">
+    <value>晴天</value>
+  </data>
+  <data name="ExifWBValue_Flash" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
+  <data name="ExifWBValue_Fluorescent" xml:space="preserve">
+    <value>蛍光灯</value>
+  </data>
+  <data name="ExifWBValue_ISOStudioTungsten" xml:space="preserve">
+    <value>ISO Studio Tungsten</value>
+  </data>
+  <data name="ExifWBValue_Other" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="ExifWBValue_Shade" xml:space="preserve">
+    <value>日陰</value>
+  </data>
+  <data name="ExifWBValue_StandardLightA" xml:space="preserve">
+    <value>Standard Light A</value>
+  </data>
+  <data name="ExifWBValue_StandardLightB" xml:space="preserve">
+    <value>Standard Light B</value>
+  </data>
+  <data name="ExifWBValue_StandardLightC" xml:space="preserve">
+    <value>Standard Light C</value>
+  </data>
+  <data name="ExifWBValue_TungstenIncandescent" xml:space="preserve">
+    <value>Tungsten (Incandescent)</value>
+  </data>
+  <data name="ExifWBValue_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExifWBValue_WarmWhiteFluorescent" xml:space="preserve">
+    <value>蛍光灯: 温白色</value>
+  </data>
+  <data name="ExifWBValue_WhiteFluorescent" xml:space="preserve">
+    <value>蛍光灯: 白色</value>
+  </data>
+  <data name="ExifExposureProgram_A" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ExifExposureProgram_Bulb" xml:space="preserve">
+    <value>バルブ</value>
+  </data>
+  <data name="ExifExposureProgram_HighSpeed" xml:space="preserve">
+    <value>ハイスピード</value>
+  </data>
+  <data name="ExifExposureProgram_Landscape" xml:space="preserve">
+    <value>風景</value>
+  </data>
+  <data name="ExifExposureProgram_M" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="ExifExposureProgram_P" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="ExifExposureProgram_Portrait" xml:space="preserve">
+    <value>ポートレート</value>
+  </data>
+  <data name="ExifExposureProgram_S" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="ExifExposureProgram_SlowSpeed" xml:space="preserve">
+    <value>スローシャッター</value>
+  </data>
+  <data name="ExifExposureProgram_Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="MetaDataName_CameraModel" xml:space="preserve">
+    <value>カメラ</value>
+  </data>
+  <data name="MetaDataName_DateTime" xml:space="preserve">
+    <value>撮影日</value>
+  </data>
+  <data name="MetaDataName_ExposureProgram" xml:space="preserve">
+    <value>露出モード</value>
+  </data>
+  <data name="MetaDataName_ExposureTime" xml:space="preserve">
+    <value>シャッター速度</value>
+  </data>
+  <data name="MetaDataName_Fnumber" xml:space="preserve">
+    <value>F値</value>
+  </data>
+  <data name="MetaDataName_FocalLength" xml:space="preserve">
+    <value>焦点距離</value>
+  </data>
+  <data name="MetaDataName_Iso" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="MetaDataName_ImageSize" xml:space="preserve">
+    <value>画像サイズ</value>
+  </data>
 </root>

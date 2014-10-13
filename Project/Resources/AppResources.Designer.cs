@@ -666,6 +666,294 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A.
+        /// </summary>
+        public static string ExifExposureProgram_A {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulb.
+        /// </summary>
+        public static string ExifExposureProgram_Bulb {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_Bulb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High speed.
+        /// </summary>
+        public static string ExifExposureProgram_HighSpeed {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_HighSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landscape.
+        /// </summary>
+        public static string ExifExposureProgram_Landscape {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_Landscape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to M.
+        /// </summary>
+        public static string ExifExposureProgram_M {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_M", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P.
+        /// </summary>
+        public static string ExifExposureProgram_P {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_P", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portrait.
+        /// </summary>
+        public static string ExifExposureProgram_Portrait {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_Portrait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S.
+        /// </summary>
+        public static string ExifExposureProgram_S {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slow speed.
+        /// </summary>
+        public static string ExifExposureProgram_SlowSpeed {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_SlowSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string ExifExposureProgram_Unknown {
+            get {
+                return ResourceManager.GetString("ExifExposureProgram_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloudy.
+        /// </summary>
+        public static string ExifWBValue_Cloudy {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Cloudy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cool White Fluorescent.
+        /// </summary>
+        public static string ExifWBValue_CoolWhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_CoolWhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D50.
+        /// </summary>
+        public static string ExifWBValue_D50 {
+            get {
+                return ResourceManager.GetString("ExifWBValue_D50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D55.
+        /// </summary>
+        public static string ExifWBValue_D55 {
+            get {
+                return ResourceManager.GetString("ExifWBValue_D55", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D65.
+        /// </summary>
+        public static string ExifWBValue_D65 {
+            get {
+                return ResourceManager.GetString("ExifWBValue_D65", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D75.
+        /// </summary>
+        public static string ExifWBValue_D75 {
+            get {
+                return ResourceManager.GetString("ExifWBValue_D75", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daylight.
+        /// </summary>
+        public static string ExifWBValue_Daylight {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Daylight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Daylight Fluorescent.
+        /// </summary>
+        public static string ExifWBValue_DaylightFluorescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_DaylightFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DayWhite Fluorescent.
+        /// </summary>
+        public static string ExifWBValue_DayWhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_DayWhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fine Weather.
+        /// </summary>
+        public static string ExifWBValue_FineWeather {
+            get {
+                return ResourceManager.GetString("ExifWBValue_FineWeather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flash.
+        /// </summary>
+        public static string ExifWBValue_Flash {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Flash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluorescent.
+        /// </summary>
+        public static string ExifWBValue_Fluorescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Fluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISO Studio Tungsten.
+        /// </summary>
+        public static string ExifWBValue_ISOStudioTungsten {
+            get {
+                return ResourceManager.GetString("ExifWBValue_ISOStudioTungsten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string ExifWBValue_Other {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shade.
+        /// </summary>
+        public static string ExifWBValue_Shade {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Shade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard Light A.
+        /// </summary>
+        public static string ExifWBValue_StandardLightA {
+            get {
+                return ResourceManager.GetString("ExifWBValue_StandardLightA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard Light B.
+        /// </summary>
+        public static string ExifWBValue_StandardLightB {
+            get {
+                return ResourceManager.GetString("ExifWBValue_StandardLightB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard Light C.
+        /// </summary>
+        public static string ExifWBValue_StandardLightC {
+            get {
+                return ResourceManager.GetString("ExifWBValue_StandardLightC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tungsten (Incandescent).
+        /// </summary>
+        public static string ExifWBValue_TungstenIncandescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_TungstenIncandescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string ExifWBValue_Unknown {
+            get {
+                return ResourceManager.GetString("ExifWBValue_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warm White Fluorescent.
+        /// </summary>
+        public static string ExifWBValue_WarmWhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_WarmWhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White Fluorescent.
+        /// </summary>
+        public static string ExifWBValue_WhiteFluorescent {
+            get {
+                return ResourceManager.GetString("ExifWBValue_WhiteFluorescent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exposure compensation.
         /// </summary>
         public static string ExposureCompensation {
@@ -1184,6 +1472,78 @@ namespace Kazyx.WPPMM.Resources {
         public static string MessageCaption_NFC_Succeed {
             get {
                 return ResourceManager.GetString("MessageCaption_NFC_Succeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera.
+        /// </summary>
+        public static string MetaDataName_CameraModel {
+            get {
+                return ResourceManager.GetString("MetaDataName_CameraModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date taken.
+        /// </summary>
+        public static string MetaDataName_DateTime {
+            get {
+                return ResourceManager.GetString("MetaDataName_DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exposure mode.
+        /// </summary>
+        public static string MetaDataName_ExposureProgram {
+            get {
+                return ResourceManager.GetString("MetaDataName_ExposureProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shutter Speed.
+        /// </summary>
+        public static string MetaDataName_ExposureTime {
+            get {
+                return ResourceManager.GetString("MetaDataName_ExposureTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to F number.
+        /// </summary>
+        public static string MetaDataName_Fnumber {
+            get {
+                return ResourceManager.GetString("MetaDataName_Fnumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focal length.
+        /// </summary>
+        public static string MetaDataName_FocalLength {
+            get {
+                return ResourceManager.GetString("MetaDataName_FocalLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image size.
+        /// </summary>
+        public static string MetaDataName_ImageSize {
+            get {
+                return ResourceManager.GetString("MetaDataName_ImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISO.
+        /// </summary>
+        public static string MetaDataName_Iso {
+            get {
+                return ResourceManager.GetString("MetaDataName_Iso", resourceCulture);
             }
         }
         

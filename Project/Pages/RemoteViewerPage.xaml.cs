@@ -149,6 +149,14 @@ namespace Kazyx.WPPMM.Pages
             });
         }
 
+        private void UnlockPivot()
+        {
+            if (CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported)
+            {
+                PivotRoot.IsLocked = false;
+            }
+        }
+
         private readonly AppBarManager abm = new AppBarManager();
 
         private bool IsRemoteInitialized = false;
@@ -216,7 +224,7 @@ namespace Kazyx.WPPMM.Pages
             MovieStreamHandler.INSTANCE.Finish();
             Dispatcher.BeginInvoke(() =>
             {
-                PivotRoot.IsLocked = false;
+                UnlockPivot();
                 MoviePlaybackScreen.Reset();
                 MovieDrawer.Visibility = Visibility.Collapsed;
             });
@@ -296,7 +304,7 @@ namespace Kazyx.WPPMM.Pages
         private async void AddDummyContentsAsync()
         {
             CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported = true;
-            PivotRoot.IsLocked = false;
+            UnlockPivot();
 
             if (CurrentUuid == null)
             {
@@ -661,7 +669,7 @@ namespace Kazyx.WPPMM.Pages
             }
             else
             {
-                PivotRoot.IsLocked = false;
+                UnlockPivot();
                 progress.IsVisible = false;
                 IsViewingDetail = false;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Collapsed;
@@ -858,7 +866,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 GridSource.SelectivityFactor = SelectivityFactor.None;
                 HeaderBlocker.Visibility = Visibility.Collapsed;
-                PivotRoot.IsLocked = false;
+                UnlockPivot();
             }
             if (selector.IsSelectionEnabled && GridSource != null)
             {

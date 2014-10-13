@@ -238,6 +238,7 @@ namespace Kazyx.WPPMM.PlaybackMode
                             if (original.Type == ImageType.Jpeg)
                             {
                                 contentInfo.OriginalUrl = original.Url;
+                                break;
                             }
                         }
                     }

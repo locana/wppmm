@@ -4,13 +4,10 @@ using Kazyx.RemoteApi.AvContent;
 using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Utils;
 using System;
-using System.ComponentModel;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace Kazyx.WPPMM.PlaybackMode
 {
@@ -120,7 +117,6 @@ namespace Kazyx.WPPMM.PlaybackMode
         }
 
         public event EventHandler StreamClosed;
-        public event StreamProcessor.PlaybackInfoPacketHandler PlaybackInfoRetrieved;
         public event StreamingStatusHandler StatusChanged;
 
         protected void OnStatusChanged(StreamingStatus status)
@@ -145,16 +141,12 @@ namespace Kazyx.WPPMM.PlaybackMode
 
         void StreamProcessor_PlaybackInfoRetrieved(object sender, PlaybackInfoEventArgs e)
         {
-            if (PlaybackInfoRetrieved != null)
+            DebugUtil.Log("playback info: " + MoviePlaybackData.FileName + " " + e.Packet.Duration.TotalSeconds);
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                DebugUtil.Log(MoviePlaybackData.FileName + " " + e.Packet.Duration.TotalSeconds);
-                PlaybackInfoRetrieved(sender, e);
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
-                {
-                    MoviePlaybackData.CurrentPosition = e.Packet.CurrentPosition;
-                    MoviePlaybackData.Duration = e.Packet.Duration;
-                });                
-            }
+                MoviePlaybackData.CurrentPosition = e.Packet.CurrentPosition;
+                MoviePlaybackData.Duration = e.Packet.Duration;
+            });
         }
 
         private bool IsRendering = false;

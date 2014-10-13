@@ -39,7 +39,7 @@
                         <Binding Path="CachePath" Mode="OneWay" Converter="{StaticResource ThumbnailConverter}"/>
                     </Image.Source>
                 </Image>
-                <Image Grid.Row="1" Grid.Column="0" Source="/Assets/Screen/no_memory_card.png" Visibility="{Binding ProtectedIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
+                <Image Grid.Row="1" Grid.Column="0" Source="/Assets/Screen/protected.png" Visibility="{Binding ProtectedIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
                 <Image Grid.Row="1" Grid.Column="2" Source="/Assets/Screen/mode_movie.png" Visibility="{Binding MovieIconVisibility, Mode=OneTime}" IsHitTestVisible="False" CacheMode="BitmapCache" Margin="0,0,20,20"/>
                 <Border Grid.RowSpan="2" Grid.ColumnSpan="3" Visibility="{Binding UnselectableMaskVisibility, FallbackValue=Collapsed}">
                     <Border.Background>

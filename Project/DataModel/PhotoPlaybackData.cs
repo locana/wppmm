@@ -91,6 +91,7 @@ namespace Kazyx.WPPMM.DataModel
 
             foreach (uint key in GeneralMetaDataKeys)
             {
+                if (FindFirstEntry(metadata, key) == null) { continue; }
                 EntryList.Add(new EntryViewData()
                 {
                     Name = MetaDataValueConverter.MetaDataEntryName(key),

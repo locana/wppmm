@@ -14,6 +14,7 @@ namespace Kazyx.WPPMM.Utils
         public const string framing_grids_color = "framing_grids_color";
         public const string fibonacci_origin = "fibonacci_origin";
         public const string request_focus_frame_info = "request_focus_frame_info";
+        public const string prioritize_original_contents = "prioritize_original_contents";
 
         public static bool IsPostviewTransferEnabled()
         {
@@ -227,6 +228,28 @@ namespace Kazyx.WPPMM.Utils
             settings.Add(request_focus_frame_info, setting);
         }
 
+        public static bool OriginalSizeContentsPrioritized
+        {
+            set
+            {
+                var settings = IsolatedStorageSettings.ApplicationSettings;
+                if (settings.Contains(prioritize_original_contents))
+                {
+                    settings.Remove(prioritize_original_contents);
+                }
+                settings.Add(prioritize_original_contents, value);
+            }
+            get
+            {
+                var settings = IsolatedStorageSettings.ApplicationSettings;
+                if (settings.Contains(prioritize_original_contents))
+                {
+                    return (bool)settings[prioritize_original_contents];
+                }
+                return false;
+            }
+        }
+
         public static void SetPreference(string key, bool enable)
         {
             var settings = IsolatedStorageSettings.ApplicationSettings;
@@ -249,8 +272,5 @@ namespace Kazyx.WPPMM.Utils
                 return false;
             }
         }
-
-
-
     }
 }

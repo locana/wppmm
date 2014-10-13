@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using Windows.Devices.Geolocation;
@@ -51,22 +52,46 @@ namespace Kazyx.WPPMM.Pages
             abm.SetEvent(IconMenu.Ok, (sender, e) =>
             {
                 DebugUtil.Log("Ok clicked");
-                switch (GridSource.SelectivityFactor)
+                switch (InnerState)
                 {
-                    case SelectivityFactor.CopyToPhone:
-                        UpdateInnerState(ViewerState.Sync);
-                        FetchSelectedImages();
+                    case ViewerState.AppSettings:
+                        CloseAppSettingPanel();
                         break;
-                    case SelectivityFactor.Delete:
-                        UpdateInnerState(ViewerState.RemoteSingle);
-                        DeleteSelectedImages();
+                    case ViewerState.RemoteSelecting:
+                        switch (GridSource.SelectivityFactor)
+                        {
+                            case SelectivityFactor.CopyToPhone:
+                                UpdateInnerState(ViewerState.Sync);
+                                FetchSelectedImages();
+                                break;
+                            case SelectivityFactor.Delete:
+                                UpdateInnerState(ViewerState.RemoteSingle);
+                                DeleteSelectedImages();
+                                break;
+                            default:
+                                DebugUtil.Log("Nothing to do for current SelectivityFactor");
+                                break;
+                        }
                         break;
                     default:
-                        DebugUtil.Log("Nothing to do for current SelectivityFactor");
+                        DebugUtil.Log("Nothing to do for current InnerState");
                         break;
                 }
             });
+            abm.SetEvent(IconMenu.ApplicationSetting, (sender, e) =>
+            {
+                DebugUtil.Log("AppSettings clicked");
+                OpenAppSettingPanel();
+            });
 
+            var storage_access_settings = new SettingSection(AppResources.SettingSection_ContentsSync);
+            AppSettings.Children.Add(storage_access_settings);
+            storage_access_settings.Add(new CheckBoxSetting(
+                new AppSettingData<bool>(AppResources.Setting_PrioritizeOriginalSize, AppResources.Guide_PrioritizeOriginalSize,
+                    () => { return ApplicationSettings.GetInstance().PrioritizeOriginalSizeContents; },
+                    enabled => { ApplicationSettings.GetInstance().PrioritizeOriginalSizeContents = enabled; })));
+
+            HideSettingAnimation.Completed += HideSettingAnimation_Completed;
 
             // TODO: If seek is supported, set vallback of seek bar and enable it.
             //MoviePlaybackScreen.SeekOperated += (NewValue) =>
@@ -74,11 +99,14 @@ namespace Kazyx.WPPMM.Pages
             //};
         }
 
+        private ViewerState InnerState = ViewerState.Local;
+
         private void UpdateInnerState(ViewerState state)
         {
+            InnerState = state;
             Dispatcher.BeginInvoke(() =>
             {
-                switch (state)
+                switch (InnerState)
                 {
                     case ViewerState.Local:
                     case ViewerState.LocalStillPlayback:
@@ -94,7 +122,10 @@ namespace Kazyx.WPPMM.Pages
                         ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(0.5);
                         break;
                     case ViewerState.RemoteSingle:
-                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadMultiple).Enable(IconMenu.DeleteMultiple).CreateNew(0.5);
+                        ApplicationBar = abm.Clear().Enable(IconMenu.DownloadMultiple).Enable(IconMenu.DeleteMultiple).Enable(IconMenu.ApplicationSetting).CreateNew(0.5);
+                        break;
+                    case ViewerState.AppSettings:
+                        ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(0.5);
                         break;
                 }
             });
@@ -767,6 +798,12 @@ namespace Kazyx.WPPMM.Pages
                 RemoteImageGrid.IsSelectionEnabled = false;
                 e.Cancel = true;
             }
+
+            if (AppSettingPanel.Visibility == Visibility.Visible)
+            {
+                CloseAppSettingPanel();
+                e.Cancel = true;
+            }
         }
 
         private void ReleaseDetail()
@@ -860,9 +897,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 try
                 {
-                    var data = item as RemoteThumbnail;
-                    var uri = new Uri(data.Source.LargeUrl);
-                    PictureSyncManager.Instance.Enque(uri);
+                    EnqueueImageDownload(item as RemoteThumbnail);
                 }
                 catch (Exception e)
                 {
@@ -870,6 +905,17 @@ namespace Kazyx.WPPMM.Pages
                 }
             }
             RemoteImageGrid.IsSelectionEnabled = false;
+        }
+
+        private void EnqueueImageDownload(RemoteThumbnail source)
+        {
+            if (ApplicationSettings.GetInstance().PrioritizeOriginalSizeContents && source.Source.OriginalUrl != null)
+            {
+                PictureSyncManager.Instance.Enqueue(new Uri(source.Source.OriginalUrl));
+                return;
+            }
+            // Fallback to large size image
+            PictureSyncManager.Instance.Enqueue(new Uri(source.Source.LargeUrl));
         }
 
         private void ShowToast(string message)
@@ -1067,11 +1113,9 @@ namespace Kazyx.WPPMM.Pages
         private void CopyToPhone_Click(object sender, RoutedEventArgs e)
         {
             var item = sender as MenuItem;
-            var data = item.DataContext as RemoteThumbnail;
             try
             {
-                var uri = new Uri(data.Source.LargeUrl);
-                PictureSyncManager.Instance.Enque(uri);
+                EnqueueImageDownload(item.DataContext as RemoteThumbnail);
             }
             catch (Exception ex)
             {
@@ -1113,6 +1157,24 @@ namespace Kazyx.WPPMM.Pages
             }
             DebugUtil.Log("Not ready to delete contents");
         }
+
+        private void OpenAppSettingPanel()
+        {
+            AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
+            UpdateInnerState(ViewerState.AppSettings);
+            ShowSettingAnimation.Begin();
+        }
+
+        private void CloseAppSettingPanel()
+        {
+            HideSettingAnimation.Begin();
+            UpdateInnerState(ViewerState.RemoteSingle);
+        }
+
+        void HideSettingAnimation_Completed(object sender, EventArgs e)
+        {
+            AppSettingPanel.Visibility = System.Windows.Visibility.Collapsed;
+        }
     }
 
     public enum ViewerState
@@ -1127,5 +1189,6 @@ namespace Kazyx.WPPMM.Pages
         Sync,
         RemoteStillPlayback,
         RemoteMoviePlayback,
+        AppSettings,
     }
 }

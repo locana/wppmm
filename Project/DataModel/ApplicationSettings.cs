@@ -57,6 +57,7 @@ namespace Kazyx.WPPMM.DataModel
             GridColor = Preference.FramingGridsColor() ?? FramingGridColor.White;
             FibonacciLineOrigin = Preference.FibonacciOrigin() ?? FibonacciLineOrigins.UpperLeft;
             RequestFocusFrameInfo = Preference.RequestFocusFrameInfo();
+            PrioritizeOriginalSizeContents = Preference.OriginalSizeContentsPrioritized;
         }
 
         public static ApplicationSettings GetInstance()
@@ -81,6 +82,21 @@ namespace Kazyx.WPPMM.DataModel
             {
                 return _IsPostviewTransferEnabled;
             }
+        }
+
+        private bool _PrioritizeOriginalSizeContents = false;
+        public bool PrioritizeOriginalSizeContents
+        {
+            set
+            {
+                if (_PrioritizeOriginalSizeContents != value)
+                {
+                    Preference.OriginalSizeContentsPrioritized = value;
+                    _PrioritizeOriginalSizeContents = value;
+                    OnPropertyChanged("PrioritizeOriginalSizeContents");
+                }
+            }
+            get { return _PrioritizeOriginalSizeContents; }
         }
 
         private bool _IsIntervalShootingEnabled = false;

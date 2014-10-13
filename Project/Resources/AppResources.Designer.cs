@@ -999,6 +999,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2M size images prior to the original by default..
+        /// </summary>
+        public static string Guide_PrioritizeOriginalSize {
+            get {
+                return ResourceManager.GetString("Guide_PrioritizeOriginalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receive captured images and register them to the camera roll. (Disabled while interval recording is going on.).
         /// </summary>
         public static string Guide_ReceiveCapturedImage {
@@ -1463,6 +1472,24 @@ namespace Kazyx.WPPMM.Resources {
         public static string Setting_PostViewImageSize {
             get {
                 return ResourceManager.GetString("Setting_PostViewImageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prioritize original size images.
+        /// </summary>
+        public static string Setting_PrioritizeOriginalSize {
+            get {
+                return ResourceManager.GetString("Setting_PrioritizeOriginalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contents sync settings.
+        /// </summary>
+        public static string SettingSection_ContentsSync {
+            get {
+                return ResourceManager.GetString("SettingSection_ContentsSync", resourceCulture);
             }
         }
         

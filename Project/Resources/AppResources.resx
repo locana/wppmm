@@ -792,4 +792,13 @@ by your camera device</value>
   <data name="Viewer_UnplayableContent" xml:space="preserve">
     <value>This content is not playable</value>
   </data>
+  <data name="Guide_PrioritizeOriginalSize" xml:space="preserve">
+    <value>2M size images prior to the original by default.</value>
+  </data>
+  <data name="SettingSection_ContentsSync" xml:space="preserve">
+    <value>Contents sync settings</value>
+  </data>
+  <data name="Setting_PrioritizeOriginalSize" xml:space="preserve">
+    <value>Prioritize original size images</value>
+  </data>
 </root>

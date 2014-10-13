@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using Kazyx.WPPMM.Resources;
+using Kazyx.WPPMM.Utils;
+using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
-using Kazyx.WPPMM.Utils;
-using Kazyx.WPPMM.Resources;
-using System.Text;
 
 namespace Kazyx.WPPMM.Controls
 {
@@ -28,12 +22,13 @@ namespace Kazyx.WPPMM.Controls
 
         void UpdatePlaybackPosition(TimeSpan current, TimeSpan duration)
         {
-            if (duration.TotalMilliseconds <= 0) {
+            if (duration.TotalMilliseconds <= 0)
+            {
                 PlaybackInfo.Visibility = System.Windows.Visibility.Collapsed;
-                return; 
+                return;
             }
             double value = current.TotalMilliseconds / duration.TotalMilliseconds * 100;
-            if (value < 0 || value > 100){ return; }
+            if (value < 0 || value > 100) { return; }
             if (this.SeekAvailable)
             {
                 this.SeekBar.Value = value;
@@ -61,7 +56,9 @@ namespace Kazyx.WPPMM.Controls
         }
 
         private TimeSpan _Duration;
-        public TimeSpan Duration { get { return _Duration; }
+        public TimeSpan Duration
+        {
+            get { return _Duration; }
             set
             {
                 if (value.TotalMilliseconds <= 0)
@@ -102,7 +99,7 @@ namespace Kazyx.WPPMM.Controls
             DebugUtil.Log("Duration updated: " + ((TimeSpan)e.NewValue).TotalSeconds);
             (d as MoviePlaybackScreen).Duration = (TimeSpan)e.NewValue;
         }
-        
+
         private bool _SeekAvailable = false;
         public bool SeekAvailable
         {

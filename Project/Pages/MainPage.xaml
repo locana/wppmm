@@ -386,9 +386,8 @@
                           Margin="-15,0" Background="{StaticResource PhoneAccentBrush}">
                         <TextBlock HorizontalAlignment="Center" Grid.Row="0" 
                                    TextWrapping="Wrap" Padding="5,5" Height="auto"
-                                 Text="{Binding LocalizedResources.Message_ImageDL_Succeed, Source={StaticResource LocalizedStrings}}"
                                  Foreground="{StaticResource PhoneForegroundBrush}" 
-                                   VerticalAlignment="Center" Name="ToastMessage"/>
+                                   VerticalAlignment="Center" Name="ToastMessage" Margin="15,0"/>
                     </Grid>
                 </Grid>
             </phone:PivotItem>

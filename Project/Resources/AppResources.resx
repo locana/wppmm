@@ -550,12 +550,6 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ZoomSetting" xml:space="preserve">
     <value>Zoom setting</value>
   </data>
-  <data name="AppBar_HideHeader" xml:space="preserve">
-    <value>Hide header</value>
-  </data>
-  <data name="AppBar_ShowHeader" xml:space="preserve">
-    <value>Show header</value>
-  </data>
   <data name="FramingGrids" xml:space="preserve">
     <value>Composition assist</value>
   </data>
@@ -761,8 +755,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Playback</value>
   </data>
   <data name="Viewer_NoAvContentApi" xml:space="preserve">
-    <value>Unavailable to access the function now.
-Please restart from shooting screen again.</value>
+    <value>Unavailable to access the function now. Please restart from shooting screen again.</value>
   </data>
   <data name="Viewer_NoStorage" xml:space="preserve">
     <value>No storage seems to be attached</value>
@@ -771,11 +764,7 @@ Please restart from shooting screen again.</value>
     <value>Loading contents from new storage</value>
   </data>
   <data name="Viewer_StorageAccessNotSupported" xml:space="preserve">
-    <value>Storage access is not supported
-by your camera device</value>
-  </data>
-  <data name="Viewer_StorageAccessNotSupportedDetail" xml:space="preserve">
-    <value>Access to the camera storage seems to be allowed only on the latest models...</value>
+    <value>Storage access is not supported by your camera device</value>
   </data>
   <data name="Viewer_StorageCamera" xml:space="preserve">
     <value>Camera storage</value>

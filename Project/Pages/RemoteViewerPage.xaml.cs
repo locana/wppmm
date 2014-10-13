@@ -623,6 +623,7 @@ namespace Kazyx.WPPMM.Pages
         {
             if (visible)
             {
+                PivotRoot.IsLocked = true;
                 progress.IsVisible = false;
                 IsViewingDetail = true;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Visible;
@@ -640,6 +641,7 @@ namespace Kazyx.WPPMM.Pages
             }
             else
             {
+                PivotRoot.IsLocked = false;
                 progress.IsVisible = false;
                 IsViewingDetail = false;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Collapsed;

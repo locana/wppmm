@@ -145,7 +145,7 @@
     <value>このアプリケーションは下記のオープンソースソフトウェアを使用しています。</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>about</value>
+    <value>このアプリについて</value>
   </data>
   <data name="CopyRight" xml:space="preserve">
     <value>Copyright</value>
@@ -542,12 +542,6 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ZoomSetting" xml:space="preserve">
     <value>ズーム設定</value>
   </data>
-  <data name="AppBar_HideHeader" xml:space="preserve">
-    <value>ヘッダーを隠す</value>
-  </data>
-  <data name="AppBar_ShowHeader" xml:space="preserve">
-    <value>ヘッダーを表示する</value>
-  </data>
   <data name="FramingGrids" xml:space="preserve">
     <value>撮影補助線</value>
   </data>
@@ -805,5 +799,68 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   </data>
   <data name="MetaDataName_ImageSize" xml:space="preserve">
     <value>画像サイズ</value>
+  </data>
+  <data name="AppBar_Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="AppBar_Download" xml:space="preserve">
+    <value>転送</value>
+  </data>
+  <data name="Guide_PrioritizeOriginalSize" xml:space="preserve">
+    <value>デフォルトでは2Mサイズが優先されています。</value>
+  </data>
+  <data name="SettingSection_ContentsSync" xml:space="preserve">
+    <value>コンテンツ転送設定</value>
+  </data>
+  <data name="Setting_PrioritizeOriginalSize" xml:space="preserve">
+    <value>オリジナルサイズを優先する</value>
+  </data>
+  <data name="Viewer_FailedPlaybackMovie" xml:space="preserve">
+    <value>動画の再生に失敗しました</value>
+  </data>
+  <data name="Viewer_FailedToOpenDetail" xml:space="preserve">
+    <value>画像の取得に失敗しました</value>
+  </data>
+  <data name="Viewer_Header_SelectingToDelete" xml:space="preserve">
+    <value>削除するアイテムの選択中</value>
+  </data>
+  <data name="Viewer_Header_SelectingToDownload" xml:space="preserve">
+    <value>転送するアイテムの選択中</value>
+  </data>
+  <data name="Viewer_MenuCopyToPhone" xml:space="preserve">
+    <value>カメラロールに転送</value>
+  </data>
+  <data name="Viewer_MenuDelete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Viewer_MenuPlayback" xml:space="preserve">
+    <value>再生</value>
+  </data>
+  <data name="Viewer_NoAvContentApi" xml:space="preserve">
+    <value>この機能は現在使用できません。一度撮影画面に戻ってから再度お試しください。</value>
+  </data>
+  <data name="Viewer_NoStorage" xml:space="preserve">
+    <value>メモリカードがセットされていないようです</value>
+  </data>
+  <data name="Viewer_RefreshAutomatically" xml:space="preserve">
+    <value>コンテンツを更新しています</value>
+  </data>
+  <data name="Viewer_StorageAccessNotSupported" xml:space="preserve">
+    <value>接続中のカメラでは、コンテンツへのアクセスがサポートされていません</value>
+  </data>
+  <data name="Viewer_StorageCamera" xml:space="preserve">
+    <value>カメラ内コンテンツ</value>
+  </data>
+  <data name="Viewer_StorageDetached" xml:space="preserve">
+    <value>メモリカードの取り外しを検知しました</value>
+  </data>
+  <data name="Viewer_StoragePhone" xml:space="preserve">
+    <value>端末内コンテンツ</value>
+  </data>
+  <data name="Viewer_StreamClosedByExternalCause" xml:space="preserve">
+    <value>動画の再生は外部要因で中断されました</value>
+  </data>
+  <data name="Viewer_UnplayableContent" xml:space="preserve">
+    <value>このコンテンツは再生することができません</value>
   </data>
 </root>

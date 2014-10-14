@@ -2115,11 +2115,29 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to delete contents.
+        /// </summary>
+        public static string Viewer_FailedToDeleteContents {
+            get {
+                return ResourceManager.GetString("Viewer_FailedToDeleteContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to open detail image.
         /// </summary>
         public static string Viewer_FailedToOpenDetail {
             get {
                 return ResourceManager.GetString("Viewer_FailedToOpenDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to refresh camera contents list.
+        /// </summary>
+        public static string Viewer_FailedToRefreshContents {
+            get {
+                return ResourceManager.GetString("Viewer_FailedToRefreshContents", resourceCulture);
             }
         }
         
@@ -2174,6 +2192,15 @@ namespace Kazyx.WPPMM.Resources {
         public static string Viewer_NoAvContentApi {
             get {
                 return ResourceManager.GetString("Viewer_NoAvContentApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load camera roll contents.
+        /// </summary>
+        public static string Viewer_NoCameraRoll {
+            get {
+                return ResourceManager.GetString("Viewer_NoCameraRoll", resourceCulture);
             }
         }
         

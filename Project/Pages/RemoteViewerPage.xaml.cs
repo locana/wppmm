@@ -269,7 +269,7 @@ namespace Kazyx.WPPMM.Pages
             if (CameraRoll == null)
             {
                 DebugUtil.Log("No camera roll. Going back");
-                NavigationService.GoBack();
+                ShowToast(AppResources.Viewer_NoCameraRoll);
                 return;
             }
             LoadThumbnails(CameraRoll);
@@ -419,8 +419,9 @@ namespace Kazyx.WPPMM.Pages
                 ChangeProgressText(AppResources.Progress_CheckingStorage);
                 if (!await PlaybackModeUtility.IsStorageSupportedAsync(cm.AvContentApi))
                 {
+                    // This will never happen no camera devices.
                     DebugUtil.Log("storage scheme is not supported");
-                    //GoBack();
+                    ShowToast(AppResources.Viewer_StorageAccessNotSupported);
                     return;
                 }
 
@@ -428,7 +429,7 @@ namespace Kazyx.WPPMM.Pages
                 if (storages.Count == 0)
                 {
                     DebugUtil.Log("No storages");
-                    //GoBack();
+                    ShowToast(AppResources.Viewer_NoStorage);
                     return;
                 }
 
@@ -440,7 +441,8 @@ namespace Kazyx.WPPMM.Pages
             catch (Exception e)
             {
                 DebugUtil.Log(e.StackTrace);
-                //GoBack();
+                HideProgress();
+                ShowToast(AppResources.Viewer_FailedToRefreshContents);
             }
         }
 
@@ -458,7 +460,7 @@ namespace Kazyx.WPPMM.Pages
                 catch (Exception e)
                 {
                     DebugUtil.Log(e.StackTrace);
-                    //GoBack();
+                    // Ignore each error
                 }
             }
         }
@@ -550,6 +552,7 @@ namespace Kazyx.WPPMM.Pages
         private void OnDLError(ImageDLError error)
         {
             DebugUtil.Log("ViewerPage: OnDLError");
+            // TODO show toast according to error cause...
         }
 
         private void OnFetchingImages(int count)
@@ -593,7 +596,6 @@ namespace Kazyx.WPPMM.Pages
                                 var _bitmap = new BitmapImage();
                                 _bitmap.SetSource(replica);
                                 InitBitmapBeforeOpen();
-                                // DetailImage.Source = _bitmap;
                                 PhotoData.Image = _bitmap;
                                 try
                                 {
@@ -1077,8 +1079,9 @@ namespace Kazyx.WPPMM.Pages
                 catch (Exception e)
                 {
                     DebugUtil.Log("Failed to delete contents");
+                    ShowToast(AppResources.Viewer_FailedToDeleteContents);
+                    HideProgress();
                 }
-                HideProgress();
             }
             DebugUtil.Log("Not ready to delete contents");
         }

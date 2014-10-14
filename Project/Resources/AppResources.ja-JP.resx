@@ -869,4 +869,13 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="ShowDetailInfo" xml:space="preserve">
     <value>情報を表示</value>
   </data>
+  <data name="Viewer_FailedToRefreshContents" xml:space="preserve">
+    <value>カメラ内コンテンツ一覧の取得に失敗しました</value>
+  </data>
+  <data name="Viewer_FailedToDeleteContents" xml:space="preserve">
+    <value>コンテンツの削除に失敗しました</value>
+  </data>
+  <data name="Viewer_NoCameraRoll" xml:space="preserve">
+    <value>カメラロール内コンテンツのロードに失敗しました</value>
+  </data>
 </root>

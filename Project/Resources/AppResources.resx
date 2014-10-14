@@ -916,4 +916,13 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="ShowDetailInfo" xml:space="preserve">
     <value>Show info.</value>
   </data>
+  <data name="Viewer_FailedToRefreshContents" xml:space="preserve">
+    <value>Failed to refresh camera contents list</value>
+  </data>
+  <data name="Viewer_FailedToDeleteContents" xml:space="preserve">
+    <value>Failed to delete contents</value>
+  </data>
+  <data name="Viewer_NoCameraRoll" xml:space="preserve">
+    <value>Failed to load camera roll contents</value>
+  </data>
 </root>

@@ -3,22 +3,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="640" d:DesignWidth="480">
 
-    <Grid x:Name="LayoutRoot" Background="Transparent" SizeChanged="LayoutRoot_SizeChanged">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="6*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="5*"/>
-        </Grid.ColumnDefinitions>
-        <ViewportControl x:Name="viewport" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Margin="6" ViewportChanged="viewport_ViewportChanged">
+    <UserControl.Resources>
+        <DataTemplate x:Key="VerticalItemTemplate">
+            <Grid Margin="2" HorizontalAlignment="Center" Width="218" VerticalAlignment="Center" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Background="{StaticResource PhoneChromeBrush}" Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                    <TextBlock Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3,3" />
+                </Border>
+                <TextBlock Grid.Row="1" Text="{Binding Value}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20,3" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="Transparent" >
+        <ViewportControl x:Name="viewport" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6" ViewportChanged="viewport_ViewportChanged">
             <Canvas x:Name="canvas" >
                 <Image Name="Image" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
                     <Image.RenderTransform>
@@ -28,22 +36,16 @@
             </Canvas>
         </ViewportControl>
 
-        <ScrollViewer Name="DetailInfoPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2" Margin="12" 
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Name="DetailInfoPanel" Width="230" HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1" Margin="0" 
                       Visibility="{Binding DetailInfoVisibility}" Background="{StaticResource PhoneSemitransparentBrush}" >
-            <ListBox x:Name="DetailInfoList" Margin="6" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}" SelectionMode="Extended" IsHitTestVisible="False" >
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="6*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="220" Margin="0" />
-                            <TextBlock Grid.Column="1" Text="{Binding Value}" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="230" Margin="0" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
+                <ListBox x:Name="DetailInfoList" Margin="6,12" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}"  
+                         IsHitTestVisible="False" ItemTemplate="{StaticResource VerticalItemTemplate}" />
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

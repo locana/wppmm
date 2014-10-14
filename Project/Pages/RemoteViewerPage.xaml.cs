@@ -913,7 +913,6 @@ namespace Kazyx.WPPMM.Pages
                     MoviePlaybackScreen.Margin = new Thickness(12);
                     break;
             }
-            PhotoPlaybackScreen.OrientationChanged(e.Orientation);
         }
 
         private void RemoteThumbnail_Tap(object sender, System.Windows.Input.GestureEventArgs e)

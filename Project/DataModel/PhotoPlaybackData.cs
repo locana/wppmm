@@ -24,17 +24,6 @@ namespace Kazyx.WPPMM.DataModel
             }
         }
 
-        private BitmapImage _Image = null;
-        public BitmapImage Image
-        {
-            get { return _Image; }
-            set
-            {
-                _Image = value;
-                OnPropertyChanged("Image");
-            }
-        }
-
         private JpegMetaData _MetaData;
         public JpegMetaData MetaData
         {

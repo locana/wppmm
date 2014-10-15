@@ -595,8 +595,9 @@ namespace Kazyx.WPPMM.Pages
 
                                 var _bitmap = new BitmapImage();
                                 _bitmap.SetSource(replica);
+                                PhotoPlaybackScreen.SourceBitmap = _bitmap;
                                 InitBitmapBeforeOpen();
-                                PhotoData.Image = _bitmap;
+                                PhotoPlaybackScreen.SetBitmap();
                                 try
                                 {
                                     PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);
@@ -962,8 +963,9 @@ namespace Kazyx.WPPMM.Pages
                                     {
                                         var _bitmap = new BitmapImage();
                                         _bitmap.SetSource(replica);
+                                        PhotoPlaybackScreen.SourceBitmap = _bitmap;
                                         InitBitmapBeforeOpen();
-                                        PhotoData.Image = _bitmap;
+                                        PhotoPlaybackScreen.SetBitmap();
                                         try
                                         {
                                             PhotoData.MetaData = NtImageProcessor.MetaData.JpegMetaDataParser.ParseImage((Stream)replica);

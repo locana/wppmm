@@ -50,8 +50,12 @@ namespace Kazyx.WPPMM.Controls
             set
             {
                 _SourceBitmap = value;
-                Image.Source = value;
             }
+        }
+
+        public void SetBitmap()
+        {
+            Image.Source = _SourceBitmap;
         }
 
         public void viewport_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
@@ -65,7 +69,6 @@ namespace Kazyx.WPPMM.Controls
             _scale = 0;
             CoerceScale(true);
             _scale = _coercedScale;
-            _SourceBitmap = null;
             ResizeImage(true);
         }
 
@@ -159,7 +162,6 @@ namespace Kazyx.WPPMM.Controls
 
         internal void ReleaseImage()
         {
-            this.Image.Source = null;
             _SourceBitmap = null;
         }
     }

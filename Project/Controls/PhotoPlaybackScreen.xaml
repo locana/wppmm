@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer Name="DetailInfoPanel" Width="230" HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1" Margin="0" 
-                      Visibility="{Binding DetailInfoVisibility}" Background="{StaticResource PhoneSemitransparentBrush}" >
+                      Visibility="Collapsed" Background="{StaticResource PhoneSemitransparentBrush}" >
                 <ListBox x:Name="DetailInfoList" Margin="0,12,6,12" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}"  
                          IsHitTestVisible="False" ItemTemplate="{StaticResource VerticalItemTemplate}" />
             </ScrollViewer>

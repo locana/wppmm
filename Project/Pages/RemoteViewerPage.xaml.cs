@@ -605,7 +605,7 @@ namespace Kazyx.WPPMM.Pages
                                 catch (UnsupportedFileFormatException)
                                 {
                                     PhotoData.MetaData = null;
-                                    PhotoData.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
+                                    PhotoPlaybackScreen.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
                                 }
                                 SetStillDetailVisibility(true);
                             }
@@ -977,7 +977,7 @@ namespace Kazyx.WPPMM.Pages
                                         catch (UnsupportedFileFormatException)
                                         {
                                             PhotoData.MetaData = null;
-                                            PhotoData.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
+                                            PhotoPlaybackScreen.DetailInfoVisibility = System.Windows.Visibility.Collapsed;
                                         }
                                         SetStillDetailVisibility(true);
                                     }

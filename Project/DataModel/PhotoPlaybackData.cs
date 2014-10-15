@@ -31,7 +31,18 @@ namespace Kazyx.WPPMM.DataModel
             set
             {
                 _MetaData = value;
-                UpdateEntryList(value);
+                if (value == null)
+                {
+                    ShowInvalidData();
+                }
+                else
+                {
+                    UpdateEntryList(value);
+                    if (EntryList.Count == 0)
+                    {
+                        ShowInvalidData();
+                    }
+                }
             }
         }
 
@@ -43,6 +54,12 @@ namespace Kazyx.WPPMM.DataModel
             ExifKeys.Iso,
             ExifKeys.DateTime,
         };
+
+        void ShowInvalidData()
+        {
+            EntryList.Clear();
+            EntryList.Add(new EntryViewData() { Name = "NO DATA", Value = "" });
+        }
 
         private void UpdateEntryList(JpegMetaData metadata)
         {
@@ -167,20 +184,6 @@ namespace Kazyx.WPPMM.DataModel
                 return metadata.GpsIfd.Entries[key];
             }
             return null;
-        }
-
-        private Visibility _DetailInfoVisibility = Visibility.Visible;
-        public Visibility DetailInfoVisibility
-        {
-            get { return _DetailInfoVisibility; }
-            set
-            {
-                if (_DetailInfoVisibility != value)
-                {
-                    _DetailInfoVisibility = value;
-                    OnPropertyChanged("DetailInfoVisibility");
-                }
-            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

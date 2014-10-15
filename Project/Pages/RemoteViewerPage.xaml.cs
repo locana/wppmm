@@ -679,7 +679,11 @@ namespace Kazyx.WPPMM.Pages
                 TouchBlocker.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
                 LocalImageGrid.IsEnabled = true;
-                if (PivotRoot.SelectedIndex == 1)
+                if (PivotRoot.SelectedIndex == 0)
+                {
+                    UpdateInnerState(ViewerState.Local);
+                }
+                else if (PivotRoot.SelectedIndex == 1)
                 {
                     UpdateInnerState(ViewerState.RemoteSingle);
                 }

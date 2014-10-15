@@ -16,6 +16,10 @@ namespace Kazyx.WPPMM.Utils
             {ExifKeys.DateTime, AppResources.MetaDataName_DateTime},
             {ExifKeys.ExposureProgram, AppResources.MetaDataName_ExposureProgram},
             {ExifKeys.WhiteBalanceMode, AppResources.WhiteBalance},
+            {ExifKeys.LensModel, AppResources.MetaDataName_LensModel},
+            {ExifKeys.ExposureCompensation, AppResources.MetaDataName_ExposureCompensation},
+            {ExifKeys.Flash, AppResources.MetaDataName_Flash},
+            {ExifKeys.MeteringMode, AppResources.MetaDataName_MeteringMode},
         };
 
         public static string MetaDataEntryName(uint key)
@@ -83,6 +87,77 @@ namespace Kazyx.WPPMM.Utils
                 return WhitebalanceNames[value];
             }
             return value.ToString();
+        }
+
+        private static Dictionary<uint, string> MeteringModeNames = new Dictionary<uint, string>(){
+            {0, AppResources.Exif_MeteringMode_Unknown},
+            {1, AppResources.Exif_MeteringMode_Average},
+            {2, AppResources.Exif_MeteringMode_CenterWeightedAverage},
+            {3, AppResources.Exif_MeteringMode_Spot},
+            {4, AppResources.Exif_MeteringMode_MultiSpot},
+            {5, AppResources.Exif_MeteringMode_MultiSegment},
+            {6, AppResources.Exif_MeteringMode_Partial},
+            {255, AppResources.Exif_MeteringMode_Other},
+        };
+
+        public static string MeteringModeName(uint value)
+        {
+            if (MeteringModeNames.ContainsKey(value))
+            {
+                return MeteringModeNames[value];
+            }
+            return AppResources.Exif_MeteringMode_Unknown;
+        }
+
+        public static string FlashNames(uint value)
+        {
+            switch (value)
+            {
+                case 0x0:
+                    return AppResources.Exif_Flash_NoFlash;
+                case 0x01:
+                case 0x05:
+                case 0x07:
+                    return AppResources.Exif_Flash_Fired;
+                case 0x08:
+                    return AppResources.Exif_Flash_On_NotFired;
+                case 0x09:
+                case 0x0d:
+                case 0x0f:
+                    return AppResources.Exif_Flash_On_Fired;
+                case 0x10:
+                case 0x14:
+                    return AppResources.Exif_Flash_Off_NotFired;
+                case 0x18:
+                    return AppResources.Exif_Flash_Auto_NotFired;
+                case 0x19:
+                case 0x1d:
+                case 0x1f:
+                    return AppResources.Exif_Flash_Auto_Fired;
+                case 0x20:
+                    return AppResources.Exif_Flash_NoFlashFunction;
+                case 0x30:
+                    return AppResources.Exif_Flash_NoFlashFunction;
+                case 0x41:
+                case 0x45:
+                case 0x47:
+                    return AppResources.Exif_Flash_Fired_RedEyeReduction;
+                case 0x49:
+                case 0x4d:
+                case 0x4f:
+                    return AppResources.Exif_Flash_On_Fired_RedEyeReduction;
+                case 0x50:
+                    return AppResources.Exif_Flash_Off_NotFired_RedEyeReduction;
+                case 0x58:
+                    return AppResources.Exif_Flash_Auto_NotFired_RedEyeReduction;
+                case 0x59:
+                case 0x5d:
+                case 0x5f:
+                    return AppResources.Exif_Flash_Auto_Fired_RedEyeReduction;
+                default:
+                    return AppResources.Exif_Flash_Unknown;
+            }
+            return value.ToString("X2");
         }
 
     }

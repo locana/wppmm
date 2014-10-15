@@ -878,4 +878,88 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="Viewer_NoCameraRoll" xml:space="preserve">
     <value>カメラロール内コンテンツのロードに失敗しました</value>
   </data>
+  <data name="Exif_Flash_Auto_Fired" xml:space="preserve">
+    <value>オート・発光</value>
+  </data>
+  <data name="Exif_Flash_Auto_Fired_RedEyeReduction" xml:space="preserve">
+    <value>オート・発光・赤目補正</value>
+  </data>
+  <data name="Exif_Flash_Auto_NotFired" xml:space="preserve">
+    <value>オート・非発光</value>
+  </data>
+  <data name="Exif_Flash_Auto_NotFired_RedEyeReduction" xml:space="preserve">
+    <value>オート・非発光・赤目補正</value>
+  </data>
+  <data name="Exif_Flash_Fired" xml:space="preserve">
+    <value>発光</value>
+  </data>
+  <data name="Exif_Flash_Fired_RedEyeReduction" xml:space="preserve">
+    <value>発光・赤目補正</value>
+  </data>
+  <data name="Exif_Flash_NoFlash" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="Exif_Flash_NoFlashFunction" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="Exif_Flash_NoFlash_RedEyeReduction" xml:space="preserve">
+    <value>なし・赤目補正</value>
+  </data>
+  <data name="Exif_Flash_Off_NotFired" xml:space="preserve">
+    <value>オフ・非発光</value>
+  </data>
+  <data name="Exif_Flash_Off_NotFired_RedEyeReduction" xml:space="preserve">
+    <value>オフ・非発光・赤目補正</value>
+  </data>
+  <data name="Exif_Flash_On_Fired" xml:space="preserve">
+    <value>オン・発光</value>
+  </data>
+  <data name="Exif_Flash_On_Fired_RedEyeReduction" xml:space="preserve">
+    <value>オン・発光・赤目補正</value>
+  </data>
+  <data name="Exif_Flash_On_NotFired" xml:space="preserve">
+    <value>オン・非発光</value>
+  </data>
+  <data name="Exif_Flash_On_NotFired_RedEyeReduction" xml:space="preserve">
+    <value>オン・非発光・赤目補正</value>
+  </data>
+  <data name="Exif_MeteringMode_Average" xml:space="preserve">
+    <value>評価測光</value>
+  </data>
+  <data name="Exif_MeteringMode_CenterWeightedAverage" xml:space="preserve">
+    <value>中央重点平均</value>
+  </data>
+  <data name="Exif_MeteringMode_MultiSegment" xml:space="preserve">
+    <value>多分割測光</value>
+  </data>
+  <data name="Exif_MeteringMode_MultiSpot" xml:space="preserve">
+    <value>マルチスポット</value>
+  </data>
+  <data name="Exif_MeteringMode_Other" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="Exif_MeteringMode_Partial" xml:space="preserve">
+    <value>部分測光</value>
+  </data>
+  <data name="Exif_MeteringMode_Spot" xml:space="preserve">
+    <value>スポット</value>
+  </data>
+  <data name="Exif_MeteringMode_Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="MetaDataName_ExposureCompensation" xml:space="preserve">
+    <value>露出補正</value>
+  </data>
+  <data name="MetaDataName_Flash" xml:space="preserve">
+    <value>フラッシュ</value>
+  </data>
+  <data name="MetaDataName_LensModel" xml:space="preserve">
+    <value>レンズ名称</value>
+  </data>
+  <data name="MetaDataName_MeteringMode" xml:space="preserve">
+    <value>測光モード</value>
+  </data>
+  <data name="Exif_Flash_Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
 </root>

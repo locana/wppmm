@@ -648,6 +648,222 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto, Fired.
+        /// </summary>
+        public static string Exif_Flash_Auto_Fired {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Auto_Fired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto, Fired w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_Auto_Fired_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Auto_Fired_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto, Not fired.
+        /// </summary>
+        public static string Exif_Flash_Auto_NotFired {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Auto_NotFired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto, Not fired w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_Auto_NotFired_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Auto_NotFired_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fired.
+        /// </summary>
+        public static string Exif_Flash_Fired {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Fired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fired w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_Fired_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Fired_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Flash.
+        /// </summary>
+        public static string Exif_Flash_NoFlash {
+            get {
+                return ResourceManager.GetString("Exif_Flash_NoFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Flash w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_NoFlash_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_NoFlash_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No flash function.
+        /// </summary>
+        public static string Exif_Flash_NoFlashFunction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_NoFlashFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off, Not fired.
+        /// </summary>
+        public static string Exif_Flash_Off_NotFired {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Off_NotFired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off, Not fired w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_Off_NotFired_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Off_NotFired_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On, Fired.
+        /// </summary>
+        public static string Exif_Flash_On_Fired {
+            get {
+                return ResourceManager.GetString("Exif_Flash_On_Fired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On, Fired w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_On_Fired_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_On_Fired_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On, Not fired.
+        /// </summary>
+        public static string Exif_Flash_On_NotFired {
+            get {
+                return ResourceManager.GetString("Exif_Flash_On_NotFired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On, Not fired w/ Red eye reduction.
+        /// </summary>
+        public static string Exif_Flash_On_NotFired_RedEyeReduction {
+            get {
+                return ResourceManager.GetString("Exif_Flash_On_NotFired_RedEyeReduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Exif_Flash_Unknown {
+            get {
+                return ResourceManager.GetString("Exif_Flash_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average.
+        /// </summary>
+        public static string Exif_MeteringMode_Average {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_Average", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CenterWeightedAverage.
+        /// </summary>
+        public static string Exif_MeteringMode_CenterWeightedAverage {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_CenterWeightedAverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multi-segment.
+        /// </summary>
+        public static string Exif_MeteringMode_MultiSegment {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_MultiSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multi-spot.
+        /// </summary>
+        public static string Exif_MeteringMode_MultiSpot {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_MultiSpot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        public static string Exif_MeteringMode_Other {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partial.
+        /// </summary>
+        public static string Exif_MeteringMode_Partial {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_Partial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spot.
+        /// </summary>
+        public static string Exif_MeteringMode_Spot {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_Spot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Exif_MeteringMode_Unknown {
+            get {
+                return ResourceManager.GetString("Exif_MeteringMode_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A.
         /// </summary>
         public static string ExifExposureProgram_A {
@@ -1494,6 +1710,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exposure Comp..
+        /// </summary>
+        public static string MetaDataName_ExposureCompensation {
+            get {
+                return ResourceManager.GetString("MetaDataName_ExposureCompensation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exposure mode.
         /// </summary>
         public static string MetaDataName_ExposureProgram {
@@ -1508,6 +1733,15 @@ namespace Kazyx.WPPMM.Resources {
         public static string MetaDataName_ExposureTime {
             get {
                 return ResourceManager.GetString("MetaDataName_ExposureTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flash.
+        /// </summary>
+        public static string MetaDataName_Flash {
+            get {
+                return ResourceManager.GetString("MetaDataName_Flash", resourceCulture);
             }
         }
         
@@ -1544,6 +1778,24 @@ namespace Kazyx.WPPMM.Resources {
         public static string MetaDataName_Iso {
             get {
                 return ResourceManager.GetString("MetaDataName_Iso", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lens.
+        /// </summary>
+        public static string MetaDataName_LensModel {
+            get {
+                return ResourceManager.GetString("MetaDataName_LensModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metering mode.
+        /// </summary>
+        public static string MetaDataName_MeteringMode {
+            get {
+                return ResourceManager.GetString("MetaDataName_MeteringMode", resourceCulture);
             }
         }
         

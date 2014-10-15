@@ -925,4 +925,88 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="Viewer_NoCameraRoll" xml:space="preserve">
     <value>Failed to load camera roll contents</value>
   </data>
+  <data name="Exif_Flash_Auto_Fired" xml:space="preserve">
+    <value>Auto, Fired</value>
+  </data>
+  <data name="Exif_Flash_Auto_Fired_RedEyeReduction" xml:space="preserve">
+    <value>Auto, Fired w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_Flash_Auto_NotFired" xml:space="preserve">
+    <value>Auto, Not fired</value>
+  </data>
+  <data name="Exif_Flash_Auto_NotFired_RedEyeReduction" xml:space="preserve">
+    <value>Auto, Not fired w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_Flash_Fired" xml:space="preserve">
+    <value>Fired</value>
+  </data>
+  <data name="Exif_Flash_Fired_RedEyeReduction" xml:space="preserve">
+    <value>Fired w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_Flash_NoFlash" xml:space="preserve">
+    <value>No Flash</value>
+  </data>
+  <data name="Exif_Flash_NoFlashFunction" xml:space="preserve">
+    <value>No flash function</value>
+  </data>
+  <data name="Exif_Flash_NoFlash_RedEyeReduction" xml:space="preserve">
+    <value>No Flash w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_Flash_Off_NotFired" xml:space="preserve">
+    <value>Off, Not fired</value>
+  </data>
+  <data name="Exif_Flash_Off_NotFired_RedEyeReduction" xml:space="preserve">
+    <value>Off, Not fired w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_Flash_On_Fired" xml:space="preserve">
+    <value>On, Fired</value>
+  </data>
+  <data name="Exif_Flash_On_Fired_RedEyeReduction" xml:space="preserve">
+    <value>On, Fired w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_Flash_On_NotFired" xml:space="preserve">
+    <value>On, Not fired</value>
+  </data>
+  <data name="Exif_Flash_On_NotFired_RedEyeReduction" xml:space="preserve">
+    <value>On, Not fired w/ Red eye reduction</value>
+  </data>
+  <data name="Exif_MeteringMode_Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="Exif_MeteringMode_CenterWeightedAverage" xml:space="preserve">
+    <value>CenterWeightedAverage</value>
+  </data>
+  <data name="Exif_MeteringMode_MultiSegment" xml:space="preserve">
+    <value>Multi-segment</value>
+  </data>
+  <data name="Exif_MeteringMode_MultiSpot" xml:space="preserve">
+    <value>Multi-spot</value>
+  </data>
+  <data name="Exif_MeteringMode_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Exif_MeteringMode_Partial" xml:space="preserve">
+    <value>Partial</value>
+  </data>
+  <data name="Exif_MeteringMode_Spot" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="Exif_MeteringMode_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="MetaDataName_ExposureCompensation" xml:space="preserve">
+    <value>Exposure Comp.</value>
+  </data>
+  <data name="MetaDataName_Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="MetaDataName_LensModel" xml:space="preserve">
+    <value>Lens</value>
+  </data>
+  <data name="MetaDataName_MeteringMode" xml:space="preserve">
+    <value>Metering mode</value>
+  </data>
+  <data name="Exif_Flash_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>

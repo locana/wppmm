@@ -53,6 +53,12 @@ namespace Kazyx.WPPMM.DataModel
             ExifKeys.Fnumber,
             ExifKeys.Iso,
             ExifKeys.DateTime,
+            /*
+            ExifKeys.ExposureCompensation,
+            ExifKeys.Flash,
+            ExifKeys.LensModel,
+            ExifKeys.MeteringMode,
+             */
         };
 
         void ShowInvalidData()
@@ -121,6 +127,24 @@ namespace Kazyx.WPPMM.DataModel
                 EntryList.Add(new EntryViewData() { Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.WhiteBalanceMode), Value = value });
             }
 
+            var evEntry = FindFirstEntry(metadata, ExifKeys.ExposureCompensation);
+            if (evEntry != null)
+            {
+                EntryList.Add(new EntryViewData { Name = AppResources.MetaDataName_ExposureCompensation, Value = evEntry.DoubleValues[0] + "EV" });
+            }
+
+            var meteringModeEntry = FindFirstEntry(metadata, ExifKeys.MeteringMode);
+            if (meteringModeEntry != null)
+            {
+                EntryList.Add(new EntryViewData { Name = AppResources.MetaDataName_MeteringMode, Value = MetaDataValueConverter.MeteringModeName(meteringModeEntry.UIntValues[0]) });
+            }
+
+            var flashEntry = FindFirstEntry(metadata, ExifKeys.Flash);
+            if (flashEntry != null)
+            {
+                EntryList.Add(new EntryViewData() { Name = AppResources.MetaDataName_Flash, Value = MetaDataValueConverter.FlashNames(flashEntry.UIntValues[0]) });
+            }
+
             var heightEntry = FindFirstEntry(metadata, ExifKeys.ImageHeight);
             var widthEntry = FindFirstEntry(metadata, ExifKeys.ImageWidth);
             if (heightEntry != null && widthEntry != null)
@@ -141,6 +165,12 @@ namespace Kazyx.WPPMM.DataModel
                     Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.CameraModel),
                     Value = makerEntry.StringValue + " " + modelEntry.StringValue,
                 });
+            }
+
+            var lensNameEntry = FindFirstEntry(metadata, ExifKeys.LensModel);
+            if (lensNameEntry != null)
+            {
+                EntryList.Add(new EntryViewData() { Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.LensModel), Value = lensNameEntry.StringValue });
             }
         }
 
@@ -231,5 +261,10 @@ namespace Kazyx.WPPMM.DataModel
         public const uint ExposureProgram = 0x8822;
         public const uint WhiteBalanceMode = 0xA403;
         public const uint WhiteBalanceDetailType = 0x9208;
+        public const uint DocumentName = 0x010D;
+        public const uint ExposureCompensation = 0x9204;
+        public const uint MeteringMode = 0x9207;
+        public const uint Flash = 0x9209;
+        public const uint LensModel = 0xA434;
     }
 }

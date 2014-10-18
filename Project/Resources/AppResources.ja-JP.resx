@@ -962,4 +962,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="Exif_Flash_Unknown" xml:space="preserve">
     <value>不明</value>
   </data>
+  <data name="AutoPowerOff_Never" xml:space="preserve">
+    <value>無効</value>
+  </data>
 </root>

@@ -157,8 +157,39 @@ namespace Kazyx.WPPMM.Utils
                 default:
                     return AppResources.Exif_Flash_Unknown;
             }
-            return value.ToString("X2");
         }
 
+        public static string EV(double value)
+        {
+            if (value > 0)
+            {
+                return "+" + value + "EV";
+            }
+            return value + "EV";
+        }
+
+        public static string ShutterSpeed(uint numerator, uint denominator)
+        {
+            if (numerator == 1)
+            {
+                return numerator + "/" + denominator + AppResources.Seconds;
+            }
+            else if (denominator == 1)
+            {
+                return numerator + AppResources.Seconds;
+            }
+
+            // difficult cases,,
+            if (numerator > denominator)
+            {
+                // longer than 1 sec.
+                double val = numerator / denominator;
+                return val.ToString() + AppResources.Seconds;
+            }
+
+            // reduction forcibly
+            int newDenominator = (int)((double)denominator / (double)numerator);
+            return "1/" + newDenominator + AppResources.Seconds;
+        }
     }
 }

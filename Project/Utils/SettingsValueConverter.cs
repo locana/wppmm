@@ -893,6 +893,7 @@ namespace Kazyx.WPPMM.Utils
 
         private static string FromAutoPowerOff(int val)
         {
+            if (val == 0) { return AppResources.AutoPowerOff_Never; }
             return val + " " + AppResources.Seconds;
         }
 

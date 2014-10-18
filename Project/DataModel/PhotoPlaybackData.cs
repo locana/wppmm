@@ -87,7 +87,7 @@ namespace Kazyx.WPPMM.DataModel
                 EntryList.Add(new EntryViewData()
                 {
                     Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.ExposureTime),
-                    Value = ssEntry.UFractionValues[0].Numerator + "/" + ssEntry.UFractionValues[0].Denominator + " sec.",
+                    Value = MetaDataValueConverter.ShutterSpeed(ssEntry.UFractionValues[0].Numerator, ssEntry.UFractionValues[0].Denominator)
                 });
             }
 
@@ -130,7 +130,7 @@ namespace Kazyx.WPPMM.DataModel
             var evEntry = FindFirstEntry(metadata, ExifKeys.ExposureCompensation);
             if (evEntry != null)
             {
-                EntryList.Add(new EntryViewData { Name = AppResources.MetaDataName_ExposureCompensation, Value = evEntry.DoubleValues[0] + "EV" });
+                EntryList.Add(new EntryViewData { Name = AppResources.MetaDataName_ExposureCompensation, Value = MetaDataValueConverter.EV(evEntry.DoubleValues[0]) });
             }
 
             var meteringModeEntry = FindFirstEntry(metadata, ExifKeys.MeteringMode);

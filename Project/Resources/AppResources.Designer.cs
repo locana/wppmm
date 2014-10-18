@@ -196,6 +196,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Never.
+        /// </summary>
+        public static string AutoPowerOff_Never {
+            get {
+                return ResourceManager.GetString("AutoPowerOff_Never", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System sound.
         /// </summary>
         public static string BeepMode {

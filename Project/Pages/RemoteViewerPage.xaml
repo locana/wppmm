@@ -149,12 +149,6 @@
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>
-
-        <Border x:Name="TouchBlocker" Margin="0" Grid.RowSpan="2" Visibility="Collapsed">
-            <Border.Background>
-                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
-            </Border.Background>
-        </Border>
         <Border x:Name="HeaderBlocker" Height="74" VerticalAlignment="Top" Visibility="Collapsed">
             <Border.Background>
                 <SolidColorBrush Color="{StaticResource PhoneBackgroundColor}"/>
@@ -162,7 +156,7 @@
             <TextBlock x:Name="HeaderBlockerText" VerticalAlignment="Center" Style="{StaticResource PhoneTextTitle2Style}" />
         </Border>
 
-        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" SourceBitmap="{Binding Image}"
+        <wppmmcontrol:PhotoPlaybackScreen Name="PhotoPlaybackScreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" SourceBitmap="{Binding Image}"
                                           ManipulationStarted="viewport_ManipulationStarted" ManipulationDelta="viewport_ManipulationDelta" ManipulationCompleted="viewport_ManipulationCompleted" />
         <Border x:Name="MovieDrawer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
             <Border.Background>

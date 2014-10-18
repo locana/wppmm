@@ -26,7 +26,12 @@
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent" >
-        <ViewportControl x:Name="viewport" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6" ViewportChanged="viewport_ViewportChanged">
+        <Border x:Name="background" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+            </Border.Background>
+        </Border>
+        <ViewportControl x:Name="viewport" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="12" ViewportChanged="viewport_ViewportChanged">
             <Canvas x:Name="canvas" >
                 <Image Name="Image" CacheMode="BitmapCache" RenderTransformOrigin="0,0" >
                     <Image.RenderTransform>

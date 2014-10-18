@@ -658,7 +658,6 @@ namespace Kazyx.WPPMM.Pages
                 progress.IsVisible = false;
                 IsViewingDetail = true;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Visible;
-                TouchBlocker.Visibility = Visibility.Visible;
                 RemoteImageGrid.IsEnabled = false;
                 LocalImageGrid.IsEnabled = false;
                 if (PivotRoot.SelectedIndex == 0)
@@ -676,7 +675,6 @@ namespace Kazyx.WPPMM.Pages
                 progress.IsVisible = false;
                 IsViewingDetail = false;
                 PhotoPlaybackScreen.Visibility = System.Windows.Visibility.Collapsed;
-                TouchBlocker.Visibility = Visibility.Collapsed;
                 RemoteImageGrid.IsEnabled = true;
                 LocalImageGrid.IsEnabled = true;
                 if (PivotRoot.SelectedIndex == 0)

@@ -1012,4 +1012,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="AutoPowerOff_Never" xml:space="preserve">
     <value>Never</value>
   </data>
+  <data name="MetaData_Geotag" xml:space="preserve">
+    <value>Geotag</value>
+  </data>
+  <data name="MetaData_Geotag_Exists" xml:space="preserve">
+    <value>Recorded</value>
+  </data>
 </root>

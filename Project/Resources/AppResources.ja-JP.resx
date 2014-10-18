@@ -965,4 +965,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="AutoPowerOff_Never" xml:space="preserve">
     <value>無効</value>
   </data>
+  <data name="MetaData_Geotag" xml:space="preserve">
+    <value>位置情報</value>
+  </data>
+  <data name="MetaData_Geotag_Exists" xml:space="preserve">
+    <value>あり</value>
+  </data>
 </root>

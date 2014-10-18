@@ -1701,6 +1701,24 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geotag.
+        /// </summary>
+        public static string MetaData_Geotag {
+            get {
+                return ResourceManager.GetString("MetaData_Geotag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recorded.
+        /// </summary>
+        public static string MetaData_Geotag_Exists {
+            get {
+                return ResourceManager.GetString("MetaData_Geotag_Exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Camera.
         /// </summary>
         public static string MetaDataName_CameraModel {

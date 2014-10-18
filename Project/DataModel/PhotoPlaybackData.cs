@@ -172,6 +172,12 @@ namespace Kazyx.WPPMM.DataModel
             {
                 EntryList.Add(new EntryViewData() { Name = MetaDataValueConverter.MetaDataEntryName(ExifKeys.LensModel), Value = lensNameEntry.StringValue });
             }
+
+            var geotagEntry = FindFirstEntry(metadata, ExifKeys.GpsLatitude);
+            if (geotagEntry != null)
+            {
+                EntryList.Add(new EntryViewData() { Name = AppResources.MetaData_Geotag, Value = AppResources.MetaData_Geotag_Exists });
+            }
         }
 
         string GetStringValue(JpegMetaData metadata, uint key)
@@ -266,5 +272,6 @@ namespace Kazyx.WPPMM.DataModel
         public const uint MeteringMode = 0x9207;
         public const uint Flash = 0x9209;
         public const uint LensModel = 0xA434;
+        public const uint GpsLatitude = 0x01;
     }
 }

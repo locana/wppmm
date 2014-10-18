@@ -399,6 +399,18 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async Task OperateInitialProcess()
         {
+            if (SystemApi != null)
+            {
+                try
+                {
+                    await SystemApi.SetCurrentTimeAsync(DateTimeOffset.Now); // Should check availability
+                }
+                catch (RemoteApiException)
+                {
+                    DebugUtil.Log("Failed to set current time");
+                }
+            }
+
             if (CameraApi == null)
                 return;
 
@@ -468,18 +480,6 @@ namespace Kazyx.WPPMM.CameraManager
             else if (Status.IsAvailable("startLiveview"))
             {
                 OpenLiveviewConnection();
-            }
-
-            if (SystemApi != null)
-            {
-                try
-                {
-                    await SystemApi.SetCurrentTimeAsync(DateTimeOffset.Now); // Should check availability
-                }
-                catch (RemoteApiException)
-                {
-                    DebugUtil.Log("Failed to set current time");
-                }
             }
         }
 

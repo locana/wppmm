@@ -189,7 +189,7 @@ namespace Kazyx.WPPMM.DataModel
                     return entry.UIntValues[0].ToString();
                 case Entry.EntryType.SLong:
                 case Entry.EntryType.SShort:
-                    return entry.IntValues[0].ToString();
+                    return entry.SIntValues[0].ToString();
                 case Entry.EntryType.Rational:
                 case Entry.EntryType.SRational:
                     return entry.DoubleValues[0].ToString();

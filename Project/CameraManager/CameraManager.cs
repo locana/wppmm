@@ -399,47 +399,35 @@ namespace Kazyx.WPPMM.CameraManager
 
         public async Task OperateInitialProcess()
         {
-            if (SystemApi != null)
+            if (CameraApi != null)
             {
+                ServerAppInfo info = null;
                 try
                 {
-                    await SystemApi.SetCurrentTimeAsync(DateTimeOffset.Now); // Should check availability
+                    info = await CameraApi.GetApplicationInfoAsync();
                 }
-                catch (RemoteApiException)
+                catch (RemoteApiException e)
                 {
-                    DebugUtil.Log("Failed to set current time");
+                    DebugUtil.Log("CameraManager: failed to get application info. - " + e.code);
+                    OnError(e.code);
+                    return;
                 }
-            }
 
-            if (CameraApi == null)
-                return;
+                DebugUtil.Log("Server Info: " + info.Name + " ver " + info.Version);
 
-            ServerAppInfo info = null;
-            try
-            {
-                info = await CameraApi.GetApplicationInfoAsync();
-            }
-            catch (RemoteApiException e)
-            {
-                DebugUtil.Log("CameraManager: failed to get application info. - " + e.code);
-                OnError(e.code);
-                return;
-            }
+                try
+                {
+                    Status.Version = new ServerVersion(info.Version);
+                }
+                catch (ArgumentException e)
+                {
+                    DebugUtil.Log(e.StackTrace);
+                    DebugUtil.Log("Server version is invalid. Treat this as 2.0.0 device");
+                    Status.Version = ServerVersion.CreateDefault();
+                }
 
-            DebugUtil.Log("Server Info: " + info.Name + " ver " + info.Version);
-
-            try
-            {
-                Status.Version = new ServerVersion(info.Version);
+                OnVersionDetected();
             }
-            catch (ArgumentException e)
-            {
-                DebugUtil.Log(e.StackTrace);
-                DebugUtil.Log("Server version is invalid. Treat this as 2.0.0 device");
-                Status.Version = ServerVersion.CreateDefault();
-            }
-
-            OnVersionDetected();
 
             if (AvContentApi != null)
             {
@@ -449,7 +437,7 @@ namespace Kazyx.WPPMM.CameraManager
                     if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status, 20000))
                     {
                         DebugUtil.Log("Failed to move to shooting mode");
-                        return;
+                        // return;
                     }
                 }
                 catch (RemoteApiException e)
@@ -462,24 +450,46 @@ namespace Kazyx.WPPMM.CameraManager
                     OnError(StatusCode.Timeout);
                 }
             }
-            if (Status.IsSupported("startRecMode"))
+
+            if (CameraApi != null)
             {
-                try
+                if (Status.IsSupported("startRecMode"))
                 {
-                    await CameraApi.StartRecModeAsync();
-                    if (Status.IsAvailable("startLiveview"))
+                    try
                     {
-                        OpenLiveviewConnection();
+                        await CameraApi.StartRecModeAsync();
+                        if (Status.IsAvailable("startLiveview"))
+                        {
+                            OpenLiveviewConnection();
+                        }
+                    }
+                    catch (RemoteApiException e)
+                    {
+                        OnError(e.code);
                     }
                 }
-                catch (RemoteApiException e)
+                else if (Status.IsAvailable("startLiveview"))
                 {
-                    OnError(e.code);
+                    OpenLiveviewConnection();
                 }
             }
-            else if (Status.IsAvailable("startLiveview"))
+
+            int retryCount = 0;
+            while (retryCount < 3)
             {
-                OpenLiveviewConnection();
+                if (SystemApi != null)
+                {
+                    try
+                    {
+                        await SystemApi.SetCurrentTimeAsync(DateTimeOffset.UtcNow, (int)DateTimeOffset.Now.Offset.TotalMinutes); // Should check availability
+                        break; // if it's succeed
+                    }
+                    catch (RemoteApiException)
+                    {
+                        DebugUtil.Log("Failed to set current time. Going to retry [" + retryCount + "]");
+                    }
+                }
+                retryCount++;
             }
         }
 

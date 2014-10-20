@@ -1018,4 +1018,13 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="MetaData_Geotag_Exists" xml:space="preserve">
     <value>Recorded</value>
   </data>
+  <data name="GiveUsFeedback" xml:space="preserve">
+    <value>We're waiting your feedback or bug report on our support account!</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="SupportUrl" xml:space="preserve">
+    <value>https://twitter.com/scrap_support</value>
+  </data>
 </root>

@@ -1112,6 +1112,11 @@ namespace Kazyx.WPPMM.Pages
             var pivot = sender as Pivot;
             pivot.IsLocked = !CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported;
         }
+
+        private void LocalImageGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+        {
+            DebugUtil.Log("Image grid manipulated!!!!!!!!");
+        }
     }
 
     public enum ViewerState

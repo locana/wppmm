@@ -117,13 +117,14 @@
                     <TextBlock Text="{Binding LocalizedResources.Viewer_StoragePhone, Source={StaticResource LocalizedStrings}}" Margin="0,8,0,0" Style="{StaticResource PhoneTextTitle2Style}" FontWeight="Bold"/>
                 </phone:PivotItem.Header>
                 <phone:LongListSelector
-                Name="LocalImageGrid"
-                Margin="0"
-                IsGroupingEnabled="False"
-                LayoutMode="Grid"
-                GridCellSize="112,112"
-                ItemsSource="{Binding Group, Mode=OneWay}"
-                ItemTemplate="{StaticResource LocalItemTemplate}" >
+                    Name="LocalImageGrid"
+                    Margin="0"
+                    IsGroupingEnabled="False"
+                    LayoutMode="Grid"
+                    GridCellSize="112,112"
+                    ManipulationStarted="LocalImageGrid_ManipulationStarted"
+                    ItemsSource="{Binding Group, Mode=OneWay}"
+                    ItemTemplate="{StaticResource LocalItemTemplate}" >
                 </phone:LongListSelector>
             </phone:PivotItem>
 

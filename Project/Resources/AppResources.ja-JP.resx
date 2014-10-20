@@ -971,4 +971,10 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="MetaData_Geotag_Exists" xml:space="preserve">
     <value>あり</value>
   </data>
+  <data name="GiveUsFeedback" xml:space="preserve">
+    <value>ご意見・バグ報告はサポートまでお願いします</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>サポート</value>
+  </data>
 </root>

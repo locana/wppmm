@@ -1377,6 +1377,15 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We&apos;re waiting your feedback or bug report on our support account!.
+        /// </summary>
+        public static string GiveUsFeedback {
+            get {
+                return ResourceManager.GetString("GiveUsFeedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Green.
         /// </summary>
         public static string Green {
@@ -2291,6 +2300,24 @@ namespace Kazyx.WPPMM.Resources {
         public static string String1 {
             get {
                 return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        public static string Support {
+            get {
+                return ResourceManager.GetString("Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://twitter.com/scrap_support.
+        /// </summary>
+        public static string SupportUrl {
+            get {
+                return ResourceManager.GetString("SupportUrl", resourceCulture);
             }
         }
         

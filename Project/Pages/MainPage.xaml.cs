@@ -1544,5 +1544,10 @@ namespace Kazyx.WPPMM.Pages
             this.FraimingGrids.Height = rh;
             this.FraimingGrids.Width = rw;
         }
+
+        private void AboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative));
+        }
     }
 }

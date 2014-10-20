@@ -1,5 +1,6 @@
 using Kazyx.WPPMM.Resources;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Tasks;
 using System;
 using System.IO;
 using System.Reflection;
@@ -17,7 +18,7 @@ namespace Kazyx.WPPMM.Pages
         private static string version = "";
         private static string license = "";
         private static string copyright = "";
-        private const string developer = "kazyx and naotaco";
+        private const string developer = "kazyx and naotaco (@naotaco_dev)";
 
         public AboutPage()
         {
@@ -99,6 +100,13 @@ namespace Kazyx.WPPMM.Pages
             hl.Inlines.Add(word);
 
             return hl;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var task = new ShareStatusTask();
+            task.Status = "@scrap_support ";
+            task.Show();
         }
     }
 }

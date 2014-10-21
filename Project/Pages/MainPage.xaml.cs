@@ -34,7 +34,9 @@ namespace Kazyx.WPPMM.Pages
 
         private bool OnZooming;
 
-        private const double APPBAR_OPACITY = 0.0;
+        private const double APPBAR_OPACITY_ENTRANCE = 0.7;
+        private const double APPBAR_OPACITY_LIVEVIEW = 0.0;
+        private double AppBarOpacity = 0.7;
 
         private ShootingViewData svd;
         private readonly PostViewData pvd = new PostViewData();
@@ -81,7 +83,7 @@ namespace Kazyx.WPPMM.Pages
             {
                 if (abm != null)
                 {
-                    ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(APPBAR_OPACITY);
+                    ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(AppBarOpacity);
                 }
                 ApplicationBar.IsVisible = false;
                 if (cameraManager != null)
@@ -661,6 +663,7 @@ namespace Kazyx.WPPMM.Pages
                 }
             }
 
+            AppBarOpacity = APPBAR_OPACITY_LIVEVIEW;
             abm.Clear();
             if (cpm != null && cpm.ItemCount > 0)
             {
@@ -668,7 +671,7 @@ namespace Kazyx.WPPMM.Pages
             }
             abm.Enable(IconMenu.ApplicationSetting).Enable(IconMenu.CameraRoll);
 
-            Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(APPBAR_OPACITY); });
+            Dispatcher.BeginInvoke(() => { if (cpm != null) cpm.Hide(); ApplicationBar = abm.CreateNew(AppBarOpacity); });
 
             InitializeHitogram();
 
@@ -789,7 +792,7 @@ namespace Kazyx.WPPMM.Pages
                 {
                     if (cpm != null && !cpm.IsShowing())
                     {
-                        ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                        ApplicationBar = abm.Enable(IconMenu.TouchAfCancel).CreateNew(AppBarOpacity);
                     }
                     else
                     {
@@ -804,7 +807,7 @@ namespace Kazyx.WPPMM.Pages
                 {
                     if (cpm != null && !cpm.IsShowing())
                     {
-                        ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(0.0);
+                        ApplicationBar = abm.Disable(IconMenu.TouchAfCancel).CreateNew(AppBarOpacity);
                     }
                     else
                     {
@@ -909,10 +912,11 @@ namespace Kazyx.WPPMM.Pages
         private void EntrancePageLoaded()
         {
             EntrancePivot.Opacity = 1;
+            AppBarOpacity = APPBAR_OPACITY_ENTRANCE;
 #if DEBUG
-            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(Menu.Log).Enable(Menu.Contents).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(Menu.Log).Enable(Menu.Contents).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(AppBarOpacity);
 #else
-            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(0.0);
+            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(AppBarOpacity);
 #endif
         }
 
@@ -1354,14 +1358,14 @@ namespace Kazyx.WPPMM.Pages
                 cameraManager.CancelHalfPressShutter();
             }
             AppSettingPanel.Visibility = System.Windows.Visibility.Visible;
-            ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(APPBAR_OPACITY);
+            ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(AppBarOpacity);
             ShowSettingAnimation.Begin();
         }
 
         private void CloseAppSettingPanel()
         {
             HideSettingAnimation.Begin();
-            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.CameraRoll).CreateNew(APPBAR_OPACITY);
+            ApplicationBar = abm.Clear().Enable(IconMenu.ControlPanel).Enable(IconMenu.ApplicationSetting).Enable(IconMenu.CameraRoll).CreateNew(AppBarOpacity);
         }
 
         void HideSettingAnimation_Completed(object sender, EventArgs e)

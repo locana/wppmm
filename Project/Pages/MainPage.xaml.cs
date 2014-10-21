@@ -1085,6 +1085,7 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 2);
                     Grid.SetColumn(IntervalStatusPanel, 0);
+                    SupportItems.Margin = new Thickness(0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -1102,6 +1103,7 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 2);
                     Grid.SetColumn(IntervalStatusPanel, 0);
+                    SupportItems.Margin = new Thickness(0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0);
@@ -1119,6 +1121,7 @@ namespace Kazyx.WPPMM.Pages
                     Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 1);
                     Grid.SetColumn(IntervalStatusPanel, 1);
+                    SupportItems.Margin = new Thickness(0,0,0,70);
                     break;
             }
         }

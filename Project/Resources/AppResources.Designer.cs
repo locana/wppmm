@@ -1377,8 +1377,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Any question or feedback?
-        ///Ask our support account on Twitter!.
+        ///   Looks up a localized string similar to Any question or feedback? Ask our support account on Twitter!.
         /// </summary>
         public static string GiveUsFeedback {
             get {

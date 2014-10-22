@@ -1081,11 +1081,12 @@ namespace Kazyx.WPPMM.Pages
                     OpenSlider.Margin = new Thickness(60, 0, 0, 0);
                     Sliders.Margin = new Thickness(70, 0, 70, 0);
                     EntrancePivot.Margin = new Thickness(70, 0, 70, 0);
+                    NFCMessage.Margin = new Thickness(30, 20, 30, 30);
                     Grid.SetRow(Histogram, 1);
                     Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 2);
                     Grid.SetColumn(IntervalStatusPanel, 0);
-                    SupportItems.Margin = new Thickness(0);
+                    SupportItems.Margin = new Thickness(70, 0, 70, 0);
                     break;
                 case PageOrientation.LandscapeRight:
                     AppTitle.Margin = new Thickness(60, 0, 0, 0);
@@ -1099,11 +1100,12 @@ namespace Kazyx.WPPMM.Pages
                     OpenSlider.Margin = new Thickness(90, 0, 0, 0);
                     Sliders.Margin = new Thickness(70, 0, 70, 0);
                     EntrancePivot.Margin = new Thickness(70, 0, 70, 0);
+                    NFCMessage.Margin = new Thickness(30, 20, 30, 30);
                     Grid.SetRow(Histogram, 1);
                     Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 2);
                     Grid.SetColumn(IntervalStatusPanel, 0);
-                    SupportItems.Margin = new Thickness(0);
+                    SupportItems.Margin = new Thickness(70, 0, 70, 0);
                     break;
                 case PageOrientation.PortraitUp:
                     AppTitle.Margin = new Thickness(0);
@@ -1117,11 +1119,12 @@ namespace Kazyx.WPPMM.Pages
                     OpenSlider.Margin = new Thickness(5, 0, 0, 0);
                     Sliders.Margin = new Thickness(5, 0, 0, 0);
                     EntrancePivot.Margin = new Thickness(0);
+                    NFCMessage.Margin = new Thickness(30, 50, 30, 30);
                     Grid.SetRow(Histogram, 1);
                     Grid.SetColumn(Histogram, 0);
                     Grid.SetRow(IntervalStatusPanel, 1);
                     Grid.SetColumn(IntervalStatusPanel, 1);
-                    SupportItems.Margin = new Thickness(0,0,0,70);
+                    SupportItems.Margin = new Thickness(0, 0, 0, 70);
                     break;
             }
         }

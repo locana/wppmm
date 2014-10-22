@@ -935,18 +935,16 @@ namespace Kazyx.WPPMM.CameraManager
         public void OnError(StatusCode errno)
         {
             DebugUtil.Log("Error: " + errno);
-
-            if (IntervalManager.IsRunning)
-            {
-                IntervalManager.Stop();
-                RefreshEventObserver();
-            }
-
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 if (OnRemoteClientError != null)
                 {
                     OnRemoteClientError(errno);
+                }
+                if (IntervalManager.IsRunning)
+                {
+                    IntervalManager.Stop();
+                    RefreshEventObserver();
                 }
             });
         }

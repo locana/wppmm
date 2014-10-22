@@ -18,7 +18,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Border Background="{StaticResource PhoneChromeBrush}" Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-                    <TextBlock Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="6,3,3,3" />
+                    <TextBlock Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="6,3,3,3" TextWrapping="Wrap" />
                 </Border>
                 <ListBox Grid.Row="1" x:Name="Values" Margin="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding ValuesList}"  
                          IsHitTestVisible="False" ItemTemplate="{StaticResource DetailInfoTemplate}" />

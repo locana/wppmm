@@ -11,7 +11,7 @@
 
         <!--For PhotoPlaybackScreem.xaml-->
         <DataTemplate x:Key="DetailInfoTemplate">
-            <TextBlock Grid.Row="1" Text="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="26,3,0,3" />
+            <TextBlock Grid.Row="1" Text="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="26,3,0,3" TextWrapping="Wrap" />
         </DataTemplate>
     </Application.Resources>
 

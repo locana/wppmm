@@ -12,15 +12,16 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="VerticalItemTemplate">
-            <Grid Margin="2" HorizontalAlignment="Center" Width="224" VerticalAlignment="Center" >
+            <Grid Margin="2" HorizontalAlignment="Center" Width="254" VerticalAlignment="Center" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Border Background="{StaticResource PhoneChromeBrush}" Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
                     <TextBlock Grid.Row="0" Text="{Binding Name}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="6,3,3,3" />
                 </Border>
-                <TextBlock Grid.Row="1" Text="{Binding Value}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="26,3,0,3" />
+                <ListBox Grid.Row="1" x:Name="Values" Margin="0" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding ValuesList}"  
+                         IsHitTestVisible="False" ItemTemplate="{StaticResource DetailInfoTemplate}" />
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
@@ -46,9 +47,9 @@
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <ScrollViewer Name="DetailInfoPanel" Width="230" HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1" Margin="0" 
+            <ScrollViewer Name="DetailInfoPanel" Width="260" HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1" Margin="0" 
                       Visibility="Collapsed" Background="{StaticResource PhoneSemitransparentBrush}" >
-                <ListBox x:Name="DetailInfoList" Margin="0,12,6,12" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}"  
+                <ListBox x:Name="DetailInfoList" Margin="0,22,6,62" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" ItemsSource="{Binding EntryList}"  
                          IsHitTestVisible="False" ItemTemplate="{StaticResource VerticalItemTemplate}" />
             </ScrollViewer>
         </Grid>

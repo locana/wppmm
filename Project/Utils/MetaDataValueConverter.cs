@@ -1,5 +1,6 @@
 ﻿using Kazyx.WPPMM.DataModel;
 using Kazyx.WPPMM.Resources;
+using NtImageProcessor.MetaData.Structure;
 using System.Collections.Generic;
 
 namespace Kazyx.WPPMM.Utils
@@ -190,6 +191,57 @@ namespace Kazyx.WPPMM.Utils
             // reduction forcibly
             int newDenominator = (int)((double)denominator / (double)numerator);
             return "1/" + newDenominator + AppResources.Seconds;
+        }
+
+        public static List<string> Geoinfo(IfdData GpsIfd)
+        {
+            var values = new List<string>();
+            // lat
+            if (GpsIfd.Entries.ContainsKey(0x1) && GpsIfd.Entries.ContainsKey(0x2) && GpsIfd.Entries[0x2].Count >= 3)
+            {
+                var entry = GpsIfd.Entries[0x2];
+                values.Add(GetStringValue(GpsIfd.Entries[0x1]) + " " + entry.DoubleValues[0] + "°" + entry.DoubleValues[1] + "'" + entry.DoubleValues[2] + "''");
+            }
+
+            if (GpsIfd.Entries.ContainsKey(0x3) && GpsIfd.Entries.ContainsKey(0x4) && GpsIfd.Entries[0x4].Count >= 3)
+            {
+                var entry = GpsIfd.Entries[0x4];
+                values.Add(GetStringValue(GpsIfd.Entries[0x3]) + " " + entry.DoubleValues[0] + "°" + entry.DoubleValues[1] + "'" + entry.DoubleValues[2] + "''");
+            }
+
+            if (GpsIfd.Entries.ContainsKey(0x12))
+            {
+                values.Add(GetStringValue(GpsIfd.Entries[0x12]));
+            }
+
+            if (GpsIfd.Entries.ContainsKey(0x1D))
+            {
+                values.Add(GetStringValue(GpsIfd.Entries[0x1D]));
+            }
+
+            return values;
+        }
+
+        static string GetStringValue(Entry entry)
+        {
+            if (entry == null) { return "null"; }
+            switch (entry.Type)
+            {
+                case Entry.EntryType.Ascii:
+                    return entry.StringValue;
+                case Entry.EntryType.Byte:
+                    return entry.value.ToString();
+                case Entry.EntryType.Long:
+                case Entry.EntryType.Short:
+                    return entry.UIntValues[0].ToString();
+                case Entry.EntryType.SLong:
+                case Entry.EntryType.SShort:
+                    return entry.SIntValues[0].ToString();
+                case Entry.EntryType.Rational:
+                case Entry.EntryType.SRational:
+                    return entry.DoubleValues[0].ToString();
+            }
+            return "--";
         }
     }
 }

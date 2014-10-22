@@ -8,6 +8,11 @@
     <!--アプリケーション リソース-->
     <Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:Kazyx.WPPMM" x:Key="LocalizedStrings"/>
+
+        <!--For PhotoPlaybackScreem.xaml-->
+        <DataTemplate x:Key="DetailInfoTemplate">
+            <TextBlock Grid.Row="1" Text="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="26,3,0,3" />
+        </DataTemplate>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

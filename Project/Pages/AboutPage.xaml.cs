@@ -63,6 +63,7 @@ namespace Kazyx.WPPMM.Pages
                 var stream = await file.OpenReadAsync();
                 var reader = new StreamReader(stream.AsStreamForRead());
                 license = reader.ReadToEnd();
+                license = license.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n"); // Avoid autocrlf effect
             }
             Dispatcher.BeginInvoke(() => { FormatRichText(Contents, license); });
         }

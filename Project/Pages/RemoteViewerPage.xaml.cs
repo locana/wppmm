@@ -151,10 +151,13 @@ namespace Kazyx.WPPMM.Pages
 
         private void UnlockPivot()
         {
+            // Disable camera storage access in v2.8.x
+            /*
             if (CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported)
             {
                 PivotRoot.IsLocked = false;
             }
+             * */
         }
 
         private readonly AppBarManager abm = new AppBarManager();
@@ -1110,7 +1113,9 @@ namespace Kazyx.WPPMM.Pages
         private void PivotRoot_Loaded(object sender, RoutedEventArgs e)
         {
             var pivot = sender as Pivot;
-            pivot.IsLocked = !CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported;
+            // pivot.IsLocked = !CameraManager.CameraManager.GetInstance().Status.StorageAccessSupported;
+            // Disable camera storage access in v2.8.x
+            pivot.IsLocked = true;
         }
 
         private void LocalImageGrid_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)

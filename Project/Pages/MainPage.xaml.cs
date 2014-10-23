@@ -914,9 +914,9 @@ namespace Kazyx.WPPMM.Pages
             EntrancePivot.Opacity = 1;
             AppBarOpacity = APPBAR_OPACITY_ENTRANCE;
 #if DEBUG
-            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(Menu.Log).Enable(Menu.Contents).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(AppBarOpacity);
+            ApplicationBar = abm.Clear().Enable(Menu.Log).Enable(Menu.Contents).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(AppBarOpacity);
 #else
-            ApplicationBar = abm.Clear().Enable(Menu.About).Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(AppBarOpacity);
+            ApplicationBar = abm.Clear().Enable(IconMenu.WiFi).Enable(IconMenu.Hidden).CreateNew(AppBarOpacity);
 #endif
         }
 

@@ -164,9 +164,13 @@ namespace Kazyx.WPPMM.Utils
         {
             if (value > 0)
             {
-                return "+" + value + "EV";
+                return "+" + value.ToString("F1") + "EV";
             }
-            return value + "EV";
+            else if (value == 0)
+            {
+                return "0EV";
+            }
+            return value.ToString("F1") + "EV";
         }
 
         public static string ShutterSpeed(uint numerator, uint denominator)
@@ -239,7 +243,7 @@ namespace Kazyx.WPPMM.Utils
                     return entry.SIntValues[0].ToString();
                 case Entry.EntryType.Rational:
                 case Entry.EntryType.SRational:
-                    return entry.DoubleValues[0].ToString();
+                    return entry.DoubleValues[0].ToString("F1");
             }
             return "--";
         }

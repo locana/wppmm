@@ -190,7 +190,7 @@ namespace Kazyx.WPPMM.DataModel
                     return entry.SIntValues[0].ToString();
                 case Entry.EntryType.Rational:
                 case Entry.EntryType.SRational:
-                    return entry.DoubleValues[0].ToString();
+                    return entry.DoubleValues[0].ToString("F1");
             }
             return "--";
         }

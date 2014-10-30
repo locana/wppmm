@@ -175,18 +175,8 @@ namespace Kazyx.WPPMM.Utils
 
         public static string ShutterSpeed(uint numerator, uint denominator)
         {
-            if (numerator == 1)
-            {
-                return numerator + "/" + denominator + AppResources.Seconds;
-            }
-            else if (denominator == 1)
-            {
-                return numerator + AppResources.Seconds;
-            }
-
             double val = (double)numerator / (double)denominator;
 
-            // difficult cases,,
             if (val > 0.4)
             {
                 // longer than 0.4 sec.

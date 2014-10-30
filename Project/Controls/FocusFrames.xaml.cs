@@ -1,5 +1,4 @@
 ﻿using Kazyx.ImageStream.FocusInfo;
-using Kazyx.WPPMM.Utils;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +29,7 @@ namespace Kazyx.WPPMM.Controls
 
         void AddFrame(double X1, double X2, double Y1, double Y2, Brush StrokeBrush, double StrokeThickness, bool DottedBorder = false)
         {
-            DebugUtil.Log("[FocusFrames] " + X1 + " " + X2 + " " + Y1 + " " + Y2);
+            // DebugUtil.Log("[FocusFrames] " + X1 + " " + X2 + " " + Y1 + " " + Y2);
             var r = new Rectangle()
             {
                 VerticalAlignment = System.Windows.VerticalAlignment.Top,

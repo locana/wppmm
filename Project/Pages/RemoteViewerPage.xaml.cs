@@ -739,6 +739,11 @@ namespace Kazyx.WPPMM.Pages
         {
             PhotoPlaybackScreen.ReleaseImage();
             SetStillDetailVisibility(false);
+            // poor codes to avoid LongListMultiSelector freezing
+            LocalImageGrid.Margin = new Thickness(0.1);
+            LocalImageGrid.UpdateLayout();
+            LocalImageGrid.Margin = new Thickness(0);
+            LocalImageGrid.UpdateLayout();
         }
 
         private bool IsViewingDetail = false;

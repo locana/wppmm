@@ -701,7 +701,10 @@ namespace Kazyx.WPPMM.Pages
 
         private void cameraManager_OnFocusFrameRetrived(ImageStream.FocusFramePacket p)
         {
-            FocusFrames.SetFocusFrames(p.FocusFrames);
+            if (ApplicationSettings.GetInstance().RequestFocusFrameInfo)
+            {
+                FocusFrames.SetFocusFrames(p.FocusFrames);
+            }
         }
 
         void cameraManager_OnExposureModeChanged(string obj)
@@ -1301,6 +1304,7 @@ namespace Kazyx.WPPMM.Pages
                 {
                     ApplicationSettings.GetInstance().RequestFocusFrameInfo = enabled;
                     cameraManager.FocusFrameSettingChanged(enabled);
+                    if (!enabled) { FocusFrames.ClearFrames(); }
                 });
             display_settings.Add(new CheckBoxSetting(FocusFrameSetting));
 

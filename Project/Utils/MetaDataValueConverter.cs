@@ -184,15 +184,16 @@ namespace Kazyx.WPPMM.Utils
                 return numerator + AppResources.Seconds;
             }
 
+            double val = (double)numerator / (double)denominator;
+
             // difficult cases,,
-            if (numerator > denominator)
+            if (val > 0.4)
             {
-                // longer than 1 sec.
-                double val = numerator / denominator;
-                return val.ToString() + AppResources.Seconds;
+                // longer than 0.4 sec.
+                return val.ToString("F1") + AppResources.Seconds;
             }
 
-            // reduction forcibly
+            // In case 1/3 sec. or shorter, reduction forcibly to display like 1/n sec.
             int newDenominator = (int)((double)denominator / (double)numerator);
             return "1/" + newDenominator + AppResources.Seconds;
         }

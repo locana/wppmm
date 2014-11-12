@@ -676,9 +676,6 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   <data name="Scene_UnderWater" xml:space="preserve">
     <value>Under water</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="TvColorSystemMode_NTSC" xml:space="preserve">
     <value>NTSC</value>
   </data>
@@ -686,7 +683,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>PAL</value>
   </data>
   <data name="ZoomMode_ClearImageDigital" xml:space="preserve">
-    <value>ClearImage zoom</value>
+    <value>Clear image zoom</value>
   </data>
   <data name="ZoomMode_Optical" xml:space="preserve">
     <value>Optical only</value>
@@ -782,7 +779,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>This content is not playable</value>
   </data>
   <data name="ExifExposureProgram_A" xml:space="preserve">
-    <value>A</value>
+    <value>Aperture priority</value>
   </data>
   <data name="ExifExposureProgram_Bulb" xml:space="preserve">
     <value>Bulb</value>
@@ -794,16 +791,16 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Landscape</value>
   </data>
   <data name="ExifExposureProgram_M" xml:space="preserve">
-    <value>M</value>
+    <value>Manual</value>
   </data>
   <data name="ExifExposureProgram_P" xml:space="preserve">
-    <value>P</value>
+    <value>Program auto</value>
   </data>
   <data name="ExifExposureProgram_Portrait" xml:space="preserve">
     <value>Portrait</value>
   </data>
   <data name="ExifExposureProgram_S" xml:space="preserve">
-    <value>S</value>
+    <value>Shutter speed priority</value>
   </data>
   <data name="ExifExposureProgram_SlowSpeed" xml:space="preserve">
     <value>Slow speed</value>
@@ -881,7 +878,7 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Camera</value>
   </data>
   <data name="MetaDataName_DateTime" xml:space="preserve">
-    <value>Date taken</value>
+    <value>Date</value>
   </data>
   <data name="MetaDataName_ExposureProgram" xml:space="preserve">
     <value>Exposure mode</value>
@@ -911,10 +908,10 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
     <value>Prioritize original size images</value>
   </data>
   <data name="HideDetailInfo" xml:space="preserve">
-    <value>Hide info.</value>
+    <value>Hide info</value>
   </data>
   <data name="ShowDetailInfo" xml:space="preserve">
-    <value>Show info.</value>
+    <value>Show info</value>
   </data>
   <data name="Viewer_FailedToRefreshContents" xml:space="preserve">
     <value>Failed to refresh camera contents list</value>

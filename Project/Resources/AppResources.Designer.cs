@@ -873,7 +873,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A.
+        ///   Looks up a localized string similar to Aperture priority.
         /// </summary>
         public static string ExifExposureProgram_A {
             get {
@@ -909,7 +909,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to M.
+        ///   Looks up a localized string similar to Manual.
         /// </summary>
         public static string ExifExposureProgram_M {
             get {
@@ -918,7 +918,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to P.
+        ///   Looks up a localized string similar to Program auto.
         /// </summary>
         public static string ExifExposureProgram_P {
             get {
@@ -936,7 +936,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to S.
+        ///   Looks up a localized string similar to Shutter speed priority.
         /// </summary>
         public static string ExifExposureProgram_S {
             get {
@@ -1539,7 +1539,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide info..
+        ///   Looks up a localized string similar to Hide info.
         /// </summary>
         public static string HideDetailInfo {
             get {
@@ -1737,7 +1737,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Date taken.
+        ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string MetaDataName_DateTime {
             get {
@@ -2196,7 +2196,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show info..
+        ///   Looks up a localized string similar to Show info.
         /// </summary>
         public static string ShowDetailInfo {
             get {
@@ -2291,15 +2291,6 @@ namespace Kazyx.WPPMM.Resources {
         public static string StillQuality_Standard {
             get {
                 return ResourceManager.GetString("StillQuality_Standard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         
@@ -2754,7 +2745,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ClearImage zoom.
+        ///   Looks up a localized string similar to Clear image zoom.
         /// </summary>
         public static string ZoomMode_ClearImageDigital {
             get {

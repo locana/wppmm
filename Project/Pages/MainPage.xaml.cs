@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using Windows.Networking.Proximity;
 
 namespace Kazyx.WPPMM.Pages
@@ -429,7 +430,8 @@ namespace Kazyx.WPPMM.Pages
             if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
             if (StartContShootingAvailable())
             {
-                await cameraManager.CameraApi.StartContShootingAsync();
+                ContShootOperating = true;
+                await StartContShooting();
                 return;
             }
             RecStartStop();
@@ -439,7 +441,10 @@ namespace Kazyx.WPPMM.Pages
         {
             if (cameraManager == null || cpm == null || cpm.IsShowing() || IsAppSettingPanelShowing()) { return; }
             if (StopContShootingAvailable())
-            { await cameraManager.CameraApi.StopContShootingAsync(); }
+            {
+                ContShootOperating = false;
+                await StopContShooting();
+            }
             cameraManager.CancelHalfPressShutter();
         }
 
@@ -487,7 +492,48 @@ namespace Kazyx.WPPMM.Pages
 
         private async void ShootButton_ManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
         {
-            if (StartContShootingAvailable()) { await cameraManager.CameraApi.StartContShootingAsync(); }
+            if (StartContShootingAvailable())
+            {
+                ContShootOperating = true;
+                await StartContShooting();
+            }
+        }
+
+        bool ContShootingDelay = false;
+
+        // touching shooting button or pressing shutter key
+        bool ContShootOperating = false;
+
+        private async Task StartContShooting()
+        {
+            ContShootingDelay = true;
+            await cameraManager.CameraApi.StartContShootingAsync();
+            await Task.Run(async delegate
+            {
+                await Task.Delay(1000);
+
+                Dispatcher.BeginInvoke(async () =>
+                {
+                    if (ContShootOperating)
+                    {
+                        ContShootOperating = false;
+                    }
+                    else
+                    {
+                        await cameraManager.CameraApi.StopContShootingAsync();
+                    }
+                    ContShootingDelay = false;
+                });
+            });
+        }
+
+        private async Task StopContShooting()
+        {
+            if (!ContShootingDelay)
+            {
+                ContShootOperating = false;
+                await cameraManager.CameraApi.StopContShootingAsync();
+            }
         }
 
         private async void RecStartStop()
@@ -504,6 +550,8 @@ namespace Kazyx.WPPMM.Pages
                 }
                 return;
             }
+
+            ContShootOperating = false;
 
             var status = cameraManager.Status;
             switch (status.Status)
@@ -525,7 +573,10 @@ namespace Kazyx.WPPMM.Pages
                             }
                             else
                             {
-                                cameraManager.RequestActTakePicture();
+                                if (!ContShootingDelay)
+                                {
+                                    cameraManager.RequestActTakePicture();
+                                }
                             }
                             break;
                         case ShootModeParam.Movie:
@@ -552,7 +603,7 @@ namespace Kazyx.WPPMM.Pages
                     if (cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
                 cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
                     {
-                        await cameraManager.CameraApi.StopContShootingAsync();
+                        await StopContShooting();
                     }
                     break;
             }

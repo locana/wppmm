@@ -580,6 +580,11 @@ namespace Kazyx.WPPMM.CameraManager
         {
             if (param == null || param.Candidates == null || param.Candidates.Count == 0)
                 return;
+            if (!(sender as ListPicker).IsEnabled)
+                return;
+            if (!IsShowing())
+                return;
+
             var selected = (sender as ListPicker).SelectedIndex;
             DebugUtil.Log("[OnPickerChanged][ListPicker]  " + selected + " / " + (sender as ListPicker).Items.Count);
             var selectedIndex = SettingsValueConverter.GetSelectedIndex(param);

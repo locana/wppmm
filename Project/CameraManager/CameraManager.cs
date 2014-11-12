@@ -352,6 +352,7 @@ namespace Kazyx.WPPMM.CameraManager
 
             Status.Init();
             Status.InitEventParams();
+
             if (observer != null)
             {
                 observer.Stop();
@@ -434,20 +435,19 @@ namespace Kazyx.WPPMM.CameraManager
                 Status.StorageAccessSupported = true;
                 try
                 {
-                    if (!await Kazyx.WPPMM.PlaybackMode.PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status, 20000))
+                    var validState = await PlaybackModeUtility.MoveToShootingModeAsync(CameraApi, Status, 3000);
+                    if (!validState)
                     {
                         DebugUtil.Log("Failed to move to shooting mode");
-                        // return;
+                        return;
                     }
-                }
-                catch (RemoteApiException e)
-                {
-                    OnError(e.code);
                 }
                 catch (TaskCanceledException)
                 {
                     DebugUtil.Log("State change await timeout.");
-                    OnError(StatusCode.Timeout);
+                    // OnError(StatusCode.Timeout);
+                    // return;
+                    // Ignore status change timeout.
                 }
             }
 
@@ -466,6 +466,7 @@ namespace Kazyx.WPPMM.CameraManager
                     catch (RemoteApiException e)
                     {
                         OnError(e.code);
+                        return;
                     }
                 }
                 else if (Status.IsAvailable("startLiveview"))
@@ -912,15 +913,6 @@ namespace Kazyx.WPPMM.CameraManager
                     }
                 },
                 GetEventVersion);
-        }
-
-        public void StopEventObserver()
-        {
-            if (observer == null)
-            {
-                return;
-            }
-            observer.Stop();
         }
 
         public void RefreshEventObserver()

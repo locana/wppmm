@@ -624,8 +624,8 @@ namespace Kazyx.WPPMM.Pages
             {
                 progress.Text = AppResources.ProgressMessageConnecting;
                 progress.IsVisible = true;
-                await cameraManager.OperateInitialProcess();
                 cameraManager.RunEventObserver();
+                await cameraManager.OperateInitialProcess();
                 Dispatcher.BeginInvoke(() => { progress.IsVisible = false; });
             }
             else if (FilterBySsid && !GetSSIDName().StartsWith(AP_NAME_PREFIX))
@@ -648,8 +648,8 @@ namespace Kazyx.WPPMM.Pages
                 DebugUtil.Log("Async device discovery result: " + found);
                 if (found)
                 {
-                    await cameraManager.OperateInitialProcess();
                     cameraManager.RunEventObserver();
+                    await cameraManager.OperateInitialProcess();
                     Dispatcher.BeginInvoke(() => { progress.IsVisible = false; });
                 }
                 else

@@ -747,7 +747,7 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>蛍光灯: 白色</value>
   </data>
   <data name="ExifExposureProgram_A" xml:space="preserve">
-    <value>A</value>
+    <value>絞り優先</value>
   </data>
   <data name="ExifExposureProgram_Bulb" xml:space="preserve">
     <value>バルブ</value>
@@ -759,16 +759,16 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>風景</value>
   </data>
   <data name="ExifExposureProgram_M" xml:space="preserve">
-    <value>M</value>
+    <value>マニュアル</value>
   </data>
   <data name="ExifExposureProgram_P" xml:space="preserve">
-    <value>P</value>
+    <value>プログラムオート</value>
   </data>
   <data name="ExifExposureProgram_Portrait" xml:space="preserve">
     <value>ポートレート</value>
   </data>
   <data name="ExifExposureProgram_S" xml:space="preserve">
-    <value>S</value>
+    <value>シャッタースピード優先</value>
   </data>
   <data name="ExifExposureProgram_SlowSpeed" xml:space="preserve">
     <value>スローシャッター</value>

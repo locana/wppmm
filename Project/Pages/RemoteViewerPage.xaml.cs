@@ -117,14 +117,6 @@ namespace Kazyx.WPPMM.Pages
             {
                 switch (InnerState)
                 {
-                    case ViewerState.Local:
-                    case ViewerState.Sync:
-                    case ViewerState.RemoteUnsupported:
-                    case ViewerState.RemoteMulti:
-                    case ViewerState.RemoteNoMedia:
-                    case ViewerState.RemoteMoviePlayback:
-                        ApplicationBar = null;
-                        break;
                     case ViewerState.RemoteSelecting:
                         ApplicationBar = abm.Clear().Enable(IconMenu.Ok).CreateNew(0.5);
                         break;
@@ -144,6 +136,9 @@ namespace Kazyx.WPPMM.Pages
                         {
                             ApplicationBar = abm.Clear().Enable(IconMenu.ShowDetailInfo).CreateNew(0.5);
                         }
+                        break;
+                    default:
+                        ApplicationBar = null;
                         break;
                 }
             });
@@ -448,6 +443,8 @@ namespace Kazyx.WPPMM.Pages
 
         private async void OnDateListUpdated(DateListEventArgs args)
         {
+            if (InnerState == ViewerState.OutOfPage) return;
+
             foreach (var date in args.DateList)
             {
                 try
@@ -467,6 +464,8 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnContentListUpdated(ContentListEventArgs args)
         {
+            if (InnerState == ViewerState.OutOfPage) return;
+
             var list = new List<RemoteThumbnail>();
             foreach (var content in args.ContentList)
             {
@@ -532,11 +531,14 @@ namespace Kazyx.WPPMM.Pages
 
             CurrentUuid = null;
 
+            UpdateInnerState(ViewerState.OutOfPage);
             base.OnNavigatedFrom(e);
         }
 
         private void OnFetched(Picture pic, Geoposition pos)
         {
+            if (InnerState == ViewerState.OutOfPage) return;
+
             DebugUtil.Log("ViewerPage: OnFetched");
             Dispatcher.BeginInvoke(() =>
             {
@@ -557,6 +559,8 @@ namespace Kazyx.WPPMM.Pages
 
         private void OnFetchingImages(int count)
         {
+            if (InnerState == ViewerState.OutOfPage) return;
+
             if (count != 0)
             {
                 ChangeProgressText(string.Format(AppResources.ProgressMessageFetching, count));
@@ -1137,5 +1141,6 @@ namespace Kazyx.WPPMM.Pages
         RemoteStillPlayback,
         RemoteMoviePlayback,
         AppSettings,
+        OutOfPage,
     }
 }

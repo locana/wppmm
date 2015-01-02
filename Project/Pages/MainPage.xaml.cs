@@ -554,6 +554,7 @@ namespace Kazyx.WPPMM.Pages
             ContShootOperating = false;
 
             var status = cameraManager.Status;
+            if (status == null || status.Status == null || status.ShootMode == null) { return; }
             switch (status.Status)
             {
                 case EventParam.Idle:
@@ -600,8 +601,9 @@ namespace Kazyx.WPPMM.Pages
                     cameraManager.StopIntervalStillRec();
                     break;
                 case EventParam.StCapturing:
-                    if (cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.Cont ||
-                cameraManager.Status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority)
+                    if (status.ContShootingMode != null &&
+                        (status.ContShootingMode.Current == ContinuousShootMode.Cont ||
+                         status.ContShootingMode.Current == ContinuousShootMode.SpeedPriority))
                     {
                         await StopContShooting();
                     }
@@ -648,7 +650,6 @@ namespace Kazyx.WPPMM.Pages
         private async void LiveviewPageLoaded()
         {
             SetPivotIsLocked(true);
-
             AppStatus.GetInstance().IsInShootingDisplay = true;
             ShootingPivot.Opacity = 1;
             SetLayoutByOrientation(this.Orientation);
@@ -1121,65 +1122,72 @@ namespace Kazyx.WPPMM.Pages
 
         private void SetLayoutByOrientation(PageOrientation orientation)
         {
-            switch (orientation)
+            try
             {
-                case PageOrientation.LandscapeLeft:
-                    AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
-                    StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
-                    AppSettings.Margin = new Thickness(20, 64, 40, 64);
-                    AppSettingPanel.Margin = new Thickness(0, -36, 0, 24);
-                    BottomElements.Margin = new Thickness(0);
-                    ZoomElements.Margin = new Thickness(50, 0, 0, 0);
-                    ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
-                    OpenSlider.Margin = new Thickness(60, 0, 0, 0);
-                    Sliders.Margin = new Thickness(70, 0, 70, 0);
-                    EntrancePivot.Margin = new Thickness(70, 0, 70, 0);
-                    NFCMessage.Margin = new Thickness(30, 20, 30, 30);
-                    Grid.SetRow(Histogram, 1);
-                    Grid.SetColumn(Histogram, 0);
-                    Grid.SetRow(IntervalStatusPanel, 2);
-                    Grid.SetColumn(IntervalStatusPanel, 0);
-                    SupportItems.Margin = new Thickness(70, 0, 70, 0);
-                    break;
-                case PageOrientation.LandscapeRight:
-                    AppTitle.Margin = new Thickness(60, 0, 0, 0);
-                    UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
-                    StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
-                    AppSettings.Margin = new Thickness(36, 64, 16, 64);
-                    AppSettingPanel.Margin = new Thickness(0, -36, 0, 24);
-                    BottomElements.Margin = new Thickness(0);
-                    ZoomElements.Margin = new Thickness(90, 0, 0, 0);
-                    ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
-                    OpenSlider.Margin = new Thickness(90, 0, 0, 0);
-                    Sliders.Margin = new Thickness(70, 0, 70, 0);
-                    EntrancePivot.Margin = new Thickness(70, 0, 70, 0);
-                    NFCMessage.Margin = new Thickness(30, 20, 30, 30);
-                    Grid.SetRow(Histogram, 1);
-                    Grid.SetColumn(Histogram, 0);
-                    Grid.SetRow(IntervalStatusPanel, 2);
-                    Grid.SetColumn(IntervalStatusPanel, 0);
-                    SupportItems.Margin = new Thickness(70, 0, 70, 0);
-                    break;
-                case PageOrientation.PortraitUp:
-                    AppTitle.Margin = new Thickness(0);
-                    UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
-                    StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
-                    AppSettings.Margin = new Thickness(-12, 64, 0, 74);
-                    AppSettingPanel.Margin = new Thickness(0, -36, 0, 90);
-                    BottomElements.Margin = new Thickness(0, 0, 0, 70);
-                    ZoomElements.Margin = new Thickness(20, 0, 0, 0);
-                    ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);
-                    OpenSlider.Margin = new Thickness(5, 0, 0, 0);
-                    Sliders.Margin = new Thickness(5, 0, 0, 0);
-                    EntrancePivot.Margin = new Thickness(0);
-                    NFCMessage.Margin = new Thickness(30, 50, 30, 30);
-                    Grid.SetRow(Histogram, 1);
-                    Grid.SetColumn(Histogram, 0);
-                    Grid.SetRow(IntervalStatusPanel, 1);
-                    Grid.SetColumn(IntervalStatusPanel, 1);
-                    SupportItems.Margin = new Thickness(0, 0, 0, 70);
-                    break;
+                switch (orientation)
+                {
+                    case PageOrientation.LandscapeLeft:
+                        AppTitle.Margin = new Thickness(60, 0, 0, 0);
+                        UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
+                        StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
+                        AppSettings.Margin = new Thickness(20, 64, 40, 64);
+                        AppSettingPanel.Margin = new Thickness(0, -36, 0, 24);
+                        BottomElements.Margin = new Thickness(0);
+                        ZoomElements.Margin = new Thickness(50, 0, 0, 0);
+                        ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
+                        OpenSlider.Margin = new Thickness(60, 0, 0, 0);
+                        Sliders.Margin = new Thickness(70, 0, 70, 0);
+                        EntrancePivot.Margin = new Thickness(70, 0, 70, 0);
+                        NFCMessage.Margin = new Thickness(30, 20, 30, 30);
+                        Grid.SetRow(Histogram, 1);
+                        Grid.SetColumn(Histogram, 0);
+                        Grid.SetRow(IntervalStatusPanel, 2);
+                        Grid.SetColumn(IntervalStatusPanel, 0);
+                        SupportItems.Margin = new Thickness(70, 0, 70, 0);
+                        break;
+                    case PageOrientation.LandscapeRight:
+                        AppTitle.Margin = new Thickness(60, 0, 0, 0);
+                        UpperLeftElements.Margin = new Thickness(42, 46, 0, 0);
+                        StatusDisplayelements.Margin = new Thickness(40, 6, 60, 0);
+                        AppSettings.Margin = new Thickness(36, 64, 16, 64);
+                        AppSettingPanel.Margin = new Thickness(0, -36, 0, 24);
+                        BottomElements.Margin = new Thickness(0);
+                        ZoomElements.Margin = new Thickness(90, 0, 0, 0);
+                        ShootButtonWrapper.Margin = new Thickness(0, 0, 80, 0);
+                        OpenSlider.Margin = new Thickness(90, 0, 0, 0);
+                        Sliders.Margin = new Thickness(70, 0, 70, 0);
+                        EntrancePivot.Margin = new Thickness(70, 0, 70, 0);
+                        NFCMessage.Margin = new Thickness(30, 20, 30, 30);
+                        Grid.SetRow(Histogram, 1);
+                        Grid.SetColumn(Histogram, 0);
+                        Grid.SetRow(IntervalStatusPanel, 2);
+                        Grid.SetColumn(IntervalStatusPanel, 0);
+                        SupportItems.Margin = new Thickness(70, 0, 70, 0);
+                        break;
+                    case PageOrientation.PortraitUp:
+                        AppTitle.Margin = new Thickness(0);
+                        UpperLeftElements.Margin = new Thickness(10, 46, 0, 0);
+                        StatusDisplayelements.Margin = new Thickness(10, 6, 0, 0);
+                        AppSettings.Margin = new Thickness(-12, 64, 0, 74);
+                        AppSettingPanel.Margin = new Thickness(0, -36, 0, 90);
+                        BottomElements.Margin = new Thickness(0, 0, 0, 70);
+                        ZoomElements.Margin = new Thickness(20, 0, 0, 0);
+                        ShootButtonWrapper.Margin = new Thickness(0, 0, 30, 0);
+                        OpenSlider.Margin = new Thickness(5, 0, 0, 0);
+                        Sliders.Margin = new Thickness(5, 0, 0, 0);
+                        EntrancePivot.Margin = new Thickness(0);
+                        NFCMessage.Margin = new Thickness(30, 50, 30, 30);
+                        Grid.SetRow(Histogram, 1);
+                        Grid.SetColumn(Histogram, 0);
+                        Grid.SetRow(IntervalStatusPanel, 1);
+                        Grid.SetColumn(IntervalStatusPanel, 1);
+                        SupportItems.Margin = new Thickness(0, 0, 0, 70);
+                        break;
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                DebugUtil.Log("Caught NullReferenceException: " + ex.StackTrace);
             }
         }
 

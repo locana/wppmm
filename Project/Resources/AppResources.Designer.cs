@@ -1233,6 +1233,24 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to FAQ.
+        /// </summary>
+        public static string FAQ {
+            get {
+                return ResourceManager.GetString("FAQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://locana.github.io/scrap_faq.html.
+        /// </summary>
+        public static string FaqURL {
+            get {
+                return ResourceManager.GetString("FaqURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Origin of Fibonacci spiral.
         /// </summary>
         public static string FibonacciSpiralOrigin {
@@ -1377,7 +1395,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Any question or feedback? Ask our support account on Twitter!.
+        ///   Looks up a localized string similar to Any question or feedback? See FAQ or ask our support account on Twitter!.
         /// </summary>
         public static string GiveUsFeedback {
             get {

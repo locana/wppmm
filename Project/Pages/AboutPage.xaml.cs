@@ -34,6 +34,7 @@ namespace Kazyx.WPPMM.Pages
             VERSION_STR.Text = version;
 
             FormatRichText(Repository, AppResources.RepoURL);
+            FormatRichText(FAQ, AppResources.FaqURL);
 
             if (string.IsNullOrEmpty(copyright))
             {

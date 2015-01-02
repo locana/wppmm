@@ -972,9 +972,15 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
     <value>あり</value>
   </data>
   <data name="GiveUsFeedback" xml:space="preserve">
-    <value>ご意見や不具合報告は、Twitterのサポートアカウントまでお願いします</value>
+    <value>不明点があればFAQをご覧ください。ご意見や不具合報告は、Twitterのサポートアカウントまでお願いします</value>
   </data>
   <data name="Support" xml:space="preserve">
     <value>サポート</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>よくある質問</value>
+  </data>
+  <data name="FaqURL" xml:space="preserve">
+    <value>http://locana.github.io/scrap_faq.html</value>
   </data>
 </root>

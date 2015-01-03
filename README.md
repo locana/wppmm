@@ -11,9 +11,9 @@ Play with your Sony camera devices and give us feedbacks.
 1. Clone repositories.
 
  ``` bash
- git clone git@github.com:kazyx/WPPMM.git
+ git clone git@github.com:locana/wppmm.git
  git submodule update --init
  ```
 
 2. Open /Project/PhoneApp.sln by Visual Studio 2012 for WP.
-3. Add reference of [Json.NET](https://github.com/JamesNK/Newtonsoft.Json) to KzRemoteApi project.
+3. Add reference of [Json.NET](https://github.com/JamesNK/Newtonsoft.Json) to kz-remote-api project.

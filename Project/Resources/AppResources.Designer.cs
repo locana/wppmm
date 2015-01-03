@@ -2043,7 +2043,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/kazyx/WPPMM.
+        ///   Looks up a localized string similar to https://github.com/locana/wppmm.
         /// </summary>
         public static string RepoURL {
             get {

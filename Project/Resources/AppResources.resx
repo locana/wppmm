@@ -144,7 +144,7 @@
     <value>This application contains the following open source softwares.</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>about</value>
+    <value>About this app</value>
   </data>
   <data name="CopyRight" xml:space="preserve">
     <value>Copyright</value>
@@ -1029,5 +1029,12 @@ Please update to the latest at PlayMemories Camera Apps store.</value>
   </data>
   <data name="FaqURL" xml:space="preserve">
     <value>http://locana.github.io/scrap_faq.html</value>
+  </data>
+  <data name="EndOfLife" xml:space="preserve">
+    <value>For Windows Phone 8.1 users.
+We've released the successor app "Locana", and "Scrap" will get the end of life soon. Let's upgrade to Locana now!</value>
+  </data>
+  <data name="GetLocana" xml:space="preserve">
+    <value>Install Locana</value>
   </data>
 </root>

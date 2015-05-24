@@ -1622,5 +1622,15 @@ namespace Kazyx.WPPMM.Pages
         {
             NavigationService.Navigate(new Uri("/Pages/AboutPage.xaml", UriKind.Relative));
         }
+
+        private async void LocanaButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var uri = new Uri("ms-windows-store:navigate?appid=20a7e645-2aff-4962-80b7-32a50e801a98");
+                await Windows.System.Launcher.LaunchUriAsync(uri);
+            }
+            catch { DebugUtil.Log("Failed to open locana store page"); }
+        }
     }
 }

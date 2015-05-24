@@ -983,4 +983,11 @@ PlayMemories Camera Appsストアで最新版にアップデートしてくだ�
   <data name="FaqURL" xml:space="preserve">
     <value>http://locana.github.io/scrap_faq.html</value>
   </data>
+  <data name="EndOfLife" xml:space="preserve">
+    <value>Windows Phone 8.1ユーザの方へ。
+Scrapの後継アプリ、Locanaがリリースされました。Scrapの機能開発は既に終了していますので、ぜひLocanaにアップグレードしてください。</value>
+  </data>
+  <data name="GetLocana" xml:space="preserve">
+    <value>Locana をインストール</value>
+  </data>
 </root>

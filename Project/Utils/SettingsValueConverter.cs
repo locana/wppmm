@@ -753,7 +753,7 @@ namespace Kazyx.WPPMM.Utils
             return val;
         }
 
-        internal static Capability<string> FromMovieFormat(Capability<string> info)
+        internal static Capability<string> FromMovieFileFormat(Capability<string> info)
         {
             var res = AsDisabledCapability(info);
             if (res != null)
@@ -762,16 +762,16 @@ namespace Kazyx.WPPMM.Utils
             var mCandidates = new List<string>();
             foreach (var val in info.Candidates)
             {
-                mCandidates.Add(FromMovieFormat(val));
+                mCandidates.Add(FromMovieFileFormat(val));
             }
             return new Capability<string>
             {
-                Current = FromMovieFormat(info.Current),
+                Current = FromMovieFileFormat(info.Current),
                 Candidates = mCandidates
             };
         }
 
-        private static string FromMovieFormat(string val)
+        private static string FromMovieFileFormat(string val)
         {
             switch (val)
             {

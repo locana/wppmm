@@ -50,7 +50,7 @@ namespace Kazyx.WPPMM.DataModel
                         OnPropertyChanged("CpIsAvailableSceneSelection");
                         OnPropertyChanged("CpIsAvailableIntervalTime");
                         OnPropertyChanged("CpIsAvailableColorSetting");
-                        OnPropertyChanged("CpIsAvailableMovieFormat");
+                        OnPropertyChanged("CpIsAvailableMovieFileFormat");
                         OnPropertyChanged("CpIsAvailableInfraredRemoteControl");
                         OnPropertyChanged("CpIsAvailableTvColorSystem");
                         OnPropertyChanged("CpIsAvailableTrackingFocusStatus");
@@ -84,7 +84,7 @@ namespace Kazyx.WPPMM.DataModel
                     case "SceneSelection":
                     case "IntervalTime":
                     case "ColorSetting":
-                    case "MovieFormat":
+                    case "MovieFileFormat":
                     case "InfraredRemoteControl":
                     case "TvColorSystem":
                     case "TrackingFocus":
@@ -851,32 +851,32 @@ namespace Kazyx.WPPMM.DataModel
                 return SettingsValueConverter.FromColorSetting(status.ColorSetting).Candidates.ToArray();
             }
         }
-        public bool CpIsAvailableMovieFormat
+        public bool CpIsAvailableMovieFileFormat
         {
             get
             {
-                return status.IsAvailable("setMovieFormat") &&
-                status.MovieFormat != null &&
+                return status.IsAvailable("setMovieFileFormat") &&
+                status.MovieFileFormat != null &&
                 manager != null &&
                 !manager.IntervalManager.IsRunning;
             }
         }
-        public int CpSelectedIndexMovieFormat
+        public int CpSelectedIndexMovieFileFormat
         {
             get
             {
-                return SettingsValueConverter.GetSelectedIndex(status.MovieFormat);
+                return SettingsValueConverter.GetSelectedIndex(status.MovieFileFormat);
             }
             set
             {
-                SetSelectedAsCurrent(status.MovieFormat, value);
+                SetSelectedAsCurrent(status.MovieFileFormat, value);
             }
         }
-        public string[] CpCandidatesMovieFormat
+        public string[] CpCandidatesMovieFileFormat
         {
             get
             {
-                return SettingsValueConverter.FromMovieFormat(status.MovieFormat).Candidates.ToArray();
+                return SettingsValueConverter.FromMovieFileFormat(status.MovieFileFormat).Candidates.ToArray();
             }
         }
         public bool CpIsAvailableInfraredRemoteControl

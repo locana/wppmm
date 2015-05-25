@@ -53,7 +53,7 @@ namespace Kazyx.WPPMM.CameraManager
             Panels.Add("setSelfTimer", CreateStatusPanel("SelfTimer", AppResources.SelfTimer, OnSelfTimerChanged));
             Panels.Add("setStillSize", CreateStatusPanel("StillImageSize", AppResources.StillImageSize, OnStillImageSizeChanged));
             Panels.Add("setStillQuality", CreateStatusPanel("StillQuality", AppResources.StillQuality, OnStillQualityChanged));
-            Panels.Add("setMovieFormat", CreateStatusPanel("MovieFormat", AppResources.MovieFormat, OnMovieFormatChanged));
+            Panels.Add("setMovieFileFormat", CreateStatusPanel("MovieFileFormat", AppResources.MovieFormat, OnMovieFormatChanged));
             Panels.Add("setMovieQuality", CreateStatusPanel("MovieQuality", AppResources.MovieQuality, OnMovieQualityChanged));
 
             // other
@@ -523,7 +523,7 @@ namespace Kazyx.WPPMM.CameraManager
         }
         private async void OnMovieFormatChanged(object sender, SelectionChangedEventArgs arg)
         {
-            await OnPickerChanged<string>(sender, status.MovieFormat,
+            await OnPickerChanged<string>(sender, status.MovieFileFormat,
             async (selected) => { await manager.CameraApi.SetMovieFileFormatAsync(new MovieFormat { Mode = selected }); });
         }
         private async void OnInfraredRemoteControlChanged(object sender, SelectionChangedEventArgs arg)

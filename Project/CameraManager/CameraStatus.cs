@@ -660,15 +660,15 @@ namespace Kazyx.WPPMM.CameraManager
             }
             get { return _ColorSetting; }
         }
-        private Capability<string> _MovieFormat;
-        public Capability<string> MovieFormat
+        private Capability<string> _MovieFileFormat;
+        public Capability<string> MovieFileFormat
         {
             set
             {
-                _MovieFormat = value;
-                OnPropertyChanged("MovieFormat");
+                _MovieFileFormat = value;
+                OnPropertyChanged("MovieFileFormat");
             }
-            get { return _MovieFormat; }
+            get { return _MovieFileFormat; }
         }
         private Capability<string> _InfraredRemoteControl;
         public Capability<string> InfraredRemoteControl

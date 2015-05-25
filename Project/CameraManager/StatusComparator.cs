@@ -300,7 +300,7 @@ namespace Kazyx.WPPMM.CameraManager
             {
                 return;
             }
-            status.MovieFormat = latest;
+            status.MovieFileFormat = latest;
         }
         internal static void InfraredRemoteControl(CameraStatus status, Capability<string> latest)
         {

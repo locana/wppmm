@@ -2341,7 +2341,7 @@ namespace Kazyx.WPPMM.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://twitter.com/scrap_support.
+        ///   Looks up a localized string similar to https://twitter.com/locana_support.
         /// </summary>
         public static string SupportUrl {
             get {

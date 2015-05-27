@@ -107,7 +107,7 @@ namespace Kazyx.WPPMM.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var task = new ShareStatusTask();
-            task.Status = "@scrap_support ";
+            task.Status = "@locana_support ";
             task.Show();
         }
     }

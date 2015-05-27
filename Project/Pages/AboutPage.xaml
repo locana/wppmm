@@ -38,7 +38,7 @@
                         <Paragraph x:Name="FAQ" />
                     </RichTextBox>
                     <TextBlock Text="{Binding Path=LocalizedResources.Support, Source={StaticResource LocalizedStrings}}" Grid.Row="0" TextWrapping="Wrap" Margin="9,20,9,0" Style="{StaticResource PhoneTextSubtleStyle}" />
-                    <Button Grid.Row="7" HorizontalAlignment="Left"  Margin="20,10, 50,0"  Content="@scrap_support on twitter" BorderThickness="1" Click="Button_Click"/>
+                    <Button Grid.Row="7" HorizontalAlignment="Left"  Margin="20,10, 50,0"  Content="@locana_support on twitter" BorderThickness="1" Click="Button_Click"/>
                     <TextBlock Text="{Binding Path=LocalizedResources.SourceCode, Source={StaticResource LocalizedStrings}}" Grid.Row="0" TextWrapping="Wrap" Margin="9,20,9,0" Style="{StaticResource PhoneTextSubtleStyle}" />
                     <RichTextBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0" HorizontalContentAlignment="Left">
                         <Paragraph x:Name="Repository" />

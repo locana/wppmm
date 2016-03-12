@@ -4,8 +4,11 @@ WPPMM is a remote shooting application for Windows Phone 8 powered by [Sony Came
 
 This software is published under the [MIT License](http://opensource.org/licenses/mit-license.php).
 
-This application is released in Windows Phone Apps Store as [Scrap](http://www.windowsphone.com/en-us/store/app/scrap/896b0e1b-2c1a-40e4-9c55-09050e3860dc).  
-Play with your Sony camera devices and give us feedbacks.
+# Obsolete
+
+This project is closed.
+
+Now we are focusing to [Locana project](https://github.com/locana/locana) for Windows 10 Universal Platform.
 
 ##Build
 1. Clone repositories.
